@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Разборы ОГЭ по математике</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=PT+Serif:ital@0;1&display=swap">
+<style>
+/* Layout: одна колонка — шапка, группы заданий по номерам ОГЭ, подвал */
+:root{
+  --paper:#f7f8fb; --sheet:#ffffff; --grid:#e6eaf3; --ink:#1f2a44; --muted:#5d6782;
+  --pen:#2346a8; --red:#c8402c; --line:#cfd6e4;
+  --f-body:"Golos Text",system-ui,sans-serif; --f-math:"PT Serif",Georgia,serif;
+}
+@media (prefers-color-scheme: dark){:root{
+  --paper:#13161d; --sheet:#1b1f29; --grid:#20252f; --ink:#e6e9f2; --muted:#9aa3bb;
+  --pen:#8aa6ff; --red:#ff8a73; --line:#323a4c; color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:32px 48px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:20px 20px}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:32px}
+header{display:flex;flex-direction:column;gap:8px}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500}
+h1{font-family:var(--f-math);font-weight:400;font-size:clamp(30px,6vw,42px);line-height:1.15;margin:0;text-wrap:balance}
+h1 em{color:var(--pen)}
+.lead{margin:0;max-width:60ch;color:var(--muted)}
+section{display:flex;flex-direction:column;gap:12px}
+h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin:0;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.list{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+.item a{display:grid;grid-template-columns:64px 1fr;gap:16px;align-items:center;background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:14px 18px;color:inherit;text-decoration:none;transition:border-color .2s}
+.item a:hover{border-color:var(--pen)}
+.item a:focus-visible{outline:2px solid var(--pen);outline-offset:2px}
+.num{font-family:var(--f-math);font-size:38px;line-height:1;color:var(--red);text-align:center;font-variant-numeric:tabular-nums}
+.num small{display:block;font-family:var(--f-body);font-size:11px;color:var(--muted);letter-spacing:.06em;margin-top:4px}
+.txt{min-width:0;display:flex;flex-direction:column;gap:4px}
+.t{font-weight:600;font-size:17px}
+.d{color:var(--muted);font-size:15px}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
+.tag{font-size:12px;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
+.empty{color:var(--muted);font-size:15px;margin:0}
+footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);padding-top:16px}
+@media (prefers-reduced-motion:reduce){.item a{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">ОГЭ · математика · 9 класс</div>
+    <h1>Разборы заданий <em>по шагам</em></h1>
+    <p class="lead">Чертёж открывается постепенно: на каждом шаге сначала подумай сам, что будет дальше, потом нажимай «Далее».</p>
+  </header>
+
+  <section>
+    <h2>Часть 2 · геометрия</h2>
+    <ul class="list">
+      <li class="item"><a href="bissektrisy-parallelogramma.html">
+        <div class="num">25<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Биссектрисы в параллелограмме</span>
+          <span class="d">Свойство биссектрисы угла, высота из двух отрезков, площадь параллелограмма.</span>
+          <span class="tags"><span class="tag">6 шагов</span><span class="tag">с ответом</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <footer>Лилия Кузнецова · репетитор по математике, подготовка к ОГЭ</footer>
+</div>
+</body>
+</html>

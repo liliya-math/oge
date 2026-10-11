@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Биссектрисы в параллелограмме</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=PT+Serif:ital@0;1&display=swap">
+<style>
+/* Layout: one column — condition, notebook-grid drawing, step caption, controls */
+:root{
+  --paper:#f7f8fb; --sheet:#ffffff; --grid:#dde3ef; --ink:#1f2a44; --muted:#5d6782;
+  --pen:#2346a8; --red:#c8402c; --green:#1c8a5e; --line:#cfd6e4;
+  --f-body:"Golos Text",system-ui,sans-serif; --f-math:"PT Serif",Georgia,serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#13161d; --sheet:#1b1f29; --grid:#262c3a; --ink:#e6e9f2; --muted:#9aa3bb;
+  --pen:#8aa6ff; --red:#ff8a73; --green:#5fd3a2; --line:#323a4c; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#13161d; --sheet:#1b1f29; --grid:#262c3a; --ink:#e6e9f2; --muted:#9aa3bb;
+  --pen:#8aa6ff; --red:#ff8a73; --green:#5fd3a2; --line:#323a4c; color-scheme:dark}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:24px 40px}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500}
+h1{font-size:24px;font-weight:600;margin:4px 0 0;text-wrap:balance}
+.task{font-family:var(--f-math);font-size:17px;line-height:1.6;margin:0;max-width:65ch}
+.sheet{background:var(--sheet);border:1px solid var(--line);border-radius:10px;overflow:hidden;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:20px 20px;background-position:-1px -1px}
+svg{display:block;width:100%;height:auto}
+svg text{font-family:var(--f-math);font-style:italic;font-size:22px;fill:var(--ink)}
+svg text.num{font-style:normal;font-family:var(--f-body);font-weight:500;font-size:18px}
+.st{transition:opacity .35s}
+@media (prefers-reduced-motion:reduce){.st{transition:none}}
+.step{display:flex;flex-direction:column;gap:6px;min-height:7.5em}
+.step-n{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.step-t{font-weight:600;font-size:18px}
+.step-b{margin:0;max-width:65ch}
+.rule{font-family:var(--f-math);font-style:italic;color:var(--pen)}
+.ctrl{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dots{display:flex;gap:6px;flex:1;justify-content:center}
+.dot{width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:var(--sheet);color:var(--muted);font:500 13px var(--f-body);cursor:pointer}
+.dot[aria-current="step"]{background:var(--pen);border-color:var(--pen);color:var(--sheet)}
+.dot.done{border-color:var(--pen);color:var(--pen)}
+button.nav{font:500 15px var(--f-body);padding:9px 18px;border-radius:8px;border:1px solid var(--line);background:var(--sheet);color:var(--ink);cursor:pointer}
+button.nav.primary{background:var(--pen);border-color:var(--pen);color:var(--sheet)}
+button:disabled{opacity:.4;cursor:default}
+button:focus-visible{outline:2px solid var(--pen);outline-offset:2px}
+.hint{font-size:13px;color:var(--muted);text-align:center}
+@media (max-width:480px){.dots{order:-1;flex-basis:100%}.ctrl button.nav{flex:1}}
+.back{font-size:14px;color:var(--pen);text-decoration:none;display:inline-block;margin-bottom:12px}
+.back:hover{text-decoration:underline}
+*{box-sizing:border-box}
+body{margin:0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="back" href="index.html">← Все разборы</a>
+    <div class="eyebrow">ОГЭ · задание 25 · геометрия</div>
+    <h1>Биссектрисы в параллелограмме</h1>
+  </header>
+  <p class="task">Биссектрисы углов <i>A</i> и <i>B</i> параллелограмма <i>ABCD</i> пересекаются в точке <i>K</i>. Найдите площадь параллелограмма, если <i>BC</i> = 7, а расстояние от точки <i>K</i> до стороны <i>AB</i> равно 4.</p>
+
+  <div class="sheet">
+    <svg viewBox="40 30 600 420" role="img" aria-labelledby="dt">
+      <title id="dt">Чертёж к задаче, открывается по шагам</title>
+      <g class="st" data-s="1">
+        <polygon points="140,400 260,80 540,80 420,400" fill="none" stroke="var(--pen)" stroke-width="2.2" stroke-linejoin="round"/>
+        <text x="118" y="424">A</text><text x="238" y="70">B</text><text x="548" y="70">C</text><text x="426" y="424">D</text>
+        <text class="num" x="462" y="68">7</text>
+      </g>
+      <g class="st" data-s="2">
+        <line x1="140" y1="400" x2="371" y2="240" stroke="var(--red)" stroke-width="2"/>
+        <line x1="260" y1="80" x2="371" y2="240" stroke="var(--red)" stroke-width="2"/>
+        <path d="M174 400 A34 34 0 0 0 167.9 380.6" fill="none" stroke="var(--red)" stroke-width="1.5"/>
+        <path d="M163 384.1 A28 28 0 0 0 149.8 373.8" fill="none" stroke="var(--red)" stroke-width="1.5"/>
+        <path d="M298 80 A38 38 0 0 1 281.7 111.2" fill="none" stroke="var(--red)" stroke-width="1.5"/>
+        <path d="M278.3 106.3 A32 32 0 0 1 248.8 110" fill="none" stroke="var(--red)" stroke-width="1.5"/>
+        <circle cx="371" cy="240" r="4" fill="var(--ink)"/><text x="382" y="236">K</text>
+      </g>
+      <g class="st" data-s="3">
+        <line x1="371" y1="240" x2="221" y2="184" stroke="var(--pen)" stroke-width="1.8" stroke-dasharray="6 5"/>
+        <path d="M224.6 174.4 L234 177.9 L230.5 187.3" fill="none" stroke="var(--ink)" stroke-width="1.2"/>
+        <circle cx="221" cy="184" r="3" fill="var(--ink)"/><text x="198" y="178">H</text><text class="num" x="282" y="230">4</text>
+      </g>
+      <g class="st" data-s="4">
+        <line x1="371" y1="240" x2="371" y2="400" stroke="var(--pen)" stroke-width="1.8" stroke-dasharray="6 5"/>
+        <path d="M371 388 L383 388 L383 400" fill="none" stroke="var(--ink)" stroke-width="1.2"/>
+        <circle cx="371" cy="400" r="3" fill="var(--ink)"/><text x="363" y="428">P</text><text class="num" x="350" y="326">4</text>
+      </g>
+      <g class="st" data-s="5">
+        <line x1="371" y1="80" x2="371" y2="240" stroke="var(--pen)" stroke-width="1.8" stroke-dasharray="6 5"/>
+        <path d="M371 92 L383 92 L383 80" fill="none" stroke="var(--ink)" stroke-width="1.2"/>
+        <circle cx="371" cy="80" r="3" fill="var(--ink)"/><text x="363" y="68">Q</text><text class="num" x="350" y="166">4</text>
+      </g>
+      <g class="st" data-s="6">
+        <line x1="371" y1="80" x2="371" y2="400" stroke="var(--green)" stroke-width="3.5" opacity=".85"/>
+        <text class="num" x="392" y="246" fill="var(--green)" style="fill:var(--green)">h = 8</text>
+      </g>
+    </svg>
+  </div>
+
+  <section class="step" aria-live="polite">
+    <div class="step-n" id="sn"></div>
+    <div class="step-t" id="stt"></div>
+    <p class="step-b" id="sb"></p>
+  </section>
+
+  <div class="ctrl">
+    <button class="nav" id="prev" type="button">Назад</button>
+    <div class="dots" id="dots" role="tablist" aria-label="Шаги"></div>
+    <button class="nav primary" id="next" type="button">Далее</button>
+  </div>
+  <div class="hint">Можно листать стрелками ← → на клавиатуре</div>
+</div>
+
+<script>
+const steps=[
+ {t:"Дано",b:'Параллелограмм <i>ABCD</i>, сторона <i>BC</i> = 7. Нужно найти площадь. Площадь параллелограмма равна произведению стороны на высоту, проведённую к этой стороне. Сторона есть, ищем высоту к <i>BC</i>.'},
+ {t:"Биссектрисы",b:'Проводим биссектрисы углов <i>A</i> и <i>B</i>. Они делят углы пополам и пересекаются в точке <i>K</i>.'},
+ {t:"Расстояние до AB",b:'Опускаем перпендикуляр <i>KH</i> на сторону <i>AB</i>. По условию <i>KH</i> = 4.'},
+ {t:"Биссектриса угла A",b:'<span class="rule">Каждая точка биссектрисы неразвёрнутого угла равноудалена от его сторон.</span> Точка <i>K</i> лежит на биссектрисе угла <i>A</i>, значит она одинаково удалена от <i>AB</i> и <i>AD</i>: <i>KP</i> = <i>KH</i> = 4.'},
+ {t:"Биссектриса угла B",b:'Точка <i>K</i> лежит и на биссектрисе угла <i>B</i>, значит она одинаково удалена от <i>AB</i> и <i>BC</i>: <i>KQ</i> = <i>KH</i> = 4.'},
+ {t:"Высота и площадь",b:'Точка <i>K</i> лежит между прямыми <i>AD</i> и <i>BC</i>, а <i>AD</i> ∥ <i>BC</i>, поэтому <i>P</i>, <i>K</i>, <i>Q</i> на одной прямой. Высота <i>PQ</i> = 4 + 4 = 8.<br><b>S = BC · PQ = 7 · 8 = 56.</b> Ответ: 56.'}
+];
+let s=1;const N=steps.length;
+const dots=document.getElementById('dots');
+steps.forEach((_,i)=>{const d=document.createElement('button');d.className='dot';d.type='button';d.id='dot'+(i+1);d.textContent=i+1;d.setAttribute('aria-label','Шаг '+(i+1));d.onclick=()=>{s=i+1;render()};dots.appendChild(d)});
+function render(){
+  document.querySelectorAll('.st').forEach(g=>g.style.opacity=(+g.dataset.s<=s)?1:0);
+  document.getElementById('sn').textContent='Шаг '+s+' из '+N;
+  document.getElementById('stt').textContent=steps[s-1].t;
+  document.getElementById('sb').innerHTML=steps[s-1].b;
+  document.querySelectorAll('.dot').forEach((d,i)=>{d.classList.toggle('done',i+1<s);if(i+1===s)d.setAttribute('aria-current','step');else d.removeAttribute('aria-current')});
+  document.getElementById('prev').disabled=s===1;
+  const nx=document.getElementById('next');nx.disabled=s===N;
+}
+document.getElementById('prev').onclick=()=>{if(s>1){s--;render()}};
+document.getElementById('next').onclick=()=>{if(s<N){s++;render()}};
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'&&s<N){s++;render()}if(e.key==='ArrowLeft'&&s>1){s--;render()}});
+render();
+</script>
+</body>
+</html>
