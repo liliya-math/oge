@@ -1040,7 +1040,7 @@ function finish(){
     <div class="blocks">${blk('c','Вычисления')}${blk('z','Задачи и величины')}${blk('g','Фигуры')}${blk('d','Данные и логика')}</div>
     ${diploma(sc,cnt.ok,own,t)}
     <p class="dipnote">Сохрани диплом скриншотом.</p>
-    ${LEAD?leadBlock(sc)+bonusBlock():''}
+    ${LEAD?leadBlock(sc)+(BONUS_ON?bonusBlock():''):''}
     <div class="send">
       <a class="btn tgbtn" id="tg" href="https://t.me/${TG_USER}?text=${encodeURIComponent(tgText(rep))}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.6 19.9c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.3-8.4c.4-.4-.1-.6-.6-.2L6 13.4l-4.9-1.5c-1.1-.3-1.1-1.1.2-1.6L20.5 3c.9-.3 1.7.2 1.4 1.3z"/></svg>${LEAD?'Получить бесплатный разбор':'Отправить мне в Telegram'}</a>
       <p class="quiet" id="cpm">Откроется чат со мной (@${TG_USER}), текст результата уже скопирован. Если он не вставился сам — вставь его и нажми «Отправить».</p>
@@ -1050,7 +1050,7 @@ function finish(){
       <p class="sign">${logoFull(30)}</p>
     </div>
   </article>`;
-  bindTop();if(LEAD)bindBonus(sc);
+  bindTop();if(LEAD&&BONUS_ON)bindBonus(sc);
   const cp=document.getElementById('cp'),ta=document.getElementById('rep'),m=document.getElementById('cpm'),tg=document.getElementById('tg');
   tg.addEventListener('click',()=>{copyText(ta.value,()=>{},()=>{});sfx.tap();setTimeout(()=>{m.textContent='Не открылся Telegram? Напиши мне вручную: @'+TG_USER+'. Текст уже скопирован, просто вставь его.'},1500)});
   cp.onclick=()=>copyText(ta.value,()=>{cp.textContent='Скопировано';m.textContent='Теперь вставь в чат со мной (@'+TG_USER+') и отправь.';sfx.tap()},()=>{ta.hidden=false;ta.focus();ta.select();m.textContent='Не получилось скопировать автоматически. Текст выделен ниже: скопируй его вручную.'});
@@ -1125,6 +1125,7 @@ function leadBlock(sc){
   </div>`;
 }
 /* ---------- bonus for new clients: pick a gift box ---------- */
+const BONUS_ON=false; // коробки с бонусом: true — показывать новым ученикам
 const BONUS=[{id:1,t:'Скидка 10% на первый месяц занятий',r:'c',w:20},{id:5,t:'1+1: одно занятие в подарок при оплате абонемента на 10 занятий',r:'r',w:20},{id:6,t:'Один раз можно не делать домашку: разберём её вместе, +30 минут к уроку',r:'r',w:20},{id:4,t:'Скидка 15% на первый месяц занятий',r:'e',w:10}];
 const BKEY='bonus-'+KEY;
 function bonusGet(){try{return JSON.parse(localStorage.getItem(BKEY))}catch(e){return null}}
