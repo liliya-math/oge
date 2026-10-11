@@ -1120,7 +1120,6 @@ function leadBlock(sc){
     <div class="kick">Что это значит</div>
     <p class="lt">Сейчас у тебя <b>${sc.pts}</b> из 18 баллов — по шкале ВПР за 4 класс это <b>«${now}»</b>.</p>
     ${weak.length?`<p class="lt">Пробелы видны здесь: <b>${weak.join(', ')}</b>. В 5 классе на этом строятся дроби, уравнения и задачи, поэтому лучше закрыть их сейчас.</p>`:`<p class="lt">Программа начальной школы освоена хорошо. Можно спокойно идти дальше по 5 классу.</p>`}
-    <p class="lt">Я бесплатно разберу ошибки и покажу, с чего начать. Первое занятие тоже бесплатное.</p>
     <div class="lrow"><a class="chip" href="https://t.me/share/url?url=${encodeURIComponent(BASE_DEFAULT)}&text=${encodeURIComponent(parent)}" target="_blank" rel="noopener">Показать родителям в Telegram</a><a class="chip" href="https://wa.me/?text=${encodeURIComponent(parent+'\n'+BASE_DEFAULT)}" target="_blank" rel="noopener">…в WhatsApp</a></div>
   </div>`;
 }

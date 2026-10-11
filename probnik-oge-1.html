@@ -1184,7 +1184,6 @@ function leadBlock(sc){
     <div class="kick">Что это значит</div>
     <p class="lt">Сейчас у тебя <b>${sc.pts}</b> из 31 первичных баллов — это <b>«${now}»</b> по шкале ОГЭ.${!sc.geoOk&&sc.pts>=8?' Не хватает 2 баллов по геометрии, без них на экзамене будет «2».':''}</p>
     ${quick.length?`<p class="lt">Ещё <b>${quick.length}</b> ${quick.length%10===1&&quick.length!==11?'балл лежит':'баллов лежат'} в первой части: задания ${quick.map(t=>'№'+t.n).join(', ')}. Это самые быстрые баллы на ОГЭ${potG>now?` — с ними уже <b>«${potG}»</b>`:''}.</p>`:`<p class="lt">Первая часть решена полностью. Дальше — вторая часть, где баллы стоят вдвое дороже.</p>`}
-    <p class="lt">Я бесплатно разберу твои ошибки: покажу, где именно теряются баллы, и составлю план до экзамена. Первое занятие тоже бесплатное.</p>
     <div class="lrow"><a class="chip" href="https://t.me/share/url?url=${encodeURIComponent(BASE_DEFAULT)}&text=${encodeURIComponent(parent)}" target="_blank" rel="noopener">Показать родителям в Telegram</a><a class="chip" href="https://wa.me/?text=${encodeURIComponent(parent+'\n'+BASE_DEFAULT)}" target="_blank" rel="noopener">…в WhatsApp</a></div>
   </div>`;
 }
