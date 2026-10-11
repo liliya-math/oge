@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Синус, косинус и тангенс: найти сторону</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=PT+Serif:ital@0;1&display=swap">
+<style>
+:root{
+  --paper:#f7f8fb; --sheet:#ffffff; --grid:#dde3ef; --ink:#1f2a44; --muted:#5d6782;
+  --pen:#2346a8; --red:#c8402c; --green:#1c8a5e; --line:#cfd6e4; --tint:rgba(35,70,168,.08);
+  --f-body:"Golos Text",system-ui,sans-serif; --f-math:"PT Serif",Georgia,serif;
+}
+@media (prefers-color-scheme: dark){:root{
+  --paper:#13161d; --sheet:#1b1f29; --grid:#262c3a; --ink:#e6e9f2; --muted:#9aa3bb;
+  --pen:#8aa6ff; --red:#ff8a73; --green:#5fd3a2; --line:#323a4c; --tint:rgba(138,166,255,.12); color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:24px 48px}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+.back{font-size:14px;color:var(--pen);text-decoration:none}
+.back:hover{text-decoration:underline}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-top:12px}
+h1{font-size:26px;font-weight:600;margin:4px 0 0;line-height:1.25;text-wrap:balance}
+h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin:0 0 8px}
+p{margin:0}
+.box{background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.rule+.rule{margin-top:10px}
+.rule{font-family:var(--f-math);font-style:italic;color:var(--pen);font-size:17px}
+ul,ol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:4px}
+.trap{border-left:3px solid var(--red);border-radius:0;padding:4px 0 4px 14px}
+.trap h2{color:var(--red)}
+.task{font-family:var(--f-math);font-size:17px;line-height:1.6;max-width:65ch}
+.sheet{background:var(--sheet);border:1px solid var(--line);border-radius:10px;overflow:hidden;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:20px 20px;background-position:-1px -1px}
+svg{display:block;width:100%;height:auto}
+svg text{font-family:var(--f-math);font-style:italic;font-size:22px;fill:var(--ink)}
+svg text.num{font-style:normal;font-family:var(--f-body);font-weight:500;font-size:18px}
+svg text.res{font-style:normal;font-family:var(--f-body);font-weight:600;font-size:19px;fill:var(--green)}
+svg text.f{font-style:normal;font-family:var(--f-body);font-size:18px;fill:var(--ink)}
+.st{transition:opacity .35s}
+@media (prefers-reduced-motion:reduce){.st{transition:none}}
+.step{display:flex;flex-direction:column;gap:6px;min-height:7em}
+.step-n{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.step-t{font-weight:600;font-size:18px}
+.ctrl{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dots{display:flex;gap:6px;flex:1;justify-content:center}
+.dot{width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:var(--sheet);color:var(--muted);font:500 13px var(--f-body);cursor:pointer}
+.dot[aria-current="step"]{background:var(--pen);border-color:var(--pen);color:var(--sheet)}
+.dot.done{border-color:var(--pen);color:var(--pen)}
+button.nav{font:500 15px var(--f-body);padding:9px 18px;border-radius:8px;border:1px solid var(--line);background:var(--sheet);color:var(--ink);cursor:pointer}
+button.nav.primary{background:var(--pen);border-color:var(--pen);color:var(--sheet)}
+button:disabled{opacity:.4;cursor:default}
+button:focus-visible,summary:focus-visible{outline:2px solid var(--pen);outline-offset:2px}
+.practice{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+.practice li{display:flex;flex-direction:column;gap:4px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.practice li:last-child{border-bottom:0;padding-bottom:0}
+.code{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+details summary{cursor:pointer;color:var(--pen);font-size:15px}
+details .ans{font-weight:600;color:var(--green);margin-top:4px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{font-size:12px;padding:3px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted);font-variant-numeric:tabular-nums}
+@media (max-width:480px){.dots{order:-1;flex-basis:100%}.ctrl button.nav{flex:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<a class="back" href="index.html">← Все разборы</a>
+<div class="eyebrow">ОГЭ · задание 15 · треугольники</div>
+<h1>Синус, косинус и тангенс: найти сторону</h1>
+</header>
+<section class="box"><h2>Как узнать</h2><ul><li>Угол <i>C</i> равен 90°, дано значение sin <i>B</i>, cos <i>B</i> или tg <i>B</i> и одна сторона.</li><li>Спрашивают другую сторону.</li></ul></section>
+<section class="box"><h2>Правило</h2><p class="rule">sin <i>B</i> = <i>AC</i> : <i>AB</i>, cos <i>B</i> = <i>BC</i> : <i>AB</i>, tg <i>B</i> = <i>AC</i> : <i>BC</i>.</p><p class="rule">Чтобы найти катет, нужно гипотенузу умножить на синус или косинус угла.</p></section>
+<section class="box"><h2>Алгоритм</h2><ol><li>Запиши определение данной функции через стороны треугольника.</li><li>Подставь известные числа.</li><li>Вырази неизвестную сторону и посчитай.</li></ol></section>
+<section><h2>Пример · задача 15.130</h2><p class="task">В треугольнике <i>ABC</i> угол <i>C</i> равен 90°, sin <i>B</i> = 3/5, <i>AB</i> = 10. Найдите <i>AC</i>.</p></section>
+<div class="sheet"><svg viewBox="40 30 600 420" role="img" aria-label="Чертёж к примеру, открывается по шагам">
+<g class="st" data-s="1"><polygon points="200,380 392,380 392,124" fill="none" stroke="var(--pen)" stroke-width="2.2" stroke-linejoin="round"/><path d="M380 380 L380 368 L392 368" fill="none" stroke="var(--ink)" stroke-width="1.4"/><text x="176" y="404">A</text><text x="400" y="404">C</text><text x="400" y="116">B</text><text x="262" y="246" class="num">10</text><text x="286" y="404" class="num">?</text><text x="420" y="200" class="f">sin B = 3/5</text></g>
+<g class="st" data-s="2" style="opacity:0"><path d="M392 154 A30 30 0 0 1 374 148" fill="none" stroke="var(--red)" stroke-width="1.8"/><line x1="200" y1="380" x2="392" y2="380" stroke="var(--red)" stroke-width="5" stroke-linecap="round"/><line x1="200" y1="380" x2="392" y2="124" stroke="var(--pen)" stroke-width="5" stroke-linecap="round"/></g>
+<g class="st" data-s="3" style="opacity:0"><text x="420" y="240" class="f">sin B = AC / AB</text></g>
+<g class="st" data-s="4" style="opacity:0"><text x="420" y="272" class="f">3/5 = AC / 10</text></g>
+<g class="st" data-s="5" style="opacity:0"><text x="420" y="312" class="res">AC = 10 · 3/5 = 6</text></g>
+</svg></div>
+<section class="step" aria-live="polite"><div class="step-n" id="sn"></div><div class="step-t" id="stt"></div><p id="sb"></p></section>
+<div class="ctrl"><button class="nav" id="prev" type="button">Назад</button><div class="dots" id="dots"></div><button class="nav primary" id="next" type="button">Далее</button></div>
+<section class="box trap"><h2>Ловушка</h2><p>Сначала проверь, какую сторону ищут. Для cos <i>B</i> это <i>BC</i>, для sin <i>B</i> это <i>AC</i>.</p><p>В тангенсе дан катет, а не гипотенуза: <i>AC</i> = <i>BC</i> · tg <i>B</i>.</p></section>
+<section class="box"><h2>Реши сам</h2><ol class="practice"><li><span class="code">Задача 15.27 · ФИПИ 6544F6</span><span class="task">∠C = 90°, sin B = 3/7, AB = 21. Найдите AC.</span><details><summary>Показать ответ</summary><div class="ans">9</div></details></li><li><span class="code">Задача 15.46 · ФИПИ 481278</span><span class="task">∠C = 90°, cos B = 5/6, AB = 18. Найдите BC.</span><details><summary>Показать ответ</summary><div class="ans">15</div></details></li><li><span class="code">Задача 15.32 · ФИПИ 08FD08</span><span class="task">∠C = 90°, tg B = 3/4, BC = 12. Найдите AC.</span><details><summary>Показать ответ</summary><div class="ans">9</div></details></li><li><span class="code">Задача 15.33 · ФИПИ 1DB806</span><span class="task">∠C = 90°, tg B = 8/5, BC = 20. Найдите AC.</span><details><summary>Показать ответ</summary><div class="ans">32</div></details></li></ol></section>
+<section class="box"><details><summary>Все задачи этого типа в банке ФИПИ (30)</summary><div class="chips"><span class="chip">15.16 · B972FB</span><span class="chip">15.18 · D893F0</span><span class="chip">15.27 · 6544F6</span><span class="chip">15.32 · 08FD08</span><span class="chip">15.33 · 1DB806</span><span class="chip">15.43 · 3D5005</span><span class="chip">15.46 · 481278</span><span class="chip">15.53 · 93C176</span><span class="chip">15.66 · 757BB5</span><span class="chip">15.68 · 1EB6B0</span><span class="chip">15.84 · 1BBB13</span><span class="chip">15.85 · 1B8713</span><span class="chip">15.87 · 14A018</span><span class="chip">15.102 · F6882F</span><span class="chip">15.112 · CA8E29</span><span class="chip">15.115 · E65720</span><span class="chip">15.130 · 50A4DC</span><span class="chip">15.134 · EF04D8</span><span class="chip">15.140 · 14C45C</span><span class="chip">15.146 · 564758</span><span class="chip">15.158 · 73E3A7</span><span class="chip">15.160 · A915AF</span><span class="chip">15.164 · 3F99AC</span><span class="chip">15.171 · 52D8C1</span><span class="chip">15.197 · 48CB65</span><span class="chip">15.203 · 56F660</span><span class="chip">15.211 · D8213E</span><span class="chip">15.221 · D4E48F</span><span class="chip">15.222 · D8738D</span><span class="chip">15.227 · 915280</span></div></details></section>
+</div>
+<script>
+const steps=[["Дано", "Угол <i>C</i> прямой, sin <i>B</i> = 3/5, <i>AB</i> = 10. Найти <i>AC</i>."], ["Какие стороны", "Для угла <i>B</i>: <i>AC</i> — противолежащий катет, <i>AB</i> — гипотенуза. Синус связывает именно их."], ["Определение", "sin <i>B</i> = <i>AC</i> : <i>AB</i>."], ["Подставляем", "3/5 = <i>AC</i> : 10."], ["Выражаем", "<i>AC</i> = 10 · 3/5 = 6. Ответ: 6."]];
+let s=1;const N=steps.length;
+const dots=document.getElementById('dots');
+steps.forEach((_,i)=>{const d=document.createElement('button');d.className='dot';d.type='button';d.textContent=i+1;d.setAttribute('aria-label','Шаг '+(i+1));d.onclick=()=>{s=i+1;render()};dots.appendChild(d)});
+function render(){
+  document.querySelectorAll('.st').forEach(g=>g.style.opacity=(+g.dataset.s<=s)?1:0);
+  document.getElementById('sn').textContent='Шаг '+s+' из '+N;
+  document.getElementById('stt').textContent=steps[s-1][0];
+  document.getElementById('sb').innerHTML=steps[s-1][1];
+  document.querySelectorAll('.dot').forEach((d,i)=>{d.classList.toggle('done',i+1<s);if(i+1===s)d.setAttribute('aria-current','step');else d.removeAttribute('aria-current')});
+  document.getElementById('prev').disabled=s===1;
+  document.getElementById('next').disabled=s===N;
+}
+document.getElementById('prev').onclick=()=>{if(s>1){s--;render()}};
+document.getElementById('next').onclick=()=>{if(s<N){s++;render()}};
+document.addEventListener('keydown',e=>{if(e.target.closest&&e.target.closest('summary'))return;if(e.key==='ArrowRight'&&s<N){s++;render()}if(e.key==='ArrowLeft'&&s>1){s--;render()}});
+render();
+</script>
+</body>
+</html>

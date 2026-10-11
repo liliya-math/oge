@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Высота и угол ABH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=PT+Serif:ital@0;1&display=swap">
+<style>
+:root{
+  --paper:#f7f8fb; --sheet:#ffffff; --grid:#dde3ef; --ink:#1f2a44; --muted:#5d6782;
+  --pen:#2346a8; --red:#c8402c; --green:#1c8a5e; --line:#cfd6e4; --tint:rgba(35,70,168,.08);
+  --f-body:"Golos Text",system-ui,sans-serif; --f-math:"PT Serif",Georgia,serif;
+}
+@media (prefers-color-scheme: dark){:root{
+  --paper:#13161d; --sheet:#1b1f29; --grid:#262c3a; --ink:#e6e9f2; --muted:#9aa3bb;
+  --pen:#8aa6ff; --red:#ff8a73; --green:#5fd3a2; --line:#323a4c; --tint:rgba(138,166,255,.12); color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:24px 48px}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+.back{font-size:14px;color:var(--pen);text-decoration:none}
+.back:hover{text-decoration:underline}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-top:12px}
+h1{font-size:26px;font-weight:600;margin:4px 0 0;line-height:1.25;text-wrap:balance}
+h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin:0 0 8px}
+p{margin:0}
+.box{background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.rule+.rule{margin-top:10px}
+.rule{font-family:var(--f-math);font-style:italic;color:var(--pen);font-size:17px}
+ul,ol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:4px}
+.trap{border-left:3px solid var(--red);border-radius:0;padding:4px 0 4px 14px}
+.trap h2{color:var(--red)}
+.task{font-family:var(--f-math);font-size:17px;line-height:1.6;max-width:65ch}
+.sheet{background:var(--sheet);border:1px solid var(--line);border-radius:10px;overflow:hidden;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:20px 20px;background-position:-1px -1px}
+svg{display:block;width:100%;height:auto}
+svg text{font-family:var(--f-math);font-style:italic;font-size:22px;fill:var(--ink)}
+svg text.num{font-style:normal;font-family:var(--f-body);font-weight:500;font-size:18px}
+svg text.res{font-style:normal;font-family:var(--f-body);font-weight:600;font-size:19px;fill:var(--green)}
+svg text.f{font-style:normal;font-family:var(--f-body);font-size:18px;fill:var(--ink)}
+.st{transition:opacity .35s}
+@media (prefers-reduced-motion:reduce){.st{transition:none}}
+.step{display:flex;flex-direction:column;gap:6px;min-height:7em}
+.step-n{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.step-t{font-weight:600;font-size:18px}
+.ctrl{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dots{display:flex;gap:6px;flex:1;justify-content:center}
+.dot{width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:var(--sheet);color:var(--muted);font:500 13px var(--f-body);cursor:pointer}
+.dot[aria-current="step"]{background:var(--pen);border-color:var(--pen);color:var(--sheet)}
+.dot.done{border-color:var(--pen);color:var(--pen)}
+button.nav{font:500 15px var(--f-body);padding:9px 18px;border-radius:8px;border:1px solid var(--line);background:var(--sheet);color:var(--ink);cursor:pointer}
+button.nav.primary{background:var(--pen);border-color:var(--pen);color:var(--sheet)}
+button:disabled{opacity:.4;cursor:default}
+button:focus-visible,summary:focus-visible{outline:2px solid var(--pen);outline-offset:2px}
+.practice{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+.practice li{display:flex;flex-direction:column;gap:4px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.practice li:last-child{border-bottom:0;padding-bottom:0}
+.code{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+details summary{cursor:pointer;color:var(--pen);font-size:15px}
+details .ans{font-weight:600;color:var(--green);margin-top:4px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{font-size:12px;padding:3px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted);font-variant-numeric:tabular-nums}
+@media (max-width:480px){.dots{order:-1;flex-basis:100%}.ctrl button.nav{flex:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<a class="back" href="index.html">← Все разборы</a>
+<div class="eyebrow">ОГЭ · задание 15 · треугольники</div>
+<h1>Высота и угол ABH</h1>
+</header>
+<section class="box"><h2>Как узнать</h2><ul><li>Проведена высота <i>BH</i>, дан угол <i>BAC</i>.</li><li>Спрашивают угол <i>ABH</i>.</li></ul></section>
+<section class="box"><h2>Правило</h2><p class="rule">Высота треугольника — перпендикуляр, проведённый из вершины к прямой, содержащей противолежащую сторону.</p><p class="rule">Сумма острых углов прямоугольного треугольника равна 90°.</p></section>
+<section class="box"><h2>Алгоритм</h2><ol><li>Высота даёт прямой угол: ∠<i>BHA</i> = 90°.</li><li>Рассмотри прямоугольный треугольник <i>ABH</i>.</li><li>∠<i>ABH</i> = 90° − ∠<i>BAC</i>.</li></ol></section>
+<section><h2>Пример · задача 15.22</h2><p class="task">В остроугольном треугольнике <i>ABC</i> проведена высота <i>BH</i>, ∠<i>BAC</i> = 82°. Найдите угол <i>ABH</i>. Ответ дайте в градусах.</p></section>
+<div class="sheet"><svg viewBox="40 30 600 420" role="img" aria-label="Чертёж к примеру, открывается по шагам">
+<g class="st" data-s="1"><polygon points="100,400 560,400 146,70" fill="none" stroke="var(--pen)" stroke-width="2.2" stroke-linejoin="round"/><text x="78" y="424">A</text><text x="566" y="424">C</text><text x="140" y="58">B</text><path d="M140 400 A40 40 0 0 0 105.6 360.4" fill="none" stroke="var(--red)" stroke-width="1.6"/><text x="52" y="372" class="num">82°</text></g>
+<g class="st" data-s="2" style="opacity:0"><line x1="146" y1="70" x2="146" y2="400" stroke="var(--pen)" stroke-width="2" stroke-dasharray="6 5" stroke-linecap="round"/><path d="M146 388 L158 388 L158 400" fill="none" stroke="var(--ink)" stroke-width="1.4"/><text x="140" y="428">H</text></g>
+<g class="st" data-s="3" style="opacity:0"><polygon points="100,400 146,70 146,400" fill="var(--tint)" stroke="var(--pen)" stroke-width="1" stroke-linejoin="round"/></g>
+<g class="st" data-s="4" style="opacity:0"><text x="116" y="150" class="num">?</text></g>
+<g class="st" data-s="5" style="opacity:0"><text x="300" y="150" class="res">∠ABH = 90° − 82° = 8°</text></g>
+</svg></div>
+<section class="step" aria-live="polite"><div class="step-n" id="sn"></div><div class="step-t" id="stt"></div><p id="sb"></p></section>
+<div class="ctrl"><button class="nav" id="prev" type="button">Назад</button><div class="dots" id="dots"></div><button class="nav primary" id="next" type="button">Далее</button></div>
+<section class="box trap"><h2>Ловушка</h2><p>Считают 180° − 82° и забывают про прямой угол. В треугольнике <i>ABH</i> три угла: 82°, 90° и искомый.</p></section>
+<section class="box"><h2>Реши сам</h2><ol class="practice"><li><span class="code">Задача 15.41 · ФИПИ 3A1100</span><span class="task">BH — высота, ∠BAC = 37°. Найдите угол ABH.</span><details><summary>Показать ответ</summary><div class="ans">53</div></details></li><li><span class="code">Задача 15.97 · ФИПИ 6D0B15</span><span class="task">BH — высота, ∠BAC = 55°. Найдите угол ABH.</span><details><summary>Показать ответ</summary><div class="ans">35</div></details></li><li><span class="code">Задача 15.155 · ФИПИ 4D64A2</span><span class="task">BH — высота, ∠BAC = 46°. Найдите угол ABH.</span><details><summary>Показать ответ</summary><div class="ans">44</div></details></li><li><span class="code">Задача 15.170 · ФИПИ 2871C3</span><span class="task">BH — высота, ∠BAC = 9°. Найдите угол ABH.</span><details><summary>Показать ответ</summary><div class="ans">81</div></details></li></ol></section>
+<section class="box"><details><summary>Все задачи этого типа в банке ФИПИ (10)</summary><div class="chips"><span class="chip">15.22 · AA90F7</span><span class="chip">15.41 · 3A1100</span><span class="chip">15.97 · 6D0B15</span><span class="chip">15.155 · 4D64A2</span><span class="chip">15.170 · 2871C3</span><span class="chip">15.175 · EF47C9</span><span class="chip">15.183 · CD3F90</span><span class="chip">15.201 · 238B6C</span><span class="chip">15.209 · 2D8A31</span><span class="chip">15.214 · 5C293A</span></div></details></section>
+</div>
+<script>
+const steps=[["Дано", "<i>BH</i> — высота, ∠<i>BAC</i> = 82°. Найти ∠<i>ABH</i>."], ["Высота", "<i>BH</i> перпендикулярна <i>AC</i>, поэтому ∠<i>BHA</i> = 90°."], ["Прямоугольный треугольник", "Треугольник <i>ABH</i> прямоугольный, в нём уже есть угол 82° при вершине <i>A</i>."], ["Нужный угол", "∠<i>ABH</i> — второй острый угол этого треугольника."], ["Считаем", "Сумма острых углов прямоугольного треугольника 90°: ∠<i>ABH</i> = 90° − 82° = 8°. Ответ: 8."]];
+let s=1;const N=steps.length;
+const dots=document.getElementById('dots');
+steps.forEach((_,i)=>{const d=document.createElement('button');d.className='dot';d.type='button';d.textContent=i+1;d.setAttribute('aria-label','Шаг '+(i+1));d.onclick=()=>{s=i+1;render()};dots.appendChild(d)});
+function render(){
+  document.querySelectorAll('.st').forEach(g=>g.style.opacity=(+g.dataset.s<=s)?1:0);
+  document.getElementById('sn').textContent='Шаг '+s+' из '+N;
+  document.getElementById('stt').textContent=steps[s-1][0];
+  document.getElementById('sb').innerHTML=steps[s-1][1];
+  document.querySelectorAll('.dot').forEach((d,i)=>{d.classList.toggle('done',i+1<s);if(i+1===s)d.setAttribute('aria-current','step');else d.removeAttribute('aria-current')});
+  document.getElementById('prev').disabled=s===1;
+  document.getElementById('next').disabled=s===N;
+}
+document.getElementById('prev').onclick=()=>{if(s>1){s--;render()}};
+document.getElementById('next').onclick=()=>{if(s<N){s++;render()}};
+document.addEventListener('keydown',e=>{if(e.target.closest&&e.target.closest('summary'))return;if(e.key==='ArrowRight'&&s<N){s++;render()}if(e.key==='ArrowLeft'&&s>1){s--;render()}});
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Площадь треугольника</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=PT+Serif:ital@0;1&display=swap">
+<style>
+:root{
+  --paper:#f7f8fb; --sheet:#ffffff; --grid:#dde3ef; --ink:#1f2a44; --muted:#5d6782;
+  --pen:#2346a8; --red:#c8402c; --green:#1c8a5e; --line:#cfd6e4; --tint:rgba(35,70,168,.08);
+  --f-body:"Golos Text",system-ui,sans-serif; --f-math:"PT Serif",Georgia,serif;
+}
+@media (prefers-color-scheme: dark){:root{
+  --paper:#13161d; --sheet:#1b1f29; --grid:#262c3a; --ink:#e6e9f2; --muted:#9aa3bb;
+  --pen:#8aa6ff; --red:#ff8a73; --green:#5fd3a2; --line:#323a4c; --tint:rgba(138,166,255,.12); color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:24px 48px}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+.back{font-size:14px;color:var(--pen);text-decoration:none}
+.back:hover{text-decoration:underline}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-top:12px}
+h1{font-size:26px;font-weight:600;margin:4px 0 0;line-height:1.25;text-wrap:balance}
+h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin:0 0 8px}
+p{margin:0}
+.box{background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.rule+.rule{margin-top:10px}
+.rule{font-family:var(--f-math);font-style:italic;color:var(--pen);font-size:17px}
+ul,ol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:4px}
+.trap{border-left:3px solid var(--red);border-radius:0;padding:4px 0 4px 14px}
+.trap h2{color:var(--red)}
+.task{font-family:var(--f-math);font-size:17px;line-height:1.6;max-width:65ch}
+.sheet{background:var(--sheet);border:1px solid var(--line);border-radius:10px;overflow:hidden;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:20px 20px;background-position:-1px -1px}
+svg{display:block;width:100%;height:auto}
+svg text{font-family:var(--f-math);font-style:italic;font-size:22px;fill:var(--ink)}
+svg text.num{font-style:normal;font-family:var(--f-body);font-weight:500;font-size:18px}
+svg text.res{font-style:normal;font-family:var(--f-body);font-weight:600;font-size:19px;fill:var(--green)}
+svg text.f{font-style:normal;font-family:var(--f-body);font-size:18px;fill:var(--ink)}
+.st{transition:opacity .35s}
+@media (prefers-reduced-motion:reduce){.st{transition:none}}
+.step{display:flex;flex-direction:column;gap:6px;min-height:7em}
+.step-n{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.step-t{font-weight:600;font-size:18px}
+.ctrl{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dots{display:flex;gap:6px;flex:1;justify-content:center}
+.dot{width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:var(--sheet);color:var(--muted);font:500 13px var(--f-body);cursor:pointer}
+.dot[aria-current="step"]{background:var(--pen);border-color:var(--pen);color:var(--sheet)}
+.dot.done{border-color:var(--pen);color:var(--pen)}
+button.nav{font:500 15px var(--f-body);padding:9px 18px;border-radius:8px;border:1px solid var(--line);background:var(--sheet);color:var(--ink);cursor:pointer}
+button.nav.primary{background:var(--pen);border-color:var(--pen);color:var(--sheet)}
+button:disabled{opacity:.4;cursor:default}
+button:focus-visible,summary:focus-visible{outline:2px solid var(--pen);outline-offset:2px}
+.practice{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+.practice li{display:flex;flex-direction:column;gap:4px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.practice li:last-child{border-bottom:0;padding-bottom:0}
+.code{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+details summary{cursor:pointer;color:var(--pen);font-size:15px}
+details .ans{font-weight:600;color:var(--green);margin-top:4px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{font-size:12px;padding:3px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted);font-variant-numeric:tabular-nums}
+@media (max-width:480px){.dots{order:-1;flex-basis:100%}.ctrl button.nav{flex:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<a class="back" href="index.html">← Все разборы</a>
+<div class="eyebrow">ОГЭ · задание 15 · треугольники</div>
+<h1>Площадь треугольника</h1>
+</header>
+<section class="box"><h2>Как узнать</h2><ul><li>Спрашивают площадь треугольника.</li><li>Даны два катета, или сторона и высота к ней, или две стороны и синус угла между ними.</li></ul></section>
+<section class="box"><h2>Правило</h2><p class="rule">Площадь треугольника равна половине произведения его стороны на высоту, проведённую к этой стороне: <i>S</i> = ½<i>ah</i>.</p><p class="rule">Площадь прямоугольного треугольника равна половине произведения его катетов.</p><p class="rule">Площадь треугольника равна половине произведения двух его сторон на синус угла между ними: <i>S</i> = ½<i>ab</i> sin α.</p></section>
+<section class="box"><h2>Алгоритм</h2><ol><li>Посмотри, что дано, и выбери формулу.</li><li>Подставь числа.</li><li>Не забудь умножить на ½.</li></ol></section>
+<section><h2>Пример · задача 15.29</h2><p class="task">В треугольнике <i>ABC</i> известно, что <i>AB</i> = 12, <i>BC</i> = 15, sin∠<i>ABC</i> = 4/9. Найдите площадь треугольника <i>ABC</i>.</p></section>
+<div class="sheet"><svg viewBox="40 30 600 420" role="img" aria-label="Чертёж к примеру, открывается по шагам">
+<g class="st" data-s="1"><polygon points="140,380 540,380 240,120" fill="none" stroke="var(--pen)" stroke-width="2.2" stroke-linejoin="round"/><text x="116" y="404">A</text><text x="546" y="404">C</text><text x="232" y="108">B</text><text x="160" y="250" class="num">12</text><text x="446" y="262" class="num">15</text></g>
+<g class="st" data-s="2" style="opacity:0"><path d="M229.2 148 A30 30 0 0 0 262.7 139.7" fill="none" stroke="var(--red)" stroke-width="1.8"/><line x1="140" y1="380" x2="240" y2="120" stroke="var(--pen)" stroke-width="5" stroke-linecap="round"/><line x1="240" y1="120" x2="540" y2="380" stroke="var(--pen)" stroke-width="5" stroke-linecap="round"/><text x="420" y="140" class="f">sin B = 4/9</text></g>
+<g class="st" data-s="3" style="opacity:0"><text x="400" y="186" class="f">S = ½ · AB · BC · sin B</text></g>
+<g class="st" data-s="4" style="opacity:0"><text x="400" y="222" class="res">= ½ · 12 · 15 · 4/9 = 40</text></g>
+</svg></div>
+<section class="step" aria-live="polite"><div class="step-n" id="sn"></div><div class="step-t" id="stt"></div><p id="sb"></p></section>
+<div class="ctrl"><button class="nav" id="prev" type="button">Назад</button><div class="dots" id="dots"></div><button class="nav primary" id="next" type="button">Далее</button></div>
+<section class="box trap"><h2>Ловушка</h2><p>Самая частая ошибка: забыть ½ и получить ответ в два раза больше.</p><p>Синус должен быть у угла между данными сторонами. У угла <i>B</i> это стороны <i>AB</i> и <i>BC</i>.</p></section>
+<section class="box"><h2>Реши сам</h2><ol class="practice"><li><span class="code">Задача 15.8 · ФИПИ 916443</span><span class="task">Катеты прямоугольного треугольника равны 4 и 9. Найдите площадь.</span><details><summary>Показать ответ</summary><div class="ans">18</div></details></li><li><span class="code">Задача 15.88 · ФИПИ 22C21A</span><span class="task">Сторона треугольника 12, высота к ней 33. Найдите площадь.</span><details><summary>Показать ответ</summary><div class="ans">198</div></details></li><li><span class="code">Задача 15.30 · ФИПИ 845EFC</span><span class="task">AB = 14, BC = 5, sin∠ABC = 6/7. Найдите площадь.</span><details><summary>Показать ответ</summary><div class="ans">30</div></details></li><li><span class="code">Задача 15.89 · ФИПИ D8DE10</span><span class="task">AB = 6, BC = 10, sin∠ABC = 1/3. Найдите площадь.</span><details><summary>Показать ответ</summary><div class="ans">10</div></details></li></ol></section>
+<section class="box"><details><summary>Все задачи этого типа в банке ФИПИ (32)</summary><div class="chips"><span class="chip">15.8 · 916443</span><span class="chip">15.29 · 86F9F5</span><span class="chip">15.30 · 845EFC</span><span class="chip">15.31 · F6B402</span><span class="chip">15.34 · 21430B</span><span class="chip">15.37 · 5E7907</span><span class="chip">15.42 · 3A3D0B</span><span class="chip">15.48 · 770975</span><span class="chip">15.72 · 5F6CB3</span><span class="chip">15.80 · 0DA313</span><span class="chip">15.88 · 22C21A</span><span class="chip">15.89 · D8DE10</span><span class="chip">15.90 · DC9E1D</span><span class="chip">15.99 · 33F315</span><span class="chip">15.104 · B45622</span><span class="chip">15.125 · 1E12D2</span><span class="chip">15.135 · 6B1EDE</span><span class="chip">15.137 · 43135F</span><span class="chip">15.139 · 7A4858</span><span class="chip">15.144 · 510B5D</span><span class="chip">15.145 · 521C5A</span><span class="chip">15.149 · CB2956</span><span class="chip">15.156 · F594AC</span><span class="chip">15.159 · 1276A8</span><span class="chip">15.165 · 8993A6</span><span class="chip">15.184 · C15599</span><span class="chip">15.190 · 160CE6</span><span class="chip">15.194 · 9C5CE2</span><span class="chip">15.196 · 8582E2</span><span class="chip">15.220 · 201E89</span><span class="chip">15.226 · C10B89</span><span class="chip">15.231 · 34F484</span></div></details></section>
+</div>
+<script>
+const steps=[["Дано", "<i>AB</i> = 12, <i>BC</i> = 15, sin <i>B</i> = 4/9. Найти площадь."], ["Выбираем формулу", "Даны две стороны и синус угла <i>B</i>. Угол <i>B</i> лежит между сторонами <i>AB</i> и <i>BC</i>, значит, подходит формула с синусом."], ["Формула", "<i>S</i> = ½ · <i>AB</i> · <i>BC</i> · sin <i>B</i>."], ["Считаем", "½ · 12 · 15 · 4/9 = 90 · 4/9 = 40. Ответ: 40."]];
+let s=1;const N=steps.length;
+const dots=document.getElementById('dots');
+steps.forEach((_,i)=>{const d=document.createElement('button');d.className='dot';d.type='button';d.textContent=i+1;d.setAttribute('aria-label','Шаг '+(i+1));d.onclick=()=>{s=i+1;render()};dots.appendChild(d)});
+function render(){
+  document.querySelectorAll('.st').forEach(g=>g.style.opacity=(+g.dataset.s<=s)?1:0);
+  document.getElementById('sn').textContent='Шаг '+s+' из '+N;
+  document.getElementById('stt').textContent=steps[s-1][0];
+  document.getElementById('sb').innerHTML=steps[s-1][1];
+  document.querySelectorAll('.dot').forEach((d,i)=>{d.classList.toggle('done',i+1<s);if(i+1===s)d.setAttribute('aria-current','step');else d.removeAttribute('aria-current')});
+  document.getElementById('prev').disabled=s===1;
+  document.getElementById('next').disabled=s===N;
+}
+document.getElementById('prev').onclick=()=>{if(s>1){s--;render()}};
+document.getElementById('next').onclick=()=>{if(s<N){s++;render()}};
+document.addEventListener('keydown',e=>{if(e.target.closest&&e.target.closest('summary'))return;if(e.key==='ArrowRight'&&s<N){s++;render()}if(e.key==='ArrowLeft'&&s>1){s--;render()}});
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Медиана, биссектриса, средняя линия</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=PT+Serif:ital@0;1&display=swap">
+<style>
+:root{
+  --paper:#f7f8fb; --sheet:#ffffff; --grid:#dde3ef; --ink:#1f2a44; --muted:#5d6782;
+  --pen:#2346a8; --red:#c8402c; --green:#1c8a5e; --line:#cfd6e4; --tint:rgba(35,70,168,.08);
+  --f-body:"Golos Text",system-ui,sans-serif; --f-math:"PT Serif",Georgia,serif;
+}
+@media (prefers-color-scheme: dark){:root{
+  --paper:#13161d; --sheet:#1b1f29; --grid:#262c3a; --ink:#e6e9f2; --muted:#9aa3bb;
+  --pen:#8aa6ff; --red:#ff8a73; --green:#5fd3a2; --line:#323a4c; --tint:rgba(138,166,255,.12); color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:24px 48px}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+.back{font-size:14px;color:var(--pen);text-decoration:none}
+.back:hover{text-decoration:underline}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-top:12px}
+h1{font-size:26px;font-weight:600;margin:4px 0 0;line-height:1.25;text-wrap:balance}
+h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin:0 0 8px}
+p{margin:0}
+.box{background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.rule+.rule{margin-top:10px}
+.rule{font-family:var(--f-math);font-style:italic;color:var(--pen);font-size:17px}
+ul,ol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:4px}
+.trap{border-left:3px solid var(--red);border-radius:0;padding:4px 0 4px 14px}
+.trap h2{color:var(--red)}
+.task{font-family:var(--f-math);font-size:17px;line-height:1.6;max-width:65ch}
+.sheet{background:var(--sheet);border:1px solid var(--line);border-radius:10px;overflow:hidden;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:20px 20px;background-position:-1px -1px}
+svg{display:block;width:100%;height:auto}
+svg text{font-family:var(--f-math);font-style:italic;font-size:22px;fill:var(--ink)}
+svg text.num{font-style:normal;font-family:var(--f-body);font-weight:500;font-size:18px}
+svg text.res{font-style:normal;font-family:var(--f-body);font-weight:600;font-size:19px;fill:var(--green)}
+svg text.f{font-style:normal;font-family:var(--f-body);font-size:18px;fill:var(--ink)}
+.st{transition:opacity .35s}
+@media (prefers-reduced-motion:reduce){.st{transition:none}}
+.step{display:flex;flex-direction:column;gap:6px;min-height:7em}
+.step-n{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.step-t{font-weight:600;font-size:18px}
+.ctrl{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dots{display:flex;gap:6px;flex:1;justify-content:center}
+.dot{width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:var(--sheet);color:var(--muted);font:500 13px var(--f-body);cursor:pointer}
+.dot[aria-current="step"]{background:var(--pen);border-color:var(--pen);color:var(--sheet)}
+.dot.done{border-color:var(--pen);color:var(--pen)}
+button.nav{font:500 15px var(--f-body);padding:9px 18px;border-radius:8px;border:1px solid var(--line);background:var(--sheet);color:var(--ink);cursor:pointer}
+button.nav.primary{background:var(--pen);border-color:var(--pen);color:var(--sheet)}
+button:disabled{opacity:.4;cursor:default}
+button:focus-visible,summary:focus-visible{outline:2px solid var(--pen);outline-offset:2px}
+.practice{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+.practice li{display:flex;flex-direction:column;gap:4px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.practice li:last-child{border-bottom:0;padding-bottom:0}
+.code{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+details summary{cursor:pointer;color:var(--pen);font-size:15px}
+details .ans{font-weight:600;color:var(--green);margin-top:4px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{font-size:12px;padding:3px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted);font-variant-numeric:tabular-nums}
+@media (max-width:480px){.dots{order:-1;flex-basis:100%}.ctrl button.nav{flex:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<a class="back" href="index.html">← Все разборы</a>
+<div class="eyebrow">ОГЭ · задание 15 · треугольники</div>
+<h1>Медиана, биссектриса, средняя линия</h1>
+</header>
+<section class="box"><h2>Как узнать</h2><ul><li>В условии медиана <i>BM</i> и спрашивают <i>AM</i>.</li><li>В условии биссектриса <i>AD</i> и спрашивают угол <i>BAD</i>.</li><li>Точки <i>M</i> и <i>N</i> — середины сторон, спрашивают <i>MN</i>.</li></ul></section>
+<section class="box"><h2>Правило</h2><p class="rule">Медиана треугольника — отрезок, соединяющий вершину с серединой противолежащей стороны.</p><p class="rule">Биссектриса угла делит его пополам.</p><p class="rule">Средняя линия треугольника параллельна одной из его сторон и равна половине этой стороны.</p></section>
+<section class="box"><h2>Алгоритм</h2><ol><li>Назови отрезок по определению.</li><li>Найди, какую сторону или угол он делит пополам.</li><li>Раздели на 2. Остальные числа в условии не нужны.</li></ol></section>
+<section><h2>Пример · задача 15.70</h2><p class="task">Точки <i>M</i> и <i>N</i> являются серединами сторон <i>AB</i> и <i>BC</i> треугольника <i>ABC</i>, сторона <i>AB</i> равна 28, сторона <i>BC</i> равна 19, сторона <i>AC</i> равна 34. Найдите <i>MN</i>.</p></section>
+<div class="sheet"><svg viewBox="40 30 600 420" role="img" aria-label="Чертёж к примеру, открывается по шагам">
+<g class="st" data-s="1"><polygon points="140,380 540,380 400,100" fill="none" stroke="var(--pen)" stroke-width="2.2" stroke-linejoin="round"/><text x="116" y="404">A</text><text x="546" y="404">C</text><text x="394" y="88">B</text><text x="162" y="304" class="num">28</text><text x="514" y="298" class="num">19</text><text x="328" y="404" class="num">34</text></g>
+<g class="st" data-s="2" style="opacity:0"><circle cx="270" cy="240" r="3.5" fill="var(--ink)"/><circle cx="470" cy="240" r="3.5" fill="var(--ink)"/><line x1="200.6" y1="305.9" x2="209.4" y2="314.1" stroke="var(--ink)" stroke-width="1.4" stroke-linecap="round"/><line x1="330.6" y1="165.9" x2="339.4" y2="174.1" stroke="var(--ink)" stroke-width="1.4" stroke-linecap="round"/><line x1="427.8" y1="169.1" x2="438.6" y2="163.7" stroke="var(--ink)" stroke-width="1.4" stroke-linecap="round"/><line x1="431.4" y1="176.3" x2="442.2" y2="170.9" stroke="var(--ink)" stroke-width="1.4" stroke-linecap="round"/><line x1="497.8" y1="309.1" x2="508.6" y2="303.7" stroke="var(--ink)" stroke-width="1.4" stroke-linecap="round"/><line x1="501.4" y1="316.3" x2="512.2" y2="310.9" stroke="var(--ink)" stroke-width="1.4" stroke-linecap="round"/><text x="242" y="232">M</text><text x="482" y="232">N</text></g>
+<g class="st" data-s="3" style="opacity:0"><line x1="270" y1="240" x2="470" y2="240" stroke="var(--green)" stroke-width="3.5" stroke-linecap="round"/></g>
+<g class="st" data-s="4" style="opacity:0"><text x="338" y="228" class="res">17</text><line x1="140" y1="380" x2="540" y2="380" stroke="var(--pen)" stroke-width="5" stroke-linecap="round"/></g>
+</svg></div>
+<section class="step" aria-live="polite"><div class="step-n" id="sn"></div><div class="step-t" id="stt"></div><p id="sb"></p></section>
+<div class="ctrl"><button class="nav" id="prev" type="button">Назад</button><div class="dots" id="dots"></div><button class="nav primary" id="next" type="button">Далее</button></div>
+<section class="box trap"><h2>Ловушка</h2><p>В этих задачах всегда есть лишнее число. В задаче про медиану дана длина <i>BM</i>, но <i>AM</i> = <i>AC</i> : 2, и <i>BM</i> не используется.</p><p>Средняя линия равна половине той стороны, которой она параллельна, то есть стороны, которую она не пересекает.</p></section>
+<section class="box"><h2>Реши сам</h2><ol class="practice"><li><span class="code">Задача 15.39 · ФИПИ CF9F09</span><span class="task">AC = 54, BM — медиана, BM = 43. Найдите AM.</span><details><summary>Показать ответ</summary><div class="ans">27</div></details></li><li><span class="code">Задача 15.12 · ФИПИ 39A249</span><span class="task">∠BAC = 48°, AD — биссектриса. Найдите угол BAD.</span><details><summary>Показать ответ</summary><div class="ans">24</div></details></li><li><span class="code">Задача 15.75 · ФИПИ 97C0BA</span><span class="task">M и N — середины AB и BC, AB = 66, BC = 37, AC = 74. Найдите MN.</span><details><summary>Показать ответ</summary><div class="ans">37</div></details></li><li><span class="code">Задача 15.65 · ФИПИ 77FDB2</span><span class="task">AC = 32, BM — медиана, BM = 23. Найдите AM.</span><details><summary>Показать ответ</summary><div class="ans">16</div></details></li></ol></section>
+<section class="box"><details><summary>Все задачи этого типа в банке ФИПИ (36)</summary><div class="chips"><span class="chip">15.12 · 39A249</span><span class="chip">15.20 · 5F05FB</span><span class="chip">15.39 · CF9F09</span><span class="chip">15.45 · 41017F</span><span class="chip">15.54 · 959276</span><span class="chip">15.65 · 77FDB2</span><span class="chip">15.70 · 116AB8</span><span class="chip">15.71 · 2889B5</span><span class="chip">15.75 · 97C0BA</span><span class="chip">15.77 · E568B1</span><span class="chip">15.86 · 15F118</span><span class="chip">15.105 · 1D9426</span><span class="chip">15.108 · 20402C</span><span class="chip">15.110 · 50022C</span><span class="chip">15.111 · C5592F</span><span class="chip">15.113 · 98F32B</span><span class="chip">15.116 · 6B712D</span><span class="chip">15.120 · 87FC25</span><span class="chip">15.124 · BD7DDF</span><span class="chip">15.126 · 1893DC</span><span class="chip">15.141 · 249757</span><span class="chip">15.142 · D9FB5F</span><span class="chip">15.147 · ABDD54</span><span class="chip">15.152 · 354F50</span><span class="chip">15.162 · E29AAA</span><span class="chip">15.163 · 60B4A9</span><span class="chip">15.177 · F7649E</span><span class="chip">15.178 · 060099</span><span class="chip">15.180 · 17189A</span><span class="chip">15.187 · 66F995</span><span class="chip">15.195 · 8B61EB</span><span class="chip">15.205 · 67E364</span><span class="chip">15.223 · D24F86</span><span class="chip">15.224 · C4C88B</span><span class="chip">15.229 · 96298E</span><span class="chip">15.232 · 85BF87</span></div></details></section>
+</div>
+<script>
+const steps=[["Дано", "<i>M</i> и <i>N</i> — середины <i>AB</i> и <i>BC</i>. <i>AB</i> = 28, <i>BC</i> = 19, <i>AC</i> = 34. Найти <i>MN</i>."], ["Середины сторон", "Отмечаем середины: <i>AM</i> = <i>MB</i>, <i>BN</i> = <i>NC</i>."], ["Что такое MN", "Отрезок, соединяющий середины двух сторон, — средняя линия треугольника. Она параллельна третьей стороне <i>AC</i>."], ["Половина стороны", "<i>MN</i> = <i>AC</i> : 2 = 34 : 2 = 17. Длины 28 и 19 не нужны. Ответ: 17."]];
+let s=1;const N=steps.length;
+const dots=document.getElementById('dots');
+steps.forEach((_,i)=>{const d=document.createElement('button');d.className='dot';d.type='button';d.textContent=i+1;d.setAttribute('aria-label','Шаг '+(i+1));d.onclick=()=>{s=i+1;render()};dots.appendChild(d)});
+function render(){
+  document.querySelectorAll('.st').forEach(g=>g.style.opacity=(+g.dataset.s<=s)?1:0);
+  document.getElementById('sn').textContent='Шаг '+s+' из '+N;
+  document.getElementById('stt').textContent=steps[s-1][0];
+  document.getElementById('sb').innerHTML=steps[s-1][1];
+  document.querySelectorAll('.dot').forEach((d,i)=>{d.classList.toggle('done',i+1<s);if(i+1===s)d.setAttribute('aria-current','step');else d.removeAttribute('aria-current')});
+  document.getElementById('prev').disabled=s===1;
+  document.getElementById('next').disabled=s===N;
+}
+document.getElementById('prev').onclick=()=>{if(s>1){s--;render()}};
+document.getElementById('next').onclick=()=>{if(s<N){s++;render()}};
+document.addEventListener('keydown',e=>{if(e.target.closest&&e.target.closest('summary'))return;if(e.key==='ArrowRight'&&s<N){s++;render()}if(e.key==='ArrowLeft'&&s>1){s--;render()}});
+render();
+</script>
+</body>
+</html>

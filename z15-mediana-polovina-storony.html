@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Медиана равна половине стороны</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=PT+Serif:ital@0;1&display=swap">
+<style>
+:root{
+  --paper:#f7f8fb; --sheet:#ffffff; --grid:#dde3ef; --ink:#1f2a44; --muted:#5d6782;
+  --pen:#2346a8; --red:#c8402c; --green:#1c8a5e; --line:#cfd6e4; --tint:rgba(35,70,168,.08);
+  --f-body:"Golos Text",system-ui,sans-serif; --f-math:"PT Serif",Georgia,serif;
+}
+@media (prefers-color-scheme: dark){:root{
+  --paper:#13161d; --sheet:#1b1f29; --grid:#262c3a; --ink:#e6e9f2; --muted:#9aa3bb;
+  --pen:#8aa6ff; --red:#ff8a73; --green:#5fd3a2; --line:#323a4c; --tint:rgba(138,166,255,.12); color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:24px 48px}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+.back{font-size:14px;color:var(--pen);text-decoration:none}
+.back:hover{text-decoration:underline}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-top:12px}
+h1{font-size:26px;font-weight:600;margin:4px 0 0;line-height:1.25;text-wrap:balance}
+h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin:0 0 8px}
+p{margin:0}
+.box{background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.rule+.rule{margin-top:10px}
+.rule{font-family:var(--f-math);font-style:italic;color:var(--pen);font-size:17px}
+ul,ol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:4px}
+.trap{border-left:3px solid var(--red);border-radius:0;padding:4px 0 4px 14px}
+.trap h2{color:var(--red)}
+.task{font-family:var(--f-math);font-size:17px;line-height:1.6;max-width:65ch}
+.sheet{background:var(--sheet);border:1px solid var(--line);border-radius:10px;overflow:hidden;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:20px 20px;background-position:-1px -1px}
+svg{display:block;width:100%;height:auto}
+svg text{font-family:var(--f-math);font-style:italic;font-size:22px;fill:var(--ink)}
+svg text.num{font-style:normal;font-family:var(--f-body);font-weight:500;font-size:18px}
+svg text.res{font-style:normal;font-family:var(--f-body);font-weight:600;font-size:19px;fill:var(--green)}
+svg text.f{font-style:normal;font-family:var(--f-body);font-size:18px;fill:var(--ink)}
+.st{transition:opacity .35s}
+@media (prefers-reduced-motion:reduce){.st{transition:none}}
+.step{display:flex;flex-direction:column;gap:6px;min-height:7em}
+.step-n{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.step-t{font-weight:600;font-size:18px}
+.ctrl{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dots{display:flex;gap:6px;flex:1;justify-content:center}
+.dot{width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:var(--sheet);color:var(--muted);font:500 13px var(--f-body);cursor:pointer}
+.dot[aria-current="step"]{background:var(--pen);border-color:var(--pen);color:var(--sheet)}
+.dot.done{border-color:var(--pen);color:var(--pen)}
+button.nav{font:500 15px var(--f-body);padding:9px 18px;border-radius:8px;border:1px solid var(--line);background:var(--sheet);color:var(--ink);cursor:pointer}
+button.nav.primary{background:var(--pen);border-color:var(--pen);color:var(--sheet)}
+button:disabled{opacity:.4;cursor:default}
+button:focus-visible,summary:focus-visible{outline:2px solid var(--pen);outline-offset:2px}
+.practice{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+.practice li{display:flex;flex-direction:column;gap:4px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.practice li:last-child{border-bottom:0;padding-bottom:0}
+.code{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+details summary{cursor:pointer;color:var(--pen);font-size:15px}
+details .ans{font-weight:600;color:var(--green);margin-top:4px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{font-size:12px;padding:3px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted);font-variant-numeric:tabular-nums}
+@media (max-width:480px){.dots{order:-1;flex-basis:100%}.ctrl button.nav{flex:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<a class="back" href="index.html">← Все разборы</a>
+<div class="eyebrow">ОГЭ · задание 15 · треугольники</div>
+<h1>Медиана равна половине стороны</h1>
+</header>
+<section class="box"><h2>Как узнать</h2><ul><li>Проведена медиана <i>BM</i> и дано <i>BM</i> = <i>AM</i> = <i>MC</i>.</li><li>Дан угол <i>C</i>, спрашивают угол <i>A</i>.</li></ul></section>
+<section class="box"><h2>Правило</h2><p class="rule">В равнобедренном треугольнике углы при основании равны.</p><p class="rule">Сумма углов треугольника равна 180°.</p><p class="rule">Если медиана равна половине стороны, к которой она проведена, то треугольник прямоугольный.</p></section>
+<section class="box"><h2>Алгоритм</h2><ol><li>Найди два равнобедренных треугольника: <i>ABM</i> и <i>CBM</i>.</li><li>Отметь равные углы: ∠<i>A</i> = ∠<i>ABM</i>, ∠<i>C</i> = ∠<i>CBM</i>.</li><li>Получится ∠<i>B</i> = ∠<i>A</i> + ∠<i>C</i>, значит ∠<i>B</i> = 90°.</li><li>∠<i>A</i> = 90° − ∠<i>C</i>.</li></ol></section>
+<section><h2>Пример · задача 15.233</h2><p class="task">В треугольнике <i>ABC</i> проведена медиана <i>BM</i>. Найдите градусную меру угла <i>A</i>, если ∠<i>C</i> = 57° и <i>BM</i> = <i>AM</i> = <i>MC</i>.</p></section>
+<div class="sheet"><svg viewBox="40 30 600 420" role="img" aria-label="Чертёж к примеру, открывается по шагам">
+<g class="st" data-s="1"><polygon points="120,380 520,380 401,197" fill="none" stroke="var(--pen)" stroke-width="2.2" stroke-linejoin="round"/><line x1="401" y1="197" x2="320" y2="380" stroke="var(--pen)" stroke-width="2" stroke-linecap="round"/><circle cx="320" cy="380" r="3.5" fill="var(--ink)"/><text x="96" y="404">A</text><text x="526" y="404">C</text><text x="396" y="185">B</text><text x="312" y="406">M</text><line x1="220" y1="374" x2="220" y2="386" stroke="var(--ink)" stroke-width="1.4" stroke-linecap="round"/><line x1="420" y1="374" x2="420" y2="386" stroke="var(--ink)" stroke-width="1.4" stroke-linecap="round"/><line x1="355" y1="286" x2="366" y2="291" stroke="var(--ink)" stroke-width="1.4" stroke-linecap="round"/><path d="M490 380 A30 30 0 0 1 503.6 354.9" fill="none" stroke="var(--pen)" stroke-width="1.8"/><text x="458" y="370" class="num">57°</text></g>
+<g class="st" data-s="2" style="opacity:0"><path d="M156 380 A36 36 0 0 0 150.2 360.3" fill="none" stroke="var(--red)" stroke-width="1.8"/><path d="M375.9 213.4 A30 30 0 0 0 388.9 224.4" fill="none" stroke="var(--red)" stroke-width="1.8"/></g>
+<g class="st" data-s="3" style="opacity:0"><path d="M391.3 218.9 A24 24 0 0 0 414.1 217.1" fill="none" stroke="var(--pen)" stroke-width="1.8"/></g>
+<g class="st" data-s="4" style="opacity:0"><text x="60" y="100" class="f">∠B = ∠A + ∠C</text><text x="60" y="132" class="f">2(∠A + ∠C) = 180°, ∠B = 90°</text></g>
+<g class="st" data-s="5" style="opacity:0"><text x="60" y="170" class="res">∠A = 90° − 57° = 33°</text></g>
+</svg></div>
+<section class="step" aria-live="polite"><div class="step-n" id="sn"></div><div class="step-t" id="stt"></div><p id="sb"></p></section>
+<div class="ctrl"><button class="nav" id="prev" type="button">Назад</button><div class="dots" id="dots"></div><button class="nav primary" id="next" type="button">Далее</button></div>
+<section class="box trap"><h2>Ловушка</h2><p>Пытаются найти ∠<i>A</i> как 180° − 2 · 57°. Это ошибка: равнобедренных треугольников два, и у каждого свои равные углы.</p><p>Запомни вывод: в таких задачах ∠<i>B</i> всегда 90°, ответ всегда 90° − ∠<i>C</i>.</p></section>
+<section class="box"><h2>Реши сам</h2><ol class="practice"><li><span class="code">Задача 15.234 · ФИПИ 4C542B</span><span class="task">BM = AM = MC, ∠C = 56°. Найдите угол A.</span><details><summary>Показать ответ</summary><div class="ans">34</div></details></li><li><span class="code">Задача 15.237 · ФИПИ 879A26</span><span class="task">BM = AM = MC, ∠C = 50°. Найдите угол A.</span><details><summary>Показать ответ</summary><div class="ans">40</div></details></li><li><span class="code">Задача 15.238 · ФИПИ 096CD4</span><span class="task">BM = AM = MC, ∠C = 66°. Найдите угол A.</span><details><summary>Показать ответ</summary><div class="ans">24</div></details></li><li><span class="code">Задача 15.241 · ФИПИ 689858</span><span class="task">BM = AM = MC, ∠C = 61°. Найдите угол A.</span><details><summary>Показать ответ</summary><div class="ans">29</div></details></li></ol></section>
+<section class="box"><details><summary>Все задачи этого типа в банке ФИПИ (10)</summary><div class="chips"><span class="chip">15.233 · 6EFCFF</span><span class="chip">15.234 · 4C542B</span><span class="chip">15.237 · 879A26</span><span class="chip">15.238 · 096CD4</span><span class="chip">15.241 · 689858</span><span class="chip">15.243 · AA02A0</span><span class="chip">15.246 · A48365</span><span class="chip">15.247 · FE3434</span><span class="chip">15.248 · 0DB48F</span><span class="chip">15.250 · 5E8A8C</span></div></details></section>
+</div>
+<script>
+const steps=[["Дано", "<i>BM</i> — медиана, <i>BM</i> = <i>AM</i> = <i>MC</i>, ∠<i>C</i> = 57°. Найти ∠<i>A</i>."], ["Треугольник ABM", "<i>AM</i> = <i>BM</i>, значит, треугольник <i>ABM</i> равнобедренный и углы при основании <i>AB</i> равны: ∠<i>A</i> = ∠<i>ABM</i>."], ["Треугольник CBM", "<i>BM</i> = <i>MC</i>, значит, и треугольник <i>CBM</i> равнобедренный: ∠<i>C</i> = ∠<i>CBM</i>."], ["Угол B", "∠<i>B</i> = ∠<i>ABM</i> + ∠<i>CBM</i> = ∠<i>A</i> + ∠<i>C</i>. Сумма углов: ∠<i>A</i> + ∠<i>B</i> + ∠<i>C</i> = 2(∠<i>A</i> + ∠<i>C</i>) = 180°, поэтому ∠<i>A</i> + ∠<i>C</i> = 90° и ∠<i>B</i> = 90°."], ["Ответ", "∠<i>A</i> = 90° − 57° = 33°. Ответ: 33."]];
+let s=1;const N=steps.length;
+const dots=document.getElementById('dots');
+steps.forEach((_,i)=>{const d=document.createElement('button');d.className='dot';d.type='button';d.textContent=i+1;d.setAttribute('aria-label','Шаг '+(i+1));d.onclick=()=>{s=i+1;render()};dots.appendChild(d)});
+function render(){
+  document.querySelectorAll('.st').forEach(g=>g.style.opacity=(+g.dataset.s<=s)?1:0);
+  document.getElementById('sn').textContent='Шаг '+s+' из '+N;
+  document.getElementById('stt').textContent=steps[s-1][0];
+  document.getElementById('sb').innerHTML=steps[s-1][1];
+  document.querySelectorAll('.dot').forEach((d,i)=>{d.classList.toggle('done',i+1<s);if(i+1===s)d.setAttribute('aria-current','step');else d.removeAttribute('aria-current')});
+  document.getElementById('prev').disabled=s===1;
+  document.getElementById('next').disabled=s===N;
+}
+document.getElementById('prev').onclick=()=>{if(s>1){s--;render()}};
+document.getElementById('next').onclick=()=>{if(s<N){s++;render()}};
+document.addEventListener('keydown',e=>{if(e.target.closest&&e.target.closest('summary'))return;if(e.key==='ArrowRight'&&s<N){s++;render()}if(e.key==='ArrowLeft'&&s>1){s--;render()}});
+render();
+</script>
+</body>
+</html>
