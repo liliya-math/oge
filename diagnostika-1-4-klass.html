@@ -663,8 +663,10 @@ const FULL=L.length===T.length;
 /* ---------- state ---------- */
 const KEY='vpr4-diag-v1-'+(LINK.name?HASH:'free');
 let S = load() || fresh();
+if(!S.sid)S.sid=newSid();
 if(LINK.name)S.name=LINK.name;
-function fresh(){return {name:LINK.name||'',tal:'',i:0,started:0,done:false,sound:true,streak:0,best:0,r:{},cp:{},stk:[]}}
+function fresh(){return {sid:newSid(),name:LINK.name||'',tal:'',i:0,started:0,done:false,sound:true,streak:0,best:0,r:{},cp:{},stk:[]}}
+function newSid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
 function load(){try{const v=JSON.parse(localStorage.getItem(KEY));return v&&v.r?Object.assign({cp:{},stk:[],tal:''},v):null}catch(e){return null}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function rec(n){return S.r[n]||(S.r[n]={st:'',tries:0,hints:0,ans:[],th:'',t:0})}
@@ -802,6 +804,7 @@ function renderStart(){
   const rs=document.getElementById('reset');if(rs)rs.onclick=()=>{const keep=S.sound;S=fresh();S.sound=keep;save();renderStart()};
 }
 function goNext(){
+  pushResult();
   if(S.i>=L.length){finish();return}
   if(S.i>0&&S.i%4===0&&!S.cp[S.i]){renderCheckpoint();return}
   renderTask();
@@ -1021,6 +1024,7 @@ function finish(){
   const bar=(a,b)=>`<div class="bar"><i style="width:${b?Math.round(a/b*100):0}%"></i></div>`;
   const blk=(k,name)=>sc.blk[k][1]?`<div class="blk"><div class="h">${name}<b>${sc.blk[k][0]}/${sc.blk[k][1]}</b></div>${bar(...sc.blk[k])}</div>`:'';
   const rep=report(sc),t=tal();
+  pushResult();
   const own=STK.filter(s=>S.stk.includes(s.id));
   app.innerHTML=topbar()+`<article class="card enter">
     <div class="rhead">
@@ -1146,13 +1150,29 @@ function bindBonus(sc){
   document.querySelectorAll('#bonus .gift:not([disabled])').forEach(g=>g.onclick=()=>{
     ac();const i=+g.dataset.i;document.querySelectorAll('#bonus .gift').forEach(x=>{x.disabled=true;if(x!==g)x.classList.add('dim')});
     g.classList.add('shake');sfx.tick();setTimeout(()=>sfx.tick(),180);setTimeout(()=>sfx.tick(),360);
-    setTimeout(()=>{const B=bonusPick(),rec={id:B.id,box:i,d:Date.now()};try{localStorage.setItem(BKEY,JSON.stringify(rec))}catch(e){}
+    setTimeout(()=>{const B=bonusPick(),rec={id:B.id,box:i,d:Date.now()};try{localStorage.setItem(BKEY,JSON.stringify(rec))}catch(e){}pushResult();
       g.classList.remove('shake');g.classList.add('open');sfx.win();burstAt(g,B.r==='e'?150:100,10);if(B.r!=='c'&&!RM){setTimeout(firework,200);setTimeout(firework,450)}
       setTimeout(()=>petSound(S.tal,'joy'),300);
       document.querySelector('#bonus h3').textContent='Твой бонус';const lt=document.querySelector('#bonus .lt');if(lt)lt.remove();
       document.getElementById('bres').innerHTML=prizeHTML(B,rec);
       const rep2=report(sc),ta=document.getElementById('rep');if(ta)ta.value=rep2;const tg=document.getElementById('tg');if(tg)tg.href=`https://t.me/${TG_USER}?text=${encodeURIComponent(tgText(rep2))}`;
     },650)});
+}
+/* ---------- results to Lilia's Google Sheet ---------- */
+const SHEET_URL='https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec';
+const TEST_TITLE='Диагностика 1–4 класс';
+function pushResult(){
+  if(!SHEET_URL||!S.name||!S.started)return;
+  try{
+    const done=!!S.done,sc=done?score():null,mk={ok:'✓',bad:'✗',idk:'?',th:'~',pf:'П'};
+    const d={sid:S.sid,test:TEST_TITLE,name:S.name,kind:LINK.name?(LINK.lead?'личная, новый ученик':'личная'):'общая',
+      started:S.started,status:done?'завершено':'в процессе',progress:`${Math.min(S.i,L.length)}/${L.length}`,
+      score:done?sc.pts:livePts(),max:done?sc.maxAll:'',grade:done?sc.grade:'',minutes:Math.round(elapsed()/60),
+      bonus:(typeof bonusLine==='function'?bonusLine():'').replace(/^Бонус: /,''),
+      tasks:L.map(t=>{const r=S.r[t.n];return (t.lab||t.n)+(r&&r.st?mk[r.st]:'·')}).join(' '),
+      report:done?report(sc):''};
+    fetch(SHEET_URL,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)}).catch(()=>{});
+  }catch(e){}
 }
 /* ---------- teacher: link builder (#lilia) ---------- */
 function renderTeacher(){
