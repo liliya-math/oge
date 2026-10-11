@@ -874,7 +874,7 @@ function keepInput(fn){const i=document.getElementById('inp'),v=i?i.value:null;f
   document.querySelectorAll('.seg').forEach(sg=>sg.querySelectorAll('button').forEach(b=>{if(matchSel[+sg.dataset.i]===+b.dataset.v)b.classList.add('sel')}));
   const c=document.getElementById('chk');if(c&&document.querySelector('.seg'))c.disabled=matchSel.includes(0);}
 function fbBox(k,ic,t,s){if(t!=='Не похоже на число')setTimeout(()=>react(k==='bad'&&t==='Пока не сходится'?'bad2':k,t,s),0);const pm=tal()?pet(S.tal,k==='ok'?'joy':k==='bad'?'sad':'idle',64,'fbpet'):'';return `<div class="fb ${k}">${pm||`<div class="ic">${ic}</div>`}<div><div class="t">${t}</div><div class="s">${s}</div></div></div>`}
-function resolve(t,r,st){r.st=st;r.t+=Math.round((Date.now()-taskStart)/1000);if(st!=='ok')S.streak=0;resolved=true;save();refreshTrack()}
+function resolve(t,r,st){r.st=st;r.t+=Math.round((Date.now()-taskStart)/1000);if(st!=='ok')S.streak=0;resolved=true;save();refreshTrack();pushResult()}
 function refreshTrack(){const tr=document.querySelector('.track');if(!tr)return;const r=S.r[cur().n];tr.children[S.i].className=r&&r.st?ST[r.st]:'cur';const pp=document.getElementById('pts');if(pp)pp.textContent=livePts();const s=document.getElementById('stk');if(s){s.textContent=S.streak;s.parentElement.classList.toggle('hot',S.streak>=3)}}
 function check(t,r){
   let given,ok;
@@ -1166,7 +1166,7 @@ function pushResult(){
   try{
     const done=!!S.done,sc=done?score():null,mk={ok:'✓',bad:'✗',idk:'?',th:'~',pf:'П'};
     const d={sid:S.sid,test:TEST_TITLE,name:S.name,kind:LINK.name?(LINK.lead?'личная, новый ученик':'личная'):'общая',
-      started:S.started,status:done?'завершено':'в процессе',progress:`${Math.min(S.i,L.length)}/${L.length}`,
+      started:S.started,status:done?'завершено':'в процессе',progress:`${L.filter(t=>S.r[t.n]&&S.r[t.n].st).length}/${L.length}`,
       score:done?sc.pts:livePts(),max:done?sc.maxAll:'',grade:done?sc.grade:'',minutes:Math.round(elapsed()/60),
       bonus:(typeof bonusLine==='function'?bonusLine():'').replace(/^Бонус: /,''),
       tasks:L.map(t=>{const r=S.r[t.n];return (t.lab||t.n)+(r&&r.st?mk[r.st]:'·')}).join(' '),
