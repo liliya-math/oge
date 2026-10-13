@@ -604,6 +604,7 @@ a.btn{display:inline-flex;align-items:center;text-decoration:none;height:48px}
 .adm summary::-webkit-details-marker{display:none}
 .adm summary .sh h2::after{content:"";display:inline-block;width:8px;height:8px;margin-left:12px;border-right:2px solid var(--apricot);border-bottom:2px solid var(--apricot);transform:rotate(45deg) translateY(-3px);transition:transform .2s}
 .adm[open] summary .sh h2::after{transform:rotate(-135deg) translateY(-1px)}
+.boardrow{display:flex;gap:8px;align-items:center;min-width:0}.boardrow input{flex:1}.boardrow .btn{flex:none;white-space:nowrap}
 .linkrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .linkrow code{font:500 13px var(--mono);padding:9px 11px;border-radius:10px;background:rgba(0,0,0,.25);border:1px solid var(--line);overflow-wrap:anywhere;flex:1 1 240px;min-width:0;user-select:all}
 .stbtns{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:4px 0}
@@ -842,12 +843,15 @@ const MATS=[['z15-pifagor.html','Теорема Пифагора','задани�
 const WD={'вс':0,'пн':1,'вт':2,'ср':3,'чт':4,'пт':5,'сб':6};
 const pts=n=>n>=20?2:1;
 const plural=(n,a,b,c)=>{const x=Math.abs(n)%100,y=x%10;return x>10&&x<20?c:y===1?a:y>=2&&y<=4?b:c};
+const BOARD_URL='https://liliya-math.github.io/excalidraw/';
+/* a permanent personal board for a student: same link format as the board itself (room id + encryption key) */
+async function newBoardLink(name){const id=[...crypto.getRandomValues(new Uint8Array(10))].map(b=>b.toString(16).padStart(2,'0')).join('');const key=await crypto.subtle.generateKey({name:'AES-GCM',length:128},true,['encrypt','decrypt']);const k=(await crypto.subtle.exportKey('jwk',key)).k;return BOARD_URL+(name?'?student='+encodeURIComponent(name):'')+'#room='+id+','+k}
 const href=u=>!u?'':/^https?:\/\//.test(u)?u:BASE+u.replace(/^\/+/,'');
 
 /* ---------- демо-ученица ---------- */
 function isoIn(k){const t=new Date(Date.now()+k*864e5);return t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0')}
 function demoData(){const st='ssspp'+'s'.repeat(11)+'pssp'+'ggp'+'nn';const map={};for(let n=1;n<=25;n++)map[n]={s:'solid',p:'shaky',g:'gap',n:'new'}[st[n-1]];
- return {demo:true,name:'Маша',dat:'Маше',goal:22,days:'ср, сб',time:'18:00',board:'https://learnboard.ru',
+ return {demo:true,name:'Маша',dat:'Маше',goal:22,days:'ср, сб',time:'18:00',board:BOARD_URL,
   topic:'Задания 4–5: тарифы и выгодный выбор',lessonsPlan:8,lessonsDone:4,
   work:['Задания 4, 5 и 17: довести до уверенного решения. Это +3 балла к прогнозу.','Задание 20: убрать ошибки в знаках. Ход решения уже верный.','Задание 21: начали задачи на движение, к концу месяца — первые решения без подсказки.'],
   map,notes:{
@@ -938,7 +942,7 @@ function lessonCard(){const t=nextLesson();if(!t)return `<div class="card"><span
  <div class="when">${fmtWhen(t)}</div>
  <span class="cd ${c.live?'live':''}" id="cd"><i></i>${c.s}</span>
  ${D.topic?`<p class="ltopic"><span>Тема:</span> ${esc(D.topic)}</p>`:'<div style="height:14px"></div>'}
- <a class="btn" href="${esc(href(D.board)||'https://learnboard.ru')}" target="_blank" rel="noopener">Открыть доску</a>
+ <a class="btn" href="${esc(href(D.board)||BOARD_URL)}" target="_blank" rel="noopener">Открыть доску</a>
  <div class="tzn">Время по твоему часовому поясу${tzName()?' ('+esc(tzName())+')':''}. 60 минут: алгебра, геометрия, практика.</div></div>`}
 function hwRow(h){const d=isDone(h),k=daysTo(h.due);return `<li class="hwi ${d?'done':''}" id="hw-${h.id}">
   <button class="chk" data-hw="${h.id}" aria-pressed="${d}" aria-label="Отметить: ${esc(h.t)}">${I.ok}</button>
@@ -1146,7 +1150,7 @@ function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).
   <label class="fld"><span>Цель, баллов из 31</span><input id="f-goal" type="number" min="0" max="31" inputmode="numeric" value="${D.goal}" data-fresh="1"></label>
   <label class="fld"><span>Дни занятий</span><input id="f-days" value="${esc(D.days)}" placeholder="ср, сб" data-fresh="1"></label>
   <label class="fld"><span>Время по Самаре</span><input id="f-time" value="${esc(D.time)}" placeholder="18:00" data-fresh="1"></label>
-  <label class="fld"><span>Ссылка на доску</span><input id="f-board" value="${esc(D.board)}" placeholder="https://learnboard.ru/…" data-fresh="1"></label>
+  <div class="fld"><span>Ссылка на доску</span><div class="boardrow"><input id="f-board" value="${esc(D.board)}" placeholder="${BOARD_URL}…" aria-label="Ссылка на доску" data-fresh="1"><button class="btn ghost tsm" id="f-newboard" type="button">Создать доску</button></div></div>
  </div>
  <label class="fld"><span>Тема следующего занятия</span><input id="f-topic" value="${esc(D.topic)}" placeholder="Задание 17: трапеция" data-fresh="1"></label>
  <label class="fld"><span>Над чем работаем — для родителей, каждый пункт с новой строки</span><textarea id="f-work" rows="3" data-fresh="1">${esc(W)}</textarea></label>
@@ -1195,6 +1199,7 @@ function tBind(){
  document.getElementById('mPar').onclick=()=>{if(S.mode!=='par'){S.mode='par';save();tRender()}};
  const ad=document.getElementById('admc');ad.ontoggle=()=>{S.admOpen=ad.open;save()};
  document.getElementById('lnkc').onclick=e=>copy(BASE+'kabinet.html#'+D.code,e.currentTarget);
+ document.getElementById('f-newboard').onclick=async e=>{const inp=document.getElementById('f-board');const cur=inp.value.trim();if(cur&&cur.includes('#room=')&&!confirm('У ученика уже есть своя доска. Создать новую, пустую? Старая доска не удалится, но кнопка в кабинете будет вести на новую.'))return;inp.value=await newBoardLink(document.getElementById('f-name').value.trim());inp.dispatchEvent(new Event('input',{bubbles:true}));e.currentTarget.textContent='Готово — сохрани';toast('Доска создана. Нажми «Сохранить настройки»')};
  document.getElementById('f-save').onclick=e=>{const b=e.currentTarget,v=id=>document.getElementById(id).value;b.disabled=true;
   adm('student',{fields:{name:v('f-name'),dat:v('f-dat'),goal:v('f-goal'),days:v('f-days'),time:v('f-time'),board:v('f-board'),topic:v('f-topic'),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),active:document.getElementById('f-act').checked}})
    .then(j=>{apply(j,false);toast('Настройки сохранены')}).catch(err=>{b.disabled=false;const e2=document.getElementById('f-err');if(e2)e2.textContent=errText(err)})};
