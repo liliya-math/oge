@@ -1,0 +1,400 @@
+/**
+ * Кабинет ученика 25/25 · lili.math — версия 2 (режим учителя)
+ * Таблица — источник данных для страницы kabinet.html.
+ *
+ * После замены кода:
+ * 1. Сохрани. Выбери функцию setup и нажми «Выполнить» (разреши доступ, если спросит).
+ * 2. В таблице: меню «Кабинет → Пароль для режима учителя» — придумай пароль.
+ * 3. Развернуть → Управление развёртываниями → карандаш → Версия: «Новая версия» → Развернуть.
+ *    Адрес веб-приложения останется прежним.
+ */
+
+const PAGE = 'https://liliya-math.github.io/oge/kabinet.html';
+
+const SHEETS = {
+  'Ученики': ['Код', 'Имя', 'Кому (дательный)', 'Цель, баллов', 'Дни занятий', 'Время (по Самаре)',
+              'Тема следующего занятия', 'Ссылка на доску', 'Над чем работаем (через ;)',
+              'Занятий в месяце по плану', 'Проведено в этом месяце', 'Активен', 'Ссылка на кабинет'],
+  'Карта': ['Код', 'Имя'].concat(Array.from({length: 25}, (_, i) => String(i + 1))),
+  'Комментарии': ['Код', 'Задание ОГЭ', 'Комментарий', 'Ссылка на разбор', 'Подпись ссылки'],
+  'Домашка': ['Код', 'Что сделать', 'Задания ОГЭ', 'Срок', 'Ссылка', 'Подпись ссылки', 'Сделано', 'Отмечено'],
+  'Пробники': ['Код', 'Дата', 'Название', 'Баллы']
+};
+const STATUSES = ['решает', 'путается', 'не решает', 'не проходили'];
+const STATUS_KEY = {'решает': 'solid', 'путается': 'shaky', 'не решает': 'gap', 'не проходили': 'new'};
+const STATUS_RU = {solid: 'решает', shaky: 'путается', gap: 'не решает', 'new': 'не проходили'};
+const C = {bg: '#14211e', bg2: '#1b2b28', fg: '#f3ece2', muted: '#a9b6ad', cobalt: '#1747c9', apricot: '#f2905e',
+           amber: '#f5dc6a', sage: '#a9d18e', miss: '#ff8f73', none: '#2a3a36'};
+const STUDENT_COLS = {name: 2, dat: 3, goal: 4, days: 5, time: 6, topic: 7, board: 8, work: 9, lessonsPlan: 10, lessonsDone: 11, active: 12};
+
+/* ================= меню ================= */
+function onOpen() {
+  SpreadsheetApp.getUi().createMenu('Кабинет')
+    .addItem('Добавить ученика', 'addStudent')
+    .addItem('Ссылка на кабинет выбранного ученика', 'showLink')
+    .addSeparator()
+    .addItem('Пароль для режима учителя', 'setPassword')
+    .addItem('Оформить в стиле 25/25', 'styleSheets')
+    .addItem('Подготовить таблицу', 'setup')
+    .addToUi();
+}
+
+function setup() {
+  const ss = SpreadsheetApp.getActive();
+  Object.keys(SHEETS).forEach((name, i) => {
+    let sh = ss.getSheetByName(name);
+    if (!sh) sh = ss.insertSheet(name, i);
+    const head = SHEETS[name];
+    sh.getRange(1, 1, 1, head.length).setValues([head]);
+    sh.setFrozenRows(1);
+  });
+  ['Sheet1', 'Лист1'].forEach(n => {
+    const st = ss.getSheetByName(n);
+    if (st && st.getLastRow() === 0 && ss.getSheets().length > 1) ss.deleteSheet(st);
+  });
+  const map = ss.getSheetByName('Карта');
+  const rule = SpreadsheetApp.newDataValidation().requireValueInList(STATUSES, true).setAllowInvalid(false).build();
+  map.getRange(2, 3, 300, 25).setDataValidation(rule);
+
+  const hw = ss.getSheetByName('Домашка');
+  hw.getRange(2, 7, 1000, 1).insertCheckboxes();
+  hw.getRange(2, 4, 1000, 1).setNumberFormat('dd.MM.yyyy');
+  hw.getRange(2, 8, 1000, 1).setNumberFormat('dd.MM.yyyy HH:mm');
+  ss.getSheetByName('Пробники').getRange(2, 2, 1000, 1).setNumberFormat('dd.MM.yyyy');
+  const us = ss.getSheetByName('Ученики');
+  us.getRange(2, 12, 300, 1).insertCheckboxes();
+  us.getRange(2, 6, 300, 1).setNumberFormat('@');
+  us.getRange(2, 1, 300, 1).setNumberFormat('@');
+  if (us.getLastRow() >= 2) {
+    const codes = us.getRange(2, 1, us.getLastRow() - 1, 1).getValues();
+    us.getRange(2, 13, codes.length, 1).setValues(codes.map(c => [c[0] ? PAGE + '#' + c[0] : '']));
+  }
+  styleSheets();
+}
+
+/* ================= оформление ================= */
+function styleSheets() {
+  const ss = SpreadsheetApp.getActive();
+  const widths = {
+    'Ученики': [110, 120, 130, 90, 110, 110, 260, 200, 320, 110, 110, 80, 380],
+    'Карта': [110, 120].concat(Array(25).fill(96)),
+    'Комментарии': [110, 90, 420, 260, 200],
+    'Домашка': [110, 340, 110, 110, 260, 160, 90, 150],
+    'Пробники': [110, 110, 220, 90]
+  };
+  const tabs = {'Ученики': C.cobalt, 'Карта': C.sage, 'Комментарии': C.amber, 'Домашка': C.apricot, 'Пробники': '#9db8ff'};
+  Object.keys(SHEETS).forEach(name => {
+    const sh = ss.getSheetByName(name);
+    if (!sh) return;
+    const cols = SHEETS[name].length, rows = sh.getMaxRows();
+    if (sh.getMaxColumns() > cols) sh.deleteColumns(cols + 1, sh.getMaxColumns() - cols);
+    sh.getBandings().forEach(b => b.remove());
+    const all = sh.getRange(1, 1, rows, cols);
+    all.setBackground(null).setFontColor(C.fg).setFontFamily('Inter').setFontSize(11).setVerticalAlignment('middle');
+    all.applyRowBanding(SpreadsheetApp.BandingTheme.GREY, true, false)
+       .setHeaderRowColor(C.cobalt).setFirstRowColor(C.bg).setSecondRowColor(C.bg2);
+    const head = sh.getRange(1, 1, 1, cols);
+    head.setFontWeight('bold').setFontColor(C.fg).setWrap(true)
+        .setBorder(null, null, true, null, null, null, C.apricot, SpreadsheetApp.BorderStyle.SOLID_THICK);
+    sh.setRowHeight(1, 44);
+    if (rows > 1) sh.setRowHeights(2, rows - 1, 30);
+    sh.getRange(2, 1, Math.max(rows - 1, 1), 1).setFontColor(C.muted).setFontFamily('Roboto Mono').setFontSize(10);
+    (widths[name] || []).forEach((w, i) => sh.setColumnWidth(i + 1, w));
+    sh.setHiddenGridlines(true);
+    sh.setTabColor(tabs[name]);
+    sh.setFrozenRows(1);
+    if (name === 'Ученики' || name === 'Карта') {
+      sh.setFrozenColumns(2);
+      sh.getRange(2, 2, Math.max(rows - 1, 1), 1).setFontWeight('bold');
+    }
+  });
+
+  const map = ss.getSheetByName('Карта');
+  if (map) {
+    const rng = map.getRange(2, 3, Math.max(map.getMaxRows() - 1, 1), 25);
+    rng.setHorizontalAlignment('center').setFontWeight('bold').setFontSize(10);
+    map.getRange(1, 3, 1, 25).setHorizontalAlignment('center').setFontSize(14);
+    const colors = [['решает', C.sage, C.bg], ['путается', C.amber, C.bg], ['не решает', C.miss, '#2a1510'], ['не проходили', C.none, C.muted]];
+    map.setConditionalFormatRules(colors.map(([v, bg, fg]) => SpreadsheetApp.newConditionalFormatRule()
+      .whenTextEqualTo(v).setBackground(bg).setFontColor(fg).setRanges([rng]).build()));
+  }
+  const hw = ss.getSheetByName('Домашка');
+  if (hw) {
+    const n = Math.max(hw.getMaxRows() - 1, 1);
+    hw.getRange(2, 2, n, 1).setWrap(true);
+    hw.getRange(2, 3, n, 2).setHorizontalAlignment('center');
+    hw.getRange(2, 7, n, 1).setHorizontalAlignment('center');
+    hw.setConditionalFormatRules([SpreadsheetApp.newConditionalFormatRule()
+      .whenFormulaSatisfied('=$G2=TRUE').setFontColor(C.muted).setStrikethrough(true)
+      .setRanges([hw.getRange(2, 2, n, 1)]).build()]);
+  }
+  const pr = ss.getSheetByName('Пробники');
+  if (pr) pr.getRange(2, 4, Math.max(pr.getMaxRows() - 1, 1), 1).setHorizontalAlignment('center').setFontWeight('bold').setFontColor(C.amber);
+}
+
+/* ================= ученики ================= */
+function addStudent() {
+  const ui = SpreadsheetApp.getUi();
+  const a = ui.prompt('Новый ученик', 'Имя (как в кабинете), например: Маша', ui.ButtonSet.OK_CANCEL);
+  if (a.getSelectedButton() !== ui.Button.OK || !a.getResponseText().trim()) return;
+  const name = a.getResponseText().trim();
+  const b = ui.prompt('Новый ученик', 'Кому — дательный падеж, например: Маше', ui.ButtonSet.OK_CANCEL);
+  if (b.getSelectedButton() !== ui.Button.OK) return;
+  const code = createStudent_(name, b.getResponseText().trim());
+  showLinkFor_(name, code);
+}
+
+function createStudent_(name, dat) {
+  const ss = SpreadsheetApp.getActive();
+  if (!ss.getSheetByName('Ученики')) setup();
+  const code = newCode_();
+  ss.getSheetByName('Ученики').appendRow([code, name, dat || name, 22, 'ср, сб', '18:00',
+    '', 'https://learnboard.ru', '', 8, 0, true, PAGE + '#' + code]);
+  ss.getSheetByName('Карта').appendRow([code, name].concat(Array(25).fill('не проходили')));
+  return code;
+}
+
+function showLink() {
+  const sh = SpreadsheetApp.getActiveSheet();
+  const row = sh.getActiveRange().getRow();
+  if (row < 2) { SpreadsheetApp.getUi().alert('Выдели строку ученика на листе «Ученики» или «Карта».'); return; }
+  const code = String(sh.getRange(row, 1).getValue()).trim();
+  const st = findStudentRow_(code);
+  if (!st) { SpreadsheetApp.getUi().alert('В этой строке нет кода ученика.'); return; }
+  showLinkFor_(st.row[1], code);
+}
+
+function showLinkFor_(name, code) {
+  const url = PAGE + '#' + code;
+  const sh = SpreadsheetApp.getActive().getSheetByName('Ученики');
+  const st = findStudentRow_(code);
+  if (st) sh.getRange(st.index, 13).setValue(url);
+  SpreadsheetApp.getUi().alert('Кабинет: ' + name, 'Личная ссылка (она же в столбце M на листе «Ученики»):\n\n' + url, SpreadsheetApp.getUi().ButtonSet.OK);
+}
+
+function setPassword() {
+  const ui = SpreadsheetApp.getUi();
+  const a = ui.prompt('Пароль для режима учителя', 'Не меньше 6 символов. Его будешь вводить на странице kabinet.html#lilia', ui.ButtonSet.OK_CANCEL);
+  if (a.getSelectedButton() !== ui.Button.OK) return;
+  const p = a.getResponseText().trim();
+  if (p.length < 6) { ui.alert('Слишком короткий пароль. Нужно хотя бы 6 символов.'); return; }
+  PropertiesService.getScriptProperties().setProperty('ADMIN', p);
+  ui.alert('Пароль сохранён. Режим учителя: ' + PAGE + '#lilia');
+}
+
+/* ================= API для страницы ================= */
+function doGet(e) {
+  const code = String((e && e.parameter && e.parameter.t) || '').trim();
+  return json_(code ? studentData_(code, false) : {error: 'no_code'});
+}
+
+function doPost(e) {
+  let body = {};
+  try { body = JSON.parse(e.postData.contents); } catch (err) { return json_({error: 'bad_request'}); }
+  if (body.admin !== undefined) return json_(admin_(body));
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    const st = findStudentRow_(body.t);
+    if (!st || st.row[11] === false) return json_({error: 'not_found'});
+    return json_(setHwDone_(String(body.t).trim(), body.id, body.text, body.done));
+  } finally { lock.releaseLock(); }
+}
+
+function setHwDone_(code, id, text, done) {
+  const sh = SpreadsheetApp.getActive().getSheetByName('Домашка');
+  const row = Number(id);
+  if (!(row >= 2 && row <= sh.getLastRow())) return {error: 'no_task'};
+  const v = sh.getRange(row, 1, 1, 2).getValues()[0];
+  if (String(v[0]).trim() !== code || String(v[1]).trim() !== String(text || '').trim()) return {error: 'changed'};
+  sh.getRange(row, 7, 1, 2).setValues([[!!done, done ? new Date() : '']]);
+  return {ok: true};
+}
+
+/* ================= режим учителя ================= */
+function admin_(b) {
+  const pass = PropertiesService.getScriptProperties().getProperty('ADMIN');
+  if (!pass) return {error: 'no_password'};
+  if (String(b.admin || '') !== pass) { Utilities.sleep(700); return {error: 'bad_password'}; }
+  const lock = LockService.getScriptLock();
+  lock.waitLock(15000);
+  try {
+    const ss = SpreadsheetApp.getActive();
+    const code = String(b.t || '').trim();
+    const need = () => { const st = findStudentRow_(code); if (!st) throw new Error('not_found'); return st; };
+    const fresh = () => ({ok: true, d: studentData_(code, true)});
+    switch (b.op) {
+      case 'ping': return {ok: true};
+      case 'list': return {ok: true, students: listStudents_()};
+      case 'get': { need(); return fresh(); }
+      case 'addStudent': {
+        const name = String(b.name || '').trim();
+        if (!name) return {error: 'no_name'};
+        return {ok: true, code: createStudent_(name, String(b.dat || '').trim())};
+      }
+      case 'student': {
+        const st = need(), sh = ss.getSheetByName('Ученики'), f = b.fields || {};
+        Object.keys(f).forEach(k => {
+          if (!STUDENT_COLS[k]) return;
+          let v = f[k];
+          if (k === 'work') v = (Array.isArray(v) ? v : String(v).split('\n')).map(s => String(s).trim()).filter(Boolean).join('; ');
+          else if (k === 'goal' || k === 'lessonsPlan' || k === 'lessonsDone') v = Math.max(0, Math.min(k === 'goal' ? 31 : 99, Number(v) || 0));
+          else if (k === 'active') v = !!v;
+          else v = String(v).trim();
+          sh.getRange(st.index, STUDENT_COLS[k]).setValue(v);
+        });
+        if (f.name) { const m = findRow_('Карта', r => String(r[0]).trim() === code); if (m) ss.getSheetByName('Карта').getRange(m, 2).setValue(String(f.name).trim()); }
+        return fresh();
+      }
+      case 'map': {
+        const st = need();
+        const n = Number(b.n), s = STATUS_RU[b.s];
+        if (!(n >= 1 && n <= 25) || !s) return {error: 'bad_value'};
+        const sh = ss.getSheetByName('Карта');
+        let row = findRow_('Карта', r => String(r[0]).trim() === code);
+        if (!row) { sh.appendRow([code, st.row[1]].concat(Array(25).fill('не проходили'))); row = sh.getLastRow(); }
+        sh.getRange(row, n + 2).setValue(s);
+        return fresh();
+      }
+      case 'note': {
+        need();
+        const n = Number(b.n);
+        if (!(n >= 1 && n <= 25)) return {error: 'bad_value'};
+        const sh = ss.getSheetByName('Комментарии');
+        const row = findRow_('Комментарии', r => String(r[0]).trim() === code && Number(r[1]) === n);
+        const t = String(b.text || '').trim(), u = String(b.url || '').trim(), l = String(b.label || '').trim();
+        if (!t && !u) { if (row) sh.deleteRow(row); }
+        else if (row) sh.getRange(row, 3, 1, 3).setValues([[t, u, l]]);
+        else sh.appendRow([code, n, t, u, l]);
+        return fresh();
+      }
+      case 'hwAdd': {
+        need();
+        const t = String(b.text || '').trim();
+        if (!t) return {error: 'bad_value'};
+        ss.getSheetByName('Домашка').appendRow([code, t, String(b.n || ''), ruDate_(b.due), String(b.url || ''), String(b.label || ''), false, '']);
+        return fresh();
+      }
+      case 'hwDone': { need(); const r = setHwDone_(code, b.id, b.text, b.done); return r.ok ? fresh() : r; }
+      case 'hwDel': {
+        need();
+        const sh = ss.getSheetByName('Домашка'), row = Number(b.id);
+        if (!(row >= 2 && row <= sh.getLastRow())) return {error: 'no_task'};
+        const v = sh.getRange(row, 1, 1, 2).getValues()[0];
+        if (String(v[0]).trim() !== code || String(v[1]).trim() !== String(b.text || '').trim()) return {error: 'changed'};
+        sh.deleteRow(row);
+        return fresh();
+      }
+      case 'probAdd': {
+        need();
+        const p = Number(b.p);
+        if (b.p === '' || !(p >= 0 && p <= 31)) return {error: 'bad_value'};
+        ss.getSheetByName('Пробники').appendRow([code, ruDate_(b.d), String(b.name || 'Пробник').trim(), p]);
+        return fresh();
+      }
+      case 'probDel': {
+        need();
+        const sh = ss.getSheetByName('Пробники'), row = Number(b.id);
+        if (!(row >= 2 && row <= sh.getLastRow()) || String(sh.getRange(row, 1).getValue()).trim() !== code) return {error: 'changed'};
+        sh.deleteRow(row);
+        return fresh();
+      }
+    }
+    return {error: 'bad_op'};
+  } catch (err) {
+    return {error: String(err && err.message || err)};
+  } finally { lock.releaseLock(); }
+}
+
+function listStudents_() {
+  const ss = SpreadsheetApp.getActive(), sh = ss.getSheetByName('Ученики');
+  if (!sh || sh.getLastRow() < 2) return [];
+  const rows = sh.getRange(2, 1, sh.getLastRow() - 1, 12).getValues();
+  const times = sh.getRange(2, 6, sh.getLastRow() - 1, 1).getDisplayValues();
+  const mapSh = ss.getSheetByName('Карта'), maps = {};
+  if (mapSh && mapSh.getLastRow() >= 2) mapSh.getRange(2, 1, mapSh.getLastRow() - 1, 27).getValues().forEach(r => { maps[String(r[0]).trim()] = r; });
+  const hwSh = ss.getSheetByName('Домашка'), left = {};
+  if (hwSh && hwSh.getLastRow() >= 2) hwSh.getRange(2, 1, hwSh.getLastRow() - 1, 7).getValues().forEach(r => {
+    const c = String(r[0]).trim(); if (c && String(r[1]).trim() && r[6] !== true) left[c] = (left[c] || 0) + 1;
+  });
+  return rows.map((r, i) => ({r: r, time: String(times[i][0]).trim()})).filter(x => String(x.r[0]).trim()).map(x => {
+    const r = x.r, c = String(r[0]).trim(), m = maps[c];
+    let p = 0;
+    if (m) for (let n = 1; n <= 25; n++) if (STATUS_KEY[String(m[n + 1]).trim().toLowerCase()] === 'solid') p += n >= 20 ? 2 : 1;
+    return {code: c, name: String(r[1]), goal: Number(r[3]) || 22, days: String(r[4] || ''), time: x.time,
+            active: r[11] !== false, pts: p, hwLeft: left[c] || 0};
+  });
+}
+
+function studentData_(code, admin) {
+  const st = findStudentRow_(code);
+  if (!st) return {error: 'not_found'};
+  const r = st.row;
+  if (!admin && r[11] === false) return {error: 'inactive'};
+  const ss = SpreadsheetApp.getActive();
+  const rows = name => {
+    const sh = ss.getSheetByName(name);
+    if (!sh || sh.getLastRow() < 2) return [];
+    return sh.getRange(2, 1, sh.getLastRow() - 1, sh.getLastColumn()).getValues()
+      .map((v, i) => ({v: v, row: i + 2})).filter(x => String(x.v[0]).trim() === code);
+  };
+  const map = {};
+  const m = rows('Карта')[0];
+  for (let n = 1; n <= 25; n++) map[n] = STATUS_KEY[String(m ? m.v[n + 1] : '').trim().toLowerCase()] || 'new';
+  const notes = {};
+  rows('Комментарии').forEach(x => {
+    const n = parseInt(x.v[1], 10);
+    if (n >= 1 && n <= 25) notes[n] = {t: String(x.v[2] || ''), url: String(x.v[3] || ''), label: String(x.v[4] || '')};
+  });
+  const hw = rows('Домашка').filter(x => String(x.v[1]).trim()).map(x => ({
+    id: x.row, t: String(x.v[1]).trim(), n: String(x.v[2] || ''), due: day_(x.v[3]),
+    url: String(x.v[4] || ''), label: String(x.v[5] || ''), done: x.v[6] === true
+  }));
+  const hist = rows('Пробники').filter(x => x.v[3] !== '' && !isNaN(Number(x.v[3])))
+    .map(x => ({id: x.row, d: day_(x.v[1]), t: String(x.v[2] || ''), p: Number(x.v[3])}))
+    .sort((a, b) => String(a.d).localeCompare(String(b.d)));
+  const out = {
+    name: String(r[1]), dat: String(r[2] || r[1]), goal: Number(r[3]) || 22,
+    days: String(r[4] || ''), time: st.time, topic: String(r[6] || ''), board: String(r[7] || ''),
+    work: String(r[8] || '').split(';').map(s => s.trim()).filter(Boolean),
+    lessonsPlan: Number(r[9]) || 0, lessonsDone: Number(r[10]) || 0,
+    map: map, notes: notes, hw: hw, hist: hist
+  };
+  if (admin) { out.active = r[11] !== false; out.code = code; }
+  return out;
+}
+
+/* ================= служебное ================= */
+function findStudentRow_(code) {
+  code = String(code || '').trim();
+  if (!code) return null;
+  const sh = SpreadsheetApp.getActive().getSheetByName('Ученики');
+  if (!sh || sh.getLastRow() < 2) return null;
+  const v = sh.getRange(2, 1, sh.getLastRow() - 1, 12).getValues();
+  for (let i = 0; i < v.length; i++) if (String(v[i][0]).trim() === code)
+    return {row: v[i], index: i + 2, time: String(sh.getRange(i + 2, 6).getDisplayValue()).trim()};
+  return null;
+}
+function findRow_(name, test) {
+  const sh = SpreadsheetApp.getActive().getSheetByName(name);
+  if (!sh || sh.getLastRow() < 2) return 0;
+  const v = sh.getRange(2, 1, sh.getLastRow() - 1, Math.max(2, sh.getLastColumn())).getValues();
+  for (let i = 0; i < v.length; i++) if (test(v[i])) return i + 2;
+  return 0;
+}
+function newCode_() {
+  const abc = 'abcdefghjkmnpqrstuvwxyz23456789';
+  let s = '';
+  for (let i = 0; i < 10; i++) s += abc[Math.floor(Math.random() * abc.length)];
+  return findStudentRow_(s) ? newCode_() : s;
+}
+function day_(v) {
+  if (v instanceof Date) return Utilities.formatDate(v, SpreadsheetApp.getActive().getSpreadsheetTimeZone(), 'yyyy-MM-dd');
+  const m = String(v || '').match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
+  return m ? m[3] + '-' + ('0' + m[2]).slice(-2) + '-' + ('0' + m[1]).slice(-2) : '';
+}
+function ruDate_(iso) {
+  const m = String(iso || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  return m ? m[3] + '.' + m[2] + '.' + m[1] : '';
+}
+function json_(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
