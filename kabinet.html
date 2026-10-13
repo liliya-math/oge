@@ -613,6 +613,23 @@ a.btn{display:inline-flex;align-items:center;text-decoration:none;height:48px}
 .stb:active{transform:scale(.96)}
 .stb.solid{background:var(--mint);color:#14211e}.stb.shaky{background:var(--amber);color:#14211e}.stb.gap{background:var(--miss);color:#2a1510}.stb.new{background:rgba(243,236,226,.12);color:var(--fg)}
 .stb[aria-pressed="true"]{opacity:1;box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--fg)}
+.sched{display:grid;gap:10px;padding:14px;border-radius:16px;border:1px solid var(--line);background:rgba(0,0,0,.14)}
+.schh{display:flex;flex-wrap:wrap;gap:10px;align-items:end;justify-content:space-between}
+.schtz{flex:1 1 240px}
+.sched select{font:inherit;font-size:16px;color:var(--fg);background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:12px;padding:10px 10px;min-width:0}
+.sched select:focus,.sched input:focus{outline:none;border-color:rgba(242,144,94,.6);box-shadow:0 0 0 4px rgba(242,144,94,.12)}
+.sched input[type=time]{font:inherit;font-size:16px;color:var(--fg);background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:12px;padding:9px 10px;min-width:0;width:100%}
+.slot{display:grid;grid-template-columns:minmax(0,1fr) 34px;gap:8px;align-items:center;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.slp{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px;min-width:0}
+.slc{display:grid;grid-template-columns:72px minmax(0,1fr);gap:4px 6px;align-items:center;min-width:0}
+.slc>span{grid-column:1/-1;font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.slu select,.slu input{border-style:dashed!important}
+.schn{font-size:12.5px;color:var(--faint);margin:0}
+.wk{display:grid;gap:2px;margin-top:12px;font-size:14.5px}
+.wk span{font-size:12px;color:var(--muted)}
+.tzs{font-size:.55em;color:var(--muted);font-weight:500}
+.tzalt{font-size:14px;color:var(--muted);margin-top:2px}
+
 .xbtn{min-width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--muted);font-size:18px;line-height:1;padding:0 8px;align-self:center}
 .xbtn:hover{color:var(--miss);border-color:var(--miss)}
 .xbtn.arm{background:var(--miss);color:#2a1510;border-color:var(--miss);font-size:13px;font-weight:700}
@@ -889,11 +906,39 @@ function sayList(){const a=[],left=visibleHW().filter(h=>!isDone(h)).length,pot=
  if(!S.picked&&!TEACH)a.push('Выбери талисмана внизу страницы. Я не обижусь. Почти.');
  return a}
 
-/* ---------- расписание (время в таблице — по Самаре, UTC+4) ---------- */
-function nextLesson(){const days=String(D.days||'').toLowerCase().match(/пн|вт|ср|чт|пт|сб|вс/g);const tm=String(D.time||'').match(/(\d{1,2})[:.](\d{2})/);if(!days||!tm)return null;
- const want=new Set(days.map(d=>WD[d]));const now=Date.now();const base=new Date();base.setUTCHours(+tm[1]-4,+tm[2],0,0);
- for(let i=-2;i<10;i++){const x=new Date(base.getTime()+i*864e5);const wd=new Date(x.getTime()+4*36e5).getUTCDay();if(want.has(wd)&&x.getTime()+60*6e4>now)return x}return null}
-function fmtWhen(t){const day=t.toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'});const hm=t.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});return day.charAt(0).toUpperCase()+day.slice(1)+', '+hm}
+/* ---------- расписание ----------
+   В таблице (колонка «дни») хранится строка: «вт 18:00, пт 16:30 | Asia/Yekaterinburg».
+   Время — по Самаре (UTC+4), после « | » — часовой пояс ученика. Старый формат «ср, сб» + колонка времени тоже читается. */
+const SAMARA_OFF=240;
+const DN=['вс','пн','вт','ср','чт','пт','сб'];
+const DORDER=[1,2,3,4,5,6,0];
+const TZS=[['Europe/Kaliningrad','Калининград'],['Europe/Moscow','Москва'],['Europe/Samara','Самара'],['Asia/Yekaterinburg','Екатеринбург'],['Asia/Omsk','Омск'],['Asia/Novosibirsk','Новосибирск'],['Asia/Krasnoyarsk','Красноярск'],['Asia/Irkutsk','Иркутск'],['Asia/Yakutsk','Якутск'],['Asia/Vladivostok','Владивосток'],['Asia/Magadan','Магадан'],['Asia/Kamchatka','Камчатка'],['Europe/Minsk','Минск'],['Europe/Kyiv','Киев'],['Asia/Almaty','Алматы'],['Asia/Tashkent','Ташкент'],['Asia/Bishkek','Бишкек'],['Asia/Tbilisi','Тбилиси'],['Asia/Yerevan','Ереван'],['Asia/Baku','Баку'],['Europe/Istanbul','Стамбул'],['Asia/Dubai','Дубай'],['Europe/Berlin','Берлин'],['Europe/London','Лондон']];
+const hhmm=(h,m)=>String(h).padStart(2,'0')+':'+String(m).padStart(2,'0');
+function validTz(z){if(!z)return false;try{new Intl.DateTimeFormat('ru-RU',{timeZone:z});return true}catch(e){return false}}
+function devTz(){try{return Intl.DateTimeFormat().resolvedOptions().timeZone||''}catch(e){return ''}}
+function tzLabel(z){const f=TZS.find(x=>x[0]===z);return f?f[1]:(z||'').split('/').pop().replace(/_/g,' ')}
+function tzOff(z,at){/* смещение пояса от UTC в минутах в момент at */
+ if(!validTz(z))return -new Date(at||Date.now()).getTimezoneOffset();
+ const d=new Date(at||Date.now());const p={};new Intl.DateTimeFormat('en-US',{timeZone:z,hourCycle:'h23',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}).formatToParts(d).forEach(x=>p[x.type]=x.value);
+ return Math.round((Date.UTC(+p.year,+p.month-1,+p.day,+p.hour,+p.minute)-Math.floor(d.getTime()/6e4)*6e4)/6e4)}
+function sortSlots(a){return a.sort((x,y)=>DORDER.indexOf(x.wd)-DORDER.indexOf(y.wd)||x.h-y.h||x.m-y.m)}
+function parseSched(days,time){const raw=String(days||''),k=raw.indexOf('|'),a=k<0?raw:raw.slice(0,k),tz=k<0?'':raw.slice(k+1).trim();const slots=[];
+ const re=/(пн|вт|ср|чт|пт|сб|вс)\s*(\d{1,2})[:.](\d{2})/gi;let m;while((m=re.exec(a)))slots.push({wd:WD[m[1].toLowerCase()],h:+m[2],m:+m[3]});
+ if(!slots.length){const ds=a.toLowerCase().match(/пн|вт|ср|чт|пт|сб|вс/g)||[];const tm=String(time||'').match(/(\d{1,2})[:.](\d{2})/);if(tm)ds.forEach(d=>slots.push({wd:WD[d],h:+tm[1],m:+tm[2]}))}
+ return {slots:sortSlots(slots),tz:validTz(tz)?tz:''}}
+function serSched(slots,tz){return sortSlots(slots.slice()).map(x=>DN[x.wd]+' '+hhmm(x.h,x.m)).join(', ')+(tz?' | '+tz:'')}
+function slotNext(x,now){/* ближайшее начало занятия по Самаре, которое ещё не закончилось */
+ const b=new Date(now+SAMARA_OFF*6e4);for(let i=-1;i<9;i++){const t=Date.UTC(b.getUTCFullYear(),b.getUTCMonth(),b.getUTCDate()+i,x.h,x.m)-SAMARA_OFF*6e4;
+  if(new Date(t+SAMARA_OFF*6e4).getUTCDay()===x.wd&&t+60*6e4>now)return new Date(t)}return null}
+function shiftSlot(x,delta){/* сдвиг дня недели и времени на delta минут */
+ let v=(x.wd*1440+x.h*60+x.m+delta)%10080;if(v<0)v+=10080;return {wd:Math.floor(v/1440),h:Math.floor(v%1440/60),m:v%60}}
+function SCH(){return parseSched(D.days,D.time)}
+function stuTz(){const z=SCH().tz;return z||devTz()}
+function nextLesson(){const P=SCH(),now=Date.now();let best=null;P.slots.forEach(x=>{const t=slotNext(x,now);if(t&&(!best||t<best))best=t});return best}
+function fmtWhen(t,tz){const o=validTz(tz)?{timeZone:tz}:{};const day=t.toLocaleDateString('ru-RU',Object.assign({weekday:'long',day:'numeric',month:'long'},o));const hm=t.toLocaleTimeString('ru-RU',Object.assign({hour:'2-digit',minute:'2-digit'},o));return day.charAt(0).toUpperCase()+day.slice(1)+', '+hm}
+function weekLine(tz){/* расписание недели в поясе tz */
+ const P=SCH(),now=Date.now();return P.slots.map(x=>{const t=slotNext(x,now);if(!t)return '';const sl=shiftSlot(x,tzOff(tz,t)-SAMARA_OFF);return {k:DORDER.indexOf(sl.wd)*1440+sl.h*60+sl.m,s:DN[sl.wd]+' '+hhmm(sl.h,sl.m)}}).filter(Boolean).sort((a,b)=>a.k-b.k).map(o=>o.s).join(', ')}
+function schedShort(days,time){const P=parseSched(days,time);if(!P.slots.length)return 'расписание не задано';return P.slots.map(x=>DN[x.wd]+' '+hhmm(x.h,x.m)).join(', ')+(P.tz&&P.tz!=='Europe/Samara'?' · ученик: '+tzLabel(P.tz):'')}
 function countdown(t){const ms=t.getTime()-Date.now();if(ms<=0)return {live:true,s:'Занятие идёт сейчас'};const m=Math.round(ms/6e4),d=Math.floor(m/1440),h=Math.floor(m%1440/60),mm=m%60;return {live:false,s:'через '+(d?d+' дн. ':'')+(d||h?h+' ч ':'')+(d?'':mm+' мин')}}
 function tzName(){try{return Intl.DateTimeFormat().resolvedOptions().timeZone||''}catch(e){return ''}}
 
@@ -933,14 +978,19 @@ function heroPar(){const p=forecast(),g=D.goal||22,H=D.hist||[],grow=H.length>1?
   <div class="stat"><b>${done} <em>/ ${all.length}</em></b><span>домашних заданий сдано</span></div>
   <div class="stat"><b><em>${grow===null?'—':(grow>=0?'+':'')+grow}</em></b><span>${grow===null?'рост появится после второго пробника':plural(grow,'балл','балла','баллов')+' с первого пробника'}</span></div>
  </div></div>`}
-function lessonCard(){const t=nextLesson();if(!t)return `<div class="card"><span class="eyebrow">Следующее занятие</span><div class="when">Расписание уточняется</div><p class="ltopic">${esc(D.topic||'')}</p></div>`;
- const c=countdown(t);return `<div class="card">
+function lessonCard(teach){const t=nextLesson();if(!t)return `<div class="card"><span class="eyebrow">Следующее занятие</span><div class="when">Расписание уточняется</div><p class="ltopic">${esc(D.topic||'')}</p></div>`;
+ const c=countdown(t),P=SCH(),tz=stuTz(),dev=devTz(),diff=!teach&&P.tz&&dev&&tzOff(dev,t)!==tzOff(P.tz,t);
+ const wk=teach?weekLine('Europe/Samara'):weekLine(tz),wkS=teach&&P.tz&&tzOff(P.tz,t)!==SAMARA_OFF?weekLine(P.tz):'';
+ return `<div class="card">
  <span class="eyebrow">Следующее занятие</span>
- <div class="when">${fmtWhen(t)}</div>
+ <div class="when">${fmtWhen(t,teach?'Europe/Samara':tz)}${teach?' <small class="tzs">по Самаре</small>':''}</div>
+ ${teach&&wkS?`<div class="tzalt">у ученика: ${fmtWhen(t,P.tz)} · ${esc(tzLabel(P.tz))}</div>`:''}
  <span class="cd ${c.live?'live':''}" id="cd"><i></i>${c.s}</span>
  ${D.topic?`<p class="ltopic"><span>Тема:</span> ${esc(D.topic)}</p>`:'<div style="height:14px"></div>'}
  <a class="btn" href="${esc(href(D.board)||'https://learnboard.ru')}" target="_blank" rel="noopener">Открыть доску</a>
- <div class="tzn">Время по твоему часовому поясу${tzName()?' ('+esc(tzName())+')':''}. 60 минут: алгебра, геометрия, практика.</div></div>`}
+ ${P.slots.length>1||teach?`<div class="wk"><span>${teach?'Неделя по Самаре':'Каждую неделю'}</span>${esc(wk)}</div>`:''}
+ ${teach&&wkS?`<div class="wk"><span>У ученика (${esc(tzLabel(P.tz))})</span>${esc(wkS)}</div>`:''}
+ <div class="tzn">${teach?'Ученик видит время в своём поясе.':`Время по твоему часовому поясу${tz?' ('+esc(P.tz?tzLabel(tz):tz)+')':''}.`}${diff?` Сейчас твоё устройство в другом поясе: там это ${t.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}.`:''} 60 минут: алгебра, геометрия, практика.</div></div>`}
 const isSite=u=>!!u&&(!/^https?:/.test(u)||u.indexOf(BASE)===0);
 function hwLinks(h){let o='';
  if(h.url)o+=`<a href="${esc(href(h.url))}" target="_blank" rel="noopener">${esc(h.label||(isSite(h.url)?'Пройти интерактив':'Открыть'))}</a>`;
@@ -1112,7 +1162,7 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
  ${L.length?`<div class="stus">${L.map(s=>{const pct=Math.min(100,s.pts/31*100);return `<a class="stu ${s.active?'':'off'}" href="#lilia-${esc(s.code)}">
   <div class="stuh"><b>${esc(s.name)}</b>${s.active?'':'<span class="kchip new">на паузе</span>'}</div>
   <div class="mini"><i style="width:${pct}%"></i></div>
-  <div class="stum"><span>прогноз <strong>${s.pts} из 31</strong> · цель ${s.goal}</span><span>${esc(s.days||'дни не заданы')}${s.time?' · '+esc(s.time):''}</span>
+  <div class="stum"><span>прогноз <strong>${s.pts} из 31</strong> · цель ${s.goal}</span><span>${esc(schedShort(s.days,s.time))}</span>
   <span class="${s.hwLeft?'soon':''}">${s.hwLeft?'домашка: '+s.hwLeft+' не сделано':'домашка закрыта'}</span></div></a>`}).join('')}</div>`:'<p class="klead">Пока нет ни одного ученика.</p>'}
  <form class="card" id="nsf"><div class="sh"><h2>Новый ученик</h2></div>
   <div class="fgrid"><label class="fld"><span>Имя, как в кабинете</span><input id="ns-n" placeholder="Ксения" required></label>
@@ -1137,10 +1187,42 @@ function drafts(){const o={};app.querySelectorAll('input[id]:not([type=file]),te
 function tRender(keep){const y=scrollY,dr=keep===false?{}:drafts(),foc=document.activeElement&&document.activeElement.id;
  const kid=S.mode==='kid';
  app.innerHTML=tTop()+`<div class="cab enter">`+adminCard()+(kid
-  ? heroKid()+`<div class="two">${lessonCard()}${tHwCard()}</div>`+mapCard(false)+`<div class="two">${chartCard()}${probCard()}</div>`
+  ? heroKid()+`<div class="two">${lessonCard(true)}${tHwCard()}</div>`+mapCard(false)+`<div class="two">${chartCard()}${probCard()}</div>`
   : heroPar()+mapCard(true)+`<div class="two">${chartCard()}${workCard()}</div>`)+foot()+`</div>`;
  Object.keys(dr).forEach(id=>{const i=document.getElementById(id);if(!i)return;if(i.type==='checkbox')i.checked=dr[id];else i.value=dr[id]});
  tBind();scrollTo({top:y});if(foc){const f=document.getElementById(foc);if(f&&f.focus)f.focus({preventScroll:true})}}
+
+/* ---------- редактор расписания ---------- */
+let SL=[],STZ='';
+function schedEditor(){const P=SCH();SL=P.slots.map(x=>({...x}));STZ=P.tz;
+ return `<div class="sched" id="sched"><div class="schh"><span class="eyebrow">Расписание</span>
+  <label class="fld schtz"><span>Где живёт ученик</span><select id="f-tz">
+   <option value="">не указано — по часам его устройства</option>
+   ${TZS.map(z=>`<option value="${z[0]}" ${z[0]===STZ?'selected':''}>${z[1]} (UTC${fmtOff(tzOff(z[0]))})</option>`).join('')}
+   ${STZ&&!TZS.some(z=>z[0]===STZ)?`<option value="${esc(STZ)}" selected>${esc(STZ)}</option>`:''}
+  </select></label></div>
+  <div id="slots">${slotsHTML()}</div>
+  <button class="btn ghost tsm" id="sl-add" type="button">+ Добавить занятие</button>
+  <p class="schn">Время начала занятия. Меняй любую колонку — вторая пересчитается сама. В таблицу записывается время по Самаре.</p></div>`}
+function fmtOff(m){const s=m<0?'−':'+';m=Math.abs(m);return s+Math.floor(m/60)+(m%60?':'+String(m%60).padStart(2,'0'):'')}
+function stuDelta(){return STZ?tzOff(STZ)-SAMARA_OFF:0}
+function daySel(cls,i,wd){return `<select class="${cls}" data-i="${i}" aria-label="День недели">${DORDER.map(d=>`<option value="${d}" ${d===wd?'selected':''}>${DN[d]}</option>`).join('')}</select>`}
+function slotsHTML(){if(!SL.length)return '<p class="schn" style="margin:0">Занятий пока нет. Добавь первое.</p>';const dl=stuDelta(),two=!!STZ;
+ return SL.map((x,i)=>{const y=shiftSlot(x,dl);
+ return `<div class="slot" data-i="${i}"><div class="slp">
+  <div class="slc"><span>Самара</span>${daySel('sl-d',i,x.wd)}<input type="time" class="sl-t" data-i="${i}" value="${hhmm(x.h,x.m)}" aria-label="Время по Самаре"></div>
+  ${two?`<div class="slc slu"><span>${esc(tzLabel(STZ))}</span>${daySel('su-d',i,y.wd)}<input type="time" class="su-t" data-i="${i}" value="${hhmm(y.h,y.m)}" aria-label="Время ученика"></div>`:''}
+  </div><button class="xbtn sl-x" data-i="${i}" type="button" aria-label="Убрать занятие">×</button></div>`}).join('')}
+function redrawSlots(){const b=document.getElementById('slots');if(b){b.innerHTML=slotsHTML();bindSlots()}}
+function bindSlots(){const tm=v=>{const m=String(v).match(/(\d{1,2}):(\d{2})/);return m?[+m[1],+m[2]]:null};
+ document.querySelectorAll('.sl-d').forEach(e=>e.onchange=()=>{SL[+e.dataset.i].wd=+e.value;redrawSlots()});
+ document.querySelectorAll('.sl-t').forEach(e=>e.onchange=()=>{const t=tm(e.value);if(!t)return;const x=SL[+e.dataset.i];x.h=t[0];x.m=t[1];redrawSlots()});
+ const fromStu=i=>{const row=document.querySelector(`.slot[data-i="${i}"]`);const wd=+row.querySelector('.su-d').value,t=tm(row.querySelector('.su-t').value);if(!t)return;SL[i]=shiftSlot({wd,h:t[0],m:t[1]},-stuDelta());redrawSlots()};
+ document.querySelectorAll('.su-d,.su-t').forEach(e=>e.onchange=()=>fromStu(+e.dataset.i));
+ document.querySelectorAll('.sl-x').forEach(e=>e.onclick=()=>{SL.splice(+e.dataset.i,1);redrawSlots()})}
+function bindSched(){const z=document.getElementById('f-tz');if(!z)return;z.onchange=()=>{STZ=z.value;redrawSlots()};
+ document.getElementById('sl-add').onclick=()=>{const l=SL[SL.length-1];SL.push(l?{wd:DORDER[(DORDER.indexOf(l.wd)+2)%7],h:l.h,m:l.m}:{wd:2,h:18,m:0});redrawSlots()};
+ bindSlots()}
 
 function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).join('\n');
  return `<details class="card adm" id="admc" ${S.admOpen?'open':''}><summary><span class="sh" style="margin:0"><h2>${esc(D.name)} · настройки</h2><span class="sub">${D.active?'кабинет открыт':'на паузе'}</span></span></summary>
@@ -1150,10 +1232,9 @@ function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).
   <label class="fld"><span>Имя</span><input id="f-name" value="${esc(D.name)}" data-fresh="1"></label>
   <label class="fld"><span>Кому — дательный падеж</span><input id="f-dat" value="${esc(D.dat)}" data-fresh="1"></label>
   <label class="fld"><span>Цель, баллов из 31</span><input id="f-goal" type="number" min="0" max="31" inputmode="numeric" value="${D.goal}" data-fresh="1"></label>
-  <label class="fld"><span>Дни занятий</span><input id="f-days" value="${esc(D.days)}" placeholder="ср, сб" data-fresh="1"></label>
-  <label class="fld"><span>Время по Самаре</span><input id="f-time" value="${esc(D.time)}" placeholder="18:00" data-fresh="1"></label>
   <label class="fld"><span>Ссылка на доску</span><input id="f-board" value="${esc(D.board)}" placeholder="https://learnboard.ru/…" data-fresh="1"></label>
  </div>
+ ${schedEditor()}
  <label class="fld"><span>Тема следующего занятия</span><input id="f-topic" value="${esc(D.topic)}" placeholder="Задание 17: трапеция" data-fresh="1"></label>
  <label class="fld"><span>Над чем работаем — для родителей, каждый пункт с новой строки</span><textarea id="f-work" rows="3" data-fresh="1">${esc(W)}</textarea></label>
  <div class="fgrid">
@@ -1201,10 +1282,10 @@ function tBind(){
  bindTopT();
  document.getElementById('mKid').onclick=()=>{if(S.mode!=='kid'){S.mode='kid';save();tRender()}};
  document.getElementById('mPar').onclick=()=>{if(S.mode!=='par'){S.mode='par';save();tRender()}};
- const ad=document.getElementById('admc');ad.ontoggle=()=>{S.admOpen=ad.open;save()};
+ const ad=document.getElementById('admc');ad.ontoggle=()=>{S.admOpen=ad.open;save()};bindSched();
  document.getElementById('lnkc').onclick=e=>copy(BASE+'kabinet.html#'+D.code,e.currentTarget);
  document.getElementById('f-save').onclick=e=>{const b=e.currentTarget,v=id=>document.getElementById(id).value;b.disabled=true;
-  adm('student',{fields:{name:v('f-name'),dat:v('f-dat'),goal:v('f-goal'),days:v('f-days'),time:v('f-time'),board:v('f-board'),topic:v('f-topic'),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),active:document.getElementById('f-act').checked}})
+  adm('student',{fields:{name:v('f-name'),dat:v('f-dat'),goal:v('f-goal'),days:serSched(SL,STZ),time:SL.length?hhmm(sortSlots(SL.slice())[0].h,sortSlots(SL.slice())[0].m):'',board:v('f-board'),topic:v('f-topic'),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),active:document.getElementById('f-act').checked}})
    .then(j=>{apply(j,false);toast('Настройки сохранены')}).catch(err=>{b.disabled=false;const e2=document.getElementById('f-err');if(e2)e2.textContent=errText(err)})};
  const hp=document.getElementById('hpet');if(hp)hp.onclick=()=>react('neu','',pick(sayList()));
  document.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{const n=+b.dataset.t;S.sel=n;save();document.querySelectorAll('.tile').forEach(x=>x.setAttribute('aria-pressed',x===b));document.getElementById('tdet').innerHTML=tDetail(n);bindDetail()});
