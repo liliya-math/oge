@@ -1,5 +1,5 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 2 (режим учителя)
+ * Кабинет ученика 25/25 · lili.math — версия 3 (ОГЭ и школьная программа 5–8 класс, личная доска)
  * Таблица — источник данных для страницы kabinet.html.
  *
  * После замены кода:
@@ -10,11 +10,15 @@
  */
 
 const PAGE = 'https://liliya-math.github.io/oge/kabinet.html';
+const BOARD = 'https://liliya-math.github.io/excalidraw/';
+/* Программа ученика: ОГЭ или школьная программа 5–8 класса */
+const PROGS = {oge: 'ОГЭ', '5': '5 класс', '6': '6 класс', '7': '7 класс', '8': '8 класс'};
+const progCode_ = v => { const m = String(v || '').match(/[5-8]/); return m ? m[0] : 'oge'; };
 
 const SHEETS = {
   'Ученики': ['Код', 'Имя', 'Кому (дательный)', 'Цель, баллов', 'Дни занятий', 'Время (по Самаре)',
               'Тема следующего занятия', 'Ссылка на доску', 'Над чем работаем (через ;)',
-              'Занятий в месяце по плану', 'Проведено в этом месяце', 'Активен', 'Ссылка на кабинет'],
+              'Занятий в месяце по плану', 'Проведено в этом месяце', 'Активен', 'Ссылка на кабинет', 'Программа'],
   'Карта': ['Код', 'Имя'].concat(Array.from({length: 25}, (_, i) => String(i + 1))),
   'Комментарии': ['Код', 'Задание ОГЭ', 'Комментарий', 'Ссылка на разбор', 'Подпись ссылки'],
   'Домашка': ['Код', 'Что сделать', 'Задания ОГЭ', 'Срок', 'Ссылка', 'Подпись ссылки', 'Сделано', 'Отмечено'],
@@ -25,7 +29,7 @@ const STATUS_KEY = {'решает': 'solid', 'путается': 'shaky', 'не 
 const STATUS_RU = {solid: 'решает', shaky: 'путается', gap: 'не решает', 'new': 'не проходили'};
 const C = {bg: '#14211e', bg2: '#1b2b28', fg: '#f3ece2', muted: '#a9b6ad', cobalt: '#1747c9', apricot: '#f2905e',
            amber: '#f5dc6a', sage: '#a9d18e', miss: '#ff8f73', none: '#2a3a36'};
-const STUDENT_COLS = {name: 2, dat: 3, goal: 4, days: 5, time: 6, topic: 7, board: 8, work: 9, lessonsPlan: 10, lessonsDone: 11, active: 12};
+const STUDENT_COLS = {name: 2, dat: 3, goal: 4, days: 5, time: 6, topic: 7, board: 8, work: 9, lessonsPlan: 10, lessonsDone: 11, active: 12, prog: 14};
 
 /* ================= меню ================= */
 function onOpen() {
@@ -65,6 +69,8 @@ function setup() {
   us.getRange(2, 12, 300, 1).insertCheckboxes();
   us.getRange(2, 6, 300, 1).setNumberFormat('@');
   us.getRange(2, 1, 300, 1).setNumberFormat('@');
+  us.getRange(2, 14, 300, 1).setDataValidation(SpreadsheetApp.newDataValidation()
+    .requireValueInList(Object.keys(PROGS).map(k => PROGS[k]), true).setAllowInvalid(false).build());
   if (us.getLastRow() >= 2) {
     const codes = us.getRange(2, 1, us.getLastRow() - 1, 1).getValues();
     us.getRange(2, 13, codes.length, 1).setValues(codes.map(c => [c[0] ? PAGE + '#' + c[0] : '']));
@@ -144,12 +150,23 @@ function addStudent() {
   showLinkFor_(name, code);
 }
 
-function createStudent_(name, dat) {
+/* Постоянная личная доска: ссылка того же вида, что делает сама доска
+   (номер комнаты + ключ шифрования). */
+function newBoardLink_(name) {
+  const hex = () => Utilities.getUuid().replace(/-/g, '');
+  const id = hex().slice(0, 20);
+  const k = hex(), bytes = [];
+  for (let i = 0; i < 32; i += 2) { const b = parseInt(k.substr(i, 2), 16); bytes.push(b > 127 ? b - 256 : b); }
+  const key = Utilities.base64EncodeWebSafe(bytes).replace(/=+$/, '');
+  return BOARD + '?student=' + encodeURIComponent(name) + '#room=' + id + ',' + key;
+}
+
+function createStudent_(name, dat, prog) {
   const ss = SpreadsheetApp.getActive();
   if (!ss.getSheetByName('Ученики')) setup();
   const code = newCode_();
   ss.getSheetByName('Ученики').appendRow([code, name, dat || name, 22, 'ср, сб', '18:00',
-    '', 'https://learnboard.ru', '', 8, 0, true, PAGE + '#' + code]);
+    '', newBoardLink_(name), '', 8, 0, true, PAGE + '#' + code, PROGS[progCode_(prog)]]);
   ss.getSheetByName('Карта').appendRow([code, name].concat(Array(25).fill('не проходили')));
   return code;
 }
@@ -230,7 +247,7 @@ function admin_(b) {
       case 'addStudent': {
         const name = String(b.name || '').trim();
         if (!name) return {error: 'no_name'};
-        return {ok: true, code: createStudent_(name, String(b.dat || '').trim())};
+        return {ok: true, code: createStudent_(name, String(b.dat || '').trim(), b.prog)};
       }
       case 'student': {
         const st = need(), sh = ss.getSheetByName('Ученики'), f = b.fields || {};
@@ -240,6 +257,7 @@ function admin_(b) {
           if (k === 'work') v = (Array.isArray(v) ? v : String(v).split('\n')).map(s => String(s).trim()).filter(Boolean).join('; ');
           else if (k === 'goal' || k === 'lessonsPlan' || k === 'lessonsDone') v = Math.max(0, Math.min(k === 'goal' ? 31 : 99, Number(v) || 0));
           else if (k === 'active') v = !!v;
+          else if (k === 'prog') v = PROGS[progCode_(v)];
           else v = String(v).trim();
           sh.getRange(st.index, STUDENT_COLS[k]).setValue(v);
         });
@@ -309,7 +327,7 @@ function admin_(b) {
 function listStudents_() {
   const ss = SpreadsheetApp.getActive(), sh = ss.getSheetByName('Ученики');
   if (!sh || sh.getLastRow() < 2) return [];
-  const rows = sh.getRange(2, 1, sh.getLastRow() - 1, 12).getValues();
+  const rows = sh.getRange(2, 1, sh.getLastRow() - 1, 14).getValues();
   const times = sh.getRange(2, 6, sh.getLastRow() - 1, 1).getDisplayValues();
   const mapSh = ss.getSheetByName('Карта'), maps = {};
   if (mapSh && mapSh.getLastRow() >= 2) mapSh.getRange(2, 1, mapSh.getLastRow() - 1, 27).getValues().forEach(r => { maps[String(r[0]).trim()] = r; });
@@ -319,10 +337,10 @@ function listStudents_() {
   });
   return rows.map((r, i) => ({r: r, time: String(times[i][0]).trim()})).filter(x => String(x.r[0]).trim()).map(x => {
     const r = x.r, c = String(r[0]).trim(), m = maps[c];
-    let p = 0;
-    if (m) for (let n = 1; n <= 25; n++) if (STATUS_KEY[String(m[n + 1]).trim().toLowerCase()] === 'solid') p += n >= 20 ? 2 : 1;
+    let p = 0, solid = 0;
+    if (m) for (let n = 1; n <= 25; n++) if (STATUS_KEY[String(m[n + 1]).trim().toLowerCase()] === 'solid') { p += n >= 20 ? 2 : 1; solid++; }
     return {code: c, name: String(r[1]), goal: Number(r[3]) || 22, days: String(r[4] || ''), time: x.time,
-            active: r[11] !== false, pts: p, hwLeft: left[c] || 0};
+            active: r[11] !== false, pts: p, solid: solid, prog: progCode_(r[13]), hwLeft: left[c] || 0};
   });
 }
 
@@ -358,7 +376,7 @@ function studentData_(code, admin) {
     days: String(r[4] || ''), time: st.time, topic: String(r[6] || ''), board: String(r[7] || ''),
     work: String(r[8] || '').split(';').map(s => s.trim()).filter(Boolean),
     lessonsPlan: Number(r[9]) || 0, lessonsDone: Number(r[10]) || 0,
-    map: map, notes: notes, hw: hw, hist: hist
+    map: map, notes: notes, hw: hw, hist: hist, prog: progCode_(r[13])
   };
   if (admin) { out.active = r[11] !== false; out.code = code; }
   return out;
@@ -370,7 +388,7 @@ function findStudentRow_(code) {
   if (!code) return null;
   const sh = SpreadsheetApp.getActive().getSheetByName('Ученики');
   if (!sh || sh.getLastRow() < 2) return null;
-  const v = sh.getRange(2, 1, sh.getLastRow() - 1, 12).getValues();
+  const v = sh.getRange(2, 1, sh.getLastRow() - 1, 14).getValues();
   for (let i = 0; i < v.length; i++) if (String(v[i][0]).trim() === code)
     return {row: v[i], index: i + 2, time: String(sh.getRange(i + 2, 6).getDisplayValue()).trim()};
   return null;
