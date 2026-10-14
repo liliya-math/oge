@@ -540,6 +540,7 @@ a.btn{display:inline-flex;align-items:center;text-decoration:none;height:48px}
 .tdet a{color:var(--apricot);font-weight:600;text-decoration:none;font-size:14.5px}
 .tdet a:hover{text-decoration:underline}
 .kchip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-size:12.5px;font-weight:650}
+.kchip.bbrd{cursor:pointer;background:rgba(157,184,255,.14);color:var(--sky,#9db8ff)}
 .kchip.solid{background:rgba(169,209,142,.18);color:var(--mint)}
 .kchip.shaky{background:rgba(245,220,106,.16);color:var(--amber)}
 .kchip.gap{background:rgba(255,143,115,.16);color:var(--miss)}
@@ -1193,7 +1194,8 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
   <div class="stuh"><b>${esc(s.name)}</b>${PG.oge?'':`<span class="kchip new">${esc(PG.name)}</span>`}${s.active?'':'<span class="kchip new">на паузе</span>'}</div>
   <div class="mini"><i style="width:${pct}%"></i></div>
   <div class="stum"><span>${PG.oge?'прогноз':'карта'} <strong>${s.pts} из ${pm}</strong> · цель ${s.goal}</span><span>${esc(schedShort(s.days,s.time))}</span>
-  <span class="${s.hwLeft?'soon':''}">${s.hwLeft?'домашка: '+s.hwLeft+' не сделано':'домашка закрыта'}</span></div></a>`}).join('')}</div>`:'<p class="klead">Пока нет ни одного ученика.</p>'}
+  <span class="${s.hwLeft?'soon':''}">${s.hwLeft?'домашка: '+s.hwLeft+' не сделано':'домашка закрыта'}</span>
+  <span class="kchip bbrd" data-b="${esc(s.name)}" title="Открыть доску ученика">доска</span></div></a>`}).join('')}</div>`:'<p class="klead">Пока нет ни одного ученика.</p>'}
  <form class="card" id="nsf"><div class="sh"><h2>Новый ученик</h2></div>
   <div class="fgrid"><label class="fld"><span>Имя, как в кабинете</span><input id="ns-n" placeholder="Ксения" required></label>
   <label class="fld"><span>Кому — дательный падеж</span><input id="ns-d" placeholder="Ксении"></label></div>
@@ -1201,6 +1203,7 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
   <div class="ferr" id="ns-e"></div><button class="btn" id="ns-b">Добавить и открыть</button></form>
  ${foot()}</div>`;
  bindTopT();
+ document.querySelectorAll('.bbrd').forEach(el=>el.onclick=e=>{e.preventDefault();e.stopPropagation();window.open('https://liliya-math.github.io/excalidraw/?student='+encodeURIComponent(el.dataset.b||''),'_blank','noopener')});
  document.getElementById('nsf').onsubmit=e=>{e.preventDefault();const b=document.getElementById('ns-b');b.disabled=true;
   adm('addStudent',{name:document.getElementById('ns-n').value,dat:document.getElementById('ns-d').value,prog:document.getElementById('ns-p').value})
    .then(j=>{location.hash='lilia-'+j.code}).catch(err=>{b.disabled=false;document.getElementById('ns-e').textContent=errText(err)})};
@@ -1258,7 +1261,7 @@ function bindSched(){const z=document.getElementById('f-tz');if(!z)return;z.onch
 function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).join('\n');
  return `<details class="card adm" id="admc" ${S.admOpen?'open':''}><summary><span class="sh" style="margin:0"><h2>${esc(D.name)} · настройки</h2><span class="sub">${D.active?'кабинет открыт':'на паузе'}</span></span></summary>
  <div class="formbox" style="border-top:0;margin-top:10px;padding-top:0">
- <div class="linkrow"><code id="lnk">${esc(url)}</code><button class="btn ghost tsm" id="lnkc" type="button">Скопировать</button><a class="btn ghost tsm" href="${esc(url)}" target="_blank" rel="noopener">Открыть как ученик</a></div>
+ <div class="linkrow"><code id="lnk">${esc(url)}</code><button class="btn ghost tsm" id="lnkc" type="button">Скопировать</button><a class="btn ghost tsm" href="${esc(url)}" target="_blank" rel="noopener">Открыть как ученик</a><a class="btn ghost tsm" href="https://liliya-math.github.io/excalidraw/?student=${encodeURIComponent(D.name)}" target="_blank" rel="noopener">Доска ученика</a></div>
  <div class="fgrid">
   <label class="fld"><span>Имя</span><input id="f-name" value="${esc(D.name)}" data-fresh="1"></label>
   <label class="fld"><span>Кому — дательный падеж</span><input id="f-dat" value="${esc(D.dat)}" data-fresh="1"></label>
