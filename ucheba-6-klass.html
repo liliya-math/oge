@@ -237,7 +237,7 @@ function signWheelSVG(){return `<svg width="300" height="120" viewBox="0 0 300 1
  <text class=tm x="20" y="105">То же правило работает и для деления.</text></svg>`}
 const FIGS={strip:(a,b,l)=>stripSVG(a,b,l||""),twoStrips,pies:piesRow,nline:p=>nlineSVG(p[0],p[1],p[2]),add:addArrowsSVG,abs:absSVG,pctGrid:pctGridSVG,pctBar:pctBarSVG,piesPct:piesPctRow,eqStrips,mixed:signWheelSVG,fracPie:mixedSVG};
 function figOf(f){if(!f)return"";const[fn,...args]=f;return `<div class=fig>${FIGS[fn](...args)}</div>`}
-function petSay(id,text){const im=PIMG[id];const N={frac:"Крыса Фэшн",sign:"Крыса Фэшн",pct:"Хома Зубрила"};return `<div class=petsay>${im?`<img src="${im}" alt="">`:""}<div class=say><b>${N[id]||"Маскот"}:</b> ${text}</div></div>`}
+function petSay(id,text){const im=PIMG[id];const N={frac:"Биссектриса",sign:"Биссектриса",pct:"Хома Зубрила"};return `<div class=petsay>${im?`<img src="${im}" alt="">`:""}<div class=say><b>${N[id]||"Маскот"}:</b> ${text}</div></div>`}
 
 /* ---------- content ---------- */
 const MODULES=[
