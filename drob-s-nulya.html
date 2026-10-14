@@ -54,6 +54,11 @@ p.txt b{color:var(--fg)}
 
 /* big interactive area */
 .stage{display:grid;justify-items:center;gap:10px;margin:14px 0 6px;min-height:200px}
+.photo-pizza{position:relative;border-radius:50%;overflow:hidden;background:rgba(243,236,226,.05);box-shadow:0 24px 60px -32px rgba(0,0,0,.85);flex:none}
+.photo-pizza img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
+.photo-pizza svg{position:absolute;inset:0;width:100%;height:100%}
+.photo-pizza .slice{transition:fill .18s}
+.photo-pizza .slice.filled{stroke:rgba(255,240,225,.9);stroke-width:2.5;filter:drop-shadow(0 0 6px rgba(242,144,94,.6))}
 .pizza{width:min(300px,72vw);height:auto;touch-action:manipulation}
 .pizza .slice{cursor:pointer;transition:filter .15s}
 .pizza .slice:hover{filter:brightness(1.12)}
@@ -190,11 +195,25 @@ function pizzaSVG(d,filled,o={}){
  if(o.plate)s=`<circle cx="${cx0}" cy="${cy0}" r="${r+7}" fill="rgba(243,236,226,.07)"/>`+s;
  return `<svg class=pizza viewBox="0 0 ${size} ${size}" style="${o.style||""}">${s}</svg>`}
 function twoPizzas(d1,f1,d2,f2){return `<div style="display:flex;gap:18px;flex-wrap:wrap;justify-content:center;align-items:center">${pizzaSVG(d1,f1,{size:200})}<span class=txt style="font-size:26px;margin:0">?</span>${pizzaSVG(d2,f2,{size:200})}</div>`}
+/* фото-пицца: настоящее фото + кликабельные доли поверх */
+function photoPizza(d,filled,o={}){
+ const size=o.size||300;
+ const cuts=o.cuts||Array.from({length:d},(_,i)=>i*2*Math.PI/d);
+ const n=cuts.length;
+ let s="";
+ for(let i=0;i<n;i++){
+  const a1=cuts[i]-Math.PI/2,a2=(i<n-1?cuts[i+1]:2*Math.PI)-Math.PI/2;
+  const isF=i<filled;
+  if(n>1)s+=`<path d="${wedge(150,150,146,a1,a2)}" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="3"/>`;
+  s+=`<path class="slice ${isF?"filled":""}" data-i="${i}" d="${wedge(150,150,146,a1,a2)}" fill="${isF?"rgba(242,144,94,.55)":"rgba(255,255,255,0)"}"/>`;
+ }
+ const img=o.img||"obj-pizza.jpg";
+ return `<div class="photo-pizza" style="width:${size}px;height:${size}px;max-width:100%"><img src="img/${img}" alt="Пицца"><svg class=pizza viewBox="0 0 300 300">${s}</svg></div>`}
 
 /* ---------- content ---------- */
 const LESSONS=[
 {id:"l1",t:"Пирог и доли",d:"Что такое дробь — на пальцах и на пирогах",steps:[
- {k:"exp",h:"Целый пирог",p:`Вот пирог. <b>Целый</b>, нетронутый. В математике целый пирог — это <span class=accent>единица</span>, пишется числом 1.`,fig:{pizza:[1,0]},pet:"Начнём с самого начала. Смотри на картинки и жми кнопки — трогать можно всё."},
+ {k:"exp",h:"Целый пирог",p:`Вот пирог. <b>Целый</b>, нетронутый. В математике целый пирог — это <span class=accent>единица</span>, пишется числом 1.`,fig:{pizza:[1,0,{img:"obj-pie.jpg"}]},pet:"Начнём с самого начала. Смотри на картинки и жми кнопки — трогать можно всё."},
  {k:"cut",h:"Разрезаем пополам",p:`Нажми кнопку <b>«Разрезать»</b> — и пирог сам разделится. Потом нажми <b>«Взять кусочек»</b>, чтобы отрезать себе долю.`,parts:2,take:1,
   after:`Один кусочек из двух — это <b>одна вторая</b>. Пишется так: 1/2. Знакомая вещь: «половина пирога», «полчаса», «половина класса».`,
   pet:"Половина — самая известная дробь на свете. Теперь ты знаешь, как она пишется: 1/2."},
@@ -281,7 +300,7 @@ function fbHTML(ok,t,s){return `<div class="fb ${ok?"ok":"bad"}"><span class=ic>
 /* figure renderer */
 function figOf(f){
  if(!f)return"";
- if(f.pizza)return `<div class=stage>${pizzaSVG(f.pizza[0],f.pizza[1],f.pizza[2]||{})}</div>`;
+ if(f.pizza){const o=f.pizza[2]||{};return `<div class=stage>${o.cuts?pizzaSVG(f.pizza[0],f.pizza[1],o):photoPizza(f.pizza[0],f.pizza[1],o)}</div>`}
  if(f.two)return `<div class=stage>${twoPizzas(f.two[0],f.two[1],f.two[2],f.two[3])}</div>`;
  return""}
 
@@ -319,11 +338,11 @@ function openStep(li,si){
   body=figOf(st.fig)+petSay(st.pet);
   nav=`<div class=navrow><button class="btn ghost" id=back>Назад</button><button class=btn id=nxt>Дальше</button></div>`;
  }else if(st.k==="cut"){
-  body=`<div class=stage id=stage>${pizzaSVG(1,0)}</div><div class=cap id=cap>Целый пирог — это 1</div>
+  body=`<div class=stage id=stage>${photoPizza(1,0)}</div><div class=cap id=cap>Целый пирог — это 1</div>
   <div class=row><button class="btn apr" id=cutbtn>Разрезать</button><button class="btn ghost" id=takebtn disabled>Взять кусочек</button></div>`;
   nav=`<div id=fb></div><div class=navrow><button class="btn ghost" id=back>Назад</button></div>`;
  }else if(st.k==="fill"){
-  body=`<div class=stage>${pizzaSVG(st.d,0)}</div><div class=counter id=cnt>взято: 0 из ${st.d}</div>
+  body=`<div class=stage>${photoPizza(st.d,0)}</div><div class=counter id=cnt>взято: 0 из ${st.d}</div>
   <div class=row><button class=btn id=donebtn>Готово</button></div>`;
   nav=`<div id=fb></div><div class=navrow><button class="btn ghost" id=back>Назад</button></div>`;
  }else if(st.k==="pick"){
@@ -408,7 +427,7 @@ function bind(st){
   $("#cutbtn").onclick=e=>{
    sfx.slice();
    const st2=st;
-   $("#stage").innerHTML=pizzaSVG(st.parts,0,{});
+   $("#stage").innerHTML=photoPizza(st.parts,0,{});
    $("#stage").firstChild.classList.add("split-anim");
    $("#cap").innerHTML=`Пирог разрезан на <b>${st.parts}</b> равные части`;
    $("#cutbtn").disabled=true;$("#takebtn").disabled=false;
@@ -417,7 +436,7 @@ function bind(st){
   $("#takebtn").onclick=()=>{
    if(cur.taken>=st.take)return;
    cur.taken++;sfx.slice();
-   $("#stage").innerHTML=pizzaSVG(st.parts,cur.taken,{});
+   $("#stage").innerHTML=photoPizza(st.parts,cur.taken,{});
    $("#stage").firstChild.classList.add("split-anim");
    const words={2:"половинки",3:"трети",4:"четверти"};
    $("#cap").innerHTML=`Взято <b>${cur.taken}</b> из ${st.parts}`;
@@ -435,7 +454,7 @@ function bind(st){
    const cnt=[...Array(st.d).keys()].filter(j=>cur.slice&(1<<j)).length;
    $("#stage-swap")||0;
    const stage=app.querySelector(".stage");
-   stage.innerHTML=pizzaSVG(st.d,cnt,{});
+   stage.innerHTML=photoPizza(st.d,cnt,{});
    $("#cnt").textContent=`взято: ${cnt} из ${st.d}`;
    bind(st);sfx.slice();
   });
