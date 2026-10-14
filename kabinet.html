@@ -1095,7 +1095,7 @@ function cacheSave(){try{localStorage.setItem(CKEY,JSON.stringify({at:syncedAt,d
 function cacheLoad(){try{const c=JSON.parse(localStorage.getItem(CKEY));return c&&c.d&&c.d.map?c:null}catch(e){return null}}
 function load(){
  if(!API){screen('Кабинет ещё не подключён','Лилия скоро всё настроит. А пока можно посмотреть <a href="#demo" style="color:var(--apricot)">пример кабинета</a>.');return}
- fetch(API+'?t='+encodeURIComponent(CODE)).then(r=>r.json()).then(j=>{
+ fetch(API+'?t='+encodeURIComponent(CODE),{cache:'no-store'}).then(r=>r.json()).then(j=>{
   if(j.error){D=null;try{localStorage.removeItem(CKEY)}catch(e){}
    screen(j.error==='inactive'?'Кабинет на паузе':'Ссылка не найдена',j.error==='inactive'?'Напиши Лилии, если хочешь продолжить занятия.':'Проверь, что ссылка скопирована целиком, или попроси у Лилии новую.');return}
   const first=!D;D=j;syncedAt=Date.now();cacheSave();
@@ -1119,7 +1119,10 @@ let busy=0,LIST=null;
 const ERR={no_password:'Сначала задай пароль в таблице: меню «Кабинет → Пароль для режима учителя».',
  old:'В таблице старая версия скрипта. Вставь новый код и сделай новую версию развёртывания.',
  not_found:'Такого ученика нет в таблице.',changed:'В таблице что-то поменялось. Данные обновлены, попробуй ещё раз.',
- bad_value:'Проверь, что всё заполнено правильно.',no_name:'Впиши имя ученика.',net:'Нет связи с таблицей. Проверь интернет.'};
+ bad_value:'Проверь, что всё заполнено правильно.',no_name:'Впиши имя ученика.',net:'Нет связи с таблицей. Проверь интернет.',
+ no_code:'Страница и скрипт рассинхронизировались (закэшировалась старая версия). Полностью обнови страницу: зажми Shift и нажми круглую стрелку в адресной строке, или Ctrl+Shift+R.',
+ bad_request:'Скрипт не разобрал запрос — похоже, в таблице развёрнута старая или битая версия. Вставь код заново и сделай «Новая версия» развёртывания.',
+ bad_op:'В таблице старая версия скрипта: этой функции в ней ещё нет. Сделай «Новая версия» развёртывания.'};
 function errText(e){const m=String(e&&e.message||e);if(/DriveApp|Drive|разрешени|permission/i.test(m))return 'Скрипту нужен доступ к Google Диску: в Apps Script выбери setup → «Выполнить» и разреши доступ, потом сделай новую версию развёртывания.';return ERR[m]||('Не получилось: '+m)}
 function setBusy(){const b=document.getElementById('tbusy');if(b)b.textContent=busy?'Сохраняю…':''}
 function adm(op,x){busy++;setBusy();
