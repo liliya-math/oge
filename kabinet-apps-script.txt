@@ -1,5 +1,5 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 3 (режим учителя + PDF к домашке)
+ * Кабинет ученика 25/25 · lili.math — версия 4 (разборы из листа «Разборы»)
  * Таблица — источник данных для страницы kabinet.html.
  *
  * После замены кода:
@@ -8,6 +8,10 @@
  * 2. В таблице: меню «Кабинет → Пароль для режима учителя» — придумай пароль.
  * 3. Развернуть → Управление развёртываниями → карандаш → Версия: «Новая версия» → Развернуть.
  *    Адрес веб-приложения останется прежним.
+ *
+ * Лист «Разборы» создаётся автоматически при setup(). Первый столбец — код ученика,
+ * дальше: ссылка (z15-pifagor.html или полный https-адрес), название и короткая подпись.
+ * Каждая строка — одна карточка в разделе «Разборы» кабинета этого ученика.
  */
 
 const PAGE = 'https://liliya-math.github.io/oge/kabinet.html';
@@ -18,6 +22,7 @@ const SHEETS = {
               'Занятий в месяце по плану', 'Проведено в этом месяце', 'Активен', 'Ссылка на кабинет'],
   'Карта': ['Код', 'Имя'].concat(Array.from({length: 25}, (_, i) => String(i + 1))),
   'Комментарии': ['Код', 'Задание ОГЭ', 'Комментарий', 'Ссылка на разбор', 'Подпись ссылки'],
+  'Разборы': ['Код', 'Ссылка', 'Название', 'Подпись'],
   'Домашка': ['Код', 'Что сделать', 'Задания ОГЭ', 'Срок', 'Ссылка', 'Подпись ссылки', 'Сделано', 'Отмечено', 'Файл (PDF)'],
   'Пробники': ['Код', 'Дата', 'Название', 'Баллы']
 };
@@ -81,10 +86,11 @@ function styleSheets() {
     'Ученики': [110, 120, 130, 90, 110, 110, 260, 200, 320, 110, 110, 80, 380],
     'Карта': [110, 120].concat(Array(25).fill(96)),
     'Комментарии': [110, 90, 420, 260, 200],
+    'Разборы': [110, 300, 320, 160],
     'Домашка': [110, 340, 110, 110, 260, 160, 90, 150, 300],
     'Пробники': [110, 110, 220, 90]
   };
-  const tabs = {'Ученики': C.cobalt, 'Карта': C.sage, 'Комментарии': C.amber, 'Домашка': C.apricot, 'Пробники': '#9db8ff'};
+  const tabs = {'Ученики': C.cobalt, 'Карта': C.sage, 'Комментарии': C.amber, 'Разборы': C.miss, 'Домашка': C.apricot, 'Пробники': '#9db8ff'};
   Object.keys(SHEETS).forEach(name => {
     const sh = ss.getSheetByName(name);
     if (!sh) return;
@@ -366,12 +372,15 @@ function studentData_(code, admin) {
   const hist = rows('Пробники').filter(x => x.v[3] !== '' && !isNaN(Number(x.v[3])))
     .map(x => ({id: x.row, d: day_(x.v[1]), t: String(x.v[2] || ''), p: Number(x.v[3])}))
     .sort((a, b) => String(a.d).localeCompare(String(b.d)));
+  const mats = rows('Разборы')
+    .filter(x => String(x.v[1]).trim() && String(x.v[2]).trim())
+    .map(x => [String(x.v[1]).trim(), String(x.v[2]).trim(), String(x.v[3] || '').trim()]);
   const out = {
     name: String(r[1]), dat: String(r[2] || r[1]), goal: Number(r[3]) || 22,
     days: String(r[4] || ''), time: st.time, topic: String(r[6] || ''), board: String(r[7] || ''),
     work: String(r[8] || '').split(';').map(s => s.trim()).filter(Boolean),
     lessonsPlan: Number(r[9]) || 0, lessonsDone: Number(r[10]) || 0,
-    map: map, notes: notes, hw: hw, hist: hist
+    map: map, notes: notes, hw: hw, hist: hist, mats: mats
   };
   if (admin) { out.active = r[11] !== false; out.code = code; }
   return out;
