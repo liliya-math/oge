@@ -375,12 +375,14 @@ function studentData_(code, admin) {
   const mats = rows('Разборы')
     .filter(x => String(x.v[1]).trim() && String(x.v[2]).trim())
     .map(x => [String(x.v[1]).trim(), String(x.v[2]).trim(), String(x.v[3] || '').trim()]);
+  const matsSh = ss.getSheetByName('Разборы');
+  const matsAll = (matsSh && matsSh.getLastRow() >= 2) ? matsSh.getLastRow() - 1 : 0;
   const out = {
     name: String(r[1]), dat: String(r[2] || r[1]), goal: Number(r[3]) || 22,
     days: String(r[4] || ''), time: st.time, topic: String(r[6] || ''), board: String(r[7] || ''),
     work: String(r[8] || '').split(';').map(s => s.trim()).filter(Boolean),
     lessonsPlan: Number(r[9]) || 0, lessonsDone: Number(r[10]) || 0,
-    map: map, notes: notes, hw: hw, hist: hist, mats: mats
+    map: map, notes: notes, hw: hw, hist: hist, mats: mats, matsAll: matsAll
   };
   if (admin) { out.active = r[11] !== false; out.code = code; }
   return out;

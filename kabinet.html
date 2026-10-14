@@ -1029,7 +1029,7 @@ function stkCard(){const own=STK.filter(s=>S.stk.includes(s.id));const ghosts=Ma
  <div class="stks">${own.map(s=>stkHTML(s)).join('')}${'<span class="stk ghost">?</span>'.repeat(ghosts)}</div></div>`}
 function petCard(){return `<div class="card"><div class="sh"><h2>Твой талисман</h2><span class="sub">${tal().n} · ${tal().tag}</span></div>
  <div class="pets">${TALS.map(t=>`<button class="pbtn" data-pet="${t.id}" aria-pressed="${tal().id===t.id}">${petSVG(t.id,'idle')}<span>${t.short||t.n.split(' ')[0]}</span></button>`).join('')}</div></div>`}
-function matCard(){const M=(D.mats&&D.mats.length)?D.mats:(D.demo?MATS:[]);return `<div class="card"><div class="sh"><h2>Разборы</h2><span class="sub">с сайта lili.math</span></div>
+function matCard(){const M=(D.mats&&D.mats.length)?D.mats:(D.matsAll?[]:MATS);return `<div class="card"><div class="sh"><h2>Разборы</h2><span class="sub">с сайта lili.math</span></div>
  <ul class="mats">${M.map(m=>`<li><a href="${href(m[0])}" target="_blank" rel="noopener">${logoMark(26)}<span>${esc(m[1])}</span><small>${esc(m[2])}</small></a></li>`).join('')}</ul></div>`}
 function workCard(){const W=D.work||[];return `<div class="card"><div class="sh"><h2>Над чем работаем</h2></div>
  ${W.length?`<ul class="work">${W.map(w=>`<li>${esc(w)}</li>`).join('')}</ul>`:''}
@@ -1042,7 +1042,7 @@ function render(){
  if(!D)return;
  const kid=S.mode==='kid';
  app.innerHTML=topbar()+`<div class="cab enter">`+(kid
-  ? heroKid()+`<div class="two">${lessonCard()}${hwCard()}</div>`+mapCard(false)+`<div class="two">${chartCard()}${stkCard()}</div>`+((D.mats&&D.mats.length)||D.demo?matCard():'')+petCard()
+  ? heroKid()+`<div class="two">${lessonCard()}${hwCard()}</div>`+mapCard(false)+`<div class="two">${chartCard()}${stkCard()}</div>`+((D.mats&&D.mats.length)||!D.matsAll?matCard():'')+petCard()
   : heroPar()+mapCard(true)+`<div class="two">${chartCard()}${workCard()}</div>`)+foot()+`</div>`;
  bind();
 }
