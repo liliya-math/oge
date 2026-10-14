@@ -67,12 +67,17 @@ const MATERIALS = [
 const C = {bg: '#14211e', bg2: '#1b2b28', fg: '#f3ece2', muted: '#a9b6ad', cobalt: '#1747c9', apricot: '#f2905e',
            amber: '#f5dc6a', sage: '#a9d18e', miss: '#ff8f73', none: '#2a3a36'};
 const STUDENT_COLS = {name: 2, dat: 3, goal: 4, days: 5, time: 6, topic: 7, board: 8, work: 9, lessonsPlan: 10, lessonsDone: 11, active: 12, prog: 14};
-const GOAL_MAX = {oge9: 31, school: 15};
-const N_MAX = {oge9: 25, school: 15};
-function progOf_(row, f) {
-  if (f && (f.prog === 'school' || f.prog === 'oge9')) return f.prog;
-  return String(row[13] || '') === 'school' ? 'school' : 'oge9';
+function normProg_(p) {
+  p = String(p || '');
+  if (p === 'school') return 'school5';
+  return (p === 'oge9' || /^school[5-8]$/.test(p)) ? p : 'oge9';
 }
+function progOf_(row, f) {
+  if (f && f.prog !== undefined) return normProg_(f.prog);
+  return normProg_(row[13]);
+}
+function goalMax_(p) { return p === 'oge9' ? 31 : 15; }
+function nMax_(p) { return p === 'oge9' ? 25 : 15; }
 
 /* ================= меню ================= */
 function onOpen() {
@@ -224,7 +229,7 @@ function createStudent_(name, dat, prog) {
   if (!ss.getSheetByName('Ученики')) setup();
   const code = newCode_();
   ss.getSheetByName('Ученики').appendRow([code, name, dat || name, 22, 'ср, сб', '18:00',
-    '', 'https://learnboard.ru', '', 8, 0, true, PAGE + '#' + code, prog === 'school' ? 'school' : 'oge9']);
+    '', 'https://learnboard.ru', '', 8, 0, true, PAGE + '#' + code, normProg_(prog)]);
   ss.getSheetByName('Карта').appendRow([code, name].concat(Array(25).fill('не проходили')));
   return code;
 }
@@ -314,8 +319,8 @@ function admin_(b) {
           if (!STUDENT_COLS[k]) return;
           let v = f[k];
           if (k === 'work') v = (Array.isArray(v) ? v : String(v).split('\n')).map(s => String(s).trim()).filter(Boolean).join('; ');
-          else if (k === 'prog') v = (v === 'school' || v === 'oge9') ? v : pr;
-          else if (k === 'goal' || k === 'lessonsPlan' || k === 'lessonsDone') v = Math.max(0, Math.min(k === 'goal' ? GOAL_MAX[pr] : 99, Number(v) || 0));
+          else if (k === 'prog') v = normProg_(v);
+          else if (k === 'goal' || k === 'lessonsPlan' || k === 'lessonsDone') v = Math.max(0, Math.min(k === 'goal' ? goalMax_(pr) : 99, Number(v) || 0));
           else if (k === 'active') v = !!v;
           else v = String(v).trim();
           sh.getRange(st.index, STUDENT_COLS[k]).setValue(v);
@@ -326,7 +331,7 @@ function admin_(b) {
       case 'map': {
         const st = need();
         const n = Number(b.n), s = STATUS_RU[b.s];
-        if (!(n >= 1 && n <= N_MAX[progOf_(st.row)]) || !s) return {error: 'bad_value'};
+        if (!(n >= 1 && n <= nMax_(progOf_(st.row))) || !s) return {error: 'bad_value'};
         const sh = ss.getSheetByName('Карта');
         let row = findRow_('Карта', r => String(r[0]).trim() === code);
         if (!row) { sh.appendRow([code, st.row[1]].concat(Array(25).fill('не проходили'))); row = sh.getLastRow(); }
@@ -336,7 +341,7 @@ function admin_(b) {
       case 'note': {
         const st = need();
         const n = Number(b.n);
-        if (!(n >= 1 && n <= N_MAX[progOf_(st.row)])) return {error: 'bad_value'};
+        if (!(n >= 1 && n <= nMax_(progOf_(st.row)))) return {error: 'bad_value'};
         const sh = ss.getSheetByName('Комментарии');
         const row = findRow_('Комментарии', r => String(r[0]).trim() === code && Number(r[1]) === n);
         const t = String(b.text || '').trim(), u = String(b.url || '').trim(), l = String(b.label || '').trim();
@@ -389,7 +394,7 @@ function admin_(b) {
       }
       case 'probAdd': {
         const st = need();
-        if (progOf_(st.row) === 'school') {
+        if (progOf_(st.row) !== 'oge9') {
           const p2 = Number(b.p);
           let v = (p2 >= 2 && p2 <= 5) ? p2 : null;
           if (v === null) { const s0 = String(b.p || ''); v = /^\s*не/i.test(s0) ? 2 : (/зач/i.test(s0) ? 5 : null); }
@@ -429,10 +434,10 @@ function listStudents_() {
   });
   return rows.map((r, i) => ({r: r, time: String(times[i][0]).trim()})).filter(x => String(x.r[0]).trim()).map(x => {
     const r = x.r, c = String(r[0]).trim(), m = maps[c];
-    const pr = progOf_(r), nmax = N_MAX[pr];
+    const pr = progOf_(r), nmax = nMax_(pr);
     let p = 0;
     if (m) for (let n = 1; n <= nmax; n++) if (STATUS_KEY[String(m[n + 1]).trim().toLowerCase()] === 'solid') p += (pr === 'oge9' && n >= 20) ? 2 : 1;
-    return {code: c, name: String(r[1]), goal: Number(r[3]) || (pr === 'school' ? 12 : 22), days: String(r[4] || ''), time: x.time,
+    return {code: c, name: String(r[1]), goal: Number(r[3]) || (pr === 'oge9' ? 22 : 12), days: String(r[4] || ''), time: x.time,
             active: r[11] !== false, prog: pr, pts: p, hwLeft: left[c] || 0};
   });
 }
@@ -471,7 +476,7 @@ function studentData_(code, admin) {
   const matsAll = (matsSh && matsSh.getLastRow() >= 2) ? matsSh.getLastRow() - 1 : 0;
   const prog = progOf_(r);
   const out = {
-    name: String(r[1]), dat: String(r[2] || r[1]), goal: Number(r[3]) || (prog === 'school' ? 12 : 22),
+    name: String(r[1]), dat: String(r[2] || r[1]), goal: Number(r[3]) || (prog === 'oge9' ? 22 : 12),
     days: String(r[4] || ''), time: st.time, topic: String(r[6] || ''), board: String(r[7] || ''),
     work: String(r[8] || '').split(';').map(s => s.trim()).filter(Boolean),
     lessonsPlan: Number(r[9]) || 0, lessonsDone: Number(r[10]) || 0,
