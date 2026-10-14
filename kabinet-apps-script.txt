@@ -1,5 +1,5 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 4 (разборы из листа «Разборы»)
+ * Кабинет ученика 25/25 · lili.math — версия 5 (разборы из таблицы + выбор материала из списка)
  * Таблица — источник данных для страницы kabinet.html.
  *
  * После замены кода:
@@ -10,8 +10,10 @@
  *    Адрес веб-приложения останется прежним.
  *
  * Лист «Разборы» создаётся автоматически при setup(). Первый столбец — код ученика,
- * дальше: ссылка (z15-pifagor.html или полный https-адрес), название и короткая подпись.
+ * дальше: ссылка (выбирается из выпадающего списка), название и короткая подпись.
  * Каждая строка — одна карточка в разделе «Разборы» кабинета этого ученика.
+ * Список материалов для выпадающего списка лежит в константе MATERIALS ниже
+ * и обновляется в таблице кнопкой меню «Кабинет → Обновить список материалов».
  */
 
 const PAGE = 'https://liliya-math.github.io/oge/kabinet.html';
@@ -23,12 +25,45 @@ const SHEETS = {
   'Карта': ['Код', 'Имя'].concat(Array.from({length: 25}, (_, i) => String(i + 1))),
   'Комментарии': ['Код', 'Задание ОГЭ', 'Комментарий', 'Ссылка на разбор', 'Подпись ссылки'],
   'Разборы': ['Код', 'Ссылка', 'Название', 'Подпись'],
+  'Материалы': ['Ссылка', 'Название'],
   'Домашка': ['Код', 'Что сделать', 'Задания ОГЭ', 'Срок', 'Ссылка', 'Подпись ссылки', 'Сделано', 'Отмечено', 'Файл (PDF)'],
   'Пробники': ['Код', 'Дата', 'Название', 'Баллы']
 };
 const STATUSES = ['решает', 'путается', 'не решает', 'не проходили'];
 const STATUS_KEY = {'решает': 'solid', 'путается': 'shaky', 'не решает': 'gap', 'не проходили': 'new'};
 const STATUS_RU = {solid: 'решает', shaky: 'путается', gap: 'не решает', 'new': 'не проходили'};
+
+/* Все материалы сайта — источник выпадающего списка на листе «Разборы».
+ * Обновляется в таблице кнопкой меню «Кабинет → Обновить список материалов». */
+const MATERIALS = [
+  ['z15-pifagor.html', 'Теорема Пифагора'],
+  ['z15-sin-cos-tg-znachenie.html', 'Синус, косинус, тангенс: найти значение'],
+  ['z15-sin-cos-tg-storona.html', 'Синус, косинус, тангенс: найти сторону'],
+  ['z15-ravnostoronniy.html', 'Равносторонний треугольник'],
+  ['z15-ravnobedrennyy.html', 'Равнобедренный треугольник'],
+  ['z15-summa-uglov.html', 'Сумма углов и внешний угол'],
+  ['z15-ploshchad.html', 'Площадь треугольника'],
+  ['z15-mediana-bissektrisa-srednyaya-liniya.html', 'Медиана, биссектриса, средняя линия'],
+  ['z15-vysota-ugol.html', 'Высота и угол ABH'],
+  ['z15-mediana-polovina-storony.html', 'Медиана равна половине стороны'],
+  ['z15-bissektrisa-ravnye-otrezki.html', 'Биссектриса и равные отрезки'],
+  ['bissektrisy-parallelogramma.html', 'Биссектрисы в параллелограмме'],
+  ['razbor-probnik-oge-2.html', 'Разбор пробника №2'],
+  ['dz-6-desyatichnye-drobi-1.html', 'ДЗ №1 · Действия с десятичными дробями'],
+  ['dz-6-desyatichnye-drobi-1.pdf', 'ДЗ №1 · для печати (PDF)'],
+  ['dz-6-chisla-s-raznymi-znakami-2.html', 'ДЗ №2 · Числа с разными знаками'],
+  ['dz-6-chisla-s-raznymi-znakami-2.pdf', 'ДЗ №2 · для печати (PDF)'],
+  ['mini-probnik-1.html', 'Мини-пробник №1'],
+  ['probnik-oge-1.html', 'Пробник ОГЭ №1'],
+  ['probnik-oge-2.html', 'Пробник ОГЭ №2'],
+  ['probnik-oge-3.html', 'Пробник ОГЭ №3'],
+  ['diagnostika-1-4-klass.html', 'Диагностика за 1–4 класс'],
+  ['diagnostika-7-klass.html', 'Диагностика 7 класс'],
+  ['diagnostika-8-klass.html', 'Диагностика 8 класс'],
+  ['trainer.html', 'Тренажёр · задание 6: дроби'],
+  ['formulas.html', 'Справочник формул ОГЭ'],
+  ['achievements.html', 'Мои достижения']
+];
 const C = {bg: '#14211e', bg2: '#1b2b28', fg: '#f3ece2', muted: '#a9b6ad', cobalt: '#1747c9', apricot: '#f2905e',
            amber: '#f5dc6a', sage: '#a9d18e', miss: '#ff8f73', none: '#2a3a36'};
 const STUDENT_COLS = {name: 2, dat: 3, goal: 4, days: 5, time: 6, topic: 7, board: 8, work: 9, lessonsPlan: 10, lessonsDone: 11, active: 12};
@@ -40,6 +75,7 @@ function onOpen() {
     .addItem('Ссылка на кабинет выбранного ученика', 'showLink')
     .addSeparator()
     .addItem('Пароль для режима учителя', 'setPassword')
+    .addItem('Обновить список материалов', 'syncMaterials')
     .addItem('Оформить в стиле 25/25', 'styleSheets')
     .addItem('Подготовить таблицу', 'setup')
     .addToUi();
@@ -77,6 +113,30 @@ function setup() {
   }
   DriveApp.getRootFolder(); // запросить доступ к Диску сразу
   styleSheets();
+  syncMaterials();
+}
+
+/* ================= материалы сайта ================= */
+function syncMaterials() {
+  const ss = SpreadsheetApp.getActive();
+  let sh = ss.getSheetByName('Материалы');
+  if (!sh) {
+    sh = ss.insertSheet('Материалы');
+    sh.getRange(1, 1, 1, 2).setValues([SHEETS['Материалы']]);
+    sh.setFrozenRows(1);
+  }
+  let rz = ss.getSheetByName('Разборы');
+  if (!rz) {
+    rz = ss.insertSheet('Разборы');
+    rz.getRange(1, 1, 1, 4).setValues([SHEETS['Разборы']]);
+    rz.setFrozenRows(1);
+  }
+  sh.getRange(2, 1, Math.max(sh.getMaxRows() - 1, 1), 2).clearContent();
+  sh.getRange(2, 1, MATERIALS.length, 2).setValues(MATERIALS);
+  const rule = SpreadsheetApp.newDataValidation()
+    .requireValueInRange(sh.getRange(2, 1, MATERIALS.length, 1), true)
+    .setAllowInvalid(false).build();
+  rz.getRange(2, 2, 1000, 1).setDataValidation(rule);
 }
 
 /* ================= оформление ================= */
@@ -87,10 +147,11 @@ function styleSheets() {
     'Карта': [110, 120].concat(Array(25).fill(96)),
     'Комментарии': [110, 90, 420, 260, 200],
     'Разборы': [110, 300, 320, 160],
+    'Материалы': [300, 320],
     'Домашка': [110, 340, 110, 110, 260, 160, 90, 150, 300],
     'Пробники': [110, 110, 220, 90]
   };
-  const tabs = {'Ученики': C.cobalt, 'Карта': C.sage, 'Комментарии': C.amber, 'Разборы': C.miss, 'Домашка': C.apricot, 'Пробники': '#9db8ff'};
+  const tabs = {'Ученики': C.cobalt, 'Карта': C.sage, 'Комментарии': C.amber, 'Разборы': C.miss, 'Материалы': '#9db8ff', 'Домашка': C.apricot, 'Пробники': '#9db8ff'};
   Object.keys(SHEETS).forEach(name => {
     const sh = ss.getSheetByName(name);
     if (!sh) return;
