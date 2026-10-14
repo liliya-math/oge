@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#14211e">
+<title>Справочник формул ОГЭ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--bg:#14211e;--glass:rgba(243,236,226,.05);--line:rgba(226,234,228,.13);--fg:#f3ece2;--muted:#a9b6ad;--apricot:#f2905e;--mint:#a9d18e;--sans:-apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif;--display:-apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);margin:0;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:640px;margin:0 auto;padding:20px 16px 80px}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.brand{font-family:var(--display);font-weight:700;font-size:18px}.brand b{color:var(--apricot)}
+.m{white-space:nowrap;font-family:var(--display);font-weight:600;font-size:1.05em}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:.95em;line-height:1.15;margin:0 4px}
+.fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 4px}
+.rt{display:inline-flex;align-items:center;vertical-align:middle;margin:0 2px}
+.rt::before{content:"√";font-size:1.2em;margin-right:2px;color:var(--muted)}
+.ctx{border:1px solid var(--line);border-radius:18px;background:var(--glass);margin-bottom:12px;overflow:hidden;transition:border-color .2s}
+.ctx:hover{border-color:rgba(242,144,94,.3)}
+.ctx summary{padding:16px;cursor:pointer;font-weight:700;font-size:16px;color:var(--fg);list-style:none;display:flex;align-items:center;gap:10px}
+.ctx summary::before{content:"";width:8px;height:8px;border-right:2px solid var(--apricot);border-bottom:2px solid var(--apricot);transform:rotate(-45deg);transition:transform .25s}
+.ctx[open] summary::before{transform:rotate(45deg)}
+.ctx .in{padding:0 16px 20px;display:grid;gap:12px}
+.formula-row{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:12px;background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.03)}
+.formula-row .desc{color:var(--muted);font-size:14px}
+.chip{display:inline-flex;padding:4px 10px;border-radius:8px;background:rgba(169,209,142,.15);color:var(--mint);font-size:12px;font-weight:600;margin-bottom:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="kabinet.html" style="color:var(--muted);text-decoration:none;font-size:20px">←</a>
+    <div class="brand">Справочник <b>ОГЭ</b></div>
+  </div>
+
+  <div class="chip">💡 Нажми на раздел, чтобы раскрыть формулы</div>
+
+  <details class="ctx" open>
+    <summary>Алгебра: Уравнения</summary>
+    <div class="in">
+      <div class="formula-row">
+        <div class="desc">Квадратное уравнение</div>
+        <div class="m">
+          <span class="fr"><span>−b ± <span class="rt">D</span></span><span>2a</span></span>
+        </div>
+      </div>
+      <div class="formula-row">
+        <div class="desc">Дискриминант</div>
+        <div class="m">D = b² − 4ac</div>
+      </div>
+      <div class="formula-row">
+        <div class="desc">Теорема Виета (сумма)</div>
+        <div class="m">x₁ + x₂ = −<span class="fr"><span>b</span><span>a</span></span></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="ctx">
+    <summary>Геометрия: Треугольники</summary>
+    <div class="in">
+      <div class="formula-row">
+        <div class="desc">Теорема Пифагора</div>
+        <div class="m">c² = a² + b²</div>
+      </div>
+      <div class="formula-row">
+        <div class="desc">Площадь (через основание)</div>
+        <div class="m">S = <span class="fr"><span>1</span><span>2</span></span> a · h</div>
+      </div>
+      <div class="formula-row">
+        <div class="desc">Формула Герона</div>
+        <div class="m">S = <span class="rt">p(p−a)(p−b)(p−c)</span></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="ctx">
+    <summary>Алгебра: Степени и корни</summary>
+    <div class="in">
+      <div class="formula-row">
+        <div class="desc">Умножение степеней</div>
+        <div class="m">aⁿ · aᵐ = aⁿ⁺ᵐ</div>
+      </div>
+      <div class="formula-row">
+        <div class="desc">Свойство корня</div>
+        <div class="m"><span class="rt">a · b</span> = <span class="rt">a</span> · <span class="rt">b</span></div>
+      </div>
+    </div>
+  </details>
+</div>
+</body>
+</html>
