@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#14211e">
+<title>Мои достижения</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--bg:#14211e;--glass:rgba(243,236,226,.05);--glass2:rgba(243,236,226,.085);--line:rgba(226,234,228,.13);--fg:#f3ece2;--muted:#a9b6ad;--apricot:#f2905e;--mint:#a9d18e;--amber:#f5dc6a;--sans:-apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif;--display:-apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);margin:0;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:640px;margin:0 auto;padding:20px 16px 80px}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.brand{font-family:var(--display);font-weight:700;font-size:18px}.brand b{color:var(--apricot)}
+.section-title{font-family:var(--display);font-weight:700;font-size:20px;margin:32px 0 16px;color:var(--fg)}
+.tals{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:12px}
+.tal{display:grid;justify-items:center;gap:8px;padding:16px 8px;border-radius:20px;border:1px solid var(--line);background:var(--glass);cursor:pointer;transition:.2s}
+.tal:hover{transform:translateY(-3px)}
+.tal.sel{border-color:var(--apricot);background:rgba(242,144,94,.12)}
+.pet{width:56px;height:56px;border-radius:16px;background:var(--glass2);display:grid;place-items:center;font-size:28px;border:2px solid var(--line);transition:.2s}
+.tal.sel .pet{border-color:var(--apricot);animation:wob .6s}
+@keyframes wob{30%{transform:rotate(-12deg) scale(1.1)}60%{transform:rotate(8deg)}}
+.tal span{font-size:13px;color:var(--muted);font-weight:600;text-align:center}
+.tal.sel span{color:var(--fg)}
+.pack{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.stk{display:inline-grid;place-items:center;padding:10px 16px;border-radius:999px;font-family:var(--display);font-weight:700;font-size:15px;color:#2a1510;border:3px solid #fff3ea;box-shadow:0 8px 20px -8px rgba(0,0,0,.6);transform:rotate(var(--r,-2deg))}
+.stk.c{background:linear-gradient(135deg,#fff1d6,#f5b37f)}
+.stk.r{background:linear-gradient(135deg,#e2f0d4,#a9d18e)}
+.stk.e{background:linear-gradient(135deg,#e6eefc,#9db8ff)}
+.stk.ghost{background:rgba(255,230,210,.06);border:2px dashed var(--line);color:var(--faint);box-shadow:none;font-size:13px;padding:8px 14px}
+.dip{position:relative;margin-top:40px;padding:32px 20px;border-radius:24px;background:linear-gradient(160deg,#f7f1e7 0%,#f3ece2 50%,#dde7f1 100%);color:#2a1510;text-align:center;display:grid;gap:12px;justify-items:center}
+.dip::before{content:"";position:absolute;inset:10px;border-radius:16px;border:1.5px dashed rgba(42,21,16,.2)}
+.dip .dn{font-family:var(--display);font-weight:800;font-size:28px;color:#1747c9;margin:0}
+.dip .dt{font-size:14px;color:#6b4b40;margin:0;max-width:300px}
+.btn-reset{margin-top:24px;width:100%;padding:14px;border-radius:14px;border:1px solid var(--line);background:transparent;color:var(--muted);font-size:14px;cursor:pointer;transition:.2s}
+.btn-reset:hover{color:var(--miss);border-color:var(--miss)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="kabinet.html" style="color:var(--muted);text-decoration:none;font-size:20px">←</a>
+    <div class="brand">Мои <b>достижения</b></div>
+  </div>
+
+  <div class="section-title">Выбери питомца</div>
+  <div class="tals" id="petsGrid">
+    <div class="tal" data-pet="🦊" data-name="Лисёнок">
+      <div class="pet">🦊</div>
+      <span>Лисёнок</span>
+    </div>
+    <div class="tal" data-pet="🐱" data-name="Котик">
+      <div class="pet">🐱</div>
+      <span>Котик</span>
+    </div>
+    <div class="tal" data-pet="🦉" data-name="Сова">
+      <div class="pet">🦉</div>
+      <span>Сова</span>
+    </div>
+    <div class="tal" data-pet="🐸" data-name="Лягушка">
+      <div class="pet">🐸</div>
+      <span>Лягушка</span>
+    </div>
+  </div>
+
+  <div class="section-title">Коллекция стикеров</div>
+  <div class="pack">
+    <div class="stk c">Первые шаги</div>
+    <div class="stk r">5 дней подряд</div>
+    <div class="stk e">Мастер дробей</div>
+    <div class="stk ghost">Скоро...</div>
+    <div class="stk ghost">Скоро...</div>
+  </div>
+
+  <div class="dip">
+    <div style="font-size:12px;letter-spacing:.2em;color:#1747c9;font-weight:700">СЕРТИФИКАТ</div>
+    <div class="dn" id="certName">Ученика</div>
+    <div class="dt">За проявленное упорство и успешное освоение заданий ОГЭ по математике.</div>
+    <div style="font-size:12px;color:#6b4b40;margin-top:8px">Дата: <span id="certDate"></span></div>
+  </div>
+
+  <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
+</div>
+
+<script>
+// Инициализация
+const pets = document.querySelectorAll('.tal');
+const savedPet = localStorage.getItem('oge_pet');
+const savedName = localStorage.getItem('oge_name') || 'Ученика';
+
+document.getElementById('certName').textContent = savedName;
+document.getElementById('certDate').textContent = new Date().toLocaleDateString('ru-RU');
+
+pets.forEach(pet => {
+  if (pet.dataset.pet === savedPet) {
+    pet.classList.add('sel');
+  }
+  
+  pet.addEventListener('click', () => {
+    pets.forEach(p => p.classList.remove('sel'));
+    pet.classList.add('sel');
+    localStorage.setItem('oge_pet', pet.dataset.pet);
+    localStorage.setItem('oge_name', pet.dataset.name);
+    document.getElementById('certName').textContent = pet.dataset.name;
+  });
+});
+
+function resetProgress() {
+  if(confirm('Сбросить выбранные достижения?')) {
+    localStorage.removeItem('oge_pet');
+    localStorage.removeItem('oge_name');
+    location.reload();
+  }
+}
+</script>
+</body>
+</html>
