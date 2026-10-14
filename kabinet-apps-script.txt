@@ -66,7 +66,13 @@ const MATERIALS = [
 ];
 const C = {bg: '#14211e', bg2: '#1b2b28', fg: '#f3ece2', muted: '#a9b6ad', cobalt: '#1747c9', apricot: '#f2905e',
            amber: '#f5dc6a', sage: '#a9d18e', miss: '#ff8f73', none: '#2a3a36'};
-const STUDENT_COLS = {name: 2, dat: 3, goal: 4, days: 5, time: 6, topic: 7, board: 8, work: 9, lessonsPlan: 10, lessonsDone: 11, active: 12};
+const STUDENT_COLS = {name: 2, dat: 3, goal: 4, days: 5, time: 6, topic: 7, board: 8, work: 9, lessonsPlan: 10, lessonsDone: 11, active: 12, prog: 14};
+const GOAL_MAX = {oge9: 31, school: 15};
+const N_MAX = {oge9: 25, school: 15};
+function progOf_(row, f) {
+  if (f && (f.prog === 'school' || f.prog === 'oge9')) return f.prog;
+  return String(row[13] || '') === 'school' ? 'school' : 'oge9';
+}
 
 /* ================= меню ================= */
 function onOpen() {
@@ -213,12 +219,12 @@ function addStudent() {
   showLinkFor_(name, code);
 }
 
-function createStudent_(name, dat) {
+function createStudent_(name, dat, prog) {
   const ss = SpreadsheetApp.getActive();
   if (!ss.getSheetByName('Ученики')) setup();
   const code = newCode_();
   ss.getSheetByName('Ученики').appendRow([code, name, dat || name, 22, 'ср, сб', '18:00',
-    '', 'https://learnboard.ru', '', 8, 0, true, PAGE + '#' + code]);
+    '', 'https://learnboard.ru', '', 8, 0, true, PAGE + '#' + code, prog === 'school' ? 'school' : 'oge9']);
   ss.getSheetByName('Карта').appendRow([code, name].concat(Array(25).fill('не проходили')));
   return code;
 }
@@ -299,15 +305,17 @@ function admin_(b) {
       case 'addStudent': {
         const name = String(b.name || '').trim();
         if (!name) return {error: 'no_name'};
-        return {ok: true, code: createStudent_(name, String(b.dat || '').trim())};
+        return {ok: true, code: createStudent_(name, String(b.dat || '').trim(), b.prog)};
       }
       case 'student': {
         const st = need(), sh = ss.getSheetByName('Ученики'), f = b.fields || {};
+        const pr = progOf_(st.row, f);
         Object.keys(f).forEach(k => {
           if (!STUDENT_COLS[k]) return;
           let v = f[k];
           if (k === 'work') v = (Array.isArray(v) ? v : String(v).split('\n')).map(s => String(s).trim()).filter(Boolean).join('; ');
-          else if (k === 'goal' || k === 'lessonsPlan' || k === 'lessonsDone') v = Math.max(0, Math.min(k === 'goal' ? 31 : 99, Number(v) || 0));
+          else if (k === 'prog') v = (v === 'school' || v === 'oge9') ? v : pr;
+          else if (k === 'goal' || k === 'lessonsPlan' || k === 'lessonsDone') v = Math.max(0, Math.min(k === 'goal' ? GOAL_MAX[pr] : 99, Number(v) || 0));
           else if (k === 'active') v = !!v;
           else v = String(v).trim();
           sh.getRange(st.index, STUDENT_COLS[k]).setValue(v);
@@ -318,7 +326,7 @@ function admin_(b) {
       case 'map': {
         const st = need();
         const n = Number(b.n), s = STATUS_RU[b.s];
-        if (!(n >= 1 && n <= 25) || !s) return {error: 'bad_value'};
+        if (!(n >= 1 && n <= N_MAX[progOf_(st.row)]) || !s) return {error: 'bad_value'};
         const sh = ss.getSheetByName('Карта');
         let row = findRow_('Карта', r => String(r[0]).trim() === code);
         if (!row) { sh.appendRow([code, st.row[1]].concat(Array(25).fill('не проходили'))); row = sh.getLastRow(); }
@@ -326,9 +334,9 @@ function admin_(b) {
         return fresh();
       }
       case 'note': {
-        need();
+        const st = need();
         const n = Number(b.n);
-        if (!(n >= 1 && n <= 25)) return {error: 'bad_value'};
+        if (!(n >= 1 && n <= N_MAX[progOf_(st.row)])) return {error: 'bad_value'};
         const sh = ss.getSheetByName('Комментарии');
         const row = findRow_('Комментарии', r => String(r[0]).trim() === code && Number(r[1]) === n);
         const t = String(b.text || '').trim(), u = String(b.url || '').trim(), l = String(b.label || '').trim();
@@ -380,7 +388,12 @@ function admin_(b) {
         return fresh();
       }
       case 'probAdd': {
-        need();
+        const st = need();
+        if (progOf_(st.row) === 'school') {
+          const v = /^\s*не/i.test(String(b.p || '')) ? 'незачёт' : 'зачёт';
+          ss.getSheetByName('Пробники').appendRow([code, ruDate_(b.d), String(b.name || 'Работа').trim(), v]);
+          return fresh();
+        }
         const p = Number(b.p);
         if (b.p === '' || !(p >= 0 && p <= 31)) return {error: 'bad_value'};
         ss.getSheetByName('Пробники').appendRow([code, ruDate_(b.d), String(b.name || 'Пробник').trim(), p]);
@@ -403,7 +416,7 @@ function admin_(b) {
 function listStudents_() {
   const ss = SpreadsheetApp.getActive(), sh = ss.getSheetByName('Ученики');
   if (!sh || sh.getLastRow() < 2) return [];
-  const rows = sh.getRange(2, 1, sh.getLastRow() - 1, 12).getValues();
+  const rows = sh.getRange(2, 1, sh.getLastRow() - 1, 14).getValues();
   const times = sh.getRange(2, 6, sh.getLastRow() - 1, 1).getDisplayValues();
   const mapSh = ss.getSheetByName('Карта'), maps = {};
   if (mapSh && mapSh.getLastRow() >= 2) mapSh.getRange(2, 1, mapSh.getLastRow() - 1, 27).getValues().forEach(r => { maps[String(r[0]).trim()] = r; });
@@ -413,10 +426,11 @@ function listStudents_() {
   });
   return rows.map((r, i) => ({r: r, time: String(times[i][0]).trim()})).filter(x => String(x.r[0]).trim()).map(x => {
     const r = x.r, c = String(r[0]).trim(), m = maps[c];
+    const pr = progOf_(r), nmax = N_MAX[pr];
     let p = 0;
-    if (m) for (let n = 1; n <= 25; n++) if (STATUS_KEY[String(m[n + 1]).trim().toLowerCase()] === 'solid') p += n >= 20 ? 2 : 1;
-    return {code: c, name: String(r[1]), goal: Number(r[3]) || 22, days: String(r[4] || ''), time: x.time,
-            active: r[11] !== false, pts: p, hwLeft: left[c] || 0};
+    if (m) for (let n = 1; n <= nmax; n++) if (STATUS_KEY[String(m[n + 1]).trim().toLowerCase()] === 'solid') p += (pr === 'oge9' && n >= 20) ? 2 : 1;
+    return {code: c, name: String(r[1]), goal: Number(r[3]) || (pr === 'school' ? 12 : 22), days: String(r[4] || ''), time: x.time,
+            active: r[11] !== false, prog: pr, pts: p, hwLeft: left[c] || 0};
   });
 }
 
@@ -444,20 +458,21 @@ function studentData_(code, admin) {
     id: x.row, t: String(x.v[1]).trim(), n: String(x.v[2] || ''), due: day_(x.v[3]),
     url: String(x.v[4] || ''), label: String(x.v[5] || ''), done: x.v[6] === true, file: String(x.v[8] || '')
   }));
-  const hist = rows('Пробники').filter(x => x.v[3] !== '' && !isNaN(Number(x.v[3])))
-    .map(x => ({id: x.row, d: day_(x.v[1]), t: String(x.v[2] || ''), p: Number(x.v[3])}))
+  const hist = rows('Пробники').filter(x => String(x.v[3]).trim() !== '' && (!isNaN(Number(x.v[3])) || /зач/i.test(String(x.v[3]))))
+    .map(x => ({id: x.row, d: day_(x.v[1]), t: String(x.v[2] || ''), p: isNaN(Number(x.v[3])) ? (/^\s*не/i.test(String(x.v[3])) ? 'незачёт' : 'зачёт') : Number(x.v[3])}))
     .sort((a, b) => String(a.d).localeCompare(String(b.d)));
   const mats = rows('Разборы')
     .filter(x => String(x.v[1]).trim() && String(x.v[2]).trim())
     .map(x => [String(x.v[1]).trim(), String(x.v[2]).trim(), String(x.v[3] || '').trim(), x.row]);
   const matsSh = ss.getSheetByName('Разборы');
   const matsAll = (matsSh && matsSh.getLastRow() >= 2) ? matsSh.getLastRow() - 1 : 0;
+  const prog = progOf_(r);
   const out = {
-    name: String(r[1]), dat: String(r[2] || r[1]), goal: Number(r[3]) || 22,
+    name: String(r[1]), dat: String(r[2] || r[1]), goal: Number(r[3]) || (prog === 'school' ? 12 : 22),
     days: String(r[4] || ''), time: st.time, topic: String(r[6] || ''), board: String(r[7] || ''),
     work: String(r[8] || '').split(';').map(s => s.trim()).filter(Boolean),
     lessonsPlan: Number(r[9]) || 0, lessonsDone: Number(r[10]) || 0,
-    map: map, notes: notes, hw: hw, hist: hist, mats: mats, matsAll: matsAll
+    map: map, notes: notes, hw: hw, hist: hist, mats: mats, matsAll: matsAll, prog: prog
   };
   if (admin) { out.active = r[11] !== false; out.code = code; }
   return out;
@@ -469,7 +484,7 @@ function findStudentRow_(code) {
   if (!code) return null;
   const sh = SpreadsheetApp.getActive().getSheetByName('Ученики');
   if (!sh || sh.getLastRow() < 2) return null;
-  const v = sh.getRange(2, 1, sh.getLastRow() - 1, 12).getValues();
+  const v = sh.getRange(2, 1, sh.getLastRow() - 1, 14).getValues();
   for (let i = 0; i < v.length; i++) if (String(v[i][0]).trim() === code)
     return {row: v[i], index: i + 2, time: String(sh.getRange(i + 2, 6).getDisplayValue()).trim()};
   return null;

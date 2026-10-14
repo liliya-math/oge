@@ -853,12 +853,19 @@ let D=null;            // данные ученика
 let syncedAt=0;        // когда данные пришли с сервера
 
 /* ---------- справочники ---------- */
-const TOPIC={1:'Практическая задача',2:'Практическая задача',3:'Практическая задача',4:'Практическая задача',5:'Практическая задача',6:'Вычисления с дробями',7:'Числа на координатной прямой',8:'Степени и корни',9:'Уравнения',10:'Вероятность',11:'Графики функций',12:'Расчёты по формулам',13:'Неравенства',14:'Прогрессии',15:'Треугольники',16:'Окружность',17:'Четырёхугольники',18:'Фигуры на клетчатой бумаге',19:'Верные утверждения',20:'Уравнения и выражения',21:'Текстовая задача',22:'Построение графика',23:'Геометрия: вычисление',24:'Геометрия: доказательство',25:'Геометрия повышенной сложности'};
+const PROGS={
+ oge9:{name:'ОГЭ 9',oge:1,max:31,goalDef:22,nmax:25,pts:n=>n>=20?2:1,
+  parts:[{t:'Часть 1 · по 1 баллу',a:1,b:19},{t:'Часть 2 · по 2 балла',a:20,b:25}],
+  topic:{1:'Практическая задача',2:'Практическая задача',3:'Практическая задача',4:'Практическая задача',5:'Практическая задача',6:'Вычисления с дробями',7:'Числа на координатной прямой',8:'Степени и корни',9:'Уравнения',10:'Вероятность',11:'Графики функций',12:'Расчёты по формулам',13:'Неравенства',14:'Прогрессии',15:'Треугольники',16:'Окружность',17:'Четырёхугольники',18:'Фигуры на клетчатой бумаге',19:'Верные утверждения',20:'Уравнения и выражения',21:'Текстовая задача',22:'Построение графика',23:'Геометрия: вычисление',24:'Геометрия: доказательство',25:'Геометрия повышенной сложности'}},
+ school:{name:'5–8 класс',oge:0,max:15,goalDef:12,nmax:15,pts:()=>1,
+  parts:[{t:'Арифметика',a:1,b:5},{t:'Алгебра',a:6,b:10},{t:'Геометрия',a:11,b:14},{t:'Графики',a:15,b:15}],
+  topic:{1:'Натуральные числа',2:'Делимость. НОД и НОК',3:'Обыкновенные дроби',4:'Десятичные дроби',5:'Проценты',6:'Степень с натуральным показателем',7:'Выражения и формулы',8:'Уравнения',9:'Задачи на движение и работу',10:'Пропорции и масштаб',11:'Треугольники и углы',12:'Четырёхугольники',13:'Площади и периметры',14:'Окружность, круг и объёмы',15:'Координаты и графики'}}
+};
+const PROG=()=>PROGS[D&&D.prog==='school'?'school':'oge9'];
 const ST={solid:'решает уверенно',shaky:'путается',gap:'пока не решает',new:'ещё не проходили'};
-const PARTS=[{t:'Часть 1 · по 1 баллу',a:1,b:19},{t:'Часть 2 · по 2 балла',a:20,b:25}];
 const MATS=[['z15-pifagor.html','Теорема Пифагора','задание 15'],['z15-sin-cos-tg-storona.html','Синус, косинус, тангенс: найти сторону','задание 15'],['bissektrisy-parallelogramma.html','Биссектрисы параллелограмма','задание 17'],['razbor-probnik-oge-2.html','Разбор пробника №2','все задания']];
 const WD={'вс':0,'пн':1,'вт':2,'ср':3,'чт':4,'пт':5,'сб':6};
-const pts=n=>n>=20?2:1;
+const pts=n=>PROG().pts(n);
 const plural=(n,a,b,c)=>{const x=Math.abs(n)%100,y=x%10;return x>10&&x<20?c:y===1?a:y>=2&&y<=4?b:c};
 const href=u=>!u?'':/^https?:\/\//.test(u)?u:BASE+u.replace(/^\/+/,'');
 
@@ -887,11 +894,11 @@ function demoData(){const st='ssspp'+'s'.repeat(11)+'pssp'+'ggp'+'nn';const map=
 
 /* ---------- подсчёты ---------- */
 const stOf=n=>(D.map&&D.map[n])||'new';
-function forecast(){let p=0;for(let n=1;n<=25;n++)if(stOf(n)==='solid')p+=pts(n);return p}
-function potential(){let p=0;for(let n=1;n<=25;n++)if(stOf(n)==='shaky')p+=pts(n);return p}
+function forecast(){let p=0;const m=PROG().nmax;for(let n=1;n<=m;n++)if(stOf(n)==='solid')p+=pts(n);return p}
+function potential(){let p=0;const m=PROG().nmax;for(let n=1;n<=m;n++)if(stOf(n)==='shaky')p+=pts(n);return p}
 const gradeP=p=>p>=22?5:p>=15?4:p>=8?3:2;
 function geoPts(){return [15,16,17,18,19,23,24,25].reduce((s,n)=>s+(stOf(n)==='solid'?pts(n):0),0)}
-const geoNote=()=>geoPts()<2?`<p class="klead" style="margin:8px 0 0;color:var(--amber)">Пока нет двух баллов за геометрию (задания 15–19, 23–25). Без них ставят «2», даже если остальных баллов хватает.</p>`:'';
+const geoNote=()=>PROG().oge&&geoPts()<2?`<p class="klead" style="margin:8px 0 0;color:var(--amber)">Пока нет двух баллов за геометрию (задания 15–19, 23–25). Без них ставят «2», даже если остальных баллов хватает.</p>`:'';
 function grade(p){const geo=[15,16,17,18,19,23,24,25].reduce((s,n)=>s+(stOf(n)==='solid'?pts(n):0),0);return geo<2?2:p>=22?5:p>=15?4:p>=8?3:2}
 const isDone=h=>D.demo&&h.id in S.hw?S.hw[h.id]:!!h.done;
 function daysTo(iso){if(!iso)return null;const [y,m,d]=iso.split('-').map(Number);const a=new Date(y,m-1,d),n=new Date();n.setHours(0,0,0,0);return Math.round((a-n)/864e5)}
@@ -951,27 +958,34 @@ function topbar(){return `<header class="top"><div class="toprow">
  <button class="icon-btn" id="snd" aria-label="Звук">${S.sound?I.snd:I.mute}</button>
  <span class="talmini" id="talb" title="${tal().n}">${petSVG(tal().id,'idle')}</span>
 </div></header>`}
-function meter(){const p=forecast(),g=D.goal||22;const pct=x=>(Math.min(x,32)/32*100).toFixed(2)+'%';
+function meter(){const P=PROG(),p=forecast(),g=D.goal||P.goalDef;
+ if(!P.oge){const f=Math.min(100,p/P.max*100).toFixed(1);
+  return `<div class="meter" role="img" aria-label="Баллы по карте ${p} из ${P.max}, цель ${g}">
+ <div class="mbar" style="grid-template-columns:1fr"><span style="${f!=='0.0'?`background:linear-gradient(90deg,#f5dc6a 0%,#f2905e ${f}%,rgba(243,236,226,.07) ${f}%)`:''}"></span></div>
+ <div class="mfill"><i class="mgoal" style="left:${(Math.min(g,P.max)/P.max*100).toFixed(2)}%" title="Цель"></i><i class="mpin" style="left:${(Math.min(p+1,P.max)/P.max*100).toFixed(2)}%"></i></div></div>`}
+ const pct=x=>(Math.min(x,32)/32*100).toFixed(2)+'%';
  const zones=[[0,7],[8,14],[15,21],[22,31]];
  return `<div class="meter" role="img" aria-label="Прогноз ${p} из 31, цель ${g}">
  <div class="mbar">${zones.map(z=>{const f=p>z[1]?100:p>=z[0]?(p-z[0]+1)/(z[1]-z[0]+1)*100:0;return `<span style="${f?`background:linear-gradient(90deg,#f5dc6a 0%,#f2905e ${f.toFixed(1)}%,rgba(243,236,226,.07) ${f.toFixed(1)}%)`:''}"></span>`}).join('')}
  <div class="mfill"><i class="mgoal" style="left:${pct(g)}" title="Цель"></i><i class="mpin" style="left:${pct(p+1)}"></i></div></div>
  <div class="mlab"><span><b>«2»</b>0–7</span><span><b>«3»</b>8–14</span><span><b>«4»</b>15–21</span><span><b>«5»</b>22–31</span></div>
  </div>`}
-function heroKid(){const p=forecast(),g=D.goal||22,need=Math.max(0,g-p),gg=gradeP(g);
- const head=need?`${esc(D.name)}, до «${gg}» ${need===1?'остался':'осталось'} <em>${need} ${plural(need,'балл','балла','баллов')}</em>`:`${esc(D.name)}, цель <em>уже в кармане</em>`;
+function heroKid(){const P=PROG(),p=forecast(),g=D.goal||P.goalDef,need=Math.max(0,g-p);
+ const head=P.oge?(need?`${esc(D.name)}, до «${gradeP(g)}» ${need===1?'остался':'осталось'} <em>${need} ${plural(need,'балл','балла','баллов')}</em>`:`${esc(D.name)}, цель <em>уже в кармане</em>`)
+  :(need?`${esc(D.name)}, до цели ${need===1?'остался':'осталось'} <em>${need} ${plural(need,'балл','балла','баллов')}</em>`:`${esc(D.name)}, цель <em>уже в кармане</em>`);
+ const sub=P.oge?`Прогноз сейчас: <strong>${p} из 31</strong>, это «${grade(p)}». Цель — ${g}.`:`По карте разделов: <strong>${p} из ${P.max}</strong>. Цель — ${g} баллов.`;
  return `<section class="khero">
  <div class="hpet" id="hpet" role="button" tabindex="0" aria-label="${tal().n}">${petSVG(tal().id,'idle')}</div>
  <div style="min-width:0"><div class="say" id="say"><b>${tal().n}:</b> ${esc(pick(sayList()))}</div>
  <h1 class="big1">${head}</h1>
- <p class="klead">Прогноз сейчас: <strong>${p} из 31</strong>, это «${grade(p)}». Цель — ${g}.</p>${geoNote()}</div></section>
+ <p class="klead">${sub}</p>${geoNote()}</div></section>
  <div class="card">${meter()}</div>`}
-function heroPar(){const p=forecast(),g=D.goal||22,H=D.hist||[],grow=H.length>1?H[H.length-1].p-H[0].p:null;
+function heroPar(){const P=PROG(),p=forecast(),g=D.goal||P.goalDef,H=D.hist||[],grow=H.length>1&&typeof H[H.length-1].p==='number'&&typeof H[0].p==='number'?H[H.length-1].p-H[0].p:null;
  const all=D.hw.filter(h=>(daysTo(h.due)??-1)<0||isDone(h)),done=all.filter(isDone).length;
  return `<section style="display:grid;gap:10px;padding-block:6px 4px">
  <span class="eyebrow">Для родителей · ${esc(D.name)}</span>
- <h1 class="big1">Прогноз на ОГЭ сейчас — <em>«${grade(p)}»</em></h1>
- <p class="klead" style="margin:0"><strong>${p} ${plural(p,'балл','балла','баллов')} из 31.</strong> Цель — ${g}, это «${gradeP(g)}».${grow!==null?` С первого пробника ${grow>=0?'+':''}${grow} ${plural(grow,'балл','балла','баллов')}.`:''}</p>${geoNote()}</section>
+ <h1 class="big1">${P.oge?`Прогноз на ОГЭ сейчас — <em>«${grade(p)}»</em>`:`Баллы по карте разделов — <em>${p} из ${P.max}</em>`}</h1>
+ <p class="klead" style="margin:0"><strong>${p} ${plural(p,'балл','балла','баллов')} из ${P.max}.</strong>${P.oge?` Цель — ${g}, это «${gradeP(g)}».`:` Цель — ${g} баллов.`}${grow!==null?` С первого пробника ${grow>=0?'+':''}${grow} ${plural(grow,'балл','балла','баллов')}.`:''}</p>${geoNote()}</section>
  <div class="card">${meter()}
  <div class="stats" style="margin-top:20px">
   <div class="stat"><b>${D.lessonsDone||0} <em>/ ${D.lessonsPlan||0}</em></b><span>занятий в этом месяце</span></div>
@@ -1002,17 +1016,21 @@ function hwRow(h){const d=isDone(h),k=daysTo(h.due);return `<li class="hwi ${d?'
 function hwCard(){const L=visibleHW(),d=L.filter(isDone).length;return `<div class="card" id="hwcard">
  <div class="sh"><h2>Домашка</h2><span class="sub" id="hwc">${L.length?d+' из '+L.length:''}</span></div>
  ${L.length?`<ul class="hw">${L.map(hwRow).join('')}</ul><div class="hwbar"><i id="hwb" style="width:${d/L.length*100}%"></i></div>`:'<p class="klead" style="margin:0">Пока ничего не задано. Отдыхай.</p>'}</div>`}
-function mapCard(ro){const pot=potential(),c={solid:0,shaky:0,gap:0,new:0};for(let n=1;n<=25;n++)c[stOf(n)]++;
+function mapCard(ro){const P=PROG(),pot=potential(),c={solid:0,shaky:0,gap:0,new:0};for(let n=1;n<=P.nmax;n++)c[stOf(n)]++;
  return `<div class="card" id="map">
- <div class="sh"><h2>Карта 25 заданий</h2><span class="sub">нажми на номер</span></div>
+ <div class="sh"><h2>${P.oge?'Карта 25 заданий':'Карта разделов'}</h2><span class="sub">${P.oge?'нажми на номер':'нажми на раздел'}</span></div>
  ${pot?`<p class="mapnote">${ro?'Жёлтые задания уже почти получаются.':'Жёлтые задания ты уже почти решаешь.'} Если их дожать, это <b>+${pot} ${plural(pot,'балл','балла','баллов')}</b> к прогнозу.</p>`:''}
- <div class="parts">${PARTS.map(P=>`<div><div class="plab">${P.t}</div><div class="tiles">${Array.from({length:P.b-P.a+1},(_,i)=>P.a+i).map(n=>`<button class="tile ${stOf(n)} ${n>=20?'two':''}" data-t="${n}" aria-pressed="${S.sel===n}" aria-label="Задание ${n}: ${ST[stOf(n)]}">${n}</button>`).join('')}</div></div>`).join('')}</div>
+ <div class="parts">${P.parts.map(Q=>`<div><div class="plab">${Q.t}</div><div class="tiles">${Array.from({length:Q.b-Q.a+1},(_,i)=>Q.a+i).map(n=>`<button class="tile ${stOf(n)} ${P.oge&&n>=20?'two':''}" data-t="${n}" aria-pressed="${S.sel===n}" aria-label="${P.oge?'Задание':'Раздел'} ${n}: ${ST[stOf(n)]}">${n}</button>`).join('')}</div></div>`).join('')}</div>
  <div class="mlegend"><span><i style="background:var(--mint)"></i>${ST.solid} · ${c.solid}</span><span><i style="background:var(--amber)"></i>${ST.shaky} · ${c.shaky}</span><span><i style="background:var(--miss)"></i>${ST.gap} · ${c.gap}</span><span><i style="background:rgba(243,236,226,.18)"></i>${ST.new} · ${c.new}</span></div>
  <div id="tdet">${TEACH?tDetail(S.sel):detail(S.sel)}</div></div>`}
-function detail(n){if(!n)return '';const s=stOf(n),N=(D.notes||{})[n]||{};return `<div class="tdet enter"><div class="tn"><b>${n}</b><div><div class="tt">${TOPIC[n]}</div><span class="kchip ${s}">${ST[s]}</span> <span style="font-size:12.5px;color:var(--faint)">${pts(n)===2?'2 балла':'1 балл'}</span></div></div>
+function detail(n){if(!n)return '';const P=PROG(),s=stOf(n),N=(D.notes||{})[n]||{};return `<div class="tdet enter"><div class="tn"><b>${n}</b><div><div class="tt">${P.topic[n]}</div><span class="kchip ${s}">${ST[s]}</span> <span style="font-size:12.5px;color:var(--faint)">${pts(n)} ${pts(n)===1?'балл':'балла'}</span></div></div>
  ${N.t?`<p>${esc(N.t)}</p>`:''}
  ${N.url?`<a href="${esc(href(N.url))}" target="_blank" rel="noopener">${esc(N.label||'Открыть разбор')} →</a>`:''}</div>`}
-function chartCard(){const H=D.hist||[];const head=`<div class="sh"><h2>Баллы за пробники</h2><span class="sub">из 31</span></div>`;
+function chartCard(){const H=D.hist||[];const PG=PROG();
+ if(!PG.oge){const head=`<div class="sh"><h2>Работы</h2><span class="sub">${H.length}</span></div>`;
+  if(!H.length)return `<div class="card">${head}<p class="klead" style="margin:0">Работ пока не было. После первой здесь появится история.</p></div>`;
+  return `<div class="card">${head}<ul class="prl">${H.map(h=>`<li><span class="pd">${shortDate(h.d)||'—'}</span><span class="pt">${esc(h.t)}</span><span class="pp">${h.p}</span></li>`).join('')}</ul></div>`}
+ const head=`<div class="sh"><h2>Баллы за пробники</h2><span class="sub">из 31</span></div>`;
  if(!H.length)return `<div class="card">${head}<p class="klead" style="margin:0">Пробников пока не было. После первого здесь появится график.</p></div>`;
  const W=340,Hh=210,L=26,R=40,T=22,B=30,g=D.goal||22,y=v=>T+(Hh-T-B)*(1-v/31),x=i=>H.length===1?(L+W-R)/2:L+(W-L-R)*(i/(H.length-1));
  const bands=[[0,7,'«2»','rgba(255,143,115,.08)'],[8,14,'«3»','rgba(245,220,106,.06)'],[15,21,'«4»','rgba(157,184,255,.08)'],[22,31,'«5»','rgba(169,209,142,.10)']];
@@ -1162,19 +1180,20 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
  <section style="display:grid;gap:8px;padding-block:6px 4px"><span class="eyebrow">Режим учителя</span>
  <h1 class="big1">Ученики · <em>${act.length}</em></h1>
  <p class="klead" style="margin:0">Нажми на ученика, чтобы открыть и редактировать его кабинет.</p></section>
- ${L.length?`<div class="stus">${L.map(s=>{const pct=Math.min(100,s.pts/31*100);return `<a class="stu ${s.active?'':'off'}" href="#lilia-${esc(s.code)}">
-  <div class="stuh"><b>${esc(s.name)}</b>${s.active?'':'<span class="kchip new">на паузе</span>'}</div>
+ ${L.length?`<div class="stus">${L.map(s=>{const pm=PROGS[s.prog==='school'?'school':'oge9'].max,pct=Math.min(100,s.pts/pm*100);return `<a class="stu ${s.active?'':'off'}" href="#lilia-${esc(s.code)}">
+  <div class="stuh"><b>${esc(s.name)}</b>${s.prog==='school'?'<span class="kchip new">5–8</span>':''}${s.active?'':'<span class="kchip new">на паузе</span>'}</div>
   <div class="mini"><i style="width:${pct}%"></i></div>
-  <div class="stum"><span>прогноз <strong>${s.pts} из 31</strong> · цель ${s.goal}</span><span>${esc(schedShort(s.days,s.time))}</span>
+  <div class="stum"><span>${s.prog==='school'?'карта':'прогноз'} <strong>${s.pts} из ${pm}</strong> · цель ${s.goal}</span><span>${esc(schedShort(s.days,s.time))}</span>
   <span class="${s.hwLeft?'soon':''}">${s.hwLeft?'домашка: '+s.hwLeft+' не сделано':'домашка закрыта'}</span></div></a>`}).join('')}</div>`:'<p class="klead">Пока нет ни одного ученика.</p>'}
  <form class="card" id="nsf"><div class="sh"><h2>Новый ученик</h2></div>
   <div class="fgrid"><label class="fld"><span>Имя, как в кабинете</span><input id="ns-n" placeholder="Ксения" required></label>
   <label class="fld"><span>Кому — дательный падеж</span><input id="ns-d" placeholder="Ксении"></label></div>
+  <label class="fld"><span>Программа</span><select id="ns-p"><option value="oge9">ОГЭ 9 — карта 25 заданий, шкала 31</option><option value="school">5–8 класс — карта разделов, зачёты</option></select></label>
   <div class="ferr" id="ns-e"></div><button class="btn" id="ns-b">Добавить и открыть</button></form>
  ${foot()}</div>`;
  bindTopT();
  document.getElementById('nsf').onsubmit=e=>{e.preventDefault();const b=document.getElementById('ns-b');b.disabled=true;
-  adm('addStudent',{name:document.getElementById('ns-n').value,dat:document.getElementById('ns-d').value})
+  adm('addStudent',{name:document.getElementById('ns-n').value,dat:document.getElementById('ns-d').value,prog:document.getElementById('ns-p').value})
    .then(j=>{location.hash='lilia-'+j.code}).catch(err=>{b.disabled=false;document.getElementById('ns-e').textContent=errText(err)})};
 }
 function tFail(err,retry){app.innerHTML=tTop()+`<div class="cab enter"><section class="khero"><div class="hpet">${petSVG(tal().id,'sad')}</div><div style="min-width:0">
@@ -1234,7 +1253,8 @@ function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).
  <div class="fgrid">
   <label class="fld"><span>Имя</span><input id="f-name" value="${esc(D.name)}" data-fresh="1"></label>
   <label class="fld"><span>Кому — дательный падеж</span><input id="f-dat" value="${esc(D.dat)}" data-fresh="1"></label>
-  <label class="fld"><span>Цель, баллов из 31</span><input id="f-goal" type="number" min="0" max="31" inputmode="numeric" value="${D.goal}" data-fresh="1"></label>
+  <label class="fld"><span>Программа</span><select id="f-prog" data-fresh="1"><option value="oge9" ${D.prog!=='school'?'selected':''}>ОГЭ 9</option><option value="school" ${D.prog==='school'?'selected':''}>5–8 класс</option></select></label>
+  <label class="fld"><span>Цель, баллов из ${PROG().max}</span><input id="f-goal" type="number" min="0" max="${PROG().max}" inputmode="numeric" value="${D.goal}" data-fresh="1"></label>
   <label class="fld"><span>Ссылка на доску</span><input id="f-board" value="${esc(D.board)}" placeholder="https://learnboard.ru/…" data-fresh="1"></label>
  </div>
  ${schedEditor()}
@@ -1257,7 +1277,7 @@ function tHwCard(){const open=D.hw.filter(h=>!h.done),done=D.hw.filter(h=>h.done
  ${L.length?`<ul class="hw">${L.map(tHwRow).join('')}</ul>`:'<p class="klead" style="margin:0">Пока ничего не задано.</p>'}
  <div class="formbox"><span class="eyebrow">Новое задание</span>
   <label class="fld"><span>Что сделать</span><input id="h-t" placeholder="Тренажёр: проценты, 10 задач"></label>
-  <div class="fgrid"><label class="fld"><span>Задания ОГЭ</span><input id="h-n" placeholder="4, 5"></label>
+  <div class="fgrid"><label class="fld"><span>${PROG().oge?'Задания ОГЭ':'Разделы карты'}</span><input id="h-n" placeholder="${PROG().oge?'4, 5':'3, 8'}"></label>
   <label class="fld"><span>Срок</span><input id="h-d" type="date"></label></div>
   <label class="fld"><span>Интерактив с сайта или любая ссылка — начни вводить название</span><input id="h-u" list="sitepages" placeholder="z15-pifagor.html или https://…" autocomplete="off"></label>
   <datalist id="sitepages">${PAGES.map(p=>`<option value="${esc(p[0])}">${esc(p[1])}</option>`).join('')}</datalist>
@@ -1273,16 +1293,16 @@ function tMatCard(){const M=D.mats||[];return `<div class="card" id="matcard"><d
   <label class="fld"><span>Подпись (необязательно)</span><input id="m-l" placeholder="задание 15"></label>
   <div class="ferr" id="m-e"></div><button class="btn" id="m-add" type="button">Добавить разбор</button></div></div>`}
 
-function probCard(){const H=(D.hist||[]).slice().reverse();return `<div class="card"><div class="sh"><h2>Пробники</h2><span class="sub">${H.length}</span></div>
+function probCard(){const H=(D.hist||[]).slice().reverse(),P=PROG();return `<div class="card"><div class="sh"><h2>${P.oge?'Пробники':'Работы и зачёты'}</h2><span class="sub">${H.length}</span></div>
  ${H.length?`<ul class="prl">${H.map(h=>`<li><span class="pd">${shortDate(h.d)||'—'}</span><span class="pt">${esc(h.t)}</span><span class="pp">${h.p}</span><button class="xbtn" data-pdel="${h.id}" aria-label="Удалить">×</button></li>`).join('')}</ul>`:''}
  <div class="formbox" ${H.length?'':'style="border-top:0;margin-top:0;padding-top:0"'}><span class="eyebrow">Добавить результат</span>
   <div class="fgrid"><label class="fld"><span>Дата</span><input id="p-d" type="date" value="${isoIn(0)}"></label>
-  <label class="fld"><span>Баллы из 31</span><input id="p-p" type="number" min="0" max="31" inputmode="numeric"></label></div>
-  <label class="fld"><span>Название</span><input id="p-n" placeholder="Пробник №1"></label>
+  <label class="fld"><span>${P.oge?'Баллы из 31':'Результат'}</span>${P.oge?'<input id="p-p" type="number" min="0" max="31" inputmode="numeric">':'<select id="p-p"><option value="зачёт">зачёт</option><option value="незачёт">незачёт</option></select>'}</label></div>
+  <label class="fld"><span>Название</span><input id="p-n" placeholder="${P.oge?'Пробник №1':'Контрольная: дроби'}"></label>
   <div class="ferr" id="p-e"></div><button class="btn" id="p-add" type="button">Добавить</button></div></div>`}
 
-function tDetail(n){if(!n)return '<p class="klead" style="margin:14px 0 0;font-size:14.5px">Нажми на номер задания, чтобы сменить цвет и написать комментарий.</p>';const N=(D.notes||{})[n]||{};
- return `<div class="tdet enter"><div class="tn"><b>${n}</b><div><div class="tt">${TOPIC[n]}</div><span style="font-size:12.5px;color:var(--faint)">${pts(n)===2?'2 балла':'1 балл'}</span></div></div>
+function tDetail(n){if(!n)return `<p class="klead" style="margin:14px 0 0;font-size:14.5px">${PROG().oge?'Нажми на номер задания, чтобы сменить цвет и написать комментарий.':'Нажми на раздел, чтобы сменить цвет и написать комментарий.'}</p>`;const P=PROG(),N=(D.notes||{})[n]||{};
+ return `<div class="tdet enter"><div class="tn"><b>${n}</b><div><div class="tt">${P.topic[n]}</div><span style="font-size:12.5px;color:var(--faint)">${pts(n)} ${pts(n)===1?'балл':'балла'}</span></div></div>
  <div class="stbtns">${['solid','shaky','gap','new'].map(s=>`<button class="stb ${s}" data-s="${s}" aria-pressed="${stOf(n)===s}" type="button">${ST[s]}</button>`).join('')}</div>
  <label class="fld"><span>Комментарий — его видят ученик и родитель</span><textarea id="nt-t" rows="3" data-fresh="1">${esc(N.t||'')}</textarea></label>
  <div class="fgrid"><label class="fld"><span>Ссылка на разбор</span><input id="nt-u" value="${esc(N.url||'')}" placeholder="z15-pifagor.html" data-fresh="1"></label>
@@ -1296,7 +1316,7 @@ function tBind(){
  const ad=document.getElementById('admc');ad.ontoggle=()=>{S.admOpen=ad.open;save()};bindSched();
  document.getElementById('lnkc').onclick=e=>copy(BASE+'kabinet.html#'+D.code,e.currentTarget);
  document.getElementById('f-save').onclick=e=>{const b=e.currentTarget,v=id=>document.getElementById(id).value;b.disabled=true;
-  adm('student',{fields:{name:v('f-name'),dat:v('f-dat'),goal:v('f-goal'),days:serSched(SL,STZ),time:SL.length?hhmm(sortSlots(SL.slice())[0].h,sortSlots(SL.slice())[0].m):'',board:v('f-board'),topic:v('f-topic'),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),active:document.getElementById('f-act').checked}})
+  adm('student',{fields:{name:v('f-name'),dat:v('f-dat'),prog:document.getElementById('f-prog').value,goal:v('f-goal'),days:serSched(SL,STZ),time:SL.length?hhmm(sortSlots(SL.slice())[0].h,sortSlots(SL.slice())[0].m):'',board:v('f-board'),topic:v('f-topic'),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),active:document.getElementById('f-act').checked}})
    .then(j=>{apply(j,false);toast('Настройки сохранены')}).catch(err=>{b.disabled=false;const e2=document.getElementById('f-err');if(e2)e2.textContent=errText(err)})};
  const hp=document.getElementById('hpet');if(hp)hp.onclick=()=>react('neu','',pick(sayList()));
  document.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{const n=+b.dataset.t;S.sel=n;save();document.querySelectorAll('.tile').forEach(x=>x.setAttribute('aria-pressed',x===b));document.getElementById('tdet').innerHTML=tDetail(n);bindDetail()});
@@ -1326,8 +1346,8 @@ function tBind(){
   adm('matAdd',{url:u,name:nm,label:v('m-l')}).then(j=>{['m-u','m-n','m-l'].forEach(id=>{const i=document.getElementById(id);if(i)i.value=''});apply(j,true);toast('Разбор добавлен')})
    .catch(err=>{ma.disabled=false;er.textContent=errText(err)})};
  const pa=document.getElementById('p-add');if(pa)pa.onclick=()=>{const v=id=>document.getElementById(id).value.trim(),er=document.getElementById('p-e'),p=v('p-p');
-  if(p===''||!(+p>=0&&+p<=31)){er.textContent='Баллы — число от 0 до 31.';return}
-  pa.disabled=true;adm('probAdd',{d:v('p-d'),p:+p,name:v('p-n')||'Пробник'}).then(j=>{['p-p','p-n'].forEach(id=>{const i=document.getElementById(id);if(i)i.value=''});apply(j);toast('Результат добавлен')})
+  if(PROG().oge){if(p===''||!(+p>=0&&+p<=31)){er.textContent='Баллы — число от 0 до 31.';return}}
+  pa.disabled=true;adm('probAdd',{d:v('p-d'),p:PROG().oge?+p:p,name:v('p-n')||'Пробник'}).then(j=>{['p-p','p-n'].forEach(id=>{const i=document.getElementById(id);if(i)i.value=''});apply(j);toast('Результат добавлен')})
    .catch(err=>{pa.disabled=false;er.textContent=errText(err)})};
 }
 function bindDetail(){const n=S.sel;if(!n)return;
