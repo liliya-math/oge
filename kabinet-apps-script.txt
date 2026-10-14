@@ -1,5 +1,5 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 5 (разборы из таблицы + выбор материала из списка)
+ * Кабинет ученика 25/25 · lili.math — версия 6 (разборы: таблица + редактор в кабинете)
  * Таблица — источник данных для страницы kabinet.html.
  *
  * После замены кода:
@@ -365,6 +365,20 @@ function admin_(b) {
         sh.deleteRow(row);
         return fresh();
       }
+      case 'matAdd': {
+        need();
+        const u = String(b.url || '').trim(), nm = String(b.name || '').trim();
+        if (!u || !nm) return {error: 'bad_value'};
+        ss.getSheetByName('Разборы').appendRow([code, u, nm, String(b.label || '').trim()]);
+        return fresh();
+      }
+      case 'matDel': {
+        need();
+        const sh = ss.getSheetByName('Разборы'), row = Number(b.id);
+        if (!(row >= 2 && row <= sh.getLastRow()) || String(sh.getRange(row, 1).getValue()).trim() !== code) return {error: 'changed'};
+        sh.deleteRow(row);
+        return fresh();
+      }
       case 'probAdd': {
         need();
         const p = Number(b.p);
@@ -435,7 +449,7 @@ function studentData_(code, admin) {
     .sort((a, b) => String(a.d).localeCompare(String(b.d)));
   const mats = rows('Разборы')
     .filter(x => String(x.v[1]).trim() && String(x.v[2]).trim())
-    .map(x => [String(x.v[1]).trim(), String(x.v[2]).trim(), String(x.v[3] || '').trim()]);
+    .map(x => [String(x.v[1]).trim(), String(x.v[2]).trim(), String(x.v[3] || '').trim(), x.row]);
   const matsSh = ss.getSheetByName('Разборы');
   const matsAll = (matsSh && matsSh.getLastRow() >= 2) ? matsSh.getLastRow() - 1 : 0;
   const out = {

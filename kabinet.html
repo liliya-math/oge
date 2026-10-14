@@ -1187,7 +1187,7 @@ function drafts(){const o={};app.querySelectorAll('input[id]:not([type=file]),te
 function tRender(keep){const y=scrollY,dr=keep===false?{}:drafts(),foc=document.activeElement&&document.activeElement.id;
  const kid=S.mode==='kid';
  app.innerHTML=tTop()+`<div class="cab enter">`+adminCard()+(kid
-  ? heroKid()+`<div class="two">${lessonCard(true)}${tHwCard()}</div>`+mapCard(false)+`<div class="two">${chartCard()}${probCard()}</div>`
+  ? heroKid()+`<div class="two">${lessonCard(true)}${tHwCard()}</div>`+tMatCard()+mapCard(false)+`<div class="two">${chartCard()}${probCard()}</div>`
   : heroPar()+mapCard(true)+`<div class="two">${chartCard()}${workCard()}</div>`)+foot()+`</div>`;
  Object.keys(dr).forEach(id=>{const i=document.getElementById(id);if(!i)return;if(i.type==='checkbox')i.checked=dr[id];else i.value=dr[id]});
  tBind();scrollTo({top:y});if(foc){const f=document.getElementById(foc);if(f&&f.focus)f.focus({preventScroll:true})}}
@@ -1262,6 +1262,14 @@ function tHwCard(){const open=D.hw.filter(h=>!h.done),done=D.hw.filter(h=>h.done
   <label class="fld"><span>PDF или фото с заданиями (необязательно)</span><input id="h-f" type="file" accept="application/pdf,image/*"></label>
   <div class="ferr" id="h-e"></div><button class="btn" id="h-add" type="button">Задать</button></div></div>`}
 
+function tMatCard(){const M=D.mats||[];return `<div class="card" id="matcard"><div class="sh"><h2>Разборы ученика</h2><span class="sub">${M.length?M.length:'пусто'}</span></div>
+ ${M.length?`<ul class="hw">${M.map(m=>`<li class="hwi t"><div style="min-width:0"><div class="hwt">${esc(m[1])}</div><div class="hwm">${m[2]?`<span class="tagn">${esc(m[2])}</span>`:''}<span class="due">${esc(m[0])}</span></div></div><button class="xbtn" data-mdel="${m[3]}" aria-label="Удалить разбор">×</button></li>`).join('')}</ul>`:'<p class="klead" style="margin:0">Разборов нет — ученик этот раздел не видит.</p>'}
+ <div class="formbox"><span class="eyebrow">Новый разбор</span>
+  <label class="fld"><span>Страница с сайта — начни вводить название</span><input id="m-u" list="sitepages" placeholder="z15-pifagor.html или https://…" autocomplete="off"></label>
+  <label class="fld"><span>Название карточки</span><input id="m-n" placeholder="подставится название страницы"></label>
+  <label class="fld"><span>Подпись (необязательно)</span><input id="m-l" placeholder="задание 15"></label>
+  <div class="ferr" id="m-e"></div><button class="btn" id="m-add" type="button">Добавить разбор</button></div></div>`}
+
 function probCard(){const H=(D.hist||[]).slice().reverse();return `<div class="card"><div class="sh"><h2>Пробники</h2><span class="sub">${H.length}</span></div>
  ${H.length?`<ul class="prl">${H.map(h=>`<li><span class="pd">${shortDate(h.d)||'—'}</span><span class="pt">${esc(h.t)}</span><span class="pp">${h.p}</span><button class="xbtn" data-pdel="${h.id}" aria-label="Удалить">×</button></li>`).join('')}</ul>`:''}
  <div class="formbox" ${H.length?'':'style="border-top:0;margin-top:0;padding-top:0"'}><span class="eyebrow">Добавить результат</span>
@@ -1305,6 +1313,15 @@ function tBind(){
   up.then(file=>adm('hwAdd',{text:v('h-t'),n:v('h-n'),due:v('h-d'),url:u,label:lab,file}))
    .then(j=>{['h-t','h-n','h-d','h-u','h-l'].forEach(id=>{const i=document.getElementById(id);if(i)i.value=''});apply(j,true);toast('Задание добавлено')})
    .catch(err=>{ha.disabled=false;ha.textContent='Задать';er.textContent=errText(err)})};
+ document.querySelectorAll('[data-mdel]').forEach(b=>b.onclick=()=>{if(!b.classList.contains('arm')){b.classList.add('arm');b.textContent='Удалить?';setTimeout(()=>{if(b.isConnected){b.classList.remove('arm');b.textContent='×'}},3000);return}
+  b.disabled=true;adm('matDel',{id:+b.dataset.mdel}).then(j=>{apply(j);toast('Разбор удалён')}).catch(err=>{toast(errText(err));tStudent()})});
+ const ma=document.getElementById('m-add');if(ma)ma.onclick=()=>{const v=id=>document.getElementById(id).value.trim(),er=document.getElementById('m-e');const u=v('m-u');
+  if(!u){er.textContent='Выбери страницу из списка или вставь ссылку.';return}
+  const pg=PAGES.find(p=>p[0]===u),nm=v('m-n')||(pg?pg[1]:'');
+  if(!nm){er.textContent='Впиши название карточки.';return}
+  ma.disabled=true;er.textContent='';
+  adm('matAdd',{url:u,name:nm,label:v('m-l')}).then(j=>{['m-u','m-n','m-l'].forEach(id=>{const i=document.getElementById(id);if(i)i.value=''});apply(j,true);toast('Разбор добавлен')})
+   .catch(err=>{ma.disabled=false;er.textContent=errText(err)})};
  const pa=document.getElementById('p-add');if(pa)pa.onclick=()=>{const v=id=>document.getElementById(id).value.trim(),er=document.getElementById('p-e'),p=v('p-p');
   if(p===''||!(+p>=0&&+p<=31)){er.textContent='Баллы — число от 0 до 31.';return}
   pa.disabled=true;adm('probAdd',{d:v('p-d'),p:+p,name:v('p-n')||'Пробник'}).then(j=>{['p-p','p-n'].forEach(id=>{const i=document.getElementById(id);if(i)i.value=''});apply(j);toast('Результат добавлен')})
