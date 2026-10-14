@@ -400,7 +400,7 @@ function winStep(msg,pet,xpN=10,el){
 function loseStep(msg,pet){
  sfx.bad();
  const card=app.querySelector(".card");card.classList.add("shake");setTimeout(()=>card.classList.remove("shake"),500);
- $("#fb").innerHTML=fbHTML(false,msg,pet);
+ $("#fb").innerHTML=fbHTML(false,msg,pet)+`<div class=petsay><img src="img/rac-calm.jpg" alt=""><div class=say><b>Енот Вайб:</b> Не расстраивайся — ошибка это нормально. Посмотри на пирог ещё раз и попробуй снова, у тебя точно получится.</div></div>`;
 }
 function bind(st){
  if(st.k==="exp")return;

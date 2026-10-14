@@ -588,7 +588,7 @@ function after(ok,t,el){
   sfx.bad();st.streak=0;save();
   app.querySelector(".card").classList.add("shake");setTimeout(()=>app.querySelector(".card")&&app.querySelector(".card").classList.remove("shake"),500);
  }
- $("#fb").innerHTML=fbHTML(ok,ok?(st.streak>=3?`Серия ×${st.streak}!`:"Можно идти дальше."):`Правильный ответ: ${t.a[0]}. ${t.hint[t.hint.length-1]}`);
+ $("#fb").innerHTML=fbHTML(ok,ok?(st.streak>=3?`Серия ×${st.streak}!`:"Можно идти дальше."):`Правильный ответ: ${t.a[0]}. ${t.hint[t.hint.length-1]}`)+(!ok?`<div class=petsay><img src="img/rac-calm.jpg" alt=""><div class=say><b>Енот Вайб:</b> Не расстраивайся — ошибаться нормально. Прочти последнюю подсказку ещё раз и попробуй похожее задание, у тебя получится.</div></div>`:"");
  const nav=app.querySelector(".navrow");
  const isLast=pr.i===modOf(pr.modId).practice.length-1;
  const allDone=Object.keys(st.prac).length===modOf(pr.modId).practice.length;
