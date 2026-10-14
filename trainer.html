@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#14211e">
+<title>Тренажёр: Задание 6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--bg:#14211e;--bg2:#1b2b28;--glass:rgba(243,236,226,.05);--glass2:rgba(243,236,226,.085);--line:rgba(226,234,228,.13);--fg:#f3ece2;--muted:#a9b6ad;--faint:#6e7f77;--cobalt:#1747c9;--apricot:#f2905e;--mint:#a9d18e;--amber:#f5dc6a;--miss:#ff8f73;--sans:-apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif;--display:-apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--fg);margin:0}
+body{font-family:var(--sans);font-size:16px;line-height:1.5;min-height:100vh;-webkit-font-smoothing:antialiased}
+.wrap{max-width:640px;margin:0 auto;padding:20px 16px 80px}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.brand{font-family:var(--display);font-weight:700;font-size:14px}.brand b{color:var(--apricot)}
+.card{background:var(--glass);border:1px solid var(--line);border-radius:24px;padding:24px;backdrop-filter:blur(24px) saturate(1.2);animation:enter .5s cubic-bezier(.2,.8,.2,1) both}
+@keyframes enter{from{opacity:0;transform:translateY(12px)}}
+.stmt{font-size:18px;line-height:1.6;margin-bottom:20px}
+.m{white-space:nowrap;font-family:var(--display);font-weight:600}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:.95em;line-height:1.1;margin:0 4px}
+.fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 4px}
+.ans{display:grid;gap:14px;margin-top:24px}
+.irow{display:flex;gap:10px}
+.field{flex:1;height:54px;padding:0 18px;border-radius:16px;border:1px solid var(--line);background:rgba(0,0,0,.25);font-size:20px;font-family:var(--display);font-variant-numeric:tabular-nums;color:var(--fg);transition:.2s}
+.field:focus{outline:none;border-color:var(--apricot);box-shadow:0 0 0 4px rgba(242,144,94,.15)}
+.btn{height:54px;padding:0 28px;border-radius:16px;border:0;font-weight:700;font-size:16px;background:var(--cobalt);color:#f3ece2;cursor:pointer;transition:.15s}
+.btn:hover{filter:brightness(1.1)}.btn:active{transform:scale(.97)}
+.hints{margin-top:20px;display:grid;gap:10px}
+.ctx{border:1px solid var(--line);border-radius:16px;background:rgba(0,0,0,.18);overflow:hidden}
+.ctx summary{padding:14px 16px;cursor:pointer;font-weight:600;font-size:15px;color:var(--apricot);list-style:none;display:flex;align-items:center;gap:8px}
+.ctx summary::before{content:"→";transition:transform .2s;display:inline-block}
+.ctx[open] summary::before{transform:rotate(90deg)}
+.ctx .in{padding:0 16px 16px;font-size:15px;color:#e6dbd3;line-height:1.6}
+.fb{border-radius:18px;padding:16px;display:flex;gap:14px;align-items:center;margin-top:20px;animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes pop{from{opacity:0;transform:scale(.95)}}
+.fb.ok{background:rgba(169,209,142,.1);border:1px solid rgba(169,209,142,.35)}
+.fb.bad{background:rgba(255,143,115,.08);border:1px solid rgba(255,143,115,.3)}
+.fb .t{font-weight:700;font-size:16px}.fb .s{font-size:14px;color:var(--muted)}
+.pet{width:48px;height:48px;border-radius:14px;background:var(--glass2);display:grid;place-items:center;font-size:24px;flex:none;border:2px solid var(--line)}
+.pet.jump{animation:jump .7s cubic-bezier(.3,1.8,.5,1)}
+.pet.sad{animation:shake .45s}
+@keyframes jump{40%{transform:translateY(-10px) scale(1.1)}}
+@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="kabinet.html" style="color:var(--muted);text-decoration:none;font-size:20px">←</a>
+    <div class="brand">Тренажёр <b>Задание 6</b></div>
+  </div>
+
+  <div class="card">
+    <div class="stmt">
+      Найдите значение выражения:<br>
+      <span class="m">
+        <span class="fr"><span>7</span><span>15</span></span>
+        :
+        <span class="fr"><span>14</span><span>45</span></span>
+      </span>
+    </div>
+
+    <div class="ans" id="answerZone">
+      <div class="irow">
+        <input type="text" class="field" id="userAnswer" placeholder="Ваш ответ (десятичная дробь)" inputmode="decimal">
+        <button class="btn" onclick="checkAnswer()">Проверить</button>
+      </div>
+    </div>
+
+    <div class="hints">
+      <details class="ctx">
+        <summary>Подсказка 1</summary>
+        <div class="in">При делении дробей первая дробь умножается на перевёрнутую вторую.</div>
+      </details>
+      <details class="ctx">
+        <summary>Подсказка 2</summary>
+        <div class="in">
+          <span class="m">
+            <span class="fr"><span>7</span><span>15</span></span>
+            ×
+            <span class="fr"><span>45</span><span>14</span></span>
+          </span>
+          <br>Сократите 7 и 14 на 7, а 45 и 15 на 15.
+        </div>
+      </details>
+    </div>
+
+    <div id="feedback" class="fb" style="display:none">
+      <div class="pet" id="petIcon">🦊</div>
+      <div>
+        <div class="t" id="fbTitle">Отлично!</div>
+        <div class="s" id="fbText">Ответ верный. Так держать!</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function checkAnswer() {
+  const input = document.getElementById('userAnswer');
+  const fb = document.getElementById('feedback');
+  const pet = document.getElementById('petIcon');
+  const val = input.value.replace(',', '.').trim();
+  
+  fb.style.display = 'flex';
+  fb.className = 'fb'; // reset
+  
+  if (val === '1.5' || val === '3/2') {
+    fb.classList.add('ok');
+    document.getElementById('fbTitle').textContent = 'Верно! 🎉';
+    document.getElementById('fbText').textContent = '7/15 × 45/14 = (7×45)/(15×14) = 3/2 = 1.5';
+    pet.textContent = '🦊';
+    pet.className = 'pet jump';
+  } else {
+    fb.classList.add('bad');
+    document.getElementById('fbTitle').textContent = 'Не совсем';
+    document.getElementById('fbText').textContent = 'Попробуй использовать подсказки выше или проверь сокращение дробей.';
+    pet.textContent = '🐾';
+    pet.className = 'pet sad';
+    input.style.borderColor = 'var(--miss)';
+    setTimeout(() => input.style.borderColor = '', 1000);
+  }
+  
+  // Reset animation
+  setTimeout(() => pet.className = 'pet', 1000);
+}
+
+document.getElementById('userAnswer').addEventListener('keypress', function (e) {
+  if (e.key === 'Enter') checkAnswer();
+});
+</script>
+</body>
+</html>
