@@ -390,7 +390,10 @@ function admin_(b) {
       case 'probAdd': {
         const st = need();
         if (progOf_(st.row) === 'school') {
-          const v = /^\s*не/i.test(String(b.p || '')) ? 'незачёт' : 'зачёт';
+          const p2 = Number(b.p);
+          let v = (p2 >= 2 && p2 <= 5) ? p2 : null;
+          if (v === null) { const s0 = String(b.p || ''); v = /^\s*не/i.test(s0) ? 2 : (/зач/i.test(s0) ? 5 : null); }
+          if (v === null) return {error: 'bad_value'};
           ss.getSheetByName('Пробники').appendRow([code, ruDate_(b.d), String(b.name || 'Работа').trim(), v]);
           return fresh();
         }

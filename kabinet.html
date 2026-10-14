@@ -1293,11 +1293,11 @@ function tMatCard(){const M=D.mats||[];return `<div class="card" id="matcard"><d
   <label class="fld"><span>Подпись (необязательно)</span><input id="m-l" placeholder="задание 15"></label>
   <div class="ferr" id="m-e"></div><button class="btn" id="m-add" type="button">Добавить разбор</button></div></div>`}
 
-function probCard(){const H=(D.hist||[]).slice().reverse(),P=PROG();return `<div class="card"><div class="sh"><h2>${P.oge?'Пробники':'Работы и зачёты'}</h2><span class="sub">${H.length}</span></div>
+function probCard(){const H=(D.hist||[]).slice().reverse(),P=PROG();return `<div class="card"><div class="sh"><h2>${P.oge?'Пробники':'Работы и отметки'}</h2><span class="sub">${H.length}</span></div>
  ${H.length?`<ul class="prl">${H.map(h=>`<li><span class="pd">${shortDate(h.d)||'—'}</span><span class="pt">${esc(h.t)}</span><span class="pp">${h.p}</span><button class="xbtn" data-pdel="${h.id}" aria-label="Удалить">×</button></li>`).join('')}</ul>`:''}
  <div class="formbox" ${H.length?'':'style="border-top:0;margin-top:0;padding-top:0"'}><span class="eyebrow">Добавить результат</span>
   <div class="fgrid"><label class="fld"><span>Дата</span><input id="p-d" type="date" value="${isoIn(0)}"></label>
-  <label class="fld"><span>${P.oge?'Баллы из 31':'Результат'}</span>${P.oge?'<input id="p-p" type="number" min="0" max="31" inputmode="numeric">':'<select id="p-p"><option value="зачёт">зачёт</option><option value="незачёт">незачёт</option></select>'}</label></div>
+  <label class="fld"><span>${P.oge?'Баллы из 31':'Отметка'}</span>${P.oge?'<input id="p-p" type="number" min="0" max="31" inputmode="numeric">':'<select id="p-p"><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option></select>'}</label></div>
   <label class="fld"><span>Название</span><input id="p-n" placeholder="${P.oge?'Пробник №1':'Контрольная: дроби'}"></label>
   <div class="ferr" id="p-e"></div><button class="btn" id="p-add" type="button">Добавить</button></div></div>`}
 
@@ -1347,7 +1347,8 @@ function tBind(){
    .catch(err=>{ma.disabled=false;er.textContent=errText(err)})};
  const pa=document.getElementById('p-add');if(pa)pa.onclick=()=>{const v=id=>document.getElementById(id).value.trim(),er=document.getElementById('p-e'),p=v('p-p');
   if(PROG().oge){if(p===''||!(+p>=0&&+p<=31)){er.textContent='Баллы — число от 0 до 31.';return}}
-  pa.disabled=true;adm('probAdd',{d:v('p-d'),p:PROG().oge?+p:p,name:v('p-n')||'Пробник'}).then(j=>{['p-p','p-n'].forEach(id=>{const i=document.getElementById(id);if(i)i.value=''});apply(j);toast('Результат добавлен')})
+  else if(p===''||!(+p>=2&&+p<=5)){er.textContent='Выбери отметку от 2 до 5.';return}
+  pa.disabled=true;adm('probAdd',{d:v('p-d'),p:+p,name:v('p-n')||'Пробник'}).then(j=>{['p-p','p-n'].forEach(id=>{const i=document.getElementById(id);if(i)i.value=''});apply(j);toast('Результат добавлен')})
    .catch(err=>{pa.disabled=false;er.textContent=errText(err)})};
 }
 function bindDetail(){const n=S.sel;if(!n)return;
