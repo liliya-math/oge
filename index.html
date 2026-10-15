@@ -29,6 +29,9 @@ section{display:flex;flex-direction:column;gap:12px}
 h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin:0;padding-bottom:6px;border-bottom:1px solid var(--line)}
 .list{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
 .item a{display:grid;grid-template-columns:64px 1fr;gap:16px;align-items:center;background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:14px 18px;color:inherit;text-decoration:none;transition:border-color .2s}
+.item a.masc{grid-template-columns:56px 56px 1fr;gap:12px}
+.mimg{width:56px;height:56px;border-radius:50%;object-fit:cover;border:1px solid var(--line);box-shadow:0 8px 18px -10px rgba(0,0,0,.7);flex:none}
+@media (max-width:520px){.item a.masc{grid-template-columns:44px 1fr}.mimg{display:none}}
 .item a:hover{border-color:var(--pen)}
 .item a:focus-visible{outline:2px solid var(--pen);outline-offset:2px}
 .num{font-family:var(--f-math);font-size:38px;line-height:1;color:var(--red);text-align:center;font-variant-numeric:tabular-nums}
@@ -54,7 +57,8 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);paddin
   <section>
     <h2>Проверь себя · пробники</h2>
     <ul class="list">
-      <li class="item"><a href="probnik-oge-1.html">
+      <li class="item"><a class="masc" href="probnik-oge-1.html">
+        <img class=mimg src="img/lab-desk-wide.jpg" alt="" loading="lazy">
         <div class="num">25<small>заданий</small></div>
         <div class="txt">
           <span class="t">Пробник ОГЭ №1 · полный вариант</span>
@@ -62,7 +66,8 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);paddin
           <span class="tags"><span class="tag">около 60 минут</span><span class="tag">с подсказками</span></span>
         </div>
       </a></li>
-      <li class="item"><a href="probnik-oge-2.html">
+      <li class="item"><a class="masc" href="probnik-oge-2.html">
+        <img class=mimg src="img/capy-desk-wide.jpg" alt="" loading="lazy">
         <div class="num">25<small>заданий</small></div>
         <div class="txt">
           <span class="t">Пробник ОГЭ №2 · полный вариант</span>
@@ -70,7 +75,8 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);paddin
           <span class="tags"><span class="tag">около 60 минут</span><span class="tag">с подсказками</span></span>
         </div>
       </a></li>
-      <li class="item"><a href="razbor-probnik-oge-2.html">
+      <li class="item"><a class="masc" href="razbor-probnik-oge-2.html">
+        <img class=mimg src="img/rac-desk-wide.jpg" alt="" loading="lazy">
         <div class="num">12<small>заданий</small></div>
         <div class="txt">
           <span class="t">Пробник ОГЭ №2 · разбор по шагам</span>
@@ -100,7 +106,8 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);paddin
   <section>
     <h2>Домашние работы · по номерам ОГЭ</h2>
     <ul class="list">
-      <li class="item"><a href="dz-6-desyatichnye-drobi-1.html">
+      <li class="item"><a class="masc" href="dz-6-desyatichnye-drobi-1.html">
+        <img class=mimg src="img/ham-pizza.jpg" alt="" loading="lazy">
         <div class="num">6<small>задание</small></div>
         <div class="txt">
           <span class="t">ДЗ №1 · Действия с десятичными дробями</span>
@@ -116,7 +123,8 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);paddin
           <span class="tags"><span class="tag">6 страниц</span><span class="tag">без ответов</span></span>
         </div>
       </a></li>
-      <li class="item"><a href="dz-6-chisla-s-raznymi-znakami-2.html">
+      <li class="item"><a class="masc" href="dz-6-chisla-s-raznymi-znakami-2.html">
+        <img class=mimg src="img/ham-thermo.jpg" alt="" loading="lazy">
         <div class="num">6<small>задание</small></div>
         <div class="txt">
           <span class="t">ДЗ №2 · Действия с числами с разными знаками</span>
@@ -138,7 +146,8 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);paddin
   <section>
     <h2>Тренажёр и инструменты</h2>
     <ul class="list">
-      <li class="item"><a href="trainer.html">
+      <li class="item"><a class="masc" href="trainer.html">
+        <img class=mimg src="img/shiba-board.jpg" alt="" loading="lazy">
         <div class="num">6<small>задание</small></div>
         <div class="txt">
           <span class="t">Тренажёр · задание 6: обыкновенные дроби</span>
@@ -146,7 +155,8 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);paddin
           <span class="tags"><span class="tag">бесконечные примеры</span><span class="tag">с подсказками</span></span>
         </div>
       </a></li>
-      <li class="item"><a href="formulas.html">
+      <li class="item"><a class="masc" href="formulas.html">
+        <img class=mimg src="img/panda-cup.jpg" alt="" loading="lazy">
         <div class="num">a²<small>формулы</small></div>
         <div class="txt">
           <span class="t">Справочник формул ОГЭ</span>
@@ -154,7 +164,8 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);paddin
           <span class="tags"><span class="tag">алгебра и геометрия</span><span class="tag">перед пробником</span></span>
         </div>
       </a></li>
-      <li class="item"><a href="achievements.html">
+      <li class="item"><a class="masc" href="achievements.html">
+        <img class=mimg src="img/rac-win.jpg" alt="" loading="lazy">
         <div class="num">★<small>награды</small></div>
         <div class="txt">
           <span class="t">Мои достижения</span>
@@ -168,7 +179,8 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);paddin
   <section>
     <h2>5 класс · диагностика за начальную школу</h2>
     <ul class="list">
-      <li class="item"><a href="diagnostika-1-4-klass.html">
+      <li class="item"><a class="masc" href="diagnostika-1-4-klass.html">
+        <img class=mimg src="img/lab-pizza.jpg" alt="" loading="lazy">
         <div class="num">14<small>заданий</small></div>
         <div class="txt">
           <span class="t">Диагностика по математике за 1–4 класс</span>
@@ -182,7 +194,8 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);paddin
   <section>
     <h2>6 класс · диагностика</h2>
     <ul class="list">
-      <li class="item"><a href="diagnostika-6-klass.html">
+      <li class="item"><a class="masc" href="diagnostika-6-klass.html">
+        <img class=mimg src="img/mer-lupa.jpg" alt="" loading="lazy">
         <div class="num">22<small>задания</small></div>
         <div class="txt">
           <span class="t">Диагностика по математике · 6 класс</span>
@@ -190,7 +203,8 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);paddin
           <span class="tags"><span class="tag">около 70 минут</span><span class="tag">в игровой форме</span></span>
         </div>
       </a></li>
-      <li class="item"><a href="razbor-diagnostika-6-klass.html">
+      <li class="item"><a class="masc" href="razbor-diagnostika-6-klass.html">
+        <img class=mimg src="img/rac-pizza.jpg" alt="" loading="lazy">
         <div class="num">22<small>разбора</small></div>
         <div class="txt">
           <span class="t">Разбор диагностики · 6 класс</span>
@@ -212,7 +226,8 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);paddin
   <section>
     <h2>Интерактивное обучение</h2>
     <ul class="list">
-      <li class="item"><a href="drob-s-nulya.html">
+      <li class="item"><a class="masc" href="drob-s-nulya.html">
+        <img class=mimg src="img/rat-pizza.jpg" alt="" loading="lazy">
         <div class="num">5<small>уроков</small></div>
         <div class="txt">
           <span class="t">Дроби с нуля · пироги и игры</span>
@@ -220,7 +235,8 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);paddin
           <span class="tags"><span class="tag">самый старт</span><span class="tag">всё интерактивно</span></span>
         </div>
       </a></li>
-      <li class="item"><a href="ucheba-6-klass.html#frac">
+      <li class="item"><a class="masc" href="ucheba-6-klass.html#frac">
+        <img class=mimg src="img/rat-pie.jpg" alt="" loading="lazy">
         <div class="num">6<small>уроков</small></div>
         <div class="txt">
           <span class="t">Дроби · полный курс</span>
@@ -228,7 +244,8 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);paddin
           <span class="tags"><span class="tag">6 уроков</span><span class="tag">16 заданий</span></span>
         </div>
       </a></li>
-      <li class="item"><a href="ucheba-6-klass.html#sign">
+      <li class="item"><a class="masc" href="ucheba-6-klass.html#sign">
+        <img class=mimg src="img/rat-thermo.jpg" alt="" loading="lazy">
         <div class="num">5<small>уроков</small></div>
         <div class="txt">
           <span class="t">Числа с разными знаками</span>
@@ -236,7 +253,8 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);paddin
           <span class="tags"><span class="tag">5 уроков</span><span class="tag">16 заданий</span></span>
         </div>
       </a></li>
-      <li class="item"><a href="ucheba-6-klass.html#pct">
+      <li class="item"><a class="masc" href="ucheba-6-klass.html#pct">
+        <img class=mimg src="img/ham-chart.jpg" alt="" loading="lazy">
         <div class="num">5<small>уроков</small></div>
         <div class="txt">
           <span class="t">Проценты</span>
@@ -250,7 +268,8 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);paddin
   <section>
     <h2>7 класс · диагностика</h2>
     <ul class="list">
-      <li class="item"><a href="diagnostika-7-klass.html">
+      <li class="item"><a class="masc" href="diagnostika-7-klass.html">
+        <img class=mimg src="img/cat-pizza.jpg" alt="" loading="lazy">
         <div class="num">22<small>задания</small></div>
         <div class="txt">
           <span class="t">Диагностика по математике · 7 класс</span>
@@ -264,7 +283,8 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);paddin
   <section>
     <h2>8 класс · диагностика</h2>
     <ul class="list">
-      <li class="item"><a href="diagnostika-8-klass.html">
+      <li class="item"><a class="masc" href="diagnostika-8-klass.html">
+        <img class=mimg src="img/capy-coin.jpg" alt="" loading="lazy">
         <div class="num">22<small>задания</small></div>
         <div class="txt">
           <span class="t">Диагностика по математике · 8 класс</span>
