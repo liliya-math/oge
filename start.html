@@ -1,0 +1,129 @@
+<!doctype html><html lang="ru"><head><meta charset=utf8>
+<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Моя панель · lili.math</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --bg:#14211e; --bg2:#1b2b28; --glass:rgba(243,236,226,.05); --glass2:rgba(243,236,226,.085);
+  --line:rgba(226,234,228,.13); --fg:#f3ece2; --muted:#a9b6ad; --faint:#6e7f77;
+  --cobalt:#4d7dff; --sky:#d6e2ee; --apricot:#f2905e; --lilac:#a9c1ff; --mint:#a9d18e; --amber:#f5dc6a; --miss:#ff8f73;
+  --grad:linear-gradient(115deg,#f5dc6a 0%,#f2905e 100%);
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Inter",system-ui,"Segoe UI",Roboto,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--fg)}
+body{margin:0;font-family:var(--sans);font-size:16px;line-height:1.55;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:var(--lilac)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--apricot);outline-offset:3px;border-radius:10px}
+.amb{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.amb i{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.26;animation:drift 26s ease-in-out infinite alternate}
+.amb i:nth-child(1){background:#1747c9;left:-20vmax;top:-25vmax}
+.amb i:nth-child(2){background:#5d7a4f;right:-25vmax;top:10vmax;opacity:.15;animation-duration:32s}
+.amb i:nth-child(3){background:#2c4f6b;left:10vmax;bottom:-35vmax;opacity:.15;animation-duration:38s}
+@keyframes drift{to{transform:translate(8vmax,6vmax) scale(1.12)}}
+.wrap{position:relative;z-index:1;max-width:920px;margin:0 auto;padding-inline:16px;padding-block:20px 90px}
+.top{position:sticky;top:0;z-index:20;margin:0 -16px 18px;padding:12px 16px 10px;background:linear-gradient(var(--bg) 70%,transparent);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.02em}
+.brand b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sp{flex:1}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:13px;color:var(--muted);white-space:nowrap;text-decoration:none}
+.pill:hover{background:var(--glass2)}
+.pill strong{color:var(--fg);font-weight:600}
+h1{font-family:var(--display);font-size:clamp(26px,5vw,36px);line-height:1.15;margin:14px 0 6px;font-weight:800;letter-spacing:-.01em}
+h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--muted);font-size:15px;margin:0 0 18px}
+.sec{display:flex;align-items:center;gap:12px;margin:32px 0 12px}
+.sec h2{font-family:var(--display);font-size:19px;margin:0;font-weight:800;letter-spacing:-.01em}
+.sec .ln{flex:1;height:1px;background:var(--line)}
+.sec .ico{font-size:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+a.card{display:block;background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:16px;text-decoration:none;color:var(--fg);backdrop-filter:blur(8px);transition:border-color .15s,background .15s;position:relative;overflow:hidden}
+a.card:hover{border-color:var(--apricot);background:var(--glass2)}
+a.card .t{font-weight:700;font-size:15.5px;display:flex;align-items:center;gap:8px}
+a.card .d{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.45}
+a.card .tags{margin-top:9px;display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;background:rgba(77,125,255,.15);color:var(--lilac);border:1px solid rgba(77,125,255,.3)}
+.tag.o{background:rgba(242,144,94,.13);color:var(--apricot);border-color:rgba(242,144,94,.32)}
+.tag.g{background:rgba(169,209,142,.12);color:var(--mint);border-color:rgba(169,209,142,.3)}
+.tag.y{background:rgba(245,220,106,.1);color:var(--amber);border-color:rgba(245,220,106,.3)}
+.pet{position:absolute;right:-6px;bottom:-6px;width:64px;height:64px;object-fit:cover;border-radius:18px 0 18px 0;opacity:.9;border:1px solid var(--line)}
+.hero{display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 6px}
+.hero img{width:64px;height:64px;object-fit:cover;border-radius:18px;border:1px solid var(--line)}
+.note{color:var(--faint);font-size:12.5px;margin-top:14px;text-align:center}
+</style></head>
+<body>
+<div class=amb><i></i><i></i><i></i></div>
+<div class=wrap>
+
+<div class=top>
+  <div class=brand>lili<b>.math</b></div>
+  <span class=pill><strong>Моя панель</strong> · все разделы</span>
+  <div class=sp></div>
+  <a class=pill href="index.html">Страница для учеников →</a>
+</div>
+
+<div class=hero>
+<img src="img/rat-joy.jpg" alt="Биссектриса">
+<img src="img/ham-joy.jpg" alt="Хомяк Стресс">
+<img src="img/rac-joy.jpg" alt="Енот Вайб">
+<img src="img/cat-joy.jpg" alt="Кот Сигма">
+<img src="img/lab-joy.jpg" alt="Лаки Плюс">
+<img src="img/capy-idle.jpg" alt="Капи Дзен">
+<img src="img/mer-think.jpg" alt="Сурик Шок">
+<img src="img/ratpup-joy.jpg" alt="Радиус">
+</div>
+
+<h1>Привет, Лилия! <em>Все разделы</em> — здесь</h1>
+<p class=sub>Твоя личная панель: классы, зачёты, диагностики, ОГЭ, доска и кабинет ученика. Добавь страницу в закладки — и всё под рукой.</p>
+
+<div class=sec><span class=ico>🎓</span><h2>Мои классы · темы и зачёты</h2><div class=ln></div></div>
+<div class=grid>
+  <a class=card href="7-klass.html"><div class=t>7 класс</div><div class=d>Алгебра и геометрия по твоим темам, зачёт по каждому разделу — 10 вопросов с объяснениями.</div><div class=tags><span class="tag y">алгебра</span><span class="tag g">геометрия</span><span class=tag>зачёт ×2</span></div><img class=pet src="img/rat-joy.jpg" alt=""></a>
+  <a class=card href="8-klass.html"><div class=t>8 класс</div><div class=d>Корни и Виета; параллелограмм, трапеция, Пифагор, векторы. Зачёты в конце разделов.</div><div class=tags><span class="tag y">алгебра</span><span class="tag g">геометрия</span><span class=tag>зачёт ×2</span></div><img class=pet src="img/ham-joy.jpg" alt=""></a>
+  <a class=card href="9-klass.html"><div class=t>9 класс · ОГЭ</div><div class=d>Прогрессии, вероятность; подобие, окружность, площади. Плюс раздел по номерам заданий ОГЭ.</div><div class=tags><span class="tag y">алгебра</span><span class="tag g">геометрия</span><span class="tag o">ОГЭ по номерам</span></div><img class=pet src="img/lab-joy.jpg" alt=""></a>
+</div>
+
+<div class=sec><span class=ico>🧒</span><h2>5–6 класс · фундамент</h2><div class=ln></div></div>
+<div class=grid>
+  <a class=card href="drob-s-nulya.html"><div class=t>Дроби с нуля</div><div class=d>Пироги, игры «покажи дробь» и «что больше» — для тех, кто совсем не понимает.</div><div class=tags><span class="tag o">интерактив</span><span class="tag g">самый старт</span></div><img class=pet src="img/rat-pizza.jpg" alt=""></a>
+  <a class=card href="ucheba-6-klass.html"><div class=t>Интерактивное обучение · 6 класс</div><div class=d>Дроби, действия со знаками и проценты — супер-пошагово, с маскотами и заданиями.</div><div class=tags><span class="tag o">интерактив</span><span class=tag>3 темы</span></div><img class=pet src="img/rat-pie.jpg" alt=""></a>
+  <a class=card href="materialy-drob.html"><div class=t>Опорник «Дроби навсегда»</div><div class=d>Язык пиццы: 5 шагов от «что такое дробь» до деления. Для доски и печати.</div><div class=tags><span class="tag y">к доске</span></div><img class=pet src="img/obj-pizza.jpg" alt=""></a>
+  <a class=card href="dz-6-chisla-s-raznymi-znakami-2.html"><div class=t>ДЗ · числа с разными знаками</div><div class=d>Домашняя работа №2 в твоём стиле, с PDF для печати.</div><div class=tags><span class="tag g">6 класс</span><span class="tag y">pdf</span></div></a>
+  <a class=card href="dz-6-desyatichnye-drobi-1.html"><div class=t>ДЗ · десятичные дроби</div><div class=d>Домашняя работа по десятичным дробям, с PDF.</div><div class=tags><span class="tag g">6 класс</span><span class="tag y">pdf</span></div></a>
+</div>
+
+<div class=sec><span class=ico>📋</span><h2>Диагностики и разборы</h2><div class=ln></div></div>
+<div class=grid>
+  <a class=card href="diagnostika-1-4-klass.html"><div class=t>Диагностика · 1–4 класс</div><div class=d>Итоги начальной школы.</div><div class=tags><span class=tag>начальная школа</span></div></a>
+  <a class=card href="diagnostika-6-klass.html"><div class=t>Диагностика · 6 класс</div><div class=d>Итоги обучения в 6 классе, интерактивно.</div><div class=tags><span class=tag>интерактив</span></div></a>
+  <a class=card href="razbor-diagnostika-6-klass.html"><div class=t>Разбор диагностики · 6 класс</div><div class=d>Пошаговый диалог ученика и учителя с наводящими вопросами. Есть PDF.</div><div class=tags><span class=tag>разбор</span><span class="tag y">pdf</span></div><img class=pet src="img/rat-think.jpg" alt=""></a>
+  <a class=card href="diagnostika-7-klass.html"><div class=t>Диагностика · 7 класс</div><div class=d>Промежуточная диагностика.</div><div class=tags><span class=tag>интерактив</span></div></a>
+  <a class=card href="diagnostika-8-klass.html"><div class=t>Диагностика · 8 класс</div><div class=d>Промежуточная диагностика.</div><div class=tags><span class=tag>интерактив</span></div></a>
+</div>
+
+<div class=sec><span class=ico>📝</span><h2>ОГЭ · тренировка</h2><div class=ln></div></div>
+<div class=grid>
+  <a class=card href="probnik-oge-1.html"><div class=t>Пробник ОГЭ №1</div><div class=d>Пробный вариант в формате экзамена.</div><div class=tags><span class="tag o">пробник</span></div><img class=pet src="img/lab-think.jpg" alt=""></a>
+  <a class=card href="probnik-oge-2.html"><div class=t>Пробник ОГЭ №2</div><div class=d>Второй вариант + есть пошаговый разбор.</div><div class=tags><span class="tag o">пробник</span><span class=tag>разбор</span></div></a>
+  <a class=card href="probnik-oge-3.html"><div class=t>Пробник ОГЭ №3</div><div class=d>Третий вариант для закрепления.</div><div class=tags><span class="tag o">пробник</span></div></a>
+  <a class=card href="mini-probnik-1.html"><div class=t>Мини-пробник</div><div class=d>Короткая тренировка на время.</div><div class=tags><span class="tag o">экспресс</span></div></a>
+  <a class=card href="trainer.html"><div class=t>Тренажёр</div><div class=d>Практика по номерам заданий с сохранением прогресса.</div><div class=tags><span class=tag>по номерам</span></div></a>
+  <a class=card href="formulas.html"><div class=t>Формулы</div><div class=d>Сборник формул для подготовки.</div><div class=tags><span class="tag y">шпаргалка</span></div></a>
+  <a class=card href="z15-pifagor.html"><div class=t>Задание 15 · разборы</div><div class=d>Пифагор, площади, медианы, синус/косинус — по шагам.</div><div class=tags><span class=tag>геометрия</span><span class="tag o">задание 15</span></div><img class=pet src="img/rac-board.jpg" alt=""></a>
+  <a class=card href="materialy-9-klass.html"><div class=t>Опорник · геометрия и вероятность</div><div class=d>Все формулы и схемы 9 класса к доске.</div><div class=tags><span class="tag y">к доске</span></div><img class=pet src="img/ham-board.jpg" alt=""></a>
+</div>
+
+<div class=sec><span class=ico>🛠</span><h2>Доска и кабинет</h2><div class=ln></div></div>
+<div class=grid>
+  <a class=card href="https://liliya-math.github.io/excalidraw/" target=_blank><div class=t>🖊️ Интерактивная доска</div><div class=d>Твоя доска Excalidraw: библиотеки с готовыми чертежами, комнаты для классов.</div><div class=tags><span class=tag>урок</span><span class="tag g">библиотеки шаблонов</span></div></a>
+  <a class=card href="kabinet.html"><div class=t>Кабинет ученика</div><div class=d>Личный кабинет: классы, ссылки, прогресс. Открывается ученикам по коду.</div><div class=tags><span class=tag>для учеников</span></div><img class=pet src="img/cat-idle.jpg" alt=""></a>
+  <a class=card href="achievements.html"><div class=t>Достижения</div><div class=d>Страница достижений учеников.</div><div class=tags><span class="tag g">мотивация</span></div><img class=pet src="img/mer-think.jpg" alt=""></a>
+</div>
+
+<p class=note>lili.math · моя панель · <a href="index.html">перейти на ученическую версию главной</a></p>
+</div>
+</body></html>
