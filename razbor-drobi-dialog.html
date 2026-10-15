@@ -1,0 +1,110 @@
+<!doctype html><html lang="ru"><head><meta charset=utf8>
+<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Разбор · Дроби · диалог</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --bg:#14211e; --glass:rgba(243,236,226,.05); --glass2:rgba(243,236,226,.085);
+  --line:rgba(226,234,228,.13); --fg:#f3ece2; --muted:#a9b6ad; --faint:#6e7f77;
+  --apricot:#f2905e; --lilac:#a9c1ff; --mint:#a9d18e; --amber:#f5dc6a;
+  --grad:linear-gradient(115deg,#f5dc6a 0%,#f2905e 100%);
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--fg)}
+body{margin:0;font-family:var(--sans);font-size:16px;line-height:1.55;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:var(--lilac)}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--apricot);outline-offset:3px;border-radius:10px}
+.amb{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.amb i{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.26;animation:drift 26s ease-in-out infinite alternate}
+.amb i:nth-child(1){background:#1747c9;left:-20vmax;top:-25vmax}
+.amb i:nth-child(2){background:#5d7a4f;right:-25vmax;top:10vmax;opacity:.15;animation-duration:32s}
+.amb i:nth-child(3){background:#2c4f6b;left:10vmax;bottom:-35vmax;opacity:.15;animation-duration:38s}
+@keyframes drift{to{transform:translate(8vmax,6vmax) scale(1.12)}}
+.wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding-inline:16px;padding-block:20px 90px}
+.top{position:sticky;top:0;z-index:20;margin:0 -16px 18px;padding:12px 16px 10px;background:linear-gradient(var(--bg) 70%,transparent);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:700;font-size:13px}
+.brand b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sp{flex:1}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:13px;color:var(--muted);white-space:nowrap;text-decoration:none}
+.pill:hover{background:var(--glass2)}
+.pill strong{color:var(--fg);font-weight:600}
+h1{font-family:var(--display);font-size:clamp(23px,5vw,32px);line-height:1.15;margin:14px 0 6px;font-weight:800;letter-spacing:-.01em}
+h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--muted);font-size:14.5px;margin:0 0 14px}
+.step{display:flex;gap:10px;margin:14px 0;align-items:flex-start}
+.ava{width:44px;height:44px;border-radius:14px;object-fit:cover;border:1px solid var(--line);flex-shrink:0}
+.bub{padding:11px 15px;border-radius:16px;font-size:14.5px;line-height:1.55;min-width:0}
+.teacher .bub{background:var(--glass2);border:1px solid var(--line);border-top-left-radius:4px}
+.student .bub{background:rgba(169,209,142,.1);border:1px solid rgba(169,209,142,.3);border-top-right-radius:4px}
+.who{font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);margin-bottom:3px}
+.student .who{color:var(--mint)}
+.teacher .who{color:var(--amber)}
+.bub b{color:var(--amber);font-weight:600}
+.bub .frm{font-family:var(--display);font-weight:600;color:var(--apricot)}
+.reveal{margin-top:8px;padding:6px 14px;border-radius:999px;border:1px dashed rgba(169,209,142,.5);background:transparent;color:var(--mint);font-size:13px}
+.reveal:hover{background:rgba(169,209,142,.08)}
+.answer[hidden]{display:none}
+.hint{margin-top:8px;padding:8px 12px;border-left:3px solid var(--lilac);background:rgba(169,193,255,.07);border-radius:0 10px 10px 0;font-size:13.5px;color:var(--muted)}
+.tasknum{display:inline-grid;place-items:center;min-width:30px;height:30px;border-radius:10px;background:var(--grad);color:#14211e;font-weight:800;font-size:14px}
+.sec{display:flex;align-items:center;gap:12px;margin:30px 0 12px}
+.sec h2{font-family:var(--display);font-size:19px;margin:0;font-weight:800}
+.sec .ln{flex:1;height:1px;background:var(--line)}
+.task{background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0}
+.task .qt{font-weight:700;font-size:15px;margin-bottom:6px}
+.sol{margin-top:10px;padding:10px 14px;border-left:3px solid var(--mint);background:rgba(169,209,142,.07);border-radius:0 12px 12px 0;font-size:14px}
+.sol[hidden]{display:none}
+.task .reveal{border-color:rgba(245,220,106,.5);color:var(--amber)}
+.foot{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:20px;justify-content:center}
+.foot img{width:70px;height:70px;object-fit:cover;border-radius:20px;border:1px solid var(--line)}
+.note{color:var(--faint);font-size:12.5px;margin-top:10px;text-align:center}
+@media print{.top,.reveal,.amb{display:none}body{background:#fff;color:#111}.bub{border-color:#999;color:#111}}
+</style></head>
+<body>
+<div class=amb><i></i><i></i><i></i></div>
+<div class=wrap>
+<div class=top>
+  <div class=brand>lili<b>.math</b></div>
+  <span class=pill><strong>Разбор в диалогах</strong> · дроби</span>
+  <div class=sp></div>
+  <a class=pill href="start.html">← Моя панель</a>
+</div>
+<h1>Дроби: <em>разбор в диалоге</em></h1>
+<p class=sub>Учитель и ученик разбирают руководство по дробям — от пиццы 3/8 до деления. Ответы ученика и подсказки скрыты: нажми, чтобы раскрыть.</p>
+<div class="step teacher"><img class=ava src="img/rat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Перед нами пицца, разрезанная на 8 равных кусочков. На тарелке лежат 3 куска. Как одной записью показать, сколько пиццы на тарелке?<div class=hint id="s1-h" hidden>💡 Спроси себя два вопроса: на сколько частей резали? сколько взяли?</div><button class=reveal data-reveal="s1-h">Подсказка</button></div></div></div><div class="step student"><img class=ava src="img/ham-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s1-a" hidden>Это дробь <span class=frm>3/8</span>! Три куска из восьми.</div><button class=reveal data-reveal="s1-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Верно! А теперь главное: где что? Что означает число <b>8</b> внизу?</div></div></div><div class="step student"><img class=ava src="img/ham-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s2-a" hidden>Восьмёрка — это размер куска: пиццу разрезали на 8 частей. Чем больше число внизу, тем мельче кусочки.</div><button class=reveal data-reveal="s2-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Отлично. А что означает тройка наверху?<div class=hint id="s3-h" hidden>💡 Золотое правило: знаменатель <b>знаменует</b> (называет доли — восьмушки, четвертинки), числитель <b>исчисляет</b> (считает), сколько их.</div><button class=reveal data-reveal="s3-h">Подсказка</button></div></div></div><div class="step student"><img class=ava src="img/ham-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s3-a" hidden>Тройка — количество: сколько таких восьмушек мы взяли.</div><button class=reveal data-reveal="s3-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>И ещё секрет: сама дробная черта — это обычное… что?</div></div></div><div class="step student"><img class=ava src="img/ham-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s4-a" hidden>Деление! <span class=frm>3/8</span> — это буквально 3 ÷ 8: три целые пиццы поделили поровну на восьмерых.</div><button class=reveal data-reveal="s4-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Возьми полпиццы — <span class=frm>1/2</span>. Теперь разрежь каждую половинку ещё пополам. Что на тарелке?<div class=hint id="s5-h" hidden>💡 Запиши цепочку: <span class=frm>1/2 = 2/4 = 4/8</span>. Дробь не изменилась.</div><button class=reveal data-reveal="s5-h">Подсказка</button></div></div></div><div class="step student"><img class=ava src="img/ham-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s5-a" hidden>Теперь 2 куска из 4 — это <span class=frm>2/4</span>. Пиццы больше не стало — изменился только размер нарезки!</div><button class=reveal data-reveal="s5-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Это и есть основное свойство дроби. Как сократить дробь <span class=frm>15/20</span> — что физически происходит?</div></div></div><div class="step student"><img class=ava src="img/ham-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s6-a" hidden>Верх и низ делим на 5 — это как склеить мелкие куски обратно в крупные. Получится <span class=frm>3/4</span>.</div><button class=reveal data-reveal="s6-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Теперь сложим <span class=frm>1/5 + 2/5</span>. Можно ли сложить верх с верхом, а низ с низом — как в школе иногда ошибочно делают?<div class=hint id="s7-h" hidden>💡 А вот <span class=frm>1/2 + 1/2</span> — это целая пицца, а НЕ <span class=frm>2/4</span>!</div><button class=reveal data-reveal="s7-h">Подсказка</button></div></div></div><div class="step student"><img class=ava src="img/ham-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s7-a" hidden>Тут знаменатели одинаковые, куски одного размера — как 1 яблоко + 2 яблока = 3 яблока. Будет <span class=frm>3/5</span>, низ не трогаем.</div><button class=reveal data-reveal="s7-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>А если знаменатели разные: <span class=frm>1/2 + 1/4</span>?<div class=hint id="s8-h" hidden>💡 Это «приведение к общему знаменателю» — просто нарезка всех кусков по единому размеру.</div><button class=reveal data-reveal="s8-h">Подсказка</button></div></div></div><div class="step student"><img class=ava src="img/ham-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s8-a" hidden>Куски разного размера — честно сложить нельзя! Дорезаю половинку до четвертинок: <span class=frm>1/2 = 2/4</span>. Теперь <span class=frm>2/4 + 1/4 = 3/4</span>.</div><button class=reveal data-reveal="s8-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Сложный случай: <span class=frm>1/2 + 1/3</span>. Полторы нельзя разрезать ровно в трети. Что делать?<div class=hint id="s9-h" hidden>💡 Это число 6 — наименьшее общее кратное (НОК).</div><button class=reveal data-reveal="s9-h">Подсказка</button></div></div></div><div class="step student"><img class=ava src="img/ham-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s9-a" hidden>Дорезать ОБЕ тарелки! Ищем число, которое делится и на 2, и на 3 — это 6. <span class=frm>1/2 = 3/6</span>, <span class=frm>1/3 = 2/6</span>. Итого <span class=frm>5/6</span>.</div><button class=reveal data-reveal="s9-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>На столе 7 четвертинок — <span class=frm>7/4</span>. Как это понять и записать аккуратнее?</div></div></div><div class="step student"><img class=ava src="img/ham-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s10-a" hidden>Из 4 кусков собирается целая пицца, и ещё 3 куска лежат рядом. Это смешанное число: <span class=frm>1 3/4</span>.</div><button class=reveal data-reveal="s10-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Умножение: <span class=frm>1/2 · 1/3</span>. Прочитай знак «·» как слово…<div class=hint id="s11-h" hidden>💡 Верх на верх, низ на низ. Общий знаменатель НЕ нужен!</div><button class=reveal data-reveal="s11-h">Подсказка</button></div></div></div><div class="step student"><img class=ava src="img/ham-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s11-a" hidden>«ОТ»! Половинка ОТ третинки. Если треть пиццы разрезать пополам, выйдет шестая доля: <span class=frm>1/6</span>.</div><button class=reveal data-reveal="s11-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Деление: <span class=frm>2 ÷ 1/4</span>. Почему мы переворачиваем вторую дробь?<div class=hint id="s12-h" hidden>💡 Перевернутая дробь — это как раз ответ на вопрос «сколько помещается».</div><button class=reveal data-reveal="s12-h">Подсказка</button></div></div></div><div class="step student"><img class=ava src="img/ham-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s12-a" hidden>Деление спрашивает: сколько четвертинок помещается в двух пиццах? В одной — 4, в двух — 8. Значит <span class=frm>2 · 4 = 8</span>.</div><button class=reveal data-reveal="s12-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Ловушка: <span class=frm>1 1/2 · 2 2/3</span>. Можно ли умножить целые части отдельно, дробные отдельно?</div></div></div><div class="step student"><img class=ava src="img/ham-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s13-a" hidden>Нельзя! Сначала переводим в неправильные дроби: <span class=frm>3/2 · 8/3 = 4</span>. Тройки сократились крест-накрест.</div><button class=reveal data-reveal="s13-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Итог нашего разговора: назови три вещи, которые теперь не забудешь.</div></div></div><div class="step student"><img class=ava src="img/ham-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s14-a" hidden>Первое: низ — размер куска, верх — сколько кусков. Второе: сначала одинаковая нарезка, потом сложение. Третье: умножение — это «от», деление — «сколько раз поместится».</div><button class=reveal data-reveal="s14-a">Показать, что ответил ученик</button></div></div><div class=sec><span class="tasknum">★</span><h2>Задачи для самопроверки</h2><div class=ln></div></div><div class=task>
+<div class=qt><span class=tasknum>1</span> Пицца из 12 кусочков. Аня съела 1/4 пиццы, Боря — 1/3. Сколько кусков осталось?</div>
+<button class=reveal data-reveal="t1-sol">Показать решение</button>
+<div class=sol id="t1-sol" hidden>Съели: <span class=frm>1/4 + 1/3 = 3/12 + 4/12 = 7/12</span> — это 7 кусков. Осталось 12 − 7 = <b>5 кусков</b>.</div>
+</div><div class=task>
+<div class=qt><span class=tasknum>2</span> На большой торт нужно 3/4 стакана сахара. Печём тортик в 2/3 от рецепта. Сколько сахара?</div>
+<button class=reveal data-reveal="t2-sol">Показать решение</button>
+<div class=sol id="t2-sol" hidden>Часть от части: <span class=frm>2/3 · 3/4 = 2/4 = 1/2</span> стакана.</div>
+</div><div class=task>
+<div class=qt><span class=tasknum>3</span> В кувшине 1 1/2 литра лимонада. Разливаем по 1/4 литра. Сколько полных стаканчиков?</div>
+<button class=reveal data-reveal="t3-sol">Показать решение</button>
+<div class=sol id="t3-sol" hidden>Переводим: <span class=frm>3/2 ÷ 1/4 = 3/2 · 4 = 6</span>. Полных стаканчиков: <b>6</b>.</div>
+</div><div class=task>
+<div class=qt><span class=tasknum>4</span> За 2/5 часа телефон зарядился наполовину. За сколько часов он зарядится полностью?</div>
+<button class=reveal data-reveal="t4-sol">Показать решение</button>
+<div class=sol id="t4-sol" hidden><span class=frm>2/5 ÷ 1/2 = 2/5 · 2 = 4/5</span> часа (48 минут).</div>
+</div><div class=task>
+<div class=qt><span class=tasknum>5</span> Сократи и объясни: 15/20, 8/12, 30/45.</div>
+<button class=reveal data-reveal="t5-sol">Показать решение</button>
+<div class=sol id="t5-sol" hidden><span class=frm>15/20 = 3/4</span> (делим на 5), <span class=frm>8/12 = 2/3</span> (на 4), <span class=frm>30/45 = 2/3</span> (на 15). Сокращение — это склеивание мелких кусков в крупные.</div>
+</div>
+<div class=foot><img src="img/rat-idle.jpg.jpg" alt=""><img src="img/ham-joy.jpg.jpg" alt=""><img src="img/rat-pizza.jpg.jpg" alt=""><img src="img/obj-choco.jpg.jpg" alt=""></div>
+<p class=note>lili.math · разбор в формате диалога · можно печатать</p>
+</div>
+<script>
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-reveal]');
+  if(!b)return;
+  document.getElementById(b.dataset.reveal).hidden=false;
+  b.style.display='none';
+});
+</script>
+</body></html>

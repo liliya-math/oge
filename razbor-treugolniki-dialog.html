@@ -1,0 +1,110 @@
+<!doctype html><html lang="ru"><head><meta charset=utf8>
+<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Разбор · Треугольники 7–9 · диалог</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --bg:#14211e; --glass:rgba(243,236,226,.05); --glass2:rgba(243,236,226,.085);
+  --line:rgba(226,234,228,.13); --fg:#f3ece2; --muted:#a9b6ad; --faint:#6e7f77;
+  --apricot:#f2905e; --lilac:#a9c1ff; --mint:#a9d18e; --amber:#f5dc6a;
+  --grad:linear-gradient(115deg,#f5dc6a 0%,#f2905e 100%);
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--fg)}
+body{margin:0;font-family:var(--sans);font-size:16px;line-height:1.55;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:var(--lilac)}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--apricot);outline-offset:3px;border-radius:10px}
+.amb{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.amb i{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.26;animation:drift 26s ease-in-out infinite alternate}
+.amb i:nth-child(1){background:#1747c9;left:-20vmax;top:-25vmax}
+.amb i:nth-child(2){background:#5d7a4f;right:-25vmax;top:10vmax;opacity:.15;animation-duration:32s}
+.amb i:nth-child(3){background:#2c4f6b;left:10vmax;bottom:-35vmax;opacity:.15;animation-duration:38s}
+@keyframes drift{to{transform:translate(8vmax,6vmax) scale(1.12)}}
+.wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding-inline:16px;padding-block:20px 90px}
+.top{position:sticky;top:0;z-index:20;margin:0 -16px 18px;padding:12px 16px 10px;background:linear-gradient(var(--bg) 70%,transparent);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:700;font-size:13px}
+.brand b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sp{flex:1}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:13px;color:var(--muted);white-space:nowrap;text-decoration:none}
+.pill:hover{background:var(--glass2)}
+.pill strong{color:var(--fg);font-weight:600}
+h1{font-family:var(--display);font-size:clamp(23px,5vw,32px);line-height:1.15;margin:14px 0 6px;font-weight:800;letter-spacing:-.01em}
+h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--muted);font-size:14.5px;margin:0 0 14px}
+.step{display:flex;gap:10px;margin:14px 0;align-items:flex-start}
+.ava{width:44px;height:44px;border-radius:14px;object-fit:cover;border:1px solid var(--line);flex-shrink:0}
+.bub{padding:11px 15px;border-radius:16px;font-size:14.5px;line-height:1.55;min-width:0}
+.teacher .bub{background:var(--glass2);border:1px solid var(--line);border-top-left-radius:4px}
+.student .bub{background:rgba(169,209,142,.1);border:1px solid rgba(169,209,142,.3);border-top-right-radius:4px}
+.who{font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);margin-bottom:3px}
+.student .who{color:var(--mint)}
+.teacher .who{color:var(--amber)}
+.bub b{color:var(--amber);font-weight:600}
+.bub .frm{font-family:var(--display);font-weight:600;color:var(--apricot)}
+.reveal{margin-top:8px;padding:6px 14px;border-radius:999px;border:1px dashed rgba(169,209,142,.5);background:transparent;color:var(--mint);font-size:13px}
+.reveal:hover{background:rgba(169,209,142,.08)}
+.answer[hidden]{display:none}
+.hint{margin-top:8px;padding:8px 12px;border-left:3px solid var(--lilac);background:rgba(169,193,255,.07);border-radius:0 10px 10px 0;font-size:13.5px;color:var(--muted)}
+.tasknum{display:inline-grid;place-items:center;min-width:30px;height:30px;border-radius:10px;background:var(--grad);color:#14211e;font-weight:800;font-size:14px}
+.sec{display:flex;align-items:center;gap:12px;margin:30px 0 12px}
+.sec h2{font-family:var(--display);font-size:19px;margin:0;font-weight:800}
+.sec .ln{flex:1;height:1px;background:var(--line)}
+.task{background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0}
+.task .qt{font-weight:700;font-size:15px;margin-bottom:6px}
+.sol{margin-top:10px;padding:10px 14px;border-left:3px solid var(--mint);background:rgba(169,209,142,.07);border-radius:0 12px 12px 0;font-size:14px}
+.sol[hidden]{display:none}
+.task .reveal{border-color:rgba(245,220,106,.5);color:var(--amber)}
+.foot{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:20px;justify-content:center}
+.foot img{width:70px;height:70px;object-fit:cover;border-radius:20px;border:1px solid var(--line)}
+.note{color:var(--faint);font-size:12.5px;margin-top:10px;text-align:center}
+@media print{.top,.reveal,.amb{display:none}body{background:#fff;color:#111}.bub{border-color:#999;color:#111}}
+</style></head>
+<body>
+<div class=amb><i></i><i></i><i></i></div>
+<div class=wrap>
+<div class=top>
+  <div class=brand>lili<b>.math</b></div>
+  <span class=pill><strong>Разбор в диалогах</strong> · треугольники</span>
+  <div class=sp></div>
+  <a class=pill href="start.html">← Моя панель</a>
+</div>
+<h1>Треугольники 7–9 класс: <em>разбор в диалоге</em></h1>
+<p class=sub>От суммы углов до теорем синусов и косинусов — учитель и ученик проходят весь справочник. Ответы и подсказки скрыты: нажми, чтобы раскрыть.</p>
+<div class="step teacher"><img class=ava src="img/cat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Сколько градусов в сумме во всех углах любого треугольника — хоть огромного, хоть крошечного?</div></div></div><div class="step student"><img class=ava src="img/lab-idle.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s1-a" hidden>Ровно 180°! Это железный закон.</div><button class=reveal data-reveal="s1-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/cat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Один угол треугольника равен 50°, второй 60°. Найди третий.</div></div></div><div class="step student"><img class=ava src="img/lab-idle.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s2-a" hidden>180 − 50 − 60 = <b>70°</b>.</div><button class=reveal data-reveal="s2-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/cat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>А что ты знаешь про внешний угол — тот, что продолжает сторону?<div class=hint id="s3-h" hidden>💡 Проверь: внешний + смежный = 180°, а все три внутренних тоже 180°.</div><button class=reveal data-reveal="s3-h">Подсказка</button></div></div></div><div class="step student"><img class=ava src="img/lab-idle.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s3-a" hidden>Внешний угол равен сумме двух внутренних углов, с ним не смежных.</div><button class=reveal data-reveal="s3-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/cat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Сложится ли треугольник из палочек 1 см, 2 см и 10 см?</div></div></div><div class="step student"><img class=ava src="img/lab-idle.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s4-a" hidden>Нет! 1 + 2 = 3 < 10 — короткие края не дотянутся. Каждая сторона должна быть строго меньше суммы двух других.</div><button class=reveal data-reveal="s4-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/cat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>В треугольнике против большей стороны лежит…?</div></div></div><div class="step student"><img class=ava src="img/lab-idle.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s5-a" hidden>Больший угол! И наоборот: против равных сторон — равные углы.</div><button class=reveal data-reveal="s5-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/cat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Назови семейства треугольников по углам и по сторонам.<div class=hint id="s6-h" hidden>💡 Больше одного прямого или тупого угла быть не может!</div><button class=reveal data-reveal="s6-h">Подсказка</button></div></div></div><div class="step student"><img class=ava src="img/lab-idle.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s6-a" hidden>По углам: остроугольный, прямоугольный (у него сумма острых 90°), тупоугольный. По сторонам: разносторонний, равнобедренный, равносторонний — у него все углы по 60°.</div><button class=reveal data-reveal="s6-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/cat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Чем медиана отличается от биссектрисы и высоты? А в равнобедренном треугольнике?</div></div></div><div class="step student"><img class=ava src="img/lab-idle.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s7-a" hidden>Медиана идёт в середину стороны, биссектриса делит угол пополам, высота — перпендикуляр. В равнобедренном к основанию они сливаются в одну линию — «три в одном»! А три медианы делятся центроидом в отношении 2:1 от вершины.</div><button class=reveal data-reveal="s7-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/cat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Когда два треугольника равны? Назови признаки.</div></div></div><div class="step student"><img class=ava src="img/lab-idle.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s8-a" hidden>1) по двум сторонам и углу между ними; 2) по стороне и двум прилежащим углам; 3) по трём сторонам. Равные — значит совпадают при наложении.</div><button class=reveal data-reveal="s8-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/cat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>А когда подобны? И что происходит с площадями?<div class=hint id="s9-h" hidden>💡 Золотое правило площадей: S₁/S₂ = k².</div><button class=reveal data-reveal="s9-h">Подсказка</button></div></div></div><div class="step student"><img class=ava src="img/lab-idle.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s9-a" hidden>1) по двум углам; 2) по двум пропорциональным сторонам и углу между ними; 3) по трём пропорциональным сторонам. Периметры отличаются в k раз, а площади — в k²!</div><button class=reveal data-reveal="s9-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/cat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Прямоугольный треугольник, катеты 3 и 4. Что за теорема найдёт гипотенузу?<div class=hint id="s10-h" hidden>💡 Частые тройки: (3,4,5), (5,12,13), (8,15,17), (7,24,25).</div><button class=reveal data-reveal="s10-h">Подсказка</button></div></div></div><div class="step student"><img class=ava src="img/lab-idle.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s10-a" hidden>Пифагор! c² = a² + b² = 9 + 16 = 25, c = 5. Это египетская тройка — такие можно считать устно.</div><button class=reveal data-reveal="s10-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/cat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Три жемчужины про прямоугольный треугольник, которые вечно нужны на экзамене?</div></div></div><div class="step student"><img class=ava src="img/lab-idle.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s11-a" hidden>Первое: катет против угла 30° равен половине гипотенузы. Второе: медиана из прямого угла равна половине гипотенузы — и это радиус описанной окружности. Третье: высота к гипотенузе h² = c₁·c₂.</div><button class=reveal data-reveal="s11-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/cat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>sin α — это что в прямоугольном треугольнике? А основное тождество?</div></div></div><div class="step student"><img class=ava src="img/lab-idle.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s12-a" hidden>Синус — противолежащий катет, делённый на гипотенузу. А sin²α + cos²α = 1 — это Пифагор в маскировке!</div><button class=reveal data-reveal="s12-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/cat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>В тупом угле 120° синус берём какой?</div></div></div><div class="step student"><img class=ava src="img/lab-idle.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s13-a" hidden>sin 120° = sin(180° − 60°) = sin 60° = √3/2 — синус остаётся плюсовым! А косинус меняет знак: cos 120° = −cos 60° = −1/2.</div><button class=reveal data-reveal="s13-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/cat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Произвольный треугольник: известны две стороны и угол между ними. Как найти третью сторону?<div class=hint id="s14-h" hidden>💡 Вторая универсальная — теорема синусов: a/sin A = 2R.</div><button class=reveal data-reveal="s14-h">Подсказка</button></div></div></div><div class="step student"><img class=ava src="img/lab-idle.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s14-a" hidden>Теорема косинусов: c² = a² + b² − 2ab·cos γ. Если угол 90° — косинус обнуляется и остаётся чистый Пифагор, поэтому её называют обобщённым Пифагором.</div><button class=reveal data-reveal="s14-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/cat-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Сколько формул площади треугольника ты теперь знаешь?</div></div></div><div class="step student"><img class=ava src="img/lab-idle.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s15-a" hidden>Шесть! ½ah; ½ab для прямоугольного; ½ab·sin γ; Герон через полупериметр; S = p·r; S = abc/4R.</div><button class=reveal data-reveal="s15-a">Показать, что ответил ученик</button></div></div><div class=sec><span class="tasknum">★</span><h2>Задачи для самопроверки</h2><div class=ln></div></div><div class=task>
+<div class=qt><span class=tasknum>1</span> Углы треугольника относятся как 1:2:3. Найди все углы.</div>
+<button class=reveal data-reveal="t1-sol">Показать решение</button>
+<div class=sol id="t1-sol" hidden>Частей 1+2+3 = 6, по 180°/6 = 30°. Углы: <b>30°, 60°, 90°</b> — прямоугольный треугольник.</div>
+</div><div class=task>
+<div class=qt><span class=tasknum>2</span> Подобные треугольники, коэффициент подобия k = 3. Сторона первого 5 см. Найди соответствующую сторону второго и отношение площадей.</div>
+<button class=reveal data-reveal="t2-sol">Показать решение</button>
+<div class=sol id="t2-sol" hidden>Сторона: 5 · 3 = <b>15 см</b>. Площади относятся как k² = <b>9</b>.</div>
+</div><div class=task>
+<div class=qt><span class=tasknum>3</span> Катет напротив угла 30° равен 7. Найди гипотенузу и второй катет.</div>
+<button class=reveal data-reveal="t3-sol">Показать решение</button>
+<div class=sol id="t3-sol" hidden>Гипотенуза c = 2·7 = <b>14</b>. Второй катет: √(14² − 7²) = √147 = <b>7√3</b>.</div>
+</div><div class=task>
+<div class=qt><span class=tasknum>4</span> Стороны треугольника 13, 14, 15. Найди площадь по формуле Герона.</div>
+<button class=reveal data-reveal="t4-sol">Показать решение</button>
+<div class=sol id="t4-sol" hidden>p = (13+14+15)/2 = 21. S = √(21·8·7·6) = √7056 = <b>84</b>.</div>
+</div><div class=task>
+<div class=qt><span class=tasknum>5</span> В треугольнике ABC угол C = 60°, стороны AC = 5, BC = 8. Найди AB.</div>
+<button class=reveal data-reveal="t5-sol">Показать решение</button>
+<div class=sol id="t5-sol" hidden>Теорема косинусов: AB² = 25 + 64 − 2·5·8·cos 60° = 89 − 80·0,5 = 49. AB = <b>7</b>.</div>
+</div>
+<div class=foot><img src="img/cat-idle.jpg.jpg" alt=""><img src="img/lab-idle.jpg.jpg" alt=""><img src="img/rat-idle.jpg.jpg" alt=""><img src="img/obj-pie.jpg.jpg" alt=""></div>
+<p class=note>lili.math · разбор в формате диалога · можно печатать</p>
+</div>
+<script>
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-reveal]');
+  if(!b)return;
+  document.getElementById(b.dataset.reveal).hidden=false;
+  b.style.display='none';
+});
+</script>
+</body></html>

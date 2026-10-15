@@ -1,0 +1,110 @@
+<!doctype html><html lang="ru"><head><meta charset=utf8>
+<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Разбор · Числа с разными знаками · диалог</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --bg:#14211e; --glass:rgba(243,236,226,.05); --glass2:rgba(243,236,226,.085);
+  --line:rgba(226,234,228,.13); --fg:#f3ece2; --muted:#a9b6ad; --faint:#6e7f77;
+  --apricot:#f2905e; --lilac:#a9c1ff; --mint:#a9d18e; --amber:#f5dc6a;
+  --grad:linear-gradient(115deg,#f5dc6a 0%,#f2905e 100%);
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--fg)}
+body{margin:0;font-family:var(--sans);font-size:16px;line-height:1.55;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:var(--lilac)}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--apricot);outline-offset:3px;border-radius:10px}
+.amb{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.amb i{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.26;animation:drift 26s ease-in-out infinite alternate}
+.amb i:nth-child(1){background:#1747c9;left:-20vmax;top:-25vmax}
+.amb i:nth-child(2){background:#5d7a4f;right:-25vmax;top:10vmax;opacity:.15;animation-duration:32s}
+.amb i:nth-child(3){background:#2c4f6b;left:10vmax;bottom:-35vmax;opacity:.15;animation-duration:38s}
+@keyframes drift{to{transform:translate(8vmax,6vmax) scale(1.12)}}
+.wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding-inline:16px;padding-block:20px 90px}
+.top{position:sticky;top:0;z-index:20;margin:0 -16px 18px;padding:12px 16px 10px;background:linear-gradient(var(--bg) 70%,transparent);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:700;font-size:13px}
+.brand b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sp{flex:1}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:13px;color:var(--muted);white-space:nowrap;text-decoration:none}
+.pill:hover{background:var(--glass2)}
+.pill strong{color:var(--fg);font-weight:600}
+h1{font-family:var(--display);font-size:clamp(23px,5vw,32px);line-height:1.15;margin:14px 0 6px;font-weight:800;letter-spacing:-.01em}
+h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--muted);font-size:14.5px;margin:0 0 14px}
+.step{display:flex;gap:10px;margin:14px 0;align-items:flex-start}
+.ava{width:44px;height:44px;border-radius:14px;object-fit:cover;border:1px solid var(--line);flex-shrink:0}
+.bub{padding:11px 15px;border-radius:16px;font-size:14.5px;line-height:1.55;min-width:0}
+.teacher .bub{background:var(--glass2);border:1px solid var(--line);border-top-left-radius:4px}
+.student .bub{background:rgba(169,209,142,.1);border:1px solid rgba(169,209,142,.3);border-top-right-radius:4px}
+.who{font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);margin-bottom:3px}
+.student .who{color:var(--mint)}
+.teacher .who{color:var(--amber)}
+.bub b{color:var(--amber);font-weight:600}
+.bub .frm{font-family:var(--display);font-weight:600;color:var(--apricot)}
+.reveal{margin-top:8px;padding:6px 14px;border-radius:999px;border:1px dashed rgba(169,209,142,.5);background:transparent;color:var(--mint);font-size:13px}
+.reveal:hover{background:rgba(169,209,142,.08)}
+.answer[hidden]{display:none}
+.hint{margin-top:8px;padding:8px 12px;border-left:3px solid var(--lilac);background:rgba(169,193,255,.07);border-radius:0 10px 10px 0;font-size:13.5px;color:var(--muted)}
+.tasknum{display:inline-grid;place-items:center;min-width:30px;height:30px;border-radius:10px;background:var(--grad);color:#14211e;font-weight:800;font-size:14px}
+.sec{display:flex;align-items:center;gap:12px;margin:30px 0 12px}
+.sec h2{font-family:var(--display);font-size:19px;margin:0;font-weight:800}
+.sec .ln{flex:1;height:1px;background:var(--line)}
+.task{background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0}
+.task .qt{font-weight:700;font-size:15px;margin-bottom:6px}
+.sol{margin-top:10px;padding:10px 14px;border-left:3px solid var(--mint);background:rgba(169,209,142,.07);border-radius:0 12px 12px 0;font-size:14px}
+.sol[hidden]{display:none}
+.task .reveal{border-color:rgba(245,220,106,.5);color:var(--amber)}
+.foot{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:20px;justify-content:center}
+.foot img{width:70px;height:70px;object-fit:cover;border-radius:20px;border:1px solid var(--line)}
+.note{color:var(--faint);font-size:12.5px;margin-top:10px;text-align:center}
+@media print{.top,.reveal,.amb{display:none}body{background:#fff;color:#111}.bub{border-color:#999;color:#111}}
+</style></head>
+<body>
+<div class=amb><i></i><i></i><i></i></div>
+<div class=wrap>
+<div class=top>
+  <div class=brand>lili<b>.math</b></div>
+  <span class=pill><strong>Разбор в диалогах</strong> · знаки</span>
+  <div class=sp></div>
+  <a class=pill href="start.html">← Моя панель</a>
+</div>
+<h1>Числа с разными знаками: <em>разбор в диалоге</em></h1>
+<p class=sub>Доходы и долги, тепло и мороз — учитель и ученик разбирают руководство по знакам. Ответы и подсказки скрыты: нажми, чтобы раскрыть.</p>
+<div class="step teacher"><img class=ava src="img/rac-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Что больше: иметь 1 рубль или быть должным 1000 рублей?<div class=hint id="s1-h" hidden>💡 Запомни: любое положительное число больше любого отрицательного.</div><button class=reveal data-reveal="s1-h">Подсказка</button></div></div></div><div class="step student"><img class=ava src="img/ratpup-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s1-a" hidden>Конечно, иметь рубль! Значит, +1 больше, чем −1000.</div><button class=reveal data-reveal="s1-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rac-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Правильно! Знак перед числом — это его паспорт. Приведи примеры плюса и минуса из жизни.</div></div></div><div class="step student"><img class=ava src="img/ratpup-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s2-a" hidden>Плюс — деньги в кармане, тепло: +20°C, этажи над землёй. Минус — долг, штраф, мороз: −15°C, подземная парковка.</div><button class=reveal data-reveal="s2-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rac-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Все числа живут на координатной прямой. Что стоит посередине?</div></div></div><div class="step student"><img class=ava src="img/ratpup-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s3-a" hidden>Ноль! Граница: ни тепла, ни мороза; ни денег, ни долгов. +5 и −5 называются противоположными и в сумме дают ноль.</div><button class=reveal data-reveal="s3-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rac-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Что такое модуль |−7|?<div class=hint id="s4-h" hidden>💡 Модуль — чистый размер числа без знака.</div><button class=reveal data-reveal="s4-h">Подсказка</button></div></div></div><div class="step student"><img class=ava src="img/ratpup-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s4-a" hidden>Это расстояние от нуля — 7 шагов. Пройти «минус 4 шага» нельзя, вы всё равно сделали 4 шага! Поэтому |−7| = 7 и |+7| = 7.</div><button class=reveal data-reveal="s4-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rac-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Как сравнить два отрицательных числа: −3 и −10?</div></div></div><div class="step student"><img class=ava src="img/ratpup-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s5-a" hidden>На прямой правее стоит −3. На улице при −3°C теплее, чем при −10°C! Значит −3 > −10: из двух минусов больше тот, у кого модуль меньше.</div><button class=reveal data-reveal="s5-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rac-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Складываем −4 − 6. Знаки одинаковые — это «друзья». Что делаем?<div class=hint id="s6-h" hidden>💡 «Минус на минус даёт плюс» работает ТОЛЬКО при умножении и скобках, не при сложении!</div><button class=reveal data-reveal="s6-h">Подсказка</button></div></div></div><div class="step student"><img class=ava src="img/ratpup-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s6-a" hidden>Ставим общий знак — минус, а модули складываем: −10. Был долг 4 рубля, заняли ещё 6 — долг вырос, плюса не появилось!</div><button class=reveal data-reveal="s6-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rac-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>А теперь −4 + 10 — знаки разные, «перетягивание каната».</div></div></div><div class="step student"><img class=ava src="img/ratpup-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s7-a" hidden>Побеждает более сильная команда — плюс, ведь 10 > 4. Из большего вычитаем меньшее: 10 − 4 = 6. Ответ +6: было 10 рублей, отдали 4 долга — осталось 6.</div><button class=reveal data-reveal="s7-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rac-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>А если +4 − 10?</div></div></div><div class="step student"><img class=ava src="img/ratpup-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s8-a" hidden>Минусовая команда сильнее: ответ −6. У меня было 4 рубля, покупка стоила 10 — я отдал всё и остался должен 6.</div><button class=reveal data-reveal="s8-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rac-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Раскрой скобку: 5 − (−3). Два знака подряд — что с ними делать?<div class=hint id="s9-h" hidden>💡 Одинаковые знаки рядом → плюс; разные → минус.</div><button class=reveal data-reveal="s9-h">Подсказка</button></div></div></div><div class="step student"><img class=ava src="img/ratpup-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s9-a" hidden>Схлопываем! Минус на минус даёт плюс: 5 + 3 = 8. Это как «простить долг» — меня стало богаче.</div><button class=reveal data-reveal="s9-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rac-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Длинная цепочка: −12 + 7 − (−5) − 8 + (−3). По какому алгоритму считаем?</div></div></div><div class="step student"><img class=ava src="img/ratpup-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s10-a" hidden>Шаг 1: убираем двойные знаки: −12 + 7 + 5 − 8 − 3. Шаг 2: собираем команды — плюсы: 7 + 5 = 12, минусы: −23. Шаг 3: дуэль — минусов больше, 23 − 12 = <b>−11</b>.</div><button class=reveal data-reveal="s10-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rac-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Умножение: (−6) · (−4). Какой знак у ответа?</div></div></div><div class="step student"><img class=ava src="img/ratpup-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s11-a" hidden>Плюс! Враг моего врага — мой друг: два одинаковых знака дают плюс. 6 · 4 = 24, ответ +24.</div><button class=reveal data-reveal="s11-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rac-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>(−6) · 4?</div></div></div><div class="step student"><img class=ava src="img/ratpup-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s12-a" hidden>Знаки разные — ответ минус: −24. Друг моего врага — мой враг.</div><button class=reveal data-reveal="s12-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rac-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Степень: чем отличаются (−3)² и −3²?<div class=hint id="s13-h" hidden>💡 Скобки решают всё. Смотри, на что действует степень.</div><button class=reveal data-reveal="s13-h">Подсказка</button></div></div></div><div class="step student"><img class=ava src="img/ratpup-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s13-a" hidden>(−3)² = (−3)·(−3) = +9 — квадрат действует на всю скобку с минусом. А −3² = −(3·3) = −9 — минус ждёт снаружи! В нечётной степени всегда минус: (−2)³ = −8.</div><button class=reveal data-reveal="s13-a">Показать, что ответил ученик</button></div></div><div class="step teacher"><img class=ava src="img/rac-idle.jpg" alt="Учитель"><div style="min-width:0"><div class=who>Учитель</div><div class=bub>Финал: днём +4°C, ночью −9°C. На сколько градусов изменилась температура?</div></div></div><div class="step student"><img class=ava src="img/ratpup-joy.jpg" alt="Ученик"><div style="min-width:0;flex:1"><div class=who style="text-align:right">Ученик</div><div class="bub answer" id="s14-a" hidden>Разность: 4 − (−9) = 4 + 9 = 13. Температура упала на <b>13 градусов</b>.</div><button class=reveal data-reveal="s14-a">Показать, что ответил ученик</button></div></div><div class=sec><span class="tasknum">★</span><h2>Задачи для самопроверки</h2><div class=ln></div></div><div class=task>
+<div class=qt><span class=tasknum>1</span> На карте 300 рублей. Покупка на 750 рублей, комиссия 50 рублей, затем перевели 400 рублей. Итоговый баланс?</div>
+<button class=reveal data-reveal="t1-sol">Показать решение</button>
+<div class=sol id="t1-sol" hidden>Плюсы: 300 + 400 = 700. Минусы: 750 + 50 = 800. 700 − 800 = <b>−100 рублей</b> — минус на 100.</div>
+</div><div class=task>
+<div class=qt><span class=tasknum>2</span> Вычислите: −2/3 + 1/2.</div>
+<button class=reveal data-reveal="t2-sol">Показать решение</button>
+<div class=sol id="t2-sol" hidden>Общий знаменатель 6: <span class=frm>−4/6 + 3/6 = −1/6</span>. Победил минус, вычли 4 − 3.</div>
+</div><div class=task>
+<div class=qt><span class=tasknum>3</span> Вычислите: (−3/4) ÷ (−9/8).</div>
+<button class=reveal data-reveal="t3-sol">Показать решение</button>
+<div class=sol id="t3-sol" hidden>Минус на минус — плюс. Переворачиваем: <span class=frm>3/4 · 8/9 = 24/36 = 2/3</span>.</div>
+</div><div class=task>
+<div class=qt><span class=tasknum>4</span> Вычислите: (−2)⁴ − (−3)³ + (−1)⁵.</div>
+<button class=reveal data-reveal="t4-sol">Показать решение</button>
+<div class=sol id="t4-sol" hidden>(−2)⁴ = 16, (−3)³ = −27, (−1)⁵ = −1. Итого: 16 − (−27) + (−1) = 16 + 27 − 1 = <b>42</b>.</div>
+</div><div class=task>
+<div class=qt><span class=tasknum>5</span> Расставь в порядке возрастания: 0, −7, 3, −2, −10, 1.</div>
+<button class=reveal data-reveal="t5-sol">Показать решение</button>
+<div class=sol id="t5-sol" hidden>−10 < −7 < −2 < 0 < 1 < 3. На прямой читаем слева направо — там числа и растут.</div>
+</div>
+<div class=foot><img src="img/rac-idle.jpg.jpg" alt=""><img src="img/ratpup-joy.jpg.jpg" alt=""><img src="img/obj-thermo.jpg.jpg" alt=""><img src="img/obj-coins.jpg.jpg" alt=""></div>
+<p class=note>lili.math · разбор в формате диалога · можно печатать</p>
+</div>
+<script>
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-reveal]');
+  if(!b)return;
+  document.getElementById(b.dataset.reveal).hidden=false;
+  b.style.display='none';
+});
+</script>
+</body></html>
