@@ -243,7 +243,9 @@ function pctBarSVG(p){const W=420;return `<svg width="${W}" height="86" viewBox=
 function piePctSVG(p){const C=2*Math.PI*54,f=p/100*C;return `<svg width="150" height="172" viewBox="0 0 150 172"><circle cx="75" cy="72" r="54" fill="rgba(243,236,226,.08)" stroke="rgba(243,236,226,.3)"/><circle cx="75" cy="72" r="54" fill="none" stroke="var(--apricot)" stroke-width="16" stroke-dasharray="${f} ${C-f}" transform="rotate(-90 75 72)"/><text class=tx x="75" y="80" text-anchor="middle" style="font-size:21px">${p}%</text></svg>`}
 function piesPctRow(list){return `<div class=fig style="gap:18px;flex-wrap:wrap">${list.map(p=>photoPiePct(p)).join("")}</div>`}
 function eqStrips(){return `<div class=fig style="display:grid;gap:6px;justify-items:center">${stripSVG(1,2,"1/2")}${stripSVG(2,4,"2/4")}${stripSVG(3,6,"3/6")}</div>`}
-function mixedSVG(){return `<div class=fig style="gap:18px;flex-wrap:wrap">${photoPie(4,4,"4/4 = 1","#f5dc6a")}${photoPie(1,4,"1/4")}</div>`}
+function wholePie(label){const c=65,r=56,inner=r-9;const s=pieBase(c,r,inner)+pieDots(c,inner,5);
+ return `<div class=photo-pie><div class=ph><svg viewBox="0 0 130 130">${s}</svg></div><div class=plabel>${label}</div><div class=psub>целый, не разрезанный</div></div>`}
+function mixedSVG(){return `<div class=fig style="gap:14px;flex-wrap:wrap;align-items:center">${wholePie("1 целая")}<span class=tx style="font-size:26px">+</span>${photoPie(1,4,"1/4")}</div>`}
 function signWheelSVG(){return `<svg width="300" height="120" viewBox="0 0 300 120">
  <text class=tx x="20" y="30">+ · + = +</text><text class=tx x="170" y="30">+ · − = −</text>
  <text class=tx x="20" y="70">− · + = −</text><text class=tx x="170" y="70" style="fill:var(--mint)">− · − = +</text>
