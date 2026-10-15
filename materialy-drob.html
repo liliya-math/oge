@@ -1,0 +1,276 @@
+<!doctype html><html lang="ru"><head><meta charset=utf8>
+<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Дроби навсегда · опорник к доске</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --bg:#14211e; --bg2:#1b2b28; --glass:rgba(243,236,226,.05); --glass2:rgba(243,236,226,.085);
+  --line:rgba(226,234,228,.13); --fg:#f3ece2; --muted:#a9b6ad; --faint:#6e7f77;
+  --cobalt:#4d7dff; --sky:#d6e2ee; --apricot:#f2905e; --lilac:#a9c1ff; --mint:#a9d18e; --amber:#f5dc6a; --miss:#ff8f73;
+  --grad:linear-gradient(115deg,#f5dc6a 0%,#f2905e 100%);
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Inter",system-ui,"Segoe UI",Roboto,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--fg)}
+body{margin:0;font-family:var(--sans);font-size:16px;line-height:1.55;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--apricot);outline-offset:3px;border-radius:10px}
+a{color:var(--lilac)}
+.amb{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.amb i{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.26;animation:drift 26s ease-in-out infinite alternate}
+.amb i:nth-child(1){background:#1747c9;left:-20vmax;top:-25vmax}
+.amb i:nth-child(2){background:#5d7a4f;right:-25vmax;top:10vmax;opacity:.15;animation-duration:32s}
+.amb i:nth-child(3){background:#2c4f6b;left:10vmax;bottom:-35vmax;opacity:.15;animation-duration:38s}
+@keyframes drift{to{transform:translate(8vmax,6vmax) scale(1.12)}}
+.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding-inline:16px;padding-block:20px 90px}
+
+.top{position:sticky;top:0;z-index:20;margin:0 -16px 18px;padding:12px 16px 10px;background:linear-gradient(var(--bg) 70%,transparent);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.02em}
+.brand b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sp{flex:1}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:13px;color:var(--muted);white-space:nowrap;text-decoration:none}
+.pill:hover{background:var(--glass2)}
+.pill strong{color:var(--fg);font-weight:600}
+
+h1{font-family:var(--display);font-size:clamp(24px,5vw,34px);line-height:1.15;margin:14px 0 6px;font-weight:800;letter-spacing:-.01em}
+h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--muted);font-size:15px;margin:0 0 16px}
+
+.navchips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 8px}
+.navchips a{padding:7px 14px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:13.5px;font-weight:600;color:var(--fg);text-decoration:none}
+.navchips a:hover{background:var(--glass2);border-color:var(--apricot)}
+
+.step{display:flex;align-items:center;gap:12px;margin:34px 0 10px}
+.step .n{min-width:32px;height:32px;border-radius:11px;display:grid;place-items:center;background:var(--grad);color:#14211e;font-weight:800;font-size:15px}
+.step h2{font-family:var(--display);font-size:20px;margin:0;font-weight:800;letter-spacing:-.01em}
+.step .ln{flex:1;height:1px;background:var(--line)}
+
+.card{background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:18px 18px 16px;margin:12px 0;backdrop-filter:blur(8px)}
+.card h3{margin:0 0 4px;font-size:17px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tag{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:rgba(77,125,255,.15);color:var(--lilac);border:1px solid rgba(77,125,255,.3)}
+.tag.o{background:rgba(242,144,94,.13);color:var(--apricot);border-color:rgba(242,144,94,.32)}
+.tag.g{background:rgba(169,209,142,.12);color:var(--mint);border-color:rgba(169,209,142,.3)}
+.card .lead{color:var(--muted);font-size:14.5px;margin:2px 0 10px}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}}
+
+.def{border-left:3px solid var(--apricot);background:rgba(242,144,94,.07);padding:9px 13px;border-radius:0 12px 12px 0;font-size:14.5px;margin:10px 0}
+.def b{color:var(--apricot)}
+.gold{border-left:3px solid var(--amber);background:rgba(245,220,106,.08);padding:10px 14px;border-radius:0 12px 12px 0;font-size:14.5px;margin:10px 0}
+.gold b{color:var(--amber)}
+
+ul.facts{margin:8px 0 0;padding-left:18px;font-size:14.5px}
+ul.facts li{margin:4px 0}
+ul.facts b{color:var(--amber);font-weight:600}
+
+.fig{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:10px 0 4px}
+.fig svg{max-width:100%;height:auto}
+.cap{text-align:center;color:var(--faint);font-size:12.5px;margin-top:2px;flex-basis:100%}
+
+.fx{font-family:var(--display);font-size:18px;font-weight:600;letter-spacing:.01em;text-align:center;padding:8px 0}
+.fx .hl{color:var(--apricot)}
+.fx .num{color:var(--amber)}
+.fx .den{color:var(--lilac)}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 3px;font-size:.82em}
+.frac .l{height:2px;width:100%;background:currentColor;margin:2px 0}
+
+.petrow{display:flex;gap:10px;align-items:flex-start;margin-top:10px}
+.petrow img{width:56px;height:56px;object-fit:cover;border-radius:16px;border:1px solid var(--line);flex-shrink:0}
+.say{background:var(--glass2);border:1px solid var(--line);border-radius:4px 16px 16px 16px;padding:10px 14px;font-size:14px}
+.say b{color:var(--amber)}
+
+.mrow{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:14px;justify-content:center}
+.mrow img{width:74px;height:74px;object-fit:cover;border-radius:20px;border:1px solid var(--line)}
+.note{color:var(--faint);font-size:12.5px;margin-top:10px;text-align:center}
+</style></head>
+<body>
+<div class=amb><i></i><i></i><i></i></div>
+<div class=wrap>
+
+<div class=top>
+  <div class=brand>lili<b>.math</b></div>
+  <span class=pill><strong>Дроби навсегда</strong> · опорник к доске</span>
+  <div class=sp></div>
+  <a class=pill href="https://liliya-math.github.io/excalidraw/" target=_blank>🖊️ Доска</a>
+  <a class=pill href="materialy-9-klass.html">9 класс →</a>
+</div>
+
+<h1>Дроби <em>навсегда</em>: язык пиццы</h1>
+<p class=sub>Полный опорник по руководству: от «что такое дробь» до деления — всё через пиццу, без заучивания правил.</p>
+
+<div class=navchips>
+  <a href="#s1">1 · Что такое дробь</a>
+  <a href="#s2">2 · Сокращение</a>
+  <a href="#s3">3 · Сложение и вычитание</a>
+  <a href="#s4">4 · Умножение и деление</a>
+  <a href="#s5">5 · Смешанные числа</a>
+</div>
+
+<!-- ШАГ 1 -->
+<div class=step id=s1><span class=n>1</span><h2>Что такое дробь</h2><div class=ln></div></div>
+<div class=card>
+<p class=lead>Дробь появляется, когда целого не хватает или его нужно поделить поровну. У дроби два «этажа» — два вопроса: <b>«Какие?»</b> и <b>«Сколько?»</b></p>
+<div class=grid2>
+<div>
+<div class=def style="margin-top:2px"><b>Знаменатель (внизу)</b> — РАЗМЕР куска: на сколько равных частей разрезали пиццу. Число больше → кусочки мельче.</div>
+<div class=def><b>Числитель (вверху)</b> — КОЛИЧЕСТВО кусков: сколько таких кусков лежит на тарелке.</div>
+<div class=gold><b>Золотое правило:</b> знаменатель <b>знаменует</b> (называет) доли — восьмушки, четвертинки; числитель <b>исчисляет</b> (считает), сколько их. Дробная черта — обычное деление: ½ — это буквально 1 ÷ 2.</div>
+</div>
+<div>
+<div class=fig>
+<svg width="170" height="170" viewBox="0 0 170 170">
+<circle cx="85" cy="85" r="72" fill="#2a2119" stroke="#c98a4d" stroke-width="5"/>
+<g stroke="#c98a4d" stroke-width="3">
+<line x1="85" y1="85" x2="85" y2="13"/><line x1="85" y1="85" x2="157" y2="85"/><line x1="85" y1="85" x2="85" y2="157"/><line x1="85" y1="85" x2="13" y2="85"/>
+<line x1="85" y1="85" x2="136" y2="34"/><line x1="85" y1="85" x2="136" y2="136"/><line x1="85" y1="85" x2="34" y2="136"/><line x1="85" y1="85" x2="34" y2="34"/>
+</g>
+<path d="M85 85 L85 13 A72 72 0 0 1 136 34 Z" fill="#f2905e" opacity=".8"/>
+<path d="M85 85 L136 34 A72 72 0 0 1 157 85 Z" fill="#f2905e" opacity=".8"/>
+<path d="M85 85 L157 85 A72 72 0 0 1 136 136 Z" fill="#f2905e" opacity=".8"/>
+</svg>
+</div>
+<div class=cap>Пицца разрезана на 8 равных частей, на тарелке 3 куска → <b style="color:var(--amber)">3/8</b></div>
+<div class=fx style="margin-top:4px"><span class="frac"><span class=num>3</span><span class=l></span><span class=den>8</span></span> = <span class=num>3</span> куска <span class=den>восьмушки</span></div>
+</div>
+</div>
+<div class=petrow>
+<img src="img/rat-pizza.jpg" alt="Биссектриса">
+<div class=say><b>Биссектриса:</b> сначала спрашиваем «на сколько частей резали?» — это низ. Потом «сколько взяли?» — это верх. Два вопроса — и дробь больше не страшна.</div>
+</div>
+</div>
+
+<!-- ШАГ 2 -->
+<div class=step id=s2><span class=n>2</span><h2>Основное свойство и сокращение</h2><div class=ln></div></div>
+<div class=card>
+<p class=lead>Взяли полпиццы (½) и разрезали этот кусок ещё пополам: на тарелке теперь 2 куска из 4 (2/4). Пиццы больше не стало — изменилась только нарезка.</p>
+<div class=fig>
+<svg width="130" height="130" viewBox="0 0 130 130">
+<circle cx="65" cy="65" r="55" fill="#2a2119" stroke="#c98a4d" stroke-width="4"/>
+<line x1="65" y1="65" x2="65" y2="10" stroke="#c98a4d" stroke-width="3"/>
+<path d="M65 65 L65 10 A55 55 0 0 1 120 65 Z" fill="#f2905e" opacity=".8"/>
+</svg>
+<svg width="130" height="130" viewBox="0 0 130 130">
+<circle cx="65" cy="65" r="55" fill="#2a2119" stroke="#c98a4d" stroke-width="4"/>
+<line x1="65" y1="65" x2="65" y2="10" stroke="#c98a4d" stroke-width="3"/>
+<line x1="65" y1="65" x2="120" y2="65" stroke="#c98a4d" stroke-width="3"/>
+<path d="M65 65 L65 10 A55 55 0 0 1 120 65 Z" fill="#f2905e" opacity=".8"/>
+<line x1="65" y1="65" x2="92" y2="37" stroke="#f2905e" stroke-width="2" stroke-dasharray="4 3"/>
+</svg>
+<svg width="130" height="130" viewBox="0 0 130 130">
+<circle cx="65" cy="65" r="55" fill="#2a2119" stroke="#c98a4d" stroke-width="4"/>
+<g stroke="#c98a4d" stroke-width="2.5">
+<line x1="65" y1="65" x2="65" y2="10"/><line x1="65" y1="65" x2="120" y2="65"/><line x1="65" y1="65" x2="92" y2="37"/><line x1="65" y1="65" x2="92" y2="92"/><line x1="65" y1="65" x2="65" y2="120"/>
+</g>
+<path d="M65 65 L65 10 A55 55 0 0 1 120 65 Z" fill="#f2905e" opacity=".8"/>
+</svg>
+</div>
+<div class=fx><span class="frac"><span class=num>1</span><span class=l></span><span class=den>2</span></span> = <span class="frac"><span class=num>2</span><span class=l></span><span class=den>4</span></span> = <span class="frac"><span class=num>4</span><span class=l></span><span class=den>8</span></span></div>
+<ul class=facts>
+<li><b>Расширение</b> — дорезали куски на более мелкие: умножаем верх и низ на одно и то же число.</li>
+<li><b>Сокращение</b> — склеили мелкие куски обратно: делим верх и низ на одно и то же число. Дробь при этом не меняется!</li>
+</ul>
+</div>
+
+<!-- ШАГ 3 -->
+<div class=step id=s3><span class=n>3</span><h2>Сложение и вычитание: правило «одинаковой нарезки»</h2><div class=ln></div></div>
+<div class=card>
+<div class=gold><b>Главная мысль:</b> складывать в штуках можно только одинаковые вещи. Куски разного размера сначала доводим до одного размера — это и есть «приведение к общему знаменателю».</div>
+<div class=grid2>
+<div class=fbox style="background:var(--glass2);border:1px solid var(--line);border-radius:14px;padding:12px 14px">
+<div style="font-weight:600;color:var(--amber);font-size:13.5px">Знаменатели одинаковые</div>
+<div class=fx style="font-size:16px"><span class="frac"><span class=num>1</span><span class=l></span><span class=den>5</span></span> + <span class="frac"><span class=num>2</span><span class=l></span><span class=den>5</span></span> = <span class="frac"><span class=num>3</span><span class=l></span><span class=den>5</span></span></div>
+<div style="font-size:13.5px;color:var(--muted)">«Одно яблоко + два яблока = три яблока». Куски одного размера — считаем количество (верх), размер куска (низ) не трогаем.</div>
+</div>
+<div class=fbox style="background:var(--glass2);border:1px solid var(--line);border-radius:14px;padding:12px 14px">
+<div style="font-weight:600;color:var(--apricot);font-size:13.5px">Знаменатели разные</div>
+<div class=fx style="font-size:16px"><span class="frac"><span class=num>1</span><span class=l></span><span class=den>2</span></span> + <span class="frac"><span class=num>1</span><span class=l></span><span class=den>4</span></span> = <span class="frac"><span class=num>2</span><span class=l></span><span class=den>4</span></span> + <span class="frac"><span class=num>1</span><span class=l></span><span class=den>4</span></span> = <span class="frac"><span class=num>3</span><span class=l></span><span class=den>4</span></span></div>
+<div style="font-size:13.5px;color:var(--muted)">Половинку <b>дорезали</b> до четвертинок. Сказать «у меня 2 куска» было нельзя — они разного размера!</div>
+</div>
+</div>
+<div class=fig style="margin-top:12px">
+<svg width="120" height="120" viewBox="0 0 120 120">
+<circle cx="60" cy="60" r="50" fill="#2a2119" stroke="#c98a4d" stroke-width="4"/>
+<line x1="60" y1="60" x2="60" y2="10" stroke="#c98a4d" stroke-width="3"/>
+<path d="M60 60 L60 10 A50 50 0 0 1 110 60 Z" fill="#f2905e" opacity=".85"/>
+<text x="60" y="112" fill="#a9b6ad" font-size="11" text-anchor="middle" font-family="Inter">½</text>
+</svg>
+<svg width="120" height="120" viewBox="0 0 120 120">
+<circle cx="60" cy="60" r="50" fill="#2a2119" stroke="#c98a4d" stroke-width="4"/>
+<g stroke="#c98a4d" stroke-width="3"><line x1="60" y1="60" x2="60" y2="10"/><line x1="60" y1="60" x2="110" y2="60"/></g>
+<path d="M60 60 L60 10 A50 50 0 0 1 110 60 Z" fill="#f2905e" opacity=".85"/>
+<text x="60" y="112" fill="#a9b6ad" font-size="11" text-anchor="middle" font-family="Inter">¼</text>
+</svg>
+<svg width="120" height="120" viewBox="0 0 120 120">
+<circle cx="60" cy="60" r="50" fill="#2a2119" stroke="#c98a4d" stroke-width="4"/>
+<g stroke="#c98a4d" stroke-width="3"><line x1="60" y1="60" x2="60" y2="10"/><line x1="60" y1="60" x2="110" y2="60"/><line x1="60" y1="60" x2="85" y2="35"/></g>
+<path d="M60 60 L60 10 A50 50 0 0 1 85 35 Z" fill="#f5dc6a" opacity=".9"/>
+<path d="M60 60 L85 35 A50 50 0 0 1 110 60 Z" fill="#f2905e" opacity=".85"/>
+<text x="60" y="112" fill="#a9b6ad" font-size="11" text-anchor="middle" font-family="Inter">½ = 2/4, плюс ¼</text>
+</svg>
+</div>
+<div class=cap>Дорезали крупный кусок до размера мелкого — теперь честно считаем</div>
+</div>
+
+<!-- ШАГ 4 -->
+<div class=step id=s4><span class=n>4</span><h2>Умножение и деление: почему тут всё наоборот</h2><div class=ln></div></div>
+<div class=card>
+<p class=lead>Хорошая новость: в умножении и делении приводить куски к одному размеру <b>не нужно</b>.</p>
+<div class=grid2>
+<div>
+<div class=def style="margin-top:2px"><b>Умножение дробей:</b> верх на верх, низ на низ. Знак «·» читаем как предлог <b>«ОТ»</b>: ½ · ⅓ — это «половинка <b>от</b> третинки». Треть пиццы, разрезанная пополам, — это шестая часть (⅙).</div>
+<div class=fx style="font-size:16px"><span class="frac"><span class=num>1</span><span class=l></span><span class=den>2</span></span> · <span class="frac"><span class=num>1</span><span class=l></span><span class=den>3</span></span> = <span class="frac"><span class=num>1</span><span class=l></span><span class=den>6</span></span> — часть <b>от</b> части</div>
+</div>
+<div>
+<div class=def><b>Деление:</b> первую дробь оставляем, вторую переворачиваем и умножаем. Деление отвечает на вопрос <b>«сколько раз одно помещается в другом?»</b>: сколько четвертинок поместится в двух пиццах? В одной — 4, в двух — 8.</div>
+<div class=fx style="font-size:16px">2 ÷ <span class="frac"><span class=num>1</span><span class=l></span><span class=den>4</span></span> = 2 · <span class="frac"><span class=num>4</span><span class=l></span><span class=den>1</span></span> = <span class=num>8</span></div>
+</div>
+</div>
+<div class=petrow>
+<img src="img/ham-pizza.jpg" alt="Хомяк Стресс">
+<div class=say><b>Хомяк Стресс:</b> умножение — это «от», деление — это «сколько раз поместится». Запомнил два слова — и переворачивать уже не страшно.</div>
+</div>
+</div>
+
+<!-- ШАГ 5 -->
+<div class=step id=s5><span class=n>5</span><h2>Неправильные дроби и смешанные числа</h2><div class=ln></div></div>
+<div class=card>
+<ul class=facts>
+<li><b>Правильная дробь (¾):</b> кусков меньше, чем в целой пицце — верх меньше низа.</li>
+<li><b>Неправильная дробь (7/4):</b> 7 кусочков, хотя одна пицца — только из 4. Верх больше или равен низу.</li>
+<li><b>Смешанное число (1¾):</b> собрали из 4 четвертинок целую пиццу, и ещё 3 куска лежат рядом: 7/4 = 1¾.</li>
+</ul>
+<div class=fig>
+<svg width="120" height="120" viewBox="0 0 120 120">
+<circle cx="60" cy="60" r="50" fill="#2a2119" stroke="#c98a4d" stroke-width="4"/>
+<g stroke="#c98a4d" stroke-width="3"><line x1="60" y1="60" x2="60" y2="10"/><line x1="60" y1="60" x2="110" y2="60"/><line x1="60" y1="60" x2="85" y2="35"/><line x1="60" y1="60" x2="85" y2="85"/><line x1="60" y1="60" x2="60" y2="110"/><line x1="60" y1="60" x2="35" y2="85"/></g>
+<path d="M60 60 L60 10 A50 50 0 0 1 110 60 Z" fill="#f2905e" opacity=".85"/>
+<text x="60" y="113" fill="#a9b6ad" font-size="11" text-anchor="middle" font-family="Inter">целая (4/4)</text>
+</svg>
+<svg width="120" height="120" viewBox="0 0 120 120">
+<circle cx="60" cy="60" r="50" fill="#2a2119" stroke="#c98a4d" stroke-width="4"/>
+<g stroke="#c98a4d" stroke-width="3"><line x1="60" y1="60" x2="60" y2="10"/><line x1="60" y1="60" x2="110" y2="60"/><line x1="60" y1="60" x2="85" y2="35"/><line x1="60" y1="60" x2="85" y2="85"/></g>
+<path d="M60 60 L60 10 A50 50 0 0 1 110 60 Z" fill="#f2905e" opacity=".85"/>
+<path d="M60 60 L85 35 A50 50 0 0 1 110 60 Z" fill="#f2905e" opacity=".6"/>
+<path d="M60 60 L60 110 A50 50 0 0 1 35 85 Z" fill="#f5dc6a" opacity=".9"/>
+<text x="60" y="113" fill="#a9b6ad" font-size="11" text-anchor="middle" font-family="Inter">+ 3 куска (3/4)</text>
+</svg>
+</div>
+<div class=fx><span class="frac"><span class=num>7</span><span class=l></span><span class=den>4</span></span> = 1<span class="frac"><span class=num>3</span><span class=l></span><span class=den>4</span></span></div>
+</div>
+
+<div class=mrow>
+<img src="img/rat-pizza.jpg" alt="Биссектриса">
+<img src="img/ham-pizza.jpg" alt="Хомяк Стресс">
+<img src="img/obj-pizza.jpg" alt="Пицца">
+<img src="img/obj-choco.jpg" alt="Шоколадка">
+<img src="img/obj-apple.jpg" alt="Яблоко">
+</div>
+<p class=note>lili.math · дроби через пиццу · <a href="https://liliya-math.github.io/excalidraw/" target=_blank>открыть доску</a></p>
+
+</div>
+</body></html>
