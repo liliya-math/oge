@@ -173,19 +173,30 @@ function xpFloat(el,n=5){const r=el.getBoundingClientRect();const e=document.cre
 /* ---------- pizza SVG ---------- */
 function wedge(cx,cy,r,a1,a2){const x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1),x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2);return `M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 0 1 ${x2.toFixed(1)},${y2.toFixed(1)} Z`}
 function pizzaSVG(d,filled,o={}){
- const size=o.size||300,cx0=size/2,cy0=size/2,r=size/2-10,inner=r-16;
+ const size=o.size||300,cx0=size/2,cy0=size/2,r=size/2-10,inner=r-18;
  const cuts=o.cuts||Array.from({length:d},(_,i)=>i*2*Math.PI/d);
  const n=cuts.length;
- let s=`<circle cx="${cx0}" cy="${cy0}" r="${r}" fill="#c98a4b"/><circle cx="${cx0}" cy="${cy0}" r="${inner+5}" fill="#e8b06a"/>`;
+ /* тарелка, тень, корочка с бортиком, начинка с бликом */
+ let s=`<ellipse cx="${cx0}" cy="${cy0+r*.94}" rx="${r*.92}" ry="${r*.14}" fill="rgba(0,0,0,.35)"/>`;
+ s+=`<circle cx="${cx0}" cy="${cy0}" r="${r}" fill="#a05c2c"/>`;
+ for(let i=0;i<22;i++){const a=i/22*2*Math.PI;s+=`<circle cx="${(cx0+(r-4)*Math.cos(a)).toFixed(1)}" cy="${(cy0+(r-4)*Math.sin(a)).toFixed(1)}" r="${(size*.021).toFixed(1)}" fill="#a05c2c"/>`}
+ s+=`<circle cx="${cx0}" cy="${cy0}" r="${r-8}" fill="#c9853f"/>`;
+ s+=`<circle cx="${cx0}" cy="${cy0}" r="${inner+5}" fill="#eeb964"/>`;
+ s+=`<circle cx="${cx0}" cy="${cy0}" r="${inner*.62}" fill="#f6cd7d" opacity=".55"/>`;
+ /* куски */
  for(let i=0;i<n;i++){
   const a1=cuts[i]-Math.PI/2,a2=(i<n-1?cuts[i+1]:2*Math.PI)-Math.PI/2;
   const isF=i<filled;
-  if(n>1)s+=`<path class="slice ${isF?"filled":""}" data-i="${i}" d="${wedge(cx0,cy0,inner,a1,a2)}" fill="${isF?"#f2905e":"#f7dd9b"}" stroke="#8a5a2b" stroke-width="2"/>`;
-  /* pepperoni */
-  const mid=(a1+a2)/2,pr=inner*.52;
-  const px=cx0+pr*Math.cos(mid),py=cy0+pr*Math.sin(mid);
-  const q1=cx0+pr*.62*Math.cos(mid-.14),qy1=cy0+pr*.62*Math.sin(mid-.14);
-  s+=`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${inner*.09}" fill="#c0392b" opacity=".85"/><circle cx="${q1.toFixed(1)}" cy="${qy1.toFixed(1)}" r="${inner*.07}" fill="#c0392b" opacity=".85"/>`;
+  if(n>1)s+=`<path class="slice ${isF?"filled":""}" data-i="${i}" d="${wedge(cx0,cy0,inner,a1,a2)}" fill="${isF?"#f2905e":"#f9e2a8"}" fill-opacity="${isF?.95:.75}" stroke="#8a5a2b" stroke-width="2"/>`;
+ }
+ /* пепперони: 3 на кусок, у целого — рассыпаны по кругу */
+ const dots=n>1?n:7;
+ for(let i=0;i<dots;i++){
+  const a=(n>1?(cuts[i]+(i<n-1?cuts[i+1]:2*Math.PI))/2:i/dots*2*Math.PI)-Math.PI/2;
+  for(const [dd,rr,op] of [[.5,.085,1],[.68,.06,.9],[.3,.05,.8]]){
+   const px=cx0+inner*dd*Math.cos(a+(dd>.6?.35:-.3)),py=cy0+inner*dd*Math.sin(a+(dd>.6?.35:-.3));
+   s+=`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${(inner*rr).toFixed(1)}" fill="#b03a2e" opacity="${op}"/>`;
+  }
  }
  if(o.plate)s=`<circle cx="${cx0}" cy="${cy0}" r="${r+7}" fill="rgba(243,236,226,.07)"/>`+s;
  return `<svg class=pizza viewBox="0 0 ${size} ${size}" style="${o.style||""}">${s}</svg>`}
