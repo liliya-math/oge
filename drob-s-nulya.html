@@ -180,7 +180,7 @@ function pizzaSVG(d,filled,o={}){
  for(let i=0;i<n;i++){
   const a1=cuts[i]-Math.PI/2,a2=(i<n-1?cuts[i+1]:2*Math.PI)-Math.PI/2;
   const isF=i<filled;
-  s+=`<path class="slice ${isF?"filled":""}" data-i="${i}" d="${wedge(cx0,cy0,inner,a1,a2)}" fill="${isF?"#f2905e":"#f7dd9b"}" stroke="#8a5a2b" stroke-width="2"/>`;
+  if(n>1)s+=`<path class="slice ${isF?"filled":""}" data-i="${i}" d="${wedge(cx0,cy0,inner,a1,a2)}" fill="${isF?"#f2905e":"#f7dd9b"}" stroke="#8a5a2b" stroke-width="2"/>`;
   /* pepperoni */
   const mid=(a1+a2)/2,pr=inner*.52;
   const px=cx0+pr*Math.cos(mid),py=cy0+pr*Math.sin(mid);
