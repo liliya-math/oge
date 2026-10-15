@@ -193,15 +193,28 @@ function stripSVG(n,d,label,color="#f2905e",w=300){const cw=w/d,h=54;let r="";fo
  return `<svg width="${w}" height="${h+22}" viewBox="0 0 ${w} ${h+22}">${r}${label?`<text class=tm x="${w/2}" y="${h+16}" text-anchor="middle">${label}</text>`:""}</svg>`}
 function twoStrips(a,an,ad,b,bn,bd,color="#f2905e"){return `<div class=fig style="display:grid;gap:4px;justify-items:center">${stripSVG(an,ad,a,"",color)}${stripSVG(bn,bd,b,"",color)}</div>`}
 function pizzaSVG(n,d,label,color="#f2905e"){const C=2*Math.PI*48,f=n/d*C;return `<svg width="130" height="150" viewBox="0 0 130 150"><circle cx="65" cy="65" r="48" fill="rgba(243,236,226,.08)" stroke="rgba(243,236,226,.3)"/><circle cx="65" cy="65" r="48" fill="none" stroke="${color}" stroke-width="13" stroke-dasharray="${f} ${C-f}" transform="rotate(-90 65 65)" stroke-linecap="butt" opacity=".9"/><text class=tx x="65" y="72" text-anchor="middle" style="font-size:19px">${label}</text><text class=tm x="65" y="142" text-anchor="middle">целое разделено на ${d}</text></svg>`}
-/* фото-пицца с долями: настоящее фото + разделители + кольцевая шкала доли */
+/* нарисованная пицца: корочка, начинка, честные доли (фото не подходили) */
+function wp(cx,cy,r,a1,a2){const x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1),x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2);return `M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 0 1 ${x2.toFixed(1)},${y2.toFixed(1)} Z`}
+function pieBase(c,r,inner){let s=`<circle cx="${c}" cy="${c}" r="${r}" fill="#a05c2c"/>`;
+ for(let i=0;i<18;i++){const a=i/18*2*Math.PI;s+=`<circle cx="${(c+(r-3)*Math.cos(a)).toFixed(1)}" cy="${(c+(r-3)*Math.sin(a)).toFixed(1)}" r="2.6" fill="#a05c2c"/>`}
+ s+=`<circle cx="${c}" cy="${c}" r="${r-6}" fill="#c9853f"/><circle cx="${c}" cy="${c}" r="${inner+3}" fill="#eeb964"/><circle cx="${c}" cy="${c}" r="${inner*.6}" fill="#f6cd7d" opacity=".5"/>`;
+ return s}
+function pieDots(c,inner,d){let s="";const cnt=d>1?d*2:6;
+ for(let i=0;i<cnt;i++){const a=(d>1?(Math.floor(i/2)+.5)*2*Math.PI/d:i*2*Math.PI/cnt)-Math.PI/2,dd=i%2?.72:.5;
+  const px=c+inner*dd*Math.cos(a+.28),py=c+inner*dd*Math.sin(a+.28);
+  s+=`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${i%2?3.4:4.6}" fill="#b03a2e" opacity=".9"/>`}
+ return s}
 function photoPie(n,d,label,color="#f2905e"){
- const R=60,C=2*Math.PI*R,f=n/d*C;
- let cuts="";
- if(d>1){for(let i=0;i<d;i++){const a=i*2*Math.PI/d-Math.PI/2;cuts+=`<line x1="${(65+R*Math.cos(a)).toFixed(1)}" y1="${(65+R*Math.sin(a)).toFixed(1)}" x2="65" y2="65" stroke="rgba(255,255,255,.55)" stroke-width="2.5"/>`}}
- return `<div class=photo-pie><div class=ph><img src="img/obj-pizza.jpg" alt="Пицца"><svg viewBox="0 0 130 130">${cuts}<circle cx="65" cy="65" r="${R}" fill="none" stroke="${color}" stroke-width="11" stroke-dasharray="${f} ${C-f}" transform="rotate(-90 65 65)" opacity=".92"/></svg></div><div class=plabel>${label}</div><div class=psub>целое разделено на ${d}</div></div>`}
+ const c=65,r=56,inner=r-9;let fills="";
+ if(d>1){for(let i=0;i<d;i++){const a1=i*2*Math.PI/d-Math.PI/2,a2=(i+1)*2*Math.PI/d-Math.PI/2;
+  fills+=`<path d="${wp(c,c,inner,a1,a2)}" fill="${i<n?color:"#f9e2a8"}" fill-opacity="${i<n?.95:.75}" stroke="#8a5a2b" stroke-width="1.6"/>`}}
+ const s=pieBase(c,r,inner)+fills+pieDots(c,inner,d);
+ return `<div class=photo-pie><div class=ph><svg viewBox="0 0 130 130">${s}</svg></div><div class=plabel>${label}</div><div class=psub>целое разделено на ${d}</div></div>`}
 function photoPiePct(p){
- const R=60,C=2*Math.PI*R,f=p/100*C;
- return `<div class=photo-pie><div class=ph><img src="img/obj-pizza.jpg" alt="Пицца"><svg viewBox="0 0 130 130"><circle cx="65" cy="65" r="${R}" fill="none" stroke="rgba(243,236,226,.28)" stroke-width="12"/><circle cx="65" cy="65" r="${R}" fill="none" stroke="var(--apricot)" stroke-width="12" stroke-dasharray="${f} ${C-f}" transform="rotate(-90 65 65)"/><circle cx="65" cy="65" r="26" fill="rgba(20,33,30,.55)"/><text x="65" y="71" text-anchor="middle" style="font-size:19px;font-weight:700;fill:#f3ece2">${p}%</text></svg></div></div>`}
+ const c=65,r=56,inner=r-9,R=inner-2,C=2*Math.PI*R,f=p/100*C;
+ let s=pieBase(c,r,inner)+pieDots(c,inner,5);
+ s+=`<circle cx="${c}" cy="${c}" r="${R}" fill="none" stroke="rgba(243,236,226,.25)" stroke-width="10"/><circle cx="${c}" cy="${c}" r="${R}" fill="none" stroke="#f2905e" stroke-width="10" stroke-dasharray="${f} ${C-f}" transform="rotate(-90 ${c} ${c})"/><circle cx="${c}" cy="${c}" r="23" fill="rgba(20,33,30,.62)"/><text x="${c}" y="${c+6}" text-anchor="middle" style="font-size:17px;font-weight:700;fill:#f3ece2">${p}%</text>`;
+ return `<div class=photo-pie><div class=ph><svg viewBox="0 0 130 130">${s}</svg></div></div>`}
 function piesRow(list){return `<div class=fig style="gap:16px;flex-wrap:wrap">${list.map(p=>photoPie(p[0],p[1],p[2])).join("")}</div>`}
 function nlineSVG(a,b,marks){ /* числовая прямая от a до b, marks — [[val,label,color]] */
  const W=560,pad=30,x=v=>pad+(v-a)/(b-a)*(W-2*pad);let t=`<line x1="${x(a)}" y1="55" x2="${x(b)}" y2="55" stroke="var(--muted)" stroke-width="1.6"/>`;
