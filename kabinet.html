@@ -669,13 +669,13 @@ const TALS=[
  {id:'capy',n:'Капи Дзен',tag:'ничего не боится',bg:'#14211e'},
  {id:'ham',n:'Хомяк Стресс',tag:'переживает за всех',bg:'#14211e'}
 ];
-const PIMG={"ham":{"idle":"img/ham-pizza.jpg","joy":"img/ham-win.jpg","sad":"img/ham-thermo.jpg"},
-"rac":{"idle":"img/rac-pizza.jpg","joy":"img/rac-win.jpg","sad":"img/rac-calm.jpg"},
-"lab":{"idle":"img/lab-pizza.jpg","joy":"img/lab-win.jpg","sad":"img/lab-thermo.jpg"},
-"cat":{"idle":"img/cat-pizza.jpg","joy":"img/cat-win.jpg","sad":"img/cat-calm.jpg"},
-"capy":{"idle":"img/capy-pizza.jpg","joy":"img/capy-coin.jpg","sad":"img/capy-thermo.jpg"},
-"meer":{"idle":"img/mer-pizza.jpg","joy":"img/mer-win.jpg","sad":"img/mer-thermo.jpg"}};
-function petSVG(id,mood='idle'){const P=PIMG[id];if(!P)return '';const m=mood==='joy'?'joy':mood==='sad'?'sad':'idle';return `<img src="${P[m]}" alt="" draggable="false">`}
+const PIMG={"ham":{"idle":"img/ham-pizza.jpg","joy":"img/ham-joy.jpg","sad":"img/ham-sad.jpg","think":"img/ham-think.jpg"},
+"rac":{"idle":"img/rac-idle.jpg","joy":"img/rac-joy.jpg","sad":"img/rac-calm.jpg","think":"img/rac-think.jpg"},
+"lab":{"idle":"img/lab-idle.jpg","joy":"img/lab-joy.jpg","sad":"img/lab-sad.jpg","think":"img/lab-think.jpg"},
+"cat":{"idle":"img/cat-idle.jpg","joy":"img/cat-joy.jpg","sad":"img/cat-calm.jpg","think":"img/cat-think.jpg"},
+"capy":{"idle":"img/capy-idle.jpg","joy":"img/capy-coin.jpg","sad":"img/capy-think.jpg","think":"img/capy-think.jpg"},
+"meer":{"idle":"img/mer-pizza.jpg","joy":"img/mer-win.jpg","sad":"img/mer-thermo.jpg","think":"img/mer-think.jpg"}};
+function petSVG(id,mood='idle'){const P=PIMG[id];if(!P)return '';const m=(mood==='joy'||mood==='sad'||mood==='think')?mood:'idle';return `<img src="${P[m]||P.idle}" alt="" draggable="false">`}
 function pet(id,mood,size,extra=''){const t=TALS.find(x=>x.id===id);if(!t)return '';return `<span class="pet ${extra}" style="width:${size}px;height:${size}px;background:${t.bg}" title="${t.n}">${petSVG(id,mood)}</span>`}
 function petSound(id,mood){
   const c=ac();if(!c||!S.sound)return;
@@ -838,7 +838,7 @@ function react(kind,title,sub){
   react.t=setTimeout(()=>{el.classList.add('out');setTimeout(()=>el.remove(),450)},kind==='bad'?2900:2600);
 }
 TALS.push({id:'bis',short:'Биссектриса',n:'Крыса Биссектриса',tag:'делит угол и сердце пополам',bg:'#14211e'},{id:'rad',short:'Радиус',n:'Крысёнок Радиус',tag:'маленький, но всё вокруг него',bg:'#14211e'});
-Object.assign(PIMG,{"bis":{"idle":"img/rat-pizza.jpg","joy":"img/rat-chart.jpg","sad":"img/rat-thermo.jpg"},"rad":{"idle":"img/rat-sit.jpg","joy":"img/rat-pie.jpg","sad":"img/rat-sit.jpg","sad":"img/rat-sit.jpg"}});
+Object.assign(PIMG,{"bis":{"idle":"img/rat-idle.jpg","joy":"img/rat-joy.jpg","sad":"img/rat-sad.jpg","think":"img/rat-think.jpg"},"rad":{"idle":"img/ratpup-think.jpg","joy":"img/ratpup-joy.jpg","sad":"img/ratpup-sad.jpg","think":"img/ratpup-think.jpg"}});
 
 /* ===== Кабинет ученика 25/25 · lili.math ===== */
 /* Адрес веб-приложения Apps Script (Развернуть → Веб-приложение). Пока пусто — работает только демо. */
