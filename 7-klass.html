@@ -1,0 +1,176 @@
+<!doctype html><html lang="ru"><head><meta charset=utf8>
+<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>7 класс · алгебра и геометрия</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --bg:#14211e; --bg2:#1b2b28; --glass:rgba(243,236,226,.05); --glass2:rgba(243,236,226,.085);
+  --line:rgba(226,234,228,.13); --fg:#f3ece2; --muted:#a9b6ad; --faint:#6e7f77;
+  --cobalt:#4d7dff; --sky:#d6e2ee; --apricot:#f2905e; --lilac:#a9c1ff; --mint:#a9d18e; --amber:#f5dc6a; --miss:#ff8f73;
+  --grad:linear-gradient(115deg,#f5dc6a 0%,#f2905e 100%);
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Inter",system-ui,"Segoe UI",Roboto,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--fg)}
+body{margin:0;font-family:var(--sans);font-size:16px;line-height:1.55;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:var(--lilac)}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--apricot);outline-offset:3px;border-radius:10px}
+.amb{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.amb i{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.26;animation:drift 26s ease-in-out infinite alternate}
+.amb i:nth-child(1){background:#1747c9;left:-20vmax;top:-25vmax}
+.amb i:nth-child(2){background:#5d7a4f;right:-25vmax;top:10vmax;opacity:.15;animation-duration:32s}
+.amb i:nth-child(3){background:#2c4f6b;left:10vmax;bottom:-35vmax;opacity:.15;animation-duration:38s}
+@keyframes drift{to{transform:translate(8vmax,6vmax) scale(1.12)}}
+.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding-inline:16px;padding-block:20px 90px}
+.top{position:sticky;top:0;z-index:20;margin:0 -16px 18px;padding:12px 16px 10px;background:linear-gradient(var(--bg) 70%,transparent);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.02em}
+.brand b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sp{flex:1}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:13px;color:var(--muted);white-space:nowrap;text-decoration:none}
+.pill:hover{background:var(--glass2)}
+.pill strong{color:var(--fg);font-weight:600}
+h1{font-family:var(--display);font-size:clamp(24px,5vw,34px);line-height:1.15;margin:14px 0 6px;font-weight:800;letter-spacing:-.01em}
+h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--muted);font-size:15px;margin:0 0 16px}
+.navchips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 8px}
+.navchips a{padding:7px 14px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:13.5px;font-weight:600;color:var(--fg);text-decoration:none}
+.navchips a:hover{background:var(--glass2);border-color:var(--apricot)}
+.sec{display:flex;align-items:center;gap:12px;margin:34px 0 10px}
+.sec h2{font-family:var(--display);font-size:20px;margin:0;font-weight:800;letter-spacing:-.01em}
+.sec .n{min-width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--grad);color:#14211e;font-weight:800;font-size:14px}
+.sec .ln{flex:1;height:1px;background:var(--line)}
+.card{background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:18px;margin:12px 0;backdrop-filter:blur(8px)}
+.tag{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:rgba(77,125,255,.15);color:var(--lilac);border:1px solid rgba(77,125,255,.3)}
+.tag.o{background:rgba(242,144,94,.13);color:var(--apricot);border-color:rgba(242,144,94,.32)}
+.tag.g{background:rgba(169,209,142,.12);color:var(--mint);border-color:rgba(169,209,142,.3)}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+@media(max-width:620px){.tgrid{grid-template-columns:1fr}}
+.tcard{background:var(--glass2);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.tcard .tt{font-weight:700;font-size:14.5px;margin-bottom:3px}
+.tcard .td{font-size:13px;color:var(--muted);line-height:1.45}
+.zachet{margin-top:14px;border:1px dashed rgba(245,220,106,.4);background:rgba(245,220,106,.05);border-radius:18px;padding:16px 18px}
+.zachet h3{margin:0 0 4px;font-size:16.5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.zhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.zbtn{padding:9px 20px;border-radius:999px;border:none;background:var(--grad);color:#14211e;font-weight:800;font-size:14.5px}
+.zbtn:disabled{opacity:.45;cursor:default}
+.zprog{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.qq{margin-top:12px;font-size:16px;font-weight:600;line-height:1.5}
+.qo{display:grid;gap:8px;margin-top:12px}
+.opt{padding:11px 14px;border-radius:13px;background:var(--glass2);border:1px solid var(--line);text-align:left;font-size:15px;transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--cobalt)}
+.opt.ok{border-color:var(--mint);background:rgba(169,209,142,.14)}
+.opt.bad{border-color:var(--miss);background:rgba(255,143,115,.12)}
+.opt:disabled{cursor:default;opacity:.9}
+.qexp{margin-top:10px;font-size:14px;color:var(--muted);border-left:3px solid var(--apricot);padding:6px 12px;background:rgba(242,144,94,.06);border-radius:0 10px 10px 0}
+.qnext{margin-top:12px;padding:9px 20px;border-radius:999px;border:1px solid var(--line);background:var(--glass2);font-weight:700;font-size:14px}
+.qres{margin-top:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.qres img{width:72px;height:72px;object-fit:cover;border-radius:20px;border:1px solid var(--line)}
+.qres .score{font-family:var(--display);font-size:30px;font-weight:800}
+.qres .verdict{font-size:14.5px;color:var(--muted);max-width:520px}
+.mrow{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:14px;justify-content:center}
+.mrow img{width:74px;height:74px;object-fit:cover;border-radius:20px;border:1px solid var(--line)}
+.note{color:var(--faint);font-size:12.5px;margin-top:10px;text-align:center}
+.oge a{display:block;background:var(--glass2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;text-decoration:none;color:var(--fg);margin-top:8px}
+.oge a:hover{border-color:var(--apricot)}
+.oge .t{font-weight:700;font-size:14.5px}
+.oge .d{font-size:13px;color:var(--muted);margin-top:2px}
+</style></head>
+<body>
+<div class=amb><i></i><i></i><i></i></div>
+<div class=wrap>
+<div class=top>
+  <div class=brand>lili<b>.math</b></div>
+  <span class=pill><strong>7 класс</strong> · алгебра и геометрия</span>
+  <div class=sp></div>
+  <a class=pill href="index.html">← Все разделы</a>
+  <a class=pill href="kabinet.html">Кабинет</a>
+</div>
+
+<h1>7 класс: <em>алгебра</em> и <em>геометрия</em></h1>
+<p class=sub>Темы курса по разделам. В конце каждого раздела — зачёт: 10 вопросов, мгновенная проверка, можно перепроходить сколько угодно раз.</p>
+<div class=navchips>
+  <a href="#alg">Алгебра · 10 тем</a>
+  <a href="#geo">Геометрия · 10 тем</a>
+</div>
+
+<div class=sec id="alg"><span class=n>А</span><h2>Алгебра</h2><div class=ln></div></div>
+<div class=card>
+<span class="tag ">10 тем</span>
+<div class=tgrid><div class=tcard><div class=tt>Выражения и тождества</div><div class=td>Числовые и буквенные выражения, значения, тождественные преобразования</div></div><div class=tcard><div class=tt>Степень с натуральным показателем</div><div class=td>Свойства степеней: aᵐ·aⁿ = aᵐ⁺ⁿ и другие</div></div><div class=tcard><div class=tt>Одночлены и многочлены</div><div class=td>Стандартный вид, сложение, умножение, приведение подобных</div></div><div class=tcard><div class=tt>Формулы сокращённого умножения</div><div class=td>(a±b)², a²−b², (a±b)³ — скелеты алгебры</div></div><div class=tcard><div class=tt>Разложение многочлена на множители</div><div class=td>Вынесение общего, группировка, формулы</div></div><div class=tcard><div class=tt>Алгебраические дроби</div><div class=td>Сокращение, сложение и умножение дробей</div></div><div class=tcard><div class=tt>Линейное уравнение с одной переменной</div><div class=td>ax + b = 0, перенос, задачи на уравнения</div></div><div class=tcard><div class=tt>Система двух уравнений</div><div class=td>Способы подстановки и сложения</div></div><div class=tcard><div class=tt>Линейная функция</div><div class=td>y = kx + b, график — прямая, k и b</div></div><div class=tcard><div class=tt>Статистические характеристики</div><div class=td>Среднее, мода, медиана, размах</div></div></div>
+<div class=zachet>
+<h3>🎓 Зачёт по разделу «Алгебра» <span class=zprog>10 вопросов · без времени · можно перепроходить</span></h3>
+<div id=quiz-alg></div>
+</div>
+</div>
+
+<div class=sec id="geo"><span class=n>Г</span><h2>Геометрия</h2><div class=ln></div></div>
+<div class=card>
+<span class="tag g">10 тем</span>
+<div class=tgrid><div class=tcard><div class=tt>Отрезки и углы</div><div class=td>Смежные (в сумме 180°) и вертикальные (равные) углы</div></div><div class=tcard><div class=tt>Треугольник и его элементы</div><div class=td>Стороны, углы, медианы, биссектрисы, высоты</div></div><div class=tcard><div class=tt>Первый признак равенства</div><div class=td>По двум сторонам и углу между ними</div></div><div class=tcard><div class=tt>Второй и третий признаки</div><div class=td>По стороне и двум прилежащим углам; по трём сторонам</div></div><div class=tcard><div class=tt>Равнобедренный треугольник</div><div class=td>Углы при основании равны, медиана — высота и биссектриса</div></div><div class=tcard><div class=tt>Параллельные прямые</div><div class=td>Секущая, накрест лежащие, соответственные, односторонние</div></div><div class=tcard><div class=tt>Сумма углов треугольника</div><div class=td>180°, внешний угол равен сумме несмежных</div></div><div class=tcard><div class=tt>Соотношения сторон и углов</div><div class=td>Большей стороне — больший угол; неравенство треугольника</div></div><div class=tcard><div class=tt>Прямоугольные треугольники</div><div class=td>Сумма острых углов 90°, угол 30° и противолежащий катет</div></div><div class=tcard><div class=tt>Построения циркулем и линейкой</div><div class=td>Биссектриса, серединный перпендикуляр, равный угол</div></div></div>
+<div class=zachet>
+<h3>🎓 Зачёт по разделу «Геометрия» <span class=zprog>10 вопросов · без времени · можно перепроходить</span></h3>
+<div id=quiz-geo></div>
+</div>
+</div>
+
+<div class=mrow><img src="img/rat-joy.jpg.jpg" alt=""><img src="img/rat-idle.jpg.jpg" alt=""><img src="img/ratpup-joy.jpg.jpg" alt=""><img src="img/ham-joy.jpg.jpg" alt=""></div>
+<p class=note>lili.math · 7 класс · темы и зачёты</p>
+</div>
+<script>
+
+function quiz(rootId,data){
+  const root=document.getElementById(rootId);
+  let i=0,score=0,done=false;
+  const pet=(m)=>`<img src="img/${data.pet[m]||data.pet.idle}" alt="">`;
+  function render(){
+    if(done){
+      const pct=Math.round(score/data.q.length*100);
+      const mood=pct>=70?'joy':pct>=40?'think':'sad';
+      const verdict=pct>=90?'Отличный зачёт! Тема пройдена на «5».':
+        pct>=70?'Зачёт! Небольшие шероховатости — загляни в темы выше.':
+        pct>=40?'Почти. Перечитай темы раздела и попробуй ещё раз.':
+        'Пока не зачёт. Пройдись по темам раздела и возвращайся — получится!';
+      root.innerHTML=`<div class=qres>${pet(mood)}
+        <div><div class=score>${score} / ${data.q.length}</div>
+        <div class=verdict>${verdict}</div>
+        <button class=qnext id="${rootId}-re">Пройти ещё раз</button></div></div>`;
+      document.getElementById(rootId+'-re').onclick=()=>{i=0;score=0;done=false;render();};
+      return;
+    }
+    const q=data.q[i];
+    root.innerHTML=`<div class=zhead><span class=zprog>Вопрос ${i+1} из ${data.q.length} · верно ${score}</span></div>
+      <div class=qq>${q.q}</div>
+      <div class=qo>${q.o.map((t,k)=>`<button class=opt data-k=${k}>${t}</button>`).join('')}</div>
+      <div class=qexp id="${rootId}-ex" hidden>${q.e||''}</div>
+      <button class=qnext id="${rootId}-nx" hidden>${i+1<data.q.length?'Дальше':'К результату'}</button>`;
+    root.querySelectorAll('.opt').forEach(b=>{
+      b.onclick=()=>{
+        const k=+b.dataset.k;
+        root.querySelectorAll('.opt').forEach(x=>{
+          x.disabled=true;
+          if(+x.dataset.k===q.a)x.classList.add('ok');
+        });
+        if(k===q.a){score++;}else{b.classList.add('bad');}
+        root.querySelector('.zprog').textContent=`Вопрос ${i+1} из ${data.q.length} · верно ${score}`;
+        root.querySelector(`#${rootId}-ex`).hidden=false;
+        root.querySelector(`#${rootId}-nx`).hidden=false;
+      };
+    });
+    root.querySelector(`#${rootId}-nx`).onclick=()=>{
+      i++;
+      if(i>=data.q.length)done=true;
+      render();
+      root.scrollIntoView({behavior:'smooth',block:'nearest'});
+    };
+  }
+  render();
+}
+
+quiz('quiz-alg',{"pet": {"idle": "rat-idle.jpg", "joy": "rat-joy.jpg", "think": "rat-think.jpg", "sad": "rat-sad.jpg"}, "q": [{"q": "Вычислите: 2³ · 2⁵", "o": ["2⁸", "2¹⁵", "4⁸", "64"], "a": 0, "e": "При умножении степеней с одинаковым основанием показатели складываются: 2³⁺⁵ = 2⁸ = 256."}, {"q": "Приведите подобные: 3x + 5x − 2x", "o": ["6x", "10x", "−4x", "6x²"], "a": 0, "e": "(3 + 5 − 2)·x = 6x. Складываем только коэффициенты."}, {"q": "Раскройте скобки: −2(3x − 4)", "o": ["−6x + 8", "−6x − 8", "6x + 8", "−5x − 6"], "a": 0, "e": "Умножаем каждое слагаемое на −2: −2·3x = −6x, −2·(−4) = +8."}, {"q": "Решите уравнение: 5x − 3 = 12", "o": ["x = 3", "x = 2", "x = 5", "x = 1,8"], "a": 0, "e": "5x = 12 + 3 = 15, значит x = 3."}, {"q": "Выберите верную формулу (a + b)²", "o": ["a² + 2ab + b²", "a² + b²", "a² − 2ab + b²", "2a + 2b"], "a": 0, "e": "Квадрат суммы: a² + 2ab + b². Средний член 2ab часто забывают!"}, {"q": "Разложите на множители: x² − 9", "o": ["(x − 3)(x + 3)", "(x − 3)²", "(x + 3)²", "x(x − 9)"], "a": 0, "e": "Разность квадратов: x² − 3² = (x − 3)(x + 3)."}, {"q": "Решите систему: x + y = 5, x − y = 1. Чему равен x?", "o": ["3", "2", "4", "5"], "a": 0, "e": "Складываем уравнения: 2x = 6, x = 3. Тогда y = 2."}, {"q": "Найдите значение функции y = 2x − 1 при x = 4", "o": ["7", "8", "9", "6"], "a": 0, "e": "y = 2·4 − 1 = 7."}, {"q": "Сократите дробь: 6x² / 9x (x ≠ 0)", "o": ["2x / 3", "3x / 2", "2x² / 3", "6x / 9"], "a": 0, "e": "Делим числа на 3, x² на x: получаем 2x/3."}, {"q": "Умножьте одночлены: −3x²y · 4xy", "o": ["−12x³y²", "12x²y", "−12x²y²", "−7x³y²"], "a": 0, "e": "Коэффициенты: −3·4 = −12; x²·x = x³; y·y = y²."}]});
+quiz('quiz-geo',{"pet": {"idle": "ratpup-think.jpg", "joy": "ratpup-joy.jpg", "think": "ratpup-think.jpg", "sad": "ratpup-sad.jpg"}, "q": [{"q": "Чему равна сумма смежных углов?", "o": ["180°", "90°", "360°", "120°"], "a": 0, "e": "Смежные углы вместе образуют развёрнутый угол — 180°."}, {"q": "Вертикальные углы…", "o": ["равны", "в сумме 180°", "в сумме 90°", "дополняют друг друга"], "a": 0, "e": "Вертикальные углы всегда равны — это следствие свойств смежных."}, {"q": "Сумма углов треугольника равна…", "o": ["180°", "360°", "90°", "зависит от треугольника"], "a": 0, "e": "Сумма внутренних углов любого треугольника — 180°."}, {"q": "Внешний угол треугольника равен…", "o": ["сумме двух несмежных с ним внутренних", "смежному внутреннему", "180° всегда", "разности двух углов"], "a": 0, "e": "Внешний угол = 180° − смежный = сумма двух других внутренних."}, {"q": "В равнобедренном треугольнике углы при основании…", "o": ["равны", "в сумме 90°", "всегда острые и разные", "равны 60°"], "a": 0, "e": "Углы при основании равнобедренного треугольника равны."}, {"q": "Верный признак равенства треугольников:", "o": ["по двум сторонам и углу МЕЖДУ ними", "по двум сторонам и любому углу", "по трём углам", "по одной стороне"], "a": 0, "e": "Угол должен быть МЕЖДУ сторонами — иначе это не признак, а ловушка."}, {"q": "При параллельных прямых и секущей накрест лежащие углы…", "o": ["равны", "в сумме 180°", "в сумме 90°", "соседние"], "a": 0, "e": "Накрест лежащие и соответственные углы равны; односторонние — в сумме 180°."}, {"q": "Существует ли треугольник со сторонами 3, 4, 7?", "o": ["Нет", "Да, разносторонний", "Да, прямоугольный", "Да, равнобедренный"], "a": 0, "e": "3 + 4 = 7 — сумма должна быть СТРОГО больше третьей стороны. Выражается в вырожденный отрезок."}, {"q": "Медиана треугольника — это отрезок…", "o": ["из вершины в середину противоположной стороны", "перпендикуляр к стороне", "из вершины, делящий угол пополам", "между серединами сторон"], "a": 0, "e": "Медиана соединяет вершину с серединой противоположной стороны. Биссектриса делит угол, высота перпендикулярна."}, {"q": "Один острый угол прямоугольного треугольника равен 30°. Второй острый?", "o": ["60°", "30°", "90°", "45°"], "a": 0, "e": "Острые углы прямоугольного треугольника в сумме 90°: 90 − 30 = 60."}]});
+</script>
+</body></html>

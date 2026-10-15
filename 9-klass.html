@@ -1,0 +1,185 @@
+<!doctype html><html lang="ru"><head><meta charset=utf8>
+<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>9 класс · алгебра и геометрия</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --bg:#14211e; --bg2:#1b2b28; --glass:rgba(243,236,226,.05); --glass2:rgba(243,236,226,.085);
+  --line:rgba(226,234,228,.13); --fg:#f3ece2; --muted:#a9b6ad; --faint:#6e7f77;
+  --cobalt:#4d7dff; --sky:#d6e2ee; --apricot:#f2905e; --lilac:#a9c1ff; --mint:#a9d18e; --amber:#f5dc6a; --miss:#ff8f73;
+  --grad:linear-gradient(115deg,#f5dc6a 0%,#f2905e 100%);
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Inter",system-ui,"Segoe UI",Roboto,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--fg)}
+body{margin:0;font-family:var(--sans);font-size:16px;line-height:1.55;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:var(--lilac)}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--apricot);outline-offset:3px;border-radius:10px}
+.amb{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.amb i{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.26;animation:drift 26s ease-in-out infinite alternate}
+.amb i:nth-child(1){background:#1747c9;left:-20vmax;top:-25vmax}
+.amb i:nth-child(2){background:#5d7a4f;right:-25vmax;top:10vmax;opacity:.15;animation-duration:32s}
+.amb i:nth-child(3){background:#2c4f6b;left:10vmax;bottom:-35vmax;opacity:.15;animation-duration:38s}
+@keyframes drift{to{transform:translate(8vmax,6vmax) scale(1.12)}}
+.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding-inline:16px;padding-block:20px 90px}
+.top{position:sticky;top:0;z-index:20;margin:0 -16px 18px;padding:12px 16px 10px;background:linear-gradient(var(--bg) 70%,transparent);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.02em}
+.brand b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sp{flex:1}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:13px;color:var(--muted);white-space:nowrap;text-decoration:none}
+.pill:hover{background:var(--glass2)}
+.pill strong{color:var(--fg);font-weight:600}
+h1{font-family:var(--display);font-size:clamp(24px,5vw,34px);line-height:1.15;margin:14px 0 6px;font-weight:800;letter-spacing:-.01em}
+h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--muted);font-size:15px;margin:0 0 16px}
+.navchips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 8px}
+.navchips a{padding:7px 14px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:13.5px;font-weight:600;color:var(--fg);text-decoration:none}
+.navchips a:hover{background:var(--glass2);border-color:var(--apricot)}
+.sec{display:flex;align-items:center;gap:12px;margin:34px 0 10px}
+.sec h2{font-family:var(--display);font-size:20px;margin:0;font-weight:800;letter-spacing:-.01em}
+.sec .n{min-width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--grad);color:#14211e;font-weight:800;font-size:14px}
+.sec .ln{flex:1;height:1px;background:var(--line)}
+.card{background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:18px;margin:12px 0;backdrop-filter:blur(8px)}
+.tag{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:rgba(77,125,255,.15);color:var(--lilac);border:1px solid rgba(77,125,255,.3)}
+.tag.o{background:rgba(242,144,94,.13);color:var(--apricot);border-color:rgba(242,144,94,.32)}
+.tag.g{background:rgba(169,209,142,.12);color:var(--mint);border-color:rgba(169,209,142,.3)}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+@media(max-width:620px){.tgrid{grid-template-columns:1fr}}
+.tcard{background:var(--glass2);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.tcard .tt{font-weight:700;font-size:14.5px;margin-bottom:3px}
+.tcard .td{font-size:13px;color:var(--muted);line-height:1.45}
+.zachet{margin-top:14px;border:1px dashed rgba(245,220,106,.4);background:rgba(245,220,106,.05);border-radius:18px;padding:16px 18px}
+.zachet h3{margin:0 0 4px;font-size:16.5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.zhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.zbtn{padding:9px 20px;border-radius:999px;border:none;background:var(--grad);color:#14211e;font-weight:800;font-size:14.5px}
+.zbtn:disabled{opacity:.45;cursor:default}
+.zprog{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.qq{margin-top:12px;font-size:16px;font-weight:600;line-height:1.5}
+.qo{display:grid;gap:8px;margin-top:12px}
+.opt{padding:11px 14px;border-radius:13px;background:var(--glass2);border:1px solid var(--line);text-align:left;font-size:15px;transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--cobalt)}
+.opt.ok{border-color:var(--mint);background:rgba(169,209,142,.14)}
+.opt.bad{border-color:var(--miss);background:rgba(255,143,115,.12)}
+.opt:disabled{cursor:default;opacity:.9}
+.qexp{margin-top:10px;font-size:14px;color:var(--muted);border-left:3px solid var(--apricot);padding:6px 12px;background:rgba(242,144,94,.06);border-radius:0 10px 10px 0}
+.qnext{margin-top:12px;padding:9px 20px;border-radius:999px;border:1px solid var(--line);background:var(--glass2);font-weight:700;font-size:14px}
+.qres{margin-top:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.qres img{width:72px;height:72px;object-fit:cover;border-radius:20px;border:1px solid var(--line)}
+.qres .score{font-family:var(--display);font-size:30px;font-weight:800}
+.qres .verdict{font-size:14.5px;color:var(--muted);max-width:520px}
+.mrow{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:14px;justify-content:center}
+.mrow img{width:74px;height:74px;object-fit:cover;border-radius:20px;border:1px solid var(--line)}
+.note{color:var(--faint);font-size:12.5px;margin-top:10px;text-align:center}
+.oge a{display:block;background:var(--glass2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;text-decoration:none;color:var(--fg);margin-top:8px}
+.oge a:hover{border-color:var(--apricot)}
+.oge .t{font-weight:700;font-size:14.5px}
+.oge .d{font-size:13px;color:var(--muted);margin-top:2px}
+</style></head>
+<body>
+<div class=amb><i></i><i></i><i></i></div>
+<div class=wrap>
+<div class=top>
+  <div class=brand>lili<b>.math</b></div>
+  <span class=pill><strong>9 класс</strong> · алгебра и геометрия</span>
+  <div class=sp></div>
+  <a class=pill href="index.html">← Все разделы</a>
+  <a class=pill href="kabinet.html">Кабинет</a>
+</div>
+
+<h1>9 класс: <em>алгебра</em> и <em>геометрия</em></h1>
+<p class=sub>Темы курса по разделам. В конце каждого раздела — зачёт: 10 вопросов, мгновенная проверка, можно перепроходить сколько угодно раз.</p>
+<div class=navchips>
+  <a href="#alg">Алгебра · 10 тем</a>
+  <a href="#geo">Геометрия · 11 тем</a><a href="#oge">ОГЭ · номера заданий</a>
+</div>
+
+<div class=sec id="alg"><span class=n>А</span><h2>Алгебра</h2><div class=ln></div></div>
+<div class=card>
+<span class="tag ">10 тем</span>
+<div class=tgrid><div class=tcard><div class=tt>Функция y = kx² и парабола</div><div class=td>Ветви, вершина, ось симметрии</div></div><div class=tcard><div class=tt>Квадратичная функция</div><div class=td>y = ax² + bx + c, вершина x₀ = −b/2a, нули</div></div><div class=tcard><div class=tt>Функция y = √x</div><div class=td>Область x ≥ 0, график — ветвь параболы</div></div><div class=tcard><div class=tt>Обратная пропорциональность y = k/x</div><div class=td>Гипербола, k > 0 и k < 0</div></div><div class=tcard><div class=tt>Арифметическая прогрессия</div><div class=td>aₙ = a₁ + d(n−1), сумма Sₙ = (a₁+aₙ)/2 · n</div></div><div class=tcard><div class=tt>Геометрическая прогрессия</div><div class=td>bₙ = b₁·qⁿ⁻¹, сумма Sₙ = b₁(qⁿ−1)/(q−1)</div></div><div class=tcard><div class=tt>Комбинаторика</div><div class=td>Перестановки n!, сочетания, правило умножения</div></div><div class=tcard><div class=tt>Вероятность событий</div><div class=td>P = m/n, сложение и умножение, противоположные</div></div><div class=tcard><div class=tt>Уравнения с двумя переменными</div><div class=td>Системы, графический способ</div></div><div class=tcard><div class=tt>Статистика</div><div class=td>Дисперсия, стандартное отклонение, диаграммы</div></div></div>
+<div class=zachet>
+<h3>🎓 Зачёт по разделу «Алгебра» <span class=zprog>10 вопросов · без времени · можно перепроходить</span></h3>
+<div id=quiz-alg></div>
+</div>
+</div>
+
+<div class=sec id="geo"><span class=n>Г</span><h2>Геометрия</h2><div class=ln></div></div>
+<div class=card>
+<span class="tag g">11 тем</span>
+<div class=tgrid><div class=tcard><div class=tt>Четырёхугольники</div><div class=td>Параллелограмм, ромб, квадрат, трапеция: признаки и свойства</div></div><div class=tcard><div class=tt>Теорема Фалеса</div><div class=td>Пропорциональные отрезки на сторонах угла</div></div><div class=tcard><div class=tt>Средние линии</div><div class=td>Треугольник: ½ стороны; трапеция: (a+b)/2</div></div><div class=tcard><div class=tt>Площади</div><div class=td>Треугольник, параллелограмм, трапеция, ромб</div></div><div class=tcard><div class=tt>Теорема Пифагора</div><div class=td>a² + b² = c² и обратная теорема</div></div><div class=tcard><div class=tt>Подобные треугольники</div><div class=td>Коэффициент k, признаки, площади k²</div></div><div class=tcard><div class=tt>Тригонометрия</div><div class=td>sin, cos, tg; sin²α + cos²α = 1; таблица 30°–45°–60°</div></div><div class=tcard><div class=tt>Прямая и окружность</div><div class=td>Касательная ⊥ радиусу; отрезки касательных равны</div></div><div class=tcard><div class=tt>Центральный и вписанный угол</div><div class=td>Дуга, вписанный на диаметре — 90°</div></div><div class=tcard><div class=tt>Вписанный и описанный четырёхугольники</div><div class=td>∠A+∠C = 180°; a + c = b + d</div></div><div class=tcard><div class=tt>Замечательные точки</div><div class=td>Медианы, высоты, биссектрисы, центры окружностей</div></div></div>
+<div class=zachet>
+<h3>🎓 Зачёт по разделу «Геометрия» <span class=zprog>10 вопросов · без времени · можно перепроходить</span></h3>
+<div id=quiz-geo></div>
+</div>
+</div>
+
+<div class=sec><span class=n>О</span><h2>ОГЭ · по номерам заданий</h2><div class=ln></div></div>
+<div class=card oge>
+<a href="trainer.html"><div class=t>Тренажёр по номерам заданий</div><div class=d>Практика по каждому номеру ОГЭ с прогрессом.</div></a>
+<a href="materialy-9-klass.html"><div class=t>Опорные материалы · геометрия и вероятность</div><div class=d>Все формулы и схемы к доске: Фалес, Пифагор, подобие, окружность, статистика.</div></a>
+<a href="probnik-oge-1.html"><div class=t>Пробники ОГЭ</div><div class=d>Пробные варианты №1–3 в формате экзамена.</div></a>
+<a href="z15-pifagor.html"><div class=t>Разбор задания 15 · геометрия</div><div class=d>Пошаговые разборы треугольников, Пифагора, площадей, синусов и косинусов.</div></a>
+<a href="formulas.html"><div class=t>Формулы</div><div class=d>Сборник формул для подготовки.</div></a>
+</div>
+
+<div class=mrow><img src="img/cat-joy.jpg.jpg" alt=""><img src="img/lab-joy.jpg.jpg" alt=""><img src="img/capy-idle.jpg.jpg" alt=""><img src="img/mer-think.jpg.jpg" alt=""></div>
+<p class=note>lili.math · 9 класс · темы и зачёты</p>
+</div>
+<script>
+
+function quiz(rootId,data){
+  const root=document.getElementById(rootId);
+  let i=0,score=0,done=false;
+  const pet=(m)=>`<img src="img/${data.pet[m]||data.pet.idle}" alt="">`;
+  function render(){
+    if(done){
+      const pct=Math.round(score/data.q.length*100);
+      const mood=pct>=70?'joy':pct>=40?'think':'sad';
+      const verdict=pct>=90?'Отличный зачёт! Тема пройдена на «5».':
+        pct>=70?'Зачёт! Небольшие шероховатости — загляни в темы выше.':
+        pct>=40?'Почти. Перечитай темы раздела и попробуй ещё раз.':
+        'Пока не зачёт. Пройдись по темам раздела и возвращайся — получится!';
+      root.innerHTML=`<div class=qres>${pet(mood)}
+        <div><div class=score>${score} / ${data.q.length}</div>
+        <div class=verdict>${verdict}</div>
+        <button class=qnext id="${rootId}-re">Пройти ещё раз</button></div></div>`;
+      document.getElementById(rootId+'-re').onclick=()=>{i=0;score=0;done=false;render();};
+      return;
+    }
+    const q=data.q[i];
+    root.innerHTML=`<div class=zhead><span class=zprog>Вопрос ${i+1} из ${data.q.length} · верно ${score}</span></div>
+      <div class=qq>${q.q}</div>
+      <div class=qo>${q.o.map((t,k)=>`<button class=opt data-k=${k}>${t}</button>`).join('')}</div>
+      <div class=qexp id="${rootId}-ex" hidden>${q.e||''}</div>
+      <button class=qnext id="${rootId}-nx" hidden>${i+1<data.q.length?'Дальше':'К результату'}</button>`;
+    root.querySelectorAll('.opt').forEach(b=>{
+      b.onclick=()=>{
+        const k=+b.dataset.k;
+        root.querySelectorAll('.opt').forEach(x=>{
+          x.disabled=true;
+          if(+x.dataset.k===q.a)x.classList.add('ok');
+        });
+        if(k===q.a){score++;}else{b.classList.add('bad');}
+        root.querySelector('.zprog').textContent=`Вопрос ${i+1} из ${data.q.length} · верно ${score}`;
+        root.querySelector(`#${rootId}-ex`).hidden=false;
+        root.querySelector(`#${rootId}-nx`).hidden=false;
+      };
+    });
+    root.querySelector(`#${rootId}-nx`).onclick=()=>{
+      i++;
+      if(i>=data.q.length)done=true;
+      render();
+      root.scrollIntoView({behavior:'smooth',block:'nearest'});
+    };
+  }
+  render();
+}
+
+quiz('quiz-alg',{"pet": {"idle": "cat-idle.jpg", "joy": "cat-joy.jpg", "think": "cat-think.jpg", "sad": "cat-calm.jpg"}, "q": [{"q": "При a > 0 ветви параболы y = ax² + bx + c направлены…", "o": ["вверх", "вниз", "влево", "зависит от c"], "a": 0, "e": "Знак a задаёт направление: a > 0 — вверх, a < 0 — вниз."}, {"q": "Абсцисса вершины параболы y = ax² + bx + c:", "o": ["x₀ = −b/(2a)", "x₀ = b/(2a)", "x₀ = −D/(4a)", "x₀ = c"], "a": 0, "e": "x₀ = −b/(2a), ордината y₀ = c − b²/(4a)."}, {"q": "Найдите a₁₀ арифметической прогрессии, если a₁ = 3, d = 2", "o": ["21", "20", "23", "19"], "a": 0, "e": "aₙ = a₁ + d(n−1) = 3 + 2·9 = 21."}, {"q": "Найдите b₅ геометрической прогрессии, если b₁ = 2, q = 3", "o": ["162", "54", "243", "48"], "a": 0, "e": "bₙ = b₁·qⁿ⁻¹ = 2·3⁴ = 2·81 = 162."}, {"q": "Формула суммы первых n членов арифметической прогрессии:", "o": ["Sₙ = (a₁ + aₙ)/2 · n", "Sₙ = a₁ · n", "Sₙ = (a₁ − aₙ) · n", "Sₙ = aₙ · d"], "a": 0, "e": "Сумма Гаусса: (первый + последний) · количество / 2."}, {"q": "В урне 10 шаров, 3 красных. Вероятность достать красный?", "o": ["0,3", "0,03", "1/3", "0,7"], "a": 0, "e": "P = m/n = 3/10 = 0,3."}, {"q": "Сколько существует перестановок из 3 элементов?", "o": ["6", "3", "9", "2"], "a": 0, "e": "3! = 1·2·3 = 6."}, {"q": "График функции y = k/x (k ≠ 0) — это…", "o": ["гипербола", "парабола", "прямая", "окружность"], "a": 0, "e": "Обратная пропорциональность — гипербола."}, {"q": "Решите уравнение: √(x + 1) = 3", "o": ["x = 8", "x = 4", "x = 3", "x = 9"], "a": 0, "e": "Возводим в квадрат: x + 1 = 9, x = 8. Проверка: √9 = 3 ✔."}, {"q": "Разность арифметической прогрессии — это…", "o": ["d = aₙ₊₁ − aₙ", "d = aₙ₊₁ + aₙ", "d = aₙ · aₙ₊₁", "d = aₙ / aₙ₊₁"], "a": 0, "e": "Разность — это то, что прибавляется к каждому члену: aₙ₊₁ = aₙ + d."}]});
+quiz('quiz-geo',{"pet": {"idle": "lab-idle.jpg", "joy": "lab-joy.jpg", "think": "lab-think.jpg", "sad": "lab-sad.jpg"}, "q": [{"q": "Средняя линия трапеции с основаниями 6 и 10 равна…", "o": ["8", "16", "7", "9"], "a": 0, "e": "MN = (a + b)/2 = (6 + 10)/2 = 8."}, {"q": "Катеты прямоугольного треугольника 3 и 4. Гипотенуза?", "o": ["5", "6", "7", "√7"], "a": 0, "e": "c = √(3² + 4²) = √25 = 5 — египетский треугольник."}, {"q": "sin 30° = …", "o": ["1/2", "√3/2", "√2/2", "1"], "a": 0, "e": "sin 30° = 1/2 (угол 30° лежит против меньшего катета)."}, {"q": "Основное тригонометрическое тождество:", "o": ["sin²α + cos²α = 1", "sin α + cos α = 1", "sin α · cos α = 1", "tg α = 1"], "a": 0, "e": "sin²α + cos²α = 1 — следствие теоремы Пифагора."}, {"q": "Касательная к окружности…", "o": ["перпендикулярна радиусу в точке касания", "параллельна радиусу", "проходит через центр", "равна радиусу"], "a": 0, "e": "Радиус, проведённый в точку касания, перпендикулярен касательной."}, {"q": "Отрезки касательных к окружности, проведённые из одной точки,…", "o": ["равны", "перпендикулярны", "в сумме 180°", "равны радиусу"], "a": 0, "e": "MA = MB — классическое свойство, основа многих задач."}, {"q": "Вписанный угол, опирающийся на диаметр, равен…", "o": ["90°", "45°", "180°", "60°"], "a": 0, "e": "Дуга полуокружности — 180°, вписанный угол — её половина: 90°."}, {"q": "Во вписанном четырёхугольнике ∠A + ∠C = …", "o": ["180°", "90°", "360°", "120°"], "a": 0, "e": "Противоположные углы вписанного четырёхугольника в сумме дают 180°."}, {"q": "В описанном четырёхугольнике…", "o": ["a + c = b + d", "все стороны равны", "противоположные углы равны", "диагонали равны"], "a": 0, "e": "Суммы противоположных сторон описанного четырёхугольника равны."}, {"q": "Теорема Фалеса говорит о…", "o": ["равных отрезках на сторонах угла, отсекаемых параллелями", "равенстве треугольников", "касательной к окружности", "сумме углов треугольника"], "a": 0, "e": "Параллельные прямые отсекают пропорциональные (а при равенстве на одной стороне — равные) отрезки на другой."}]});
+</script>
+</body></html>
