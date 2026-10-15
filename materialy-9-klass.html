@@ -1,0 +1,389 @@
+<!doctype html><html lang="ru"><head><meta charset=utf8>
+<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Опорные материалы · 9 класс · к доске</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --bg:#14211e; --bg2:#1b2b28; --glass:rgba(243,236,226,.05); --glass2:rgba(243,236,226,.085);
+  --line:rgba(226,234,228,.13); --fg:#f3ece2; --muted:#a9b6ad; --faint:#6e7f77;
+  --cobalt:#4d7dff; --sky:#d6e2ee; --apricot:#f2905e; --lilac:#a9c1ff; --mint:#a9d18e; --amber:#f5dc6a; --miss:#ff8f73;
+  --grad:linear-gradient(115deg,#f5dc6a 0%,#f2905e 100%);
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Inter",system-ui,"Segoe UI",Roboto,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--fg)}
+body{margin:0;font-family:var(--sans);font-size:16px;line-height:1.55;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--apricot);outline-offset:3px;border-radius:10px}
+.amb{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.amb i{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.26;animation:drift 26s ease-in-out infinite alternate}
+.amb i:nth-child(1){background:#1747c9;left:-20vmax;top:-25vmax}
+.amb i:nth-child(2){background:#5d7a4f;right:-25vmax;top:10vmax;opacity:.15;animation-duration:32s}
+.amb i:nth-child(3){background:#2c4f6b;left:10vmax;bottom:-35vmax;opacity:.15;animation-duration:38s}
+@keyframes drift{to{transform:translate(8vmax,6vmax) scale(1.12)}}
+.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding-inline:16px;padding-block:20px 90px}
+
+.top{position:sticky;top:0;z-index:20;margin:0 -16px 18px;padding:12px 16px 10px;background:linear-gradient(var(--bg) 70%,transparent);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.02em}
+.brand b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sp{flex:1}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;text-decoration:none}
+.pill:hover{background:var(--glass2)}
+.pill strong{color:var(--fg);font-weight:600}
+
+h1{font-family:var(--display);font-size:clamp(24px,5vw,34px);line-height:1.15;margin:14px 0 6px;font-weight:800;letter-spacing:-.01em}
+.sub{color:var(--muted);font-size:15px;margin:0 0 16px}
+h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+.navchips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 8px}
+.navchips a{padding:7px 14px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:13.5px;font-weight:600;color:var(--fg);text-decoration:none}
+.navchips a:hover{background:var(--glass2);border-color:var(--apricot)}
+
+.sec{margin:34px 0 10px;display:flex;align-items:center;gap:12px}
+.sec h2{font-family:var(--display);font-size:20px;margin:0;font-weight:800;letter-spacing:-.01em}
+.sec .n{min-width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--grad);color:#14211e;font-weight:800;font-size:14px}
+.sec .ln{flex:1;height:1px;background:var(--line)}
+
+.card{background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:18px 18px 16px;margin:12px 0;backdrop-filter:blur(8px)}
+.card h3{margin:0 0 4px;font-size:17px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tag{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:rgba(77,125,255,.15);color:var(--lilac);border:1px solid rgba(77,125,255,.3)}
+.tag.o{background:rgba(242,144,94,.13);color:var(--apricot);border-color:rgba(242,144,94,.32)}
+.tag.g{background:rgba(169,209,142,.12);color:var(--mint);border-color:rgba(169,209,142,.3)}
+.card .lead{color:var(--muted);font-size:14px;margin:2px 0 10px}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}}
+.fbox{background:var(--glass2);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.fbox .ft{font-size:13px;font-weight:600;color:var(--amber);margin-bottom:4px}
+.fx{font-family:var(--display);font-size:17px;font-weight:600;letter-spacing:.01em}
+.fx sub,.fx sup{font-size:.68em}
+.fx .hl{color:var(--apricot)}
+
+ul.facts{margin:8px 0 0;padding-left:18px;font-size:14.5px}
+ul.facts li{margin:4px 0}
+ul.facts b{color:var(--amber);font-weight:600}
+.def{border-left:3px solid var(--apricot);background:rgba(242,144,94,.07);padding:9px 13px;border-radius:0 12px 12px 0;font-size:14.5px;margin:10px 0}
+.def b{color:var(--apricot)}
+
+.fig{display:flex;justify-content:center;margin:8px 0 4px}
+.fig svg{max-width:100%;height:auto}
+.cap{text-align:center;color:var(--faint);font-size:12.5px;margin-top:2px}
+
+table.tb{width:100%;border-collapse:collapse;font-size:14px;margin:8px 0}
+.tb th{font-weight:700;color:var(--amber);text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);font-size:13px}
+.tb td{padding:7px 9px;border-bottom:1px solid rgba(226,234,228,.07);vertical-align:top}
+.tb tr:last-child td{border-bottom:none}
+
+.mrow{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:14px;justify-content:center}
+.mrow img{width:74px;height:74px;object-fit:cover;border-radius:20px;border:1px solid var(--line)}
+.note{color:var(--faint);font-size:12.5px;margin-top:10px;text-align:center}
+a{color:var(--lilac)}
+</style></head>
+<body>
+<div class=amb><i></i><i></i><i></i></div>
+<div class=wrap>
+
+<div class=top>
+  <div class=brand>lili<b>.math</b></div>
+  <span class=pill><strong>Опорные материалы</strong> · 9 класс · к доске</span>
+  <div class=sp></div>
+  <a class=pill href="https://liliya-math.github.io/excalidraw/" target=_blank>🖊️ Доска</a>
+  <a class=pill href="kabinet.html">← Кабинет</a>
+</div>
+
+<h1>Всё для доски: <em>геометрия</em> и <em>вероятность</em></h1>
+<p class=sub>Опорные листы по списку тем ОГЭ. Открывайте на доске, разбирайте по карточкам, переписывайте нужные схемы прямо в урок.</p>
+
+<div class=navchips>
+  <a href="#chet">Четырёхугольники</a>
+  <a href="#fales">Фалес · средние линии</a>
+  <a href="#plosh">Площади</a>
+  <a href="#pif">Пифагор</a>
+  <a href="#podob">Подобие</a>
+  <a href="#trig">Тригонометрия</a>
+  <a href="#okr">Окружность</a>
+  <a href="#stat">Статистика</a>
+  <a href="#mnozh">Множества</a>
+  <a href="#ver">Вероятность</a>
+</div>
+
+<!-- ============ ГЕОМЕТРИЯ ============ -->
+<div class=sec><span class=n>Г</span><h2>Геометрия</h2><div class=ln></div></div>
+
+<!-- Четырёхугольники -->
+<div class=card id=chet>
+<h3>Четырёхугольники <span class=tag>признаки и свойства</span></h3>
+<p class=lead>Иерархия: квадрат — это и прямоугольник, и ромб; ромб и прямоугольник — параллелограммы.</p>
+<div class=fig>
+<svg width="560" height="150" viewBox="0 0 560 150" fill="none">
+  <rect x="20" y="30" width="110" height="80" rx="4" stroke="#a9b6ad" stroke-width="2"/>
+  <text x="75" y="128" fill="#a9b6ad" font-size="12" text-anchor="middle" font-family="Inter">прямоугольник</text>
+  <path d="M160 110 L220 30 L280 110 Z" stroke="#f2905e" stroke-width="2"/>
+  <text x="220" y="128" fill="#a9b6ad" font-size="12" text-anchor="middle" font-family="Inter">треугольник</text>
+  <path d="M320 110 L350 30 L420 30 L390 110 Z" stroke="#f5dc6a" stroke-width="2"/>
+  <text x="370" y="128" fill="#a9b6ad" font-size="12" text-anchor="middle" font-family="Inter">параллелограмм</text>
+  <path d="M450 110 L470 40 L530 40 L510 110 Z" stroke="#a9d18e" stroke-width="2"/>
+  <text x="490" y="128" fill="#a9b6ad" font-size="12" text-anchor="middle" font-family="Inter">трапеция</text>
+</svg>
+</div>
+<table class=tb>
+<tr><th>Фигура</th><th>Главные свойства</th><th>Признаки (чем отличить)</th></tr>
+<tr><td><b>Параллелограмм</b></td><td>Противоположные стороны ∥ и равны; противолежащие углы равны; диагонали делятся точкой пересечения пополам; ∠A + ∠B = 180°</td><td>1) две стороны ∥ и равны; 2) противоположные стороны попарно равны; 3) диагонали пересекаются и делятся пополам; 4) противолежащие углы равны</td></tr>
+<tr><td><b>Прямоугольник</b></td><td>Все углы 90°; диагонали равны</td><td>Параллелограмм с одним прямым углом или равными диагоналями</td></tr>
+<tr><td><b>Ромб</b></td><td>Все стороны равны; диагонали ⊥ и делят углы пополам</td><td>Параллелограмм с равными смежными сторонами или ⊥ диагоналями</td></tr>
+<tr><td><b>Квадрат</b></td><td>Всё сразу: углы 90°, стороны равны, диагонали равны и ⊥</td><td>Прямоугольник с равными сторонами; ромб с прямым углом</td></tr>
+<tr><td><b>Трапеция</b></td><td>Две стороны ∥ (основания), две не ∥ (боковые). Равнобедренная: углы при основании равны, диагонали равны</td><td>По определению. Средняя линия ∥ основаниям</td></tr>
+</table>
+</div>
+
+<!-- Фалес -->
+<div class=card id=fales>
+<h3>Теорема Фалеса и средние линии <span class=tag o>пропорции</span></h3>
+<div class=def><b>Теорема Фалеса:</b> параллельные прямые, отсекающие на одной стороне угла равные отрезки, отсекают равные отрезки и на другой стороне. В любом случае отношения отрезков равны: <span class=fx>A₁A₂ / A₂A₃ = B₁B₂ / B₂B₃</span></div>
+<div class=grid2>
+<div class=fbox><div class=ft>Средняя линия треугольника</div>
+<div class=fig><svg width="190" height="120" viewBox="0 0 190 120" fill="none">
+<path d="M20 100 L95 15 L170 100 Z" stroke="#f5dc6a" stroke-width="2"/>
+<path d="M57 58 L132 58" stroke="#f2905e" stroke-width="2.5" stroke-dasharray="5 4"/>
+<circle cx="57" cy="58" r="3" fill="#f2905e"/><circle cx="132" cy="58" r="3" fill="#f2905e"/>
+</svg></div>
+<div class=fx>MN = <span class=hl>½ · AB</span>, MN ∥ AB</div>
+<div class=cap>Соединяет середины двух сторон</div></div>
+<div class=fbox><div class=ft>Средняя линия трапеции</div>
+<div class=fig><svg width="190" height="120" viewBox="0 0 190 120" fill="none">
+<path d="M40 25 L150 25 L180 100 L10 100 Z" stroke="#f5dc6a" stroke-width="2"/>
+<path d="M25 62 L165 62" stroke="#f2905e" stroke-width="2.5" stroke-dasharray="5 4"/>
+<circle cx="25" cy="62" r="3" fill="#f2905e"/><circle cx="165" cy="62" r="3" fill="#f2905e"/>
+</svg></div>
+<div class=fx>MN = <span class=hl>(a + b) / 2</span>, MN ∥ a, b</div>
+<div class=cap>Полусумма оснований</div></div>
+</div>
+</div>
+
+<!-- Площади -->
+<div class=card id=plosh>
+<h3>Площади многоугольников <span class=tag g>формулы</span></h3>
+<div class=grid2>
+<div class=fbox><div class=ft>Прямоугольник</div><div class=fx>S = a · b</div></div>
+<div class=fbox><div class=ft>Квадрат</div><div class=fx>S = a²</div></div>
+<div class=fbox><div class=ft>Параллелограмм</div><div class=fx>S = a · h</div></div>
+<div class=fbox><div class=ft>Треугольник</div><div class=fx>S = ½ · a · h</div></div>
+<div class=fbox><div class=ft>Треугольник (две стороны и угол)</div><div class=fx>S = ½ · a · b · sin C</div></div>
+<div class=fbox><div class=ft>Ромб</div><div class=fx>S = ½ · d₁ · d₂</div></div>
+<div class=fbox><div class=ft>Трапеция</div><div class=fx>S = (a + b) / 2 · h</div></div>
+<div class=fbox><div class=ft>Треугольник (Герон)</div><div class=fx>S = √<span style="text-decoration:overline">p(p−a)(p−b)(p−c)</span>, p = (a+b+c)/2</div></div>
+</div>
+<ul class=facts>
+<li>Равные фигуры имеют <b>равные площади</b>; площадь делится диагоналями и медианами на части.</li>
+<li>Медиана делит треугольник на два равновеликих (равных по площади).</li>
+</ul>
+</div>
+
+<!-- Пифагор -->
+<div class=card id=pif>
+<h3>Теорема Пифагора <span class=tag o>прямоугольный треугольник</span></h3>
+<div class=grid2>
+<div>
+<div class=fig><svg width="200" height="160" viewBox="0 0 200 160" fill="none">
+<path d="M35 130 L165 130 L165 35 Z" stroke="#f5dc6a" stroke-width="2"/>
+<path d="M155 130 L155 120 L165 120" stroke="#a9b6ad" stroke-width="1.5"/>
+<text x="95" y="148" fill="#a9b6ad" font-size="13" font-family="Inter">a</text>
+<text x="178" y="88" fill="#a9b6ad" font-size="13" font-family="Inter">b</text>
+<text x="88" y="80" fill="#f2905e" font-size="14" font-family="Inter">c</text>
+<path d="M60 130 A25 25 0 0 0 35 105" stroke="#4d7dff" stroke-width="1.5"/>
+<text x="52" y="122" fill="#4d7dff" font-size="13" font-family="Inter">α</text>
+</svg></div>
+<div class=cap>α — острый угол, c — гипотенуза</div>
+</div>
+<div>
+<div class=def style="margin-top:2px"><b>Пифагор:</b> в прямоугольном треугольнике <span class=fx>a² + b² = <span class=hl>c²</span></span></div>
+<ul class=facts>
+<li><b>Обратная теорема:</b> если a² + b² = c², угол прямой.</li>
+<li>Классика: <b>3-4-5</b> (египетский треугольник).</li>
+<li>Гипотенуза всегда <b>больше любого катета</b>.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- Подобие -->
+<div class=card id=podob>
+<h3>Подобные треугольники <span class=tag>коэффициент k</span></h3>
+<div class=def><b>Подобие (≈):</b> углы соответственно равны, стороны пропорциональны. Коэффициент подобия k = отношение соответствующих сторон.</div>
+<div class=fig><svg width="300" height="140" viewBox="0 0 300 140" fill="none">
+<path d="M25 120 L95 25 L165 120 Z" stroke="#f5dc6a" stroke-width="2"/>
+<path d="M185 120 L230 55 L275 120 Z" stroke="#f2905e" stroke-width="2"/>
+<text x="95" y="135" fill="#a9b6ad" font-size="12" text-anchor="middle" font-family="Inter">k = 1</text>
+<text x="230" y="135" fill="#a9b6ad" font-size="12" text-anchor="middle" font-family="Inter">k</text>
+</svg></div>
+<div class=grid2>
+<div class=fbox><div class=ft>Масштаб</div><div class=fx>периметры ∶ k, площади ∶ <span class=hl>k²</span></div></div>
+<div class=fbox><div class=ft>Признаки подобия</div><div style="font-size:14px">1) по двум углам;<br>2) по двум пропорциональным сторонам и углу между ними;<br>3) по трём пропорциональным сторонам</div></div>
+</div>
+</div>
+
+<!-- Тригонометрия -->
+<div class=card id=trig>
+<h3>Синус, косинус, тангенс <span class=tag g>острый угол</span></h3>
+<div class=grid2>
+<div>
+<div class=fig><svg width="190" height="150" viewBox="0 0 190 150" fill="none">
+<path d="M25 125 L165 125 L165 30 Z" stroke="#f5dc6a" stroke-width="2"/>
+<path d="M155 125 L155 115 L165 115" stroke="#a9b6ad" stroke-width="1.5"/>
+<text x="88" y="72" fill="#f2905e" font-size="13" font-family="Inter">c (гипотенуза)</text>
+<text x="180" y="82" fill="#a9b6ad" font-size="13" font-family="Inter">a — против α</text>
+<text x="85" y="143" fill="#a9b6ad" font-size="13" font-family="Inter">b — прилегает к α</text>
+<path d="M50 125 A25 25 0 0 0 25 100" stroke="#4d7dff" stroke-width="1.5"/>
+<text x="42" y="117" fill="#4d7dff" font-size="13" font-family="Inter">α</text>
+</svg></div>
+</div>
+<div>
+<div class=fx>sin α = <span class=hl>a / c</span></div>
+<div class=fx>cos α = <span class=hl>b / c</span></div>
+<div class=fx>tg α = <span class=hl>a / b</span> = sin α / cos α</div>
+<div class=def style="margin:10px 0 0"><b>Основное тождество:</b> <span class=fx>sin²α + cos²α = 1</span></div>
+</div>
+</div>
+<table class=tb>
+<tr><th>Угол</th><th>30°</th><th>45°</th><th>60°</th></tr>
+<tr><td><b>sin</b></td><td>1/2</td><td>√2/2</td><td>√3/2</td></tr>
+<tr><td><b>cos</b></td><td>√3/2</td><td>√2/2</td><td>1/2</td></tr>
+<tr><td><b>tg</b></td><td>√3/3</td><td>1</td><td>√3</td></tr>
+</table>
+</div>
+
+<!-- Окружность -->
+<div class=card id=okr>
+<h3>Окружность <span class=tag o>касательные и углы</span></h3>
+<div class=grid2>
+<div>
+<div class=ft style="font-size:13px;font-weight:600;color:var(--amber)">Прямая и окружность (d — расстояние от центра до прямой)</div>
+<ul class=facts>
+<li><b>d &lt; r</b> — секущая, две общие точки</li>
+<li><b>d = r</b> — касательная, одна точка; касательная ⊥ радиусу в точке касания</li>
+<li><b>d &gt; r</b> — нет общих точек</li>
+<li>Отрезки касательных из одной точки <b>равны</b>: MA = MB</li>
+</ul>
+</div>
+<div class=fbox>
+<div class=ft>Центральный и вписанный угол</div>
+<div class=fig><svg width="200" height="150" viewBox="0 0 200 150" fill="none">
+<circle cx="100" cy="80" r="55" stroke="#a9b6ad" stroke-width="2"/>
+<circle cx="100" cy="80" r="3.5" fill="#f5dc6a"/>
+<path d="M58 44 A55 55 0 0 1 152 48" stroke="#f2905e" stroke-width="3"/>
+<path d="M100 80 L62 40" stroke="#4d7dff" stroke-width="2"/>
+<path d="M100 80 L150 45" stroke="#4d7dff" stroke-width="2"/>
+<text x="112" y="50" fill="#4d7dff" font-size="12" font-family="Inter">центр. = дуга</text>
+<path d="M62 40 L95 132" stroke="#a9d18e" stroke-width="2"/>
+<path d="M150 45 L95 132" stroke="#a9d18e" stroke-width="2"/>
+<text x="120" y="120" fill="#a9d18e" font-size="12" font-family="Inter">впис. = ½ дуги</text>
+</svg></div>
+<ul class=facts>
+<li>Вписанные углы на одной дуге <b>равны</b></li>
+<li>Угол на диаметре = <b>90°</b></li>
+</ul>
+</div>
+</div>
+<ul class=facts>
+<li><b>Вписанный четырёхугольник</b> (в окружности): ∠A + ∠C = ∠B + ∠D = 180°.</li>
+<li><b>Описанный четырёхугольник</b> (около окружности): a + c = b + d (суммы противоположных сторон равны).</li>
+</ul>
+<div class=fbox style="margin-top:8px"><div class=ft>Замечательные точки треугольника</div>
+<div class=grid2" style="margin-top:6px">
+<div style="font-size:14px"><b>Медианы</b> → центроид (центр тяжести), делит медианы 2:1<br><b>Высоты</b> → ортоцентр</div>
+<div style="font-size:14px"><b>Биссектрисы</b> → центр вписанной окружности<br><b>Серединные перпендикуляры</b> → центр описанной окружности</div>
+</div>
+</div>
+</div>
+
+<!-- ============ ВЕРОЯТНОСТЬ И СТАТИСТИКА ============ -->
+<div class=sec><span class=n>В</span><h2>Вероятность и статистика</h2><div class=ln></div></div>
+
+<!-- Статистика -->
+<div class=card id=stat>
+<h3>Статистика <span class=tag>дисперсия и разброс</span></h3>
+<div class=grid2>
+<div class=fbox><div class=ft>Среднее арифметическое</div><div class=fx>x̄ = (x₁ + x₂ + … + x<sub>n</sub>) / n</div></div>
+<div class=fbox><div class=ft>Размах</div><div class=fx>R = x<sub>max</sub> − x<sub>min</sub></div></div>
+<div class=fbox><div class=ft>Дисперсия</div><div class=fx>D = x̄² − (x̄)² = <span style="font-size:14px">среднее квадратов − квадрат среднего</span></div></div>
+<div class=fbox><div class=ft>Стандартное отклонение</div><div class=fx>σ = √<span style="text-decoration:overline">D</span></div></div>
+</div>
+<ul class=facts>
+<li>Мода — самое частое значение; медиана — середина упорядоченного ряда.</li>
+<li><b>Диаграмма рассеивания</b> — точки (x; y): показывает связь двух признаков (рост/вес, цена/спрос).</li>
+</ul>
+</div>
+
+<!-- Множества -->
+<div class=card id=mnozh>
+<h3>Множества <span class=tag g>Эйлер–Венн</span></h3>
+<div class=grid2>
+<div>
+<div class=def style="margin-top:2px"><b>Множество</b> — совокупность объектов (элементов). A ⊆ B — подмножество.<br><b>Дополнение</b> Ā — всё, чего нет в A.</div>
+<div class=fx>A ∪ B — объединение («или»)</div>
+<div class=fx>A ∩ B — пересечение («и»)</div>
+</div>
+<div class=fbox>
+<div class=ft>Диаграмма Эйлера</div>
+<div class=fig><svg width="190" height="140" viewBox="0 0 190 140" fill="none">
+<rect x="8" y="10" width="174" height="120" rx="12" stroke="#a9b6ad" stroke-width="1.5" stroke-dasharray="4 4"/>
+<circle cx="75" cy="70" r="45" stroke="#f5dc6a" stroke-width="2"/>
+<circle cx="120" cy="70" r="45" stroke="#f2905e" stroke-width="2"/>
+<text x="52" y="30" fill="#f5dc6a" font-size="13" font-family="Inter">A</text>
+<text x="143" y="30" fill="#f2905e" font-size="13" font-family="Inter">B</text>
+<text x="97" y="75" fill="#a9b6ad" font-size="11" text-anchor="middle" font-family="Inter">∩</text>
+</svg></div>
+<div class=cap>Объединение — обе области, пересечение — линза</div>
+</div>
+</div>
+</div>
+
+<!-- Вероятность -->
+<div class=card id=ver>
+<h3>Вероятность <span class=tag o>события и правила</span></h3>
+<div class=def><b>Классическая вероятность:</b> P(A) = m/n, где m — благоприятные исходы, n — все равновозможные исходы. Всегда 0 ≤ P ≤ 1.</div>
+<ul class=facts>
+<li><b>Противоположное событие:</b> P(Ā) = 1 − P(A).</li>
+<li><b>Несовместные события</b> (не могут вместе): P(A∪B) = P(A) + P(B). Для совместных: P(A∪B) = P(A) + P(B) − P(A∩B).</li>
+<li><b>Правило умножения:</b> P(A∩B) = P(A) · P(B|A) — «и» означает произведение.</li>
+<li><b>Условная вероятность</b> P(B|A) — вероятность B при условии, что A уже произошло.</li>
+<li><b>Независимые события:</b> P(A∩B) = P(A) · P(B) — исход одного не влияет на другой.</li>
+</ul>
+<div class=grid2 style="margin-top:8px">
+<div class=fbox>
+<div class=ft>Дерево случайного эксперимента</div>
+<div class=fig><svg width="220" height="130" viewBox="0 0 220 130" fill="none">
+<circle cx="18" cy="65" r="5" fill="#f5dc6a"/>
+<circle cx="105" cy="25" r="5" fill="#4d7dff"/><circle cx="105" cy="105" r="5" fill="#4d7dff"/>
+<circle cx="195" cy="10" r="4" fill="#a9d18e"/><circle cx="195" cy="40" r="4" fill="#a9d18e"/>
+<circle cx="195" cy="90" r="4" fill="#a9d18e"/><circle cx="195" cy="120" r="4" fill="#a9d18e"/>
+<path d="M23 62 L100 27 M23 68 L100 103 M110 23 L190 12 M110 28 L190 37 M110 102 L190 92 M110 108 L190 117" stroke="#a9b6ad" stroke-width="1.5"/>
+</svg></div>
+<div style="font-size:13.5px">Вероятность пути — произведение ветвей; итог — <b>сумма</b> по нужным исходам.</div>
+</div>
+<div class=fbox>
+<div class=ft>Дерево как граф</div>
+<ul class=facts style="margin-top:2px">
+<li>Вершины + рёбра, <b>без циклов</b></li>
+<li>Между любыми двумя вершинами — <b>единственный путь</b></li>
+<li>n вершин ⇒ ровно <b>n − 1</b> ребро</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class=mrow>
+<img src="img/rac-board.jpg" alt="Енот Вайб у доски">
+<img src="img/ham-board.jpg" alt="Хомяк Стресс у доски">
+<img src="img/rat-idle.jpg" alt="Биссектриса">
+<img src="img/cat-idle.jpg" alt="Кот Сигма">
+<img src="img/lab-idle.jpg" alt="Лаки Плюс">
+</div>
+<p class=note>lili.math · опорные материалы для интерактивной доски · <a href="https://liliya-math.github.io/excalidraw/" target=_blank>открыть доску</a></p>
+
+</div>
+</body></html>
