@@ -172,6 +172,32 @@ const $=s=>document.querySelector(s);
 const app=$("#app");
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const fr=(a,b)=>`<span class=fr><span>${a}</span><span>${b}</span></span>`;
+/* превращает записи вида a/b, 1/(x−2), (x+5)/(x−2), 2/(2/3) в дроби с горизонтальной чертой */
+function fx(s){
+ if(s==null)return s;
+ s=String(s).replace(/\^2/g,"²").replace(/\^3/g,"³");
+ const tags=[];
+ s=s.replace(/<[^>]+>/g,m=>{tags.push(m);return ""+(tags.length-1)+""});
+ const atom=c=>/[0-9A-Za-zА-Яа-яёЁ²³^]/.test(c);
+ let out="",i=0;
+ while(i<s.length){
+  if(s[i]!=="/"){out+=s[i];i++;continue}
+  let num="",den="",j=i-1;
+  if(j>=0&&s[j]===")"){let d=0,k=j;while(k>=0){if(s[k]===")")d++;else if(s[k]==="("){d--;if(d===0)break}k--}if(k>=0&&d===0){num=s.slice(k,i);j=k-1}}
+  if(!num){while(j>=0&&atom(s[j]))j--;num=s.slice(j+1,i)}
+  if(!num){out+="/";i++;continue}
+  const rawNum=num;
+  if(num.length>1&&num[0]==="("&&num[num.length-1]===")")num=num.slice(1,-1);
+  let m=i+1,exp="";
+  if(m<s.length&&s[m]==="("){let d=0,k=m;while(k<s.length){if(s[k]==="(")d++;else if(s[k]===")"){d--;if(d===0)break}k++}if(k<s.length&&d===0){den=s.slice(m,k+1);m=k+1}}
+  if(!den){let k=m;while(k<s.length&&atom(s[k]))k++;den=s.slice(m,k);m=k}
+  if(!den){out+="/";i++;continue}
+  if(den.length>1&&den[0]==="("&&den[den.length-1]===")"){if(m<s.length&&(s[m]==="²"||s[m]==="³")){exp=s[m];m++}den=den.slice(1,-1)}
+  out=out.slice(0,out.length-rawNum.length)+`<span class=fr><span>${fx(num)}</span><span>${fx(den)}</span></span>`+exp;
+  i=m;
+ }
+ return out.replace(/(\d+)/g,(m,n)=>tags[+n]);
+}
 
 /* ---------- sound ---------- */
 let AC=null,sound=true;
@@ -262,7 +288,7 @@ function odzSVG(hole,label){const a=hole-6,b=hole+6;const W=560,pad=34,x=v=>pad+
  return `<svg width="${W}" height="92" viewBox="0 0 ${W} 92">${t}</svg>`}
 const FIGS={strip:(a,b,l)=>stripSVG(a,b,l||""),twoStrips,pies:piesRow,nline:p=>nlineSVG(p[0],p[1],p[2]),add:addArrowsSVG,abs:absSVG,pctGrid:pctGridSVG,pctBar:pctBarSVG,piesPct:piesPctRow,eqStrips,mixed:signWheelSVG,fracPie:mixedSVG,odz:p=>odzSVG(p[0],p[1])};
 function figOf(f){if(!f)return"";const[fn,...args]=f;return `<div class=fig>${FIGS[fn](...args)}</div>`}
-function petSay(id,text){const im=PIMG[id];const N={frac:"Лилия",sign:"Лилия",pct:"Лилия",rac:"Лилия"};return `<div class=petsay>${im?`<img src="${im}" alt="">`:""}<div class=say><b>${N[id]||"Лилия"}:</b> ${text}</div></div>`}
+function petSay(id,text){const im=PIMG[id];const N={frac:"Лилия",sign:"Лилия",pct:"Лилия",rac:"Лилия"};return `<div class=petsay>${im?`<img src="${im}" alt="">`:""}<div class=say><b>${N[id]||"Лилия"}:</b> ${fx(text)}</div></div>`}
 
 /* ---------- content ---------- */
 const MODULES=[
@@ -302,7 +328,7 @@ const MODULES=[
    check:[
     {q:"Чему равно деление дроби на дробь?",opts:["умножению на перевёрнутую дробь","умножению на эту же дробь","делению наоборот","нулю"],c:0,why:"a/b : c/d = a/b · d/c. Вторая дробь переворачивается."},
     {q:"Чему равно (a/b)²?",opts:["a²/b²","2a/2b","a/b²","a²/b"],c:0,why:"Степень распределяется: и числитель, и знаменатель возводим в квадрат."},
-    {q:"Сократи: (3/4)·(8/9)",opts:["2/3","24/13","1/2","4/3"],c:0,why:"Крест-накрест: 3 с 9 (на 3), 8 с 4 (на 4). Остаётся 1·2 / 1·3 = 2/3."}]},
+    {q:"Сократи: (3/4)·(8/9)",opts:["2/3","24/13","1/2","4/3"],c:0,why:"Крест-накрест: 3 с 9 (на 3), 8 с 4 (на 4). Остаётся (1·2)/(1·3) = 2/3."}]},
   {t:"Порядок действий и многоэтажные дроби",slides:[
     {h:"План атаки",p:`Порядок действий тот же, что и для чисел. Четыре ступени:`,list:["Действия в скобках.","Степени.","Умножение и деление — слева направо.","Сложение и вычитание."],p2:`У опытных счетоводов есть ещё и шаг ноль: посмотреть на всё выражение и решить, что удобнее сделать первым. Например, в (1 + 1/x)·x проще не приводить к общему знаменателю, а сразу раскрыть умножение: x + 1.`,pet:"Упрощение — это не счёт по правилам, а маршрут. Посмотри на карту целиком, прежде чем идти."},
     {h:"Многоэтажные дроби",p:`Главная (самая длинная) черта — это <b>знак деления</b>. Запиши её двоеточием и станет ясно: ${fr("a","b/c")} = a : ${fr("b","c")} = ${fr("ac","b")}. Пример: ${fr(2,"2/3")} = 2 : ${fr(2,3)} = 2 · ${fr(3,2)} = 3.`,pet:"Держи карандаш на главной черте и читай: «всё, что сверху, делим на всё, что снизу». Главная черта всегда длиннее остальных."},
@@ -388,9 +414,9 @@ function drawSlide(){
   <div class=kick>${m.name} · Урок ${cur.li+1} из ${m.lessons.length} · ${L.t}</div>
   <div class=sld>
     <h3>${sl.h}</h3>
-    <p class=txt>${sl.p}</p>
-    ${sl.list?`<ol class=steps>${sl.list.map((s,i)=>`<li><span class=n>${i+1}</span><span>${s}</span></li>`).join("")}</ol>`:""}
-    ${sl.p2?`<p class=txt>${sl.p2}</p>`:""}
+    <p class=txt>${fx(sl.p)}</p>
+    ${sl.list?`<ol class=steps>${sl.list.map((s,i)=>`<li><span class=n>${i+1}</span><span>${fx(s)}</span></li>`).join("")}</ol>`:""}
+    ${sl.p2?`<p class=txt>${fx(sl.p2)}</p>`:""}
     ${figOf(sl.fig)}
     ${sl.pet?petSay(m.pet,sl.pet):""}
   </div>
@@ -410,8 +436,8 @@ function openCheck(){
   <h2>Проверим, что запомнилось</h2>
   <p class=note>Отвечай без подглядываний — тут не страшно ошибиться.</p>
   ${L.check.map((c,i)=>`<div class=q id=q${i}>
-    <div class=qq>${i+1}. ${c.q}</div>
-    <div class=opts>${c.opts.map((o,j)=>`<button class=opt data-i="${j}"><span class=k>${j+1}</span><span>${o}</span></button>`).join("")}</div>
+    <div class=qq>${i+1}. ${fx(c.q)}</div>
+    <div class=opts>${c.opts.map((o,j)=>`<button class=opt data-i="${j}"><span class=k>${j+1}</span><span>${fx(o)}</span></button>`).join("")}</div>
   </div>`).join("")}
   <div id=fb></div>
   <div class=navrow><button class="btn ghost" id=tomap>К карте</button></div>
@@ -426,7 +452,7 @@ function openCheck(){
    b.classList.add(good?"ok":"bad");
    if(!good)q.querySelector(`.opt[data-i="${c.c}"]`).classList.add("ok");
    if(good){sfx.ok();cur.ok++;addXP(5,b)}else sfx.bad();
-   $("#fb").innerHTML=`<div class="fb ${good?"ok":"bad"}"><span class=ic><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">${good?'<path d="M5 12.5l4.5 4.5L19 7.5"/>':'<path d="M12 7v6M12 17h.01"/>'}</svg></span><div><div class=t>${good?"Верно!":"Не совсем"}</div><div class=s>${c.why}</div></div></div>`;
+   $("#fb").innerHTML=`<div class="fb ${good?"ok":"bad"}"><span class=ic><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">${good?'<path d="M5 12.5l4.5 4.5L19 7.5"/>':'<path d="M12 7v6M12 17h.01"/>'}</svg></span><div><div class=t>${good?"Верно!":"Не совсем"}</div><div class=s>${fx(c.why)}</div></div></div>`;
    if(++answered===L.check.length)finishLesson();
   });
  });
@@ -463,7 +489,7 @@ function drawTask(){
  app.innerHTML=`<article class="card enter">
   <div class=kick>${m.name} · Практика · задание ${pr.i+1} из ${m.practice.length}</div>
   ${st.prac[pr.i]?`<div style="margin-top:8px"><span class=done-flag><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>уже решено</span></div>`:""}
-  <div class=stmt>${t.q}</div>
+  <div class=stmt>${fx(t.q)}</div>
   <div class=ans>
     ${t.opts?`<div class=opts id=opts>${t.opts.map((o,j)=>`<button class=opt data-i="${j}"><span class=k>${j+1}</span><span>${o}</span></button>`).join("")}</div>`
             :`<div class=irow><input class=field id=ans placeholder="Ответ: число, дробь или выражение, например 3/4 или x+1" autocomplete=off><button class=btn id=check>Проверить</button></div>`}
@@ -486,7 +512,7 @@ function drawTask(){
  $("#hint").onclick=()=>{
   if(pr.hints>=t.hint.length)return;
   sfx.tap();
-  $("#hints").insertAdjacentHTML("beforeend",`<div class=hintbox><small>Подсказка ${pr.hints+1}</small>${t.hint[pr.hints]}</div>`);
+  $("#hints").insertAdjacentHTML("beforeend",`<div class=hintbox><small>Подсказка ${pr.hints+1}</small>${fx(t.hint[pr.hints])}</div>`);
   pr.hints++;
   if(pr.hints>=t.hint.length)$("#hint").disabled=true;
  };
@@ -511,7 +537,7 @@ function after(ok,t,el){
   sfx.bad();st.streak=0;save();
   app.querySelector(".card").classList.add("shake");setTimeout(()=>app.querySelector(".card")&&app.querySelector(".card").classList.remove("shake"),500);
  }
- $("#fb").innerHTML=fbHTML(ok,ok?(st.streak>=3?`Серия ×${st.streak}!`:"Можно идти дальше."):`Правильный ответ: ${t.a[0]}. ${t.hint[t.hint.length-1]}`)+(!ok?`<div class=petsay><img src="img/rat-sad.jpg" alt=""><div class=say><b>Лилия:</b> Не расстраивайся — ошибаться нормально. Прочти последнюю подсказку ещё раз и попробуй похожее задание, у тебя получится.</div></div>`:"");
+ $("#fb").innerHTML=fbHTML(ok,ok?(st.streak>=3?`Серия ×${st.streak}!`:"Можно идти дальше."):`Правильный ответ: ${fx(t.a[0])}. ${fx(t.hint[t.hint.length-1])}`)+(!ok?`<div class=petsay><img src="img/rat-sad.jpg" alt=""><div class=say><b>Лилия:</b> Не расстраивайся — ошибаться нормально. Прочти последнюю подсказку ещё раз и попробуй похожее задание, у тебя получится.</div></div>`:"");
  const nav=app.querySelector(".navrow");
  const isLast=pr.i===modOf(pr.modId).practice.length-1;
  const allDone=Object.keys(st.prac).length===modOf(pr.modId).practice.length;
