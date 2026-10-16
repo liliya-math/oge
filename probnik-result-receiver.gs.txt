@@ -1,0 +1,60 @@
+// Apps Script приёмника результатов пробников.
+// Привязан к таблице с листом «Результаты».
+// В настройках проекта → Свойства скрипта добавь PROBE_SHARED_SECRET
+// с тем же случайным секретом, что и в скрипте кабинета.
+// Не помещай секрет в HTML/репозиторий.
+
+const SHEET = 'Результаты';
+const HEAD = ['ID','Диагностика','Имя','Ссылка','Начало','Обновлено','Статус','Прогресс','Баллы','Из','Оценка','Минут','Бонус','Задания','Отчёт'];
+const CABINET_URL = 'https://script.google.com/macros/s/AKfycbwg68-wqapNubGW4BuTEB_ri38yu41uV8hoQPOhluE84y4ZSRfZ9-sFl--uwv7T7AA_xA/exec';
+
+function doPost(e) {
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    const d = JSON.parse(e.postData.contents);
+    if (!d.sid) return ContentService.createTextOutput('no id');
+    const ss = SpreadsheetApp.getActive();
+    let sh = ss.getSheetByName(SHEET);
+    if (!sh) { sh = ss.insertSheet(SHEET); sh.appendRow(HEAD); sh.setFrozenRows(1); }
+    const row = [d.sid, d.test, d.name, d.kind, new Date(d.started), new Date(), d.status,
+      d.progress, d.score, d.max, d.grade, d.minutes, d.bonus, d.tasks, String(d.report || '').slice(0, 45000)];
+    const last = sh.getLastRow();
+    const ids = last > 1 ? sh.getRange(2, 1, last - 1, 1).getValues().flat() : [];
+    const i = ids.indexOf(d.sid);
+    if (i >= 0) sh.getRange(i + 2, 1, 1, row.length).setValues([row]);
+    else sh.appendRow(row);
+
+    // Передаём в кабинет только завершённый результат, чтобы не засорять историю промежуточными сохранениями.
+    if (d.status === 'завершено' && d.studentCode && Number.isFinite(Number(d.score))) {
+      try {
+        const secret = PropertiesService.getScriptProperties().getProperty('PROBE_SHARED_SECRET');
+        if (secret) {
+          const response = UrlFetchApp.fetch(CABINET_URL, {
+            method: 'post',
+            contentType: 'application/json',
+            payload: JSON.stringify({
+              op: 'probeResult',
+              secret: secret,
+              t: String(d.studentCode).trim(),
+              sid: String(d.sid),
+              name: String(d.test || 'Пробник ОГЭ'),
+              score: Number(d.score)
+            }),
+            muteHttpExceptions: true
+          });
+          if (response.getResponseCode() >= 300) console.error('Cabinet relay HTTP ' + response.getResponseCode());
+          else console.log('Cabinet relay: ' + response.getContentText());
+        } else {
+          console.error('Missing Script Property PROBE_SHARED_SECRET');
+        }
+      } catch (relayError) {
+        // Сбой передачи в кабинет не должен стирать результат из журнала «Результаты».
+        console.error('Cabinet relay failed: ' + relayError);
+      }
+    }
+    return ContentService.createTextOutput('ok');
+  } finally {
+    lock.releaseLock();
+  }
+}
