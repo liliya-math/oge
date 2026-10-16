@@ -1,5 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Диагностика · 8 класс</title>
+<title>Диагностика · 8 класс · Алгебра</title><style>.solbox{margin:12px 0 0;padding:14px 16px;border-radius:16px;background:rgba(23,71,201,.16);border:1px solid rgba(169,193,255,.32)}.solbox small{display:block;color:var(--lilac);font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em;font-size:12px}.solbox p{margin:0;color:var(--fg);line-height:1.55}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
@@ -458,98 +458,46 @@ const M = s => `<span class="m">${s}</span>`;
 function grid(x0,y0,cols,rows,c){let s='';for(let i=0;i<=cols;i++)s+=`<line class="gr" x1="${x0+i*c}" y1="${y0}" x2="${x0+i*c}" y2="${y0+rows*c}"/>`;for(let j=0;j<=rows;j++)s+=`<line class="gr" x1="${x0}" y1="${y0+j*c}" x2="${x0+cols*c}" y2="${y0+j*c}"/>`;return s}
 
 const FIG = {
-  t18:`<svg width="270" height="190" viewBox="0 0 270 190" role="img" aria-label="треугольник ABC, отрезок DE параллелен AC">
-    <path class="ln" d="M20 170 L130 15 L250 170 Z"/>
-    <line x1="93.3" y1="66.7" x2="170" y2="66.7" stroke="var(--apricot)" stroke-width="2.4"/>
-    <circle cx="93.3" cy="66.7" r="3.2" class="dot"/><circle cx="170" cy="66.7" r="3.2" class="dot"/>
-    <text class="tx" x="4" y="184">A</text><text class="tx" x="124" y="11">B</text><text class="tx" x="252" y="184">C</text>
-    <text class="tx" x="72" y="66">D</text><text class="tx" x="177" y="66">E</text>
-  </svg>`,
-  q22:`<svg width="270" height="185" viewBox="0 0 270 185" role="img" aria-label="четырёхугольник ABCD и середины его сторон">
-    <path class="ln" d="M20 155 L60 35 L220 20 L250 165 Z"/>
-    <path d="M40 95 L140 27.5 L235 92.5 L135 160 Z" fill="rgba(242,144,94,.1)" stroke="var(--apricot)" stroke-width="2.2" stroke-dasharray="6 4"/>
-    ${[[40,95],[140,27.5],[235,92.5],[135,160]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="3.4" fill="var(--apricot)"/>`).join('')}
-    <text class="tx" x="4" y="170">A</text><text class="tx" x="50" y="27">B</text><text class="tx" x="224" y="15">C</text><text class="tx" x="252" y="180">D</text>
-    <text class="tm" x="22" y="92">K</text><text class="tm" x="134" y="18">L</text><text class="tm" x="242" y="90">M</text><text class="tm" x="130" y="178">N</text>
+  plane:`<svg width="250" height="250" viewBox="0 0 250 250" role="img" aria-label="координатная плоскость с точкой M(−2; 5)">
+    ${grid(25,25,10,10,20)}
+    <line class="ax" x1="25" y1="125" x2="232" y2="125"/><polygon points="232,125 223,120.5 223,129.5" fill="var(--muted)"/>
+    <line class="ax" x1="125" y1="225" x2="125" y2="32"/><polygon points="125,32 120.5,41 129.5,41" fill="var(--muted)"/>
+    <text class="tx" x="110" y="145">O</text><text class="tx" x="238" y="130">x</text><text class="tx" x="132" y="30">y</text>
+    <text class="tm" x="140" y="142">1</text><text class="tm" x="108" y="111">1</text>
+    <circle cx="85" cy="25" r="4.5" fill="var(--apricot)"/>
+    <text class="tx" x="93" y="22">M</text>
   </svg>`
 };
 const PLAN = '';
 const CTX_LABEL = '';
-const BLK = {b:'База · 7 класс',m:'Темы 8 класса',h:'Повышенный уровень'};
+const BLK = {b:'Разминка',m:'Испытание',h:'Вызов'};
 
 const T = [
- {n:1,blk:'b',topic:'Степень · десятичные дроби',type:'num',a:[6.1],
-  q:`<p>Найдите значение выражения ${M('0,6 · 2<sup>4</sup> − 3,5')}.</p>`,
-  h:['Порядок действий: сначала степень, потом умножение, вычитание — последним.','2<sup>4</sup> — это 2 · 2 · 2 · 2, а не 2 · 4.']},
- {n:2,blk:'b',topic:'Формулы сокращённого умножения',type:'num',a:[9],note:'В ответ запиши то, что получится после упрощения.',
-  q:`<p>Упростите выражение ${M('(2a − 3)<sup>2</sup> − 4a(a − 3)')}.</p>`,
-  h:[`Квадрат разности: ${M('(a − b)<sup>2</sup> = a<sup>2</sup> − 2ab + b<sup>2</sup>')}. Здесь на месте a стоит 2a.`,'Перед вторым произведением стоит минус: после раскрытия скобок у всех его слагаемых меняются знаки.']},
- {n:3,blk:'b',topic:'Разложение на множители',type:'choice',a:2,
-  q:`<p>Разложите на множители ${M('x<sup>3</sup> − 4x')}. Выберите верный ответ.</p>`,
-  opts:[M('x(x − 4)(x + 4)'),M('x(x − 2)(x + 2)'),M('(x − 2)(x + 2)'),M('x<sup>2</sup>(x − 4)')],
-  h:['Сначала вынеси общий множитель за скобки.',`В скобках останется разность квадратов: ${M('a<sup>2</sup> − b<sup>2</sup> = (a − b)(a + b)')}.`]},
- {n:4,blk:'b',topic:'Уравнение с дробями',type:'num',a:[12],
-  q:`<p>Решите уравнение ${M(`${F('x','3')} + ${F('x','4')} = 7`)}.</p>`,
-  h:['Избавься от дробей: умножь обе части уравнения на общий знаменатель.','Какое наименьшее число делится и на 3, и на 4? Умножь на него каждое слагаемое и правую часть.']},
- {n:5,blk:'b',topic:'Система уравнений',type:'multi',ord:1,a:[2,1],note:'Запиши x и y через точку с запятой: сначала x, потом y. Например: 4; −1',
-  q:`<p>Решите систему уравнений</p><p>${M('3x + 2y = 8,')}<br>${M('x − y = 1.')}</p>`,
-  h:['Из второго уравнения удобно выразить x через y.','Подставь выражение для x в первое уравнение и найди y. Потом вернись за x.']},
- {n:6,blk:'b',topic:'Линейная функция',type:'num',a:[-2],
-  q:`<p>График функции ${M('y = kx + 3')} проходит через точку ${M('A(2; −1)')}. Найдите k.</p>`,
-  h:['Точка лежит на графике, значит, её координаты подходят в формулу.','Подставь x = 2 и y = −1 и реши уравнение относительно k.']},
- {n:7,blk:'b',topic:'Практическая задача · тариф',type:'num',a:[486],note:'Ответ — число рублей.',
-  q:`<p>Поездка на такси стоит 150 рублей за посадку и 28 рублей за каждый километр. Сколько рублей стоит поездка длиной 12 км?</p>`,
-  h:['Стоимость складывается из двух частей: посадка и километры.','Сначала посчитай, сколько стоят 12 км по 28 рублей.']},
- {n:8,blk:'b',topic:'Проценты',type:'num',a:[34800],note:'Ответ — число рублей.',
-  q:`<p>Начисленная зарплата 40 000 рублей, из неё удерживается налог 13%. Сколько рублей получит человек после удержания налога?</p>`,
-  h:['13% от зарплаты — это налог. Человек получает то, что останется.','Можно иначе: после удержания остаётся 100% − 13% зарплаты.']},
- {n:9,blk:'b',topic:'Прямоугольный треугольник',type:'num',a:[7],
-  q:`<p>В прямоугольном треугольнике один из острых углов равен 30°, гипотенуза равна 14. Найдите катет, лежащий против угла 30°.</p>`,
-  h:['Вспомни свойство катета, лежащего против угла 30°.','Этот катет связан с гипотенузой: во сколько раз он меньше?']},
- {n:10,blk:'b',topic:'Вероятность',type:'num',a:[0.6],
-  q:`<p>В классе 25 учеников, из них 10 мальчиков. Дежурного выбирают случайно. Найдите вероятность того, что дежурной будет девочка.</p>`,
-  h:['Вероятность — это число благоприятных исходов, делённое на число всех исходов.','Сколько в классе девочек?']},
- {n:11,blk:'m',topic:'Квадратные корни',type:'num',a:[6.6],
-  q:`<p>Найдите значение выражения ${M(`${R('12')} · ${R('3')} + ${R('0,36')}`)}.</p>`,
-  h:[`Произведение корней равно корню из произведения: ${M(`${R('a')} · ${R('b')} = ${R('ab')}`)}.`,'Какое число в квадрате даёт 0,36? Проверь себя умножением.']},
- {n:12,blk:'m',topic:'Квадратное уравнение',type:'multi',a:[-7,3],note:'Если корней несколько, запиши их через точку с запятой.',
-  q:`<p>Решите уравнение ${M('x<sup>2</sup> + 4x − 21 = 0')}.</p>`,
-  h:[`Найди дискриминант: ${M('D = b<sup>2</sup> − 4ac')}.`,'Здесь a = 1, b = 4, c = −21. Следи за знаком c.']},
- {n:13,blk:'m',topic:'Рациональные дроби',type:'num',a:[-5],note:'В ответ запиши значение дроби при x = 0,5.',
-  q:`<p>Сократите дробь ${F('x<sup>2</sup> − 9','x<sup>2</sup> + 3x')} и найдите её значение при ${M('x = 0,5')}.</p>`,
-  h:['Разложи на множители числитель (разность квадратов) и знаменатель (вынеси общий множитель).','Сократи одинаковый множитель и только потом подставляй x = 0,5.']},
- {n:14,blk:'m',topic:'Функция y = k/x',type:'choice',a:1,wide:1,
-  q:`<p>График функции ${M(`y = ${F('k','x')}`)} проходит через точку ${M('A(2; −6)')}. Найдите k. Принадлежит ли этому графику точка ${M('B(−3; 4)')}?</p>`,
-  opts:['k = −12, точка B принадлежит графику','k = −12, точка B не принадлежит графику','k = −3, точка B принадлежит графику','k = −3, точка B не принадлежит графику'],
-  h:['Подставь координаты точки A в формулу и найди k.','Для точки B подставь её x в формулу с найденным k и сравни результат с её y.']},
- {n:15,blk:'m',topic:'Задача на квадратное уравнение',type:'multi',a:[5,12],note:'Запиши обе стороны в сантиметрах через точку с запятой.',
-  q:`<p>Площадь прямоугольника 60 см<sup>2</sup>, одна его сторона на 7 см больше другой. Найдите стороны прямоугольника.</p>`,
-  h:['Обозначь меньшую сторону через x. Чему тогда равна большая?','Площадь — произведение сторон. Получится квадратное уравнение; помни, что длина стороны не бывает отрицательной.']},
- {n:16,blk:'m',topic:'Теорема Пифагора',type:'num',a:[120],note:'Ответ — в квадратных сантиметрах.',
-  q:`<p>Диагональ прямоугольника равна 17 см, одна из его сторон — 8 см. Найдите площадь прямоугольника.</p>`,
-  h:['Диагональ делит прямоугольник на два прямоугольных треугольника. Что в них гипотенуза?','Найди вторую сторону по теореме Пифагора, а потом площадь.']},
- {n:17,blk:'m',topic:'Ромб',type:'multi',ord:1,a:[13,120],note:'Запиши через точку с запятой сначала сторону, потом площадь. Например: 5; 40',
-  q:`<p>Диагонали ромба равны 10 и 24. Найдите сторону и площадь ромба.</p>`,
-  h:['Диагонали ромба перпендикулярны и точкой пересечения делятся пополам. Какие треугольники получаются?','Площадь ромба равна половине произведения его диагоналей.']},
- {n:18,blk:'m',topic:'Подобие треугольников',type:'num',a:[12],
-  q:`<p>В треугольнике ABC точка D лежит на стороне AB, точка E — на стороне BC, причём ${M('DE ∥ AC')}. Известно, что ${M('BD = 3')}, ${M('DA = 6')}, ${M('DE = 4')}. Найдите AC.</p><div class="fig">${FIG.t18}</div>`,
-  h:['Треугольники DBE и ABC подобны. Почему?','Найди длину BA и коэффициент подобия BD : BA.']},
- {n:19,blk:'h',w:2,topic:'Дробно-рациональное уравнение',type:'choice',a:4,
-  q:`<p>Решите уравнение ${M(`${F('x','x − 2')} − ${F('8','x<sup>2</sup> − 4')} = 1`)}.</p>`,
-  opts:[M('x = 2'),M('x = −2'),M('x = 2 и x = −2'),'корней нет'],
-  h:[`Разложи ${M('x<sup>2</sup> − 4')} на множители. При каких x знаменатели обращаются в ноль?`,'Умножь обе части на общий знаменатель, реши получившееся уравнение и проверь каждый корень: можно ли его подставить в исходное уравнение.']},
- {n:20,blk:'h',w:2,topic:'Движение по воде',type:'num',a:[8],note:'Ответ — число в км/ч.',
-  q:`<p>Лодка прошла 15 км по течению реки и 15 км против течения, затратив на весь путь 4 часа. Скорость течения 2 км/ч. Найдите собственную скорость лодки.</p>`,
-  h:['Обозначь собственную скорость лодки через v. Чему равны скорости по течению и против течения?','Время = путь : скорость. Сложи два времени и приравняй к 4.']},
- {n:21,lab:'21а',blk:'h',topic:'Уравнение с параметром · один корень',type:'multi',a:[-6,6],note:'Если значений несколько, запиши их через точку с запятой.',
-  q:`<p>При каких значениях p уравнение ${M('x<sup>2</sup> + px + 9 = 0')} имеет ровно один корень?</p>`,
-  h:['Квадратное уравнение имеет ровно один корень, когда его дискриминант равен нулю.',`Здесь ${M('D = p<sup>2</sup> − 36')}. Реши уравнение D = 0 и не потеряй ни одного корня.`]},
- {n:22,lab:'21б',blk:'h',topic:'Уравнение с параметром · нет корней',type:'set',a:['(-6;6)'],note:'Запиши ответ промежутком, например: (−1; 4) или −1 &lt; p &lt; 4.',
-  q:`<p>При каких значениях p уравнение ${M('x<sup>2</sup> + px + 9 = 0')} не имеет корней?</p>`,
-  h:['Квадратное уравнение не имеет корней, когда его дискриминант отрицательный.',`Реши неравенство ${M('p<sup>2</sup> − 36 &lt; 0')}. Подумай, при каких p квадрат меньше 36.`]},
- {n:23,lab:'22',blk:'h',w:2,topic:'Доказательство',type:'proof',
-  q:`<p>Докажите, что середины сторон любого четырёхугольника являются вершинами параллелограмма.</p><div class="fig">${FIG.q22}</div><div class="gcap">K, L, M, N — середины сторон четырёхугольника ABCD.</div>`,
-  h:['Проведи диагональ четырёхугольника. На какие треугольники она его делит?','Вспомни теорему о средней линии треугольника: чему средняя линия параллельна и чему она равна.']},
+ {n:1,blk:'b',topic:'Квадратный корень',type:'num',a:[12],q:'<p>Вычисли: √49 + √81 − √16.</p>',h:['√49 = 7, √81 = 9, √16 = 4.','7 + 9 − 4 = 12.']},
+ {n:2,blk:'b',topic:'Разность квадратов',type:'choice',a:1,opts:['(x − 3)(x + 3)','(x − 3)<sup>2</sup>','(x + 3)<sup>2</sup>','x(x − 9)'],q:'<p>Разложи на множители: x<sup>2</sup> − 9.</p>',h:['9 = 3<sup>2</sup>, значит это разность квадратов.','a<sup>2</sup> − b<sup>2</sup> = (a − b)(a + b).']},
+ {n:3,blk:'b',topic:'Свойства корня',type:'num',a:[8],q:'<p>Вычисли: (√5)<sup>2</sup> + (√3)<sup>2</sup>.</p>',h:['Квадрат и корень взаимно уничтожаются: (√a)<sup>2</sup> = a.','5 + 3 = 8.']},
+ {n:4,blk:'b',topic:'Квадратный корень',type:'num',a:[12],q:'<p>Вычисли: √144.</p>',h:['Какое число в квадрате даёт 144?','12<sup>2</sup> = 144.']},
+ {n:5,blk:'b',topic:'Умножение корней',type:'num',a:[12],q:'<p>Упрости: √16 · √9.</p>',h:['√16 = 4, √9 = 3.','4 · 3 = 12.']},
+ {n:6,blk:'b',topic:'Степень с целым показателем',type:'choice',a:1,opts:['1/9','−9','9','1/6'],q:'<p>Найди значение: 3<sup>−2</sup>.</p>',h:['Отрицательный показатель: a<sup>−n</sup> = 1/a<sup>n</sup>.','3<sup>2</sup> = 9, значит ответ 1/9.']},
+ {n:7,blk:'b',topic:'Квадрат разности',type:'choice',a:2,opts:['x<sup>2</sup> − 16','x<sup>2</sup> − 8x + 16','x<sup>2</sup> + 8x + 16','x<sup>2</sup> − 4x + 16'],q:'<p>Раскрой скобки: (x − 4)<sup>2</sup>.</p>',h:['(a − b)<sup>2</sup> = a<sup>2</sup> − 2ab + b<sup>2</sup>.','2 · x · 4 = 8x, последний член 4<sup>2</sup> = 16.']},
+ {n:8,blk:'b',topic:'Квадрат суммы',type:'choice',a:1,opts:['(a + 5)<sup>2</sup>','(a − 5)<sup>2</sup>','(a + 25)<sup>2</sup>','(a + 5)(a − 5)'],q:'<p>Разложи на множители: a<sup>2</sup> + 10a + 25.</p>',h:['25 = 5<sup>2</sup>, а 10a = 2 · a · 5.','Значит это квадрат суммы.']},
+ {n:9,blk:'b',topic:'Уравнение x² = a',type:'num',a:[8,-8],note:'Запиши оба корня через точку с запятой.',q:'<p>Реши уравнение: x<sup>2</sup> = 64.</p>',h:['Какие два числа в квадрате дают 64?','Не забудь про отрицательный корень.']},
+ {n:10,blk:'b',topic:'Действия со степенями',type:'num',a:[4],q:'<p>Вычисли: 2<sup>−3</sup> · 2<sup>5</sup>.</p>',h:['При умножении степеней с одинаковым основанием показатели складываются.','2<sup>−3+5</sup> = 2<sup>2</sup> = 4.']},
+ {n:11,blk:'m',topic:'Квадратное уравнение',type:'num',a:[3,4],note:'Запиши оба корня через точку с запятой.',q:'<p>Реши квадратное уравнение: x<sup>2</sup> − 7x + 12 = 0.</p>',h:['Попробуй подобрать корни по теореме Виета: сумма 7, произведение 12.','3 + 4 = 7 и 3 · 4 = 12 — подходит.']},
+ {n:12,blk:'m',topic:'Упрощение корней',type:'choice',a:1,opts:['4√2','2√2','6√2','√40'],q:'<p>Упрости: √50 − √18 + √8.</p>',h:['Вынеси множители из-под корней: √50 = 5√2, √18 = 3√2, √8 = 2√2.','5√2 − 3√2 + 2√2 = 4√2.']},
+ {n:13,blk:'m',topic:'Сокращение дробей',type:'choice',a:1,opts:['x − 2','x + 2','x<sup>2</sup> − 2','1'],q:'<p>Сократи дробь: (x<sup>2</sup> − 4) / (x + 2).</p>',h:['Числитель — разность квадратов, разложи его на множители.','(x − 2)(x + 2) / (x + 2) — сократи общий множитель.']},
+ {n:14,blk:'m',topic:'Дискриминант',type:'num',a:[1],q:'<p>Найди дискриминант уравнения: 2x<sup>2</sup> − 5x + 3 = 0.</p>',h:['D = b<sup>2</sup> − 4ac, где a = 2, b = −5, c = 3.','(−5)<sup>2</sup> − 4 · 2 · 3 = 25 − 24 = 1.']},
+ {n:15,blk:'m',topic:'Квадратное уравнение',type:'num',a:[3],q:'<p>Реши уравнение: x<sup>2</sup> − 6x + 9 = 0.</p>',h:['Левая часть — полный квадрат: (x − 3)<sup>2</sup>.','(x − 3)<sup>2</sup> = 0 даёт один корень.']},
+ {n:16,blk:'m',topic:'Разность квадратов',type:'num',a:[4],q:'<p>Упрости: (√7 − √3)(√7 + √3).</p>',h:['Это разность квадратов: (a − b)(a + b) = a<sup>2</sup> − b<sup>2</sup>.','7 − 3 = 4.']},
+ {n:17,blk:'m',topic:'Освобождение от иррациональности',type:'choice',a:1,opts:['2√3','3√2','6√3','2/√3'],q:'<p>Освободись от иррациональности в знаменателе: 6 / √3.</p>',h:['Умножь числитель и знаменатель на √3.','6√3 / 3 = 2√3.']},
+ {n:18,blk:'m',topic:'Разложение на множители',type:'choice',a:1,opts:['(x − 2)(x − 3)','(x + 2)(x + 3)','(x − 1)(x − 6)','(x + 1)(x + 6)'],q:'<p>Разложи на множители: x<sup>2</sup> − 5x + 6.</p>',h:['Нужны два числа, которые в сумме дают −5, а в произведении 6.','Это −2 и −3, значит (x − 2)(x − 3).']},
+ {n:19,blk:'m',topic:'Квадрат суммы',type:'choice',a:1,opts:['3 + 2√2','2√2','5','3 − 2√2'],q:'<p>Найди значение: (√2 + 1)<sup>2</sup>.</p>',h:['(a + b)<sup>2</sup> = a<sup>2</sup> + 2ab + b<sup>2</sup>.','(√2)<sup>2</sup> + 2·√2·1 + 1 = 2 + 2√2 + 1.']},
+ {n:20,blk:'m',topic:'Квадратное уравнение',type:'num',a:[0,-4],note:'Запиши оба корня через точку с запятой.',q:'<p>Реши уравнение: x<sup>2</sup> + 4x = 0.</p>',h:['Вынеси x за скобку.','x(x + 4) = 0: произведение равно нулю, когда один из множителей равен нулю.']},
+ {n:21,blk:'h',topic:'Задача на прямоугольник',type:'num',a:[38],q:'<p>Одна сторона прямоугольника на 5 см больше другой, а площадь равна 84 см<sup>2</sup>. Найди периметр прямоугольника.</p>',h:['Пусть меньшая сторона — x, тогда другая — x + 5. Составь уравнение x(x + 5) = 84.','x<sup>2</sup> + 5x − 84 = 0; D = 25 + 336 = 361 = 19<sup>2</sup>. Стороны 7 и 12 — теперь периметр.']},
+ {n:22,blk:'h',topic:'Квадратное уравнение',type:'num',a:[1,0.6666666666666666],ord:true,note:'Запиши корни через точку с запятой в порядке убывания; обыкновенную дробь пиши через «/», например: 2/3.',q:'<p>Реши уравнение: 3x<sup>2</sup> − 5x + 2 = 0.</p>',h:['D = (−5)<sup>2</sup> − 4 · 3 · 2 = 1.','x = (5 ± 1) / 6 — получится 1 и 2/3.']},
+ {n:23,blk:'h',topic:'Доказательство делимости',type:'proof',ph:'Опиши ход: что раскрываешь, что сокращается, почему результат делится на 12 при любом n.',q:'<p>Докажи, что значение выражения (n + 3)<sup>2</sup> − (n − 3)<sup>2</sup> делится на 12 для любого натурального n.</p>',h:['Подстановка чисел — не доказательство. Раскрой обе скобки.','n<sup>2</sup> + 6n + 9 − (n<sup>2</sup> − 6n + 9) = 12n — оно делится на 12 при любом натуральном n.']},
+ {n:24,blk:'h',topic:'Действия с корнями',type:'num',a:[4],q:'<p>Упрости: (√5 − 2)(√5 + 2) + (√3)<sup>2</sup>.</p>',h:['Первое произведение — разность квадратов: 5 − 4 = 1.','(√3)<sup>2</sup> = 3, значит 1 + 3 = 4.']},
+ {n:25,blk:'h',topic:'Задача на движение',type:'choice',a:2,opts:['12 км/ч','6 + 2√10 км/ч ≈ 12,3 км/ч','14 км/ч','10 км/ч'],q:'<p>Моторная лодка прошла 30 км по течению и 30 км против течения за 5 часов. Скорость течения 2 км/ч. Найди собственную скорость лодки.</p>',h:['Пусть собственная скорость — v. Тогда по течению v + 2, против течения v − 2.','Уравнение времени: 30/(v+2) + 30/(v−2) = 5. Приведи к виду v<sup>2</sup> − 12v − 4 = 0 и реши.']}
 ];
 const W=t=>t.w||1;
 const LB=t=>t.lab||String(t.n);
@@ -643,7 +591,7 @@ function petMood(m,ms=1600){const b=document.getElementById('talb');if(!b||!S.ta
 const STK=[
  {id:1,t:'изи',r:'c'},{id:2,t:'база',r:'c'},{id:3,t:'x найден',r:'c'},{id:4,t:'π рядом',r:'c'},{id:5,t:'мозг прогрет',r:'c'},{id:6,t:'без паники',r:'c'},
  {id:13,t:'по фактам',r:'c'},{id:14,t:'чётко',r:'c'},{id:15,t:'считаю в уме',r:'c'},{id:16,t:'ещё одну',r:'c'},
- {id:7,t:'вайб: решаю',r:'r'},{id:8,t:'геометрия на изи',r:'r'},{id:9,t:'стальные нервы',r:'r'},{id:17,t:'D ≥ 0, всё ок',r:'r'},{id:18,t:'корень извлечён',r:'r'},{id:19,t:'логика 100%',r:'r'},{id:20,t:'дробь не страшна',r:'r'},
+ {id:7,t:'вайб: решаю',r:'r'},{id:8,t:'геометрия на изи',r:'r'},{id:9,t:'стальные нервы',r:'r'},{id:17,t:'пропорция сошлась',r:'r'},{id:18,t:'модуль снят',r:'r'},{id:19,t:'логика 100%',r:'r'},{id:20,t:'дробь не страшна',r:'r'},
  {id:10,t:'имба',r:'e'},{id:11,t:'ОГЭ? легко',r:'e'},{id:21,t:'сигма-решатель',r:'e'},{id:22,t:'всё по формуле',r:'e'},
  {id:12,t:'главный по иксам',r:'l'},{id:23,t:'25 из 25',r:'l'},{id:24,t:'легенда класса',r:'l'}
 ];
@@ -664,7 +612,7 @@ function logoFull(size){return `<span class="lockup">${logoMark(size)}<span clas
 const PROB_NO=2; /* не используется в текстах диагностики */
 const TG_USER='ohh_my_lily';
 /* ---------- link: name and task set ---------- */
-const BASE_DEFAULT='https://liliya-math.github.io/oge/diagnostika-8-klass.html';
+const BASE_DEFAULT='https://liliya-math.github.io/oge/diagnostika-6-klass.html';
 function enc(s){const b=new TextEncoder().encode(s);let x='';b.forEach(c=>x+=String.fromCharCode(c));return btoa(x).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
 function dec(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return new TextDecoder().decode(Uint8Array.from(atob(s),c=>c.charCodeAt(0)))}
 function makeToken(name,mask,dt,lead){return 'u'+enc(name+(dt?'|'+dt:''))+(mask?'.x'+mask.toString(36):'')+(lead?'.p':'')}
@@ -686,7 +634,7 @@ const L=T.filter(t=>!(LINK.mask&(1<<(t.n-1))));
 const FULL=L.length===T.length;
 
 /* ---------- state ---------- */
-const KEY='diag8-v1-'+(LINK.name?HASH:'free');
+const KEY='diag8a-'+(LINK.name?HASH:'free');
 let S = load() || fresh();
 if(!S.sid)S.sid=newSid();
 if(LINK.name)S.name=LINK.name;
@@ -749,10 +697,10 @@ function parseNums(s){
 }
 /* answers like "(0; 6)", "0 < x < 6", "−3; (−2; −1)" → sorted canonical items, or null */
 function parseSet(raw){
-  let s=String(raw).toLowerCase().replace(/[−–—]/g,'-').replace(/\s+/g,'').replace(/или|и|∪|u/g,';').replace(/[xmp]∈/g,'').replace(/≤/g,'<=').replace(/≥/g,'>=');
-  s=s.replace(/(\d),(\d)/g,'$1.$2').replace(/,/g,';').replace(/(^|;)[xmp]=/g,'$1');
+  let s=String(raw).toLowerCase().replace(/[−–—]/g,'-').replace(/\s+/g,'').replace(/или|и|∪|u/g,';').replace(/[xm]∈/g,'').replace(/≤/g,'<=').replace(/≥/g,'>=');
+  s=s.replace(/(\d),(\d)/g,'$1.$2').replace(/,/g,';').replace(/(^|;)[xm]=/g,'$1');
   const N='(-?\\d+(?:\\.\\d+)?)',f=v=>String(+v),items=[];
-  const re=new RegExp(`([\\(\\[])${N};${N}([\\)\\]])|${N}(<=?)[xmp](<=?)${N}|${N}`,'g');
+  const re=new RegExp(`([\\(\\[])${N};${N}([\\)\\]])|${N}(<=?)[xm](<=?)${N}|${N}`,'g');
   const rest=s.replace(re,(m,b1,a1,a2,b2,c1,o1,o2,c2,d)=>{
     if(b1)items.push(b1+f(a1)+';'+f(a2)+b2);
     else if(o1)items.push((o1==='<='?'[':'(')+f(c1)+';'+f(c2)+(o2==='<='?']':')'));
@@ -821,9 +769,9 @@ function renderStart(){
   const resume=S.name&&S.started&&!S.done&&Object.keys(S.r).length;
   const greet=S.name?esc(S.name)+', с':'С';
   app.innerHTML=`<section class="hero enter">
-    <div class="kick"><b class="mark">25/25</b> · Диагностика по математике · 8 класс</div>
+    <div class="kick"><b class="mark">25/25</b> · Диагностика · 8 класс · Алгебра</div>
     <h1>${S.name?esc(S.name)+', п':'П'}роверим, что ты <span>уже знаешь</span></h1>
-    <p class="lead">Здесь задания за 7 класс и по темам 8 класса. Если тему ещё не проходили в школе или задание незнакомое, жми «Не знаю, как решать»: ругать за это никто не будет. Решай без подсказок из интернета и без списывания. Чем честнее ответы, тем точнее я пойму, с чего начать.</p>
+    <p class="lead">Сегодня проверим алгебру 8 класса: корни, квадратные уравнения и формулы сокращённого умножения. Незнакомое задание — это нормально: жми «Не знаю, как решать», ругать за это никто не будет. Решай без подсказок из интернета и без списывания. Чем честнее ответы, тем точнее я пойму, с чего начать.</p>
     <div class="ways">
       <div class="way"><i>01</i><b>Знаю ответ</b><span>Вписываешь число или выбираешь вариант. Есть две попытки.</span></div>
       <div class="way"><i>02</i><b>Есть идея, но дальше никак</b><span>Напиши, что пробовал. Так видно, где именно застряло решение.</span></div>
@@ -870,9 +818,9 @@ function answerUI(t){
     <div class="irow"><div class="sp"></div><button class="btn" id="chk" disabled>Проверить</button></div>`;
   if(t.type==='match')return `<div class="match">${['А','Б','В'].map((Lt,i)=>`<div class="mcol"><b>${Lt}</b><div class="seg" data-i="${i}">${[1,2,3].map(v=>`<button data-v="${v}" aria-label="${Lt}: график ${v}">${v}</button>`).join('')}</div></div>`).join('')}</div>
     <div class="irow"><div class="sp"></div><button class="btn" id="chk" disabled>Проверить</button></div>`;
-  if(t.type==='proof')return `<textarea id="pf" placeholder="Напиши доказательство своими словами. Можно коротко: какие отрезки рассматриваешь, на какую теорему опираешься и что из неё следует."></textarea>
+  if(t.type==='proof')return `<textarea id="pf" placeholder="${t.ph||'Напиши доказательство своими словами. Можно коротко: что преобразуешь или какие фигуры рассматриваешь, на что опираешься и какой вывод получается.'}"></textarea>
     <div class="irow"><div class="sp"></div><button class="btn" id="chk">Отправить доказательство</button></div>
-    <p class="note">Доказательство проверю сама, поэтому мгновенной проверки здесь нет.</p>`;
+    <p class="note">${t.pfn||'Доказательство проверю сама, поэтому мгновенной проверки здесь нет.'}</p>`;
   return `<div class="irow"><input class="field" id="inp" inputmode="${t.type==='set'?'text':'decimal'}" autocomplete="off" placeholder="${t.type==='multi'?'например: 3; −1,5':'Ответ'}"><button class="btn" id="chk">Проверить</button></div>${t.note?`<p class="note">${t.note}</p>`:''}`;
 }
 function drawAns(fb){
@@ -882,6 +830,7 @@ function drawAns(fb){
     if(mode==='ans')h+=answerUI(t);
     if(mode==='think')h+=`<div class="thinkbox"><textarea id="th" placeholder="Например: «Перенёс всё влево, получилось квадратное уравнение, но дискриминант вышел некрасивый, и дальше не понимаю…»">${esc(r.th)}</textarea>
       <div class="irow"><button class="btn ghost" id="back">Вернуться к ответу</button><div class="sp"></div><button class="btn" id="thgo">Записать и дальше</button></div></div>`;
+    if(mode==='sol')h+=`<div class="solbox"><small>Эталон для самопроверки</small><p>${t.sol}</p></div><div class="irow"><button class="btn ghost" id="solno">Не совсем совпала</button><div class="sp"></div><button class="btn" id="solok">Сформулировал(а) верно</button></div>`;
     if(shownHints)h+=`<div class="hints">${t.h.slice(0,shownHints).map((x,i)=>`<div class="hint"><small>Подсказка ${i+1}</small>${x}</div>`).join('')}</div>`;
     if(fb)h+=fb;
     h+=`<div class="alts">
@@ -908,6 +857,8 @@ function bindAns(t,r){
   const tb=$('tb');if(tb)tb.onclick=()=>{mode='think';sfx.tap();drawAns();setTimeout(()=>$('th')&&$('th').focus(),50)};
   const back=$('back');if(back)back.onclick=()=>{r.th=$('th').value;mode='ans';drawAns()};
   const thgo=$('thgo');if(thgo)thgo.onclick=()=>{const v=$('th').value.trim();if(!v){$('th').focus();return}r.th=v;resolve(t,r,'th');sfx.soft();drawAns(fbBox('neu',I.dots,'Записано',pickFresh(THINK,'th')))};
+  const sok=$('solok');if(sok)sok.onclick=()=>{S.streak++;S.best=Math.max(S.best,S.streak);resolve(t,r,'ok');celebrate();streakDrop();drawAns(fbBox('ok',I.ok,'Честно и верно',pickFresh(QUOTES,'q')))};
+  const sno=$('solno');if(sno)sno.onclick=()=>{S.streak=0;resolve(t,r,'bad');sfx.bad();drawAns(fbBox('bad',I.x,'Записала','Точную формулировку разберём и выучим на занятии.'))};
   const ib=$('ib');if(ib)ib.onclick=()=>{const v=$('th')?$('th').value.trim():'';if(v)r.th=v;resolve(t,r,'idk');sfx.soft();drawAns(fbBox('neu',I.q,pickFresh(IDK_T,'it'),pickFresh(IDK,'i')))};
 }
 function keepInput(fn){const i=document.getElementById('inp'),v=i?i.value:null;fn();const j=document.getElementById('inp');if(j&&v!=null)j.value=v;
@@ -919,7 +870,9 @@ function resolve(t,r,st){r.st=st;r.t+=Math.round((Date.now()-taskStart)/1000);if
 function refreshTrack(){const tr=document.querySelector('.track');if(!tr)return;const r=S.r[cur().n];tr.children[S.i].className=r&&r.st?ST[r.st]:'cur';const pp=document.getElementById('pts');if(pp)pp.textContent=livePts();const s=document.getElementById('stk');if(s){s.textContent=S.streak;s.parentElement.classList.toggle('hot',S.streak>=3)}}
 function check(t,r){
   let given,ok;
-  if(t.type==='proof'){const v=document.getElementById('pf').value.trim();if(v.length<15){document.getElementById('pf').focus();return}r.ans.push(v);resolve(t,r,'pf');sfx.soft();drawAns(fbBox('neu',I.pen,'Доказательство отправлено','Проверю его и разберём на занятии.'));return}
+  if(t.type==='proof'){const v=document.getElementById('pf').value.trim();if(v.length<15){document.getElementById('pf').focus();return}r.ans.push(v);
+   if(t.sol){mode='sol';sfx.soft();drawAns();return}
+   resolve(t,r,'pf');sfx.soft();drawAns(fbBox('neu',I.pen,'Доказательство отправлено','Проверю его и разберём на занятии.'));return}
   if(t.type==='choice'){if(!choice)return;given=String(choice);ok=choice===t.a}
   else if(t.type==='match'){given=matchSel.join('');ok=matchSel.every((v,i)=>v===t.a[i])}
   else if(t.type==='set'){const raw=document.getElementById('inp').value.trim();if(!raw){document.getElementById('inp').focus();return}given=raw;const got=parseSet(raw);
@@ -1029,7 +982,7 @@ function score(){
   const pct=max?Math.round(pts/max*100):0;
   const route=lv.b==='n'?'Добор базы':(lv.b==='u'&&lv.m==='u')?'Опережение':'Сопровождение программы';
   const all=pct>=80?'u':pct>=50?'p':'n';
-  return {pts,max,maxAll,ok,blk,lv,pct,all,route,grade:pct+'%',lvl:route,geo:0,auto:L.filter(t=>t.type!=='proof'&&!(S.skipH&&t.blk==='h')).length,pending:!S.skipH&&L.some(t=>t.type==='proof')};
+  return {pts,max,maxAll,ok,blk,lv,pct,all,route,grade:pct+'%',lvl:route,geo:0,auto:L.filter(t=>t.type!=='proof'&&!(S.skipH&&t.blk==='h')).length,pending:!S.skipH&&L.some(t=>t.type==='proof'&&!t.sol)};
 }
 function livePts(){let p=0;for(const t of L){const r=S.r[t.n];if(r&&r.st==='ok')p+=W(t)}return p}
 const LVW={u:'уверенно',p:'почти уверенно',n:'пока не сложилось'};
@@ -1037,17 +990,17 @@ function tosCode(sc){
   const results={},weak=[],strong=[];
   for(const t of L){const r=S.r[t.n];if(!r||!r.st||r.st==='pf')continue;results[t.n]=r.st==='ok'?1:0;(r.st==='ok'?strong:weak).push('№'+LB(t))}
   const d=new Date(),iso=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-  const o={v:1,name:S.name,date:iso,title:'Диагностика по математике · 8 класс',branch:'диагностика 8 класс',right:sc.ok,total:sc.auto,score:sc.pts,mark:sc.grade,level:sc.lvl,geo:sc.geo,minutes:Math.round(elapsed()/60),results};
+  const o={v:1,name:S.name,date:iso,title:'Диагностика · 8 класс · Алгебра',branch:'диагностика 8 класс алгебра',right:sc.ok,total:sc.auto,score:sc.pts,mark:sc.grade,level:sc.lvl,geo:sc.geo,minutes:Math.round(elapsed()/60),results};
   const b=new TextEncoder().encode(JSON.stringify(o));let bin='';b.forEach(c=>bin+=String.fromCharCode(c));
   return 'Код для «Кабинета репетитора»: TOS1:'+btoa(bin);
 }
 function report(sc){
   const Lb={ok:'верно',bad:'неверно',idk:'не знаю',th:'есть идея, застрял',pf:'доказательство'};
-  const lines=[`25/25 · Диагностика по математике · 8 класс — ${S.name}`,tosCode(sc),`Дата: ${new Date().toLocaleDateString('ru-RU')}, время: ${fmtT(elapsed())}`,
+  const lines=[`25/25 · Диагностика · 8 класс · Алгебра — ${S.name}`,tosCode(sc),`Дата: ${new Date().toLocaleDateString('ru-RU')}, время: ${fmtT(elapsed())}`,
    FULL?`Вариант: все задания (${T.length})`:`Вариант: ${ZD(L.length)} (${L.map(LB).join(', ')})`,
-   `Верно: ${sc.ok} из ${sc.auto} (${sc.pct}%)${sc.pending?' · №22 (доказательство) на ручную проверку':''}`,
-   `Баллы: ${sc.pts} из ${sc.max}${sc.pending?' (без №22, до 2 баллов после проверки)':''}`,
-   `База 7 кл. (1–10): ${sc.blk.b[0]}/${sc.blk.b[1]} — ${LVW[sc.lv.b]||'—'} · Темы 8 кл. (11–18): ${sc.blk.m[0]}/${sc.blk.m[1]} — ${LVW[sc.lv.m]||'—'} · Повышенный (19–21): ${S.skipH?'пропущен по правилу остановки (в базе меньше 5 верных)':`${sc.blk.h[0]}/${sc.blk.h[1]} — ${LVW[sc.lv.h]||'—'}`}`,`Направление (предв.): ${sc.route}`,`Лучшая серия: ${S.best}`,'',
+   `Верно: ${sc.ok} из ${sc.auto} (${sc.pct}%)${sc.pending?' · №23 (доказательство) на ручную проверку':''}`,
+   `Баллы: ${sc.pts} из ${sc.max}${sc.pending?' (без №23, до 1 балла после проверки)':''}`,
+   `Разминка (1–10): ${sc.blk.b[0]}/${sc.blk.b[1]} — ${LVW[sc.lv.b]||'—'} · Испытание (11–20): ${sc.blk.m[0]}/${sc.blk.m[1]} — ${LVW[sc.lv.m]||'—'} · Вызов (21–25): ${S.skipH?'пропущен по правилу остановки (в разминке меньше 5 верных)':`${sc.blk.h[0]}/${sc.blk.h[1]} — ${LVW[sc.lv.h]||'—'}`}`,`Направление (предв.): ${sc.route}`,`Лучшая серия: ${S.best}`,'',
    'По заданиям:'];
   for(const t of L){const r=S.r[t.n]||{};let s=`${LB(t)}. ${S.skipH&&t.blk==='h'?'пропущено':(Lb[r.st]||'—')}`;
     if(r.st==='ok'&&r.tries>1)s+=' со 2-й попытки';
@@ -1076,14 +1029,14 @@ function finish(){
       ${t?pet(t.id,resMood(sc),110,'jump'):''}
       <div class="kick">${esc(S.name)}, диагностика пройдена</div>
       <div class="big">${sc.pct}<span style="font-size:.4em">%</span></div>
-      <div class="quiet">верных ответов${sc.pending?' · доказательство №22 проверю сама':''}</div>
+      <div class="quiet">верных ответов${sc.pending?' · доказательство №23 проверю сама':''}</div>
       <div class="lvl">Общий итог <em>${LVW[sc.all]}</em></div>
-      ${S.skipH?'<p class="lvltext">Задания повышенного уровня в этот раз пропускаем: сначала укрепим базу 7 класса.</p>':''}
+      ${S.skipH?'<p class="lvltext">Задания уровня «Вызов» в этот раз пропускаем: сначала укрепим базу (разминку).</p>':''}
       <div class="quiet">верных заданий: ${cnt.ok} из ${sc.auto} · время ${fmtT(elapsed())} · лучшая серия ${S.best}</div>
     </div>
     <div class="grid25">${L.map(x=>{const r=S.r[x.n]||{};return `<div class="cell ${r.st||''}" title="${x.topic}">${LB(x)}</div>`}).join('')}</div>
     <div class="legend"><span><i style="background:var(--mint)"></i>верно</span><span><i style="background:var(--miss)"></i>не сошлось</span><span><i style="background:var(--amber)"></i>была идея</span><span><i style="background:#6f625a"></i>не знаю</span><span><i style="background:var(--lilac)"></i>на проверку</span></div>
-    <div class="blocks">${blk('b','База · 7 класс')}${blk('m','Темы 8 класса')}${S.skipH?'':blk('h','Повышенный')}</div>
+    <div class="blocks">${blk('b','Разминка (1–10)')}${blk('m','Испытание (11–20)')}${S.skipH?'':blk('h','Вызов (21–25)')}</div>
     ${diploma(sc,cnt.ok,own,t)}
     <p class="dipnote">Сохрани диплом скриншотом.</p>
     ${LEAD?leadBlock(sc)+(BONUS_ON?bonusBlock():''):''}
@@ -1120,7 +1073,7 @@ function diploma(sc,okN,own,t){
   const noms=[];
   const p2=L.filter(x=>x.blk==='h'&&S.r[x.n]&&S.r[x.n].st==='ok').length;
   const thN=L.filter(x=>S.r[x.n]&&S.r[x.n].st==='th').length;
-  const BN={b:'база 7 класса',m:'темы 8 класса',h:'повышенный уровень'};
+  const BN={b:'разминка',m:'испытание',h:'вызов'};
   let bestB=null,bestV=0;for(const k of ['m','h','b']){const [a,b]=sc.blk[k];if(b&&a/b>bestV){bestV=a/b;bestB=k}}
   if(okN>=Math.ceil(sc.auto*.75))noms.push(['Почти 25/25',`${okN} из ${sc.auto} верно`]);
   if(S.best>=5)noms.push(['Мастер серий',`${S.best} верных подряд`]);
@@ -1139,7 +1092,7 @@ function diploma(sc,okN,own,t){
     <div class="dk">ДИПЛОМ</div>
     <div class="dt">вручается</div>
     <div class="dn">${esc(LINK.dat||dative(S.name))}</div>
-    <p class="dt">за честно пройденную диагностику по математике · 8 класс</p>
+    <p class="dt">за честно пройденную диагностику · 8 класс · Алгебра</p>
     <div class="noms">${noms.slice(0,3).map(([a,b])=>`<div class="nom"><b>${a}</b><span>${b}</span></div>`).join('')}</div>
     ${rest.length?`<div class="bomb">${rest.map(s=>stkHTML(s)).join('')}</div>`:''}
     <div class="dfoot">
@@ -1155,16 +1108,16 @@ function diploma(sc,okN,own,t){
 
 /* ---------- lead finale (new clients from Avito / Profi) ---------- */
 function gradeOf(p,geo){return geo<2?2:p>=22?5:p>=15?4:p>=8?3:2}
-function tgText(rep){const head=LEAD?`Здравствуйте, Лилия! Я прошёл(а) диагностику по математике за 8 класс и хочу бесплатный разбор ошибок.\n\n`:'';const t=head+rep;return t.length>1800?t.slice(0,1800)+'…':t}
+function tgText(rep){const head=LEAD?`Здравствуйте, Лилия! Я прошёл(а) диагностику по алгебре за 8 класс и хочу бесплатный разбор ошибок.\n\n`:'';const t=head+rep;return t.length>1800?t.slice(0,1800)+'…':t}
 function leadBlock(sc){
   const weak=L.filter(t=>t.type!=='proof'&&!(S.skipH&&t.blk==='h')&&!(S.r[t.n]&&S.r[t.n].st==='ok'));
   const nm=S.name||'Ученик';
   const LW={u:'уверенно',p:'почти уверенно',n:'пока не сложилась'};
-  const parent=`${nm} прошёл(а) диагностику по математике за 8 класс: ${sc.pct}% верных ответов. База 7 класса — ${LW[sc.lv.b]}, темы 8 класса — ${LW[sc.lv.m]}. Бесплатный разбор ошибок у репетитора Лилии: t.me/${TG_USER}`;
+  const parent=`${nm} прошёл(а) диагностику по алгебре за 8 класс: ${sc.pct}% верных ответов. Разминка — ${LW[sc.lv.b]}, испытание — ${LW[sc.lv.m]}. Бесплатный разбор ошибок у репетитора Лилии: t.me/${TG_USER}`;
   return `<div class="lead card2">
     <div class="kick">Что это значит</div>
-    <p class="lt">Верных ответов — <b>${sc.pct}%</b>. База 7 класса: <b>${LW[sc.lv.b]}</b>. Темы 8 класса: <b>${LW[sc.lv.m]}</b>.</p>
-    ${weak.length?`<p class="lt">Начать стоит с заданий ${weak.slice(0,8).map(t=>'№'+LB(t)).join(', ')}${weak.length>8?` и ещё ${weak.length-8}`:''}. На бесплатном разборе покажу, где именно пробел и как его закрыть.</p>`:`<p class="lt">Все задания с автопроверкой решены. Дальше — задачи посложнее и задел к ОГЭ.</p>`}
+    <p class="lt">Верных ответов — <b>${sc.pct}%</b>. Разминка: <b>${LW[sc.lv.b]}</b>. Испытание: <b>${LW[sc.lv.m]}</b>.</p>
+    ${weak.length?`<p class="lt">Начать стоит с заданий ${weak.slice(0,8).map(t=>'№'+LB(t)).join(', ')}${weak.length>8?` и ещё ${weak.length-8}`:''}. На бесплатном разборе покажу, где именно пробел и как его закрыть.</p>`:`<p class="lt">Все задания с автопроверкой решены. Дальше — задачи посложнее и доказательства.</p>`}
     <div class="lrow"><a class="chip" href="https://t.me/share/url?url=${encodeURIComponent(BASE_DEFAULT)}&text=${encodeURIComponent(parent)}" target="_blank" rel="noopener">Показать родителям в Telegram</a><a class="chip" href="https://wa.me/?text=${encodeURIComponent(parent+'\n'+BASE_DEFAULT)}" target="_blank" rel="noopener">…в WhatsApp</a></div>
   </div>`;
 }
@@ -1207,7 +1160,7 @@ function bindBonus(sc){
 }
 /* ---------- results to Lilia's Google Sheet ---------- */
 const SHEET_URL='https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec';
-const TEST_TITLE='Диагностика по математике · 8 класс';
+const TEST_TITLE='Диагностика · 8 класс · Алгебра';
 function pushResult(){
   if(!SHEET_URL||!S.name||!S.started)return;
   try{
@@ -1218,12 +1171,12 @@ function pushResult(){
       bonus:(typeof bonusLine==='function'?bonusLine():'').replace(/^Бонус: /,''),
       tasks:L.map(t=>{const r=S.r[t.n];return (t.lab||t.n)+(r&&r.st?mk[r.st]:'·')}).join(' '),
       report:done?report(sc):''};
-    const bd=JSON.stringify(d);fetch(SHEET_URL,{method:'POST',mode:'no-cors',keepalive:new Blob([bd]).size<60000,headers:{'Content-Type':'text/plain;charset=utf-8'},body:bd}).catch(()=>{});
+    fetch(SHEET_URL,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)}).catch(()=>{});
   }catch(e){}
 }
 /* ---------- teacher: link builder (#lilia) ---------- */
 function renderTeacher(){
-  let base=BASE_DEFAULT;try{base=localStorage.getItem('diag8-base')||BASE_DEFAULT}catch(e){}
+  let base=BASE_DEFAULT;try{base=localStorage.getItem('diag8a-base')||BASE_DEFAULT}catch(e){}
   let mask=0;
   app.innerHTML=`<section class="hero enter"><div class="kick"><b class="mark">25/25</b> · только для Лилии</div><h1>Ссылка <span>для ученика</span></h1>
   <div class="card stack">
@@ -1236,7 +1189,7 @@ function renderTeacher(){
     <div class="irow"><button class="btn" id="tcp" disabled>Скопировать ссылку</button><a class="btn ghost" id="topen" href="#" target="_blank" rel="noopener" style="display:inline-grid;place-items:center;text-decoration:none" hidden>Открыть как ученик</a></div>
   </div></section>`;
   const $=id=>document.getElementById(id);
-  const upd=()=>{const n=$('tn').value.trim(),b=$('tb').value.trim().replace(/#.*$/,'');try{localStorage.setItem('diag8-base',b)}catch(e){}
+  const upd=()=>{const n=$('tn').value.trim(),b=$('tb').value.trim().replace(/#.*$/,'');try{localStorage.setItem('diag8a-base',b)}catch(e){}
     const cntN=T.length-[...Array(T.length)].filter((_,i)=>mask&(1<<i)).length;$('tc').textContent=ZD(cntN);
     if(!n){$('out').textContent='Впиши имя';$('tcp').disabled=true;$('topen').hidden=true;return}
     const url=b+'#'+makeToken(n,mask,$('td').value.trim(),$('tlead').checked);$('out').textContent=url;$('tcp').disabled=false;$('topen').hidden=false;$('topen').href=url};

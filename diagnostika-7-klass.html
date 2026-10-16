@@ -1,5 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Диагностика · 7 класс</title>
+<title>Диагностика · 7 класс · Алгебра</title><style>.solbox{margin:12px 0 0;padding:14px 16px;border-radius:16px;background:rgba(23,71,201,.16);border:1px solid rgba(169,193,255,.32)}.solbox small{display:block;color:var(--lilac);font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em;font-size:12px}.solbox p{margin:0;color:var(--fg);line-height:1.55}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
@@ -458,90 +458,46 @@ const M = s => `<span class="m">${s}</span>`;
 function grid(x0,y0,cols,rows,c){let s='';for(let i=0;i<=cols;i++)s+=`<line class="gr" x1="${x0+i*c}" y1="${y0}" x2="${x0+i*c}" y2="${y0+rows*c}"/>`;for(let j=0;j<=rows;j++)s+=`<line class="gr" x1="${x0}" y1="${y0+j*c}" x2="${x0+cols*c}" y2="${y0+j*c}"/>`;return s}
 
 const FIG = {
-  p18:`<svg width="270" height="200" viewBox="0 0 270 200" role="img" aria-label="параллельные прямые a и b и секущая c">
-    <line class="ln" x1="10" y1="50" x2="260" y2="50"/><line class="ln" x1="10" y1="140" x2="260" y2="140"/><line class="ln" x1="70" y1="190" x2="210" y2="0"/>
-    <text class="tx" x="250" y="42" font-style="italic">a</text><text class="tx" x="250" y="132" font-style="italic">b</text><text class="tx" x="214" y="16" font-style="italic">c</text>
-  </svg>`,
-  s22:`<svg width="260" height="200" viewBox="0 0 260 200" role="img" aria-label="отрезки AB и CD пересекаются в точке O">
-    <line class="ln" x1="40" y1="40" x2="220" y2="160"/><line class="ln" x1="60" y1="170" x2="200" y2="30"/>
-    <circle cx="130" cy="100" r="3.6" fill="var(--apricot)"/>
-    <text class="tx" x="24" y="36">A</text><text class="tx" x="226" y="172">B</text><text class="tx" x="44" y="186">C</text><text class="tx" x="204" y="26">D</text><text class="tx" x="136" y="118">O</text>
+  plane:`<svg width="250" height="250" viewBox="0 0 250 250" role="img" aria-label="координатная плоскость с точкой M(−2; 5)">
+    ${grid(25,25,10,10,20)}
+    <line class="ax" x1="25" y1="125" x2="232" y2="125"/><polygon points="232,125 223,120.5 223,129.5" fill="var(--muted)"/>
+    <line class="ax" x1="125" y1="225" x2="125" y2="32"/><polygon points="125,32 120.5,41 129.5,41" fill="var(--muted)"/>
+    <text class="tx" x="110" y="145">O</text><text class="tx" x="238" y="130">x</text><text class="tx" x="132" y="30">y</text>
+    <text class="tm" x="140" y="142">1</text><text class="tm" x="108" y="111">1</text>
+    <circle cx="85" cy="25" r="4.5" fill="var(--apricot)"/>
+    <text class="tx" x="93" y="22">M</text>
   </svg>`
 };
 const PLAN = '';
 const CTX_LABEL = '';
-const BLK = {b:'База · 5–6 классы',m:'Темы 7 класса',h:'Повышенный уровень'};
+const BLK = {b:'Разминка',m:'Испытание',h:'Вызов'};
 
 const T = [
- {n:1,blk:'b',topic:'Смешанные числа',type:'num',a:[1.5],note:'Запиши ответ десятичной дробью или неправильной дробью через «/», например: 2,5 или 5/2.',
-  q:`<p>Вычислите: ${M(`2${F('1','3')} − ${F('5','6')}`)}.</p>`,
-  h:['Дробная часть 1/3 меньше, чем 5/6. Удобно перевести смешанное число в неправильную дробь.','Приведи дроби к общему знаменателю 6 и вычти числители.']},
- {n:2,blk:'b',topic:'Отрицательные числа',type:'num',a:[-7.2],
-  q:`<p>Вычислите: ${M('−4,2 + 7,5 · (−0,4)')}.</p>`,
-  h:['Какое действие выполняется первым: сложение или умножение?','Произведение положительного и отрицательного числа отрицательно. Потом сложи два отрицательных числа.']},
- {n:3,blk:'b',topic:'Линейное уравнение',type:'num',a:[-7],
-  q:`<p>Решите уравнение ${M('3x + 5 = x − 9')}.</p>`,
-  h:['Перенеси слагаемые с x в левую часть, а числа — в правую.','При переносе в другую часть слагаемое меняет знак на противоположный.']},
- {n:4,blk:'b',topic:'Пропорция',type:'num',a:[7.5],
-  q:`<p>Решите пропорцию: ${M(`${F('x','12')} = ${F('5','8')}`)}.</p>`,
-  h:['Основное свойство пропорции: произведение крайних членов равно произведению средних.','Крайние члены здесь x и 8, средние — 12 и 5.']},
- {n:5,blk:'b',topic:'Процент от числа',type:'num',a:[36],
-  q:`<p>Найдите 15% от числа 240.</p>`,
-  h:['Процент — это сотая часть числа. Как записать 15% десятичной дробью?','Можно найти сначала 10%, потом 5% и сложить.']},
- {n:6,blk:'b',topic:'Прямая пропорциональность',type:'num',a:[450],note:'Ответ — число рублей.',
-  q:`<p>3 кг яблок стоят 270 рублей. Сколько рублей стоят 5 кг таких яблок?</p>`,
-  h:['Сколько стоит 1 кг яблок?','Цену одного килограмма умножь на нужное количество килограммов.']},
- {n:7,blk:'b',topic:'Подобные слагаемые',type:'choice',a:1,
-  q:`<p>Раскройте скобки и приведите подобные слагаемые: ${M('3(2a − 1) − 2(a + 4)')}. Выберите верный ответ.</p>`,
-  opts:[M('4a − 11'),M('4a + 5'),M('8a − 11'),M('4a − 7')],
-  h:['Множитель перед скобкой умножается на каждое слагаемое в скобке.','Во второй скобке множитель −2: следи за знаком у каждого произведения.']},
- {n:8,blk:'b',topic:'Значение выражения',type:'num',a:[14],
-  q:`<p>Найдите значение выражения ${M('2x<sup>2</sup> − 3x')} при ${M('x = −2')}.</p>`,
-  h:['Подставляй отрицательное число в скобках: 2 · (−2)<sup>2</sup> − 3 · (−2).','Чему равен квадрат отрицательного числа? А произведение двух отрицательных?']},
- {n:9,blk:'b',topic:'Смежные углы',type:'multi',a:[36,144],note:'Запиши оба угла в градусах через точку с запятой. Например: 20; 160',
-  q:`<p>Один из смежных углов в 4 раза больше другого. Найдите эти углы.</p>`,
-  h:['Чему равна сумма смежных углов?','Обозначь меньший угол за x. Как тогда записать больший?']},
- {n:10,blk:'b',topic:'Среднее арифметическое',type:'num',a:[6],
-  q:`<p>Найдите среднее арифметическое чисел: 4, 7, 5, 8, 6.</p>`,
-  h:['Среднее арифметическое — это сумма чисел, делённая на их количество.','Сколько здесь чисел?']},
- {n:11,blk:'m',topic:'Свойства степеней',type:'num',a:[4],
-  q:`<p>Найдите значение выражения: ${M('(2<sup>3</sup>)<sup>2</sup> · 2<sup>4</sup> : 2<sup>8</sup>')}.</p>`,
-  h:['При возведении степени в степень показатели перемножают.','При умножении степеней с одинаковым основанием показатели складывают, при делении — вычитают.']},
- {n:12,blk:'m',topic:'Формулы сокращённого умножения',type:'num',a:[16],note:'В ответ запиши то, что получится после упрощения.',
-  q:`<p>Упростите выражение: ${M('(x + 4)<sup>2</sup> − x(x + 8)')}.</p>`,
-  h:[`Квадрат суммы: ${M('(a + b)<sup>2</sup> = a<sup>2</sup> + 2ab + b<sup>2</sup>')}.`,'Перед вторым произведением стоит минус: после раскрытия скобок знаки меняются.']},
- {n:13,blk:'m',topic:'Разложение на множители',type:'choice',a:1,
-  q:`<p>Разложите на множители: ${M('9a<sup>2</sup> − 25b<sup>2</sup>')}. Выберите верный ответ.</p>`,
-  opts:[M('(3a − 5b)(3a + 5b)'),M('(9a − 25b)(9a + 25b)'),M('(3a − 5b)<sup>2</sup>'),M('(3a + 5b)<sup>2</sup>')],
-  h:['Каждое слагаемое — квадрат какого-то выражения. Какого?',`Разность квадратов: ${M('a<sup>2</sup> − b<sup>2</sup> = (a − b)(a + b)')}.`]},
- {n:14,blk:'m',topic:'Линейная функция',type:'choice',a:1,wide:1,
-  q:`<p>Функция задана формулой ${M('y = −2x + 6')}. Найдите координаты точек пересечения её графика с осями координат. Принадлежит ли графику точка ${M('A(−1; 8)')}?</p>`,
-  opts:['(0; 6) и (3; 0), точка A принадлежит графику','(0; 6) и (3; 0), точка A не принадлежит графику','(6; 0) и (0; 3), точка A принадлежит графику','(0; 6) и (−3; 0), точка A не принадлежит графику'],
-  h:['У точки на оси Oy координата x равна 0, у точки на оси Ox координата y равна 0.','Для точки A подставь её x в формулу и сравни результат с её y.']},
- {n:15,blk:'m',topic:'Система уравнений',type:'multi',ord:1,a:[4,3],note:'Запиши x и y через точку с запятой: сначала x, потом y. Например: 4; −1',
-  q:`<p>Решите систему уравнений</p><p>${M('x + y = 7,')}<br>${M('2x − y = 5.')}</p>`,
-  h:['Посмотри на коэффициенты при y в двух уравнениях. Что будет, если сложить уравнения?','После сложения останется уравнение только с x. Найди x, потом подставь его в первое уравнение.']},
- {n:16,blk:'m',topic:'Задача на составление уравнения',type:'multi',ord:1,a:[34,18],note:'Запиши через точку с запятой: сначала первая коробка, потом вторая.',
-  q:`<p>В двух коробках 52 карандаша. Если из первой коробки переложить во вторую 8 карандашей, в коробках станет поровну. Сколько карандашей в каждой коробке?</p>`,
-  h:['Меняется ли общее число карандашей, когда их перекладывают? Сколько стало в каждой коробке?','Из первой коробки 8 карандашей убрали, во вторую — добавили. Сколько было до этого?']},
- {n:17,blk:'m',topic:'Сумма углов треугольника',type:'num',a:[50],note:'Ответ — в градусах.',
-  q:`<p>В треугольнике ABC угол A равен 50°, а угол B на 30° больше угла A. Найдите угол C.</p>`,
-  h:['Сначала найди угол B.','Чему равна сумма углов треугольника?']},
- {n:18,blk:'m',topic:'Углы при параллельных прямых',type:'num',a:[115],note:'Ответ — в градусах.',
-  q:`<p>Прямые a и b параллельны, c — секущая. Один из накрест лежащих углов равен 65°. Найдите угол, односторонний с ним.</p><div class="fig">${FIG.p18}</div>`,
-  h:['Вспомни свойства углов при параллельных прямых и секущей: какие углы равны, а какие в сумме дают 180°?','Односторонние углы — по одну сторону от секущей, между параллельными прямыми.']},
- {n:19,blk:'h',w:2,topic:'Уравнение с формулами',type:'num',a:[0],
-  q:`<p>Решите уравнение: ${M('(x − 3)<sup>2</sup> − (x + 2)(x − 2) = 13')}.</p>`,
-  h:['Раскрой первую скобку по формуле квадрата разности, а произведение — по формуле разности квадратов.','Перед произведением стоит минус: следи за знаками. Слагаемые с x<sup>2</sup> должны сократиться.']},
- {n:20,blk:'h',w:2,topic:'Движение вдогонку',type:'num',a:[1],note:'Ответ — число часов.',
-  q:`<p>Из пункта A вышел пешеход со скоростью 5 км/ч. Через 2 часа из того же пункта в том же направлении выехал велосипедист со скоростью 15 км/ч. Через сколько часов после своего выезда велосипедист догонит пешехода?</p>`,
-  h:['Какое расстояние будет между ними в момент, когда велосипедист выезжает?','Они движутся в одну сторону. На сколько километров велосипедист сокращает расстояние за каждый час?']},
- {n:21,blk:'h',w:2,topic:'Доказательство делимости',type:'proof',
-  q:`<p>Докажите, что при любом целом n значение выражения ${M('(n + 5)<sup>2</sup> − (n − 1)<sup>2</sup>')} делится на 12.</p>`,
-  h:['Несколько примеров — не доказательство. Нужно преобразовать выражение для любого n.','Попробуй формулу разности квадратов или раскрой скобки и приведи подобные. Получится выражение, из которого можно вынести общий множитель.']},
- {n:22,blk:'h',w:2,topic:'Доказательство',type:'proof',
-  q:`<p>Отрезки AB и CD пересекаются в точке O, которая является серединой каждого из них. Докажите, что ${M('AC ∥ BD')}.</p><div class="fig">${FIG.s22}</div>`,
-  h:['Проведи отрезки AC и BD. Какие два треугольника получились?','Сравни эти треугольники: что в них равно по условию, а что — по свойству углов при пересечении прямых?']},
+ {n:1,blk:'b',topic:'Степень с натуральным показателем',type:'num',a:[25],q:'<p>Вычисли: 3<sup>2</sup> + 4<sup>2</sup>.</p>',h:['Возведение в степень — первое действие: 3<sup>2</sup> = 3 · 3, 4<sup>2</sup> = 4 · 4.','9 + 16 = 25.']},
+ {n:2,blk:'b',topic:'Умножение степеней',type:'choice',a:1,opts:['a<sup>8</sup>','a<sup>15</sup>','a<sup>2</sup>','2a<sup>8</sup>'],q:'<p>Упрости: a<sup>5</sup> · a<sup>3</sup>.</p>',h:['При умножении степеней с одинаковым основанием показатели складываются, основание остаётся.','5 + 3 = 8.']},
+ {n:3,blk:'b',topic:'Деление степеней',type:'choice',a:2,opts:['a<sup>14</sup>','a<sup>2</sup>','a<sup>4</sup>','2a<sup>2</sup>'],q:'<p>Упрости: a<sup>8</sup> : a<sup>6</sup>.</p>',h:['При делении степеней с одинаковым основанием из показателя числителя вычитают показатель знаменателя.','8 − 6 = 2.']},
+ {n:4,blk:'b',topic:'Умножение многочленов',type:'choice',a:1,opts:['a<sup>2</sup> + 2a − 15','a<sup>2</sup> − 2a − 15','a<sup>2</sup> + 8a − 15','a<sup>2</sup> − 15'],q:'<p>Раскрой скобки: (a − 3)(a + 5).</p>',h:['Умножь каждое слагаемое первой скобки на каждое слагаемое второй: a·a, a·5, −3·a, −3·5.','Приведи подобные: 5a − 3a = 2a.']},
+ {n:5,blk:'b',topic:'Формулы сокращённого умножения',type:'choice',a:2,opts:['x<sup>2</sup> + 16','x<sup>2</sup> + 8x + 16','x<sup>2</sup> + 4x + 16','x<sup>2</sup> − 8x + 16'],q:'<p>Раскрой скобки: (x + 4)<sup>2</sup>.</p>',h:['Квадрат суммы: (a + b)<sup>2</sup> = a<sup>2</sup> + 2ab + b<sup>2</sup>.','2 · x · 4 = 8x, а 4<sup>2</sup> = 16.']},
+ {n:6,blk:'b',topic:'Линейное уравнение',type:'num',a:[10],q:'<p>Реши уравнение: 5x − 12 = 3x + 8.</p>',h:['Перенеси слагаемые с x влево, а числа вправо, меняя знаки на противоположные.','2x = 20, значит x = 10.']},
+ {n:7,blk:'b',topic:'Значение выражения',type:'num',a:[7],q:'<p>Найди значение выражения 2x − 3 при x = 5.</p>',h:['Подставь 5 вместо x.','2 · 5 − 3 = 7.']},
+ {n:8,blk:'b',topic:'Приведение подобных',type:'choice',a:1,opts:['2a + 7b','4a + 7b','2a − 7b','3a + 7b'],q:'<p>Приведи подобные: 3a + 5b − a + 2b.</p>',h:['Сложи отдельно числа с a, отдельно — с b.','3a − a = 2a; 5b + 2b = 7b.']},
+ {n:9,blk:'b',topic:'Раскрытие скобок',type:'choice',a:1,opts:['−2x + 8','−2x − 8','−2x − 4','2x + 8'],q:'<p>Раскрой скобки: −2(x − 4).</p>',h:['Умножь −2 на каждое слагаемое внутри скобки.','−2 · (−4) = +8.']},
+ {n:10,blk:'b',topic:'Линейная функция',type:'num',a:[7],q:'<p>Найди значение функции y = 2x + 1 при x = 3.</p>',h:['Подставь x = 3 в формулу.','y = 2 · 3 + 1 = 7.']},
+ {n:11,blk:'m',topic:'Упрощение выражений',type:'num',a:[-32],q:'<p>Упрости и найди значение выражения 3(a − 4) − 2(a + 5) + 4a при a = −2.</p>',h:['Сначала раскрой все скобки, потом приведи подобные.','Получится 5a − 22. Теперь подставь a = −2: 5 · (−2) − 22.']},
+ {n:12,blk:'m',topic:'Линейное уравнение со скобками',type:'num',a:[-5],q:'<p>Реши уравнение: 2(x − 3) = 5x + 9.</p>',h:['Раскрой скобку слева: 2x − 6.','Перенеси: 2x − 5x = 9 + 6, то есть −3x = 15.']},
+ {n:13,blk:'m',topic:'Разложение на множители',type:'choice',a:2,opts:['(x − 5)<sup>2</sup>','(x − 5)(x + 5)','(x + 5)<sup>2</sup>','x(x − 25)'],q:'<p>Разложи на множители: x<sup>2</sup> − 25.</p>',h:['Это разность квадратов: a<sup>2</sup> − b<sup>2</sup> = (a − b)(a + b).','25 = 5<sup>2</sup>.']},
+ {n:14,blk:'m',topic:'Формулы сокращённого умножения',type:'choice',a:1,opts:['(a + 3)<sup>2</sup>','(a − 3)<sup>2</sup>','(a + 9)<sup>2</sup>','(a + 3)(a − 3)'],q:'<p>Разложи на множители: a<sup>2</sup> + 6a + 9.</p>',h:['Проверь по формуле квадрата суммы: нужно 2ab = 6a и b<sup>2</sup> = 9.','2 · a · 3 = 6a и 3<sup>2</sup> = 9 — подходит.']},
+ {n:15,blk:'m',topic:'Система уравнений',type:'num',a:[7,3],note:'Запиши оба числа через точку с запятой: x; y.',q:'<p>Реши систему уравнений: x + y = 10 и x − y = 4.</p>',h:['Сложи оба уравнения почленно — y сократится.','2x = 14, значит x = 7; подставь в первое уравнение и найди y.']},
+ {n:16,blk:'m',topic:'Линейная функция',type:'num',a:[5],q:'<p>График функции y = 2x − 3. При каком x значение y равно 7?</p>',h:['Подставь y = 7 и реши уравнение.','7 = 2x − 3, то есть 2x = 10.']},
+ {n:17,blk:'m',topic:'Возведение степени в степень',type:'num',a:[64],q:'<p>Вычисли: (2<sup>3</sup>)<sup>2</sup>.</p>',h:['При возведении степени в степень показатели перемножаются: 3 · 2 = 6.','2<sup>6</sup> = 64.']},
+ {n:18,blk:'m',topic:'Формулы сокращённого умножения',type:'choice',a:3,opts:['0','2a<sup>2</sup> + 2b<sup>2</sup>','4ab','a<sup>2</sup> + b<sup>2</sup>'],q:'<p>Упрости: (a + b)<sup>2</sup> − (a − b)<sup>2</sup>.</p>',h:['Раскрой обе скобки по формулам квадрата суммы и квадрата разности.','Подобные сократятся, останется 2ab + 2ab.']},
+ {n:19,blk:'m',topic:'Уравнение x² = a',type:'num',a:[3,-3],note:'Запиши оба корня через точку с запятой.',q:'<p>Реши уравнение: 3x<sup>2</sup> = 27.</p>',h:['Раздели обе части на 3: x<sup>2</sup> = 9.','Какие два числа в квадрате дают 9? Не забудь про отрицательное.']},
+ {n:20,blk:'m',topic:'Значение выражения',type:'num',a:[17],q:'<p>Найди значение выражения 5a − 2b при a = 3, b = −1.</p>',h:['Подставь значения: 5 · 3 − 2 · (−1).','Минус на минус даёт плюс: 15 + 2.']},
+ {n:21,blk:'h',topic:'Задача на составление уравнения',type:'num',a:[20,25],note:'Запиши оба числа через точку с запятой.',q:'<p>Сумма двух чисел равна 45. Если первое число умножить на 3, а второе — на 2, то сумма произведений равна 110. Найди эти числа.</p>',h:['Пусть первое число — x, тогда второе — 45 − x.','Составь уравнение: 3x + 2(45 − x) = 110 и реши его.']},
+ {n:22,blk:'h',topic:'Доказательство тождества',type:'proof',ph:'Опиши ход: что раскрываешь, что получается после сокращений, чем всё заканчивается.',q:'<p>Докажи тождество: (a + b)<sup>2</sup> − (a − b)<sup>2</sup> = 4ab.</p>',h:['Раскрой обе скобки по формулам сокращённого умножения.','Приведи подобные в левой части и сравни с правой.']},
+ {n:23,blk:'h',topic:'Уравнение с модулем',type:'num',a:[8,-2],note:'Запиши оба корня через точку с запятой.',q:'<p>Реши уравнение: |2x − 6| = 10.</p>',h:['Модуль раскрывается двумя способами: 2x − 6 = 10 или 2x − 6 = −10.','Реши оба линейных уравнения.']},
+ {n:24,blk:'h',topic:'Разложение на множители',type:'choice',a:1,opts:['(2x − 3y)(2x + 3y)','(2x − 3y)<sup>2</sup>','(4x − 3y)(4x + 3y)','(2x + 9y)(2x − 9y)'],q:'<p>Разложи на множители: 4x<sup>2</sup> − 9y<sup>2</sup>.</p>',h:['Представь слагаемые как квадраты: 4x<sup>2</sup> = (2x)<sup>2</sup>, 9y<sup>2</sup> = (3y)<sup>2</sup>.','Примени разность квадратов.']},
+ {n:25,blk:'h',topic:'Доказательство делимости',type:'proof',ph:'Опиши ход: что раскрываешь, что сокращается, почему результат делится на 12 при любом n.',q:'<p>Докажи, что значение выражения (n + 3)<sup>2</sup> − (n − 3)<sup>2</sup> делится на 12 для любого натурального n.</p>',h:['Подстановка чисел — не доказательство. Раскрой обе скобки.','n<sup>2</sup> + 6n + 9 − (n<sup>2</sup> − 6n + 9). Сократи и посмотри, что осталось.']}
 ];
 const W=t=>t.w||1;
 const LB=t=>t.lab||String(t.n);
@@ -635,7 +591,7 @@ function petMood(m,ms=1600){const b=document.getElementById('talb');if(!b||!S.ta
 const STK=[
  {id:1,t:'изи',r:'c'},{id:2,t:'база',r:'c'},{id:3,t:'x найден',r:'c'},{id:4,t:'π рядом',r:'c'},{id:5,t:'мозг прогрет',r:'c'},{id:6,t:'без паники',r:'c'},
  {id:13,t:'по фактам',r:'c'},{id:14,t:'чётко',r:'c'},{id:15,t:'считаю в уме',r:'c'},{id:16,t:'ещё одну',r:'c'},
- {id:7,t:'вайб: решаю',r:'r'},{id:8,t:'геометрия на изи',r:'r'},{id:9,t:'стальные нервы',r:'r'},{id:17,t:'D ≥ 0, всё ок',r:'r'},{id:18,t:'корень извлечён',r:'r'},{id:19,t:'логика 100%',r:'r'},{id:20,t:'дробь не страшна',r:'r'},
+ {id:7,t:'вайб: решаю',r:'r'},{id:8,t:'геометрия на изи',r:'r'},{id:9,t:'стальные нервы',r:'r'},{id:17,t:'пропорция сошлась',r:'r'},{id:18,t:'модуль снят',r:'r'},{id:19,t:'логика 100%',r:'r'},{id:20,t:'дробь не страшна',r:'r'},
  {id:10,t:'имба',r:'e'},{id:11,t:'ОГЭ? легко',r:'e'},{id:21,t:'сигма-решатель',r:'e'},{id:22,t:'всё по формуле',r:'e'},
  {id:12,t:'главный по иксам',r:'l'},{id:23,t:'25 из 25',r:'l'},{id:24,t:'легенда класса',r:'l'}
 ];
@@ -656,7 +612,7 @@ function logoFull(size){return `<span class="lockup">${logoMark(size)}<span clas
 const PROB_NO=2; /* не используется в текстах диагностики */
 const TG_USER='ohh_my_lily';
 /* ---------- link: name and task set ---------- */
-const BASE_DEFAULT='https://liliya-math.github.io/oge/diagnostika-7-klass.html';
+const BASE_DEFAULT='https://liliya-math.github.io/oge/diagnostika-6-klass.html';
 function enc(s){const b=new TextEncoder().encode(s);let x='';b.forEach(c=>x+=String.fromCharCode(c));return btoa(x).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
 function dec(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return new TextDecoder().decode(Uint8Array.from(atob(s),c=>c.charCodeAt(0)))}
 function makeToken(name,mask,dt,lead){return 'u'+enc(name+(dt?'|'+dt:''))+(mask?'.x'+mask.toString(36):'')+(lead?'.p':'')}
@@ -678,7 +634,7 @@ const L=T.filter(t=>!(LINK.mask&(1<<(t.n-1))));
 const FULL=L.length===T.length;
 
 /* ---------- state ---------- */
-const KEY='diag7-v1-'+(LINK.name?HASH:'free');
+const KEY='diag7a-'+(LINK.name?HASH:'free');
 let S = load() || fresh();
 if(!S.sid)S.sid=newSid();
 if(LINK.name)S.name=LINK.name;
@@ -813,9 +769,9 @@ function renderStart(){
   const resume=S.name&&S.started&&!S.done&&Object.keys(S.r).length;
   const greet=S.name?esc(S.name)+', с':'С';
   app.innerHTML=`<section class="hero enter">
-    <div class="kick"><b class="mark">25/25</b> · Диагностика по математике · 7 класс</div>
+    <div class="kick"><b class="mark">25/25</b> · Диагностика · 7 класс · Алгебра</div>
     <h1>${S.name?esc(S.name)+', п':'П'}роверим, что ты <span>уже знаешь</span></h1>
-    <p class="lead">Здесь задания за 5–6 класс и по темам 7 класса. Если тему ещё не проходили в школе или задание незнакомое, жми «Не знаю, как решать»: ругать за это никто не будет. Решай без подсказок из интернета и без списывания. Чем честнее ответы, тем точнее я пойму, с чего начать.</p>
+    <p class="lead">Сегодня проверим алгебру 7 класса: формулы сокращённого умножения, уравнения, степени и функции. Незнакомое задание — это нормально: жми «Не знаю, как решать», ругать за это никто не будет. Решай без подсказок из интернета и без списывания. Чем честнее ответы, тем точнее я пойму, с чего начать.</p>
     <div class="ways">
       <div class="way"><i>01</i><b>Знаю ответ</b><span>Вписываешь число или выбираешь вариант. Есть две попытки.</span></div>
       <div class="way"><i>02</i><b>Есть идея, но дальше никак</b><span>Напиши, что пробовал. Так видно, где именно застряло решение.</span></div>
@@ -862,9 +818,9 @@ function answerUI(t){
     <div class="irow"><div class="sp"></div><button class="btn" id="chk" disabled>Проверить</button></div>`;
   if(t.type==='match')return `<div class="match">${['А','Б','В'].map((Lt,i)=>`<div class="mcol"><b>${Lt}</b><div class="seg" data-i="${i}">${[1,2,3].map(v=>`<button data-v="${v}" aria-label="${Lt}: график ${v}">${v}</button>`).join('')}</div></div>`).join('')}</div>
     <div class="irow"><div class="sp"></div><button class="btn" id="chk" disabled>Проверить</button></div>`;
-  if(t.type==='proof')return `<textarea id="pf" placeholder="Напиши доказательство своими словами. Можно коротко: что преобразуешь или какие фигуры рассматриваешь, на что опираешься и какой вывод получается."></textarea>
+  if(t.type==='proof')return `<textarea id="pf" placeholder="${t.ph||'Напиши доказательство своими словами. Можно коротко: что преобразуешь или какие фигуры рассматриваешь, на что опираешься и какой вывод получается.'}"></textarea>
     <div class="irow"><div class="sp"></div><button class="btn" id="chk">Отправить доказательство</button></div>
-    <p class="note">Доказательство проверю сама, поэтому мгновенной проверки здесь нет.</p>`;
+    <p class="note">${t.pfn||'Доказательство проверю сама, поэтому мгновенной проверки здесь нет.'}</p>`;
   return `<div class="irow"><input class="field" id="inp" inputmode="${t.type==='set'?'text':'decimal'}" autocomplete="off" placeholder="${t.type==='multi'?'например: 3; −1,5':'Ответ'}"><button class="btn" id="chk">Проверить</button></div>${t.note?`<p class="note">${t.note}</p>`:''}`;
 }
 function drawAns(fb){
@@ -874,6 +830,7 @@ function drawAns(fb){
     if(mode==='ans')h+=answerUI(t);
     if(mode==='think')h+=`<div class="thinkbox"><textarea id="th" placeholder="Например: «Перенёс всё влево, получилось квадратное уравнение, но дискриминант вышел некрасивый, и дальше не понимаю…»">${esc(r.th)}</textarea>
       <div class="irow"><button class="btn ghost" id="back">Вернуться к ответу</button><div class="sp"></div><button class="btn" id="thgo">Записать и дальше</button></div></div>`;
+    if(mode==='sol')h+=`<div class="solbox"><small>Эталон для самопроверки</small><p>${t.sol}</p></div><div class="irow"><button class="btn ghost" id="solno">Не совсем совпала</button><div class="sp"></div><button class="btn" id="solok">Сформулировал(а) верно</button></div>`;
     if(shownHints)h+=`<div class="hints">${t.h.slice(0,shownHints).map((x,i)=>`<div class="hint"><small>Подсказка ${i+1}</small>${x}</div>`).join('')}</div>`;
     if(fb)h+=fb;
     h+=`<div class="alts">
@@ -900,6 +857,8 @@ function bindAns(t,r){
   const tb=$('tb');if(tb)tb.onclick=()=>{mode='think';sfx.tap();drawAns();setTimeout(()=>$('th')&&$('th').focus(),50)};
   const back=$('back');if(back)back.onclick=()=>{r.th=$('th').value;mode='ans';drawAns()};
   const thgo=$('thgo');if(thgo)thgo.onclick=()=>{const v=$('th').value.trim();if(!v){$('th').focus();return}r.th=v;resolve(t,r,'th');sfx.soft();drawAns(fbBox('neu',I.dots,'Записано',pickFresh(THINK,'th')))};
+  const sok=$('solok');if(sok)sok.onclick=()=>{S.streak++;S.best=Math.max(S.best,S.streak);resolve(t,r,'ok');celebrate();streakDrop();drawAns(fbBox('ok',I.ok,'Честно и верно',pickFresh(QUOTES,'q')))};
+  const sno=$('solno');if(sno)sno.onclick=()=>{S.streak=0;resolve(t,r,'bad');sfx.bad();drawAns(fbBox('bad',I.x,'Записала','Точную формулировку разберём и выучим на занятии.'))};
   const ib=$('ib');if(ib)ib.onclick=()=>{const v=$('th')?$('th').value.trim():'';if(v)r.th=v;resolve(t,r,'idk');sfx.soft();drawAns(fbBox('neu',I.q,pickFresh(IDK_T,'it'),pickFresh(IDK,'i')))};
 }
 function keepInput(fn){const i=document.getElementById('inp'),v=i?i.value:null;fn();const j=document.getElementById('inp');if(j&&v!=null)j.value=v;
@@ -911,7 +870,9 @@ function resolve(t,r,st){r.st=st;r.t+=Math.round((Date.now()-taskStart)/1000);if
 function refreshTrack(){const tr=document.querySelector('.track');if(!tr)return;const r=S.r[cur().n];tr.children[S.i].className=r&&r.st?ST[r.st]:'cur';const pp=document.getElementById('pts');if(pp)pp.textContent=livePts();const s=document.getElementById('stk');if(s){s.textContent=S.streak;s.parentElement.classList.toggle('hot',S.streak>=3)}}
 function check(t,r){
   let given,ok;
-  if(t.type==='proof'){const v=document.getElementById('pf').value.trim();if(v.length<15){document.getElementById('pf').focus();return}r.ans.push(v);resolve(t,r,'pf');sfx.soft();drawAns(fbBox('neu',I.pen,'Доказательство отправлено','Проверю его и разберём на занятии.'));return}
+  if(t.type==='proof'){const v=document.getElementById('pf').value.trim();if(v.length<15){document.getElementById('pf').focus();return}r.ans.push(v);
+   if(t.sol){mode='sol';sfx.soft();drawAns();return}
+   resolve(t,r,'pf');sfx.soft();drawAns(fbBox('neu',I.pen,'Доказательство отправлено','Проверю его и разберём на занятии.'));return}
   if(t.type==='choice'){if(!choice)return;given=String(choice);ok=choice===t.a}
   else if(t.type==='match'){given=matchSel.join('');ok=matchSel.every((v,i)=>v===t.a[i])}
   else if(t.type==='set'){const raw=document.getElementById('inp').value.trim();if(!raw){document.getElementById('inp').focus();return}given=raw;const got=parseSet(raw);
@@ -1021,7 +982,7 @@ function score(){
   const pct=max?Math.round(pts/max*100):0;
   const route=lv.b==='n'?'Добор базы':(lv.b==='u'&&lv.m==='u')?'Опережение':'Сопровождение программы';
   const all=pct>=80?'u':pct>=50?'p':'n';
-  return {pts,max,maxAll,ok,blk,lv,pct,all,route,grade:pct+'%',lvl:route,geo:0,auto:L.filter(t=>t.type!=='proof'&&!(S.skipH&&t.blk==='h')).length,pending:!S.skipH&&L.some(t=>t.type==='proof')};
+  return {pts,max,maxAll,ok,blk,lv,pct,all,route,grade:pct+'%',lvl:route,geo:0,auto:L.filter(t=>t.type!=='proof'&&!(S.skipH&&t.blk==='h')).length,pending:!S.skipH&&L.some(t=>t.type==='proof'&&!t.sol)};
 }
 function livePts(){let p=0;for(const t of L){const r=S.r[t.n];if(r&&r.st==='ok')p+=W(t)}return p}
 const LVW={u:'уверенно',p:'почти уверенно',n:'пока не сложилось'};
@@ -1029,17 +990,17 @@ function tosCode(sc){
   const results={},weak=[],strong=[];
   for(const t of L){const r=S.r[t.n];if(!r||!r.st||r.st==='pf')continue;results[t.n]=r.st==='ok'?1:0;(r.st==='ok'?strong:weak).push('№'+LB(t))}
   const d=new Date(),iso=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-  const o={v:1,name:S.name,date:iso,title:'Диагностика по математике · 7 класс',branch:'диагностика 7 класс',right:sc.ok,total:sc.auto,score:sc.pts,mark:sc.grade,level:sc.lvl,geo:sc.geo,minutes:Math.round(elapsed()/60),results};
+  const o={v:1,name:S.name,date:iso,title:'Диагностика · 7 класс · Алгебра',branch:'диагностика 7 класс алгебра',right:sc.ok,total:sc.auto,score:sc.pts,mark:sc.grade,level:sc.lvl,geo:sc.geo,minutes:Math.round(elapsed()/60),results};
   const b=new TextEncoder().encode(JSON.stringify(o));let bin='';b.forEach(c=>bin+=String.fromCharCode(c));
   return 'Код для «Кабинета репетитора»: TOS1:'+btoa(bin);
 }
 function report(sc){
   const Lb={ok:'верно',bad:'неверно',idk:'не знаю',th:'есть идея, застрял',pf:'доказательство'};
-  const lines=[`25/25 · Диагностика по математике · 7 класс — ${S.name}`,tosCode(sc),`Дата: ${new Date().toLocaleDateString('ru-RU')}, время: ${fmtT(elapsed())}`,
+  const lines=[`25/25 · Диагностика · 7 класс · Алгебра — ${S.name}`,tosCode(sc),`Дата: ${new Date().toLocaleDateString('ru-RU')}, время: ${fmtT(elapsed())}`,
    FULL?`Вариант: все задания (${T.length})`:`Вариант: ${ZD(L.length)} (${L.map(LB).join(', ')})`,
-   `Верно: ${sc.ok} из ${sc.auto} (${sc.pct}%)${sc.pending?' · №21 и №22 (доказательства) на ручную проверку':''}`,
-   `Баллы: ${sc.pts} из ${sc.max}${sc.pending?' (без №21 и №22, до 4 баллов после проверки)':''}`,
-   `База 5–6 кл. (1–10): ${sc.blk.b[0]}/${sc.blk.b[1]} — ${LVW[sc.lv.b]||'—'} · Темы 7 кл. (11–18): ${sc.blk.m[0]}/${sc.blk.m[1]} — ${LVW[sc.lv.m]||'—'} · Повышенный (19–20): ${S.skipH?'пропущен по правилу остановки (в базе меньше 5 верных)':`${sc.blk.h[0]}/${sc.blk.h[1]} — ${LVW[sc.lv.h]||'—'}`}`,`Направление (предв.): ${sc.route}`,`Лучшая серия: ${S.best}`,'',
+   `Верно: ${sc.ok} из ${sc.auto} (${sc.pct}%)${sc.pending?' · №22 и №25 (доказательства) на ручную проверку':''}`,
+   `Баллы: ${sc.pts} из ${sc.max}${sc.pending?' (без №22 и №25 — до 2 баллов после проверки)':''}`,
+   `Разминка (1–10): ${sc.blk.b[0]}/${sc.blk.b[1]} — ${LVW[sc.lv.b]||'—'} · Испытание (11–20): ${sc.blk.m[0]}/${sc.blk.m[1]} — ${LVW[sc.lv.m]||'—'} · Вызов (21–25): ${S.skipH?'пропущен по правилу остановки (в разминке меньше 5 верных)':`${sc.blk.h[0]}/${sc.blk.h[1]} — ${LVW[sc.lv.h]||'—'}`}`,`Направление (предв.): ${sc.route}`,`Лучшая серия: ${S.best}`,'',
    'По заданиям:'];
   for(const t of L){const r=S.r[t.n]||{};let s=`${LB(t)}. ${S.skipH&&t.blk==='h'?'пропущено':(Lb[r.st]||'—')}`;
     if(r.st==='ok'&&r.tries>1)s+=' со 2-й попытки';
@@ -1068,14 +1029,14 @@ function finish(){
       ${t?pet(t.id,resMood(sc),110,'jump'):''}
       <div class="kick">${esc(S.name)}, диагностика пройдена</div>
       <div class="big">${sc.pct}<span style="font-size:.4em">%</span></div>
-      <div class="quiet">верных ответов${sc.pending?' · доказательства №21 и №22 проверю сама':''}</div>
+      <div class="quiet">верных ответов${sc.pending?' · доказательства №22 и №25 проверю сама':''}</div>
       <div class="lvl">Общий итог <em>${LVW[sc.all]}</em></div>
-      ${S.skipH?'<p class="lvltext">Задания повышенного уровня в этот раз пропускаем: сначала укрепим базу 5–6 класса.</p>':''}
+      ${S.skipH?'<p class="lvltext">Задания уровня «Вызов» в этот раз пропускаем: сначала укрепим базу (разминку).</p>':''}
       <div class="quiet">верных заданий: ${cnt.ok} из ${sc.auto} · время ${fmtT(elapsed())} · лучшая серия ${S.best}</div>
     </div>
     <div class="grid25">${L.map(x=>{const r=S.r[x.n]||{};return `<div class="cell ${r.st||''}" title="${x.topic}">${LB(x)}</div>`}).join('')}</div>
     <div class="legend"><span><i style="background:var(--mint)"></i>верно</span><span><i style="background:var(--miss)"></i>не сошлось</span><span><i style="background:var(--amber)"></i>была идея</span><span><i style="background:#6f625a"></i>не знаю</span><span><i style="background:var(--lilac)"></i>на проверку</span></div>
-    <div class="blocks">${blk('b','База · 5–6 классы')}${blk('m','Темы 7 класса')}${S.skipH?'':blk('h','Повышенный')}</div>
+    <div class="blocks">${blk('b','Разминка (1–10)')}${blk('m','Испытание (11–20)')}${S.skipH?'':blk('h','Вызов (21–25)')}</div>
     ${diploma(sc,cnt.ok,own,t)}
     <p class="dipnote">Сохрани диплом скриншотом.</p>
     ${LEAD?leadBlock(sc)+(BONUS_ON?bonusBlock():''):''}
@@ -1112,7 +1073,7 @@ function diploma(sc,okN,own,t){
   const noms=[];
   const p2=L.filter(x=>x.blk==='h'&&S.r[x.n]&&S.r[x.n].st==='ok').length;
   const thN=L.filter(x=>S.r[x.n]&&S.r[x.n].st==='th').length;
-  const BN={b:'база 5–6 класса',m:'темы 7 класса',h:'повышенный уровень'};
+  const BN={b:'разминка',m:'испытание',h:'вызов'};
   let bestB=null,bestV=0;for(const k of ['m','h','b']){const [a,b]=sc.blk[k];if(b&&a/b>bestV){bestV=a/b;bestB=k}}
   if(okN>=Math.ceil(sc.auto*.75))noms.push(['Почти 25/25',`${okN} из ${sc.auto} верно`]);
   if(S.best>=5)noms.push(['Мастер серий',`${S.best} верных подряд`]);
@@ -1131,7 +1092,7 @@ function diploma(sc,okN,own,t){
     <div class="dk">ДИПЛОМ</div>
     <div class="dt">вручается</div>
     <div class="dn">${esc(LINK.dat||dative(S.name))}</div>
-    <p class="dt">за честно пройденную диагностику по математике · 7 класс</p>
+    <p class="dt">за честно пройденную диагностику · 7 класс · Алгебра</p>
     <div class="noms">${noms.slice(0,3).map(([a,b])=>`<div class="nom"><b>${a}</b><span>${b}</span></div>`).join('')}</div>
     ${rest.length?`<div class="bomb">${rest.map(s=>stkHTML(s)).join('')}</div>`:''}
     <div class="dfoot">
@@ -1147,15 +1108,15 @@ function diploma(sc,okN,own,t){
 
 /* ---------- lead finale (new clients from Avito / Profi) ---------- */
 function gradeOf(p,geo){return geo<2?2:p>=22?5:p>=15?4:p>=8?3:2}
-function tgText(rep){const head=LEAD?`Здравствуйте, Лилия! Я прошёл(а) диагностику по математике за 7 класс и хочу бесплатный разбор ошибок.\n\n`:'';const t=head+rep;return t.length>1800?t.slice(0,1800)+'…':t}
+function tgText(rep){const head=LEAD?`Здравствуйте, Лилия! Я прошёл(а) диагностику по алгебре за 7 класс и хочу бесплатный разбор ошибок.\n\n`:'';const t=head+rep;return t.length>1800?t.slice(0,1800)+'…':t}
 function leadBlock(sc){
   const weak=L.filter(t=>t.type!=='proof'&&!(S.skipH&&t.blk==='h')&&!(S.r[t.n]&&S.r[t.n].st==='ok'));
   const nm=S.name||'Ученик';
   const LW={u:'уверенно',p:'почти уверенно',n:'пока не сложилась'};
-  const parent=`${nm} прошёл(а) диагностику по математике за 7 класс: ${sc.pct}% верных ответов. База 5–6 класса — ${LW[sc.lv.b]}, темы 7 класса — ${LW[sc.lv.m]}. Бесплатный разбор ошибок у репетитора Лилии: t.me/${TG_USER}`;
+  const parent=`${nm} прошёл(а) диагностику по алгебре за 7 класс: ${sc.pct}% верных ответов. Разминка — ${LW[sc.lv.b]}, испытание — ${LW[sc.lv.m]}. Бесплатный разбор ошибок у репетитора Лилии: t.me/${TG_USER}`;
   return `<div class="lead card2">
     <div class="kick">Что это значит</div>
-    <p class="lt">Верных ответов — <b>${sc.pct}%</b>. База 5–6 класса: <b>${LW[sc.lv.b]}</b>. Темы 7 класса: <b>${LW[sc.lv.m]}</b>.</p>
+    <p class="lt">Верных ответов — <b>${sc.pct}%</b>. Разминка: <b>${LW[sc.lv.b]}</b>. Испытание: <b>${LW[sc.lv.m]}</b>.</p>
     ${weak.length?`<p class="lt">Начать стоит с заданий ${weak.slice(0,8).map(t=>'№'+LB(t)).join(', ')}${weak.length>8?` и ещё ${weak.length-8}`:''}. На бесплатном разборе покажу, где именно пробел и как его закрыть.</p>`:`<p class="lt">Все задания с автопроверкой решены. Дальше — задачи посложнее и доказательства.</p>`}
     <div class="lrow"><a class="chip" href="https://t.me/share/url?url=${encodeURIComponent(BASE_DEFAULT)}&text=${encodeURIComponent(parent)}" target="_blank" rel="noopener">Показать родителям в Telegram</a><a class="chip" href="https://wa.me/?text=${encodeURIComponent(parent+'\n'+BASE_DEFAULT)}" target="_blank" rel="noopener">…в WhatsApp</a></div>
   </div>`;
@@ -1199,7 +1160,7 @@ function bindBonus(sc){
 }
 /* ---------- results to Lilia's Google Sheet ---------- */
 const SHEET_URL='https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec';
-const TEST_TITLE='Диагностика по математике · 7 класс';
+const TEST_TITLE='Диагностика · 7 класс · Алгебра';
 function pushResult(){
   if(!SHEET_URL||!S.name||!S.started)return;
   try{
@@ -1215,7 +1176,7 @@ function pushResult(){
 }
 /* ---------- teacher: link builder (#lilia) ---------- */
 function renderTeacher(){
-  let base=BASE_DEFAULT;try{base=localStorage.getItem('diag7-base')||BASE_DEFAULT}catch(e){}
+  let base=BASE_DEFAULT;try{base=localStorage.getItem('diag7a-base')||BASE_DEFAULT}catch(e){}
   let mask=0;
   app.innerHTML=`<section class="hero enter"><div class="kick"><b class="mark">25/25</b> · только для Лилии</div><h1>Ссылка <span>для ученика</span></h1>
   <div class="card stack">
@@ -1228,7 +1189,7 @@ function renderTeacher(){
     <div class="irow"><button class="btn" id="tcp" disabled>Скопировать ссылку</button><a class="btn ghost" id="topen" href="#" target="_blank" rel="noopener" style="display:inline-grid;place-items:center;text-decoration:none" hidden>Открыть как ученик</a></div>
   </div></section>`;
   const $=id=>document.getElementById(id);
-  const upd=()=>{const n=$('tn').value.trim(),b=$('tb').value.trim().replace(/#.*$/,'');try{localStorage.setItem('diag7-base',b)}catch(e){}
+  const upd=()=>{const n=$('tn').value.trim(),b=$('tb').value.trim().replace(/#.*$/,'');try{localStorage.setItem('diag7a-base',b)}catch(e){}
     const cntN=T.length-[...Array(T.length)].filter((_,i)=>mask&(1<<i)).length;$('tc').textContent=ZD(cntN);
     if(!n){$('out').textContent='Впиши имя';$('tcp').disabled=true;$('topen').hidden=true;return}
     const url=b+'#'+makeToken(n,mask,$('td').value.trim(),$('tlead').checked);$('out').textContent=url;$('tcp').disabled=false;$('topen').hidden=false;$('topen').href=url};
