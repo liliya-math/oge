@@ -246,18 +246,27 @@ function fbHTML(ok,t,s){return `<div class="fb ${ok?"ok":"bad"}"><span class=ic>
 /* ---------- pizza SVG (для урока про дроби) ---------- */
 function wedge(cx,cy,r,a1,a2){const x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1),x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2);return `M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 0 1 ${x2.toFixed(1)},${y2.toFixed(1)} Z`}
 function pizzaSVG(d,filled,o={}){
- const size=o.size||210,cx0=size/2,cy0=size/2,r=size/2-8,inner=r-12;
+ const size=o.size||210,cx0=size/2,cy0=size/2,r=size/2-8,inner=r-14;
  const cuts=o.cuts||Array.from({length:d},(_,i)=>i*2*Math.PI/d);
  const n=cuts.length;
- let s=`<circle cx="${cx0}" cy="${cy0}" r="${r}" fill="#c98a4b"/><circle cx="${cx0}" cy="${cy0}" r="${inner+4}" fill="#e8b06a"/>`;
+ let s=`<ellipse cx="${cx0}" cy="${cy0+r*.94}" rx="${r*.92}" ry="${r*.14}" fill="rgba(0,0,0,.35)"/>`;
+ s+=`<circle cx="${cx0}" cy="${cy0}" r="${r}" fill="#a05c2c"/>`;
+ for(let i=0;i<22;i++){const a=i/22*2*Math.PI;s+=`<circle cx="${(cx0+(r-4)*Math.cos(a)).toFixed(1)}" cy="${(cy0+(r-4)*Math.sin(a)).toFixed(1)}" r="${(size*.021).toFixed(1)}" fill="#a05c2c"/>`}
+ s+=`<circle cx="${cx0}" cy="${cy0}" r="${r-8}" fill="#c9853f"/>`;
+ s+=`<circle cx="${cx0}" cy="${cy0}" r="${inner+5}" fill="#eeb964"/>`;
+ s+=`<circle cx="${cx0}" cy="${cy0}" r="${inner*.62}" fill="#f6cd7d" opacity=".55"/>`;
  for(let i=0;i<n;i++){
   const a1=cuts[i]-Math.PI/2,a2=(i<n-1?cuts[i+1]:2*Math.PI)-Math.PI/2;
   const isF=i<filled;
-  s+=`<path class="slice ${isF?"filled":""}" data-i="${i}" d="${wedge(cx0,cy0,inner,a1,a2)}" fill="${isF?"#f2905e":"#f7dd9b"}" stroke="#8a5a2b" stroke-width="2"/>`;
-  const mid=(a1+a2)/2,pr=inner*.52;
-  const px=cx0+pr*Math.cos(mid),py=cy0+pr*Math.sin(mid);
-  const q1=cx0+pr*.6*Math.cos(mid-.15),qy1=cy0+pr*.6*Math.sin(mid-.15);
-  s+=`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${inner*.09}" fill="#c0392b" opacity=".85"/><circle cx="${q1.toFixed(1)}" cy="${qy1.toFixed(1)}" r="${inner*.07}" fill="#c0392b" opacity=".85"/>`;
+  if(n>1)s+=`<path class="slice ${isF?"filled":""}" data-i="${i}" d="${wedge(cx0,cy0,inner,a1,a2)}" fill="${isF?"#f2905e":"#f9e2a8"}" fill-opacity="${isF?.95:.75}" stroke="#8a5a2b" stroke-width="2"/>`;
+ }
+ const dots=n>1?n:7;
+ for(let i=0;i<dots;i++){
+  const a=(n>1?(cuts[i]+(i<n-1?cuts[i+1]:2*Math.PI))/2:i/dots*2*Math.PI)-Math.PI/2;
+  for(const [dd,rr,op] of [[.5,.085,1],[.68,.06,.9],[.3,.05,.8]]){
+   const px=cx0+inner*dd*Math.cos(a+(dd>.6?.35:-.3)),py=cy0+inner*dd*Math.sin(a+(dd>.6?.35:-.3));
+   s+=`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${(inner*rr).toFixed(1)}" fill="#b03a2e" opacity="${op}"/>`;
+  }
  }
  return `<svg class=pizza viewBox="0 0 ${size} ${size}" style="${o.style||""}">${s}</svg>`}
 function twoPizzas(d1,f1,d2,f2){return `<div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;align-items:center">${pizzaSVG(d1,f1,{size:190})}<span class=cap style="font-size:22px;margin:0">и</span>${pizzaSVG(d2,f2,{size:190})}</div>`}
@@ -459,5 +468,39 @@ function bind(st){
 /* sound toggle */
 $("#snd").onclick=()=>{sound=!sound;S.sound=sound;save();sfx.tap();
  $("#snd").innerHTML=sound?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/></svg>':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9l5 6M22 9l-5 6"/></svg>'};
+/* авто-дроби: записи вида a/b, 1/(x−2), (x+5)/(x−2) -> дроби с горизонтальной чертой */
+function fx(s){
+ if(s==null)return s;
+ s=String(s).replace(/\^2/g,"²").replace(/\^3/g,"³");
+ const tags=[];
+ s=s.replace(/<[^>]+>/g,m=>{tags.push(m);return ""+(tags.length-1)+""});
+ const atom=c=>/[0-9A-Za-zА-Яа-яёЁ²³^]/.test(c);
+ let out="",i=0;
+ while(i<s.length){
+  if(s[i]!=="/"){out+=s[i];i++;continue}
+  let num="",den="",j=i-1;
+  if(j>=0&&s[j]===")"){let d=0,k=j;while(k>=0){if(s[k]===")")d++;else if(s[k]==="("){d--;if(d===0)break}k--}if(k>=0&&d===0){num=s.slice(k,i);j=k-1}}
+  if(!num){while(j>=0&&atom(s[j]))j--;num=s.slice(j+1,i)}
+  if(!num){out+="/";i++;continue}
+  const rawNum=num;
+  if(num.length>1&&num[0]==="("&&num[num.length-1]===")")num=num.slice(1,-1);
+  let m=i+1,exp="";
+  if(m<s.length&&s[m]==="("){let d=0,k=m;while(k<s.length){if(s[k]==="(")d++;else if(s[k]===")"){d--;if(d===0)break}k++}if(k<s.length&&d===0){den=s.slice(m,k+1);m=k+1}}
+  if(!den){let k=m;while(k<s.length&&atom(s[k]))k++;den=s.slice(m,k);m=k}
+  if(!den){out+="/";i++;continue}
+  if(den.length>1&&den[0]==="("&&den[den.length-1]===")"){if(m<s.length&&(s[m]==="²"||s[m]==="³")){exp=s[m];m++}den=den.slice(1,-1)}
+  out=out.slice(0,out.length-rawNum.length)+`<span class=fr><span>${fx(num)}</span><span>${fx(den)}</span></span>`+exp;
+  i=m;
+ }
+ return out.replace(/(\d+)/g,(m,n)=>tags[+n]);
+}
+function fxAll(root){
+ const bad={SCRIPT:1,STYLE:1};
+ const it=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+ const nodes=[];
+ while(it.nextNode()){const n=it.currentNode,p=n.parentElement;if(!p||bad[p.nodeName])continue;if(p.closest&&p.closest("svg"))continue;if(n.nodeValue.includes("/"))nodes.push(n)}
+ nodes.forEach(n=>{const s=fx(n.nodeValue);if(s!==n.nodeValue){const sp=document.createElement("span");sp.innerHTML=s;n.parentNode.replaceChild(sp,n)}});
+}
+new MutationObserver(ms=>{ms.forEach(m=>{for(const nd of m.addedNodes){if(nd.nodeType===1&&nd.tagName!=="SCRIPT"&&nd.tagName!=="STYLE")fxAll(nd)}})}).observe($("#app"),{childList:true,subtree:true});
 renderMap();
 </script></body></html>
