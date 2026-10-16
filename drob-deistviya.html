@@ -468,5 +468,39 @@ function bind(st){
 /* sound toggle */
 $("#snd").onclick=()=>{sound=!sound;S.sound=sound;save();sfx.tap();
  $("#snd").innerHTML=sound?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/></svg>':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9l5 6M22 9l-5 6"/></svg>'};
+/* авто-дроби: записи вида a/b, 1/(x−2), (x+5)/(x−2) -> дроби с горизонтальной чертой */
+function fx(s){
+ if(s==null)return s;
+ s=String(s).replace(/\^2/g,"²").replace(/\^3/g,"³");
+ const tags=[];
+ s=s.replace(/<[^>]+>/g,m=>{tags.push(m);return ""+(tags.length-1)+""});
+ const atom=c=>/[0-9A-Za-zА-Яа-яёЁ²³^]/.test(c);
+ let out="",i=0;
+ while(i<s.length){
+  if(s[i]!=="/"){out+=s[i];i++;continue}
+  let num="",den="",j=i-1;
+  if(j>=0&&s[j]===")"){let d=0,k=j;while(k>=0){if(s[k]===")")d++;else if(s[k]==="("){d--;if(d===0)break}k--}if(k>=0&&d===0){num=s.slice(k,i);j=k-1}}
+  if(!num){while(j>=0&&atom(s[j]))j--;num=s.slice(j+1,i)}
+  if(!num){out+="/";i++;continue}
+  const rawNum=num;
+  if(num.length>1&&num[0]==="("&&num[num.length-1]===")")num=num.slice(1,-1);
+  let m=i+1,exp="";
+  if(m<s.length&&s[m]==="("){let d=0,k=m;while(k<s.length){if(s[k]==="(")d++;else if(s[k]===")"){d--;if(d===0)break}k++}if(k<s.length&&d===0){den=s.slice(m,k+1);m=k+1}}
+  if(!den){let k=m;while(k<s.length&&atom(s[k]))k++;den=s.slice(m,k);m=k}
+  if(!den){out+="/";i++;continue}
+  if(den.length>1&&den[0]==="("&&den[den.length-1]===")"){if(m<s.length&&(s[m]==="²"||s[m]==="³")){exp=s[m];m++}den=den.slice(1,-1)}
+  out=out.slice(0,out.length-rawNum.length)+`<span class=fr><span>${fx(num)}</span><span>${fx(den)}</span></span>`+exp;
+  i=m;
+ }
+ return out.replace(/(\d+)/g,(m,n)=>tags[+n]);
+}
+function fxAll(root){
+ const bad={SCRIPT:1,STYLE:1};
+ const it=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+ const nodes=[];
+ while(it.nextNode()){const n=it.currentNode,p=n.parentElement;if(!p||bad[p.nodeName])continue;if(p.closest&&p.closest("svg"))continue;if(n.nodeValue.includes("/"))nodes.push(n)}
+ nodes.forEach(n=>{const s=fx(n.nodeValue);if(s!==n.nodeValue){const sp=document.createElement("span");sp.innerHTML=s;n.parentNode.replaceChild(sp,n)}});
+}
+new MutationObserver(ms=>{ms.forEach(m=>{for(const nd of m.addedNodes){if(nd.nodeType===1&&nd.tagName!=="SCRIPT"&&nd.tagName!=="STYLE")fxAll(nd)}})}).observe($("#app"),{childList:true,subtree:true});
 renderMap();
 </script></body></html>
