@@ -720,7 +720,7 @@ const TG_USER='ohh_my_lily';
 const BASE_DEFAULT='https://liliya-math.github.io/oge/probnik-oge-3.html';
 function enc(s){const b=new TextEncoder().encode(s);let x='';b.forEach(c=>x+=String.fromCharCode(c));return btoa(x).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
 function dec(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return new TextDecoder().decode(Uint8Array.from(atob(s),c=>c.charCodeAt(0)))}
-function makeToken(name,mask,dt,lead){return 'u'+enc(name+(dt?'|'+dt:''))+(mask?'.x'+mask.toString(36):'')+(lead?'.p':'')}
+function makeToken(name,mask,dt,lead,code){return 'u'+enc(name+(dt?'|'+dt:'')+(code?'|'+code:''))+(mask?'.x'+mask.toString(36):'')+(lead?'.p':'')}
 const DEX={'лев':'Льву','павел':'Павлу','пётр':'Петру','петр':'Петру','любовь':'Любови'};
 function datWord(w,i){const l=w.toLowerCase();if(DEX[l])return DEX[l];
   if(i>0&&/(ова|ева|ёва|ина|ына)$/.test(l))return w.slice(0,-1)+'ой';
@@ -733,7 +733,7 @@ function datWord(w,i){const l=w.toLowerCase();if(DEX[l])return DEX[l];
 function dative(n){return String(n).trim().split(/\s+/).map(datWord).join(' ')}
 const HASH=location.hash.slice(1);
 let LINK={name:'',mask:0};
-if(/^u[A-Za-z0-9_-]+(\.x[0-9a-z]+)?(\.p)?$/.test(HASH)){try{const [a,...rest]=HASH.split('.');const parts=dec(a.slice(1)).split('|');LINK.name=parts[0].trim().slice(0,40);LINK.dat=(parts[1]||'').trim().slice(0,50);for(const b of rest){if(b[0]==='x')LINK.mask=parseInt(b.slice(1),36)||0;if(b==='p')LINK.lead=true}}catch(e){}}
+if(/^u[A-Za-z0-9_-]+(\.x[0-9a-z]+)?(\.p)?$/.test(HASH)){try{const [a,...rest]=HASH.split('.');const parts=dec(a.slice(1)).split('|');LINK.name=parts[0].trim().slice(0,40);LINK.dat=(parts[1]||'').trim().slice(0,50);LINK.code=(parts[2]||'').trim().replace(/[^A-Za-z0-9_-]/g,'').slice(0,80);for(const b of rest){if(b[0]==='x')LINK.mask=parseInt(b.slice(1),36)||0;if(b==='p')LINK.lead=true}}catch(e){}}
 const LEAD=!LINK.name||!!LINK.lead;
 const L=T.filter(t=>!(LINK.mask&(1<<(t.n-1))));
 const FULL=L.length===25;
@@ -1266,7 +1266,7 @@ function pushResult(){
   if(!SHEET_URL||!S.name||!S.started)return;
   try{
     const done=!!S.done,sc=done?score():null,mk={ok:'✓',bad:'✗',idk:'?',th:'~',pf:'П'};
-    const d={sid:S.sid,test:TEST_TITLE,name:S.name,kind:LINK.name?(LINK.lead?'личная, новый ученик':'личная'):'общая',
+    const d={sid:S.sid,studentCode:LINK.code||'',test:TEST_TITLE,name:S.name,kind:LINK.name?(LINK.lead?'личная, новый ученик':'личная'):'общая',
       started:S.started,status:done?'завершено':'в процессе',progress:`${L.filter(t=>S.r[t.n]&&S.r[t.n].st).length}/${L.length}`,
       score:done?sc.pts:livePts(),max:done?sc.maxAll:'',grade:done?sc.grade:'',minutes:Math.round(elapsed()/60),
       bonus:(typeof bonusLine==='function'?bonusLine():'').replace(/^Бонус: /,''),
@@ -1282,7 +1282,8 @@ function renderTeacher(){
   app.innerHTML=`<section class="hero enter"><div class="kick"><b class="mark">25/25</b> · только для Лилии</div><h1>Ссылка <span>для ученика</span></h1>
   <div class="card stack">
     <label><span class="lab">Имя ученика (так он увидит его в заголовке)</span><input class="field" id="tn" placeholder="Например, Маша" style="width:100%"></label>
-    <label><span class="lab">Кому вручается диплом (дательный падеж, проверь)</span><input class="field" id="td" placeholder="Маше" style="width:100%"></label>
+    <label><span class="lab">Кому вручается диплом (дательный падеж, проверь)</span><input class="field" id="td" placeholder="Маше" maxlength="80" style="width:100%"></label>
+     <label><span class="lab">Код ученика из кабинета (для записи результата в кабинет)</span><input class="field" id="tcode" placeholder="Например, M7K2" maxlength="80" style="width:100%"></label>
     <label class="lab" style="display:flex;gap:10px;align-items:center;cursor:pointer"><input type="checkbox" id="tlead" style="width:20px;height:20px"> Новый ученик (с Авито / Профи): в конце предложить бесплатный разбор</label>
     <div><span class="lab">Задания в варианте. Нажми на номер, чтобы убрать его.</span><div class="tgrid" id="tg">${T.map(t=>`<button class="tg" data-n="${t.n}">${t.n}</button>`).join('')}</div><p class="note" id="tc">25 заданий</p></div>
     <label><span class="lab">Адрес страницы (после «Поделиться» он тот же)</span><input class="field" id="tb" value="${esc(base)}" style="width:100%;font-size:14px"></label>
@@ -1293,8 +1294,8 @@ function renderTeacher(){
   const upd=()=>{const n=$('tn').value.trim(),b=$('tb').value.trim().replace(/#.*$/,'');try{localStorage.setItem('oge-p3-base',b)}catch(e){}
     const cntN=25-[...Array(25)].filter((_,i)=>mask&(1<<i)).length;$('tc').textContent=cntN+' заданий';
     if(!n){$('out').textContent='Впиши имя';$('tcp').disabled=true;$('topen').hidden=true;return}
-    const url=b+'#'+makeToken(n,mask,$('td').value.trim(),$('tlead').checked);$('out').textContent=url;$('tcp').disabled=false;$('topen').hidden=false;$('topen').href=url};
-  let datEdited=false;$('tn').oninput=()=>{if(!datEdited)$('td').value=dative($('tn').value);upd()};$('td').oninput=()=>{datEdited=!!$('td').value.trim();upd()};$('tb').oninput=upd;$('tlead').onchange=upd;
+    const code=$('tcode').value.trim().replace(/[^A-Za-z0-9_-]/g,'').slice(0,80);const url=b+'#'+makeToken(n,mask,$('td').value.trim(),$('tlead').checked,code);$('out').textContent=url;$('tcp').disabled=false;$('topen').hidden=false;$('topen').href=url};
+  let datEdited=false;$('tn').oninput=()=>{if(!datEdited)$('td').value=dative($('tn').value);upd()};$('td').oninput=()=>{datEdited=!!$('td').value.trim();upd()};$('tcode').oninput=upd;$('tb').oninput=upd;$('tlead').onchange=upd;
   document.querySelectorAll('.tg').forEach(b=>b.onclick=()=>{const bit=1<<(+b.dataset.n-1);mask^=bit;if(25-[...Array(25)].filter((_,i)=>mask&(1<<i)).length<1){mask^=bit;return}b.classList.toggle('off',!!(mask&bit));upd()});
   $('tcp').onclick=()=>{const u=$('out').textContent;copyText(u,()=>{$('tcp').textContent='Скопировано';setTimeout(()=>$('tcp').textContent='Скопировать ссылку',1600)},()=>{const r=document.createRange();r.selectNodeContents($('out'));const s=getSelection();s.removeAllRanges();s.addRange(r)})};
   $('tn').focus();
