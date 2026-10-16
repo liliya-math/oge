@@ -52,6 +52,8 @@ h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;back
 .tcard{background:var(--glass2);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
 .tcard .tt{font-weight:700;font-size:14.5px;margin-bottom:3px}
 .tcard .td{font-size:13px;color:var(--muted);line-height:1.45}
+a.tcard{display:block;text-decoration:none;color:var(--fg);transition:border-color .15s,background .15s}
+a.tcard:hover{border-color:var(--apricot);background:rgba(242,144,94,.07)}
 .zachet{margin-top:14px;border:1px dashed rgba(245,220,106,.4);background:rgba(245,220,106,.05);border-radius:18px;padding:16px 18px}
 .zachet h3{margin:0 0 4px;font-size:16.5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .zhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
@@ -93,14 +95,24 @@ h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;back
 <h1>8 класс: <em>алгебра</em> и <em>геометрия</em></h1>
 <p class=sub>Темы курса по разделам. В конце каждого раздела — зачёт: 10 вопросов, мгновенная проверка, можно перепроходить сколько угодно раз.</p>
 <div class=navchips>
-  <a href="#alg">Алгебра · 15 тем</a>
-  <a href="#geo">Геометрия · 12 тем</a>
+  <a href="#alg">Алгебра · 10 тем</a>
+  <a href="#geo">Геометрия · 12 тем</a><a href="#diag">Диагностика</a>
+</div>
+
+<div class=sec id="diag"><span class=n>Д</span><h2>Диагностика</h2><div class=ln></div></div>
+<div class=card>
+<span class="tag o">25 заданий · 3 уровня · честная проверка</span>
+<div class=tgrid>
+<a class=tcard href="diagnostika-8-klass.html"><div class=tt>🧮 Алгебра · диагностика</div><div class=td>Корни, квадратные уравнения, формулы сокращённого умножения. Маскоты, стикеры, две подсказки на задание; прогресс сохраняется, в конце — отчёт мне в Telegram.</div></a>
+<a class=tcard href="diagnostika-8-geom.html"><div class=tt>📐 Геометрия · диагностика</div><div class=td>Четырёхугольники, теорема Пифагора и площади. Незнакомое задание честно помечается кнопкой «Не знаю, как решать».</div></a>
+</div>
+<p class=note style="text-align:left;margin-top:12px">🖨️ Для печати — разбор всех заданий диалогом «ученик — учитель»: <a href="razbor-diag-8-klass.txt">алгебра</a> · <a href="razbor-diag-8-geom.txt">геометрия</a></p>
 </div>
 
 <div class=sec id="alg"><span class=n>А</span><h2>Алгебра</h2><div class=ln></div></div>
 <div class=card>
-<span class="tag ">15 тем</span>
-<div class=tgrid><div class=tcard><div class=tt>Арифметический корень</div><div class=td>Определение корня, арифметический и алгебраический корни</div></div><div class=tcard><div class=tt>Свойства квадратных корней</div><div class=td>Корень из произведения, степени и дроби</div></div><div class=tcard><div class=tt>Извлечение корня из чисел</div><div class=td>Извлечение в столбик, число цифр корня</div></div><div class=tcard><div class=tt>Приближённые квадратные корни</div><div class=td>С точностью до 1/10, 1/100, 1/1000</div></div><div class=tcard><div class=tt>Неполные квадратные уравнения</div><div class=td>ax² + c = 0, ax² + bx = 0</div></div><div class=tcard><div class=tt>Общая формула корней</div><div class=td>Дискриминант D = b² − 4ac, упрощение при чётном b</div></div><div class=tcard><div class=tt>Теорема Виета</div><div class=td>Сумма и произведение корней, обратная теорема</div></div><div class=tcard><div class=tt>Разложение трёхчлена на множители</div><div class=td>ax² + bx + c = a(x − x₁)(x − x₂)</div></div><div class=tcard><div class=tt>Иррациональные числа и выражения</div><div class=td>Вещественные числа, преобразование радикалов, освобождение знаменателя от радикалов</div></div><div class=tcard><div class=tt>Иррациональные уравнения</div><div class=td>Посторонние решения, уравнения с двумя радикалами</div></div><div class=tcard><div class=tt>Функция. Метод координат</div><div class=td>Аргумент и функция, три способа задания, координаты точки на плоскости</div></div><div class=tcard><div class=tt>Прямая и обратная пропорциональность</div><div class=td>y = kx и y = k/x, графики зависимостей</div></div><div class=tcard><div class=tt>Линейная функция</div><div class=td>y = kx + b, построение прямой по двум точкам</div></div><div class=tcard><div class=tt>Парабола y = ax²</div><div class=td>Ветви, вершина, ось симметрии</div></div><div class=tcard><div class=tt>Квадратичная функция</div><div class=td>Трёхчлен второй степени, графический способ решения уравнений</div></div></div>
+<span class="tag ">10 тем</span>
+<div class=tgrid><div class=tcard><div class=tt>Рациональные дроби</div><div class=td>Сокращение, все действия, приведение к общему знаменателю</div></div><div class=tcard><div class=tt>Квадратные корни</div><div class=td>√a, арифметический корень, √(a²) = |a|</div></div><div class=tcard><div class=tt>Преобразование корней</div><div class=td>Вынесение из-под корня, внесение под корень</div></div><div class=tcard><div class=tt>Квадратные уравнения</div><div class=td>ax² + bx + c = 0, дискриминант D = b² − 4ac</div></div><div class=tcard><div class=tt>Теорема Виета</div><div class=td>Сумма и произведение корней, обратная теорема</div></div><div class=tcard><div class=tt>Разложение квадратного трёхчлена</div><div class=td>ax² + bx + c = a(x − x₁)(x − x₂)</div></div><div class=tcard><div class=tt>Неравенства с одной переменной</div><div class=td>Свойства, линейные неравенства, промежутки</div></div><div class=tcard><div class=tt>Системы неравенств</div><div class=td>Пересечение решений, изображение на прямой</div></div><div class=tcard><div class=tt>Степень с целым показателем</div><div class=td>a⁻ⁿ = 1/aⁿ, стандартный вид числа</div></div><div class=tcard><div class=tt>Обзор функций</div><div class=td>y = kx + b, y = k/x, область определения</div></div></div>
 <div class=zachet>
 <h3>🎓 Зачёт по разделу «Алгебра» <span class=zprog>10 вопросов · без времени · можно перепроходить</span></h3>
 <div id=quiz-alg></div>

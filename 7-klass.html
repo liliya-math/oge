@@ -52,6 +52,8 @@ h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;back
 .tcard{background:var(--glass2);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
 .tcard .tt{font-weight:700;font-size:14.5px;margin-bottom:3px}
 .tcard .td{font-size:13px;color:var(--muted);line-height:1.45}
+a.tcard{display:block;text-decoration:none;color:var(--fg);transition:border-color .15s,background .15s}
+a.tcard:hover{border-color:var(--apricot);background:rgba(242,144,94,.07)}
 .zachet{margin-top:14px;border:1px dashed rgba(245,220,106,.4);background:rgba(245,220,106,.05);border-radius:18px;padding:16px 18px}
 .zachet h3{margin:0 0 4px;font-size:16.5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .zhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
@@ -93,14 +95,24 @@ h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;back
 <h1>7 класс: <em>алгебра</em> и <em>геометрия</em></h1>
 <p class=sub>Темы курса по разделам. В конце каждого раздела — зачёт: 10 вопросов, мгновенная проверка, можно перепроходить сколько угодно раз.</p>
 <div class=navchips>
-  <a href="#alg">Алгебра · 15 тем</a>
-  <a href="#geo">Геометрия · 11 тем</a>
+  <a href="#alg">Алгебра · 10 тем</a>
+  <a href="#geo">Геометрия · 11 тем</a><a href="#diag">Диагностика</a>
+</div>
+
+<div class=sec id="diag"><span class=n>Д</span><h2>Диагностика</h2><div class=ln></div></div>
+<div class=card>
+<span class="tag o">25 заданий · 3 уровня · честная проверка</span>
+<div class=tgrid>
+<a class=tcard href="diagnostika-7-klass.html"><div class=tt>🧮 Алгебра · диагностика</div><div class=td>Формулы, уравнения, степени и функции. Маскоты, стикеры, две подсказки на задание; прогресс сохраняется, в конце — отчёт мне в Telegram.</div></a>
+<a class=tcard href="diagnostika-7-geom.html"><div class=tt>📐 Геометрия · диагностика</div><div class=td>Треугольники, параллельные прямые, признаки равенства. Незнакомое задание честно помечается кнопкой «Не знаю, как решать».</div></a>
+</div>
+<p class=note style="text-align:left;margin-top:12px">🖨️ Для печати — разбор всех заданий диалогом «ученик — учитель»: <a href="razbor-diag-7-klass.txt">алгебра</a> · <a href="razbor-diag-7-geom.txt">геометрия</a></p>
 </div>
 
 <div class=sec id="alg"><span class=n>А</span><h2>Алгебра</h2><div class=ln></div></div>
 <div class=card>
-<span class="tag ">15 тем</span>
-<div class=tgrid><div class=tcard><div class=tt>Умножение одночленов и многочленов</div><div class=td>Правило умножения, расположенные многочлены, число членов произведения</div></div><div class=tcard><div class=tt>Формулы умножения двучленов</div><div class=td>(a ± b)² = a² ± 2ab + b², a² − b² = (a − b)(a + b)</div></div><div class=tcard><div class=tt>Куб суммы и куб разности</div><div class=td>(a ± b)³ = a³ ± 3a²b + 3ab² ± b³</div></div><div class=tcard><div class=tt>Деление одночленов и многочленов</div><div class=td>Деление многочлена на многочлен, признаки невозможности деления</div></div><div class=tcard><div class=tt>Нулевой показатель степени</div><div class=td>a⁰ = 1 при a ≠ 0</div></div><div class=tcard><div class=tt>Разложение на множители</div><div class=td>Целые одночлены и многочлены</div></div><div class=tcard><div class=tt>Алгебраические дроби</div><div class=td>Основное свойство дроби, отличие от арифметической</div></div><div class=tcard><div class=tt>Сокращение дробей</div><div class=td>Приведение к общему знаменателю</div></div><div class=tcard><div class=tt>Сложение и вычитание дробей</div><div class=td>Сложение и вычитание дробей с одночленными и многочленными знаменателями</div></div><div class=tcard><div class=tt>Умножение и деление дробей</div><div class=td>Квадрат и куб дроби</div></div><div class=tcard><div class=tt>Уравнения и их свойства</div><div class=td>Равенства, тождества, равносильные уравнения, посторонние корни</div></div><div class=tcard><div class=tt>Уравнение первой степени с одним неизвестным</div><div class=td>Нормальный вид, перенос членов, буквенные уравнения</div></div><div class=tcard><div class=tt>Задачи на составление уравнений</div><div class=td>От текста задачи к уравнению</div></div><div class=tcard><div class=tt>Системы уравнений. Подстановка</div><div class=td>Способ подстановки, системы с буквенными коэффициентами</div></div><div class=tcard><div class=tt>Способ алгебраического сложения</div><div class=td>Сложение и вычитание уравнений системы</div></div></div>
+<span class="tag ">10 тем</span>
+<div class=tgrid><div class=tcard><div class=tt>Выражения и тождества</div><div class=td>Числовые и буквенные выражения, значения, тождественные преобразования</div></div><div class=tcard><div class=tt>Степень с натуральным показателем</div><div class=td>Свойства степеней: aᵐ·aⁿ = aᵐ⁺ⁿ и другие</div></div><div class=tcard><div class=tt>Одночлены и многочлены</div><div class=td>Стандартный вид, сложение, умножение, приведение подобных</div></div><div class=tcard><div class=tt>Формулы сокращённого умножения</div><div class=td>(a±b)², a²−b², (a±b)³ — скелеты алгебры</div></div><div class=tcard><div class=tt>Разложение многочлена на множители</div><div class=td>Вынесение общего, группировка, формулы</div></div><div class=tcard><div class=tt>Алгебраические дроби</div><div class=td>Сокращение, сложение и умножение дробей</div></div><div class=tcard><div class=tt>Линейное уравнение с одной переменной</div><div class=td>ax + b = 0, перенос, задачи на уравнения</div></div><div class=tcard><div class=tt>Система двух уравнений</div><div class=td>Способы подстановки и сложения</div></div><div class=tcard><div class=tt>Линейная функция</div><div class=td>y = kx + b, график — прямая, k и b</div></div><div class=tcard><div class=tt>Статистические характеристики</div><div class=td>Среднее, мода, медиана, размах</div></div></div>
 <div class=zachet>
 <h3>🎓 Зачёт по разделу «Алгебра» <span class=zprog>10 вопросов · без времени · можно перепроходить</span></h3>
 <div id=quiz-alg></div>
