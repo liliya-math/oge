@@ -271,6 +271,7 @@ function doGet(e) {
 function doPost(e) {
   let body = {};
   try { body = JSON.parse(e.postData.contents); } catch (err) { return json_({error: 'bad_request'}); }
+  if (body.op === 'probeResult') return json_(probeResult_(body));
   if (body.admin !== undefined) return json_(admin_(body));
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
@@ -279,6 +280,36 @@ function doPost(e) {
     if (!st || st.row[11] === false) return json_({error: 'not_found'});
     return json_(setHwDone_(String(body.t).trim(), body.id, body.text, body.done));
   } finally { lock.releaseLock(); }
+}
+
+
+/**
+ * Приём завершённого пробника из отдельного Apps Script.
+ * Секрет хранится только в Script Properties: PROBE_SHARED_SECRET.
+ * В публичную страницу пробника секрет не помещать.
+ */
+function probeResult_(b) {
+  const expected = PropertiesService.getScriptProperties().getProperty('PROBE_SHARED_SECRET');
+  if (!expected || String(b.secret || '') !== expected) return {error: 'unauthorized'};
+  const code = String(b.t || '').trim();
+  const sid = String(b.sid || '').trim().slice(0, 120);
+  const title = String(b.name || 'Пробник ОГЭ').trim().slice(0, 120);
+  const score = Number(b.score);
+  if (!code || !sid || !Number.isFinite(score) || score < 0 || score > 31) return {error: 'bad_value'};
+  const st = findStudentRow_(code);
+  if (!st || st.row[11] === false) return {error: 'not_found'};
+  const ss = SpreadsheetApp.getActive();
+  const sh = ss.getSheetByName('Пробники');
+  if (!sh) return {error: 'no_sheet'};
+  if (!String(sh.getRange(1, 5).getValue() || '').trim()) sh.getRange(1, 5).setValue('ID попытки');
+  const last = sh.getLastRow();
+  const ids = last > 1 ? sh.getRange(2, 5, last - 1, 1).getDisplayValues().flat() : [];
+  const index = ids.indexOf(sid);
+  const date = ruDate_(Utilities.formatDate(new Date(), ss.getSpreadsheetTimeZone(), 'yyyy-MM-dd'));
+  const row = [code, date, title, score, sid];
+  if (index >= 0) sh.getRange(index + 2, 1, 1, row.length).setValues([row]);
+  else sh.appendRow(row);
+  return {ok: true};
 }
 
 function setHwDone_(code, id, text, done) {
