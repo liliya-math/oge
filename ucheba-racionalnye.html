@@ -1,0 +1,553 @@
+<!doctype html><html lang="ru"><head><meta charset=utf8>
+<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Преобразование рациональных выражений · 8 класс</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --bg:#14211e; --bg2:#1b2b28; --glass:rgba(243,236,226,.05); --glass2:rgba(243,236,226,.085);
+  --line:rgba(226,234,228,.13); --fg:#f3ece2; --muted:#a9b6ad; --faint:#6e7f77;
+  --cobalt:#1747c9; --sky:#d6e2ee; --apricot:#f2905e; --lilac:#a9c1ff; --mint:#a9d18e; --amber:#f5dc6a; --miss:#ff8f73;
+  --grad:linear-gradient(115deg,#f5dc6a 0%,#f2905e 100%);
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Inter",system-ui,"Segoe UI",Roboto,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--fg)}
+body{margin:0;font-family:var(--sans);font-size:16px;line-height:1.5;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--apricot);outline-offset:3px;border-radius:10px}
+.amb{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.amb i{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.28;animation:drift 26s ease-in-out infinite alternate}
+.amb i:nth-child(1){background:#1747c9;left:-20vmax;top:-25vmax}
+.amb i:nth-child(2){background:#5d7a4f;right:-25vmax;top:10vmax;opacity:.16;animation-duration:32s}
+.amb i:nth-child(3){background:#2c4f6b;left:10vmax;bottom:-35vmax;opacity:.16;animation-duration:38s}
+@keyframes drift{to{transform:translate(8vmax,6vmax) scale(1.12)}}
+#fx{position:fixed;inset:0;z-index:50;pointer-events:none;width:100%;height:100%}
+.wrap{position:relative;z-index:1;max-width:780px;margin:0 auto;padding-inline:16px;padding-block:20px 90px}
+
+/* top */
+.top{position:sticky;top:0;z-index:20;margin:0 -16px 18px;padding:12px 16px 10px;background:linear-gradient(var(--bg) 70%,transparent);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.02em}
+.brand b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sp{flex:1}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pill strong{color:var(--fg);font-weight:600}
+.icon-btn{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:var(--glass);border:1px solid var(--line)}
+.icon-btn svg{width:16px;height:16px}
+
+/* cards */
+.card{background:var(--glass);border:1px solid var(--line);border-radius:28px;padding:26px;backdrop-filter:blur(24px) saturate(1.2);-webkit-backdrop-filter:blur(24px) saturate(1.2);box-shadow:0 30px 80px -40px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.06)}
+@media (max-width:520px){.card{padding:20px 18px;border-radius:22px}}
+.enter{animation:enter .5s cubic-bezier(.2,.8,.2,1) both}
+@keyframes enter{from{opacity:.001;transform:translateY(14px) scale(.985)}}
+.kick{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(32px,7vw,54px);line-height:1.05;margin:0;letter-spacing:-.01em;text-wrap:balance}
+h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(24px,5vw,34px);line-height:1.1;margin:6px 0 0;text-wrap:balance}
+h3{font-family:var(--display);font-size:20px;margin:14px 0 8px}
+.lead{font-size:17px;color:#ddd0c7;max-width:60ch;margin:0}
+p.txt{font-size:16px;line-height:1.65;color:#e9ded4;margin:10px 0}
+p.txt b{color:var(--fg)}
+.accent{color:var(--apricot);font-weight:650}
+.mint{color:var(--mint);font-weight:650}
+.amber-t{color:var(--amber);font-weight:650}
+
+/* hero */
+.hero{display:grid;gap:16px;padding-block:22px 10px}
+
+/* map of modules */
+.mapa{display:grid;gap:14px;margin-top:18px}
+.mod{border:1px solid var(--line);border-radius:24px;background:var(--glass);padding:18px;display:grid;gap:12px;grid-template-columns:auto 1fr;align-items:start}
+@media (max-width:560px){.mod{grid-template-columns:1fr;justify-items:start}}
+.mod .ava{width:64px;height:64px;border-radius:20px;background:var(--glass2);border:1px solid var(--line);display:grid;place-items:center;overflow:hidden}
+.mod .ava img{width:100%;height:100%;object-fit:cover;border-radius:20px}
+.mod h4{margin:0;font-family:var(--display);font-size:19px}
+.mod .sub{font-size:13.5px;color:var(--muted);margin-top:3px}
+.mbar{height:8px;border-radius:4px;background:rgba(255,230,210,.1);overflow:hidden;margin-top:10px}
+.mbar i{display:block;height:100%;border-radius:4px;background:var(--grad);transition:width .5s}
+.mrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px}
+.mstats{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.mstats b{color:var(--fg);font-weight:600}
+.btn{height:48px;padding:0 20px;border-radius:14px;border:0;font-weight:650;font-size:15px;background:var(--cobalt);color:#f3ece2;box-shadow:0 10px 30px -12px rgba(90,130,255,.55);transition:transform .15s,filter .2s}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.4;cursor:default;box-shadow:none}
+.btn.ghost{background:var(--glass2);color:var(--fg);box-shadow:none;border:1px solid var(--line)}
+.btn.small{height:38px;padding:0 14px;font-size:13.5px;border-radius:11px}
+.lock{color:var(--faint);font-size:13px;display:inline-flex;align-items:center;gap:6px}
+.lock svg{width:14px;height:14px}
+
+/* slide */
+.sld{display:grid;gap:10px;margin-top:6px}
+.fig{margin:8px 0 2px;display:flex;justify-content:center;overflow-x:auto}
+.fig svg{max-width:100%;height:auto}
+.photo-pie{display:grid;justify-items:center;gap:4px;flex:none}
+.photo-pie .ph{position:relative;width:130px;height:130px;border-radius:50%;overflow:hidden;box-shadow:0 16px 34px -18px rgba(0,0,0,.75);background:rgba(243,236,226,.05)}
+.photo-pie .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
+.photo-pie .ph svg{position:absolute;inset:0;width:100%;height:100%}
+.photo-pie .plabel{font-size:17px;font-weight:600;font-variant-numeric:tabular-nums}
+.photo-pie .psub{font-size:11.5px;color:var(--muted)}
+.gcap{font-size:13px;color:var(--muted);text-align:center;margin-top:4px}
+svg .tx{fill:var(--fg);font:600 14px var(--sans)}
+svg .tm{fill:var(--muted);font:500 12px var(--sans)}
+svg .acc{stroke:var(--apricot);stroke-width:2.6;fill:none}
+svg .mint-s{stroke:var(--mint);stroke-width:2.6;fill:none}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:.88em;line-height:1.15;margin:0 2px}
+.fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 3px}
+.petsay{display:flex;gap:10px;align-items:flex-start;margin-top:10px;padding:12px 14px;border-radius:16px;background:rgba(242,144,94,.09);border:1px solid rgba(242,144,94,.28)}
+.petsay img{width:40px;height:40px;border-radius:12px;object-fit:cover;flex:none}
+.petsay .say{font-size:14.5px;color:#f0cdb6}
+.petsay .say b{color:var(--apricot)}
+.navrow{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
+.dots{display:flex;gap:6px;margin-top:14px}
+.dots i{width:8px;height:8px;border-radius:50%;background:rgba(255,230,210,.14)}
+.dots i.on{background:var(--apricot)}
+.dots i.done{background:var(--mint)}
+
+/* quiz & practice */
+.q{display:grid;gap:8px;margin-top:16px}
+.q .qq{font-weight:650;font-size:16px}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.opt{min-height:52px;padding:10px 14px;border-radius:16px;border:1px solid var(--line);background:rgba(0,0,0,.22);font-size:16px;display:flex;align-items:center;gap:10px;text-align:left;transition:border-color .2s,background .2s}
+.opt .k{width:26px;height:26px;flex:none;border-radius:8px;display:grid;place-items:center;background:var(--glass2);font-size:13px;font-weight:700;color:var(--muted)}
+.opt.sel{border-color:var(--apricot);background:rgba(255,160,120,.12)}
+.opt.ok{border-color:var(--mint);background:rgba(169,209,142,.12)}
+.opt.bad{border-color:var(--miss);background:rgba(255,143,115,.1)}
+.opt.dis{pointer-events:none}
+.fb{border-radius:18px;padding:14px 16px;display:flex;gap:12px;align-items:center;margin-top:14px;animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes pop{from{opacity:.001;transform:scale(.92)}}
+.fb.ok{background:rgba(134,227,185,.1);border:1px solid rgba(134,227,185,.35)}
+.fb.bad{background:rgba(255,154,133,.08);border:1px solid rgba(255,154,133,.3)}
+.fb .ic{width:38px;height:38px;flex:none;border-radius:50%;display:grid;place-items:center}
+.fb.ok .ic{background:var(--mint);color:#10291d}
+.fb.bad .ic{background:rgba(255,154,133,.2);color:var(--miss)}
+.fb .ic svg{width:19px;height:19px}
+.fb .t{font-weight:650;font-size:15.5px}
+.fb .s{font-size:14px;color:var(--muted)}
+.ans{margin-top:18px;display:grid;gap:12px}
+.irow{display:flex;gap:10px;flex-wrap:wrap}
+.field{flex:1 1 200px;min-width:0;height:54px;padding:0 18px;border-radius:16px;border:1px solid var(--line);background:rgba(0,0,0,.25);font-size:19px;font-variant-numeric:tabular-nums;transition:border-color .2s,box-shadow .2s}
+.field:focus{outline:none;border-color:rgba(255,180,138,.6);box-shadow:0 0 0 4px rgba(255,160,120,.12)}
+.field::placeholder{color:var(--faint);font-size:15px}
+.hint{margin-top:12px}
+.hintbox{padding:12px 16px;border-radius:14px;background:rgba(255,210,122,.08);border:1px solid rgba(255,210,122,.25);font-size:15px;animation:enter .4s both}
+.hintbox small{display:block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:3px}
+.stmt{font-size:18.5px;line-height:1.6;text-wrap:pretty;margin-top:14px}
+.shake{animation:shake .45s}
+@keyframes shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+.xp{position:fixed;z-index:60;font-family:var(--display);font-weight:700;font-size:22px;color:var(--mint);pointer-events:none;animation:up 1.1s ease-out forwards}
+@keyframes up{to{transform:translateY(-70px);opacity:0}}
+.result{display:grid;gap:12px;justify-items:center;text-align:center;padding-block:14px}
+.big{font-family:var(--display);font-weight:700;font-size:clamp(56px,14vw,96px);line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.heroimg{width:100%;border-radius:22px;border:1px solid var(--line);display:block;margin-top:12px;box-shadow:0 24px 60px -36px rgba(0,0,0,.85)}
+.winimg{width:190px;max-width:60%;margin:10px auto 2px;display:block;border-radius:24px;border:1px solid var(--line);box-shadow:0 24px 60px -30px rgba(0,0,0,.8)}
+table.mini{border-collapse:collapse;font-size:14.5px;margin:8px auto}
+table.mini th,table.mini td{border:1px solid var(--line);padding:6px 12px;text-align:center}
+table.mini th{color:var(--muted);font-size:13px}
+.done-flag{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--mint);font-weight:600}
+.done-flag svg{width:14px;height:14px}
+.note{font-size:13.5px;color:var(--muted)}
+</style></head><body>
+<div class=amb><i></i><i></i><i></i></div>
+<canvas id=fx></canvas>
+<div class=wrap>
+  <div class=top>
+    <span class=brand>lili<b>.</b>math</span><span class=sp></span>
+    <span class=pill>⭐ <strong id=xp>0</strong> XP</span>
+    <span class=pill id=progPill></span>
+    <button class=icon-btn id=snd aria-label="Звук"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/></svg></button>
+  </div>
+  <div id=app></div>
+</div>
+<script>
+"use strict";
+const PIMG={"rac":"img/rat-pizza.jpg"};
+const $=s=>document.querySelector(s);
+const app=$("#app");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fr=(a,b)=>`<span class=fr><span>${a}</span><span>${b}</span></span>`;
+
+/* ---------- sound ---------- */
+let AC=null,sound=true;
+const ac=()=>{if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(AC&&AC.state==="suspended")AC.resume();return AC};
+const tone=(f,t0,dur,type="sine",vol=.1)=>{const c=ac();if(!c||!sound)return;const o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(0,c.currentTime+t0);g.gain.linearRampToValueAtTime(vol,c.currentTime+t0+.015);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+t0+dur);o.connect(g).connect(c.destination);o.start(c.currentTime+t0);o.stop(c.currentTime+t0+dur+.05)};
+const sfx={tap:()=>tone(880,0,.06,"sine",.03),soft:()=>{tone(440,0,.25,"sine",.05);tone(554,.08,.3,"sine",.04)},
+ ok:()=>[523.25,659.25,783.99,1046.5].forEach((f,i)=>{tone(f,i*.07,.4,"triangle",.07)}),
+ bad:()=>{tone(196,0,.22,"sine",.11);tone(155.6,.1,.3,"sine",.09)},
+ win:()=>[523.25,659.25,783.99,987.77,1046.5,1318.5].forEach((f,i)=>tone(f,i*.09,1,"triangle",.06))};
+
+/* ---------- particles ---------- */
+const cv=$("#fx"),cx=cv.getContext("2d");let P=[],raf=0;
+const COLS=['#f3ece2','#1747c9','#d6e2ee','#f2905e','#f5dc6a','#a9d18e'];
+function fit(){const d=devicePixelRatio||1;cv.width=innerWidth*d;cv.height=innerHeight*d;cx.setTransform(d,0,0,d,0,0)}
+addEventListener("resize",fit);fit();
+function burst(x,y,n=70,power=7){for(let i=0;i<n;i++){const a=Math.PI*2*i/n+Math.random()*.4,s=power*(.4+Math.random()*.7);P.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-2,g:.2,life:1,dec:.012+Math.random()*.012,c:COLS[i%COLS.length],sz:2+Math.random()*4,rot:Math.random()*6,vr:(Math.random()-.5)*.3,sh:Math.random()<.5?"rect":"dot"})}if(!raf)loop()}
+function loop(){cx.clearRect(0,0,innerWidth,innerHeight);P=P.filter(p=>p.life>0);for(const p of P){p.vx*=.985;p.vy=p.vy*.985+p.g;p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;p.life-=p.dec;cx.globalAlpha=Math.max(p.life,0);cx.fillStyle=p.c;if(p.sh==="rect"){cx.save();cx.translate(p.x,p.y);cx.rotate(p.rot);cx.fillRect(-p.sz/2,-p.sz/4,p.sz,p.sz/2);cx.restore()}else{cx.beginPath();cx.arc(p.x,p.y,p.sz,0,7);cx.fill()}}cx.globalAlpha=1;raf=P.length?requestAnimationFrame(loop):0}
+function xpFloat(el,n=10){const r=el.getBoundingClientRect();const e=document.createElement("div");e.className="xp";e.textContent="+"+n;e.style.left=r.left+r.width/2+"px";e.style.top=r.top+"px";document.body.appendChild(e);setTimeout(()=>e.remove(),1200)}
+
+/* ---------- SVG figure builders ---------- */
+function stripSVG(n,d,label,color="#f2905e",w=300){const cw=w/d,h=54;let r="";for(let i=0;i<d;i++){r+=`<rect x="${i*cw}" y="6" width="${cw-3}" height="${h-12}" rx="5" fill="${i<n?color:"rgba(243,236,226,.1)"}" stroke="rgba(243,236,226,.25)"/>`}
+ return `<svg width="${w}" height="${h+22}" viewBox="0 0 ${w} ${h+22}">${r}${label?`<text class=tm x="${w/2}" y="${h+16}" text-anchor="middle">${label}</text>`:""}</svg>`}
+function twoStrips(a,an,ad,b,bn,bd,color="#f2905e"){return `<div class=fig style="display:grid;gap:4px;justify-items:center">${stripSVG(an,ad,a,"",color)}${stripSVG(bn,bd,b,"",color)}</div>`}
+function pizzaSVG(n,d,label,color="#f2905e"){const C=2*Math.PI*48,f=n/d*C;return `<svg width="130" height="150" viewBox="0 0 130 150"><circle cx="65" cy="65" r="48" fill="rgba(243,236,226,.08)" stroke="rgba(243,236,226,.3)"/><circle cx="65" cy="65" r="48" fill="none" stroke="${color}" stroke-width="13" stroke-dasharray="${f} ${C-f}" transform="rotate(-90 65 65)" stroke-linecap="butt" opacity=".9"/><text class=tx x="65" y="72" text-anchor="middle" style="font-size:19px">${label}</text><text class=tm x="65" y="142" text-anchor="middle">целое разделено на ${d}</text></svg>`}
+/* нарисованная пицца: корочка, начинка, честные доли (фото не подходили) */
+function wp(cx,cy,r,a1,a2){const x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1),x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2);return `M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 0 1 ${x2.toFixed(1)},${y2.toFixed(1)} Z`}
+function pieBase(c,r,inner){let s=`<circle cx="${c}" cy="${c}" r="${r}" fill="#a05c2c"/>`;
+ for(let i=0;i<18;i++){const a=i/18*2*Math.PI;s+=`<circle cx="${(c+(r-3)*Math.cos(a)).toFixed(1)}" cy="${(c+(r-3)*Math.sin(a)).toFixed(1)}" r="2.6" fill="#a05c2c"/>`}
+ s+=`<circle cx="${c}" cy="${c}" r="${r-6}" fill="#c9853f"/><circle cx="${c}" cy="${c}" r="${inner+3}" fill="#eeb964"/><circle cx="${c}" cy="${c}" r="${inner*.6}" fill="#f6cd7d" opacity=".5"/>`;
+ return s}
+function pieDots(c,inner,d){let s="";const cnt=d>1?d*2:6;
+ for(let i=0;i<cnt;i++){const a=(d>1?(Math.floor(i/2)+.5)*2*Math.PI/d:i*2*Math.PI/cnt)-Math.PI/2,dd=i%2?.72:.5;
+  const px=c+inner*dd*Math.cos(a+.28),py=c+inner*dd*Math.sin(a+.28);
+  s+=`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${i%2?3.4:4.6}" fill="#b03a2e" opacity=".9"/>`}
+ return s}
+function imgPie(img,label,sub){return `<div class=photo-pie><div class=ph><img src="img/${img}" alt=""></div>${label?`<div class=plabel>${label}</div>`:""}${sub?`<div class=psub>${sub}</div>`:""}</div>`}
+function photoPie(n,d,label,color="#f2905e"){
+ const c=65,r=56,inner=r-9;let fills="";
+ if(d>1){for(let i=0;i<d;i++){const a1=i*2*Math.PI/d-Math.PI/2,a2=(i+1)*2*Math.PI/d-Math.PI/2;
+  fills+=`<path d="${wp(c,c,inner,a1,a2)}" fill="${i<n?color:"#f9e2a8"}" fill-opacity="${i<n?.95:.75}" stroke="#8a5a2b" stroke-width="1.6"/>`}}
+ const s=pieBase(c,r,inner)+fills+pieDots(c,inner,d);
+ return `<div class=photo-pie><div class=ph><svg viewBox="0 0 130 130">${s}</svg></div><div class=plabel>${label}</div><div class=psub>целое разделено на ${d}</div></div>`}
+function photoPiePct(p){
+ const c=65,r=56,inner=r-9,R=inner-2,C=2*Math.PI*R,f=p/100*C;
+ let s=pieBase(c,r,inner)+pieDots(c,inner,5);
+ s+=`<circle cx="${c}" cy="${c}" r="${R}" fill="none" stroke="rgba(243,236,226,.25)" stroke-width="10"/><circle cx="${c}" cy="${c}" r="${R}" fill="none" stroke="#f2905e" stroke-width="10" stroke-dasharray="${f} ${C-f}" transform="rotate(-90 ${c} ${c})"/><circle cx="${c}" cy="${c}" r="23" fill="rgba(20,33,30,.62)"/><text x="${c}" y="${c+6}" text-anchor="middle" style="font-size:17px;font-weight:700;fill:#f3ece2">${p}%</text>`;
+ return `<div class=photo-pie><div class=ph><svg viewBox="0 0 130 130">${s}</svg></div></div>`}
+function piesRow(list){return `<div class=fig style="gap:16px;flex-wrap:wrap">${list.map(p=>p[3]?imgPie(p[3],p[2],`целое разделено на ${p[1]}`):photoPie(p[0],p[1],p[2])).join("")}</div>`}
+function nlineSVG(a,b,marks){ /* числовая прямая от a до b, marks — [[val,label,color]] */
+ const W=560,pad=30,x=v=>pad+(v-a)/(b-a)*(W-2*pad);let t=`<line x1="${x(a)}" y1="55" x2="${x(b)}" y2="55" stroke="var(--muted)" stroke-width="1.6"/>`;
+ t+=`<polygon points="${x(b)},55 ${x(b)-9},50 ${x(b)-9},60" fill="var(--muted)"/>`;
+ const st=Math.ceil(a),en=Math.floor(b);
+ for(let v=st;v<=en;v++){t+=`<line x1="${x(v)}" y1="50" x2="${x(v)}" y2="60" stroke="var(--muted)"/>`;if(v%1===0&&Math.abs(b-a)<=12)t+=`<text class=tm x="${x(v)}" y="78" text-anchor="middle">${v}</text>`}
+ (marks||[]).forEach(m=>{t+=`<circle cx="${x(m[0])}" cy="55" r="6" fill="${m[2]||"var(--apricot)"}"/><text class=tx x="${x(m[0])}" y="38" text-anchor="middle">${m[1]}</text>`});
+ return `<svg width="${W}" height="92" viewBox="0 0 ${W} 92">${t}</svg>`}
+function addArrowsSVG(a,b){ /* a + b на прямой */
+ const lo=Math.min(a,b<0?a+b:a)-2,hi=Math.max(a,b>0?a+b:a)+2;
+ const W=560,pad=30,x=v=>pad+(v-lo)/(hi-lo)*(W-2*pad);let t="";
+ const y0=55,y1=30,y2=80;
+ t+=`<line x1="${x(lo)}" y1="${y0}" x2="${x(hi)}" y2="${y0}" stroke="var(--muted)" stroke-width="1.6"/><polygon points="${x(hi)},${y0} ${x(hi)-9},${y0-5} ${x(hi)-9},${y0+5}" fill="var(--muted)"/>`;
+ for(let v=Math.ceil(lo);v<=Math.floor(hi);v++){t+=`<line x1="${x(v)}" y1="${y0-5}" x2="${x(v)}" y2="${y0+5}" stroke="var(--muted)"/><text class=tm x="${x(v)}" y="${y0+22}" text-anchor="middle">${v}</text>`}
+ t+=`<circle cx="${x(0)}" cy="${y0}" r="5.5" fill="var(--fg)"/><text class=tm x="${x(0)}" y="${y0+36}" text-anchor="middle">0</text>`;
+ t+=`<circle cx="${x(a)}" cy="${y0}" r="6" fill="var(--apricot)"/><text class=tx x="${x(a)}" y="${y0-32}" text-anchor="middle" style="fill:var(--apricot)">старт: ${a}</text>`;
+ const c=a+b;
+ t+=`<path d="M${x(a)},${y1} L${x(c)},${y1}" class="acc" marker-end="url(#ah)"/>`;
+ t+=`<text class=tx x="${(x(a)+x(c))/2}" y="${y1-8}" text-anchor="middle" style="fill:var(--apricot)">${b>0?"+":""}${b}</text>`;
+ t+=`<circle cx="${x(c)}" cy="${y0}" r="6.5" fill="var(--mint)"/><text class=tx x="${x(c)}" y="${y0-32}" text-anchor="middle" style="fill:var(--mint)">ответ: ${c}</text>`;
+ return `<svg width="${W}" height="105" viewBox="0 0 ${W} 105"><defs><marker id="ah" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><polygon points="0,0 9,4.5 0,9" fill="var(--apricot)"/></marker></defs>${t}</svg>`}
+function absSVG(v){return nlineSVG(-v-1.5,v+1.5,[[-v,"−"+v,"var(--lilac)"],[0,"0"],[v,v,"var(--apricot)"]])}
+function pctGridSVG(p,color="#f2905e"){let r="";for(let i=0;i<100;i++){const x=(i%10)*20,y=Math.floor(i/10)*20;r+=`<rect x="${x+1}" y="${y+1}" width="18" height="18" rx="3" fill="${i<p?color:"rgba(243,236,226,.09)"}"/>`}
+ return `<svg width="200" height="228" viewBox="0 0 200 228">${r}<text class=tx x="100" y="220" text-anchor="middle">${p} из 100 клеток = ${p}%</text></svg>`}
+function pctBarSVG(p){const W=420;return `<svg width="${W}" height="86" viewBox="0 0 ${W} 86"><rect x="10" y="30" width="${W-20}" height="26" rx="13" fill="rgba(243,236,226,.08)" stroke="rgba(243,236,226,.25)"/><rect x="10" y="30" width="${(W-20)*p/100}" height="26" rx="13" fill="var(--apricot)" opacity=".9"/><text class=tx x="${10+(W-20)*p/100}" y="22" text-anchor="middle" style="fill:var(--apricot)">${p}%</text><text class=tm x="10" y="76">0%</text><text class=tm x="${W-10}" y="76" text-anchor="end">100%</text></svg>`}
+function piePctSVG(p){const C=2*Math.PI*54,f=p/100*C;return `<svg width="150" height="172" viewBox="0 0 150 172"><circle cx="75" cy="72" r="54" fill="rgba(243,236,226,.08)" stroke="rgba(243,236,226,.3)"/><circle cx="75" cy="72" r="54" fill="none" stroke="var(--apricot)" stroke-width="16" stroke-dasharray="${f} ${C-f}" transform="rotate(-90 75 72)"/><text class=tx x="75" y="80" text-anchor="middle" style="font-size:21px">${p}%</text></svg>`}
+function piesPctRow(list){const M={25:["pie-14.jpg","четверть"],50:["pie-12.jpg","половина"],75:["pie-34.jpg","три четверти"]};return `<div class=fig style="gap:18px;flex-wrap:wrap">${list.map(p=>{const e=M[p];return e?imgPie(e[0],p+"%",e[1]):photoPiePct(p)}).join("")}</div>`}
+function eqStrips(){return `<div class=fig style="display:grid;gap:6px;justify-items:center">${stripSVG(1,2,"1/2")}${stripSVG(2,4,"2/4")}${stripSVG(3,6,"3/6")}</div>`}
+function wholePie(label){const c=65,r=56,inner=r-9;const s=pieBase(c,r,inner)+pieDots(c,inner,5);
+ return `<div class=photo-pie><div class=ph><svg viewBox="0 0 130 130">${s}</svg></div><div class=plabel>${label}</div><div class=psub>целый, не разрезанный</div></div>`}
+function mixedSVG(){return `<div class=fig style="gap:14px;flex-wrap:wrap;align-items:center">${imgPie("pie-whole.jpg","1 целая","целый, не разрезанный")}<span class=tx style="font-size:26px">+</span>${imgPie("pie-14.jpg","1/4","одна четверть")}</div>`}
+function signWheelSVG(){return `<svg width="300" height="120" viewBox="0 0 300 120">
+ <text class=tx x="20" y="30">+ · + = +</text><text class=tx x="170" y="30">+ · − = −</text>
+ <text class=tx x="20" y="70">− · + = −</text><text class=tx x="170" y="70" style="fill:var(--mint)">− · − = +</text>
+ <text class=tm x="20" y="105">То же правило работает и для деления.</text></svg>`}
+/* числовая прямая с выколотой точкой — для ОДЗ */
+function odzSVG(hole,label){const a=hole-6,b=hole+6;const W=560,pad=34,x=v=>pad+(v-a)/(b-a)*(W-2*pad);
+ let t=`<line x1="${x(a)}" y1="58" x2="${x(b)}" y2="58" stroke="var(--muted)" stroke-width="1.6"/><polygon points="${x(b)},58 ${x(b)-9},53 ${x(b)-9},63" fill="var(--muted)"/>`;
+ for(let v=Math.ceil(a);v<=Math.floor(b);v++){t+=`<line x1="${x(v)}" y1="53" x2="${x(v)}" y2="63" stroke="var(--muted)"/><text class=tm x="${x(v)}" y="80" text-anchor="middle">${v}</text>`}
+ t+=`<circle cx="${x(hole)}" cy="58" r="7" fill="var(--bg)" stroke="var(--miss)" stroke-width="2.6"/><line x1="${x(hole)-9}" y1="47" x2="${x(hole)+9}" y2="69" stroke="var(--miss)" stroke-width="2"/><text class=tx x="${x(hole)}" y="30" text-anchor="middle" style="fill:var(--miss)">выколота: ${label}</text>`;
+ return `<svg width="${W}" height="92" viewBox="0 0 ${W} 92">${t}</svg>`}
+const FIGS={strip:(a,b,l)=>stripSVG(a,b,l||""),twoStrips,pies:piesRow,nline:p=>nlineSVG(p[0],p[1],p[2]),add:addArrowsSVG,abs:absSVG,pctGrid:pctGridSVG,pctBar:pctBarSVG,piesPct:piesPctRow,eqStrips,mixed:signWheelSVG,fracPie:mixedSVG,odz:p=>odzSVG(p[0],p[1])};
+function figOf(f){if(!f)return"";const[fn,...args]=f;return `<div class=fig>${FIGS[fn](...args)}</div>`}
+function petSay(id,text){const im=PIMG[id];const N={frac:"Биссектриса",sign:"Биссектриса",pct:"Хома Зубрила",rac:"Биссектриса"};return `<div class=petsay>${im?`<img src="${im}" alt="">`:""}<div class=say><b>${N[id]||"Маскот"}:</b> ${text}</div></div>`}
+
+/* ---------- content ---------- */
+const MODULES=[
+{id:"rac",name:"Рациональные выражения",pet:"rac",sub:"Что можно записать в дробь, ОДЗ, все действия и упрощение. 4 урока + 10 заданий на закрепление.",
+ lessons:[
+  {t:"Что такое рациональное выражение",slides:[
+    {h:"Целые и дробные выражения",p:`<span class=accent>Рациональное выражение</span> — это любая запись, составленная из чисел, переменных, скобок и действий сложения, вычитания, умножения, деления и степени. Например: 3x² − 2x, ${fr("a+b","2")}, ${fr(5,"x−2")}, ${fr("x·y","x+y")}. Выражения <b>без деления на переменную</b> (3x² − 2x) называют целыми, с делением — <b>дробными</b>. Именно с дробными мы и будем работать.`,pet:"Рацио — от латинского «разум». Всё разумное — из простых действий. Даже страшная многоэтажная дробь собрана из плюсов и минусов."},
+    {h:"ОДЗ — допустимые значения",p:`Главное табу рациональных выражений: <b>знаменатель не может быть равен нулю</b>. Значения переменных, при которых это происходит, называют <span class=accent>недопустимыми</span>, а все остальные — допустимыми. Множество допустимых значений пишут коротко: <b>ОДЗ</b>. Для ${fr(5,"x−2")} решаем x − 2 ≠ 0, то есть x ≠ 2. Число 2 «выкалываем» из всех возможных значений.`,fig:["odz",[2,"x ≠ 2"]],pet:"Думай о знаменателе как о тарелке: она не должна быть пустой. Ноль кусочков — нет тарелки, нет дроби."},
+    {h:"Как найти ОДЗ: три шага",p:`Алгоритм всегда один: <b>1)</b> записать все знаменатели и приравнять каждый к нулю; <b>2)</b> решить полученные уравнения; <b>3)</b> исключить найденные значения. Пример: ${fr(7,"x+3")} → x + 3 = 0 → x = −3, значит ОДЗ: x ≠ −3. А для ${fr(1,"x(x−5)")} знаменателем будет ноль при x = 0 и при x = 5 — исключаем оба.`,pet:"Недопустимых значений может быть несколько — ищи ВСЕ. Пропустишь одно — потеряешь всё задание."},
+    {h:"Почему нельзя делить на ноль",p:`Деление — это раздача поровну: 12 : 3 означает «по сколько достанется каждому из трёх». А 12 : 0 — «раздали всем по нулю и израсходовали 12» — невозможно: сколько ни раздавай по нулю, не израсходуешь ничего. Поэтому математика говорит: деление на ноль <b>запрещено</b>, и точка.`,pet:"Это не каприз, это закон природы чисел. Запомни: увидел знаменатель — сразу спроси себя «где он обнуляется?»."}],
+   check:[
+    {q:"Какое значение недопустимо для выражения 4/(x+3)?",opts:["x = −3","x = 3","x = 4","любое допустимо"],c:0,why:"Приравняли знаменатель к нулю: x + 3 = 0 → x = −3. Именно его исключаем."},
+    {q:"Что может входить в рациональное выражение?",opts:["числа, переменные, + − · : и степень","только дроби с числами","только многочлены","только уравнения"],c:0,why:"Рациональное выражение собирается из чисел и переменных четырьмя действиями и степенью."},
+    {q:"Найди ОДЗ: 1/(x·(x−5))",opts:["x ≠ 0 и x ≠ 5","x ≠ 5","x ≠ 0","все x допустимы"],c:0,why:"x(x−5) = 0 при x = 0 и при x = 5. Исключаем оба значения."}]},
+  {t:"Сложение и вычитание: общий знаменатель",slides:[
+    {h:"Главное правило",p:`Складывать и вычитать можно только дроби с <b>одинаковым знаменателем</b> — тогда работаем только с числителями: ${fr("a","c")} + ${fr("b","c")} = ${fr("a+b","c")}, а ${fr("a","c")} − ${fr("b","c")} = ${fr("a−b","c")}. Знаменатели разные? Сначала приводим к общему — тому, что делится на каждый из них.`,pet:"Как и в шестом классе: сначала одинаковая нарезка, потом считаем кусочки. Буквы ничего не меняют."},
+    {h:"Пример: разные знаменатели",p:`${fr(1,"2x")} + ${fr(1,"3x")}. Общий знаменатель — 6x (делится и на 2x, и на 3x). Дополнительные множители: 6x : 2x = 3 и 6x : 3x = 2. Домножаем каждую дробь: ${fr(3,"6x")} + ${fr(2,"6x")} = ${fr(5,"6x")}. Готово! ОДЗ: x ≠ 0.`,pet:"Хитрость: если знаменатели 2x и 3x — общий будет 6x, а не 5x. Коэффициенты НЕ складываются, они перемножаются в НОК."},
+    {h:"Вычитание и скобки",p:`${fr("x+5","x−2")} − ${fr(7,"x−2")} = ${fr("x+5−7","x−2")} = ${fr("x−2","x−2")} = 1. Обрати внимание: дробь сократилась до единицы, но <b>ОДЗ остаётся</b> — при x = 2 исходное выражение не существует! А если знаменатели <span class=accent>противоположные</span>: ${fr(1,"x−2")} + ${fr(1,"2−x")} = ${fr(1,"x−2")} − ${fr(1,"x−2")} = 0, ведь 2 − x = −(x − 2).`,pet:"Пара (x−2) и (2−x) — любимая ловушка ОГЭ. Переверни одну дробь со знаком минус — и они станут одинаковыми."}],
+   check:[
+    {q:"Какой общий знаменатель у дробей 1/(2x) и 1/(3x)?",opts:["6x","5x","6x²","x"],c:0,why:"6x делится и на 2x, и на 3x. Коэффициенты перемножаются: 2·3 = 6."},
+    {q:"Сколько будет 1/(x−2) + 1/(2−x)?",opts:["0","2/(x−2)","1","2/(2−x)"],c:0,why:"2−x = −(x−2), поэтому вторая дробь = −1/(x−2). Сумма противоположных дробей — ноль."},
+    {q:"Сколько будет a/c − b/c?",opts:["(a−b)/c","(a−b)/2c","ab/c","(a+b)/c"],c:0,why:"Знаменатель общий — вычитаем только числители: (a−b)/c."}]},
+  {t:"Умножение, деление и степень",slides:[
+    {h:"Умножение",p:`Правило как в шестом классе: <b>числитель на числитель, знаменатель на знаменатель</b>: ${fr("a","b")} · ${fr("c","d")} = ${fr("ac","bd")}. И главное ускорение — сокращать <b>крест-накрест до перемножения</b>: ${fr("3a","4b")} · ${fr("8b","9a")}: 3 и 9 делим на 3, 8 и 4 — на 4, a уходит с a, b с b. Остаётся ${fr(2,3)}.`,pet:"Крест-накрест — это буква X между дробями. Сокращать можно только числитель одной дроби со знаменателем другой."},
+    {h:"Деление",p:`Деление заменяем умножением: <b>переверни вторую дробь</b> и умножь: ${fr("a","b")} : ${fr("c","d")} = ${fr("a","b")} · ${fr("d","c")} = ${fr("ad","bc")}. Пример: ${fr("x²","y")} : ${fr("x","y²")} = ${fr("x²","y")} · ${fr("y²","x")} = x·y = xy.`,pet:"Проверяй себя размером: делить на дробь меньше единицы — результат должен вырасти. x²/y разделили на что-то маленькое — получили xy. Логично."},
+    {h:"Степень дроби",p:`Возводим в степень и числитель, и знаменатель: ${fr("a","b")}ⁿ = ${fr("aⁿ","bⁿ")}. Пример: ${fr("2m","3n")}² = ${fr("(2m)²","(3n)²")} = ${fr("4m²","9n²")}. Каждый множитель внутри скобки возводится в степень: и 2, и m.`,pet:"Скобки решают всё: (2m)² = 4m², а если бы скобок не было — 2m². Пиши скобки честно, и ответ честный."}],
+   check:[
+    {q:"Чему равно деление дроби на дробь?",opts:["умножению на перевёрнутую дробь","умножению на эту же дробь","делению наоборот","нулю"],c:0,why:"a/b : c/d = a/b · d/c. Вторая дробь переворачивается."},
+    {q:"Чему равно (a/b)²?",opts:["a²/b²","2a/2b","a/b²","a²/b"],c:0,why:"Степень распределяется: и числитель, и знаменатель возводим в квадрат."},
+    {q:"Сократи: (3/4)·(8/9)",opts:["2/3","24/13","1/2","4/3"],c:0,why:"Крест-накрест: 3 с 9 (на 3), 8 с 4 (на 4). Остаётся 1·2 / 1·3 = 2/3."}]},
+  {t:"Порядок действий и многоэтажные дроби",slides:[
+    {h:"План атаки",p:`Порядок тот же, что и для чисел: <b>1)</b> действия в скобках, <b>2)</b> степени, <b>3)</b> умножение и деление слева направо, <b>4)</b> сложение и вычитание. У опытных счетоводов прибавляется шаг ноль: посмотреть на всё выражение и решить, что удобнее сделать первым. Например, в (1 + 1/x)·x проще не приводить к общему знаменателю, а сразу раскрыть умножение: x + 1.`,pet:"Упрощение — это не счёт по правилам, а маршрут. Посмотри на карту целиком, прежде чем идти."},
+    {h:"Многоэтажные дроби",p:`Главная (самая длинная) черта — это <b>знак деления</b>. Запиши её двоеточием и станет ясно: ${fr("a","b/c")} = a : ${fr("b","c")} = ${fr("ac","b")}. Пример: ${fr(2,"2/3")} = 2 : ${fr(2,3)} = 2 · ${fr(3,2)} = 3.`,pet:"Держи карандаш на главной черте и читай: «всё, что сверху, делим на всё, что снизу». Главная черта всегда длиннее остальных."},
+    {h:"Полный пример",p:`Упростим (1 − ${fr(1,"x+1")}) · ${fr("x+1","x")}. Шаг 1, скобки: 1 − ${fr(1,"x+1")} = ${fr("x+1−1","x+1")} = ${fr("x","x+1")}. Шаг 2, умножение: ${fr("x","x+1")} · ${fr("x+1","x")} = 1. Шаг 3, ОДЗ: x ≠ −1 и x ≠ 0. Ответ: 1 (при допустимых x).`,pet:"Красиво, правда? Всё сократилось. Задания ОГЭ на упрощение почти всегда заканчиваются коротким ответом — если он длинный, проверь, не пропустил ли ты сокращение."}],
+   check:[
+    {q:"Какое действие выполняем первым в (1 + 1/x)·x?",opts:["сложение в скобках","умножение","без разницы"],c:0,why:"Сначала всегда скобки. Потом уже умножение на x."},
+    {q:"Чему равно a/(b/c)?",opts:["ac/b","ab/c","bc/a","a"],c:0,why:"Главная черта — деление: a : (b/c) = a · (c/b) = ac/b."},
+    {q:"Чему равно (1 − 1/(x+1))·(x+1)/x при допустимых x?",opts:["1","0","x","1/x"],c:0,why:"Скобки дают x/(x+1), умножаем на (x+1)/x — всё сокращается, ответ 1."}]}],
+ practice:[
+  {q:`Какое значение x недопустимо в выражении 7/(x−5)?`,a:["x = 5"],opts:["x = 5","x = −5","x = 7","все допустимы"],hint:["Приравняй знаменатель к нулю и реши.","x − 5 = 0 → x = 5. Именно 5 исключаем."]},
+  {q:`Вычислите при a = 1: 1/(2a) + 1/(3a)`,a:["5/6"],hint:["Общий знаменатель 6a. Домножь каждую дробь.","3/(6a) + 2/(6a) = 5/(6a). При a = 1: 5/6."]},
+  {q:`Упростите: (x+5)/(x−2) − 7/(x−2)`,a:["1"],hint:["Знаменатель один — вычти числители.","(x+5−7)/(x−2) = (x−2)/(x−2) = 1. ОДЗ x ≠ 2 осталась!"]},
+  {q:`Выполните умножение: (3a/4b) · (8b/9a)`,a:["2/3"],hint:["Сократи крест-накрест до перемножения.","3 и 9 на 3, 8 и 4 на 4, a с a, b с b. Остаётся 2/3."]},
+  {q:`Выполните деление: (x²/y) : (x/y²)`,a:["xy","yx"],hint:["Переверни вторую дробь и умножь.","x²/y · y²/x = x·y = xy."]},
+  {q:`Возведите в квадрат: (2m/3n)²`,a:["4m^2/9n^2","4m²/9n²","4m2/9n2"],hint:["Каждый множитель числителя и знаменателя — в квадрат.","(2m)² = 4m², (3n)² = 9n²."]},
+  {q:`Упростите: (1/x − 1/y) · xy`,a:["y-x","−x+y","-x+y"],hint:["Приведи разность к общему знаменателю xy.","(y−x)/(xy) · xy = y−x."]},
+  {q:`Вычислите «многоэтажную» дробь: 2/(2/3)`,a:["3"],hint:["Главная черта — это деление. Запиши через двоеточие.","2 : 2/3 = 2 · 3/2 = 3."]},
+  {q:`Упростите: (a² − b²)/(a − b), где a ≠ b`,a:["a+b"],hint:["Разность квадратов — формула сокращённого умножения.","a²−b² = (a−b)(a+b). Сократи на (a−b)."]},
+  {q:`Упростите: (1 − 1/(x+1)) · (x+1)/x`,a:["1"],hint:["Сначала скобки: приведи к знаменателю x+1.","1 − 1/(x+1) = x/(x+1). Умножь на (x+1)/x — всё сократится."]}]}
+];
+
+/* ---------- state ---------- */
+const SKEY="lili-rac-v1";
+const fresh=()=>({xp:0,mods:{},sound:true});
+let S;try{S=Object.assign(fresh(),JSON.parse(localStorage.getItem(SKEY))||{})}catch(e){S=fresh()}
+sound=S.sound!==false;
+const save=()=>localStorage.setItem(SKEY,JSON.stringify(S));
+const modSt=id=>S.mods[id]||(S.mods[id]={lessons:{},prac:{},streak:0});
+const modOf=id=>MODULES.find(m=>m.id===id);
+function totals(){let L=0,Ld=0,P=0,Pd=0;MODULES.forEach(m=>{const st=modSt(m.id);L+=m.lessons.length;Ld+=m.lessons.filter((_,i)=>st.lessons[i]).length;P+=m.practice.length;Pd+=Object.keys(st.prac).length});return{L,Ld,P,Pd}}
+function addXP(n,el){S.xp+=n;$("#xp").textContent=S.xp;if(el)xpFloat(el,n);save()}
+
+/* ---------- render: map ---------- */
+function renderMap(){
+ const t=totals();$("#progPill").innerHTML=`<strong>${t.Ld}/${t.L}</strong> уроков · <strong>${t.Pd}/${t.P}</strong> практики`;
+ $("#xp").textContent=S.xp;
+ app.innerHTML=`<section class="hero enter">
+  <div class=kick>Интерактивное обучение · 8 класс · алгебра</div>
+  <h1>Преобразование <span>рациональных выражений</span></h1>
+  <p class=lead>Тема, на которой решается задание 13 (и часть задания 21) ОГЭ: допустимые значения, общий знаменатель, умножение и деление дробей, многоэтажные дроби и упрощение. 4 коротких урока с картинками, мини-проверка и практика с подсказками.</p>
+  <img class=heroimg src="img/rat-desk-wide.jpg" alt="Биссектриса на уроке алгебры">
+ </section>
+ <div class=mapa>${MODULES.map(m=>{
+   const st=modSt(m.id);
+   const doneL=m.lessons.filter((_,i)=>st.lessons[i]).length;
+   const doneP=Object.keys(st.prac).length;
+   const total=m.lessons.length+m.practice.length;
+   const done=doneL+doneP;
+   const nextL=m.lessons.findIndex((_,i)=>!st.lessons[i]);
+   const locked=i=>i>0&&!modSt(m.id).lessons[i-1];
+   const lessonsBtns=m.lessons.map((l,i)=>`<button class="btn small ${st.lessons[i]?'ghost':''}" data-mod="${m.id}" data-lesson="${i}" ${locked(i)?"disabled":""}>${st.lessons[i]?"✓ ":""}${i+1}. ${l.t}</button>`).join(" ");
+   return `<div class="mod card">
+    <div class=ava><img src="${PIMG[m.pet]||""}" alt=""></div>
+    <div>
+      <h4>${m.name}</h4>
+      <div class=sub>${m.sub}</div>
+      <div class=mbar><i style="width:${Math.round(done/total*100)}%"></i></div>
+      <div class=mrow>
+        <span class=mstats>уроки <b>${doneL}/${m.lessons.length}</b> · практика <b>${doneP}/${m.practice.length}</b></span>
+        <span class=sp></span>
+        <button class="btn small" data-mod="${m.id}" data-practice="1">Практика ${doneP>0?"· продолжить":""}</button>
+      </div>
+      <div class=mrow style="margin-top:10px">${lessonsBtns}</div>
+    </div>
+   </div>`}).join("")}
+ </div>
+ <p class=note style="margin-top:16px">Прогресс сохраняется на этом устройстве. Уроки открываются по порядку: сначала пройди предыдущий.</p>`;
+ app.querySelectorAll("[data-lesson]").forEach(b=>b.onclick=()=>{sfx.tap();openLesson(b.dataset.mod,+b.dataset.lesson)});
+ app.querySelectorAll("[data-practice]").forEach(b=>b.onclick=()=>{sfx.tap();openPractice(b.dataset.mod)});
+}
+
+/* ---------- render: lesson ---------- */
+let cur=null;
+function openLesson(modId,li){
+ const m=modOf(modId),L=m.lessons[li];
+ cur={modId,li,si:0,ok:0};
+ drawSlide();
+}
+function drawSlide(){
+ const m=modOf(cur.modId),L=m.lessons[cur.li],sl=L.slides[cur.si];
+ const last=cur.si===L.slides.length-1;
+ app.innerHTML=`<article class="card enter">
+  <div class=kick>${m.name} · Урок ${cur.li+1} из ${m.lessons.length} · ${L.t}</div>
+  <div class=sld>
+    <h3>${sl.h}</h3>
+    <p class=txt>${sl.p}</p>
+    ${figOf(sl.fig)}
+    ${sl.pet?petSay(m.pet,sl.pet):""}
+  </div>
+  <div class=dots>${L.slides.map((_,i)=>`<i class="${i<cur.si?'done':i===cur.si?'on':''}"></i>`).join("")}</div>
+  <div class=navrow>
+    <button class="btn ghost" id=back>Назад</button>
+    <button class=btn id=nxt>${last?"К проверке":"Дальше"}</button>
+  </div>
+ </article>`;
+ $("#back").onclick=()=>{sfx.tap();if(cur.si>0){cur.si--;drawSlide()}else renderMap()};
+ $("#nxt").onclick=()=>{sfx.soft();if(last){openCheck()}else{cur.si++;drawSlide()}};
+}
+function openCheck(){
+ const m=modOf(cur.modId),L=m.lessons[cur.li];
+ app.innerHTML=`<article class="card enter">
+  <div class=kick>${m.name} · Урок ${cur.li+1} · мини-проверка</div>
+  <h2>Проверим, что запомнилось</h2>
+  <p class=note>Отвечай без подглядываний — тут не страшно ошибиться.</p>
+  ${L.check.map((c,i)=>`<div class=q id=q${i}>
+    <div class=qq>${i+1}. ${c.q}</div>
+    <div class=opts>${c.opts.map((o,j)=>`<button class=opt data-i="${j}"><span class=k>${j+1}</span><span>${o}</span></button>`).join("")}</div>
+  </div>`).join("")}
+  <div id=fb></div>
+  <div class=navrow><button class="btn ghost" id=tomap>К карте</button></div>
+ </article>`;
+ let answered=0;
+ L.check.forEach((c,i)=>{
+  const q=app.querySelector("#q"+i);
+  q.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+   if(q.dataset.done)return;q.dataset.done=1;
+   const j=+b.dataset.i,good=j===c.c;
+   q.querySelectorAll(".opt").forEach(x=>x.classList.add("dis"));
+   b.classList.add(good?"ok":"bad");
+   if(!good)q.querySelector(`.opt[data-i="${c.c}"]`).classList.add("ok");
+   if(good){sfx.ok();cur.ok++;addXP(5,b)}else sfx.bad();
+   $("#fb").innerHTML=`<div class="fb ${good?"ok":"bad"}"><span class=ic><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">${good?'<path d="M5 12.5l4.5 4.5L19 7.5"/>':'<path d="M12 7v6M12 17h.01"/>'}</svg></span><div><div class=t>${good?"Верно!":"Не совсем"}</div><div class=s>${c.why}</div></div></div>`;
+   if(++answered===L.check.length)finishLesson();
+  });
+ });
+ $("#tomap").onclick=()=>{sfx.tap();renderMap()};
+}
+function finishLesson(){
+ const m=modOf(cur.modId),st=modSt(cur.modId);
+ const first=!st.lessons[cur.li];
+ st.lessons[cur.li]=1;save();
+ if(first)addXP(15);
+ const isLast=cur.li===m.lessons.length-1;
+ const next=m.lessons.findIndex((_,i)=>!st.lessons[i]);
+ const fb=$("#fb");
+ setTimeout(()=>{
+  sfx.win();burst(innerWidth/2,220,90,8);
+  fb.innerHTML+=`<div class="fb ok"><span class=ic><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><div><div class=t>Урок пройден! ${first?"+15 XP":""}</div><div class=s>${isLast?"Это был последний урок модуля — сходи в практику.":next>=0?"Следующий урок открыт.":"Продолжай практику."}</div></div></div>`;
+  $(".navrow").innerHTML=`<button class="btn ghost" id=tomap2>К карте</button>${!isLast&&next===cur.li+1?'<button class=btn id=nextl>Следующий урок</button>':""}${isLast?'<button class=btn id=goprac>В практику</button>':""}`;
+  $("#tomap2").onclick=()=>{sfx.tap();renderMap()};
+  const nl=$("#nextl");if(nl)nl.onclick=()=>{sfx.tap();openLesson(cur.modId,cur.li+1)};
+  const gp=$("#goprac");if(gp)gp.onclick=()=>{sfx.tap();openPractice(cur.modId)};
+ },600);
+}
+
+/* ---------- render: practice ---------- */
+let pr=null;
+function openPractice(modId){
+ const m=modOf(modId),st=modSt(modId);
+ pr={modId,i:0,hints:0,tried:false};
+ drawTask();
+}
+function drawTask(){
+ const m=modOf(pr.modId),st=modSt(pr.modId),t=m.practice[pr.i];
+ const doneN=Object.keys(st.prac).length;
+ app.innerHTML=`<article class="card enter">
+  <div class=kick>${m.name} · Практика · задание ${pr.i+1} из ${m.practice.length}</div>
+  ${st.prac[pr.i]?`<div style="margin-top:8px"><span class=done-flag><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>уже решено</span></div>`:""}
+  <div class=stmt>${t.q}</div>
+  <div class=ans>
+    ${t.opts?`<div class=opts id=opts>${t.opts.map((o,j)=>`<button class=opt data-i="${j}"><span class=k>${j+1}</span><span>${o}</span></button>`).join("")}</div>`
+            :`<div class=irow><input class=field id=ans placeholder="Ответ: число, дробь или выражение, например 3/4 или x+1" autocomplete=off><button class=btn id=check>Проверить</button></div>`}
+    <div class=hint><button class="btn ghost small" id=hint>Подсказка</button></div>
+    <div id=hints></div>
+    <div id=fb></div>
+  </div>
+  <div class=navrow>
+    <button class="btn ghost" id=menu>К карте</button>
+    ${pr.i>0?'<button class="btn ghost" id=prev>Назад</button>':""}
+    ${pr.i<m.practice.length-1?'<button class="btn ghost" id=skip>Пропустить</button>':""}
+  </div>
+ </article>`;
+ pr.tried=false;pr.hints=0;
+ const f=$("#ans");if(f){f.focus();f.addEventListener("keydown",e=>{if(e.key==="Enter")$("#check").click()})}
+ if(t.opts){
+  app.querySelectorAll("#opts .opt").forEach(b=>b.onclick=()=>{checkOpt(t,+b.dataset.i,b)});
+ }
+ const ch=$("#check");if(ch)ch.onclick=()=>checkInput(t);
+ $("#hint").onclick=()=>{
+  if(pr.hints>=t.hint.length)return;
+  sfx.tap();
+  $("#hints").insertAdjacentHTML("beforeend",`<div class=hintbox><small>Подсказка ${pr.hints+1}</small>${t.hint[pr.hints]}</div>`);
+  pr.hints++;
+  if(pr.hints>=t.hint.length)$("#hint").disabled=true;
+ };
+ $("#menu").onclick=()=>{sfx.tap();renderMap()};
+ const pv=$("#prev");if(pv)pv.onclick=()=>{sfx.tap();pr.i--;drawTask()};
+ const sk=$("#skip");if(sk)sk.onclick=()=>{sfx.tap();pr.i++;drawTask()};
+}
+function norm(s){return String(s).trim().toLowerCase().replace(/,/g,".").replace(/−/g,"-").replace(/\s+/g," ")}
+function good(t,val){const n=norm(val);return t.a.some(x=>norm(x)===n)}
+function fbHTML(ok,why){return `<div class="fb ${ok?"ok":"bad"}"><span class=ic><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">${ok?'<path d="M5 12.5l4.5 4.5L19 7.5"/>':'<path d="M12 7v6M12 17h.01"/>'}</svg></span><div><div class=t>${ok?"Верно!":"Пока мимо"}</div><div class=s>${why||""}</div></div></div>`}
+function after(ok,t,el){
+ const st=modSt(pr.modId);
+ if(ok){
+  sfx.ok();
+  const first=!st.prac[pr.i];
+  st.prac[pr.i]=1;
+  st.streak=(st.streak||0)+1;
+  addXP(first?15:5,el);
+  if(st.streak>=3)burst(innerWidth/2,240,80,7);
+  save();
+ }else{
+  sfx.bad();st.streak=0;save();
+  app.querySelector(".card").classList.add("shake");setTimeout(()=>app.querySelector(".card")&&app.querySelector(".card").classList.remove("shake"),500);
+ }
+ $("#fb").innerHTML=fbHTML(ok,ok?(st.streak>=3?`Серия ×${st.streak}!`:"Можно идти дальше."):`Правильный ответ: ${t.a[0]}. ${t.hint[t.hint.length-1]}`)+(!ok?`<div class=petsay><img src="img/rat-sad.jpg" alt=""><div class=say><b>Биссектриса:</b> Не расстраивайся — ошибаться нормально. Прочти последнюю подсказку ещё раз и попробуй похожее задание, у тебя получится.</div></div>`:"");
+ const nav=app.querySelector(".navrow");
+ const isLast=pr.i===modOf(pr.modId).practice.length-1;
+ const allDone=Object.keys(st.prac).length===modOf(pr.modId).practice.length;
+ nav.innerHTML=`<button class="btn ghost" id=menu>К карте</button>
+  ${pr.i>0?'<button class="btn ghost" id=prev>Назад</button>':""}
+  ${!isLast?'<button class=btn id=next>Дальше</button>':""}
+  ${isLast?`<button class=btn id=finish>${allDone?"Итог":"Завершить"}</button>`:""}`;
+ $("#menu").onclick=()=>{sfx.tap();renderMap()};
+ const pv=$("#prev");if(pv)pv.onclick=()=>{sfx.tap();pr.i--;drawTask()};
+ const nx=$("#next");if(nx)nx.onclick=()=>{sfx.tap();pr.i++;drawTask()};
+ const fn=$("#finish");if(fn)fn.onclick=()=>{sfx.tap();showResult()};
+ if(ok&&isLast&&allDone)setTimeout(showResult,1400);
+}
+function checkOpt(t,j,btn){
+ if(pr.tried)return;pr.tried=true;
+ const ok=j===t.opts.indexOf(t.a[0]);
+ app.querySelectorAll("#opts .opt").forEach(x=>x.classList.add("dis"));
+ btn.classList.add(ok?"ok":"bad");
+ if(!ok)app.querySelector(`#opts .opt[data-i="${t.opts.indexOf(t.a[0])}"]`).classList.add("ok");
+ after(ok,t,btn);
+}
+function checkInput(t){
+ if(pr.tried)return;
+ const v=$("#ans").value;
+ if(!norm(v))return;
+ pr.tried=true;
+ after(good(t,v),t,$("#check"));
+}
+function showResult(){
+ const m=modOf(pr.modId),st=modSt(pr.modId);
+ const done=Object.keys(st.prac).length,total=m.practice.length;
+ const all=done===total;
+ app.innerHTML=`<article class="card enter"><div class=result>
+  <div class=kick>${m.name} · итог практики</div>
+  <div class=big>${done}/${total}</div>
+  ${all?'<img class=winimg src="img/rat-joy.jpg" alt="Биссектриса празднует победу">':""}
+  <p class=txt style="text-align:center">${all?"Все задания решены — тема твоя. Загляни в другие модули.":done>=total/2?"Хороший результат. Загляни в подсказки нерешённых и добей.":"Пройди уроки ещё раз и возвращайся — станет заметно легче."}</p>
+  ${petSay(m.pet,all?"Чистая работа. Так держать!":"Главное — не сдаваться. Я в тебя верю.")}
+  <div class=mrow style="justify-content:center;margin-top:16px">
+    <button class="btn ghost" id=again>Ещё раз</button>
+    <button class=btn id=tomap>К карте</button>
+  </div>
+ </div></article>`;
+ if(all){sfx.win();burst(innerWidth/2,260,120,9)}
+ $("#again").onclick=()=>{const st2=modSt(pr.modId);st2.prac={};st2.streak=0;save();sfx.tap();openPractice(pr.modId)};
+ $("#tomap").onclick=()=>{sfx.tap();renderMap()};
+}
+
+/* ---------- sound toggle & boot ---------- */
+$("#snd").onclick=()=>{sound=!sound;S.sound=sound;save();sfx.tap();
+ $("#snd").innerHTML=sound?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/></svg>':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9l5 6M22 9l-5 6"/></svg>'};
+renderMap();
+if(location.hash){const h=location.hash.slice(1);if(modOf(h))openPractice(h)}
+</script></body></html>
