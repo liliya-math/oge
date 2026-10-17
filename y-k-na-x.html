@@ -6,14 +6,38 @@
 <title>y = k/x — интерактив · lili.math</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=PT+Serif:wght@400;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        slate: {100:'31 42 68',200:'31 42 68',300:'93 103 130',400:'93 103 130',500:'122 132 158',600:'190 198 216',700:'210 217 231',800:'255 255 255',900:'247 248 251',950:'234 238 246'},
+        cyan: {300:'58 92 192',400:'35 70 168',500:'29 58 140',600:'35 70 168',900:'35 70 168',950:'35 70 168'},
+        amber: {300:'200 64 44',400:'200 64 44',500:'168 46 30',950:'200 64 44'},
+        emerald: {400:'30 158 106',900:'30 158 106',950:'30 158 106'},
+        purple: {300:'124 92 214',400:'124 92 214',500:'106 76 196',900:'124 92 214',950:'124 92 214'}
+      }
+    }
+  }
+}
+</script>
+<style>
+body{font-family:"Golos Text",system-ui,sans-serif;background-color:#f7f8fb;
+  background-image:linear-gradient(#e6eaf3 1px,transparent 1px),linear-gradient(90deg,#e6eaf3 1px,transparent 1px);
+  background-size:20px 20px}
+h2{font-family:"PT Serif",Georgia,serif}
+</style>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col">
 <header class="max-w-7xl w-full mx-auto p-4 flex flex-wrap gap-2 items-center">
   <span class="font-bold text-lg mr-4">lili.math · y = k/x</span>
   <button id="btn-explorer" onclick="switchTab('explorer')" class="tab-btn bg-cyan-600 text-white shadow px-4 py-2 rounded-lg text-sm font-semibold">Гипербола y = k/x</button>
-  <button id="btn-oge22" onclick="switchTab('oge22')" class="tab-btn text-slate-400 hover:text-white px-4 py-2 rounded-lg text-sm">Тренажёр ОГЭ №22</button>
-  <button id="btn-compare" onclick="switchTab('compare')" class="tab-btn text-slate-400 hover:text-white px-4 py-2 rounded-lg text-sm">Далёкие и прижатые</button>
-  <button id="btn-solver" onclick="switchTab('solver')" class="tab-btn text-slate-400 hover:text-white px-4 py-2 rounded-lg text-sm">Решение уравнений</button>
+  <button id="btn-oge22" onclick="switchTab('oge22')" class="tab-btn text-slate-400 hover:text-slate-200 px-4 py-2 rounded-lg text-sm">Тренажёр ОГЭ №22</button>
+  <button id="btn-compare" onclick="switchTab('compare')" class="tab-btn text-slate-400 hover:text-slate-200 px-4 py-2 rounded-lg text-sm">Далёкие и прижатые</button>
+  <button id="btn-solver" onclick="switchTab('solver')" class="tab-btn text-slate-400 hover:text-slate-200 px-4 py-2 rounded-lg text-sm">Решение уравнений</button>
 </header>
 <!-- Main Content Container -->
 <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
@@ -35,15 +59,15 @@
                 <button onclick="setK(-6)" class="bg-slate-700 hover:bg-slate-600 py-1.5 rounded text-xs font-medium">k = -6</button>
             </div>
             <hr class="border-slate-700">
-            <div class="space-y-3 bg-slate-900/60 p-4 rounded-xl border border-slate-700/50">
+            <div class="space-y-3 bg-[#eef1f7] p-4 rounded-xl border border-slate-700/50">
                 <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Свойства для текущего k</h3>
                 <div class="flex justify-between text-sm">
                     <span class="text-slate-400">Четверти:</span>
-                    <span id="prop-quad" class="font-semibold text-white">I и III</span>
+                    <span id="prop-quad" class="font-semibold text-slate-200">I и III</span>
                 </div>
                 <div class="flex justify-between text-sm">
                     <span class="text-slate-400">Монотонность:</span>
-                    <span id="prop-mono" class="font-semibold text-white">Убывает</span>
+                    <span id="prop-mono" class="font-semibold text-slate-200">Убывает</span>
                 </div>
                 <div class="flex justify-between text-sm">
                     <span class="text-slate-400">Формула:</span>
@@ -82,7 +106,7 @@
             <div class="grid grid-cols-3 gap-2" id="oge-preset-btns">
                 <!-- Dynamic preset buttons -->
             </div>
-            <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/60 space-y-2">
+            <div class="bg-[#eef1f7] p-4 rounded-xl border border-slate-700/60 space-y-2">
                 <h3 class="text-xs font-semibold uppercase tracking-wider text-amber-400">Статус анализа</h3>
                 <p id="oge-status" class="text-sm text-slate-200">Общие точки с графиком: <span id="oge-intersections-count" class="font-bold text-amber-300">1</span></p>
                 <p id="oge-verdict" class="text-xs text-slate-400">Прямая проходит через выколотую точку.</p>
@@ -106,7 +130,7 @@
                 <label class="block text-sm text-slate-300 mb-2">Значение параметра a: <span id="comp-a-val" class="font-bold text-emerald-300 text-lg">6</span></label>
                 <input type="range" id="comp-a-slider" min="1" max="9" step="1" value="6" class="w-full accent-emerald-500 cursor-pointer h-2 bg-slate-700 rounded-lg" oninput="updateCompareChart()">
             </div>
-            <div class="space-y-3 bg-slate-900/60 p-4 rounded-xl border border-slate-700/50 text-sm">
+            <div class="space-y-3 bg-[#eef1f7] p-4 rounded-xl border border-slate-700/50 text-sm">
                 <div class="flex items-center gap-2">
                     <span class="w-3 h-3 rounded-full bg-cyan-400"></span>
                     <span>Синий: <code id="comp-eq1" class="text-cyan-300 font-semibold">y = 6/x</code> (Широкая)</span>
@@ -142,7 +166,7 @@
                     <option value="noroot">Гипербола + Прямая (Нет корней): 6/x = -2x</option>
                 </select>
             </div>
-            <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/60 space-y-2">
+            <div class="bg-[#eef1f7] p-4 rounded-xl border border-slate-700/60 space-y-2">
                 <h3 class="text-xs font-semibold uppercase tracking-wider text-purple-400">Результат решения</h3>
                 <p id="solver-roots" class="text-sm text-slate-200 font-semibold">Корни уравнения (x): <span class="text-purple-300">-3; 2</span></p>
                 <p class="text-xs text-slate-400">⚠️ В ответе к уравнению записываются только абсциссы x, а не пары точек (x; y)!</p>
@@ -169,7 +193,7 @@
         document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
         document.querySelectorAll('.tab-btn').forEach(el => {
             el.classList.remove('bg-cyan-600', 'text-white', 'shadow');
-            el.classList.add('text-slate-400', 'hover:text-white');
+            el.classList.add('text-slate-400', 'hover:text-slate-200');
         });
 
         if (tabName === 'explorer') {
@@ -216,16 +240,16 @@
             type: 'scatter',
             data: {
                 datasets: [
-                    { label: 'Ветвь 1', data: [], borderColor: '#22d3ee', backgroundColor: '#22d3ee', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
-                    { label: 'Ветвь 2', data: [], borderColor: '#22d3ee', backgroundColor: '#22d3ee', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 }
+                    { label: 'Ветвь 1', data: [], borderColor: '#2346a8', backgroundColor: '#2346a8', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
+                    { label: 'Ветвь 2', data: [], borderColor: '#2346a8', backgroundColor: '#2346a8', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 }
                 ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    x: { type: 'linear', position: 'center', min: -10, max: 10, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#94a3b8' } },
-                    y: { type: 'linear', position: 'center', min: -10, max: 10, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#94a3b8' } }
+                    x: { type: 'linear', position: 'center', min: -10, max: 10, grid: { color: 'rgba(31,42,68,0.08)' }, ticks: { color: '#5d6782' } },
+                    y: { type: 'linear', position: 'center', min: -10, max: 10, grid: { color: 'rgba(31,42,68,0.08)' }, ticks: { color: '#5d6782' } }
                 },
                 plugins: { legend: { display: false } }
             }
@@ -264,17 +288,17 @@
             type: 'scatter',
             data: {
                 datasets: [
-                    { label: 'График функции', data: [], borderColor: '#fbbf24', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
+                    { label: 'График функции', data: [], borderColor: '#d97706', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
                     { label: 'Выколотая точка', data: [], backgroundColor: '#ef4444', borderColor: '#ffffff', pointRadius: 6, pointStyle: 'circle' },
-                    { label: 'Параметрическая прямая', data: [], borderColor: '#38bdf8', showLine: true, pointRadius: 0, borderWidth: 2, borderDash: [5, 5] }
+                    { label: 'Параметрическая прямая', data: [], borderColor: '#2346a8', showLine: true, pointRadius: 0, borderWidth: 2, borderDash: [5, 5] }
                 ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    x: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#94a3b8' } },
-                    y: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#94a3b8' } }
+                    x: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(31,42,68,0.08)' }, ticks: { color: '#5d6782' } },
+                    y: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(31,42,68,0.08)' }, ticks: { color: '#5d6782' } }
                 },
                 plugins: { legend: { display: false } }
             }
@@ -388,16 +412,16 @@
             type: 'scatter',
             data: {
                 datasets: [
-                    { label: 'Широкая: y = a/x', data: [], borderColor: '#22d3ee', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
-                    { label: 'Прижатая: y = 1/(ax)', data: [], borderColor: '#34d399', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 }
+                    { label: 'Широкая: y = a/x', data: [], borderColor: '#2346a8', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
+                    { label: 'Прижатая: y = 1/(ax)', data: [], borderColor: '#1e9e6a', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 }
                 ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    x: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#94a3b8' } },
-                    y: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#94a3b8' } }
+                    x: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(31,42,68,0.08)' }, ticks: { color: '#5d6782' } },
+                    y: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(31,42,68,0.08)' }, ticks: { color: '#5d6782' } }
                 },
                 plugins: { legend: { display: false } }
             }
@@ -427,17 +451,17 @@
             type: 'scatter',
             data: {
                 datasets: [
-                    { label: 'Гипербола', data: [], borderColor: '#c084fc', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
-                    { label: 'Второй график', data: [], borderColor: '#f472b6', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
-                    { label: 'Точки пересечения', data: [], backgroundColor: '#fbbf24', borderColor: '#ffffff', pointRadius: 6, pointStyle: 'circle' }
+                    { label: 'Гипербола', data: [], borderColor: '#7c5cd6', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
+                    { label: 'Второй график', data: [], borderColor: '#d63384', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
+                    { label: 'Точки пересечения', data: [], backgroundColor: '#d97706', borderColor: '#ffffff', pointRadius: 6, pointStyle: 'circle' }
                 ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    x: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#94a3b8' } },
-                    y: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#94a3b8' } }
+                    x: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(31,42,68,0.08)' }, ticks: { color: '#5d6782' } },
+                    y: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(31,42,68,0.08)' }, ticks: { color: '#5d6782' } }
                 },
                 plugins: { legend: { display: false } }
             }
