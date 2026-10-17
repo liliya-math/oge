@@ -1130,7 +1130,7 @@ function gradesCard(){const G=(D.grades||[]).slice().reverse(),avg=avgMark(D.gra
  if(!G.length)return `<div class="card">${head}<p class="klead" style="margin:0">Оценок пока нет. Здесь будет школьная успеваемость и график среднего балла.</p></div>`;
  return `<div class="card">${head}${gradesChart(D.grades)}<ul class="prl" style="margin-top:14px">${G.slice(0,12).map(g=>`<li><span class="pd">${shortDate(g.d)||'—'}</span><span class="pt">${esc(g.subj||'математика')}${g.note?` · <span style="color:var(--muted)">${esc(g.note)}</span>`:''}</span><span class="gm g${g.p}">${g.p}</span></li>`).join('')}</ul></div>`}
 function letterCard(){return `<div class="card" id="letcard"><div class="sh"><h2>Анонимно Лилии</h2><span class="sub">без имени, честно</span></div>
- <p class="klead" style="margin:-4px 0 12px;font-size:14.5px">Пожелание, отзыв или вопрос, которого стесняешься задать лично. Имя не прикрепляется — Лилия не узнает, от кого письмо.</p>
+ <p class="klead" style="margin:-4px 0 12px;font-size:14.5px">Пожелание, отзыв или вопрос, который стесняешься задать лично. Имя не прикрепляется — я не узнаю, от кого письмо.</p>
  <label class="fld"><span>Сообщение</span><textarea id="lt-t" rows="3" placeholder="Мне стеснительно, но я хочу спросить…"></textarea></label>
  <div class="ferr" id="lt-e"></div><button class="btn ghost" id="lt-b" type="button">Отправить анонимно</button></div>`}
 function bdayCard(){return `<div class="bday enter">
