@@ -655,6 +655,26 @@ a.btn{display:inline-flex;align-items:center;text-decoration:none;height:48px}
 
 .pbtn span{font-size:11px;letter-spacing:-.02em;white-space:nowrap;line-height:1.2}
 
+/* ===== кабинет: день рождения, оценки, анонимки 17.10 ===== */
+.bday{position:relative;overflow:hidden;text-align:center;display:grid;gap:10px;justify-items:center;padding:30px 22px 26px;border-radius:28px;background:linear-gradient(160deg,rgba(245,220,106,.15),rgba(242,144,94,.1) 55%,rgba(157,184,255,.12));border:1px solid rgba(245,220,106,.35);box-shadow:0 30px 80px -40px rgba(0,0,0,.7)}
+.bday img{width:min(56vw,220px);aspect-ratio:1;object-fit:cover;border-radius:26px;box-shadow:0 26px 60px -20px rgba(0,0,0,.85)}
+.bday h2{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(30px,7.5vw,44px);letter-spacing:-.03em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.bday .bwho{font-size:17px;font-weight:650}
+.bday .bpar{margin:0;font-size:14px;color:var(--muted);max-width:44ch}
+.bday .bpar b{color:var(--fg)}
+.gm{display:inline-grid;place-items:center;min-width:30px;height:27px;padding:0 8px;border-radius:9px;font-family:var(--display);font-weight:800;font-size:15px;font-variant-numeric:tabular-nums}
+.gm.g5{background:rgba(169,209,142,.2);color:var(--mint)}
+.gm.g4{background:rgba(157,184,255,.18);color:#9db8ff}
+.gm.g3{background:rgba(245,220,106,.16);color:var(--amber)}
+.gm.g2{background:rgba(255,143,115,.16);color:var(--miss)}
+.letrow{display:grid;gap:8px}
+.letitem{padding:12px 14px;border-radius:16px;background:rgba(0,0,0,.18);border:1px solid var(--line);font-size:14.5px;line-height:1.45}
+.letitem.unread{border-color:rgba(245,220,106,.45);background:rgba(245,220,106,.07)}
+.letitem .lm{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;font-size:12.5px;color:var(--faint);flex-wrap:wrap}
+.letitem .lm .acts{display:flex;gap:6px;align-items:center}
+.hwfi{display:none}
+.pdfchip{cursor:pointer;font-size:12.5px!important;padding:6px 11px!important}
+
 </style>
 <div class="amb" aria-hidden="true"><i></i><i></i><i></i></div>
 <canvas id="fx" aria-hidden="true"></canvas>
@@ -859,10 +879,19 @@ let D=null;            // данные ученика
 let syncedAt=0;        // когда данные пришли с сервера
 
 /* ---------- справочники ---------- */
+const T_ALG7=['Рациональные числа','Числовые и буквенные выражения','Сравнение значений выражений','Тождества и преобразования','Уравнение и его корни','Линейное уравнение с одной переменной','Задачи на уравнениях','Функция и её график','Линейная функция','Степень с натуральным показателем','Одночлены','Многочлены: сумма и разность','Умножение многочленов','Формулы сокращённого умножения','Системы линейных уравнений'];
+const T_GEO7=['Измерение отрезков','Измерение углов','Смежные углы','Смежные и вертикальные углы','Признаки равенства треугольников','Равнобедренный треугольник','Признаки параллельности прямых','Сумма углов треугольника','Прямоугольный треугольник','Окружность','Окружность и касательная'];
+const T_ALG8=['Рациональные выражения и сокращение дробей','Сложение и вычитание дробей','Умножение и деление дробей','Преобразование рациональных выражений','Функция y = k/x и её график','Действительные числа. Арифметический корень','Уравнение x² = a. Приближённые корни','Свойства квадратных корней','Преобразование выражений с корнями','Неполные квадратные уравнения','Формула корней. Теорема Виета','Квадратный трёхчлен. Дробные уравнения','Системы уравнений с двумя переменными','Неравенства и их системы','Степень с целым показателем'];
+const T_GEO8=['Четырёхугольники. Признаки параллелограмма','Свойства параллелограмма','Трапеция','Прямоугольник. Ромб. Квадрат','Теорема Фалеса','Средняя линия треугольника и трапеции','Неравенство треугольника','Решение прямоугольных треугольников','Теорема Пифагора. Пропорциональные отрезки','Декартовы координаты на плоскости','Симметрия относительно точки','Векторы на плоскости'];
+const T_ALG9=['Действительные числа и вычисления','Погрешность и приближения','Практико-ориентированные задачи','Функции и их свойства','Функция y = ax²','Графики y = ax² + n и y = a(x − m)²','Квадратичная функция и её график','Целое уравнение и его корни','Дробные рациональные уравнения','Задачи с помощью уравнений','Неравенства второй степени и метод интервалов','Уравнения с двумя переменными и их графики','Системы уравнений второй степени и задачи','Арифметическая прогрессия','Геометрическая прогрессия'];
+const T_GEO9=['Метод координат. Координаты вектора','Уравнения окружности и прямой','Соотношения между сторонами и углами','Скалярное произведение векторов','Правильные многоугольники','Длина окружности и площадь круга','Окружность. Вписанная и описанная','Движения','Подобные треугольники','1 признак подобия','2 и 3 признаки подобия','Вписанные углы','Угол между касательной и хордой','Решение треугольников','Площадь треугольника','Площадь четырёхугольника','Площади фигур','Площадь круга и его частей'];
+const T_OGE={1:'Практическая задача',2:'Практическая задача',3:'Практическая задача',4:'Практическая задача',5:'Практическая задача',6:'Вычисления с дробями',7:'Числа на координатной прямой',8:'Степени и корни',9:'Уравнения',10:'Вероятность',11:'Графики функций',12:'Расчёты по формулам',13:'Неравенства',14:'Прогрессии',15:'Треугольники',16:'Окружность',17:'Четырёхугольники',18:'Фигуры на клетчатой бумаге',19:'Верные утверждения',20:'Уравнения и выражения',21:'Текстовая задача',22:'Построение графика',23:'Геометрия: вычисление',24:'Геометрия: доказательство',25:'Геометрия повышенной сложности'};
+const tOf=a=>Object.fromEntries(a.map((t,i)=>[i+1,t]));
+const mergeT=(...a)=>tOf(a.flat());
 const PROGS={
- oge9:{name:'ОГЭ 9',oge:1,max:31,goalDef:22,nmax:25,pts:n=>n>=20?2:1,
+ oge9:{name:'ОГЭ · 25 заданий',oge:1,max:31,goalDef:22,nmax:25,pts:n=>n>=20?2:1,
   parts:[{t:'Часть 1 · по 1 баллу',a:1,b:19},{t:'Часть 2 · по 2 балла',a:20,b:25}],
-  topic:{1:'Практическая задача',2:'Практическая задача',3:'Практическая задача',4:'Практическая задача',5:'Практическая задача',6:'Вычисления с дробями',7:'Числа на координатной прямой',8:'Степени и корни',9:'Уравнения',10:'Вероятность',11:'Графики функций',12:'Расчёты по формулам',13:'Неравенства',14:'Прогрессии',15:'Треугольники',16:'Окружность',17:'Четырёхугольники',18:'Фигуры на клетчатой бумаге',19:'Верные утверждения',20:'Уравнения и выражения',21:'Текстовая задача',22:'Построение графика',23:'Геометрия: вычисление',24:'Геометрия: доказательство',25:'Геометрия повышенной сложности'}},
+  topic:T_OGE},
  school5:{name:'5 класс',oge:0,max:15,goalDef:12,nmax:15,pts:()=>1,
   parts:[{t:'Числа и действия',a:1,b:6},{t:'Дроби',a:7,b:10},{t:'Задачи и данные',a:11,b:12},{t:'Геометрия',a:13,b:15}],
   topic:{1:'Натуральные числа и координатный луч',2:'Сравнение и округление чисел',3:'Сложение и вычитание',4:'Умножение и деление',5:'Порядок действий. Степень',6:'Делимость чисел',7:'Обыкновенные дроби',8:'Смешанные числа',9:'Десятичные дроби',10:'Действия с дробями',11:'Задачи и величины',12:'Таблицы и диаграммы',13:'Углы и их измерение',14:'Многоугольники. Периметр и площадь',15:'Окружность и объёмы'}},
@@ -870,13 +899,39 @@ const PROGS={
   parts:[{t:'Алгебраические понятия',a:1,b:5},{t:'Относительные числа',a:6,b:12},{t:'Одночлены и многочлены',a:13,b:15}],
   topic:{1:'Алгебраические выражения и буквы',2:'Действия и знаки в алгебре',3:'Порядок действий',4:'Свойства сложения и вычитания',5:'Свойства умножения и деления',6:'Относительные числа. Числовая ось',7:'Сложение относительных чисел',8:'Вычитание. Алгебраическая сумма',9:'Сравнение относительных чисел',10:'Умножение относительных чисел',11:'Деление относительных чисел',12:'Степень отрицательного числа',13:'Одночлены и многочлены',14:'Приведение подобных членов',15:'Раскрытие и заключение в скобки'}},
  school7:{name:'7 класс · Макарычев',oge:0,max:15,goalDef:12,nmax:15,pts:()=>1,
-  parts:[{t:'Выражения и уравнения',a:1,b:7},{t:'Функции',a:8,b:9},{t:'Степень. Одночлены и многочлены',a:10,b:13},{t:'ФСУ и системы',a:14,b:15}],
-  topic:{1:'Рациональные числа',2:'Числовые и буквенные выражения',3:'Сравнение значений выражений',4:'Тождества и преобразования',5:'Уравнение и его корни',6:'Линейное уравнение с одной переменной',7:'Задачи на уравнениях',8:'Функция и её график',9:'Линейная функция',10:'Степень с натуральным показателем',11:'Одночлены',12:'Многочлены: сумма и разность',13:'Умножение многочленов. Группировка',14:'Формулы сокращённого умножения',15:'Системы линейных уравнений'}},
+  parts:[{t:'Алгебра · Макарычёв',a:1,b:15}],
+  topic:tOf(T_ALG7)},
  school8:{name:'8 класс · Макарычев',oge:0,max:15,goalDef:12,nmax:15,pts:()=>1,
-  parts:[{t:'Рациональные дроби',a:1,b:5},{t:'Квадратные корни',a:6,b:9},{t:'Уравнения и системы',a:10,b:13},{t:'Неравенства и степень',a:14,b:15}],
-  topic:{1:'Рациональные выражения и сокращение дробей',2:'Сложение и вычитание дробей',3:'Умножение и деление дробей',4:'Преобразование рациональных выражений',5:'Функция y = k/x и её график',6:'Действительные числа. Арифметический корень',7:'Уравнение x² = a. Приближённые корни',8:'Свойства квадратных корней',9:'Преобразование выражений с корнями',10:'Неполные квадратные уравнения',11:'Формула корней. Теорема Виета',12:'Квадратный трёхчлен. Дробные уравнения',13:'Системы уравнений с двумя переменными',14:'Неравенства и их системы',15:'Степень с целым показателем'}}
+  parts:[{t:'Алгебра · Макарычёв',a:1,b:15}],
+  topic:tOf(T_ALG8)},
+ alg7:{name:'7 класс · Алгебра (Макарычёв)',oge:0,max:15,goalDef:12,nmax:15,pts:()=>1,
+  parts:[{t:'Алгебра · Макарычёв',a:1,b:15}],topic:tOf(T_ALG7)},
+ geo7:{name:'7 класс · Геометрия',oge:0,max:11,goalDef:9,nmax:11,pts:()=>1,
+  parts:[{t:'Геометрия',a:1,b:11}],topic:tOf(T_GEO7)},
+ mix7:{name:'7 класс · Алгебра + геометрия',oge:0,max:26,goalDef:21,nmax:26,pts:()=>1,
+  parts:[{t:'Алгебра · Макарычёв',a:1,b:15},{t:'Геометрия',a:16,b:26}],topic:mergeT(T_ALG7,T_GEO7)},
+ alg8:{name:'8 класс · Алгебра (Макарычёв)',oge:0,max:15,goalDef:12,nmax:15,pts:()=>1,
+  parts:[{t:'Алгебра · Макарычёв',a:1,b:15}],topic:tOf(T_ALG8)},
+ geo8:{name:'8 класс · Геометрия',oge:0,max:12,goalDef:10,nmax:12,pts:()=>1,
+  parts:[{t:'Геометрия',a:1,b:12}],topic:tOf(T_GEO8)},
+ mix8:{name:'8 класс · Алгебра + геометрия',oge:0,max:27,goalDef:22,nmax:27,pts:()=>1,
+  parts:[{t:'Алгебра · Макарычёв',a:1,b:15},{t:'Геометрия',a:16,b:27}],topic:mergeT(T_ALG8,T_GEO8)},
+ alg9:{name:'9 класс · Алгебра (Макарычёв)',oge:0,max:15,goalDef:12,nmax:15,pts:()=>1,
+  parts:[{t:'Алгебра · Макарычёв',a:1,b:15}],topic:tOf(T_ALG9)},
+ geo9:{name:'9 класс · Геометрия',oge:0,max:18,goalDef:14,nmax:18,pts:()=>1,
+  parts:[{t:'Геометрия',a:1,b:18}],topic:tOf(T_GEO9)},
+ mix9:{name:'9 класс · Все три: алгебра + геометрия + ОГЭ',oge:0,max:64,goalDef:45,nmax:58,pts:n=>n<=33?1:(n-33>=20?2:1),
+  parts:[{t:'Алгебра · Макарычёв',a:1,b:15},{t:'Геометрия',a:16,b:33},{t:'ОГЭ · 25 заданий',a:34,b:58}],
+  topic:mergeT(T_ALG9,T_GEO9,Object.values(T_OGE))}
 };
+const CLASS_PROGS={5:['school5'],6:['school6'],7:['alg7','geo7','mix7'],8:['alg8','geo8','mix8','oge9'],9:['alg9','geo9','oge9','mix9']};
+const HWSEC={raz:'Разборы',theor:'Теория',oral:'Вопросы к устному опросу',oge:'ОГЭ'};
 const PROG=()=>PROGS[D&&PROGS[D.prog]?D.prog:'oge9'];
+const CLS_OF={school5:5,school6:6,school7:7,alg7:7,geo7:7,mix7:7,school8:8,alg8:8,geo8:8,mix8:8,oge9:9,alg9:9,geo9:9,mix9:9};
+const clsOf=()=>D&&(D.cls>=5&&D.cls<=9?D.cls:CLS_OF[D.prog])||9;
+const fullName=()=>[D&&D.name,D&&D.fname].filter(Boolean).join(' ');
+function isBday(){if(!D||!D.bdate)return false;const m=String(D.bdate).match(/^\d{4}-(\d{2})-(\d{2})$/);if(!m)return false;const n=new Date();return n.getMonth()+1===+m[1]&&n.getDate()===+m[2]}
+const avgMark=G=>{const n=(G||[]).filter(g=>typeof g.p==='number');return n.length?n.reduce((s,g)=>s+g.p,0)/n.length:null};
 const ST={solid:'решает уверенно',shaky:'путается',gap:'пока не решает',new:'ещё не проходили'};
 const MATS=[['z15-pifagor.html','Теорема Пифагора','задание 15'],['z15-sin-cos-tg-storona.html','Синус, косинус, тангенс: найти сторону','задание 15'],['bissektrisy-parallelogramma.html','Биссектрисы параллелограмма','задание 17'],['razbor-probnik-oge-2.html','Разбор пробника №2','все задания']];
 const WD={'вс':0,'пн':1,'вт':2,'ср':3,'чт':4,'пт':5,'сб':6};
@@ -887,7 +942,7 @@ const href=u=>!u?'':/^https?:\/\//.test(u)?u:BASE+u.replace(/^\/+/,'');
 /* ---------- демо-ученица ---------- */
 function isoIn(k){const t=new Date(Date.now()+k*864e5);return t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0')}
 function demoData(){const st='ssspp'+'s'.repeat(11)+'pssp'+'ggp'+'nn';const map={};for(let n=1;n<=25;n++)map[n]={s:'solid',p:'shaky',g:'gap',n:'new'}[st[n-1]];
- return {demo:true,name:'Маша',dat:'Маше',goal:22,days:'ср, сб',time:'18:00',board:'https://learnboard.ru',
+ return {demo:true,name:'Маша',fname:'Петрова',dat:'Маше',bdate:'2011-04-22',parent:'Мама — Ольга',phone:'+7 900 123-45-67',cls:9,goal:22,days:'ср, сб',time:'18:00',board:'https://learnboard.ru',
   topic:'Задания 4–5: тарифы и выгодный выбор',lessonsPlan:8,lessonsDone:4,
   work:['Задания 4, 5 и 17: довести до уверенного решения. Это +3 балла к прогнозу.','Задание 20: убрать ошибки в знаках. Ход решения уже верный.','Задание 21: начали задачи на движение, к концу месяца — первые решения без подсказки.'],
   map,notes:{
@@ -899,11 +954,13 @@ function demoData(){const st='ssspp'+'s'.repeat(11)+'pssp'+'ggp'+'nn';const map=
    21:{t:'Задачи на движение. Начали с таблицы «скорость, время, расстояние».'},
    23:{t:'Решает с подсказкой. Нужно, чтобы чертёж строила сама.'},
    24:{t:'Доказательства начнём в ноябре.'},25:{t:'Начнём в ноябре, после доказательств.'}},
-  hw:[{id:'h1',t:'Тренажёр: проценты и округление',n:'4',due:isoIn(1)},
-   {id:'h2',t:'Задание 15: теорема Пифагора, 6 задач',n:'15',due:isoIn(1),url:'z15-pifagor.html',label:'Открыть разбор'},
-   {id:'h3',t:'Трапеция: выучить карточку с формулами',n:'17',due:isoIn(3)},
+  hw:[{id:'h1',t:'Тренажёр: проценты и округление',n:'4',due:isoIn(1),sec:'theor'},
+   {id:'h2',t:'Задание 15: теорема Пифагора, 6 задач',n:'15',due:isoIn(1),url:'z15-pifagor.html',label:'Открыть разбор',sec:'raz'},
+   {id:'h3',t:'Трапеция: выучить карточку с формулами',n:'17',due:isoIn(3),sec:'oral'},
+   {id:'h5',t:'ОГЭ: задания 12–13 из пробника, записать решения',n:'12, 13',due:isoIn(4),sec:'oge'},
    {id:'h4',t:'Пробник №3: исправить ошибки в 4 и 20',n:'4, 20',due:isoIn(-1),done:true},
    ...Array.from({length:10},(_,i)=>({id:'o'+i,t:'Домашка '+(i+1),n:'',due:isoIn(-30+i*3),done:i!==6,old:true}))],
+  grades:[{id:1,d:isoIn(-40),subj:'алгебра',p:4},{id:2,d:isoIn(-25),subj:'алгебра',p:5},{id:3,d:isoIn(-10),subj:'геометрия',p:4},{id:4,d:isoIn(-3),subj:'алгебра',p:5}],
   hist:[{d:isoIn(-30),t:'Диагностика',p:9},{d:isoIn(-16),t:'Пробник №1',p:12},{d:isoIn(-7),t:'Пробник №2',p:14},{d:isoIn(-1),t:'Пробник №3',p:16}]};
 }
 
@@ -1024,13 +1081,16 @@ const isSite=u=>!!u&&(!/^https?:/.test(u)||u.indexOf(BASE)===0);
 function hwLinks(h){let o='';
  if(h.url)o+=`<a href="${esc(href(h.url))}" target="_blank" rel="noopener">${esc(h.label||(isSite(h.url)?'Пройти интерактив':'Открыть'))}</a>`;
  if(h.file)o+=`<a href="${esc(h.file)}" target="_blank" rel="noopener">PDF с заданиями</a>`;
+ (h.files||[]).forEach(f=>{o+=`<a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.name||'PDF для печати')}</a>`});
  return o}
 function hwRow(h){const d=isDone(h),k=daysTo(h.due);return `<li class="hwi ${d?'done':''}" id="hw-${h.id}">
   <button class="chk" data-hw="${h.id}" aria-pressed="${d}" aria-label="Отметить: ${esc(h.t)}">${I.ok}</button>
   <div style="min-width:0"><div class="hwt">${esc(h.t)}</div><div class="hwm">${h.n?`<span class="tagn">${esc(h.n)}</span>`:''}<span class="due ${!d&&k!==null&&k<=1?'soon':''}">${d?'готово':dueText(h.due)}</span>${hwLinks(h)}</div></div></li>`}
-function hwCard(){const L=visibleHW(),d=L.filter(isDone).length;return `<div class="card" id="hwcard">
+function hwGroups(){const g={};visibleHW().forEach(h=>{let s=(h.sec&&HWSEC[h.sec])?h.sec:'';if(s==='oge'&&!(clsOf()>=8||PROG().oge))s='';(g[s]=g[s]||[]).push(h)});return g}
+function hwCard(){const L=visibleHW(),d=L.filter(isDone).length,G=hwGroups();
+ return `<div class="card" id="hwcard">
  <div class="sh"><h2>Домашка</h2><span class="sub" id="hwc">${L.length?d+' из '+L.length:''}</span></div>
- ${L.length?`<ul class="hw">${L.map(hwRow).join('')}</ul><div class="hwbar"><i id="hwb" style="width:${d/L.length*100}%"></i></div>`:'<p class="klead" style="margin:0">Пока ничего не задано. Отдыхай.</p>'}</div>`}
+ ${L.length?Object.keys(G).map(k=>`${k?`<div class="plab" style="margin:14px 0 8px">${HWSEC[k]}</div>`:''}<ul class="hw">${G[k].map(hwRow).join('')}</ul>`).join('')+'<div class="hwbar"><i id="hwb" style="width:'+(d/L.length*100)+'%"></i></div>':'<p class="klead" style="margin:0">Пока ничего не задано. Отдыхай.</p>'}</div>`}
 function mapCard(ro){const P=PROG(),pot=potential(),c={solid:0,shaky:0,gap:0,new:0};for(let n=1;n<=P.nmax;n++)c[stOf(n)]++;
  return `<div class="card" id="map">
  <div class="sh"><h2>${P.oge?'Карта 25 заданий':'Карта тем'}</h2><span class="sub">${P.oge?'нажми на номер':'нажми на тему'}</span></div>
@@ -1057,6 +1117,42 @@ function chartCard(){const H=D.hist||[];const PG=PROG();
  ${P.length>1?`<polyline points="${P.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--apricot)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>`:''}
  ${P.map((p,i)=>{const last=i===P.length-1;return `<circle cx="${p[0]}" cy="${p[1]}" r="${last?6:4.5}" fill="${last?'var(--amber)':'var(--fg)'}" stroke="var(--bg)" stroke-width="2"><title>${esc(H[i].t)}: ${H[i].p}</title></circle><text class="vl" x="${p[0]}" y="${p[1]-12}" text-anchor="middle">${H[i].p}</text>${H.length<=6||last||i===0?`<text class="xl" x="${p[0]}" y="${Hh-10}" text-anchor="middle">${shortDate(H[i].d)}</text>`:''}`}).join('')}
  </svg></div></div>`}
+function gradesChart(G){const A=[];let s=0,n=0;(G||[]).forEach(g=>{if(typeof g.p==='number'){s+=g.p;n++;A.push(s/n)}});if(A.length<2)return '';
+ const W=340,H=128,L=30,R=16,T=16,B=26,y=v=>T+(H-T-B)*(1-(v-2)/3),x=i=>A.length===1?(W-R)/2:L+(W-L-R)*(i/(A.length-1));
+ const P=A.map((v,i)=>[x(i),y(v)]);
+ return `<div class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Динамика среднего балла: ${A.map(v=>v.toFixed(1)).join(', ')}">
+ ${[2,3,4,5].map(v=>`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="rgba(243,236,226,.09)"/><text class="xl" x="${L-7}" y="${y(v)+4}" text-anchor="end">${v}</text>`).join('')}
+ <polyline points="${P.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--apricot)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+ ${P.map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="${i===P.length-1?5:3.5}" fill="${i===P.length-1?'var(--amber)':'var(--fg)'}"><title>после ${i+1}-й: ${A[i].toFixed(2)}</title></circle>`).join('')}
+ <text class="vl" x="${P[P.length-1][0]}" y="${P[P.length-1][1]-11}" text-anchor="middle">${A[A.length-1].toFixed(2)}</text></svg></div>`}
+function gradesCard(){const G=(D.grades||[]).slice().reverse(),avg=avgMark(D.grades);
+ const head=`<div class="sh"><h2>Школьные оценки</h2><span class="sub">${avg!==null?'средний балл '+avg.toFixed(2):''}</span></div>`;
+ if(!G.length)return `<div class="card">${head}<p class="klead" style="margin:0">Оценок пока нет. Здесь будет школьная успеваемость и график среднего балла.</p></div>`;
+ return `<div class="card">${head}${gradesChart(D.grades)}<ul class="prl" style="margin-top:14px">${G.slice(0,12).map(g=>`<li><span class="pd">${shortDate(g.d)||'—'}</span><span class="pt">${esc(g.subj||'математика')}${g.note?` · <span style="color:var(--muted)">${esc(g.note)}</span>`:''}</span><span class="gm g${g.p}">${g.p}</span></li>`).join('')}</ul></div>`}
+function letterCard(){return `<div class="card" id="letcard"><div class="sh"><h2>Анонимно Лилии</h2><span class="sub">без имени, честно</span></div>
+ <p class="klead" style="margin:-4px 0 12px;font-size:14.5px">Пожелание, отзыв или вопрос, которого стесняешься задать лично. Имя не прикрепляется — Лилия не узнает, от кого письмо.</p>
+ <label class="fld"><span>Сообщение</span><textarea id="lt-t" rows="3" placeholder="Мне стеснительно, но я хочу спросить…"></textarea></label>
+ <div class="ferr" id="lt-e"></div><button class="btn ghost" id="lt-b" type="button">Отправить анонимно</button></div>`}
+function bdayCard(){return `<div class="bday enter">
+ <img src="${BASE}img/bday-capy.jpg" alt="Капи Дзен в колпаке с тортом" width="230" height="230">
+ <h2>С днём рождения!</h2>
+ <div class="bwho">${esc(fullName()||D.name)} — сегодня твой день</div>
+ <p class="bpar">Талисманы 25/25 тоже празднуют и загадали тебе пятёрки по математике.</p>
+ ${D.parent||D.phone?`<p class="bpar">Родитель: <b>${esc([D.parent,D.phone].filter(Boolean).join(' · '))}</b></p>`:''}
+</div>`}
+let bdayFired=false;
+function bdayFX(){if(bdayFired||RM)return;bdayFired=true;let i=0;const t=setInterval(()=>{burst(innerWidth*(.15+Math.random()*.7),innerHeight*(.1+Math.random()*.3),70,7);if(++i>10)clearInterval(t)},420);sfx.fin()}
+function sendLetter(){
+ const ta=document.getElementById('lt-t'),er=document.getElementById('lt-e'),b=document.getElementById('lt-b');
+ const txt=(ta.value||'').trim();
+ if(txt.length<3){er.textContent='Напиши хотя бы пару слов.';return}
+ er.textContent='';b.disabled=true;
+ if(D.demo){ta.value='';b.disabled=false;toast('Демо: письма здесь не отправляются. В живом кабинете Лилия его получит.')}
+ else fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({t:CODE,letter:txt.slice(0,2000)})})
+  .then(r=>r.json()).then(j=>{if(!j.ok)throw new Error(j.error||'fail');ta.value='';toast('Отправлено анонимно. Спасибо, что написал(а).')})
+  .catch(err=>{er.textContent=errText(err)})
+  .finally(()=>{b.disabled=false})
+}
 function stkCard(){const own=STK.filter(s=>S.stk.includes(s.id));const ghosts=Math.max(0,8-own.length);return `<div class="card" id="stkcard"><div class="sh"><h2>Стикеры</h2><span class="sub">${own.length} из ${STK.length}</span></div>
  ${own.length?'':'<p class="klead" style="margin:-6px 0 12px;font-size:14px">Закрой всю домашку — получишь первый.</p>'}
  <div class="stks">${own.map(s=>stkHTML(s)).join('')}${'<span class="stk ghost">?</span>'.repeat(ghosts)}</div></div>`}
@@ -1073,11 +1169,11 @@ function foot(){const note=D&&D.demo?'<span class="demo"><b>Пример</b> · 
 
 function render(){
  if(!D)return;
- const kid=S.mode==='kid';
- app.innerHTML=topbar()+`<div class="cab enter">`+(kid
-  ? heroKid()+`<div class="two">${lessonCard()}${hwCard()}</div>`+mapCard(false)+`<div class="two">${chartCard()}${stkCard()}</div>`+((D.mats&&D.mats.length)||!D.matsAll?matCard():'')+petCard()
-  : heroPar()+mapCard(true)+`<div class="two">${chartCard()}${workCard()}</div>`)+foot()+`</div>`;
- bind();
+ const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
+ app.innerHTML=topbar()+`<div class="cab enter">`+bday+(kid
+  ? heroKid()+`<div class="two">${lessonCard()}${hwCard()}</div>`+mapCard(false)+gradesCard()+`<div class="two">${chartCard()}${stkCard()}</div>`+letterCard()+((D.mats&&D.mats.length)||!D.matsAll?matCard():'')+petCard()
+  : heroPar()+mapCard(true)+`<div class="two">${chartCard()}${workCard()}</div>`+gradesCard())+foot()+`</div>`;
+ bind();if(bday)bdayFX();
 }
 function screen(title,text,btn){app.innerHTML=topbar()+`<div class="cab enter"><section class="khero">
  <div class="hpet">${petSVG(tal().id,btn==='load'?'idle':'sad')}</div>
@@ -1096,6 +1192,7 @@ function bind(){
  document.querySelectorAll('.chk').forEach(b=>b.onclick=()=>toggleHW(b.dataset.hw,b));
  document.querySelectorAll('.pbtn').forEach(b=>b.onclick=()=>{S.tal=b.dataset.pet;S.picked=true;save();render();react('neu','','Теперь я с тобой. Погнали.')});
  const cp=document.getElementById('cpy');if(cp)cp.onclick=()=>{const done=()=>{cp.textContent='Скопировано'};const fail=()=>{const r=document.createRange();r.selectNodeContents(document.getElementById('tgv'));const s=getSelection();s.removeAllRanges();s.addRange(r);cp.textContent='Выделено'};try{navigator.clipboard.writeText('@ohh_my_lily').then(done,fail)}catch(e){fail()}};
+ const lb=document.getElementById('lt-b');if(lb)lb.onclick=sendLetter;
 }
 function paintHW(h){const li=document.getElementById('hw-'+h.id);if(!li)return;li.outerHTML=hwRow(h);const b=document.querySelector(`.chk[data-hw="${h.id}"]`);if(b)b.onclick=()=>toggleHW(h.id,b);
  const L=visibleHW(),d=L.filter(isDone).length;const c=document.getElementById('hwc');if(c)c.textContent=d+' из '+L.length;const bar=document.getElementById('hwb');if(bar)bar.style.width=(d/L.length*100)+'%';return d===L.length}
@@ -1196,22 +1293,25 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
  <h1 class="big1">Ученики · <em>${act.length}</em></h1>
  <p class="klead" style="margin:0">Нажми на ученика, чтобы открыть и редактировать его кабинет.</p></section>
  ${L.length?`<div class="stus">${L.map(s=>{const PG=PROGS[s.prog]||PROGS.oge9,pm=PG.max,pct=Math.min(100,s.pts/pm*100);return `<a class="stu ${s.active?'':'off'}" href="#lilia-${esc(s.code)}">
-  <div class="stuh"><b>${esc(s.name)}</b>${PG.oge?'':`<span class="kchip new">${esc(PG.name)}</span>`}${s.active?'':'<span class="kchip new">на паузе</span>'}</div>
+  <div class="stuh"><b>${esc(s.name)}${s.fname?' '+esc(s.fname):''}</b>${PG.oge?'':`<span class="kchip new">${esc(PG.name)}</span>`}${s.active?'':'<span class="kchip new">на паузе</span>'}</div>
   <div class="mini"><i style="width:${pct}%"></i></div>
   <div class="stum"><span>${PG.oge?'прогноз':'карта'} <strong>${s.pts} из ${pm}</strong> · цель ${s.goal}</span><span>${esc(schedShort(s.days,s.time))}</span>
   <span class="${s.hwLeft?'soon':''}">${s.hwLeft?'домашка: '+s.hwLeft+' не сделано':'домашка закрыта'}</span>
+  ${s.letters?`<span class="kchip shaky">анонимные письма: ${s.letters}</span>`:''}
   <span class="kchip bbrd" data-b="${esc(s.name)}" title="Открыть доску ученика">доска</span></div></a>`}).join('')}</div>`:'<p class="klead">Пока нет ни одного ученика.</p>'}
  <form class="card" id="nsf"><div class="sh"><h2>Новый ученик</h2></div>
   <div class="fgrid"><label class="fld"><span>Имя, как в кабинете</span><input id="ns-n" placeholder="Ксения" required></label>
-  <label class="fld"><span>Кому — дательный падеж</span><input id="ns-d" placeholder="Ксении"></label></div>
-  <label class="fld"><span>Программа</span><select id="ns-p"><option value="oge9">ОГЭ 9 — карта 25 заданий, шкала 31</option><option value="school5">5 класс — карта по темам программы</option><option value="school6">6 класс — карта по темам программы</option><option value="school7">7 класс — карта по темам программы</option><option value="school8">8 класс — карта по темам программы</option></select></label>
+  <label class="fld"><span>Кому — дательный падеж</span><input id="ns-d" placeholder="Ксении"></label>
+  <label class="fld"><span>Класс</span><select id="ns-c">${[5,6,7,8,9].map(c=>`<option value="${c}">${c}</option>`).join('')}</select></label>
+  <label class="fld"><span>Программа — зависит от класса</span><select id="ns-p">${progOptions(5,'school5')}</select></label></div>
   <div class="ferr" id="ns-e"></div><button class="btn" id="ns-b">Добавить и открыть</button></form>
  ${foot()}</div>`;
  bindTopT();
  document.querySelectorAll('.bbrd').forEach(el=>el.onclick=e=>{e.preventDefault();e.stopPropagation();window.open('https://liliya-math.github.io/excalidraw/?student='+encodeURIComponent(el.dataset.b||''),'_blank','noopener')});
  document.getElementById('nsf').onsubmit=e=>{e.preventDefault();const b=document.getElementById('ns-b');b.disabled=true;
-  adm('addStudent',{name:document.getElementById('ns-n').value,dat:document.getElementById('ns-d').value,prog:document.getElementById('ns-p').value})
+  adm('addStudent',{name:document.getElementById('ns-n').value,dat:document.getElementById('ns-d').value,prog:document.getElementById('ns-p').value,cls:+document.getElementById('ns-c').value})
    .then(j=>{location.hash='lilia-'+j.code}).catch(err=>{b.disabled=false;document.getElementById('ns-e').textContent=errText(err)})};
+ document.getElementById('ns-c').onchange=()=>{const p=document.getElementById('ns-p');p.innerHTML=progOptions(+document.getElementById('ns-c').value,p.value)};
 }
 function tFail(err,retry){app.innerHTML=tTop()+`<div class="cab enter"><section class="khero"><div class="hpet">${petSVG(tal().id,'sad')}</div><div style="min-width:0">
  <h1 class="big1" style="font-size:clamp(26px,6vw,36px)">Не получилось</h1><p class="klead">${esc(errText(err))}</p><button class="btn" id="retry" style="margin-top:16px">Ещё раз</button></div></section></div>`;
@@ -1224,12 +1324,12 @@ function tStudent(){app.innerHTML=tTop()+`<div class="cab enter"><p class="klead
 function apply(j,keep){D=j.d;tRender(keep)}
 function drafts(){const o={};app.querySelectorAll('input[id]:not([type=file]),textarea[id]').forEach(i=>{o[i.id]=i.type==='checkbox'?i.checked:i.value});return o}
 function tRender(keep){const y=scrollY,dr=keep===false?{}:drafts(),foc=document.activeElement&&document.activeElement.id;
- const kid=S.mode==='kid';
- app.innerHTML=tTop()+`<div class="cab enter">`+adminCard()+(kid
-  ? heroKid()+`<div class="two">${lessonCard(true)}${tHwCard()}</div>`+tMatCard()+mapCard(false)+`<div class="two">${chartCard()}${probCard()}</div>`
-  : heroPar()+mapCard(true)+`<div class="two">${chartCard()}${workCard()}</div>`)+foot()+`</div>`;
+ const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
+ app.innerHTML=tTop()+`<div class="cab enter">`+adminCard()+bday+(kid
+  ? heroKid()+`<div class="two">${lessonCard(true)}${tHwCard()}</div>`+tMatCard()+mapCard(false)+`<div class="two">${chartCard()}${probCard()}</div>`+tGradesCard()+tLettersCard()
+  : heroPar()+mapCard(true)+`<div class="two">${chartCard()}${workCard()}</div>`+tGradesCard()+tLettersCard())+foot()+`</div>`;
  Object.keys(dr).forEach(id=>{const i=document.getElementById(id);if(!i)return;if(i.type==='checkbox')i.checked=dr[id];else i.value=dr[id]});
- tBind();scrollTo({top:y});if(foc){const f=document.getElementById(foc);if(f&&f.focus)f.focus({preventScroll:true})}}
+ tBind();scrollTo({top:y});if(foc){const f=document.getElementById(foc);if(f&&f.focus)f.focus({preventScroll:true})}if(bday)bdayFX()}
 
 /* ---------- редактор расписания ---------- */
 let SL=[],STZ='';
@@ -1263,15 +1363,25 @@ function bindSched(){const z=document.getElementById('f-tz');if(!z)return;z.onch
  document.getElementById('sl-add').onclick=()=>{const l=SL[SL.length-1];SL.push(l?{wd:DORDER[(DORDER.indexOf(l.wd)+2)%7],h:l.h,m:l.m}:{wd:2,h:18,m:0});redrawSlots()};
  bindSlots()}
 
+function progOptions(cls,cur){const L=CLASS_PROGS[cls]||CLASS_PROGS[9];if(!L.includes(cur))cur=L[0];return L.map(p=>`<option value="${p}" ${cur===p?'selected':''}>${PROGS[p].name}</option>`).join('')}
 function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).join('\n');
- return `<details class="card adm" id="admc" ${S.admOpen?'open':''}><summary><span class="sh" style="margin:0"><h2>${esc(D.name)} · настройки</h2><span class="sub">${D.active?'кабинет открыт':'на паузе'}</span></span></summary>
+ return `<details class="card adm" id="admc" ${S.admOpen?'open':''}><summary><span class="sh" style="margin:0"><h2>${esc(fullName()||D.name)} · настройки</h2><span class="sub">${D.active?'кабинет открыт':'на паузе'}</span></span></summary>
  <div class="formbox" style="border-top:0;margin-top:10px;padding-top:0">
  <div class="linkrow"><code id="lnk">${esc(url)}</code><button class="btn ghost tsm" id="lnkc" type="button">Скопировать</button><a class="btn ghost tsm" href="${esc(url)}" target="_blank" rel="noopener">Открыть как ученик</a><a class="btn ghost tsm" href="https://liliya-math.github.io/excalidraw/?student=${encodeURIComponent(D.name)}" target="_blank" rel="noopener">Доска ученика</a></div>
  <div class="fgrid">
   <label class="fld"><span>Имя</span><input id="f-name" value="${esc(D.name)}" data-fresh="1"></label>
+  <label class="fld"><span>Фамилия</span><input id="f-fname" value="${esc(D.fname||'')}" placeholder="Петрова" data-fresh="1"></label>
   <label class="fld"><span>Кому — дательный падеж</span><input id="f-dat" value="${esc(D.dat)}" data-fresh="1"></label>
-  <label class="fld"><span>Программа</span><select id="f-prog" data-fresh="1">${['oge9','school5','school6','school7','school8'].map(p=>`<option value="${p}" ${D.prog===p?'selected':''}>${PROGS[p].name}</option>`).join('')}</select></label>
+ </div>
+ <div class="fgrid">
+  <label class="fld"><span>Дата рождения</span><input id="f-bdate" type="date" value="${esc(D.bdate||'')}" data-fresh="1"></label>
+  <label class="fld"><span>Класс</span><select id="f-cls" data-fresh="1">${[5,6,7,8,9].map(c=>`<option value="${c}" ${clsOf()===c?'selected':''}>${c}</option>`).join('')}</select></label>
+  <label class="fld"><span>Программа — зависит от класса</span><select id="f-prog" data-fresh="1">${progOptions(clsOf(),D.prog)}</select></label>
   <label class="fld"><span>Цель, баллов из ${PROG().max}</span><input id="f-goal" type="number" min="0" max="${PROG().max}" inputmode="numeric" value="${D.goal}" data-fresh="1"></label>
+ </div>
+ <div class="fgrid">
+  <label class="fld"><span>Родитель</span><input id="f-parent" value="${esc(D.parent||'')}" placeholder="Мама — Ольга" data-fresh="1"></label>
+  <label class="fld"><span>Телефон родителя</span><input id="f-phone" value="${esc(D.phone||'')}" placeholder="+7 …" data-fresh="1"></label>
   <label class="fld"><span>Ссылка на доску</span><input id="f-board" value="${esc(D.board)}" placeholder="https://learnboard.ru/…" data-fresh="1"></label>
  </div>
  ${schedEditor()}
@@ -1287,20 +1397,43 @@ function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).
 
 function tHwRow(h){const d=!!h.done,k=daysTo(h.due);return `<li class="hwi t ${d?'done':''}">
   <button class="chk" data-hw="${h.id}" aria-pressed="${d}" aria-label="Сделано: ${esc(h.t)}">${I.ok}</button>
-  <div style="min-width:0"><div class="hwt">${esc(h.t)}</div><div class="hwm">${h.n?`<span class="tagn">${esc(h.n)}</span>`:''}<span class="due ${!d&&k!==null&&k<=1?'soon':''}">${d?'сделано':dueText(h.due)}</span>${hwLinks(h)}</div></div>
+  <div style="min-width:0"><div class="hwt">${esc(h.t)}</div><div class="hwm">${h.n?`<span class="tagn">${esc(h.n)}</span>`:''}${h.sec&&HWSEC[h.sec]?`<span class="kchip new">${HWSEC[h.sec]}</span>`:''}<span class="due ${!d&&k!==null&&k<=1?'soon':''}">${d?'сделано':dueText(h.due)}</span>${hwLinks(h)}<label class="chip pdfchip" title="Прикрепить PDF для печати — можно несколько">+ PDF<input type="file" class="hwfi" data-hw="${h.id}" accept="application/pdf,image/*" multiple></label></div></div>
   <button class="xbtn" data-del="${h.id}" aria-label="Удалить задание">×</button></li>`}
+function hwSecOptions(sel){const oge=clsOf()>=8||PROG().oge;const L=[['','Обычное задание'],['raz','Разборы'],['theor','Теория'],['oral','Вопросы к устному опросу']];if(oge)L.push(['oge','ОГЭ']);return L.map(o=>`<option value="${o[0]}" ${sel===o[0]?'selected':''}>${o[1]}</option>`).join('')}
 function tHwCard(){const open=D.hw.filter(h=>!h.done),done=D.hw.filter(h=>h.done).slice(-6).reverse();const L=open.concat(done);
  return `<div class="card" id="hwcard"><div class="sh"><h2>Домашка</h2><span class="sub">${open.length} не сделано</span></div>
  ${L.length?`<ul class="hw">${L.map(tHwRow).join('')}</ul>`:'<p class="klead" style="margin:0">Пока ничего не задано.</p>'}
  <div class="formbox"><span class="eyebrow">Новое задание</span>
   <label class="fld"><span>Что сделать</span><input id="h-t" placeholder="Тренажёр: проценты, 10 задач"></label>
   <div class="fgrid"><label class="fld"><span>${PROG().oge?'Задания ОГЭ':'Разделы карты'}</span><input id="h-n" placeholder="${PROG().oge?'4, 5':'3, 8'}"></label>
-  <label class="fld"><span>Срок</span><input id="h-d" type="date"></label></div>
+  <label class="fld"><span>Срок</span><input id="h-d" type="date"></label>
+  <label class="fld"><span>Раздел домашки</span><select id="h-s">${hwSecOptions('')}</select></label></div>
   <label class="fld"><span>Интерактив с сайта или любая ссылка — начни вводить название</span><input id="h-u" list="sitepages" placeholder="z15-pifagor.html или https://…" autocomplete="off"></label>
   <datalist id="sitepages">${PAGES.map(p=>`<option value="${esc(p[0])}">${esc(p[1])}</option>`).join('')}</datalist>
   <label class="fld"><span>Подпись ссылки (необязательно)</span><input id="h-l" placeholder="подставится название страницы"></label>
-  <label class="fld"><span>PDF или фото с заданиями (необязательно)</span><input id="h-f" type="file" accept="application/pdf,image/*"></label>
+  <label class="fld"><span>PDF или фото для печати — можно несколько файлов сразу</span><input id="h-f" type="file" accept="application/pdf,image/*" multiple></label>
   <div class="ferr" id="h-e"></div><button class="btn" id="h-add" type="button">Задать</button></div></div>`}
+
+function tGradesCard(){const G=(D.grades||[]).slice().reverse(),avg=avgMark(D.grades);
+ return `<div class="card"><div class="sh"><h2>Школьные оценки</h2><span class="sub">${G.length?'средний балл '+(avg||0).toFixed(2):'пусто'}</span></div>
+ ${gradesChart(D.grades||[])}
+ ${G.length?`<ul class="prl" style="margin-top:12px">${G.map(g=>`<li><span class="pd">${shortDate(g.d)||'—'}</span><span class="pt">${esc(g.subj||'математика')}${g.note?' · '+esc(g.note):''}</span><span class="gm g${g.p}">${g.p}</span><button class="xbtn" data-gdel="${g.id}" aria-label="Удалить оценку">×</button></li>`).join('')}</ul>`:'<p class="klead" style="margin:0">Оценок пока нет — добавь первую ниже.</p>'}
+ <div class="formbox" ${G.length?'':'style="border-top:0;margin-top:12px;padding-top:0"'}><span class="eyebrow">Добавить оценку</span>
+  <div class="fgrid">
+   <label class="fld"><span>Дата</span><input id="g-d" type="date" value="${isoIn(0)}"></label>
+   <label class="fld"><span>Предмет</span><input id="g-s" placeholder="алгебра" list="subjlist"></label>
+   <datalist id="subjlist"><option value="алгебра"><option value="геометрия"><option value="математика"></datalist>
+   <label class="fld"><span>Оценка</span><select id="g-p"><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option></select></label>
+  </div>
+  <label class="fld"><span>Примечание (необязательно)</span><input id="g-n" placeholder="контрольная по теме «Дроби»"></label>
+  <div class="ferr" id="g-e"></div><button class="btn" id="g-add" type="button">Добавить</button></div></div>`}
+
+function tLettersCard(){const L=(D.letters||[]).slice().reverse();if(!L.length)return '';
+ const un=L.filter(l=>!l.read).length;
+ return `<div class="card"><div class="sh"><h2>Анонимные письма</h2><span class="sub">${un?un+' не прочитано':'все прочитаны'}</span></div>
+ <div class="letrow">${L.map(l=>`<div class="letitem ${l.read?'':'unread'}"><div>${esc(l.text)}</div>
+  <div class="lm"><span>${esc(l.d||'')}${l.time?' · '+esc(l.time):''} · ${l.read?'прочитано':'новое'}</span>
+  <span class="acts">${l.read?'':`<button class="btn ghost tsm" data-lread="${l.id}" type="button">Прочитано</button>`}<button class="xbtn" data-ldel="${l.id}" type="button" aria-label="Удалить письмо">×</button></span></div></div>`).join('')}</div></div>`}
 
 function tMatCard(){const M=D.mats||[];return `<div class="card" id="matcard"><div class="sh"><h2>Разборы ученика</h2><span class="sub">${M.length?M.length:'пусто'}</span></div>
  ${M.length?`<ul class="hw">${M.map(m=>`<li class="hwi t"><div style="min-width:0"><div class="hwt">${esc(m[1])}</div><div class="hwm">${m[2]?`<span class="tagn">${esc(m[2])}</span>`:''}<span class="due">${esc(m[0])}</span></div></div><button class="xbtn" data-mdel="${m[3]}" aria-label="Удалить разбор">×</button></li>`).join('')}</ul>`:'<p class="klead" style="margin:0">Разборов нет — ученик этот раздел не видит.</p>'}
@@ -1332,8 +1465,9 @@ function tBind(){
  document.getElementById('mPar').onclick=()=>{if(S.mode!=='par'){S.mode='par';save();tRender()}};
  const ad=document.getElementById('admc');ad.ontoggle=()=>{S.admOpen=ad.open;save()};bindSched();
  document.getElementById('lnkc').onclick=e=>copy(BASE+'kabinet.html#'+D.code,e.currentTarget);
- document.getElementById('f-save').onclick=e=>{const b=e.currentTarget,v=id=>document.getElementById(id).value;b.disabled=true;
-  adm('student',{fields:{name:v('f-name'),dat:v('f-dat'),prog:document.getElementById('f-prog').value,goal:v('f-goal'),days:serSched(SL,STZ),time:SL.length?hhmm(sortSlots(SL.slice())[0].h,sortSlots(SL.slice())[0].m):'',board:v('f-board'),topic:v('f-topic'),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),active:document.getElementById('f-act').checked}})
+ const fc=document.getElementById('f-cls');if(fc)fc.onchange=()=>{const pr=document.getElementById('f-prog');pr.innerHTML=progOptions(+fc.value,pr.value)};
+ document.getElementById('f-save').onclick=e=>{const b=e.currentTarget,v=id=>{const el=document.getElementById(id);return el?el.value:''};b.disabled=true;
+  adm('student',{fields:{name:v('f-name'),fname:v('f-fname'),dat:v('f-dat'),bdate:v('f-bdate'),parent:v('f-parent'),phone:v('f-phone'),cls:v('f-cls'),prog:document.getElementById('f-prog').value,goal:v('f-goal'),days:serSched(SL,STZ),time:SL.length?hhmm(sortSlots(SL.slice())[0].h,sortSlots(SL.slice())[0].m):'',board:v('f-board'),topic:v('f-topic'),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),active:document.getElementById('f-act').checked}})
    .then(j=>{apply(j,false);toast('Настройки сохранены')}).catch(err=>{b.disabled=false;const e2=document.getElementById('f-err');if(e2)e2.textContent=errText(err)})};
  const hp=document.getElementById('hpet');if(hp)hp.onclick=()=>react('neu','',pick(sayList()));
  document.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{const n=+b.dataset.t;S.sel=n;save();document.querySelectorAll('.tile').forEach(x=>x.setAttribute('aria-pressed',x===b));document.getElementById('tdet').innerHTML=tDetail(n);bindDetail()});
@@ -1345,14 +1479,17 @@ function tBind(){
  document.querySelectorAll('[data-pdel]').forEach(b=>b.onclick=()=>{if(!b.classList.contains('arm')){b.classList.add('arm');b.textContent='Удалить?';setTimeout(()=>{if(b.isConnected){b.classList.remove('arm');b.textContent='×'}},3000);return}
   b.disabled=true;adm('probDel',{id:+b.dataset.pdel}).then(j=>{apply(j);toast('Результат удалён')}).catch(err=>{toast(errText(err));tStudent()})});
  const ha=document.getElementById('h-add');if(ha)ha.onclick=()=>{const v=id=>document.getElementById(id).value.trim(),er=document.getElementById('h-e');if(!v('h-t')){er.textContent='Впиши, что нужно сделать.';return}
-  const fi=document.getElementById('h-f'),f=fi&&fi.files[0];
-  if(f&&f.size>20*1024*1024){er.textContent='Файл больше 20 МБ. Сожми PDF или раздели на части.';return}
+  const fi=document.getElementById('h-f'),fs=fi?[...fi.files]:[];
+  if(fs.some(f=>f.size>20*1024*1024)){er.textContent='Один из файлов больше 20 МБ. Сожми PDF или раздели на части.';return}
   const u=v('h-u'),pg=PAGES.find(p=>p[0]===u),lab=v('h-l')||(pg?pg[1]:'');
   ha.disabled=true;er.textContent='';
-  const up=f?(ha.textContent='Загружаю файл…',readB64(f).then(data=>adm('upload',{fname:f.name,mime:f.type||'application/pdf',data})).then(j=>j.url)):Promise.resolve('');
-  up.then(file=>adm('hwAdd',{text:v('h-t'),n:v('h-n'),due:v('h-d'),url:u,label:lab,file}))
-   .then(j=>{['h-t','h-n','h-d','h-u','h-l'].forEach(id=>{const i=document.getElementById(id);if(i)i.value=''});apply(j,true);toast('Задание добавлено')})
+  const up=fs.length?(ha.textContent='Загружаю файлы…',fs.reduce((p,f)=>p.then(a=>readB64(f).then(data=>adm('upload',{fname:f.name,mime:f.type||'application/pdf',data})).then(j=>{a.push({name:f.name,url:j.url});return a})),Promise.resolve([]))):Promise.resolve([]);
+  up.then(files=>adm('hwAdd',{text:v('h-t'),n:v('h-n'),due:v('h-d'),url:u,label:lab,file:'',sec:v('h-s'),files}))
+   .then(j=>{['h-t','h-n','h-d','h-u','h-l'].forEach(id=>{const i=document.getElementById(id);if(i)i.value=''});if(fi)fi.value='';apply(j,true);toast('Задание добавлено')})
    .catch(err=>{ha.disabled=false;ha.textContent='Задать';er.textContent=errText(err)})};
+ document.querySelectorAll('.hwfi').forEach(inp=>inp.onchange=()=>{const fs=[...inp.files];if(!fs.length)return;const h=D.hw.find(x=>String(x.id)===inp.dataset.hw);if(!h)return;
+  fs.reduce((p,f)=>p.then(()=>readB64(f).then(data=>adm('upload',{fname:f.name,mime:f.type||'application/pdf',data})).then(j=>adm('fileAdd',{hw:h.id,name:f.name,url:j.url})).then(j=>apply(j))),Promise.resolve())
+   .then(()=>toast('Файл(ы) прикреплены')).catch(err=>{toast(errText(err));tStudent()});inp.value=''});
  document.querySelectorAll('[data-mdel]').forEach(b=>b.onclick=()=>{if(!b.classList.contains('arm')){b.classList.add('arm');b.textContent='Удалить?';setTimeout(()=>{if(b.isConnected){b.classList.remove('arm');b.textContent='×'}},3000);return}
   b.disabled=true;adm('matDel',{id:+b.dataset.mdel}).then(j=>{apply(j);toast('Разбор удалён')}).catch(err=>{toast(errText(err));tStudent()})});
  const ma=document.getElementById('m-add');if(ma)ma.onclick=()=>{const v=id=>document.getElementById(id).value.trim(),er=document.getElementById('m-e');const u=v('m-u');
@@ -1367,6 +1504,16 @@ function tBind(){
   else if(p===''||!(+p>=2&&+p<=5)){er.textContent='Выбери отметку от 2 до 5.';return}
   pa.disabled=true;adm('probAdd',{d:v('p-d'),p:+p,name:v('p-n')||'Пробник'}).then(j=>{['p-p','p-n'].forEach(id=>{const i=document.getElementById(id);if(i)i.value=''});apply(j);toast('Результат добавлен')})
    .catch(err=>{pa.disabled=false;er.textContent=errText(err)})};
+ document.querySelectorAll('[data-gdel]').forEach(b=>b.onclick=()=>{if(!b.classList.contains('arm')){b.classList.add('arm');b.textContent='Удалить?';setTimeout(()=>{if(b.isConnected){b.classList.remove('arm');b.textContent='×'}},3000);return}
+  b.disabled=true;adm('gradeDel',{id:+b.dataset.gdel}).then(j=>{apply(j);toast('Оценка удалена')}).catch(err=>{toast(errText(err));tStudent()})});
+ const ga=document.getElementById('g-add');if(ga)ga.onclick=()=>{const v=id=>document.getElementById(id).value.trim(),er=document.getElementById('g-e');const p=+v('g-p');
+  if(!(p>=2&&p<=5)){er.textContent='Оценка — от 2 до 5.';return}
+  ga.disabled=true;er.textContent='';
+  adm('gradeAdd',{d:v('g-d'),subj:v('g-s')||'математика',p:p,note:v('g-n')}).then(j=>{['g-s','g-n'].forEach(id=>{const i=document.getElementById(id);if(i)i.value=''});apply(j);toast('Оценка добавлена')})
+   .catch(err=>{ga.disabled=false;er.textContent=errText(err)})};
+ document.querySelectorAll('[data-lread]').forEach(b=>b.onclick=()=>{b.disabled=true;adm('letterRead',{id:+b.dataset.lread}).then(j=>apply(j)).catch(err=>{toast(errText(err));tStudent()})});
+ document.querySelectorAll('[data-ldel]').forEach(b=>b.onclick=()=>{if(!b.classList.contains('arm')){b.classList.add('arm');b.textContent='Удалить?';setTimeout(()=>{if(b.isConnected){b.classList.remove('arm');b.textContent='×'}},3000);return}
+  b.disabled=true;adm('letterDel',{id:+b.dataset.ldel}).then(j=>{apply(j);toast('Письмо удалено')}).catch(err=>{toast(errText(err));tStudent()})});
 }
 function bindDetail(){const n=S.sel;if(!n)return;
  document.querySelectorAll('.stb').forEach(b=>b.onclick=()=>{const s=b.dataset.s,old=stOf(n);if(s===old)return;D.map[n]=s;tRender();
