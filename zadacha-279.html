@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Задача № 279 — интерактивный разбор</title>
+<style>
+body{font-family:-apple-system,'Segoe UI',Roboto,Arial,sans-serif;background:#fafafa;color:#111;margin:0;padding:20px;}
+.wrap{max-width:640px;margin:0 auto;}
+.card{border:1px solid #ddd;border-radius:12px;padding:16px 18px;margin-bottom:12px;background:#fff;}
+h1{font-size:20px;font-weight:600;margin:0 0 4px;}
+h3{margin:0 0 6px;font-size:17px;font-weight:600;}
+p{margin:0 0 6px;font-size:15px;line-height:22px;}
+.muted{color:#888;font-size:13px;}
+.row{display:flex;gap:8px;align-items:center;margin-top:10px;}
+.btn{border:1px solid #111;background:#111;color:#fff;border-radius:10px;padding:8px 18px;font-size:14px;cursor:pointer;}
+.btn.sec{background:#fff;color:#111;}
+.btn:disabled{opacity:.35;cursor:default;}
+.dots{display:flex;gap:5px;margin-left:auto;}
+.dot{width:7px;height:7px;border-radius:50%;background:#ccc;}
+.dot.on{background:#111;}
+.stepLbl{font-size:13px;font-weight:600;margin-bottom:4px;}
+.ans{font-weight:600;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Задача № 279 — интерактивный разбор</h1>
+<p class="muted">a = 1,0539… и b = 2,0610… Нажимайте «Далее» — рисунок меняется на каждом шаге.</p>
+<div class="card">
+  <div class="stepLbl" id="lbl"></div>
+  <h3 id="ttl"></h3>
+  <p id="txt"></p>
+  <p class="ans" id="res"></p>
+  <div id="chart"></div>
+</div>
+<div class="row">
+  <button class="btn sec" id="prev">Назад</button>
+  <button class="btn" id="next">Далее</button>
+  <div class="dots" id="dots"></div>
+</div>
+</div>
+<script>
+
+const steps = [
+ {t:'Задача № 279', x:'Найдите приближённое значение выражения a + b, где a = 1,0539… и b = 2,0610…, округлив предварительно a и b: а) до десятых; б) до сотых; в) до тысячных.', r:'Ключевые слова: «предварительно» — сначала округляем каждое число, потом складываем.', svg:null},
+ {t:'Вспоминаем правило', x:'Округляя до разряда, отбрасываем все цифры правее него. Если первая отброшенная цифра 0–4 — последняя оставшаяся не меняется; если 5–9 — увеличивается на 1. Ответ пишем со знаком ≈.', r:'Подсказка: решение принимает ВСЕГДА первая отброшенная цифра.', svg:null},
+ {t:'а) до десятых — округляем a', x:'a = 1,0539… Оставляем разряд десятых (0), отбрасываем 539… Первая отброшенная — 5, она ≥ 5, значит десятые растут: 0 → 1.', r:'', svg:{lo:1.0,hi:1.2,ticks:[[1.0,'1,0'],[1.05,'1,05'],[1.1,'1,1'],[1.15,'1,15'],[1.2,'1,2']],pts:[[1.0539,'a = 1,0539…','#c0392b'],[1.1,'≈ 1,1','#1a5fb4']],arrows:[[1.0539,1.1]],res:'a ≈ 1,1'}},
+ {t:'а) до десятых — округляем b', x:'b = 2,0610… Оставляем десятые (0), отбрасываем 610… Первая отброшенная — 6, она ≥ 5, значит 0 → 1.', r:'', svg:{lo:2.0,hi:2.2,ticks:[[2.0,'2,0'],[2.05,'2,05'],[2.1,'2,1'],[2.15,'2,15'],[2.2,'2,2']],pts:[[2.061,'b = 2,0610…','#c0392b'],[2.1,'≈ 2,1','#1a5fb4']],arrows:[[2.061,2.1]],res:'b ≈ 2,1'}},
+ {t:'а) складываем округлённые', x:'1,1 + 2,1 = 3,2. Складываем уже округлённые числа, как обычные десятичные дроби.', r:'', svg:{lo:3.0,hi:3.4,ticks:[[3.0,'3,0'],[3.1,'3,1'],[3.2,'3,2'],[3.3,'3,3'],[3.4,'3,4']],pts:[[3.2,'a + b ≈ 3,2','#1a5fb4']],arrows:[],res:'Ответ (а): a + b ≈ 3,2'}},
+ {t:'б) до сотых — округляем a', x:'a = 1,0539… Оставляем сотые (5), отбрасываем 39… Первая отброшенная — 3, она < 5, значит ничего не меняем. Внимание: пятёрку в ответе мы НЕ смотрим!', r:'', svg:{lo:1.04,hi:1.07,ticks:[[1.04,'1,04'],[1.05,'1,05'],[1.06,'1,06'],[1.07,'1,07']],pts:[[1.0539,'a = 1,0539…','#c0392b'],[1.05,'≈ 1,05','#1a5fb4']],arrows:[[1.0539,1.05]],res:'a ≈ 1,05'}},
+ {t:'б) до сотых — округляем b', x:'b = 2,0610… Оставляем сотые (6), отбрасываем 10… Первая отброшенная — 1, она < 5, ничего не меняем.', r:'', svg:{lo:2.04,hi:2.08,ticks:[[2.04,'2,04'],[2.05,'2,05'],[2.06,'2,06'],[2.07,'2,07'],[2.08,'2,08']],pts:[[2.061,'b = 2,0610…','#c0392b'],[2.06,'≈ 2,06','#1a5fb4']],arrows:[[2.061,2.06]],res:'b ≈ 2,06'}},
+ {t:'б) складываем округлённые', x:'1,05 + 2,06: 5 сотых + 6 сотых = 11 сотых, пишем 1 и 1 десятую в уме: 1,05 + 2,06 = 3,11.', r:'', svg:{lo:3.08,hi:3.14,ticks:[[3.08,'3,08'],[3.09,'3,09'],[3.10,'3,10'],[3.11,'3,11'],[3.12,'3,12'],[3.13,'3,13'],[3.14,'3,14']],pts:[[3.11,'a + b ≈ 3,11','#1a5fb4']],arrows:[],res:'Ответ (б): a + b ≈ 3,11'}},
+ {t:'в) до тысячных — округляем a', x:'a = 1,0539… Оставляем тысячные (3), отбрасываем 9… Первая отброшенная — 9, она ≥ 5, значит 3 → 4.', r:'', svg:{lo:1.052,hi:1.057,ticks:[[1.052,'1,052'],[1.053,'1,053'],[1.054,'1,054'],[1.055,'1,055'],[1.056,'1,056'],[1.057,'1,057']],pts:[[1.0539,'a = 1,0539…','#c0392b'],[1.054,'≈ 1,054','#1a5fb4']],arrows:[[1.0539,1.054]],res:'a ≈ 1,054'}},
+ {t:'в) до тысячных — округляем b', x:'b = 2,0610… Оставляем тысячные (1), отбрасываем 0. Первый отброшенный — 0, он < 5, число не изменилось.', r:'', svg:{lo:2.058,hi:2.064,ticks:[[2.058,'2,058'],[2.059,'2,059'],[2.060,'2,060'],[2.061,'2,061'],[2.062,'2,062'],[2.063,'2,063'],[2.064,'2,064']],pts:[[2.061,'b = 2,0610…','#c0392b'],[2.061,'≈ 2,061','#1a5fb4']],arrows:[],res:'b ≈ 2,061'}},
+ {t:'в) складываем округлённые', x:'1,054 + 2,061: тысячные 4 + 1 = 5, сотые 5 + 6 = 11 (пишем 1, в уме 1), десятые 0 + 0 + 1 = 1. Итого 3,115.', r:'', svg:{lo:3.112,hi:3.118,ticks:[[3.112,'3,112'],[3.113,'3,113'],[3.114,'3,114'],[3.115,'3,115'],[3.116,'3,116'],[3.117,'3,117'],[3.118,'3,118']],pts:[[3.115,'a + b ≈ 3,115','#1a5fb4']],arrows:[],res:'Ответ (в): a + b ≈ 3,115'}},
+ {t:'Итог', x:'Чем точнее округление, тем точнее приближение: до десятых — 3,2; до сотых — 3,11; до тысячных — 3,115. Порядок всегда один: сначала округлить слагаемые, потом сложить, ответ со знаком ≈.', r:'', svg:null},
+];
+let i = 0;
+const dots = document.getElementById('dots');
+steps.forEach((_, k) => { const d = document.createElement('div'); d.className = 'dot'; dots.appendChild(d); });
+function draw(svg){
+  const el = document.getElementById('chart');
+  if(!svg){ el.innerHTML=''; return; }
+  const W=560, H=150, P=40;
+  const sx = v => P + (v - svg.lo)/(svg.hi - svg.lo)*(W-2*P);
+  let g = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;">`;
+  g += `<defs><marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6" fill="none" stroke="#888" stroke-width="1.2"/></marker></defs>`;
+  g += `<line x1="10" y1="95" x2="${W-10}" y2="95" stroke="#111" stroke-width="1.6"/>`;
+  svg.ticks.forEach(([v,l]) => { const x=sx(v);
+    g += `<line x1="${x}" y1="89" x2="${x}" y2="101" stroke="#111" stroke-width="1.2"/>`;
+    g += `<text x="${x}" y="117" font-size="12" text-anchor="middle" fill="#666">${l}</text>`;
+  });
+  svg.arrows.forEach(([a,b]) => {
+    g += `<line x1="${sx(a)}" y1="62" x2="${sx(b)}" y2="62" stroke="#888" stroke-width="1.4" marker-end="url(#ah)"/>`;
+  });
+  svg.pts.forEach(([v,l,c]) => { const x=sx(v);
+    g += `<circle cx="${x}" cy="95" r="6.5" fill="${c}"/>`;
+    g += `<text x="${Math.min(Math.max(x,55),W-55)}" y="45" font-size="13" text-anchor="middle" fill="${c}">${l}</text>`;
+    if(l.startsWith('≈') || l.startsWith('a + b')) g += `<line x1="${x}" y1="52" x2="${x}" y2="86" stroke="${c}" stroke-width="1" stroke-dasharray="3 3"/>`;
+  });
+  g += '</svg>';
+  el.innerHTML = g;
+}
+function render(){
+  const s = steps[i];
+  document.getElementById('lbl').textContent = 'Шаг ' + (i+1) + ' из ' + steps.length;
+  document.getElementById('ttl').textContent = s.t;
+  document.getElementById('txt').textContent = s.x;
+  document.getElementById('res').textContent = (s.svg && s.svg.res) ? s.svg.res : (s.r || '');
+  draw(s.svg);
+  document.getElementById('prev').disabled = i===0;
+  document.getElementById('next').textContent = i===steps.length-1 ? 'Сначала' : 'Далее';
+  [...dots.children].forEach((d,k)=>d.classList.toggle('on', k===i));
+}
+document.getElementById('next').onclick = () => { i = (i+1)%steps.length; render(); };
+document.getElementById('prev').onclick = () => { if(i>0) i--; render(); };
+render();
+
+</script>
+</body>
+</html>
