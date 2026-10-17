@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Задание 287 — интерактивное решение</title>
+<style>
+:root{
+  --bg:#f4f7fb; --panel:#ffffff; --text:#17212b; --muted:#617080;
+  --line:#d8e0e8; --line-soft:#e8edf2; --blue:#1769aa; --blue-soft:#eaf3fb;
+  --red:#c63b4b; --red-soft:#fdecef; --green:#19734a; --green-soft:#eaf7ef;
+  --shadow:0 10px 30px rgba(23,33,43,.08); --radius:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+button{font:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 18px 36px}
+.header{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:18px}
+.kicker{font-size:13px;color:var(--muted);margin-bottom:5px}
+h1{font-size:clamp(22px,3vw,32px);line-height:1.2;margin:0;font-weight:700}
+.badge{white-space:nowrap;background:var(--blue-soft);color:var(--blue);padding:8px 12px;border-radius:10px;font-weight:700}
+.progress{display:flex;gap:5px;flex-wrap:wrap;margin:0 0 18px}
+.dot{width:26px;height:6px;border-radius:4px;border:0;background:var(--line);padding:0;cursor:pointer}
+.dot.done{background:#8aa3b8}.dot.current{background:var(--text);outline:2px solid var(--blue-soft)}
+.layout{display:grid;grid-template-columns:minmax(300px,.9fr) minmax(420px,1.35fr);gap:18px;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.info{padding:22px}
+.step-label{font-size:13px;color:var(--muted);margin-bottom:8px;font-variant-numeric:tabular-nums}
+h2{font-size:20px;line-height:1.3;margin:0 0 10px}
+p{margin:0;color:#3b4652}
+.formula{margin-top:16px;padding:14px 12px;border-radius:12px;background:#f7f9fc;border:1px solid var(--line-soft);text-align:center;font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
+.note{margin-top:14px;padding:10px 12px;border-left:4px solid var(--blue);background:var(--blue-soft);border-radius:8px;font-size:14px}
+.answer{margin-top:14px;padding:12px;border:1px solid #b9dfca;background:var(--green-soft);color:var(--green);border-radius:10px;font-weight:700}
+.table-wrap{overflow-x:auto;margin-top:14px}
+table{border-collapse:collapse;width:100%;min-width:420px;font-variant-numeric:tabular-nums}
+th,td{border:1px solid var(--line);padding:7px 10px;text-align:center;white-space:nowrap}
+th{background:#eef3f7}
+.graph-card{padding:12px}
+svg{width:100%;height:auto;display:block}
+.hint{min-height:24px;margin-top:10px;color:var(--muted);font-size:14px;text-align:center}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px;flex-wrap:wrap}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{min-height:42px;padding:0 18px;border-radius:10px;border:1px solid #aeb9c4;background:#fff;color:var(--text);cursor:pointer;font-weight:700;transition:.15s}
+.btn:hover:not(:disabled){background:#eef3f7}.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.primary{background:var(--text);color:#fff;border-color:var(--text)}.btn.primary:hover:not(:disabled){background:#34495a}
+.footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.header{align-items:flex-start}.badge{white-space:normal;text-align:right}}
+@media print{
+  :root{--shadow:none}body{background:#fff}.wrap{max-width:none;padding:0}.nav,.progress,.hint{display:none}
+  .layout{display:block}.card{box-shadow:none;border:0;page-break-inside:avoid}.graph-card{padding:0}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="header">
+    <div>
+      <div class="kicker">Математика · 8 класс · обратная пропорциональность</div>
+      <h1>Задание 287: пошаговое построение гиперболы</h1>
+    </div>
+    <div class="badge">y = k/x</div>
+  </header>
+
+  <nav class="progress" id="progress" aria-label="Прогресс решения"></nav>
+
+  <section class="layout">
+    <article class="card info">
+      <div class="step-label" id="stepLabel"></div>
+      <h2 id="title"></h2>
+      <p id="text"></p>
+      <div class="formula" id="formula"></div>
+      <div class="table-wrap" id="table" hidden></div>
+      <div class="note" id="note" hidden></div>
+      <div class="answer" id="answer" hidden></div>
+    </article>
+
+    <article class="card graph-card">
+      <svg id="chart" viewBox="0 0 700 410" role="img" aria-label="График функции y = −2/x"></svg>
+    </article>
+  </section>
+
+  <div class="nav">
+    <button class="btn" id="prev">← Назад</button>
+    <div class="actions">
+      <button class="btn" id="reset">Сначала</button>
+      <button class="btn" id="all">Показать всё</button>
+      <button class="btn" id="print">Печать</button>
+      <button class="btn primary" id="next">Далее →</button>
+    </div>
+  </div>
+  <div class="hint" id="hint"></div>
+  <div class="footer">График можно пройти заново кнопками «Назад» и «Далее» или выбрать шаг по точкам прогресса.</div>
+</main>
+
+<script>
+(function(){
+'use strict';
+const NS='http://www.w3.org/2000/svg';
+const svg=document.getElementById('chart');
+const W=700,H=410,L=58,R=30,TOP=28,B=56,IW=W-L-R,IH=H-TOP-B;
+const XMIN=-8,XMAX=8,YMIN=-5.5,YMAX=5.5;
+const px=x=>L+(x-XMIN)/(XMAX-XMIN)*IW;
+const py=y=>TOP+(YMAX-y)/(YMAX-YMIN)*IH;
+
+const steps=[
+{title:'Условие задачи',text:'График функции y = k/x проходит через точку A(4; −0,5). Нужно найти коэффициент k и построить график.',formula:'y = k/x',note:'Число x не может быть равно нулю.',hint:'Нажмите «Далее», чтобы начать решение.'},
+{title:'Что значит «проходит через точку»?',text:'Если точка лежит на графике, её координаты подходят уравнению функции. Поэтому вместо x подставляем 4, а вместо y — −0,5.',formula:'x = 4,  y = −0,5',note:'Это главная идея всей задачи.',hint:'Сначала нужно понять, какие числа известны.'},
+{title:'Отмечаем точку A',text:'От начала координат идём 4 единицы вправо по оси x, а затем 0,5 единицы вниз, потому что y = −0,5.',formula:'A(4; −0,5)',note:'Координата 0,5 — это половина одной клетки.',hint:'Пунктир показывает, откуда взяты координаты точки.'},
+{title:'Подставляем координаты',text:'Заменяем в формуле y = k/x число y на −0,5, а число x на 4. Дробь k/4 читается как «k разделить на 4».',formula:'−0,5 = k/4',hint:'Получилось уравнение с одним неизвестным k.'},
+{title:'Находим k',text:'Умножим обе части уравнения на 4. Деление на 4 справа отменяется умножением на 4.',formula:'k = (−0,5) · 4 = −2',note:'Отрицательное число, умноженное на положительное, остаётся отрицательным.',hint:'Коэффициент k найден.'},
+{title:'Записываем функцию',text:'Подставляем k = −2 в исходную формулу. Так как k отрицательное, ветви гиперболы будут во второй и четвёртой четвертях.',formula:'y = −2/x',note:'Одну и ту же функцию можно записать как y = −2/x.',hint:'Теперь можно составить таблицу точек.',table:[['x','−4','−2','−1','−0,5','0,5','1','2','4'],['y','0,5','1','2','4','−4','−2','−1','−0,5']]},
+{title:'Точки правой ветви',text:'Возьмём положительные x: 0,5; 1; 2; 4; 8. По формуле y = −2/x получаем отрицательные y. Эти точки лежат в четвёртой четверти.',formula:'x > 0  →  y < 0',table:[['x','0,5','1','2','4','8'],['y','−4','−2','−1','−0,5','−0,25']],hint:'На рисунке появились точки правой ветви.'},
+{title:'Строим правую ветвь',text:'Проводим через точки плавную кривую. Она располагается справа от оси y и ниже оси x.',formula:'правая ветвь: x > 0',note:'Ветвь приближается к осям, но не пересекает и не касается их.',hint:'Гиперболу нельзя строить отрезками.'},
+{title:'Точки левой ветви',text:'Возьмём отрицательные x: −0,5; −1; −2; −4; −8. После вычислений получаем положительные y.',formula:'x < 0  →  y > 0',table:[['x','−0,5','−1','−2','−4','−8'],['y','4','2','1','0,5','0,25']],hint:'Эти точки лежат во второй четверти.'},
+{title:'Строим левую ветвь',text:'Проводим вторую плавную кривую через точки левой ветви. Теперь обе ветви гиперболы построены.',formula:'левая ветвь: x < 0',note:'Обе ветви симметричны относительно начала координат.',hint:'Осталось проверить ответ.'},
+{title:'Проверка и ответ',text:'Подставим x = 4 в полученную формулу: y = −2/4 = −0,5. Мы снова получили точку A, значит решение верное.',formula:'y(4) = −2/4 = −0,5',answer:'Ответ: k = −2; график — гипербола y = −2/x с ветвями во II и IV четвертях.',hint:'Решение завершено.'}
+];
+
+let current=0;
+const $=id=>document.getElementById(id);
+const els={progress:$('progress'),stepLabel:$('stepLabel'),title:$('title'),text:$('text'),formula:$('formula'),table:$('table'),note:$('note'),answer:$('answer'),hint:$('hint'),prev:$('prev'),next:$('next'),reset:$('reset'),all:$('all'),print:$('print')};
+
+function E(name,attrs,parent){const n=document.createElementNS(NS,name);for(const k in attrs)n.setAttribute(k,attrs[k]);if(parent)parent.appendChild(n);return n}
+function T(parent,x,y,s,attrs={}){const t=E('text',Object.assign({x,y,'text-anchor':'middle','font-size':12,fill:'#617080'},attrs),parent);t.textContent=s;return t}
+function LN(parent,x1,y1,x2,y2,attrs={}){return E('line',Object.assign({x1,y1,x2,y2},attrs),parent)}
+function CI(parent,cx,cy,r,attrs={}){return E('circle',Object.assign({cx,cy,r},attrs),parent)}
+function PT(parent,d,attrs={}){return E('path',Object.assign({d,fill:'none'},attrs),parent)}
+
+function curve(fn,a,b,n=220){let d='';for(let i=0;i<=n;i++){const x=a+(b-a)*i/n;d+=(i?' L':'M')+px(x).toFixed(2)+' '+py(fn(x)).toFixed(2)}return d}
+
+function drawChart(){
+  svg.innerHTML='';
+  const defs=E('defs',{},svg);
+  const clip=E('clipPath',{id:'clipChart'},defs);E('rect',{x:L,y:TOP,width:IW,height:IH},clip);
+  const plot=E('g',{'clip-path':'url(#clipChart)'},svg);
+
+  for(let x=-8;x<=8;x++){const major=x%2===0;LN(plot,px(x),TOP,px(x),TOP+IH,{stroke:major?'#cbd6df':'#edf1f5','stroke-width':major?.7:.45})}
+  for(let y=-5;y<=5;y++){const major=true;LN(plot,L,py(y),L+IW,py(y),{stroke:major?'#cbd6df':'#edf1f5','stroke-width':major?.7:.45})}
+
+  const axes=E('g',{},svg);
+  LN(axes,px(0),TOP-5,px(0),TOP+IH+5,{stroke:'#17212b','stroke-width':1.5});
+  LN(axes,L-5,py(0),L+IW+5,py(0),{stroke:'#17212b','stroke-width':1.5});
+  LN(axes,px(0)-8,TOP+10,px(0),TOP,{stroke:'#17212b','stroke-width':1.4});
+  LN(axes,px(0)+8,TOP+10,px(0),TOP,{stroke:'#17212b','stroke-width':1.4});
+  LN(axes,L+IW,py(0),L+IW-10,py(0)-8,{stroke:'#17212b','stroke-width':1.4});
+  LN(axes,L+IW,py(0),L+IW-10,py(0)+8,{stroke:'#17212b','stroke-width':1.4});
+  T(axes,L+IW-18,py(0)-12,'x',{fill:'#17212b','font-size':14,'font-weight':700});
+  T(axes,px(0)+15,TOP+20,'y',{fill:'#17212b','font-size':14,'font-weight':700});
+  T(axes,px(0)-13,py(0)+17,'0',{fill:'#17212b','font-size':11});
+
+  for(let x=-8;x<=8;x+=2){if(x!==0)T(axes,px(x),py(0)+18,String(x),{'font-size':11})}
+  for(let y=-5;y<=5;y++){if(y!==0)T(axes,px(0)-13,py(y)+4,String(y),{'font-size':11})}
+
+  if(current>=2){
+    LN(plot,px(4),py(0),px(4),py(-.5),{stroke:'#c63b4b','stroke-width':1.3,'stroke-dasharray':'6 4'});
+    LN(plot,px(0),py(-.5),px(4),py(-.5),{stroke:'#c63b4b','stroke-width':1.3,'stroke-dasharray':'6 4'});
+    CI(plot,px(4),py(-.5),5,{fill:'#c63b4b',stroke:'#fff','stroke-width':2});
+    T(plot,px(4)+72,py(-.5)+4,'A(4; −0,5)',{fill:'#c63b4b','font-size':13,'font-weight':700});
+  }
+
+  if(current>=6){
+    [[.5,-4],[1,-2],[2,-1],[4,-.5],[8,-.25]].forEach((p,i)=>CI(plot,px(p[0]),py(p[1]),i===3?5:4,{fill:i===3?'#c63b4b':'#24364f',stroke:'#fff','stroke-width':1.5}));
+  }
+  if(current>=7)PT(plot,curve(x=>-2/x,.42,8),{stroke:'#1769aa','stroke-width':2.6,'stroke-linecap':'round','stroke-linejoin':'round'});
+
+  if(current>=8)[[-.5,4],[-1,2],[-2,1],[-4,.5],[-8,.25]].forEach(p=>CI(plot,px(p[0]),py(p[1]),4,{fill:'#24364f',stroke:'#fff','stroke-width':1.5}));
+  if(current>=9)PT(plot,curve(x=>-2/x,-8,-.42),{stroke:'#1769aa','stroke-width':2.6,'stroke-linecap':'round','stroke-linejoin':'round'});
+
+  if(current>=10){
+    const badge=E('g',{},svg);
+    E('rect',{x:W-R-158,y:14,width:144,height:36,rx:9,fill:'#fff',stroke:'#d8e0e8'},badge);
+    T(badge,W-R-86,38,'y = −2/x',{fill:'#1769aa','font-size':16,'font-weight':700});
+  }
+}
+
+function renderTable(data){
+  els.table.innerHTML='';
+  const table=document.createElement('table');
+  data.forEach((row,idx)=>{const tr=document.createElement('tr');row.forEach(cell=>{const c=document.createElement(idx===0?'th':'td');c.textContent=cell;tr.appendChild(c)});table.appendChild(tr)});
+  els.table.appendChild(table);els.table.hidden=false;
+}
+function render(){
+  const s=steps[current];
+  els.stepLabel.textContent='Шаг '+(current+1)+' из '+steps.length;
+  els.title.textContent=s.title;els.text.textContent=s.text;els.formula.innerHTML=s.formula;
+  els.note.hidden=!s.note;els.note.textContent=s.note||'';els.answer.hidden=!s.answer;els.answer.textContent=s.answer||'';els.hint.textContent=s.hint||'';
+  els.table.hidden=!s.table;if(s.table)renderTable(s.table);
+  els.prev.disabled=current===0;els.next.disabled=current===steps.length-1;els.next.textContent=current===steps.length-1?'Готово':'Далее →';
+  els.progress.innerHTML='';
+  steps.forEach((_,i)=>{const b=document.createElement('button');b.className='dot'+(i<current?' done':i===current?' current':'');b.type='button';b.setAttribute('aria-label','Шаг '+(i+1));b.addEventListener('click',()=>{current=i;render()});els.progress.appendChild(b)});
+  drawChart();
+}
+function go(delta){current=Math.max(0,Math.min(steps.length-1,current+delta));render()}
+els.prev.addEventListener('click',()=>go(-1));
+els.next.addEventListener('click',()=>go(1));
+els.reset.addEventListener('click',()=>{current=0;render()});
+els.all.addEventListener('click',()=>{current=steps.length-1;render()});
+els.print.addEventListener('click',()=>window.print());
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1)});
+render();
+})();
+</script>
+</body>
+</html>
