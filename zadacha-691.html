@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Задача 691 — деление отрезка в данном отношении</title>
+<style>
+  :root {
+    --kimi-font-sans: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --kimi-color-text-primary: #1a1a1a;
+    --kimi-color-text-secondary: #555555;
+    --kimi-color-text-tertiary: #888888;
+    --kimi-color-text-quaternary: #aaaaaa;
+    --kimi-color-surface: #ffffff;
+    --kimi-color-surface-muted: #f2f2f2;
+    --kimi-color-border: #dddddd;
+    --kimi-chart-1: #1f5fbf;
+    --kimi-chart-2: #c73e3e;
+    --t-fast: 120ms;
+    --ease-out: ease-out;
+  }
+  body { margin: 0; padding: 24px; background: #ffffff; }
+</style>
+</head>
+<body>
+<!-- ВИДЖЕТ: начало -->
+<div style="font-family: var(--kimi-font-sans); max-width: 640px;">
+<style>
+  .t691 button, .t691 input { font: inherit; }
+  .t691 svg text { font-family: var(--kimi-font-sans); }
+  .t691 .chip { padding: 4px 12px; border-radius: 6px; border: 1px solid var(--kimi-color-border); background: transparent; color: var(--kimi-color-text-secondary); cursor: pointer; transition: all var(--t-fast) var(--ease-out); }
+  .t691 .chip.on { background: var(--kimi-color-text-primary); color: var(--kimi-color-surface); border-color: var(--kimi-color-text-primary); }
+  .t691 .btn { padding: 6px 16px; border-radius: 8px; border: 1px solid var(--kimi-color-border); background: transparent; color: var(--kimi-color-text-primary); cursor: pointer; transition: all var(--t-fast) var(--ease-out); }
+  .t691 .btn:hover:not(:disabled) { background: var(--kimi-color-surface-muted); }
+  .t691 .btn:disabled { opacity: .35; cursor: default; }
+  .t691 .btn.primary { background: var(--kimi-color-text-primary); color: var(--kimi-color-surface); border-color: var(--kimi-color-text-primary); }
+  .t691 .btn.primary:hover:not(:disabled) { opacity: .85; background: var(--kimi-color-text-primary); }
+  .t691 .step-card { border: 1px solid var(--kimi-color-border); border-radius: 12px; padding: 12px 16px; min-height: 88px; }
+  .t691 .dots { display: flex; gap: 6px; }
+  .t691 .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--kimi-color-border); transition: background var(--t-fast) var(--ease-out); }
+  .t691 .dot.cur { background: var(--kimi-color-text-primary); }
+</style>
+
+<div class="t691" style="display:flex; flex-direction:column; gap:12px;">
+  <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+    <span style="font-size:14px; color:var(--kimi-color-text-secondary);">Отношение:</span>
+    <button class="chip on" data-r="2,5" onclick="setRatio(2,5,this)">а) 2 : 5</button>
+    <button class="chip" data-r="3,7" onclick="setRatio(3,7,this)">б) 3 : 7</button>
+    <button class="chip" data-r="4,3" onclick="setRatio(4,3,this)">в) 4 : 3</button>
+  </div>
+
+  <svg id="cv" viewBox="0 0 560 380" style="width:100%; height:auto; display:block;">
+    <defs>
+      <marker id="arw" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+        <path d="M0,0 L8,4 L0,8" fill="none" stroke="var(--kimi-chart-1)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </marker>
+    </defs>
+    <g id="scene"></g>
+  </svg>
+
+  <div class="step-card">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+      <span id="stepNum" style="font-size:12px; color:var(--kimi-color-text-tertiary); font-variant-numeric:tabular-nums;">Шаг 1 из 7</span>
+      <div class="dots" id="dots"></div>
+    </div>
+    <div id="stepText" style="font-size:16px; line-height:24px; color:var(--kimi-color-text-primary); transition:opacity var(--t-fast) var(--ease-out);"></div>
+  </div>
+
+  <div style="display:flex; gap:8px;">
+    <button class="btn" id="backBtn" onclick="go(-1)">Назад</button>
+    <button class="btn primary" id="nextBtn" onclick="go(1)">Далее</button>
+    <button class="btn" id="rstBtn" onclick="restart()" style="margin-left:auto;">Начать заново</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var svgNS = "http://www.w3.org/2000/svg";
+  var scene = document.getElementById("scene");
+  var A = {x:80, y:290}, B = {x:490, y:290};
+  var dir = {x: Math.cos(-52*Math.PI/180), y: Math.sin(-52*Math.PI/180)};
+  var perp = {x: -dir.y, y: dir.x};
+  var L = 27;
+  var m = 2, n = 5, step = 0;
+  var C, D, X, iP;
+
+  function pt(p, color, r){
+    var c = document.createElementNS(svgNS, "circle");
+    c.setAttribute("cx", p.x); c.setAttribute("cy", p.y);
+    c.setAttribute("r", r||4); c.setAttribute("fill", color);
+    return c;
+  }
+  function txt(x, y, s, color, size, anchor){
+    var t = document.createElementNS(svgNS, "text");
+    t.setAttribute("x", x); t.setAttribute("y", y);
+    t.setAttribute("fill", color); t.setAttribute("font-size", size||15);
+    t.setAttribute("text-anchor", anchor||"middle"); t.setAttribute("font-weight","500");
+    t.textContent = s;
+    return t;
+  }
+  function line(p1, p2, color, w, dash, marker){
+    var l = document.createElementNS(svgNS, "line");
+    l.setAttribute("x1", p1.x); l.setAttribute("y1", p1.y);
+    l.setAttribute("x2", p2.x); l.setAttribute("y2", p2.y);
+    l.setAttribute("stroke", color); l.setAttribute("stroke-width", w||1.5);
+    if (dash) l.setAttribute("stroke-dasharray", dash);
+    if (marker) l.setAttribute("marker-end", "url(#" + marker + ")");
+    return l;
+  }
+  function ray(p1, p2, color, marker){
+    var dx = p2.x - p1.x, dy = p2.y - p1.y;
+    var len = Math.sqrt(dx*dx+dy*dy);
+    var ext = 30;
+    var end = {x: p2.x + dx/len*ext, y: p2.y + dy/len*ext};
+    return line(p1, end, color, 1.5, null, marker);
+  }
+  function bracket(p1, p2, label, color){
+    var g = document.createElementNS(svgNS, "g");
+    var my = 316;
+    g.appendChild(line({x:p1.x,y:p1.y+4},{x:p1.x,y:my}, color, 1.2));
+    g.appendChild(line({x:p2.x,y:p2.y+4},{x:p2.x,y:my}, color, 1.2));
+    g.appendChild(line({x:p1.x,y:my},{x:p2.x,y:my}, color, 1.2));
+    g.appendChild(txt((p1.x+p2.x)/2, my+18, label, color, 14));
+    return g;
+  }
+
+  function calc(){
+    C = {x: A.x + dir.x*L*m, y: A.y + dir.y*L*m};
+    D = {x: A.x + dir.x*L*(m+n), y: A.y + dir.y*L*(m+n)};
+    var k = m/(m+n);
+    X = {x: A.x + (B.x-A.x)*k, y: A.y};
+    iP = {x: C.x + (X.x - D.x), y: C.y + (X.y - D.y)};
+  }
+
+  var K = "var(--kimi-color-text-primary)";
+  var BLUE = "var(--kimi-chart-1)";
+  var RED = "var(--kimi-chart-2)";
+  var GRAY = "var(--kimi-color-text-quaternary)";
+
+  function draw(){
+    calc();
+    scene.innerHTML = "";
+
+    scene.appendChild(line(A, B, K, 2.5));
+    scene.appendChild(pt(A, K, 4.5)); scene.appendChild(pt(B, K, 4.5));
+    scene.appendChild(txt(A.x-14, A.y-8, "A", K, 16, "end"));
+    scene.appendChild(txt(B.x+14, B.y-8, "B", K, 16, "start"));
+
+    if (step >= 1){
+      scene.appendChild(ray(A, D, BLUE, "arw"));
+      if (step === 1){
+        var lx = A.x + dir.x*L*3.4 + perp.x*22;
+        var ly = A.y + dir.y*L*3.4 + perp.y*22;
+        scene.appendChild(txt(lx, ly, "произвольный луч", BLUE, 13, "start"));
+      }
+    }
+
+    if (step >= 2){
+      for (var i = 1; i <= m; i++){
+        var p = {x: A.x + dir.x*L*i, y: A.y + dir.y*L*i};
+        scene.appendChild(pt(p, step === 2 && i === m ? BLUE : GRAY, i === m ? 4.5 : 2.5));
+        if (step === 2){
+          scene.appendChild(txt(p.x - 12, p.y + 4, String(i), GRAY, 11, "end"));
+        }
+      }
+      scene.appendChild(pt(C, BLUE, 4.5));
+      scene.appendChild(txt(C.x - 14, C.y - 6, "C", BLUE, 16, "end"));
+      if (step === 2){
+        scene.appendChild(txt(C.x + 18, C.y + 34, m + " равных отрезка", BLUE, 13, "start"));
+      }
+    }
+
+    if (step >= 3){
+      for (var j = m+1; j <= m+n; j++){
+        var q = {x: A.x + dir.x*L*j, y: A.y + dir.y*L*j};
+        scene.appendChild(pt(q, step === 3 && j === m+n ? BLUE : GRAY, j === m+n ? 4.5 : 2.5));
+      }
+      scene.appendChild(pt(D, BLUE, 4.5));
+      scene.appendChild(txt(D.x - 12, D.y - 8, "D", BLUE, 16, "end"));
+      if (step === 3){
+        scene.appendChild(txt(D.x + 20, D.y + 34, "ещё " + n, BLUE, 13, "start"));
+      }
+    }
+
+    if (step >= 4){
+      scene.appendChild(line(D, B, BLUE, 1.8));
+    }
+
+    if (step >= 5){
+      scene.appendChild(line(C, iP, BLUE, 1.8, "7 5"));
+      scene.appendChild(pt(X, RED, 5));
+      scene.appendChild(txt(X.x + 10, X.y - 10, "X", RED, 16, "start"));
+    }
+
+    if (step >= 6){
+      scene.appendChild(bracket(A, X, String(m), RED));
+      scene.appendChild(bracket(X, B, String(n), RED));
+      scene.appendChild(txt(468, 46, "AX : XB = " + m + " : " + n, K, 19, "end"));
+    }
+  }
+
+  var texts = function(){
+    return [
+      "Шаг 1. Начертим отрезок AB — делить будем именно его.",
+      "Шаг 2. Из точки A проведём произвольный луч (не совпадающий с AB). Длина и направление не важны.",
+      "Шаг 3. На луче отложим от точки A подряд " + m + " равных отрезков (циркулем или линейкой). Конец последнего — точка C.",
+      "Шаг 4. На том же луче отложим ещё " + n + " таких же (равных) отрезков. Конец последнего — точка D. Всего получилось " + (m+n) + " равных частей.",
+      "Шаг 5. Соединим точку D с точкой B прямой.",
+      "Шаг 6. Через точку C проведём прямую, параллельную DB (например, равными углами). Она пересечёт отрезок AB в искомой точке X.",
+      "Готово! По теореме о пропорциональных отрезках: AX : XB = AC : CD = " + m + " : " + n + ". Точка X — искомая."
+    ];
+  };
+
+  var N_STEPS = 7;
+  function render(){
+    draw();
+    document.getElementById("stepText").textContent = texts()[step];
+    document.getElementById("stepNum").textContent = "Шаг " + (step+1) + " из " + N_STEPS;
+    var d = document.getElementById("dots");
+    d.innerHTML = "";
+    for (var i = 0; i < N_STEPS; i++){
+      var s = document.createElement("span");
+      s.className = "dot" + (i === step ? " cur" : "");
+      d.appendChild(s);
+    }
+    document.getElementById("backBtn").disabled = step === 0;
+    document.getElementById("nextBtn").textContent = step === N_STEPS-1 ? "Завершено ✓" : "Далее";
+    document.getElementById("nextBtn").disabled = step === N_STEPS-1;
+  }
+
+  window.go = function(d){
+    step = Math.min(N_STEPS-1, Math.max(0, step + d));
+    render();
+  };
+  window.restart = function(){ step = 0; render(); };
+  window.setRatio = function(a, b, el){
+    m = a; n = b; step = 0;
+    var chips = el.parentNode.querySelectorAll(".chip");
+    for (var i = 0; i < chips.length; i++) chips[i].classList.remove("on");
+    el.classList.add("on");
+    render();
+  };
+  render();
+})();
+</script>
+</div>
+<!-- ВИДЖЕТ: конец -->
+</body>
+</html>
