@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>y = k/x — интерактив · lili.math</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col">
+<header class="max-w-7xl w-full mx-auto p-4 flex flex-wrap gap-2 items-center">
+  <span class="font-bold text-lg mr-4">lili.math · y = k/x</span>
+  <button id="btn-explorer" onclick="switchTab('explorer')" class="tab-btn bg-cyan-600 text-white shadow px-4 py-2 rounded-lg text-sm font-semibold">Гипербола y = k/x</button>
+  <button id="btn-oge22" onclick="switchTab('oge22')" class="tab-btn text-slate-400 hover:text-white px-4 py-2 rounded-lg text-sm">Тренажёр ОГЭ №22</button>
+  <button id="btn-compare" onclick="switchTab('compare')" class="tab-btn text-slate-400 hover:text-white px-4 py-2 rounded-lg text-sm">Далёкие и прижатые</button>
+  <button id="btn-solver" onclick="switchTab('solver')" class="tab-btn text-slate-400 hover:text-white px-4 py-2 rounded-lg text-sm">Решение уравнений</button>
+</header>
+<!-- Main Content Container -->
+<main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+    
+    <!-- TAB 1: Explorer -->
+    <section id="tab-explorer" class="tab-content lg:col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-4 bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl flex flex-col gap-5">
+            <h2 class="text-lg font-semibold text-cyan-400 flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-cyan-400"></span> Параметр коэффициента k
+            </h2>
+            <div>
+                <label class="block text-sm text-slate-300 mb-2">Значение k: <span id="k-val" class="font-bold text-cyan-300 text-lg">4.0</span></label>
+                <input type="range" id="k-slider" min="-12" max="12" step="0.5" value="4" class="w-full accent-cyan-500 cursor-pointer h-2 bg-slate-700 rounded-lg">
+            </div>
+            <div class="grid grid-cols-4 gap-2">
+                <button onclick="setK(6)" class="bg-slate-700 hover:bg-slate-600 py-1.5 rounded text-xs font-medium">k = 6</button>
+                <button onclick="setK(1)" class="bg-slate-700 hover:bg-slate-600 py-1.5 rounded text-xs font-medium">k = 1</button>
+                <button onclick="setK(-1)" class="bg-slate-700 hover:bg-slate-600 py-1.5 rounded text-xs font-medium">k = -1</button>
+                <button onclick="setK(-6)" class="bg-slate-700 hover:bg-slate-600 py-1.5 rounded text-xs font-medium">k = -6</button>
+            </div>
+            <hr class="border-slate-700">
+            <div class="space-y-3 bg-slate-900/60 p-4 rounded-xl border border-slate-700/50">
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Свойства для текущего k</h3>
+                <div class="flex justify-between text-sm">
+                    <span class="text-slate-400">Четверти:</span>
+                    <span id="prop-quad" class="font-semibold text-white">I и III</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-slate-400">Монотонность:</span>
+                    <span id="prop-mono" class="font-semibold text-white">Убывает</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-slate-400">Формула:</span>
+                    <span id="prop-formula" class="font-semibold text-cyan-400">y = 4 / x</span>
+                </div>
+            </div>
+            <div class="text-xs text-slate-400 bg-cyan-950/30 border border-cyan-900/50 p-3 rounded-xl">
+                💡 <b>Подсказка:</b> Чем больше модуль |k|, тем дальше ветви гиперболы расходятся от осей координат. При k = 0 деление на ноль невозможно.
+            </div>
+        </div>
+        <div class="lg:col-span-8 bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl flex flex-col justify-center items-center min-h-[500px]">
+            <div class="w-full h-[450px] relative">
+                <canvas id="chartExplorer"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- TAB 2: OGE #22 -->
+    <section id="tab-explorer-oge22" class="tab-content lg:col-span-12 hidden grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-4 bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl flex flex-col gap-5">
+            <h2 class="text-lg font-semibold text-amber-400 flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-amber-400"></span> Тренажёр ОГЭ №22
+            </h2>
+            <div>
+                <label class="block text-sm text-slate-300 mb-2">Выбрать прототип:</label>
+                <select id="oge-mode" onchange="updateOgeMode()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm text-slate-200 focus:outline-none focus:border-amber-500">
+                    <option value="1">Задача 1: Выколотая точка (4x-8)/(x²-2x)</option>
+                    <option value="2">Задача 4: Функция с модулем (3|x|-6)/(x²-2|x|)</option>
+                    <option value="3">Задача 5: Отражение модулем |4/x - 2|</option>
+                </select>
+            </div>
+            <div>
+                <label id="param-label" class="block text-sm text-slate-300 mb-2">Параметр k: <span id="param-val" class="font-bold text-amber-300 text-lg">1.0</span></label>
+                <input type="range" id="param-slider" min="-3" max="4" step="0.05" value="1" class="w-full accent-amber-500 cursor-pointer h-2 bg-slate-700 rounded-lg" oninput="updateOgeParam()">
+            </div>
+            <div class="grid grid-cols-3 gap-2" id="oge-preset-btns">
+                <!-- Dynamic preset buttons -->
+            </div>
+            <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/60 space-y-2">
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-amber-400">Статус анализа</h3>
+                <p id="oge-status" class="text-sm text-slate-200">Общие точки с графиком: <span id="oge-intersections-count" class="font-bold text-amber-300">1</span></p>
+                <p id="oge-verdict" class="text-xs text-slate-400">Прямая проходит через выколотую точку.</p>
+            </div>
+        </div>
+        <div class="lg:col-span-8 bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl flex flex-col justify-center items-center min-h-[500px]">
+            <div class="w-full h-[450px] relative">
+                <canvas id="chartOge"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- TAB 3: Compare a/x vs 1/ax -->
+    <section id="tab-explorer-compare" class="tab-content lg:col-span-12 hidden grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-4 bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl flex flex-col gap-5">
+            <h2 class="text-lg font-semibold text-emerald-400 flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-emerald-400"></span> «Далёкие» и «Прижатые» гиперболы
+            </h2>
+            <p class="text-sm text-slate-300">Сравнение графиков вида <span class="text-cyan-400">y = a/x</span> и <span class="text-emerald-400">y = 1/(ax)</span> для задания №11 ОГЭ.</p>
+            <div>
+                <label class="block text-sm text-slate-300 mb-2">Значение параметра a: <span id="comp-a-val" class="font-bold text-emerald-300 text-lg">6</span></label>
+                <input type="range" id="comp-a-slider" min="1" max="9" step="1" value="6" class="w-full accent-emerald-500 cursor-pointer h-2 bg-slate-700 rounded-lg" oninput="updateCompareChart()">
+            </div>
+            <div class="space-y-3 bg-slate-900/60 p-4 rounded-xl border border-slate-700/50 text-sm">
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-cyan-400"></span>
+                    <span>Синий: <code id="comp-eq1" class="text-cyan-300 font-semibold">y = 6/x</code> (Широкая)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+                    <span>Зелёный: <code id="comp-eq2" class="text-emerald-300 font-semibold">y = 1/(6x)</code> (Прижатая)</span>
+                </div>
+            </div>
+            <div class="text-xs text-slate-400 bg-emerald-950/30 border border-emerald-900/50 p-3 rounded-xl">
+                🔍 <b>Правило:</b> Если число стоит в знаменателе вместе с x, оно делает график супер-узким и прижатым к осям координат!
+            </div>
+        </div>
+        <div class="lg:col-span-8 bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl flex flex-col justify-center items-center min-h-[500px]">
+            <div class="w-full h-[450px] relative">
+                <canvas id="chartCompare"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- TAB 4: Graphical Solver -->
+    <section id="tab-explorer-solver" class="tab-content lg:col-span-12 hidden grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-4 bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl flex flex-col gap-5">
+            <h2 class="text-lg font-semibold text-purple-400 flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-purple-400"></span> Графическое решение уравнений
+            </h2>
+            <div>
+                <label class="block text-sm text-slate-300 mb-2">Выберите тип уравнения:</label>
+                <select id="solver-preset" onchange="updateSolverMode()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm text-slate-200 focus:outline-none focus:border-purple-500">
+                    <option value="linear">Гипербола + Прямая: 6/x = x + 1</option>
+                    <option value="parabola">Гипербола + Парабола: 8/x = x²</option>
+                    <option value="triple">Гипербола + Парабола (3 корня!): 6/x = 7 - x²</option>
+                    <option value="noroot">Гипербола + Прямая (Нет корней): 6/x = -2x</option>
+                </select>
+            </div>
+            <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/60 space-y-2">
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-purple-400">Результат решения</h3>
+                <p id="solver-roots" class="text-sm text-slate-200 font-semibold">Корни уравнения (x): <span class="text-purple-300">-3; 2</span></p>
+                <p class="text-xs text-slate-400">⚠️ В ответе к уравнению записываются только абсциссы x, а не пары точек (x; y)!</p>
+            </div>
+        </div>
+        <div class="lg:col-span-8 bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl flex flex-col justify-center items-center min-h-[500px]">
+            <div class="w-full h-[450px] relative">
+                <canvas id="chartSolver"></canvas>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-slate-800 border-t border-slate-700 py-4 px-6 text-center text-xs text-slate-500 mt-auto">
+    Интерактивный цифровой модуль по математике &bull; Функция y = k/x и её график
+</footer>
+
+<!-- Script Application Logic -->
+<script>
+    // Tab switching logic
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+        document.querySelectorAll('.tab-btn').forEach(el => {
+            el.classList.remove('bg-cyan-600', 'text-white', 'shadow');
+            el.classList.add('text-slate-400', 'hover:text-white');
+        });
+
+        if (tabName === 'explorer') {
+            document.getElementById('tab-explorer').classList.remove('hidden');
+            document.getElementById('btn-explorer').classList.add('bg-cyan-600', 'text-white', 'shadow');
+            document.getElementById('btn-explorer').classList.remove('text-slate-400');
+            if(window.explorerChart) window.explorerChart.update();
+        } else if (tabName === 'oge22') {
+            document.getElementById('tab-explorer-oge22').classList.remove('hidden');
+            document.getElementById('btn-oge22').classList.add('bg-cyan-600', 'text-white', 'shadow');
+            document.getElementById('btn-oge22').classList.remove('text-slate-400');
+            updateOgeMode();
+        } else if (tabName === 'compare') {
+            document.getElementById('tab-explorer-compare').classList.remove('hidden');
+            document.getElementById('btn-compare').classList.add('bg-cyan-600', 'text-white', 'shadow');
+            document.getElementById('btn-compare').classList.remove('text-slate-400');
+            updateCompareChart();
+        } else if (tabName === 'solver') {
+            document.getElementById('tab-explorer-solver').classList.remove('hidden');
+            document.getElementById('btn-solver').classList.add('bg-cyan-600', 'text-white', 'shadow');
+            document.getElementById('btn-solver').classList.remove('text-slate-400');
+            updateSolverMode();
+        }
+    }
+
+    // Helper to generate hyperbola branches
+    function generateHyperbolaData(k, xMin, xMax, step = 0.1) {
+        let branch1 = [];
+        let branch2 = [];
+        for (let x = xMin; x <= -0.1; x += step) {
+            branch1.push({x: parseFloat(x.toFixed(2)), y: parseFloat((k/x).toFixed(2))});
+        }
+        for (let x = 0.1; x <= xMax; x += step) {
+            branch2.push({x: parseFloat(x.toFixed(2)), y: parseFloat((k/x).toFixed(2))});
+        }
+        return {branch1, branch2};
+    }
+
+    // --- 1. EXPLORER TAB ---
+    let explorerChart = null;
+    function initExplorer() {
+        const ctx = document.getElementById('chartExplorer').getContext('2d');
+        explorerChart = new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                datasets: [
+                    { label: 'Ветвь 1', data: [], borderColor: '#22d3ee', backgroundColor: '#22d3ee', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
+                    { label: 'Ветвь 2', data: [], borderColor: '#22d3ee', backgroundColor: '#22d3ee', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { type: 'linear', position: 'center', min: -10, max: 10, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#94a3b8' } },
+                    y: { type: 'linear', position: 'center', min: -10, max: 10, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#94a3b8' } }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+        updateExplorer(4);
+        document.getElementById('k-slider').addEventListener('input', (e) => {
+            updateExplorer(parseFloat(e.target.value));
+        });
+    }
+
+    function setK(val) {
+        document.getElementById('k-slider').value = val;
+        updateExplorer(val);
+    }
+
+    function updateExplorer(k) {
+        document.getElementById('k-val').innerText = k.toFixed(1);
+        document.getElementById('prop-formula').innerText = `y = ${k}/x`;
+        
+        let quad = k > 0 ? "I и III координатные четверти" : "II и IV координатные четверти";
+        let mono = k > 0 ? "Убывает на (-∞; 0) и (0; +∞)" : "Возрастает на (-∞; 0) и (0; +∞)";
+        document.getElementById('prop-quad').innerText = quad;
+        document.getElementById('prop-mono').innerText = mono;
+
+        let data = generateHyperbolaData(k, -10, 10);
+        explorerChart.data.datasets[0].data = data.branch1;
+        explorerChart.data.datasets[1].data = data.branch2;
+        explorerChart.update();
+    }
+
+    // --- 2. OGE 22 TAB ---
+    let ogeChart = null;
+    function initOge() {
+        const ctx = document.getElementById('chartOge').getContext('2d');
+        ogeChart = new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                datasets: [
+                    { label: 'График функции', data: [], borderColor: '#fbbf24', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
+                    { label: 'Выколотая точка', data: [], backgroundColor: '#ef4444', borderColor: '#ffffff', pointRadius: 6, pointStyle: 'circle' },
+                    { label: 'Параметрическая прямая', data: [], borderColor: '#38bdf8', showLine: true, pointRadius: 0, borderWidth: 2, borderDash: [5, 5] }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#94a3b8' } },
+                    y: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#94a3b8' } }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+        updateOgeMode();
+    }
+
+    function updateOgeMode() {
+        const mode = document.getElementById('oge-mode').value;
+        const slider = document.getElementById('param-slider');
+        const btns = document.getElementById('oge-preset-btns');
+        btns.innerHTML = '';
+
+        if (mode === "1") {
+            slider.min = -2; slider.max = 3; slider.step = 0.05; slider.value = 1;
+            document.getElementById('param-label').innerHTML = `Параметр k: <span id="param-val" class="font-bold text-amber-300 text-lg">1.00</span>`;
+            btns.innerHTML = `
+                <button onclick="setOgeK(1)" class="bg-slate-700 hover:bg-slate-600 py-1.5 rounded text-xs">k = 1 (Ровно 1)</button>
+                <button onclick="setOgeK(0)" class="bg-slate-700 hover:bg-slate-600 py-1.5 rounded text-xs">k = 0</button>
+                <button onclick="setOgeK(2)" class="bg-slate-700 hover:bg-slate-600 py-1.5 rounded text-xs">k = 2</button>
+            `;
+        } else if (mode === "2") {
+            slider.min = -1.5; slider.max = 1.5; slider.step = 0.05; slider.value = 0.75;
+            document.getElementById('param-label').innerHTML = `Параметр k: <span id="param-val" class="font-bold text-amber-300 text-lg">0.75</span>`;
+            btns.innerHTML = `
+                <button onclick="setOgeK(0.75)" class="bg-slate-700 hover:bg-slate-600 py-1.5 rounded text-xs">k = 0.75</button>
+                <button onclick="setOgeK(0)" class="bg-slate-700 hover:bg-slate-600 py-1.5 rounded text-xs">k = 0</button>
+                <button onclick="setOgeK(-0.75)" class="bg-slate-700 hover:bg-slate-600 py-1.5 rounded text-xs">k = -0.75</button>
+            `;
+        } else if (mode === "3") {
+            slider.min = -1; slider.max = 5; slider.step = 0.05; slider.value = 2;
+            document.getElementById('param-label').innerHTML = `Параметр m: <span id="param-val" class="font-bold text-amber-300 text-lg">2.00</span>`;
+            btns.innerHTML = `
+                <button onclick="setOgeK(0)" class="bg-slate-700 hover:bg-slate-600 py-1.5 rounded text-xs">m = 0</button>
+                <button onclick="setOgeK(2)" class="bg-slate-700 hover:bg-slate-600 py-1.5 rounded text-xs">m = 2</button>
+            `;
+        }
+        updateOgeParam();
+    }
+
+    function setOgeK(val) {
+        document.getElementById('param-slider').value = val;
+        updateOgeParam();
+    }
+
+    function updateOgeParam() {
+        const mode = document.getElementById('oge-mode').value;
+        const k = parseFloat(document.getElementById('param-slider').value);
+        document.getElementById('param-val').innerText = k.toFixed(2);
+
+        let graphData = [];
+        let hole = [];
+        let lineData = [];
+        let intersections = 0;
+        let verdict = "";
+
+        if (mode === "1") {
+            // y = (4x-8)/(x^2-2x) => 4/x with hole at x=2, y=2
+            for(let x = -6; x <= -0.1; x += 0.05) graphData.push({x, y: 4/x});
+            for(let x = 0.1; x <= 6; x += 0.05) if(Math.abs(x-2)>0.05) graphData.push({x, y: 4/x});
+            hole = [{x: 2, y: 2}];
+            
+            // line y = kx
+            for(let x = -6; x <= 6; x += 0.5) lineData.push({x, y: k*x});
+
+            if (k <= 0) { intersections = 0; verdict = "Прямая не пересекает ветви в I и III четвертях (0 общих точек)."; }
+            else if (Math.abs(k - 1) < 0.05) { intersections = 1; verdict = "🎯 Ровно 1 общая точка! Прямая проходит через выколотую точку (2; 2)."; }
+            else { intersections = 2; verdict = "Прямая пересекает ветви гиперболы в 2 точках."; }
+
+        } else if (mode === "2") {
+            // y = (3|x|-6)/(x^2-2|x|) => 3/x for x>0 (hole at 2, 1.5), -3/x for x<0 (hole at -2, 1.5)
+            for(let x = -6; x <= -0.1; x += 0.05) if(Math.abs(x-(-2))>0.05) graphData.push({x, y: -3/x});
+            for(let x = 0.1; x <= 6; x += 0.05) if(Math.abs(x-2)>0.05) graphData.push({x, y: 3/x});
+            hole = [{x: 2, y: 1.5}, {x: -2, y: 1.5}];
+
+            for(let x = -6; x <= 6; x += 0.5) lineData.push({x, y: k*x});
+
+            if (Math.abs(k) < 0.01) { intersections = 0; verdict = "Прямая совпадает с осью Ox (0 точек)."; }
+            else if (Math.abs(Math.abs(k) - 0.75) < 0.05) { intersections = 0; verdict = "🎯 0 общих точек! Прямая попадает в выколотую точку (±2; 1.5)."; }
+            else { intersections = 1; verdict = "Прямая пересекает график в 1 точке."; }
+
+        } else if (mode === "3") {
+            // y = |4/x - 2|
+            for(let x = -6; x <= -0.1; x += 0.05) graphData.push({x, y: Math.abs(4/x - 2)});
+            for(let x = 0.1; x <= 6; x += 0.05) graphData.push({x, y: Math.abs(4/x - 2)});
+            hole = [];
+
+            for(let x = -6; x <= 6; x += 0.5) lineData.push({x, y: k});
+
+            if (k < 0) { intersections = 0; verdict = "Модуль неотрицателен (0 точек)."; }
+            else if (Math.abs(k) < 0.05) { intersections = 1; verdict = "🎯 Ровно 1 точка: остриё графика на оси Ox в точке (2; 0)."; }
+            else if (Math.abs(k - 2) < 0.05) { intersections = 1; verdict = "🎯 Ровно 1 точка: касание асимптоты y = 2 в точке (1; 2)."; }
+            else if (k > 0 && k < 2) { intersections = 2; verdict = "Прямая пересекает график в 2 точках."; }
+            else { intersections = 2; verdict = "Прямая пересекает график в 2 точках."; }
+        }
+
+        document.getElementById('oge-intersections-count').innerText = intersections;
+        document.getElementById('oge-verdict').innerText = verdict;
+
+        ogeChart.data.datasets[0].data = graphData;
+        ogeChart.data.datasets[1].data = hole;
+        ogeChart.data.datasets[2].data = lineData;
+        ogeChart.update();
+    }
+
+    // --- 3. COMPARE TAB ---
+    let compareChart = null;
+    function initCompare() {
+        const ctx = document.getElementById('chartCompare').getContext('2d');
+        compareChart = new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                datasets: [
+                    { label: 'Широкая: y = a/x', data: [], borderColor: '#22d3ee', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
+                    { label: 'Прижатая: y = 1/(ax)', data: [], borderColor: '#34d399', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#94a3b8' } },
+                    y: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#94a3b8' } }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+        updateCompareChart();
+    }
+
+    function updateCompareChart() {
+        const a = parseInt(document.getElementById('comp-a-slider').value);
+        document.getElementById('comp-a-val').innerText = a;
+        document.getElementById('comp-eq1').innerText = `y = ${a}/x`;
+        document.getElementById('comp-eq2').innerText = `y = 1/(${a}x)`;
+
+        let d1 = generateHyperbolaData(a, -6, 6);
+        let d2 = generateHyperbolaData(1/a, -6, 6);
+
+        compareChart.data.datasets[0].data = [...d1.branch1, {x: null, y: null}, ...d1.branch2];
+        compareChart.data.datasets[1].data = [...d2.branch1, {x: null, y: null}, ...d2.branch2];
+        compareChart.update();
+    }
+
+    // --- 4. SOLVER TAB ---
+    let solverChart = null;
+    function initSolver() {
+        const ctx = document.getElementById('chartSolver').getContext('2d');
+        solverChart = new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                datasets: [
+                    { label: 'Гипербола', data: [], borderColor: '#c084fc', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
+                    { label: 'Второй график', data: [], borderColor: '#f472b6', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
+                    { label: 'Точки пересечения', data: [], backgroundColor: '#fbbf24', borderColor: '#ffffff', pointRadius: 6, pointStyle: 'circle' }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#94a3b8' } },
+                    y: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#94a3b8' } }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+        updateSolverMode();
+    }
+
+    function updateSolverMode() {
+        const mode = document.getElementById('solver-preset').value;
+        let hypData = [];
+        let secData = [];
+        let points = [];
+        let rootsText = "";
+
+        if (mode === "linear") {
+            // 6/x = x + 1 => x^2 + x - 6 = 0 => x = -3, x = 2
+            let d = generateHyperbolaData(6, -6, 6);
+            hypData = [...d.branch1, {x:null, y:null}, ...d.branch2];
+            for(let x = -5; x <= 5; x += 0.5) secData.push({x, y: x + 1});
+            points = [{x: -3, y: -2}, {x: 2, y: 3}];
+            rootsText = "-3; 2";
+        } else if (mode === "parabola") {
+            // 8/x = x^2 => x = 2
+            let d = generateHyperbolaData(8, -6, 6);
+            hypData = [...d.branch1, {x:null, y:null}, ...d.branch2];
+            for(let x = -3; x <= 3; x += 0.2) secData.push({x, y: x*x});
+            points = [{x: 2, y: 4}];
+            rootsText = "2";
+        } else if (mode === "triple") {
+            // 6/x = 7 - x^2 => x = -3, 1, 2
+            let d = generateHyperbolaData(6, -6, 6);
+            hypData = [...d.branch1, {x:null, y:null}, ...d.branch2];
+            for(let x = -3.5; x <= 3.5; x += 0.1) secData.push({x, y: 7 - x*x});
+            points = [{x: -3, y: -2}, {x: 1, y: 6}, {x: 2, y: 3}];
+            rootsText = "-3; 1; 2 (Три корня!)";
+        } else if (mode === "noroot") {
+            // 6/x = -2x => no real intersection
+            let d = generateHyperbolaData(6, -6, 6);
+            hypData = [...d.branch1, {x:null, y:null}, ...d.branch2];
+            for(let x = -5; x <= 5; x += 0.5) secData.push({x, y: -2*x});
+            points = [];
+            rootsText = "Корней нет (разные четверти)";
+        }
+
+        document.getElementById('solver-roots').innerHTML = `Корни уравнения (x): <span class="text-purple-300 font-bold">${rootsText}</span>`;
+        solverChart.data.datasets[0].data = hypData;
+        solverChart.data.datasets[1].data = secData;
+        solverChart.data.datasets[2].data = points;
+        solverChart.update();
+    }
+
+    // Initialize everything on DOM load
+    window.addEventListener('DOMContentLoaded', () => {
+        initExplorer();
+        initOge();
+        initCompare();
+        initSolver();
+    });
+</script>
+
+</body>
+</html>
