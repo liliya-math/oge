@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Медианы треугольника — S(ABC) = 3S</title>
+<style>
+:root{
+  --kimi-font-sans:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --kimi-color-text-primary:#1d1d22;
+  --kimi-color-text-secondary:#4c4c55;
+  --kimi-color-text-tertiary:#8d8d97;
+  --kimi-color-text-quaternary:#b9b9c2;
+  --kimi-color-surface:#ffffff;
+  --kimi-color-border:#dcdce3;
+  --kimi-chart-1:#2f6fdb;
+  --t-fast:150ms; --t-normal:250ms; --ease-out:cubic-bezier(.2,.7,.3,1); --ease-standard:cubic-bezier(.4,0,.2,1);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --kimi-color-text-primary:#f2f2f5;
+    --kimi-color-text-secondary:#c2c2ca;
+    --kimi-color-text-tertiary:#8d8d97;
+    --kimi-color-text-quaternary:#5c5c66;
+    --kimi-color-surface:#1c1c21;
+    --kimi-color-border:#3a3a44;
+    --kimi-chart-1:#5b8ef0;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;padding:24px 16px;font-family:var(--kimi-font-sans);background:var(--kimi-color-surface);color:var(--kimi-color-text-primary)}
+.card{max-width:520px;margin:0 auto;border:1px solid var(--kimi-color-border);border-radius:12px;padding:20px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px}
+.ttl{font-size:17px;font-weight:500}
+.meta{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.cnt{font-size:13px;color:var(--kimi-color-text-tertiary)}
+.dot{width:8px;height:8px;border-radius:50%;border:1.5px solid var(--kimi-color-border);cursor:pointer;padding:0;background:transparent}
+.dot.on{background:var(--kimi-color-text-primary);border-color:var(--kimi-color-text-primary)}
+svg{display:block;width:100%;max-width:460px;margin:0 auto}
+svg text{font-family:var(--kimi-font-sans)}
+.g{opacity:0;transition:opacity var(--t-normal) var(--ease-standard)}
+.g.on{opacity:1}
+.p5{fill:color-mix(in srgb,var(--kimi-chart-1) 15%,transparent)}
+.hl-aba1,.hl-aa1c{fill:color-mix(in srgb,var(--kimi-chart-1) 14%,transparent)}
+.hl-abo{fill:color-mix(in srgb,var(--kimi-chart-1) 30%,transparent)}
+.txt{font-size:15px;line-height:22px;color:var(--kimi-color-text-secondary);min-height:88px;margin-top:8px}
+.txt p{margin:0 0 4px}
+.txt .f{color:var(--kimi-color-text-primary);font-weight:500;margin-top:4px;font-variant-numeric:tabular-nums}
+.btns{display:flex;justify-content:space-between;margin-top:12px;gap:8px}
+.btn{padding:10px 20px;border-radius:10px;border:1px solid var(--kimi-color-border);background:transparent;color:var(--kimi-color-text-primary);font-size:15px;font-weight:500;cursor:pointer;transition:opacity var(--t-fast) var(--ease-out)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn-p{background:var(--kimi-color-text-primary);color:var(--kimi-color-surface);border-color:transparent}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="top">
+    <div class="ttl" id="ttl">Шаг 1. Условие</div>
+    <div class="meta">
+      <div class="cnt" id="cnt">Шаг 1 из 5</div>
+      <div class="meta" id="dots"></div>
+    </div>
+  </div>
+  <svg viewBox="0 0 400 348" role="img" aria-label="Треугольник ABC с медианами">
+    <polygon class="g hl-aba1" points="110,40 30,320 200,320"/>
+    <polygon class="g hl-aa1c" points="110,40 200,320 370,320"/>
+    <polygon class="g hl-abo" points="110,40 30,320 170,226.7"/>
+    <polygon class="g p5" points="110,40 30,320 170,226.7"/>
+    <polygon class="g p5" points="30,320 170,226.7 370,320"/>
+    <polygon class="g p5" points="110,40 170,226.7 370,320"/>
+    <polygon points="110,40 30,320 370,320" fill="none" stroke="var(--kimi-color-text-primary)" stroke-width="2.5" stroke-linejoin="round"/>
+    <line x1="110" y1="40" x2="200" y2="320" stroke="var(--kimi-color-text-secondary)" stroke-width="1.5"/>
+    <line class="g bb1" x1="30" y1="320" x2="240" y2="180" stroke="var(--kimi-color-text-secondary)" stroke-width="1.5"/>
+    <line class="g seg-ao" x1="110" y1="40" x2="170" y2="226.7" stroke="var(--kimi-color-text-primary)" stroke-width="4" stroke-linecap="round"/>
+    <line class="g seg-oa1" x1="170" y1="226.7" x2="200" y2="320" stroke="var(--kimi-color-text-primary)" stroke-width="4" stroke-linecap="round"/>
+    <line class="g height" x1="30" y1="320" x2="184.1" y2="270.5" stroke="var(--kimi-color-text-secondary)" stroke-width="1.5" stroke-dasharray="6 5"/>
+    <path class="g height" d="M184.08 270.48 L186.83 279.05 L178.27 281.8 L175.51 273.23 Z" fill="none" stroke="var(--kimi-color-text-secondary)" stroke-width="1.2"/>
+    <line class="g ticks" x1="112" y1="310" x2="118" y2="330" stroke="var(--kimi-color-text-secondary)" stroke-width="2"/>
+    <line class="g ticks" x1="282" y1="310" x2="288" y2="330" stroke="var(--kimi-color-text-secondary)" stroke-width="2"/>
+    <circle cx="170" cy="226.7" r="4" fill="var(--kimi-color-text-primary)"/>
+    <circle cx="200" cy="320" r="3" fill="var(--kimi-color-text-primary)"/>
+    <circle class="g bb1" cx="240" cy="180" r="3" fill="var(--kimi-color-text-primary)"/>
+    <g class="g badge2">
+      <circle cx="140" cy="133.3" r="11" fill="var(--kimi-color-surface)" stroke="var(--kimi-color-text-primary)" stroke-width="1.5"/>
+      <text x="140" y="137.5" text-anchor="middle" font-size="13" font-weight="500" fill="var(--kimi-color-text-primary)">2</text>
+    </g>
+    <g class="g badge1">
+      <circle cx="185" cy="273.3" r="11" fill="var(--kimi-color-surface)" stroke="var(--kimi-color-text-primary)" stroke-width="1.5"/>
+      <text x="185" y="277.5" text-anchor="middle" font-size="13" font-weight="500" fill="var(--kimi-color-text-primary)">1</text>
+    </g>
+    <g font-size="15" fill="var(--kimi-color-text-primary)">
+      <text x="108" y="28" text-anchor="middle">A</text>
+      <text x="26" y="342" text-anchor="middle">B</text>
+      <text x="374" y="342" text-anchor="middle">C</text>
+      <text x="200" y="342" text-anchor="middle">A₁</text>
+      <text class="g bb1" x="230" y="184" text-anchor="end">B₁</text>
+      <text x="150" y="234" text-anchor="end">O</text>
+      <text class="g lab-h" x="172" y="294" text-anchor="end" fill="var(--kimi-color-text-secondary)">H</text>
+      <text class="g lab-s" x="103" y="200" text-anchor="middle" font-size="14" font-weight="500">= S</text>
+    </g>
+  </svg>
+  <div class="txt" id="txt"></div>
+  <div class="btns">
+    <button class="btn" id="prev">Назад</button>
+    <button class="btn btn-p" id="next">Далее</button>
+  </div>
+</div>
+<script>
+(function(){
+var steps=[
+{t:'Шаг 1. Условие',h:'<p>AA₁ и BB₁ — медианы: A₁ и B₁ — середины сторон, O — точка их пересечения. Дано: площадь треугольника ABO.</p><p class="f">S(ABO) = S. Найти: S(ABC).</p>',s:['hl-abo','lab-s','bb1']},
+{t:'Шаг 2. Медиана делит треугольник пополам',h:'<p>Основания BA₁ = A₁C, а высота из A у обоих треугольников одна и та же. Значит, площади равны:</p><p class="f">S(ABA₁) = ½ · S(ABC)</p>',s:['hl-aba1','hl-aa1c','ticks']},
+{t:'Шаг 3. Свойство медиан',h:'<p>Точка пересечения медиан делит каждую медиану в отношении 2 : 1, считая от вершины:</p><p class="f">AO : OA₁ = 2 : 1, значит AO : AA₁ = 2 : 3</p>',s:['seg-ao','seg-oa1','badge2','badge1','bb1']},
+{t:'Шаг 4. Общая высота',h:'<p>У треугольников ABO и ABA₁ общая высота из B (пунктир): основания лежат на одной прямой. Площади относятся как основания:</p><p class="f">S(ABO) : S(ABA₁) = AO : AA₁ = 2 : 3</p>',s:['hl-aba1','hl-abo','height','lab-h','bb1']},
+{t:'Шаг 5. Считаем и отвечаем',h:'<p>Значит S(ABO) = ⅔ · S(ABA₁) = ⅔ · ½ · S(ABC) = ⅓ · S(ABC). Три треугольника AOB, BOC и COA равновелики.</p><p class="f">S(ABC) = 3 · S(ABO) = 3S</p>',s:['p5','bb1']}
+];
+var i=0;
+var ttl=document.getElementById('ttl'),txt=document.getElementById('txt'),cnt=document.getElementById('cnt');
+var prev=document.getElementById('prev'),next=document.getElementById('next'),dots=document.getElementById('dots');
+steps.forEach(function(_,k){
+  var d=document.createElement('button');
+  d.className='dot';
+  d.setAttribute('aria-label','Шаг '+(k+1));
+  d.onclick=function(){i=k;render();};
+  dots.appendChild(d);
+});
+function render(){
+  var st=steps[i];
+  ttl.textContent=st.t;
+  txt.innerHTML=st.h;
+  cnt.textContent='Шаг '+(i+1)+' из '+steps.length;
+  var groups=document.querySelectorAll('.g');
+  for(var k=0;k<groups.length;k++){
+    var on=false;
+    for(var j=0;j<st.s.length;j++){ if(groups[k].classList.contains(st.s[j])){on=true;break;} }
+    groups[k].classList.toggle('on',on);
+  }
+  var ds=dots.children;
+  for(var k=0;k<ds.length;k++){ ds[k].classList.toggle('on',k===i); }
+  prev.disabled=(i===0);
+  next.textContent=(i===steps.length-1)?'Начать сначала':'Далее';
+}
+prev.onclick=function(){ if(i>0){i--;render();} };
+next.onclick=function(){ if(i<steps.length-1){i++;}else{i=0;} render(); };
+render();
+})();
+</script>
+</body>
+</html>
