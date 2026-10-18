@@ -1,0 +1,82 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Прогрессии: теория</title><style>
+
+@page{size:A4;margin:9mm}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#000;font:10.5pt/1.38 "PT Serif","DejaVu Serif",Georgia,"Times New Roman",serif}
+.wrap{max-width:200mm;margin:0 auto;padding:10px 12px 30px}
+.nav{font:13px -apple-system,Arial,sans-serif;margin:6px 0 10px}
+.nav a{color:#1747c9}
+h1{font-size:15pt;margin:0 0 2px}
+h2{font-size:11.5pt;margin:10px 0 4px;border-bottom:1px solid #000;padding-bottom:1px}
+h3{font-size:10.5pt;margin:7px 0 2px}
+.sub{font-size:9.5pt;margin:0 0 6px}
+p{margin:3px 0}
+ol,ul{margin:3px 0 3px 18px;padding:0}
+li{margin:2px 0}
+sup{font-size:70%;line-height:0;vertical-align:super;white-space:nowrap}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 1px}
+.fr i{display:block;font-style:normal;padding:0 3px;border-bottom:1px solid currentColor;line-height:1.2}
+.fr b{display:block;font-weight:normal;padding:0 3px;line-height:1.2}
+.rt{white-space:nowrap}
+.nw{white-space:nowrap}
+.ro{border-top:1px solid currentColor;padding:0 2px;margin-left:1px}
+.box{border:1px solid #000;padding:4px 7px;margin:5px 0;break-inside:avoid}
+.rule{border:1.5px solid #000;padding:4px 7px;margin:5px 0;break-inside:avoid;background:#f2f2f2}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 10mm}
+.cols.cut > div:first-child{border-right:1px dashed #000;padding-right:5mm}
+.task{break-inside:avoid;margin:5px 0}
+.task .n{font-weight:bold}
+.sol{border:1px solid #bbb;background-image:linear-gradient(#ddd 1px,transparent 1px),linear-gradient(90deg,#ddd 1px,transparent 1px);background-size:5mm 5mm;margin:3px 0}
+.ans{margin-top:2px}
+.ans:after{content:" ______________"}
+.teacher{margin-top:10px;border-top:1px dashed #000;padding-top:4px;font-size:9.5pt}
+.small{font-size:9.5pt}
+table{border-collapse:collapse;margin:4px 0}
+td,th{border:1px solid #000;padding:2px 6px;text-align:left;font-weight:normal;vertical-align:top}
+th{font-weight:bold;background:#eee}
+.lev{display:inline-block;border:1px solid #000;padding:0 6px;font-weight:bold;margin:6px 0 2px;font-size:10.5pt}
+details{margin:2px 0}
+summary{cursor:pointer}
+@media print{.nav,.noprint{display:none}.wrap{padding:0;max-width:none}body{font-size:10pt}}
+h2,h3,.lev{break-after:avoid}
+@media print{body{font-size:9pt;line-height:1.27}h1{font-size:13.5pt}.rule{padding:3px 6px;margin:3px 0}h2{margin:6px 0 3px}.teacher ol{margin-left:24px}}
+sub{font-size:70%;line-height:0;vertical-align:sub;white-space:nowrap}
+</style></head><body><div class="wrap"><div class="nav"><a href="z14-progressii.html">← Прогрессии (задание 14)</a> · <a href="index.html">на главную</a></div><h1>Прогрессии · задание 14 ОГЭ · теория</h1>
+<p class="sub">Печать: 2 листа A4. Лист 1 — теория и вопросы (ученику), лист 2 — ответы на вопросы (учителю). Формулировки близки к школьному учебнику алгебры 9 класса.</p>
+<div class="cols">
+<div>
+<h2>1. Последовательности</h2>
+<p><b>Числовая последовательность</b> — функция, заданная на множестве натуральных чисел. Её значения называют членами: a<sub>1</sub>, a<sub>2</sub>, …, a<sub>n</sub>, … Число n — номер члена.</p>
+<p>Способы задания: <b>формулой n-го члена</b> (a<sub>n</sub> = 3n − 2); <b>рекуррентно</b> (a<sub>1</sub> = 5, a<sub>n+1</sub> = a<sub>n</sub> + 3); словами или перечислением первых членов.</p>
+<h2>2. Арифметическая прогрессия</h2>
+<p><b>Арифметическая прогрессия</b> — последовательность, каждый член которой, начиная со второго, равен предыдущему, сложенному с одним и тем же числом d. Число d — <b>разность</b> прогрессии.</p>
+<div class="rule"><b>Формулы.</b><br>a<sub>n+1</sub> = a<sub>n</sub> + d; &nbsp; d = a<sub>n+1</sub> − a<sub>n</sub><br>a<sub>n</sub> = a<sub>1</sub> + (n − 1)d<br>a<sub>n</sub> = (a<sub>n−1</sub> + a<sub>n+1</sub>) : 2 (свойство)<br>S<sub>n</sub> = (a<sub>1</sub> + a<sub>n</sub>)·n : 2<br>S<sub>n</sub> = (2a<sub>1</sub> + (n − 1)d)·n : 2</div>
+<p><b>Если даны два члена:</b> d = (a<sub>m</sub> − a<sub>k</sub>) : (m − k). Любой член через известный: a<sub>m</sub> = a<sub>k</sub> + (m − k)d.</p>
+<p><b>Рост и убывание.</b> d &gt; 0 — члены растут, d &lt; 0 — убывают.</p>
+</div>
+<div>
+<h2>3. Геометрическая прогрессия</h2>
+<p><b>Геометрическая прогрессия</b> — последовательность отличных от нуля чисел, каждый член которой, начиная со второго, равен предыдущему, умноженному на одно и то же число q. Число q — <b>знаменатель</b> прогрессии.</p>
+<div class="rule"><b>Формулы.</b><br>b<sub>n+1</sub> = b<sub>n</sub>·q; &nbsp; q = b<sub>n+1</sub> : b<sub>n</sub><br>b<sub>n</sub> = b<sub>1</sub>·q<sup>n−1</sup><br>b<sub>n</sub><sup>2</sup> = b<sub>n−1</sub>·b<sub>n+1</sub> (свойство)<br>S<sub>n</sub> = b<sub>1</sub>(q<sup>n</sup> − 1) : (q − 1), q ≠ 1</div>
+<p>При q &lt; 0 знаки членов чередуются: плюс, минус, плюс, минус.</p>
+<h2>4. Приёмы для задания 14</h2>
+<ul>
+<li><b>Первое:</b> определите вид: «на … больше» — арифметическая, «в … раз» или «на p%» — геометрическая.</li>
+<li><b>Шаги.</b> От a<sub>k</sub> до a<sub>m</sub> ровно m − k шагов. От a<sub>1</sub> до a<sub>n</sub> — n − 1 шаг.</li>
+<li><b>Сколько членов …&lt; 0.</b> Запишите a<sub>n</sub> &lt; 0, решите относительно n, возьмите наибольшее натуральное n (строгое неравенство: ноль не отрицательный).</li>
+<li><b>Сумма без первого члена.</b> Найдите d, затем a<sub>1</sub> и последний член, потом формулу суммы.</li>
+<li><b>Практика.</b> Ряды в зале, накопления «на столько-то больше» — арифметическая; бактерии, рост в k раз — геометрическая.</li>
+</ul>
+<h2>5. Типичные ошибки</h2>
+<ul>
+<li>Степень или шаги n вместо n − 1.</li>
+<li>В формуле суммы арифметической прогрессии забыто деление на 2.</li>
+<li>Арифметическая и геометрическая перепутаны: d и q, «+» и «·».</li>
+<li>Потерян знак при отрицательных d или q.</li>
+<li>Члены прогрессии с номерами k и m: разность членов поделена не на (m − k).</li>
+</ul>
+</div>
+</div>
+<h2>Вопросы для устного опроса</h2>
+<ol class="small" style="margin-left:26px"><li>Что такое числовая последовательность? Назовите три способа её задания.</li><li>Последовательность задана формулой a<sub>n</sub> = 4n − 1. Найдите a<sub>5</sub> и a<sub>10</sub>.</li><li>Дайте определение арифметической прогрессии. Как найти её разность?</li><li>Арифметическая прогрессия 5; 9; 13; … Чему равны d и a<sub>6</sub>?</li><li>Запишите формулу n-го члена арифметической прогрессии. Почему в ней (n − 1), а не n?</li><li>Сформулируйте характеристическое свойство арифметической прогрессии. Найдите a<sub>5</sub>, если a<sub>4</sub> = 11, a<sub>6</sub> = 17.</li><li>Запишите две формулы суммы первых n членов арифметической прогрессии. Когда удобна каждая?</li><li>Чему равна сумма натуральных чисел от 1 до 100?</li><li>Дайте определение геометрической прогрессии. Почему q ≠ 0 и члены не равны нулю?</li><li>Геометрическая прогрессия 3; 6; 12; … Чему равны q и b<sub>5</sub>?</li><li>Запишите формулу n-го члена геометрической прогрессии. Почему степень n − 1?</li><li>Характеристическое свойство геометрической прогрессии. Все члены положительны, b<sub>2</sub> = 4, b<sub>4</sub> = 16. Найдите b<sub>3</sub>.</li><li>Запишите формулу суммы первых n членов геометрической прогрессии. Найдите 1 + 2 + 4 + 8 + 16.</li><li>По каким словам условия отличить арифметическую прогрессию от геометрической?</li></ol>
+<div class="teacher" style="break-before:page;border-top:0"><h2>Ответы на вопросы устного опроса (для учителя)</h2><ol class="small" style="margin-left:26px"><li>Функция, заданная на множестве натуральных чисел; значения — члены последовательности. Способы: формулой n-го члена, рекуррентной формулой (каждый следующий член через предыдущие), словесным описанием или перечислением первых членов.</li><li>a<sub>5</sub> = 4·5 − 1 = 19; a<sub>10</sub> = 4·10 − 1 = 39.</li><li>Последовательность, каждый член которой, начиная со второго, равен предыдущему, сложенному с одним и тем же числом d. d = a<sub>n+1</sub> − a<sub>n</sub>.</li><li>d = 9 − 5 = 4; a<sub>6</sub> = 5 + 5·4 = 25.</li><li>a<sub>n</sub> = a<sub>1</sub> + (n − 1)d. От первого члена до n-го ровно n − 1 переход, на каждом прибавляется d.</li><li>Каждый член, кроме первого, равен среднему арифметическому соседних: a<sub>n</sub> = (a<sub>n−1</sub> + a<sub>n+1</sub>) : 2. a<sub>5</sub> = (11 + 17) : 2 = 14.</li><li>S<sub>n</sub> = (a<sub>1</sub> + a<sub>n</sub>)·n : 2 — когда известен последний член; S<sub>n</sub> = (2a<sub>1</sub> + (n − 1)d)·n : 2 — когда известны первый член и разность.</li><li>Арифметическая прогрессия, a<sub>1</sub> = 1, a<sub>100</sub> = 100: S = (1 + 100)·100 : 2 = 5050.</li><li>Последовательность отличных от нуля чисел, каждый член которой, начиная со второго, равен предыдущему, умноженному на одно и то же число q. q = b<sub>n+1</sub> : b<sub>n</sub>; деление на нуль невозможно.</li><li>q = 6 : 3 = 2; b<sub>5</sub> = 3·2<sup>4</sup> = 48.</li><li>b<sub>n</sub> = b<sub>1</sub>·q<sup>n−1</sup>. От первого члена до n-го n − 1 умножение на q.</li><li>Квадрат каждого члена равен произведению соседних: b<sub>n</sub><sup>2</sup> = b<sub>n−1</sub>·b<sub>n+1</sub>. b<sub>3</sub><sup>2</sup> = 4·16 = 64, b<sub>3</sub> = 8 (члены положительны).</li><li>S<sub>n</sub> = b<sub>1</sub>(q<sup>n</sup> − 1) : (q − 1), q ≠ 1. Здесь b<sub>1</sub> = 1, q = 2, n = 5: (32 − 1) : 1 = 31.</li><li>Арифметическая: «на одно и то же число больше (меньше)». Геометрическая: «в одно и то же число раз больше (меньше)»; рост на p% — геометрическая прогрессия со знаменателем q = 1 + p : 100.</li></ol></div></div></body></html>

@@ -2357,6 +2357,177 @@
       "oge_task": 21,
       "status": "public",
       "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z14-progressii.html",
+      "title": "Прогрессии: все материалы по порядку",
+      "type": "sistema",
+      "class": 9,
+      "oge_task": 14,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z14-progressii-teoriya.html",
+      "title": "Теория и устный опрос: прогрессии",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 14,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z14-progressii-test.html",
+      "title": "Тест: прогрессии",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 14,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z14-progressii-pyatiminutki.html",
+      "title": "Карточки-пятиминутки: прогрессии (2 варианта)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 14,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z14-progressii-razbor-5.html",
+      "title": "Разбор 5 задач повышенной сложности: прогрессии",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 14,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z14-progressii-trenazhor.html",
+      "title": "Тренажёр: 5 задач повышенной сложности, прогрессии",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 14,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z14-progressii-trenazhor-gen.html",
+      "title": "Тренажёр: прогрессии, новые числа каждый раз",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 14,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z14-progressii-pamyatka.html",
+      "title": "Памятка: алгоритм и запись ответа, прогрессии",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 14,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z14-progressii-kontrolnaya.html",
+      "title": "Зачётный лист: прогрессии (3 уровня)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 14,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z14-progressii-dz.html",
+      "title": "Домашняя карточка: прогрессии (4 задачи)",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 14,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-progressii-dialog.md",
+      "title": "Диалог ученик-учитель: прогрессии, план урока и ДЗ (текст)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 14,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-progressii-dialog.pdf",
+      "title": "Диалог ученик-учитель: прогрессии, план урока и ДЗ (печать)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 14,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z14-progressii-teoriya.pdf",
+      "title": "Прогрессии, печать: теория",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 14,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z14-progressii-pyatiminutki.pdf",
+      "title": "Прогрессии, печать: пятиминутки",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 14,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z14-progressii-razbor-5.pdf",
+      "title": "Прогрессии, печать: разбор 5 задач",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 14,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z14-progressii-pamyatka.pdf",
+      "title": "Прогрессии, печать: памятка",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 14,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z14-progressii-kontrolnaya.pdf",
+      "title": "Прогрессии, печать: зачётный лист",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 14,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z14-progressii-dz.pdf",
+      "title": "Прогрессии, печать: домашняя карточка",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 14,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z14-progressii-komplekt.pdf",
+      "title": "Прогрессии, печать: комплект",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 14,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
     }
   ]
 }

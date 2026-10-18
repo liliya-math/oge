@@ -1,0 +1,84 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Прогрессии: памятка</title><style>
+
+@page{size:A4;margin:9mm}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#000;font:10.5pt/1.38 "PT Serif","DejaVu Serif",Georgia,"Times New Roman",serif}
+.wrap{max-width:200mm;margin:0 auto;padding:10px 12px 30px}
+.nav{font:13px -apple-system,Arial,sans-serif;margin:6px 0 10px}
+.nav a{color:#1747c9}
+h1{font-size:15pt;margin:0 0 2px}
+h2{font-size:11.5pt;margin:10px 0 4px;border-bottom:1px solid #000;padding-bottom:1px}
+h3{font-size:10.5pt;margin:7px 0 2px}
+.sub{font-size:9.5pt;margin:0 0 6px}
+p{margin:3px 0}
+ol,ul{margin:3px 0 3px 18px;padding:0}
+li{margin:2px 0}
+sup{font-size:70%;line-height:0;vertical-align:super;white-space:nowrap}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 1px}
+.fr i{display:block;font-style:normal;padding:0 3px;border-bottom:1px solid currentColor;line-height:1.2}
+.fr b{display:block;font-weight:normal;padding:0 3px;line-height:1.2}
+.rt{white-space:nowrap}
+.nw{white-space:nowrap}
+.ro{border-top:1px solid currentColor;padding:0 2px;margin-left:1px}
+.box{border:1px solid #000;padding:4px 7px;margin:5px 0;break-inside:avoid}
+.rule{border:1.5px solid #000;padding:4px 7px;margin:5px 0;break-inside:avoid;background:#f2f2f2}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 10mm}
+.cols.cut > div:first-child{border-right:1px dashed #000;padding-right:5mm}
+.task{break-inside:avoid;margin:5px 0}
+.task .n{font-weight:bold}
+.sol{border:1px solid #bbb;background-image:linear-gradient(#ddd 1px,transparent 1px),linear-gradient(90deg,#ddd 1px,transparent 1px);background-size:5mm 5mm;margin:3px 0}
+.ans{margin-top:2px}
+.ans:after{content:" ______________"}
+.teacher{margin-top:10px;border-top:1px dashed #000;padding-top:4px;font-size:9.5pt}
+.small{font-size:9.5pt}
+table{border-collapse:collapse;margin:4px 0}
+td,th{border:1px solid #000;padding:2px 6px;text-align:left;font-weight:normal;vertical-align:top}
+th{font-weight:bold;background:#eee}
+.lev{display:inline-block;border:1px solid #000;padding:0 6px;font-weight:bold;margin:6px 0 2px;font-size:10.5pt}
+details{margin:2px 0}
+summary{cursor:pointer}
+@media print{.nav,.noprint{display:none}.wrap{padding:0;max-width:none}body{font-size:10pt}}
+h2,h3,.lev{break-after:avoid}
+@media print{body{font-size:9pt;line-height:1.27}h1{font-size:13.5pt}.rule{padding:3px 6px;margin:3px 0}h2{margin:6px 0 3px}.teacher ol{margin-left:24px}}
+sub{font-size:70%;line-height:0;vertical-align:sub;white-space:nowrap}
+</style></head><body><div class="wrap"><div class="nav"><a href="z14-progressii.html">← Прогрессии (задание 14)</a> · <a href="index.html">на главную</a></div><h1>Памятка · прогрессии · задание 14</h1><p class="sub">Один лист A4. Задание 14 — часть 1: за него 1 балл, проверяется только ответ, записанный в бланк №1.</p>
+<div class="cols"><div>
+<h2>Алгоритм решения</h2>
+<ol>
+<li><b>Прочитать и определить вид.</b> «На … больше» — арифметическая прогрессия (d). «В … раз», «на p%» — геометрическая (q).</li>
+<li><b>Выписать, что дано и что найти:</b> a<sub>1</sub>, d (или q), номера членов, число членов n.</li>
+<li><b>Если не хватает a<sub>1</sub> и d (или q):</b> найти из двух данных членов. Арифметическая: d = (a<sub>m</sub> − a<sub>k</sub>) : (m − k). Геометрическая: q<sup>m−k</sup> = b<sub>m</sub> : b<sub>k</sub>.</li>
+<li><b>Посчитать шаги:</b> от номера k до номера m их m − k, от первого до n-го — n − 1.</li>
+<li><b>Подставить в формулу</b> n-го члена или суммы. Каждое действие отдельной строкой в черновике.</li>
+<li><b>Проверить:</b> выписать первые 3–4 члена и убедиться, что они подходят; сумму проверить второй формулой.</li>
+<li><b>Прочитать вопрос ещё раз:</b> нужен член, сумма или количество? Единицы измерения в бланк не пишутся.</li>
+<li><b>Записать в бланк №1</b> по правилам справа.</li>
+</ol>
+<h2>Формулы</h2>
+<table><tr><th></th><th>Арифметическая</th><th>Геометрическая</th></tr>
+<tr><td>Шаг</td><td>d = a<sub>n+1</sub> − a<sub>n</sub></td><td>q = b<sub>n+1</sub> : b<sub>n</sub></td></tr>
+<tr><td>n-й член</td><td>a<sub>1</sub> + (n − 1)d</td><td>b<sub>1</sub>·q<sup>n−1</sup></td></tr>
+<tr><td>Свойство</td><td>a<sub>n</sub> = (a<sub>n−1</sub> + a<sub>n+1</sub>) : 2</td><td>b<sub>n</sub><sup>2</sup> = b<sub>n−1</sub>·b<sub>n+1</sub></td></tr>
+<tr><td>Сумма</td><td>(a<sub>1</sub> + a<sub>n</sub>)·n : 2</td><td>b<sub>1</sub>(q<sup>n</sup> − 1) : (q − 1)</td></tr></table>
+</div><div>
+<h2>Как записать ответ в бланк №1</h2>
+<ul>
+<li>Ответ — целое число или конечная десятичная дробь. В задании 14 обычно целое число.</li>
+<li>Одна цифра в одной клетке. Знак минус и запятая тоже занимают клетки: −43 это три клетки, 0,2 это три клетки.</li>
+<li>Писать печатными цифрами, как в образце на бланке. Без пробелов, без слов «ответ», без единиц измерения, без знака равенства.</li>
+<li>Не писать номер члена вместо его значения: спрашивают a<sub>20</sub>, а вы нашли n.</li>
+<li>Ошибку в бланке не зачёркивать поверх: исправляется только через блок «Замена ошибочных ответов» внизу бланка.</li>
+<li>Решение за задание 14 не оценивается, поэтому записи в черновике нужны только вам: аккуратная запись лучше всего ловит арифметическую ошибку.</li>
+</ul>
+<h2>Где теряют балл</h2>
+<table>
+<tr><th>Ошибка</th><th>Как не потерять</th></tr>
+<tr><td>n вместо n − 1 в формуле</td><td>Посчитать шаги вслух: «от первого до 18-го — 17»</td></tr>
+<tr><td>Нет деления на 2 в сумме</td><td>Проверить второй формулой</td></tr>
+<tr><td>Потерян знак при d &lt; 0 или q &lt; 0</td><td>Выписать 3–4 члена, проверить знаки</td></tr>
+<tr><td>«Сколько отрицательных» — взят член, равный нулю</td><td>Решить строго: a<sub>n</sub> &lt; 0, подставить границу</td></tr>
+<tr><td>Дали номер, а просили значение (или наоборот)</td><td>Подчеркнуть в условии, что найти</td></tr>
+<tr><td>Разность членов не поделена на (m − k)</td><td>Сначала число шагов, потом деление</td></tr>
+</table>
+<div class="rule"><b>Пять вопросов себе перед записью ответа:</b> 1) это член, сумма или номер? 2) сколько шагов я сделал и почему столько? 3) не потерян ли знак? 4) проверил ли я хотя бы по трём первым членам? 5) вписан ли ответ без единиц и слов?</div>
+</div></div></div></body></html>

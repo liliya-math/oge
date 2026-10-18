@@ -1,0 +1,108 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Прогрессии: тренажёр, новые числа</title><style>
+
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+sup{font-size:70%;line-height:0;vertical-align:super;white-space:nowrap}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px}.fr i{display:block;font-style:normal;padding:0 4px;border-bottom:1px solid currentColor;line-height:1.25}.fr b{display:block;font-weight:normal;padding:0 4px;line-height:1.25}
+.rt{white-space:nowrap}.ro{border-top:1px solid currentColor;padding:0 2px;margin-left:1px}
+
+sub{font-size:70%;line-height:0;vertical-align:sub;white-space:nowrap}
+</style></head><body><div class="wrap"><a href="z14-progressii.html" style="color:var(--blue);font-size:14px;text-decoration:none">← Прогрессии (задание 14)</a><h1 style="margin-top:10px">Тренажёр: прогрессии, новые числа каждый раз</h1><p class="sub">8 типов. Выберите тип или «Вперемешку». Числа каждый раз новые. После первой ошибки появляется подсказка, после второй показывается решение. В зачёт идут задачи, решённые с первой попытки.</p><div class="tabs" id="tabs"></div><div id="box"></div></div><script>
+const R=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const pick=a=>a[R(0,a.length-1)];
+const mn=x=>String(x).replace('-','−');
+const P=x=>x<0?'('+mn(x)+')':String(x);
+function f10(x){ // x в десятых -> строка с запятой
+  const neg=x<0;x=Math.abs(x);let s=(x%10===0)?String(x/10):(Math.floor(x/10)+','+(x%10));return (neg?'−':'')+s}
+const A=i=>'a<sub>'+i+'</sub>',B=i=>'b<sub>'+i+'</sub>';
+const TYPES=[
+ ['Член арифметической прогрессии',()=>{const a1=R(-9,9)||4,d=pick([2,3,4,5,6,-2,-3,-4]),n=R(8,20);
+   return {c:'Арифметическая прогрессия: '+A(1)+' = '+mn(a1)+', d = '+mn(d)+'. Найдите '+A(n)+'.',a:a1+(n-1)*d,
+     h:'Формула: '+A('n')+' = '+A(1)+' + (n − 1)d. Шагов от первого члена до '+n+'-го: '+(n-1)+'.',
+     s:A(n)+' = '+mn(a1)+' + '+(n-1)+'·'+P(d)+' = '+mn(a1+(n-1)*d)+'.'}}],
+ ['Разность и далёкий член',()=>{const d=pick([2,3,4,5,-2,-3,-4,-5]),a1=R(-10,10),k=R(2,5),m=k+R(3,6),p=m+R(4,9);
+   const ak=a1+(k-1)*d,am=a1+(m-1)*d,ap=a1+(p-1)*d;
+   return {c:'В арифметической прогрессии '+A(k)+' = '+mn(ak)+', '+A(m)+' = '+mn(am)+'. Найдите '+A(p)+'.',a:ap,
+     h:'d = ('+A(m)+' − '+A(k)+') : ('+m+' − '+k+'). Потом от '+A(m)+' сделайте '+(p-m)+' шагов.',
+     s:'d = ('+mn(am)+' − '+P(ak)+') : '+(m-k)+' = '+mn(d)+'. '+A(p)+' = '+mn(am)+' + '+(p-m)+'·'+P(d)+' = '+mn(ap)+'.'}}],
+ ['Сумма арифметической прогрессии',()=>{const a1=R(-8,12),d=pick([2,3,4,5,-2,-3]),n=pick([8,10,12,14,16,20]);
+   const an=a1+(n-1)*d,S=(a1+an)*n/2;
+   return {c:'Найдите сумму первых '+n+' членов арифметической прогрессии, если '+A(1)+' = '+mn(a1)+', d = '+mn(d)+'.',a:S,
+     h:'Сначала '+A(n)+' = '+A(1)+' + '+(n-1)+'d, потом S = ('+A(1)+' + '+A(n)+')·n : 2.',
+     s:A(n)+' = '+mn(a1)+' + '+(n-1)+'·'+P(d)+' = '+mn(an)+'. S = ('+mn(a1)+' + '+P(an)+')·'+n+' : 2 = '+mn(S)+'.'}}],
+ ['Последовательность, заданная формулой',()=>{const p=pick([2,3,4,5,6,-2,-3]),r=R(-9,9)||3,k=R(7,25);
+   return {c:'Последовательность задана формулой '+A('n')+' = '+mn(p)+'n '+(r<0?'− '+(-r):'+ '+r)+'. Найдите '+A(k)+'.',a:p*k+r,
+     h:'Подставьте n = '+k+' в формулу. Здесь (n − 1) не нужно: формула уже готова.',
+     s:A(k)+' = '+mn(p)+'·'+k+(r<0?' − '+(-r):' + '+r)+' = '+mn(p*k+r)+'.'}}],
+ ['Член геометрической прогрессии',()=>{const b1=pick([1,2,3,4,5,-1,-2,-3]),q=pick([2,3,-2,-3]),n=R(4,6);
+   return {c:'Геометрическая прогрессия: '+B(1)+' = '+mn(b1)+', q = '+mn(q)+'. Найдите '+B(n)+'.',a:b1*Math.pow(q,n-1),
+     h:'Формула: '+B('n')+' = '+B(1)+'·q^(n − 1). Степень здесь '+(n-1)+', не '+n+'.',
+     s:B(n)+' = '+mn(b1)+'·'+P(q)+'<sup>'+(n-1)+'</sup> = '+mn(b1)+'·'+P(Math.pow(q,n-1))+' = '+mn(b1*Math.pow(q,n-1))+'.'}}],
+ ['Сумма геометрической прогрессии',()=>{const b1=pick([1,2,3,4,5,-1,-2,-3]),q=pick([2,3,-2]),n=R(4,5);
+   const S=b1*(Math.pow(q,n)-1)/(q-1);
+   return {c:'Геометрическая прогрессия задана условиями: '+B(1)+' = '+mn(b1)+', '+B('n+1')+' = '+mn(q)+B('n')+'. Найдите сумму первых '+n+' её членов.',a:S,
+     h:'q читается из условия. S<sub>n</sub> = '+B(1)+'(q<sup>n</sup> − 1) : (q − 1). Или выпишите члены и сложите.',
+     s:'q = '+mn(q)+'. S<sub>'+n+'</sub> = '+mn(b1)+'·('+P(q)+'<sup>'+n+'</sup> − 1) : ('+mn(q)+' − 1) = '+mn(S)+'.'}}],
+ ['Сколько отрицательных членов',()=>{const d10=pick([2,3,4,5]),N=R(10,40),t10=pick([0,0,Math.floor(d10/2)]);
+   const a110=-N*d10+t10;
+   return {c:'Сколько отрицательных членов в арифметической прогрессии '+f10(a110)+'; '+f10(a110+d10)+'; '+f10(a110+2*d10)+'; …?',a:N,
+     h:'d = '+f10(d10)+'. Решите '+A('n')+' < 0 относительно n. Если при каком-то номере член равен нулю, он не отрицательный.',
+     s:A('n')+' = '+f10(a110)+' + '+f10(d10)+'(n − 1) < 0. Последний отрицательный номер n = '+N+(t10===0?', а '+A(N+1)+' = 0 — ноль не отрицательный.':', а '+A(N+1)+' = '+f10(t10)+' > 0.')}}],
+ ['Практическая задача: ряды',()=>{const a1=R(10,30),d=R(2,4),r=R(8,20),an=a1+(r-1)*d;
+   return {c:'В зрительном зале '+r+' рядов: в первом '+a1+' мест, а в каждом следующем на '+d+' '+(d<5?'места':'мест')+' больше, чем в предыдущем. Сколько всего мест в зале?',a:(a1+an)*r/2,
+     h:'Это арифметическая прогрессия: '+A(1)+' = '+a1+', d = '+d+'. Найдите '+A(r)+' (шагов '+(r-1)+'), потом сумму.',
+     s:A(r)+' = '+a1+' + '+(r-1)+'·'+d+' = '+an+'. S = ('+a1+' + '+an+')·'+r+' : 2 = '+(a1+an)*r/2+'.'}}]
+];
+function val(s){s=String(s).trim().replace(/[−–—]/g,'-').replace(',','.');return /^-?\d+(\.\d+)?$/.test(s)?parseFloat(s):NaN}
+let cur=null,tries=0,solved=0,total=0,mode=-1;
+const box=document.getElementById('box'),tabs=document.getElementById('tabs');
+TYPES.forEach((t,k)=>{const b=document.createElement('button');b.textContent=(k+1)+'. '+t[0];b.onclick=()=>{mode=k;mark();nw()};tabs.appendChild(b)});
+const mx=document.createElement('button');mx.textContent='Вперемешку';mx.className='on';mx.onclick=()=>{mode=-1;mark();nw()};tabs.appendChild(mx);
+function mark(){[...tabs.children].forEach((b,k)=>b.classList.toggle('on',(mode===-1&&k===TYPES.length)||k===mode))}
+function nw(){
+  const k=mode===-1?R(0,TYPES.length-1):mode;cur=TYPES[k][1]();cur.t=TYPES[k][0];tries=0;
+  box.innerHTML='<div class="card"><span class="tag">'+cur.t+'</span><div class="cond">'+cur.c+'</div><input class="num" id="in" autocomplete="off" placeholder="ответ"> <button class="btn" id="ck">Проверить</button> <button class="btn ghost" id="sk">Показать решение</button><div id="fb"></div></div><p class="sub" id="sc"></p>';
+  document.getElementById('ck').onclick=chk;document.getElementById('sk').onclick=()=>fin(false);
+  document.getElementById('in').onkeydown=e=>{if(e.key==='Enter')chk()};document.getElementById('in').focus();score();
+}
+function score(){document.getElementById('sc').textContent='Решено верно: '+solved+' из '+total+' попыток-задач.'}
+function chk(){
+  const v=val(document.getElementById('in').value);if(isNaN(v))return;
+  if(Math.abs(v-cur.a)<1e-9){fin(true)}else{tries++;
+    if(tries===1){document.getElementById('fb').innerHTML='<div class="hint">Не так. Подсказка: '+cur.h+'</div>'}
+    else{fin(false)}}
+}
+function fin(ok){
+  total++;if(ok&&tries===0)solved++;
+  document.getElementById('in').disabled=true;document.getElementById('ck').style.display='none';document.getElementById('sk').style.display='none';
+  document.getElementById('fb').innerHTML='<div class="'+(ok?'done':'exp')+'">'+(ok?'Верно. ':'Ответ: '+mn(cur.a)+'. ')+cur.s+'</div><button class="btn" onclick="nw()">Следующее</button>';
+  score();
+}
+nw();
+</script></body></html>

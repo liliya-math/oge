@@ -1,0 +1,91 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Прогрессии: тренажёр, пять задач</title><style>
+
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+sup{font-size:70%;line-height:0;vertical-align:super;white-space:nowrap}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px}.fr i{display:block;font-style:normal;padding:0 4px;border-bottom:1px solid currentColor;line-height:1.25}.fr b{display:block;font-weight:normal;padding:0 4px;line-height:1.25}
+.rt{white-space:nowrap}.ro{border-top:1px solid currentColor;padding:0 2px;margin-left:1px}
+
+sub{font-size:70%;line-height:0;vertical-align:sub;white-space:nowrap}
+</style></head><body><div class="wrap"><a href="z14-progressii.html" style="color:var(--blue);font-size:14px;text-decoration:none">← Прогрессии (задание 14)</a><h1 style="margin-top:10px">Тренажёр: пять задач повышенной сложности</h1><p class="sub">Выполняйте шаги по порядку. Ответ можно писать десятичной дробью (0,2), обыкновенной (1/5) или смешанным числом. После ошибки появляется подсказка, после второй ошибки верный ответ с разбором.</p><div class="bar"><i id="pb"></i></div><div id="box"></div></div><script>const T=[{"id": "A", "topic": "Арифметическая прогрессия: разность по двум членам и далёкий член", "disp": "Арифметическая прогрессия (a<sub>n</sub>) задана условиями: a<sub>4</sub> = 5, a<sub>9</sub> = −10. Найдите a<sub>20</sub>.", "ans": "−43", "trap": "Разность членов делят на разность номеров (9 − 4 = 5), а не на сам номер 9 и не на 4. Ещё одна частая ошибка: от a<sub>9</sub> до a<sub>20</sub> шагов 11, а не 10 и не 12.", "steps": [{"q": "Сколько шагов (сколько раз прибавляли d) между a<sub>4</sub> и a<sub>9</sub>?", "a": "5", "ah": "5", "hint": "Номера 4 и 9: сколько раз надо прибавить d, чтобы из четвёртого члена получить девятый?", "why": "9 − 4 = 5 шагов."}, {"q": "Чему равна разность a<sub>9</sub> − a<sub>4</sub>?", "a": "−15", "ah": "−15", "hint": "−10 − 5.", "why": "−10 − 5 = −15: за 5 шагов значение уменьшилось на 15."}, {"q": "Чему равна разность прогрессии d?", "a": "−3", "ah": "−3", "hint": "Разделите −15 на число шагов.", "why": "d = −15 : 5 = −3."}, {"q": "Сколько шагов от a<sub>9</sub> до a<sub>20</sub>?", "a": "11", "ah": "11", "hint": "20 − 9.", "why": "20 − 9 = 11."}, {"q": "Чему равен a<sub>20</sub> = a<sub>9</sub> + 11d?", "a": "−43", "ah": "−43", "hint": "−10 + 11·(−3).", "why": "−10 − 33 = −43."}]}, {"id": "B", "topic": "Арифметическая прогрессия: сумма, когда первый член не дан", "disp": "В арифметической прогрессии a<sub>6</sub> = 14, a<sub>10</sub> = 26. Найдите сумму первых 15 её членов.", "ans": "300", "trap": "От a<sub>1</sub> до a<sub>6</sub> пять шагов, поэтому a<sub>1</sub> = a<sub>6</sub> − 5d, а не a<sub>6</sub> − 6d. И не забыть разделить на 2 в формуле суммы: без деления получится 600.", "steps": [{"q": "Чему равна разность d?", "a": "3", "ah": "3", "hint": "(26 − 14) : (10 − 6).", "why": "d = 12 : 4 = 3."}, {"q": "Чему равен a<sub>1</sub> = a<sub>6</sub> − 5d?", "a": "−1", "ah": "−1", "hint": "14 − 5·3.", "why": "14 − 15 = −1."}, {"q": "Чему равен a<sub>15</sub> = a<sub>1</sub> + 14d?", "a": "41", "ah": "41", "hint": "−1 + 14·3.", "why": "−1 + 42 = 41."}, {"q": "Чему равна сумма a<sub>1</sub> + a<sub>15</sub>?", "a": "40", "ah": "40", "hint": "−1 + 41.", "why": "−1 + 41 = 40."}, {"q": "Чему равна S<sub>15</sub> = 40·15 : 2?", "a": "300", "ah": "300", "hint": "Сначала 40 : 2 = 20, потом 20·15.", "why": "20·15 = 300."}]}, {"id": "C", "topic": "Арифметическая прогрессия: сколько членов отрицательные", "disp": "Сколько отрицательных членов в арифметической прогрессии −8,6; −8,4; −8,2; …?", "ans": "43", "trap": "Ответ 44 — частая ошибка: при n = 44 член равен нулю, а ноль не является отрицательным числом. Неравенство строгое: n < 44, а не n ≤ 44. Ещё один промах: n − 1 < 43 и забыть прибавить единицу, получить 42.", "steps": [{"q": "Чему равна разность d?", "a": "0,2", "ah": "0,2", "hint": "−8,4 − (−8,6).", "why": "d = 0,2."}, {"q": "Из неравенства 0,2(n − 1) < 8,6 найдём границу: чему равно 8,6 : 0,2?", "a": "43", "ah": "43", "hint": "86 : 2.", "why": "8,6 : 0,2 = 43. Значит n − 1 < 43."}, {"q": "Из n − 1 < 43 следует n < 44. Чему равно наибольшее натуральное n?", "a": "43", "ah": "43", "hint": "n строго меньше 44, сам 44 не подходит.", "why": "n = 43. При n = 44 член равен 0, он не отрицательный."}]}, {"id": "D", "topic": "Геометрическая прогрессия: сумма первых членов, первый член отрицательный", "disp": "Геометрическая прогрессия (b<sub>n</sub>) задана условиями: b<sub>1</sub> = −6, b<sub>n+1</sub> = 2b<sub>n</sub>. Найдите сумму первых пяти её членов.", "ans": "−186", "trap": "Знак: b<sub>1</sub> отрицателен, поэтому ответ отрицательный. Не путайте q<sup>5</sup> = 32 с 5q = 10. И не берите в формулу b<sub>5</sub> вместо b<sub>1</sub>.", "steps": [{"q": "Чему равен знаменатель q?", "a": "2", "ah": "2", "hint": "Каждый следующий член получается из предыдущего умножением на число.", "why": "b<sub>n+1</sub> = 2b<sub>n</sub>, значит q = 2."}, {"q": "Чему равно q<sup>5</sup>?", "a": "32", "ah": "32", "hint": "2·2·2·2·2.", "why": "2<sup>5</sup> = 32."}, {"q": "Чему равно (q<sup>5</sup> − 1) : (q − 1)?", "a": "31", "ah": "31", "hint": "(32 − 1) : (2 − 1).", "why": "31 : 1 = 31."}, {"q": "Чему равна S<sub>5</sub> = b<sub>1</sub>·31?", "a": "−186", "ah": "−186", "hint": "−6·31.", "why": "−6·31 = −186. Знак минус от первого члена."}]}, {"id": "E", "topic": "Практическая задача на арифметическую прогрессию: места в зале", "disp": "В зрительном зале 18 рядов: в первом ряду 14 мест, а в каждом следующем на 2 места больше, чем в предыдущем. Сколько всего мест в зале?", "ans": "558", "trap": "До 18-го ряда 17 прибавлений: a<sub>18</sub> = a<sub>1</sub> + 17d, а не 18d. Ещё ошибка: ответом записать число мест в последнем ряду (48) вместо суммы по всем рядам.", "steps": [{"q": "Чему равна разность d?", "a": "2", "ah": "2", "hint": "На сколько мест каждый следующий ряд больше предыдущего?", "why": "d = 2."}, {"q": "Сколько мест в 18-м ряду? a<sub>18</sub> = 14 + 17d", "a": "48", "ah": "48", "hint": "14 + 17·2.", "why": "14 + 34 = 48."}, {"q": "Чему равна сумма a<sub>1</sub> + a<sub>18</sub>?", "a": "62", "ah": "62", "hint": "14 + 48.", "why": "14 + 48 = 62."}, {"q": "Сколько всего мест: S<sub>18</sub> = 62·18 : 2?", "a": "558", "ah": "558", "hint": "18 : 2 = 9, потом 62·9.", "why": "62·9 = 558."}]}];
+let ti=0,si=0,tries=0,help=0,clean=0,tot=0,tclean=true;
+const box=document.getElementById('box'),pb=document.getElementById('pb');
+function val(s){s=String(s).trim().replace(/[−–—]/g,'-').replace(',','.').replace(/\s+/g,' ');let m;
+  if(m=s.match(/^(-?)(\d+) (\d+)\/(\d+)$/)){const v=+m[2]+(+m[3])/(+m[4]);return m[1]?-v:v}
+  if(m=s.match(/^(-?\d+)\/(\d+)$/)){return (+m[1])/(+m[2])}
+  if(/^-?\d+(\.\d+)?$/.test(s))return parseFloat(s);
+  return NaN}
+function same(a,b){const x=val(a),y=val(b);return !isNaN(x)&&Math.abs(x-y)<1e-9}
+function task(){
+  if(ti>=T.length)return end();
+  pb.style.width=(ti/T.length*100)+'%';
+  const t=T[ti];si=0;tclean=true;
+  box.innerHTML='<div class="card"><span class="tag">Задача '+(ti+1)+' из '+T.length+'</span><p class="sub" style="margin:0 0 8px">'+t.topic+'</p><div class="cond">'+t.disp+'</div><div id="steps"></div></div>';
+  step();
+}
+function step(){
+  const t=T[ti],s=t.steps[si];tries=0;
+  const d=document.createElement('div');d.id='st'+si;
+  d.innerHTML='<p class="q" style="font-size:16px"><b>Шаг '+(si+1)+' из '+t.steps.length+'.</b> '+s.q+'</p><input class="num" id="in'+si+'" autocomplete="off" placeholder="ответ"> <button class="btn" id="ck'+si+'">Проверить</button><div id="fb'+si+'"></div>';
+  document.getElementById('steps').appendChild(d);
+  const inp=document.getElementById('in'+si),ck=document.getElementById('ck'+si);
+  ck.onclick=()=>check();inp.onkeydown=e=>{if(e.key==='Enter')check()};inp.focus();
+}
+function lock(k,msg,cls){
+  document.getElementById('in'+k).disabled=true;document.getElementById('ck'+k).style.display='none';
+  document.getElementById('fb'+k).innerHTML='<div class="'+cls+'">'+msg+'</div>';
+}
+function check(){
+  const t=T[ti],s=t.steps[si],v=document.getElementById('in'+si).value;
+  if(!v.trim())return;
+  tot++;
+  if(same(v,s.a)){
+    if(tries>0)tclean=false;else clean++;
+    lock(si,'Верно. '+s.why,'done');next();
+  }else{
+    tries++;tclean=false;if(tries===1)help++;
+    if(tries===1){document.getElementById('fb'+si).innerHTML='<div class="hint">Не так. Подсказка: '+s.hint+'</div>'}
+    else{lock(si,'Правильно так: '+s.ah+'. '+s.why,'exp');next()}
+  }
+}
+function next(){
+  const t=T[ti];
+  if(si<t.steps.length-1){si++;step();return}
+  const fb=document.createElement('div');
+  fb.innerHTML='<div class="exp" style="margin-top:14px"><b>Ответ: '+t.ans+'.</b><br>Ловушка: '+t.trap+'</div><button class="btn" id="nx">'+(ti===T.length-1?'Результат':'Следующая задача')+'</button>';
+  document.getElementById('steps').appendChild(fb);
+  document.getElementById('nx').onclick=()=>{ti++;task()};
+}
+function end(){
+  pb.style.width='100%';
+  const n=T.reduce((a,t)=>a+t.steps.length,0);
+  box.innerHTML='<div class="card"><span class="tag">Итог</span><div class="big">'+clean+' из '+n+'</div><p>шагов выполнено с первой попытки.</p><p class="sub">Если меньше 70%, вернитесь к теории и памятке и пройдите ещё раз: задачи те же, но вы уже знаете ловушки. Затем решайте тренажёр с новыми числами.</p><button class="btn" onclick="ti=0;clean=0;tot=0;help=0;task()">Пройти заново</button> <a class="btn ghost" style="text-decoration:none;display:inline-block" href="z14-progressii-trenazhor-gen.html">Тренажёр с новыми числами</a></div>';
+}
+task();
+</script></body></html>
