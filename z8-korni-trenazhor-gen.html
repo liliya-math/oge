@@ -1,0 +1,134 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Корни: тренажёр, новые числа</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+sup{font-size:70%;line-height:0;vertical-align:super;white-space:nowrap}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px}.fr i{display:block;font-style:normal;padding:0 4px;border-bottom:1px solid currentColor;line-height:1.25}.fr b{display:block;font-weight:normal;padding:0 4px;line-height:1.25}
+.rt{white-space:nowrap}.ro{border-top:1px solid currentColor;padding:0 2px;margin-left:1px}
+</style></head><body><div class="wrap"><a href="z8-korni.html" style="color:var(--blue);font-size:14px;text-decoration:none">← Корни (задание 8)</a><h1 style="margin-top:10px">Тренажёр: новые числа каждый раз</h1><p class="sub">Восемь типов заданий 8 с корнями. Ответ можно писать десятичной дробью (4,2) или обыкновенной (21/5).</p><div class="tabs" id="tabs"></div><p class="sub" id="stat">Верно с первой попытки: 0 из 0</p><div id="box"></div></div>
+<script>const MN='−';
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[R(0,a.length-1)];
+const bgcd=(a,b)=>{a=a<0n?-a:a;b=b<0n?-b:b;while(b){[a,b]=[b,a%b]}return a};
+const rd=(n,d=1n)=>{n=BigInt(n);d=BigInt(d);if(d<0n){n=-n;d=-d}const g=bgcd(n,d)||1n;return [n/g,d/g]};
+const mul=(a,b)=>rd(a[0]*b[0],a[1]*b[1]);
+const dv=(a,b)=>rd(a[0]*b[1],a[1]*b[0]);
+const add=(a,b)=>rd(a[0]*b[1]+b[0]*a[1],a[1]*b[1]);
+const sub=(a,b)=>rd(a[0]*b[1]-b[0]*a[1],a[1]*b[1]);
+const pw=(x,k)=>{if(k>=0)return rd(x[0]**BigInt(k),x[1]**BigInt(k));return rd(x[1]**BigInt(-k),x[0]**BigInt(-k))};
+const fl=x=>Number(x[0])/Number(x[1]);
+const term=f=>{let d=f[1];while(d%2n===0n)d/=2n;while(d%5n===0n)d/=5n;return d===1n};
+const dstr=f=>{let n=f[0],d=f[1];const ng=n<0n;if(ng)n=-n;let s=String(n/d);let r=n%d,k=0;if(r){s+=',';while(r&&k<30){r*=10n;s+=String(r/d);r%=d;k++}}return (ng?MN:'')+s};
+const S=n=>(n<0?MN+(-n):String(n));
+const SP=(b,e)=>b+'<sup>'+S(e)+'</sup>';
+const NB=a=>a<0?'('+S(a)+')':String(a);
+const par=n=>n<0?'('+S(n)+')':S(n);
+const FR=(n,d)=>'<span class="fr"><i>'+n+'</i><b>'+d+'</b></span>';
+const RT=x=>'<span class="rt">√<span class="ro">'+x+'</span></span>';
+const ans=v=>'Ответ: '+dstr(v)+'.';
+const dr=s=>{const [i,f='']=s.split(',');return rd(BigInt(i+f),10n**BigInt(f.length))};
+const pf=(f)=>Object.keys(f).map(Number).map(p=>f[p]===1?String(p):SP(p,f[p])).join(' · ');
+const T=[
+ {name:'Корень из произведения и частного',hint:'Корень из произведения равен произведению корней: √(ab) = √a · √b, корень из частного — частному корней. Извлеките корень из каждого числа отдельно. После запятой под корнем вдвое больше знаков, чем в ответе.',
+  gen(){const SQ=[['4','2'],['9','3'],['16','4'],['25','5'],['36','6'],['49','7'],['64','8'],['81','9'],['100','10'],['121','11'],['144','12'],['0,04','0,2'],['0,09','0,3'],['0,16','0,4'],['0,25','0,5'],['0,36','0,6'],['0,49','0,7'],['0,64','0,8'],['0,81','0,9'],['1,44','1,2'],['1,69','1,3'],['2,25','1,5']];
+   for(;;){const [x,rx]=pick(SQ),[y,ry]=pick(SQ);if(x===y)continue;const m=R(0,1);
+    const v=m===0?mul(dr(rx),dr(ry)):dv(dr(rx),dr(ry));if(!term(v)||fl(v)>200||fl(v)<0.02)continue;
+    const X=parseFloat(x.replace(',','.')),Y=parseFloat(y.replace(',','.'));
+    return{html:RT(x+(m===0?' · ':' : ')+y),v,chk:Math.sqrt(m===0?X*Y:X/Y),
+     sol:RT(x+(m===0?' · ':' : ')+y)+' = '+RT(x)+(m===0?' · ':' : ')+RT(y)+' = '+rx+(m===0?' · ':' : ')+ry+' = '+dstr(v)+'. '+ans(v)}}}},
+ {name:'Произведение и частное корней',hint:'√a · √b = √(ab), √a : √b = √(a : b). Перемножьте или разделите подкоренные числа, затем извлеките корень.',
+  gen(){for(;;){const k=pick([2,3,5,6,7,10]),s1=R(1,7),s2=R(1,7);const x=k*s1*s1,y=k*s2*s2;if(x===y||x>600||y>600)continue;const m=R(0,1);
+   if(m===0){const val=k*s1*s2;const v=rd(val);
+    return{html:RT(x)+' · '+RT(y),v,chk:Math.sqrt(x)*Math.sqrt(y),sol:RT(x)+' · '+RT(y)+' = '+RT(x+' · '+y)+' = '+RT(x*y)+' = '+val+', так как '+val+'<sup>2</sup> = '+(x*y)+'. '+ans(v)}}
+   if(s2===3||s2===6||s2===7)continue;const v=rd(s1,s2);const q=pw(v,2);
+   return{html:FR(RT(x),RT(y)),v,chk:Math.sqrt(x)/Math.sqrt(y),sol:RT(x)+' : '+RT(y)+' = '+RT(x+' : '+y)+' = '+RT(dstr(q))+' = '+dstr(v)+', так как '+dstr(v)+'<sup>2</sup> = '+dstr(q)+'. '+ans(v)}}}},
+ {name:'Квадрат корня с коэффициентом',hint:'(a√b)² = a² · b: в квадрат возводят и коэффициент, и корень. Затем сложите или вычтите.',
+  gen(){for(;;){const A=pick(['2','3','4','5','6','7','0,5','1,5']),b=pick([2,3,5,6,7,10,11]),c=R(2,40),op=pick(['+',MN]);
+   const a=dr(A);const sq=mul(pw(a,2),rd(b));const v=op==='+'?add(sq,rd(c)):sub(sq,rd(c));if(!term(v)||Math.abs(fl(v))>400)continue;
+   const al=parseFloat(A.replace(',','.'));
+   return{html:'('+A+RT(b)+')<sup>2</sup> '+op+' '+c,v,chk:Math.pow(al*Math.sqrt(b),2)+(op==='+'?c:-c),
+    sol:'('+A+RT(b)+')<sup>2</sup> = '+A+'<sup>2</sup> · ('+RT(b)+')<sup>2</sup> = '+dstr(pw(a,2))+' · '+b+' = '+dstr(sq)+'. Затем '+dstr(sq)+' '+op+' '+c+' = '+dstr(v)+'. '+ans(v)}}}},
+ {name:'Вынесение множителя и сложение корней',hint:'Вынесите множитель: √(s²k) = s√k. Тогда корни подобные: m√k ± n√k = (m ± n)√k. √k · √k = k, √k : √k = 1.',
+  gen(){for(;;){const k=pick([2,3,5,6,7,10]),s1=R(1,8),s2=R(1,8);const x=k*s1*s1,y=k*s2*s2;if(s1===s2||x>500||y>500)continue;
+   const op=pick(['+',MN]),dd=R(0,1);const c=op==='+'?s1+s2:s1-s2;const val=dd===0?c:c*k;const v=rd(val);
+   const inner=RT(x)+' '+op+' '+RT(y);
+   const html=dd===0?FR(inner,RT(k)):'('+inner+') · '+RT(k);
+   return{html,v,chk:(Math.sqrt(x)+(op==='+'?1:-1)*Math.sqrt(y))*(dd===0?1/Math.sqrt(k):Math.sqrt(k)),
+    sol:RT(x)+' = '+RT(s1+'<sup>2</sup> · '+k)+' = '+s1+RT(k)+'; '+RT(y)+' = '+s2+RT(k)+'. '+s1+RT(k)+' '+op+' '+s2+RT(k)+' = '+S(c)+RT(k)+'. '+(dd===0?S(c)+RT(k)+' : '+RT(k)+' = '+S(c)+'.':S(c)+RT(k)+' · '+RT(k)+' = '+S(c)+' · '+k+' = '+S(val)+'.')+' '+ans(v)}}}},
+ {name:'Разность квадратов',hint:'(a + b)(a − b) = a² − b². Квадрат корня: (√a)² = a. Квадрат с коэффициентом: (m√a)² = m²a.',
+  gen(){for(;;){const t=R(0,1);
+   if(t===0){const a=R(5,60),b=R(2,a-1);const v=rd(a-b);
+    return{html:'('+RT(a)+' + '+RT(b)+')('+RT(a)+' '+MN+' '+RT(b)+')',v,chk:(Math.sqrt(a)+Math.sqrt(b))*(Math.sqrt(a)-Math.sqrt(b)),sol:'Разность квадратов: ('+RT(a)+')<sup>2</sup> '+MN+' ('+RT(b)+')<sup>2</sup> = '+a+' '+MN+' '+b+' = '+(a-b)+'. '+ans(v)}}
+   {const a=pick([2,3,5,6,7,10,11,13]),b=pick([2,3,5,6,7,10,11,13]),m=R(2,4),n=R(2,4);if(a===b)continue;const val=m*m*a-n*n*b;const v=rd(val);
+    return{html:'('+m+RT(a)+' + '+n+RT(b)+')('+m+RT(a)+' '+MN+' '+n+RT(b)+')',v,chk:Math.pow(m*Math.sqrt(a),2)-Math.pow(n*Math.sqrt(b),2),sol:'Разность квадратов: ('+m+RT(a)+')<sup>2</sup> '+MN+' ('+n+RT(b)+')<sup>2</sup> = '+(m*m)+' · '+a+' '+MN+' '+(n*n)+' · '+b+' = '+(m*m*a)+' '+MN+' '+(n*n*b)+' = '+S(val)+'. '+ans(v)}}}}},
+ {name:'Квадрат суммы и разности',hint:'(a ± b)² = a² ± 2ab + b²; (a + b)(a + c) = a² + (b + c)a + bc. Слагаемые с корнем в задании сокращаются: найдите их.',
+  gen(){const A=[2,3,5,6,7,10,11,13,14,15,17,19,21,22,23];for(;;){const a=pick(A),c=R(2,9),t=R(0,2);
+   if(t===0){const val=a+c*c;const v=rd(val);return{html:'('+RT(a)+' + '+c+')<sup>2</sup> '+MN+' '+(2*c)+RT(a),v,chk:Math.pow(Math.sqrt(a)+c,2)-2*c*Math.sqrt(a),sol:'('+RT(a)+' + '+c+')<sup>2</sup> = '+a+' + '+(2*c)+RT(a)+' + '+(c*c)+' = '+(a+c*c)+' + '+(2*c)+RT(a)+'. Вычитаем '+(2*c)+RT(a)+': остаётся '+val+'. '+ans(v)}}
+   if(t===1){const val=a+c*c;const v=rd(val);return{html:'('+RT(a)+' '+MN+' '+c+')<sup>2</sup> + '+(2*c)+RT(a),v,chk:Math.pow(Math.sqrt(a)-c,2)+2*c*Math.sqrt(a),sol:'('+RT(a)+' '+MN+' '+c+')<sup>2</sup> = '+a+' '+MN+' '+(2*c)+RT(a)+' + '+(c*c)+' = '+(a+c*c)+' '+MN+' '+(2*c)+RT(a)+'. Прибавляем '+(2*c)+RT(a)+': остаётся '+val+'. '+ans(v)}}
+   {const d=R(2,9);if(d===c)continue;const val=a+c*d;const v=rd(val);return{html:'('+RT(a)+' + '+c+')('+RT(a)+' + '+d+') '+MN+' '+(c+d)+RT(a),v,chk:(Math.sqrt(a)+c)*(Math.sqrt(a)+d)-(c+d)*Math.sqrt(a),sol:'('+RT(a)+' + '+c+')('+RT(a)+' + '+d+') = '+a+' + '+d+RT(a)+' + '+c+RT(a)+' + '+(c*d)+' = '+(a+c*d)+' + '+(c+d)+RT(a)+'. Вычитаем '+(c+d)+RT(a)+': остаётся '+val+'. '+ans(v)}}}}},
+ {name:'Корень из произведения степеней',hint:'√(a^(2n)) = a^n: показатель под корнем делят на 2. Корень из произведения — произведение корней. Потом выполните деление.',
+  gen(){for(;;){const P=[2,3,5,7],p=pick(P),q=pick(P);if(p===q)continue;const m=R(1,4),n=R(1,3);const t=R(0,1);
+   const val0=Math.pow(p,m)*Math.pow(q,n);if(val0>3000)continue;
+   const rt=RT(SP(p,2*m)+' · '+SP(q,2*n));
+   if(t===0){const v=rd(val0);return{html:rt,v,chk:Math.sqrt(Math.pow(p,2*m)*Math.pow(q,2*n)),sol:'Показатели делим на 2: '+RT(SP(p,2*m))+' = '+SP(p,m)+', '+RT(SP(q,2*n))+' = '+SP(q,n)+'. '+SP(p,m)+' · '+SP(q,n)+' = '+Math.pow(p,m)+' · '+Math.pow(q,n)+' = '+val0+'. '+ans(v)}}
+   const a=R(0,m),b=R(0,n);if(a+b===0)continue;const D=Math.pow(p,a)*Math.pow(q,b);const v=rd(val0,D);if(!term(v))continue;
+   return{html:FR(rt,D),v,chk:Math.sqrt(Math.pow(p,2*m)*Math.pow(q,2*n))/D,sol:'Показатели делим на 2: '+RT(SP(p,2*m))+' = '+SP(p,m)+', '+RT(SP(q,2*n))+' = '+SP(q,n)+'. Произведение '+val0+'. Делим: '+val0+' : '+D+' = '+dstr(v)+'. '+ans(v)}}}},
+ {name:'Корни из десятичных дробей',hint:'√a · √b = √(ab). Найдите произведение подкоренных чисел (1,6 · 40 = 64), затем корень. После запятой под корнем вдвое больше знаков, чем в ответе.',
+  gen(){for(;;){const k=pick([1,2,3,5]),s1=R(1,6),s2=R(1,6),e=R(1,2);const X=rd(k*s1*s1,10n**BigInt(e)),Y=rd(k*s2*Math.pow(10,e)*s2);
+   const xs=dstr(X),ys=dstr(Y);const val=k*s1*s2;if(val>150)continue;const v=rd(val);const prod=mul(X,Y);
+   return{html:RT(xs)+' · '+RT(ys),v,chk:Math.sqrt(fl(X)*fl(Y)),sol:RT(xs)+' · '+RT(ys)+' = '+RT(xs+' · '+ys)+' = '+RT(dstr(prod))+' = '+val+', так как '+val+'<sup>2</sup> = '+dstr(prod)+'. '+ans(v)}}}}
+];
+
+function val(s){s=String(s).trim().replace(/[−–—]/g,'-').replace(',','.').replace(/\s+/g,' ');let m;
+  if(m=s.match(/^(-?)(\d+) (\d+)\/(\d+)$/)){const v=+m[2]+(+m[3])/(+m[4]);return m[1]?-v:v}
+  if(m=s.match(/^(-?\d+)\/(\d+)$/)){return (+m[1])/(+m[2])}
+  if(/^-?\d+(\.\d+)?$/.test(s))return parseFloat(s);
+  return NaN}
+let cur=null,tries=0,ok=0,tot=0,mode=-1;
+const box=document.getElementById('box');
+function tabs(){const el=document.getElementById('tabs');el.innerHTML='';[['Все типы',-1]].concat(T.map((t,i)=>[t.name,i])).forEach(([n,k])=>{const b=document.createElement('button');b.textContent=n;if(k===mode)b.className='on';b.onclick=()=>{mode=k;tabs();nextTask()};el.appendChild(b)})}
+function nextTask(){
+  const t=T[mode<0?R(0,T.length-1):mode];cur=t.gen();cur.t=t;tries=0;
+  box.innerHTML='<div class="card"><span class="tag">'+t.name+'</span><div class="cond"><b>Найдите значение выражения</b><br><span style="font-size:20px">'+cur.html+'</span></div>'
+   +'<input class="num" id="in" autocomplete="off" placeholder="ответ"> <button class="btn" id="ck">Проверить</button>'
+   +'<div id="fb"></div><div style="margin-top:10px"><button class="btn ghost" id="hb" style="margin-left:0">Подсказка</button><button class="btn ghost" id="sb">Показать решение</button><button class="btn ghost" id="nb">Другое задание</button></div></div>';
+  const inp=document.getElementById('in');inp.focus();
+  document.getElementById('ck').onclick=check;inp.onkeydown=e=>{if(e.key==='Enter')check()};
+  document.getElementById('hb').onclick=()=>{document.getElementById('fb').innerHTML='<div class="hint">Подсказка: '+cur.t.hint+'</div>'};
+  document.getElementById('sb').onclick=()=>{tot++;document.getElementById('fb').innerHTML='<div class="exp">'+cur.sol+'</div>';stat()};
+  document.getElementById('nb').onclick=nextTask;
+}
+function check(){
+  const v=document.getElementById('in').value;if(!v.trim())return;
+  const x=val(v),y=fl(cur.v);
+  if(!isNaN(x)&&Math.abs(x-y)<=1e-9*Math.max(1,Math.abs(y))){tot++;if(tries===0)ok++;document.getElementById('fb').innerHTML='<div class="done">Верно. '+cur.sol+'</div><button class="btn" onclick="nextTask()">Следующее</button>';stat()}
+  else{tries++;document.getElementById('fb').innerHTML='<div class="hint">'+(tries>1?'Ещё не так. Нажмите «Подсказка» или «Показать решение».':'Не так. Проверьте знаки показателей и порядок действий, затем попробуйте ещё раз.')+'</div>'}
+}
+function stat(){document.getElementById('stat').textContent='Верно с первой попытки: '+ok+' из '+tot}
+tabs();nextTask();
+</script></body></html>

@@ -1,0 +1,88 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Корни: тренажёр, пять задач</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+sup{font-size:70%;line-height:0;vertical-align:super;white-space:nowrap}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px}.fr i{display:block;font-style:normal;padding:0 4px;border-bottom:1px solid currentColor;line-height:1.25}.fr b{display:block;font-weight:normal;padding:0 4px;line-height:1.25}
+.rt{white-space:nowrap}.ro{border-top:1px solid currentColor;padding:0 2px;margin-left:1px}
+</style></head><body><div class="wrap"><a href="z8-korni.html" style="color:var(--blue);font-size:14px;text-decoration:none">← Корни (задание 8)</a><h1 style="margin-top:10px">Тренажёр: пять задач повышенной сложности</h1><p class="sub">Выполняйте шаги по порядку. Ответ можно писать десятичной дробью (7,5), обыкновенной (15/2) или смешанным числом (7 1/2). После ошибки появляется подсказка, после второй ошибки верный ответ с разбором.</p><div class="bar"><i id="pb"></i></div><div id="box"></div></div><script>const T=[{"id": "A", "topic": "Вынесение множителя из-под знака корня, подобные слагаемые", "disp": "<span class=\"fr\"><i><span class=\"rt\">√<span class=\"ro\">75</span></span> − <span class=\"rt\">√<span class=\"ro\">12</span></span></i><b><span class=\"rt\">√<span class=\"ro\">3</span></span></b></span>", "ans": "3", "trap": "Нельзя вычитать подкоренные числа: <span class=\"rt\">√<span class=\"ro\">75</span></span> − <span class=\"rt\">√<span class=\"ro\">12</span></span> не равно <span class=\"rt\">√<span class=\"ro\">63</span></span>. Корни сначала приводят к одному виду − вынесением множителя.", "steps": [{"q": "Запишите <span class=\"rt\">√<span class=\"ro\">75</span></span> в виде k<span class=\"rt\">√<span class=\"ro\">3</span></span>. Чему равно k?", "a": "5", "ah": "5", "hint": "75 = 25 · 3, а <span class=\"rt\">√<span class=\"ro\">25</span></span> = 5.", "why": "<span class=\"rt\">√<span class=\"ro\">75</span></span> = <span class=\"rt\">√<span class=\"ro\">25 · 3</span></span> = 5<span class=\"rt\">√<span class=\"ro\">3</span></span>."}, {"q": "Запишите <span class=\"rt\">√<span class=\"ro\">12</span></span> в виде m<span class=\"rt\">√<span class=\"ro\">3</span></span>. Чему равно m?", "a": "2", "ah": "2", "hint": "12 = 4 · 3, а <span class=\"rt\">√<span class=\"ro\">4</span></span> = 2.", "why": "<span class=\"rt\">√<span class=\"ro\">12</span></span> = <span class=\"rt\">√<span class=\"ro\">4 · 3</span></span> = 2<span class=\"rt\">√<span class=\"ro\">3</span></span>."}, {"q": "<span class=\"rt\">√<span class=\"ro\">75</span></span> − <span class=\"rt\">√<span class=\"ro\">12</span></span> = n<span class=\"rt\">√<span class=\"ro\">3</span></span>. Чему равно n?", "a": "3", "ah": "3", "hint": "Это 5<span class=\"rt\">√<span class=\"ro\">3</span></span> − 2<span class=\"rt\">√<span class=\"ro\">3</span></span>: выносим общий множитель <span class=\"rt\">√<span class=\"ro\">3</span></span> за скобку.", "why": "5<span class=\"rt\">√<span class=\"ro\">3</span></span> − 2<span class=\"rt\">√<span class=\"ro\">3</span></span> = (5 − 2)<span class=\"rt\">√<span class=\"ro\">3</span></span> = 3<span class=\"rt\">√<span class=\"ro\">3</span></span>."}, {"q": "Чему равно 3<span class=\"rt\">√<span class=\"ro\">3</span></span> : <span class=\"rt\">√<span class=\"ro\">3</span></span>?", "a": "3", "ah": "3", "hint": "<span class=\"rt\">√<span class=\"ro\">3</span></span> в числителе и знаменателе сокращается.", "why": "3<span class=\"rt\">√<span class=\"ro\">3</span></span> : <span class=\"rt\">√<span class=\"ro\">3</span></span> = 3."}]}, {"id": "B", "topic": "Разность квадратов с корнями", "disp": "(<span class=\"rt\">√<span class=\"ro\">11</span></span> + 2<span class=\"rt\">√<span class=\"ro\">7</span></span>)(<span class=\"rt\">√<span class=\"ro\">11</span></span> − 2<span class=\"rt\">√<span class=\"ro\">7</span></span>)", "ans": "−17", "trap": "(2<span class=\"rt\">√<span class=\"ro\">7</span></span>)<sup>2</sup> = 4 · 7 = 28, а не 14 и не 4<span class=\"rt\">√<span class=\"ro\">7</span></span>. Ответ отрицательный: 11 − 28 = −17.", "steps": [{"q": "Чему равно (<span class=\"rt\">√<span class=\"ro\">11</span></span>)<sup>2</sup>?", "a": "11", "ah": "11", "hint": "Квадрат арифметического корня из a равен a.", "why": "(<span class=\"rt\">√<span class=\"ro\">11</span></span>)<sup>2</sup> = 11."}, {"q": "Чему равно (2<span class=\"rt\">√<span class=\"ro\">7</span></span>)<sup>2</sup>?", "a": "28", "ah": "28", "hint": "В квадрат возводят и множитель 2, и корень: 2<sup>2</sup> · (<span class=\"rt\">√<span class=\"ro\">7</span></span>)<sup>2</sup>.", "why": "(2<span class=\"rt\">√<span class=\"ro\">7</span></span>)<sup>2</sup> = 4 · 7 = 28."}, {"q": "Разность квадратов (a + b)(a − b) = a<sup>2</sup> − b<sup>2</sup>. Чему равно значение выражения?", "a": "−17", "ah": "−17", "hint": "Из первого квадрата вычтите второй: 11 − 28.", "why": "11 − 28 = −17. Скобки раскрывать по одной не нужно."}]}, {"id": "C", "topic": "Квадрат разности и сокращение слагаемых с корнем", "disp": "(<span class=\"rt\">√<span class=\"ro\">7</span></span> − 2)<sup>2</sup> + 4<span class=\"rt\">√<span class=\"ro\">7</span></span>", "ans": "11", "trap": "(<span class=\"rt\">√<span class=\"ro\">7</span></span> − 2)<sup>2</sup> не равно 7 − 4: в квадрате разности есть удвоенное произведение 2 · <span class=\"rt\">√<span class=\"ro\">7</span></span> · 2 = 4<span class=\"rt\">√<span class=\"ro\">7</span></span>. Именно оно сокращается со слагаемым 4<span class=\"rt\">√<span class=\"ro\">7</span></span>.", "steps": [{"q": "В формуле (a − b)<sup>2</sup> = a<sup>2</sup> − 2ab + b<sup>2</sup> возьмите a = <span class=\"rt\">√<span class=\"ro\">7</span></span>, b = 2. Чему равно a<sup>2</sup>?", "a": "7", "ah": "7", "hint": "(<span class=\"rt\">√<span class=\"ro\">7</span></span>)<sup>2</sup> = 7.", "why": "a<sup>2</sup> = (<span class=\"rt\">√<span class=\"ro\">7</span></span>)<sup>2</sup> = 7."}, {"q": "Удвоенное произведение 2ab = k<span class=\"rt\">√<span class=\"ro\">7</span></span>. Чему равно k?", "a": "4", "ah": "4", "hint": "2 · <span class=\"rt\">√<span class=\"ro\">7</span></span> · 2 = 4<span class=\"rt\">√<span class=\"ro\">7</span></span>.", "why": "2ab = 2 · <span class=\"rt\">√<span class=\"ro\">7</span></span> · 2 = 4<span class=\"rt\">√<span class=\"ro\">7</span></span>."}, {"q": "Чему равно b<sup>2</sup>?", "a": "4", "ah": "4", "hint": "b = 2.", "why": "b<sup>2</sup> = 2<sup>2</sup> = 4."}, {"q": "(<span class=\"rt\">√<span class=\"ro\">7</span></span> − 2)<sup>2</sup> + 4<span class=\"rt\">√<span class=\"ro\">7</span></span> = 7 − 4<span class=\"rt\">√<span class=\"ro\">7</span></span> + 4 + 4<span class=\"rt\">√<span class=\"ro\">7</span></span>. Чему равно значение выражения?", "a": "11", "ah": "11", "hint": "Слагаемые −4<span class=\"rt\">√<span class=\"ro\">7</span></span> и +4<span class=\"rt\">√<span class=\"ro\">7</span></span> взаимно уничтожаются.", "why": "7 + 4 = 11, корни сократились."}]}, {"id": "D", "topic": "Корень из произведения степеней", "disp": "<span class=\"fr\"><i><span class=\"rt\">√<span class=\"ro\">2<sup>6</sup> · 3<sup>4</sup> · 5<sup>2</sup></span></span></i><b>12</b></span>", "ans": "30", "trap": "Показатель под корнем делят на 2: <span class=\"rt\">√<span class=\"ro\">2<sup>6</sup></span></span> = 2<sup>3</sup> = 8. Не извлекайте корень «из основания» и не оставляйте показатель прежним.", "steps": [{"q": "Чему равно <span class=\"rt\">√<span class=\"ro\">2<sup>6</sup></span></span>?", "a": "8", "ah": "8", "hint": "Показатель 6 разделите на 2 и вычислите степень.", "why": "<span class=\"rt\">√<span class=\"ro\">2<sup>6</sup></span></span> = 2<sup>3</sup> = 8."}, {"q": "Чему равно <span class=\"rt\">√<span class=\"ro\">3<sup>4</sup></span></span>?", "a": "9", "ah": "9", "hint": "Показатель 4 разделите на 2.", "why": "<span class=\"rt\">√<span class=\"ro\">3<sup>4</sup></span></span> = 3<sup>2</sup> = 9."}, {"q": "Чему равно <span class=\"rt\">√<span class=\"ro\">5<sup>2</sup></span></span>?", "a": "5", "ah": "5", "hint": "Показатель 2 разделите на 2.", "why": "<span class=\"rt\">√<span class=\"ro\">5<sup>2</sup></span></span> = 5."}, {"q": "Чему равно 8 · 9 · 5?", "a": "360", "ah": "360", "hint": "Сначала 8 · 9 = 72, затем 72 · 5.", "why": "8 · 9 · 5 = 360."}, {"q": "Чему равно 360 : 12?", "a": "30", "ah": "30", "hint": "360 : 12 = 36 : 1,2, или 360 : 6 : 2.", "why": "360 : 12 = 30."}]}, {"id": "E", "topic": "Корни из десятичных дробей", "disp": "<span class=\"rt\">√<span class=\"ro\">1,6</span></span> · <span class=\"rt\">√<span class=\"ro\">40</span></span> − <span class=\"rt\">√<span class=\"ro\">0,01 · 25</span></span>", "ans": "7,5", "trap": "<span class=\"rt\">√<span class=\"ro\">0,01</span></span> = 0,1, а не 0,01 и не 0,001: в корне запятая переносится на вдвое меньше знаков.", "steps": [{"q": "Чему равно произведение 1,6 · 40?", "a": "64", "ah": "64", "hint": "16 · 4 = 64: 1,6 · 40 = 16 · 4.", "why": "1,6 · 40 = 64."}, {"q": "Чему равно <span class=\"rt\">√<span class=\"ro\">1,6</span></span> · <span class=\"rt\">√<span class=\"ro\">40</span></span> = <span class=\"rt\">√<span class=\"ro\">64</span></span>?", "a": "8", "ah": "8", "hint": "Подберите число, квадрат которого 64.", "why": "<span class=\"rt\">√<span class=\"ro\">64</span></span> = 8."}, {"q": "Чему равно <span class=\"rt\">√<span class=\"ro\">0,01 · 25</span></span>?", "a": "0,5", "ah": "0,5", "hint": "0,01 · 25 = 0,25. Можно и так: <span class=\"rt\">√<span class=\"ro\">0,01</span></span> · <span class=\"rt\">√<span class=\"ro\">25</span></span> = 0,1 · 5.", "why": "<span class=\"rt\">√<span class=\"ro\">0,25</span></span> = 0,5, так как 0,5<sup>2</sup> = 0,25."}, {"q": "Чему равно 8 − 0,5?", "a": "7,5", "ah": "7,5", "hint": "Из 8 вычтите половину.", "why": "8 − 0,5 = 7,5."}]}];
+let ti=0,si=0,tries=0,help=0,clean=0,tot=0,tclean=true;
+const box=document.getElementById('box'),pb=document.getElementById('pb');
+function val(s){s=String(s).trim().replace(/[−–—]/g,'-').replace(',','.').replace(/\s+/g,' ');let m;
+  if(m=s.match(/^(-?)(\d+) (\d+)\/(\d+)$/)){const v=+m[2]+(+m[3])/(+m[4]);return m[1]?-v:v}
+  if(m=s.match(/^(-?\d+)\/(\d+)$/)){return (+m[1])/(+m[2])}
+  if(/^-?\d+(\.\d+)?$/.test(s))return parseFloat(s);
+  return NaN}
+function same(a,b){const x=val(a),y=val(b);return !isNaN(x)&&Math.abs(x-y)<1e-9}
+function task(){
+  if(ti>=T.length)return end();
+  pb.style.width=(ti/T.length*100)+'%';
+  const t=T[ti];si=0;tclean=true;
+  box.innerHTML='<div class="card"><span class="tag">Задача '+(ti+1)+' из '+T.length+'</span><p class="sub" style="margin:0 0 8px">'+t.topic+'</p><div class="cond"><b>Найдите значение выражения</b><br><span style="font-size:20px">'+t.disp+'</span></div><div id="steps"></div></div>';
+  step();
+}
+function step(){
+  const t=T[ti],s=t.steps[si];tries=0;
+  const d=document.createElement('div');d.id='st'+si;
+  d.innerHTML='<p class="q" style="font-size:16px"><b>Шаг '+(si+1)+' из '+t.steps.length+'.</b> '+s.q+'</p><input class="num" id="in'+si+'" autocomplete="off" placeholder="ответ"> <button class="btn" id="ck'+si+'">Проверить</button><div id="fb'+si+'"></div>';
+  document.getElementById('steps').appendChild(d);
+  const inp=document.getElementById('in'+si),ck=document.getElementById('ck'+si);
+  ck.onclick=()=>check();inp.onkeydown=e=>{if(e.key==='Enter')check()};inp.focus();
+}
+function lock(k,msg,cls){
+  document.getElementById('in'+k).disabled=true;document.getElementById('ck'+k).style.display='none';
+  document.getElementById('fb'+k).innerHTML='<div class="'+cls+'">'+msg+'</div>';
+}
+function check(){
+  const t=T[ti],s=t.steps[si],v=document.getElementById('in'+si).value;
+  if(!v.trim())return;
+  tot++;
+  if(same(v,s.a)){
+    if(tries>0)tclean=false;else clean++;
+    lock(si,'Верно. '+s.why,'done');next();
+  }else{
+    tries++;tclean=false;if(tries===1)help++;
+    if(tries===1){document.getElementById('fb'+si).innerHTML='<div class="hint">Не так. Подсказка: '+s.hint+'</div>'}
+    else{lock(si,'Правильно так: '+s.ah+'. '+s.why,'exp');next()}
+  }
+}
+function next(){
+  const t=T[ti];
+  if(si<t.steps.length-1){si++;step();return}
+  const fb=document.createElement('div');
+  fb.innerHTML='<div class="exp" style="margin-top:14px"><b>Ответ: '+t.ans+'.</b><br>Ловушка: '+t.trap+'</div><button class="btn" id="nx">'+(ti===T.length-1?'Результат':'Следующая задача')+'</button>';
+  document.getElementById('steps').appendChild(fb);
+  document.getElementById('nx').onclick=()=>{ti++;task()};
+}
+function end(){
+  pb.style.width='100%';
+  const n=T.reduce((a,t)=>a+t.steps.length,0);
+  box.innerHTML='<div class="card"><span class="tag">Итог</span><div class="big">'+clean+' из '+n+'</div><p>шагов выполнено с первой попытки.</p><p class="sub">Если меньше 70%, вернитесь к теории и памятке и пройдите ещё раз: задачи те же, но вы уже знаете ловушки. Затем решайте тренажёр с новыми числами.</p><button class="btn" onclick="ti=0;clean=0;tot=0;help=0;task()">Пройти заново</button> <a class="btn ghost" style="text-decoration:none;display:inline-block" href="z8-korni-trenazhor-gen.html">Тренажёр с новыми числами</a></div>';
+}
+task();
+</script></body></html>

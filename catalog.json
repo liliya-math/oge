@@ -1997,6 +1997,177 @@
       "oge_task": 8,
       "status": "public",
       "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-korni.html",
+      "title": "Корни: все материалы по порядку",
+      "type": "sistema",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-korni-teoriya.html",
+      "title": "Теория и устный опрос: корни",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-korni-test.html",
+      "title": "Тест: корни",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-korni-pyatiminutki.html",
+      "title": "Карточки-пятиминутки: корни (2 варианта)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-korni-razbor-5.html",
+      "title": "Разбор 5 задач повышенной сложности: корни",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-korni-trenazhor.html",
+      "title": "Тренажёр: 5 задач повышенной сложности, корни",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-korni-trenazhor-gen.html",
+      "title": "Тренажёр: корни, новые числа каждый раз",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-korni-pamyatka.html",
+      "title": "Памятка: алгоритм и запись ответа, корни",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-korni-kontrolnaya.html",
+      "title": "Зачётный лист: корни (3 уровня)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-korni-dz.html",
+      "title": "Домашняя карточка: корни (4 задачи)",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-korni-dialog.md",
+      "title": "Диалог ученик-учитель: корни, план урока и ДЗ (текст)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-korni-dialog.pdf",
+      "title": "Диалог ученик-учитель: корни, план урока и ДЗ (печать)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-korni-teoriya.pdf",
+      "title": "Корни, печать: теория",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-korni-pyatiminutki.pdf",
+      "title": "Корни, печать: пятиминутки",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-korni-razbor-5.pdf",
+      "title": "Корни, печать: разбор 5 задач",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-korni-pamyatka.pdf",
+      "title": "Корни, печать: памятка",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-korni-kontrolnaya.pdf",
+      "title": "Корни, печать: зачётный лист",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-korni-dz.pdf",
+      "title": "Корни, печать: домашняя карточка",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-korni-komplekt.pdf",
+      "title": "Корни, печать: комплект",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
     }
   ]
 }
