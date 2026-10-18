@@ -1,0 +1,57 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тест: задачи на движение</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+</style></head><body><div class="wrap">
+<h1>Задачи на движение: тест</h1><p class="sub">10 вопросов. После каждого ответа появляется разбор.</p>
+<div class="bar"><i id="pb"></i></div><div id="box"></div></div>
+<script>
+const Q=[["Переведите 54 км/ч в м/с.", ["15 м/с", "12 м/с", "18 м/с", "194,4 м/с"], 0, "Из км/ч в м/с делим на 3,6: 54 : 3,6 = 15."], ["Сколько часов составляют 25 минут?", ["5/12 ч", "1/4 ч", "25/100 ч", "2/5 ч"], 0, "Минуты делим на 60: 25/60 = 5/12 ч."], ["Два автомобиля едут навстречу друг другу со скоростями 60 и 45 км/ч. Расстояние между ними 210 км. Через сколько часов они встретятся?", ["2 ч", "3,5 ч", "1 ч", "4 ч"], 0, "Скорость сближения 60 + 45 = 105 км/ч. Время 210 : 105 = 2 ч."], ["Автомобиль со скоростью 80 км/ч догоняет автомобиль со скоростью 65 км/ч. Между ними 45 км. Через сколько часов он его догонит?", ["3 ч", "1 ч", "9 ч", "0,5 ч"], 0, "Скорость сближения при движении вдогонку 80 − 65 = 15 км/ч. Время 45 : 15 = 3 ч."], ["Собственная скорость катера 14 км/ч, скорость течения 3 км/ч. За сколько часов катер пройдёт 66 км против течения?", ["6 ч", "4 ч", "5 ч", "3,9 ч"], 0, "Скорость против течения 14 − 3 = 11 км/ч. Время 66 : 11 = 6 ч."], ["Первую половину пути автомобиль ехал со скоростью 60 км/ч, вторую со скоростью 90 км/ч. Какова средняя скорость на всём пути?", ["72 км/ч", "75 км/ч", "70 км/ч", "80 км/ч"], 0, "Пусть весь путь 2S. Время S/60 + S/90 = 5S/180 = S/36. Средняя скорость 2S : (S/36) = 72. Среднее арифметическое (75) здесь не подходит."], ["Из А в В, 120 км, выехали два автомобиля. Скорость первого x км/ч, второго x + 10 км/ч. Второй приехал на 1 час раньше. Какое уравнение верное?", ["120/x − 120/(x+10) = 1", "120/x + 120/(x+10) = 1", "120/(x+10) − 120/x = 1", "120x − 120(x+10) = 1"], 0, "Время первого 120/x, второго 120/(x+10). Первый ехал дольше на 1 ч, поэтому из большего времени вычитаем меньшее."], ["Поезд длиной 150 м проезжает мост длиной 450 м за 30 секунд. Какова скорость поезда?", ["20 м/с", "15 м/с", "5 м/с", "25 м/с"], 0, "Поезд проходит путь L + мост = 150 + 450 = 600 м. Скорость 600 : 30 = 20 м/с (это 72 км/ч)."], ["Составили уравнение x² + 4x − 45 = 0 для скорости велосипедиста (км/ч). Корни: 5 и −9. Какой ответ?", ["5 км/ч", "−9 км/ч", "9 км/ч", "4 км/ч"], 0, "Скорость не бывает отрицательной, корень −9 отбрасываем. Ответ 5 км/ч. Отбор корней обязателен в записи решения."], ["Круговая трасса 6 км. Два мотоциклиста стартуют из одной точки в одну сторону со скоростями 90 и 78 км/ч. Через сколько минут первый обгонит второго на круг?", ["30 мин", "2 мин", "60 мин", "15 мин"], 0, "Скорость сближения 90 − 78 = 12 км/ч. Время 6 : 12 = 0,5 ч = 30 мин."]];
+let i=0,score=0,wrong=[];
+const box=document.getElementById('box'),pb=document.getElementById('pb');
+function shuffle(a){const r=a.map((v,k)=>[v,k]);for(let j=r.length-1;j>0;j--){const m=Math.floor(Math.random()*(j+1));[r[j],r[m]]=[r[m],r[j]]}return r}
+function show(){
+  if(i>=Q.length){return end()}
+  pb.style.width=(i/Q.length*100)+'%';
+  const [q,opts,ans,exp]=Q[i];
+  box.innerHTML='<div class="card"><span class="tag">Вопрос '+(i+1)+' из '+Q.length+'</span><p class="q">'+q+'</p><div id="o"></div><div id="e"></div></div>';
+  const o=document.getElementById('o');
+  shuffle(opts).forEach(([t,k])=>{const b=document.createElement('button');b.className='opt';b.textContent=t;b.onclick=()=>pick(b,k===ans,exp);o.appendChild(b);b.dataset.k=k});
+}
+function pick(b,ok,exp){
+  document.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(+x.dataset.k===Q[i][2])x.classList.add('ok')});
+  if(ok){score++}else{b.classList.add('bad');wrong.push(i+1)}
+  document.getElementById('e').innerHTML='<div class="exp">'+(ok?'Верно. ':'Неверно. ')+exp+'</div><button class="btn" onclick="i++;show()">'+(i===Q.length-1?'Результат':'Дальше')+'</button>';
+}
+function end(){
+  pb.style.width='100%';
+  const msg=score>=9?'Тема усвоена. Можно переходить к задачам повышенной сложности.':score>=7?'Хороший результат. Повторите вопросы, где были ошибки.':score>=5?'Есть пробелы. Вернитесь к теории и разберите ошибки.':'Нужно повторить теорию и типы задач с начала.';
+  box.innerHTML='<div class="card"><span class="tag">Результат</span><div class="big">'+score+' из '+Q.length+'</div><p>'+msg+'</p>'+(wrong.length?'<p class="sub">Ошибки в вопросах: '+wrong.join(', ')+'</p>':'')+'<button class="btn" onclick="i=0;score=0;wrong=[];show()">Пройти заново</button></div>';
+}
+show();
+</script></body></html>

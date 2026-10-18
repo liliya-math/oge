@@ -1,0 +1,77 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тренажёр: задачи на движение, повышенный уровень</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+</style></head><body><div class="wrap">
+<h1>Тренажёр: задачи на движение</h1><p class="sub">Пять задач повышенной сложности. На каждом шаге ответьте, затем нажмите «Дальше».</p>
+<div class="tabs" id="tabs"></div><div class="bar"><i id="pb"></i></div><div id="box"></div></div>
+<script>
+const T=[{"title": "Задача 1. Вдогонку, выезд позже", "cond": "Из города А в город В, расстояние между которыми 360 км, выехал автомобиль. Через 1 ч 30 мин вслед за ним выехал второй автомобиль, скорость которого на 20 км/ч больше, и приехал в В одновременно с первым. Найдите скорость первого автомобиля.", "steps": [{"t": "c", "q": "Что удобнее взять за x?", "o": ["Скорость первого автомобиля", "Время первого автомобиля", "Расстояние АВ"], "a": 0, "h": "Нужно найти скорость, а время тогда выразится через x.", "r": "Пусть x км/ч — скорость первого, тогда (x + 20) км/ч — скорость второго."}, {"t": "n", "q": "Сколько часов в 1 ч 30 мин? (число)", "a": 1.5, "h": "30 минут — это половина часа.", "r": "1 ч 30 мин = 1,5 ч."}, {"t": "c", "q": "Выберите верное уравнение.", "o": ["360/x − 360/(x+20) = 1,5", "360/x + 360/(x+20) = 1,5", "360/(x+20) − 360/x = 1,5", "360x − 360(x+20) = 1,5"], "a": 0, "h": "Первый ехал дольше, поэтому из его времени вычитаем время второго.", "r": "Время первого 360/x, второго 360/(x+20). Разница 1,5 ч: 360/x − 360/(x+20) = 1,5."}, {"t": "c", "q": "Какое квадратное уравнение получится после умножения на 2x(x+20) и упрощения?", "o": ["x² + 20x − 4800 = 0", "x² + 20x − 2400 = 0", "x² − 20x − 4800 = 0", "x² + 20x + 4800 = 0"], "a": 0, "h": "720(x+20) − 720x = 3x(x+20), то есть 14400 = 3x² + 60x. Разделите на 3.", "r": "14400 = 3x² + 60x, значит x² + 20x − 4800 = 0. D = 19600 = 140², x = (−20 ± 140)/2: 60 или −80."}, {"t": "n", "q": "Какой корень подходит по смыслу? Введите скорость первого (км/ч).", "a": 60, "h": "Скорость положительна.", "r": "Корень −80 отбрасываем. Ответ: 60 км/ч. Проверка: 360:60 = 6 ч, 360:80 = 4,5 ч, разница 1,5 ч."}]}, {"title": "Задача 2. Река, остановка", "cond": "Моторная лодка прошла от пристани А до пристани В по течению реки и вернулась обратно. Расстояние между пристанями 45 км, скорость течения 3 км/ч. В пункте В лодка стояла 1 час, всё путешествие заняло 9 часов. Найдите собственную скорость лодки.", "steps": [{"t": "c", "q": "Что взять за x и какое условие на него записать?", "o": ["x — собственная скорость, x > 3", "x — скорость по течению, x > 0", "x — собственная скорость, x < 3"], "a": 0, "h": "Против течения лодка идёт со скоростью x − 3, она должна быть положительной.", "r": "Пусть x км/ч — собственная скорость, x > 3. По течению x + 3, против течения x − 3."}, {"t": "n", "q": "Сколько часов лодка находилась в движении?", "a": 8, "h": "Из 9 часов вычтите стоянку.", "r": "9 − 1 = 8 ч."}, {"t": "c", "q": "Выберите верное уравнение.", "o": ["45/(x+3) + 45/(x−3) = 8", "45/(x+3) + 45/(x−3) = 9", "45/(x+3) − 45/(x−3) = 8", "45/(x−3) + 45/(x+3) = 10"], "a": 0, "h": "Складываем время по течению и против, в сумме время движения без стоянки.", "r": "45/(x+3) + 45/(x−3) = 8."}, {"t": "c", "q": "Какое квадратное уравнение получится?", "o": ["4x² − 45x − 36 = 0", "4x² + 45x − 36 = 0", "8x² − 45x − 72 = 0", "x² − 45x − 9 = 0"], "a": 0, "h": "45(x−3) + 45(x+3) = 8(x² − 9) → 90x = 8x² − 72.", "r": "8x² − 90x − 72 = 0, делим на 2: 4x² − 45x − 36 = 0. D = 2601 = 51², x = (45 ± 51)/8: 12 или −0,75."}, {"t": "n", "q": "Введите собственную скорость лодки (км/ч).", "a": 12, "h": "Корень должен быть больше 3.", "r": "Ответ: 12 км/ч. Проверка: 45:15 = 3 ч, 45:9 = 5 ч, 3 + 1 + 5 = 9 ч."}]}, {"title": "Задача 3. Средняя скорость", "cond": "Автомобиль проехал первую половину пути со скоростью 48 км/ч, а вторую половину с другой постоянной скоростью. Средняя скорость на всём пути 64 км/ч. Найдите скорость на второй половине пути.", "steps": [{"t": "c", "q": "Как определяется средняя скорость?", "o": ["Весь путь делить на всё время", "Сумма скоростей пополам", "Скорость на самом длинном участке"], "a": 0, "h": "Среднее арифметическое скоростей подходит только если время на участках одинаково.", "r": "Средняя скорость = весь путь : всё время. Значит всё время равно S/64."}, {"t": "c", "q": "Весь путь S. Чему равно время на первой половине (скорость 48)?", "o": ["S/96", "S/48", "48/S", "S/24"], "a": 0, "h": "Половина пути S/2, делим на 48.", "r": "(S/2) : 48 = S/96."}, {"t": "c", "q": "Выберите уравнение (x — скорость на второй половине), уже сокращённое на S.", "o": ["1/96 + 1/(2x) = 1/64", "1/48 + 1/x = 1/64", "1/96 + 1/x = 1/64", "48 + x = 128"], "a": 0, "h": "Время второй половины (S/2):x = S/(2x).", "r": "S/96 + S/(2x) = S/64, после сокращения 1/96 + 1/(2x) = 1/64."}, {"t": "n", "q": "Чему равно 2x? (число)", "a": 192, "h": "1/(2x) = 1/64 − 1/96 = 3/192 − 2/192.", "r": "1/(2x) = 1/192, значит 2x = 192."}, {"t": "n", "q": "Введите скорость на второй половине пути (км/ч).", "a": 96, "h": "Разделите 192 на 2.", "r": "Ответ: 96 км/ч. Проверка: S/96 + S/192 = S/64. Ловушка: 2·64 − 48 = 80, это неверно."}]}, {"title": "Задача 4. Круговая трасса", "cond": "Два велосипедиста одновременно стартуют из одной точки круговой трассы длиной 4 км. В одном направлении первый догоняет второго (на круг) через 30 минут. В противоположных направлениях они впервые встречаются через 6 минут. Найдите скорость первого велосипедиста (он быстрее).", "steps": [{"t": "c", "q": "Пусть x и y — скорости, x > y. Какова скорость сближения при движении в одном направлении?", "o": ["x − y", "x + y", "x · y"], "a": 0, "h": "При движении вдогонку скорости вычитаются.", "r": "Скорость сближения x − y. Первый должен выиграть целый круг, 4 км."}, {"t": "n", "q": "Из 4/(x − y) = 1/2 найдите x − y (км/ч).", "a": 8, "h": "30 минут = 1/2 часа.", "r": "x − y = 8."}, {"t": "n", "q": "Из 4/(x + y) = 1/10 найдите x + y (км/ч). Встречное движение, 6 мин = 1/10 ч.", "a": 40, "h": "4 : (1/10) = 40.", "r": "x + y = 40."}, {"t": "n", "q": "Сложите два уравнения и найдите x (км/ч).", "a": 24, "h": "2x = 8 + 40.", "r": "2x = 48, x = 24, y = 16. Проверка: 4:8 = 0,5 ч, 4:40 = 0,1 ч. Ответ: 24 км/ч."}]}, {"title": "Задача 5. Поезд и мост", "cond": "Поезд проходит мимо столба за 12 секунд, а по мосту длиной 360 метров за 30 секунд. Найдите длину поезда в метрах.", "steps": [{"t": "c", "q": "Какой путь проходит поезд, проезжая весь мост (от въезда локомотива до выезда последнего вагона)?", "o": ["L + 360", "360", "L − 360"], "a": 0, "h": "Поезд должен целиком оказаться за мостом.", "r": "Путь L + 360 м, где L — длина поезда."}, {"t": "c", "q": "Выберите верное уравнение (скорость одна и та же).", "o": ["L/12 = (L + 360)/30", "L/12 = 360/30", "12L = 30(L + 360)", "L/30 = (L + 360)/12"], "a": 0, "h": "Мимо столба путь L за 12 с; по мосту путь L + 360 за 30 с.", "r": "v = L/12 и v = (L + 360)/30, значит L/12 = (L + 360)/30."}, {"t": "n", "q": "Найдите L (метры).", "a": 240, "h": "30L = 12L + 4320.", "r": "18L = 4320, L = 240."}, {"t": "n", "q": "Найдите скорость поезда в км/ч.", "a": 72, "h": "v = 240 : 12 м/с, затем умножьте на 3,6.", "r": "v = 20 м/с = 72 км/ч. Ответ задачи: 240 м."}]}];
+let cur=0,st=0,prog=T.map(()=>0);
+const tabs=document.getElementById('tabs'),box=document.getElementById('box'),pb=document.getElementById('pb');
+function norm(s){return parseFloat(String(s).replace(',','.').replace(/\s/g,''))}
+function renderTabs(){tabs.innerHTML='';T.forEach((t,k)=>{const b=document.createElement('button');b.textContent='Задача '+(k+1)+(prog[k]===t.steps.length?' (готово)':'');if(k===cur)b.className='on';b.onclick=()=>{cur=k;st=prog[k]>=t.steps.length?0:prog[k];render()};tabs.appendChild(b)})}
+function render(){
+  renderTabs();
+  const t=T[cur];pb.style.width=(prog[cur]/t.steps.length*100)+'%';
+  let h='<div class="card"><span class="tag">'+t.title+'</span><div class="cond">'+t.cond+'</div>';
+  for(let k=0;k<prog[cur]&&k<t.steps.length;k++){h+='<div class="done">'+t.steps[k].r+'</div>'}
+  if(prog[cur]<t.steps.length){
+    const s=t.steps[prog[cur]];
+    h+='<p class="q" style="margin-top:16px">Шаг '+(prog[cur]+1)+' из '+t.steps.length+'. '+s.q+'</p><div id="in"></div><div id="fb"></div>';
+  }else{
+    h+='<p style="margin-top:14px">Задача разобрана. '+(cur<T.length-1?'<button class="btn" onclick="cur++;st=0;render()">Следующая задача</button>':'Это была последняя. Хороший трудный набор: теперь попробуйте решить любую из них с чистого листа.')+'</p>';
+  }
+  box.innerHTML=h+'</div>';
+  if(prog[cur]<t.steps.length)drawStep(t.steps[prog[cur]]);
+}
+function drawStep(s){
+  const el=document.getElementById('in');
+  if(s.t==='c'){
+    s.o.map((v,k)=>[v,k]).forEach(([v,k])=>{const b=document.createElement('button');b.className='opt';b.textContent=v;b.onclick=()=>check(k===s.a,b);el.appendChild(b)});
+  }else{
+    el.innerHTML='<input class="num" id="num" inputmode="decimal" placeholder="Ответ"> <button class="btn" id="go">Проверить</button>';
+    const f=()=>check(Math.abs(norm(document.getElementById('num').value)-s.a)<1e-9,null);
+    document.getElementById('go').onclick=f;document.getElementById('num').onkeydown=e=>{if(e.key==='Enter')f()};
+  }
+}
+let tries=0;
+function check(ok,btn){
+  const s=T[cur].steps[prog[cur]],fb=document.getElementById('fb');
+  if(ok){
+    document.querySelectorAll('.opt').forEach(x=>x.disabled=true);if(btn)btn.classList.add('ok');
+    const inp=document.getElementById('num');if(inp)inp.disabled=true;const go=document.getElementById('go');if(go)go.disabled=true;
+    fb.innerHTML='<div class="exp">Верно. '+s.r+'</div><button class="btn" onclick="prog[cur]++;tries=0;render()">Дальше</button>';
+  }else{
+    tries++;if(btn){btn.classList.add('bad');btn.disabled=true}
+    fb.innerHTML='<div class="hint">Не то. Подсказка: '+s.h+'</div>'+(tries>=3?'<button class="btn ghost" onclick="reveal()">Показать ответ</button>':'');
+  }
+}
+function reveal(){const s=T[cur].steps[prog[cur]];document.getElementById('fb').innerHTML='<div class="exp">'+s.r+'</div><button class="btn" onclick="prog[cur]++;tries=0;render()">Дальше</button>'}
+render();
+</script></body></html>
