@@ -1,0 +1,62 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Вероятность: теория и устный опрос</title><style>
+@page{size:A4;margin:9mm}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#000;font:10.5pt/1.38 "PT Serif","DejaVu Serif",Georgia,"Times New Roman",serif}
+.wrap{max-width:200mm;margin:0 auto;padding:10px 12px 30px}
+.nav{font:13px -apple-system,Arial,sans-serif;margin:6px 0 10px}
+.nav a{color:#1747c9}
+h1{font-size:15pt;margin:0 0 2px}
+h2{font-size:11.5pt;margin:10px 0 4px;border-bottom:1px solid #000;padding-bottom:1px}
+h3{font-size:10.5pt;margin:7px 0 2px}
+.sub{font-size:9.5pt;margin:0 0 6px}
+p{margin:3px 0}
+ol,ul{margin:3px 0 3px 18px;padding:0}
+ol{margin-left:24px}
+li{margin:2px 0}
+sup{font-size:70%;line-height:0;vertical-align:super;white-space:nowrap}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 1px}
+.fr i{display:block;font-style:normal;padding:0 3px;border-bottom:1px solid currentColor;line-height:1.2}
+.fr b{display:block;font-weight:normal;padding:0 3px;line-height:1.2}
+.nw{white-space:nowrap}
+.box{border:1px solid #000;padding:4px 7px;margin:5px 0;break-inside:avoid}
+.rule{border:1.5px solid #000;padding:4px 7px;margin:5px 0;break-inside:avoid;background:#f2f2f2}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 10mm}
+.cols.cut > div:first-child{border-right:1px dashed #000;padding-right:5mm}
+.task{break-inside:avoid;margin:5px 0}
+.task .n{font-weight:bold}
+.sol{border:1px solid #bbb;background-image:linear-gradient(#ddd 1px,transparent 1px),linear-gradient(90deg,#ddd 1px,transparent 1px);background-size:5mm 5mm;margin:3px 0}
+.ans{margin-top:2px}
+.ans:after{content:" ______________"}
+.teacher{margin-top:10px;border-top:1px dashed #000;padding-top:4px;font-size:9.5pt;break-inside:avoid}
+.small{font-size:9.5pt}
+table{border-collapse:collapse;margin:4px 0}
+td,th{border:1px solid #000;padding:2px 6px;text-align:left;font-weight:normal;vertical-align:top}
+th{font-weight:bold;background:#eee}
+.lev{display:inline-block;border:1px solid #000;padding:0 6px;font-weight:bold;margin:6px 0 2px;font-size:10.5pt}
+.dice td{width:19px;height:17px;text-align:center;padding:0;font-size:8pt}
+.dice td.y{background:#d8d8d8;font-weight:bold}
+h2,h3,.lev{break-after:avoid}
+@media print{.nav,.noprint{display:none}.wrap{padding:0;max-width:none}body{font-size:9.5pt;line-height:1.3}h1{font-size:13.5pt}.rule{padding:3px 6px;margin:3px 0}h2{margin:6px 0 3px}}
+</style></head><body><div class="wrap"><div class="nav noprint"><a href="z10-veroyatnost.html">← Вероятность (задание 10)</a> · <a href="index.html">на главную</a></div><h1>Вероятность простых событий: теория и устный опрос</h1>
+<p class="sub">Задание 10 ОГЭ, часть 1. Печать: 2 страницы A4. Определения и свойства даны в формулировках школьного учебника.</p>
+<h2>Теория</h2>
+<div class="cols"><div>
+<div class="rule"><b>1. Случайное событие.</b> Событие, которое при одних и тех же условиях может произойти, а может не произойти, называют случайным. Результат опыта называют исходом; исходы, имеющие одинаковые шансы, называют равновозможными (бросок монеты, кубика, выбор карточки наугад).</div>
+<div class="rule"><b>2. Классическое определение.</b> Вероятностью события A при опыте с равновозможными исходами называют отношение числа исходов, благоприятствующих событию A, к числу всех исходов:<br><span style="display:block;text-align:center">P(A) = <span class="fr"><i>m</i><b>n</b></span></span>n — число всех исходов, m — число благоприятных.</div>
+<div class="rule"><b>3. Свойства.</b> Для любого события 0 ≤ P(A) ≤ 1. Вероятность достоверного события равна 1, невозможного — 0. Сумма вероятностей всех исходов опыта равна 1.</div>
+<div class="rule"><b>4. Противоположное событие.</b> События A и «не A» противоположны, их вероятности в сумме дают 1: P(не A) = 1 − P(A). Если считать «не A» напрямую долго, найди P(A) и вычти из 1.</div>
+</div><div>
+<h3>Как находить n и m</h3>
+<ul><li>Один кубик: n = 6. Две монеты или два кубика: n = 2 · 2 = 4 и n = 6 · 6 = 36.</li>
+<li>В условии «остальные» — вычитаем: m = всего − (названные группы).</li>
+<li>Слова «не», «ни… ни…» — противоположное событие или вычитание обеих групп.</li>
+<li>Слово «или»: если группы не пересекаются, числа складываем; если у них есть общие элементы (число 15 кратно и 3, и 5), то m = m₁ + m₂ − общие.</li>
+<li>Слова «в среднем», «на каждые»: относительная частота k : N принимается за вероятность.</li></ul>
+<h3>Пример</h3>
+<p class="small">В коробке 20 лампочек, 3 из них неисправны. Какова вероятность взять исправную? n = 20, m = 20 − 3 = 17, P = <span class="fr"><i>17</i><b>20</b></span> = <span class="fr"><i>85</i><b>100</b></span> = 0,85. Проверка: 0 ≤ 0,85 ≤ 1.</p>
+<h3>Запись ответа</h3>
+<p class="small">В первой части проверяется только ответ. Записывай число: десятичную дробь с запятой (0,25), а не 1/4 и не 25 %. Если получилась обыкновенная дробь, переведи её делением числителя на знаменатель.</p>
+</div></div>
+<h2>Вопросы для устного опроса</h2>
+<ol><li>Что называют случайным событием?</li><li>Какие исходы называют равновозможными?</li><li>Запишите формулу вероятности.</li><li>Чему равна вероятность достоверного события? невозможного?</li><li>Может ли вероятность быть равной 1,2 или −0,3?</li><li>Чему равна вероятность выпадения орла при броске монеты?</li><li>Сколько исходов при броске одного кубика? Какие благоприятны для «чётное число очков»?</li><li>Как связаны вероятности противоположных событий?</li><li>Вероятность выиграть равна 0,35. Найдите вероятность проиграть.</li><li>Сколько исходов при двух бросках кубика? Почему?</li><li>Как найти число карточек с числами, кратными 3 или 5?</li><li>Что значит «из 200 лампочек в среднем 4 неисправны»?</li><li>В условии: «в 10 билетах вопрос по алгебре, всего 25». Какой билет благоприятен для «нет вопроса по алгебре»?</li><li>Как записать ответ в бланк №1?</li></ol>
+<div class="teacher"><b>Ответы для учителя.</b><ol><li>Событие, которое в данных условиях может произойти, а может не произойти.</li><li>Такие, у которых нет преимущества друг перед другом: монета, кубик, карточка, вынутая наугад.</li><li>P = m : n, где n — число всех равновозможных исходов, m — число исходов, благоприятных событию.</li><li>Достоверного — 1, невозможного — 0.</li><li>Нет: для любого события 0 ≤ P ≤ 1. Получилось иначе — ошибка в счёте.</li><li>0,5: два равновозможных исхода, один благоприятный.</li><li>Шесть исходов. Благоприятны 2, 4, 6, значит P = 3 : 6 = 0,5.</li><li>P(A) + P(не A) = 1, значит P(не A) = 1 − P(A).</li><li>1 − 0,35 = 0,65.</li><li>36 = 6 · 6: каждому исходу первого броска соответствует шесть исходов второго.</li><li>Выписать оба списка, общие числа посчитать один раз: m = m₁ + m₂ − (общие).</li><li>Относительная частота 4 : 200 = 0,02 принимается за вероятность неисправной лампочки.</li><li>25 − 10 = 15 билетов, P = 15 : 25 = 0,6.</li><li>Числом: десятичная дробь с запятой (0,25), без дроби 1/4, без процентов и без слов.</li></ol></div></div></body></html>

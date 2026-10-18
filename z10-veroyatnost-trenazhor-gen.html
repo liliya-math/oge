@@ -1,0 +1,85 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Вероятность: тренажёр, новые числа</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:10px 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+sup{font-size:70%;line-height:0;vertical-align:super;white-space:nowrap}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px}.fr i{display:block;font-style:normal;padding:0 4px;border-bottom:1px solid currentColor;line-height:1.25}.fr b{display:block;font-weight:normal;padding:0 4px;line-height:1.25}
+.dice{border-collapse:collapse;margin:8px 0}.dice td{width:30px;height:28px;text-align:center;border:1px solid var(--line);font-size:13px}.dice td.y{background:rgba(242,214,117,.25);color:var(--butter);font-weight:700}.dice td.h{color:var(--muted)}
+</style></head><body><div class="wrap"><a href="z10-veroyatnost.html" style="color:var(--blue);font-size:14px;text-decoration:none">← Вероятность (задание 10)</a><h1>Тренажёр: новые числа каждый раз</h1><p class="sub">Семь типов задания 10. Ответ можно писать десятичной дробью (0,25) или обыкновенной (1/4).</p><div class="tabs" id="tabs"></div><p class="sub" id="stat">Верно с первой попытки: 0 из 0</p><div id="box"></div></div>
+<script>const parse=s=>{s=String(s).trim().replace(/\s+/g,'').replace(',','.');let m;if(m=s.match(/^(\d+)\/(\d+)$/))return +m[2]?(+m[1])/(+m[2]):NaN;if(/^\d+(\.\d+)?$/.test(s))return parseFloat(s);return NaN};
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));const pick=a=>a[R(0,a.length-1)];
+const gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a);
+const red=(n,d)=>{const g=gcd(n,d)||1;return [n/g,d/g]};
+const term=d=>{while(d%2===0)d/=2;while(d%5===0)d/=5;return d===1};
+const dstr=(n,d)=>{let s=String(Math.floor(n/d)),r=n%d;if(r){s+=',';let k=0;while(r&&k<12){r*=10;s+=String(Math.floor(r/d));r%=d;k++}}return s};
+const FR=(n,d)=>'<span class="fr"><i>'+n+'</i><b>'+d+'</b></span>';
+const fin=(m,n)=>{const [a,b]=red(m,n);return FR(m,n)+(b!==n?' = '+FR(a,b):'')+' = '+dstr(a,b)};
+const wordG=g=>({2:'две',3:'три',4:'четыре'})[g];
+const wordC=s=>(s%10>=2&&s%10<=4&&(s<10||s>20))?'человека':'человек';
+const NS=[20,25,40,50,80,100,125,200,250,500,1000];
+const TYPES=[
+ {name:'«Не» и противоположное',hints:['Что ищут: годное или бракованное?','Найди, сколько подходит: из всех вычти те, что не подходят.'],gen(){const n=pick(NS),k=R(2,Math.max(3,Math.floor(n/8)));const m=n-k;
+   const tx=pick([
+    'В коробке '+n+' лампочек, из них '+k+' неисправны. Найдите вероятность того, что наугад взятая лампочка исправна.',
+    'Из '+n+' флешек в среднем '+k+' неисправны. Найдите вероятность того, что выбранная наугад флешка исправна.',
+    'В лотерее '+n+' билетов, из них '+k+' выигрышных. Найдите вероятность того, что купленный билет окажется проигрышным.',
+    'В партии из '+n+' деталей '+k+' бракованных. Найдите вероятность того, что наугад взятая деталь годная.']);
+   return {t:tx,m,n,sol:['Всего исходов n = '+n+'.','Подходящих m = '+n+' − '+k+' = '+m+'.','P = '+fin(m,n)+'.']}}},
+ {name:'«Остальные»',hints:['Сколько штук названо в условии вместе?','Остаток — это и есть благоприятные исходы.'],gen(){const n=pick([20,25,40,50,100]);const a=R(2,Math.floor(n/3)),b=R(2,Math.floor(n/3));const m=n-a-b;
+   return {t:'В вазе '+n+' конфет: '+a+' с шоколадом, '+b+' с карамелью, остальные с орехами. Найдите вероятность того, что наугад взятая конфета окажется с орехами.',m,n,sol:['n = '+n+'.','m = '+n+' − '+a+' − '+b+' = '+m+'.','P = '+fin(m,n)+'.']}}},
+ {name:'Числа и кратность',hints:['Выпиши числа, кратные заданному.','Сколько их? Раздели N на k без остатка.'],gen(){const c=pick([[20,[2,4,5,10]],[40,[2,4,5,8,10,20]],[50,[2,5,10,25]],[100,[2,4,5,10,20,25,50]]]);const N=c[0],k=pick(c[1]);const m=N/k;
+   return {t:'Задумано натуральное число от 1 до '+N+'. Найдите вероятность того, что оно делится на '+k+'.',m,n:N,sol:['n = '+N+'.','Чисел, кратных '+k+': '+N+' : '+k+' = '+m+'.','P = '+fin(m,N)+'.']}}},
+ {name:'Группы и друзья',hints:['Место первого друга не считается: он уже в своей группе.','В его группе свободно (размер − 1) мест, всего других учеников (все − 1).'],gen(){const c=pick([[21,7,3],[16,4,4],[26,13,2],[9,3,3]]);const T=c[0],s=c[1],g=c[2];const m=s-1,n=T-1;
+   return {t:'В классе '+T+' учеников, среди них два друга. Класс случайным образом делят на '+wordG(g)+' группы по '+s+' '+wordC(s)+'. Найдите вероятность того, что друзья окажутся в одной группе.',m,n,sol:['Первый друг уже в группе. В ней свободных мест '+s+' − 1 = '+m+'.','Других учеников '+T+' − 1 = '+n+'.','P = '+fin(m,n)+'.']}}},
+ {name:'Два кубика',hints:['Сколько всего пар? 6 · 6.','Какие пары подходят? Подумай про чётность каждого числа.'],gen(){const c=pick([
+    ['Игральный кубик бросают дважды. Найдите вероятность того, что произведение выпавших очков будет нечётным.',9,'Произведение нечётно, только если оба числа нечётные: 3 · 3 = 9 пар.'],
+    ['Игральный кубик бросают дважды. Найдите вероятность того, что произведение выпавших очков будет чётным.',27,'Проще найти противоположное: нечётных произведений 3 · 3 = 9, чётных 36 − 9 = 27.'],
+    ['Игральный кубик бросают дважды. Найдите вероятность того, что сумма выпавших очков будет чётной.',18,'Сумма чётна при одинаковой чётности: 9 пар (оба чётные) + 9 пар (оба нечётные) = 18.'],
+    ['Игральный кубик бросают дважды. Найдите вероятность того, что на обоих кубиках выпадут чётные числа.',9,'Чётных очков 3 на каждом кубике: 3 · 3 = 9 пар.']]);
+   return {t:c[0],m:c[1],n:36,sol:['Всего пар n = 6 · 6 = 36.',c[2],'P = '+fin(c[1],36)+'.']}}},
+ {name:'«Или» и общие числа',hints:['Выпиши числа каждого списка.','Есть ли числа в обоих списках? Их считают один раз: m = m₁ + m₂ − общие.'],gen(){
+   if(!window._U){window._U=[];for(const N of [20,25,30,40,50,60,100])for(let a=2;a<=12;a++)for(let b=a+1;b<=12;b++){if(b%a===0)continue;let c=0,ca=0,cb=0,cc=0;for(let x=1;x<=N;x++){const A=x%a===0,B=x%b===0;if(A)ca++;if(B)cb++;if(A&&B)cc++;if(A||B)c++}const [p,q]=red(c,N);if(term(q)&&cc>0&&c<N)window._U.push([N,a,b,c,ca,cb,cc])}}
+   const u=pick(window._U);const N=u[0],a=u[1],b=u[2],m=u[3];
+   return {t:'На карточках написаны числа от 1 до '+N+'. Наугад берут одну карточку. Найдите вероятность того, что число на ней делится на '+a+' или на '+b+'.',m,n:N,sol:['n = '+N+'.','Кратны '+a+': '+u[4]+' чисел. Кратны '+b+': '+u[5]+' чисел. Общих (кратны обоим): '+u[6]+'.','m = '+u[4]+' + '+u[5]+' − '+u[6]+' = '+m+'.','P = '+fin(m,N)+'.']}}},
+ {name:'«В среднем»',hints:['Относительная частота k : N принимается за вероятность.','Ответ на «исправна» — это 1 минус вероятность неисправной.'],gen(){const n=pick([100,200,250,500,1000]),k=R(2,15);const m=n-k;
+   return {t:'На заводе в среднем на каждые '+n+' фонариков приходится '+k+' неисправных. Найдите вероятность того, что купленный фонарик исправен.',m,n,sol:['Исправных на '+n+' штук: '+n+' − '+k+' = '+m+'.','P = '+fin(m,n)+'.']}}}
+];
+
+let ty=-1,cur=null,tries=0,hintN=0,tot=0,first=0;
+const tabs=document.getElementById('tabs'),box=document.getElementById('box'),stat=document.getElementById('stat');
+function renderTabs(){tabs.innerHTML='';[['Все подряд',-1]].concat(TYPES.map((t,k)=>[t.name,k])).forEach(([n,k])=>{const b=document.createElement('button');b.textContent=n;if(k===ty)b.className='on';b.onclick=()=>{ty=k;next()};tabs.appendChild(b)})}
+function next(){renderTabs();const k=ty<0?R(0,TYPES.length-1):ty;cur=TYPES[k].gen();cur.k=k;tries=0;hintN=0;
+ box.innerHTML='<div class="card"><span class="tag">'+TYPES[k].name+'</span><div class="cond">'+cur.t+'</div><input class="num" id="in" autocomplete="off" inputmode="decimal"> <button class="btn" id="ok">Проверить</button> <button class="btn ghost" id="hn">Подсказка</button> <button class="btn ghost" id="sl">Показать решение</button><div id="fb"></div></div>';
+ const inp=document.getElementById('in'),fb=document.getElementById('fb');inp.focus();
+ const check=()=>{const v=parse(inp.value);if(isNaN(v)){fb.innerHTML='<div class="hint">Введи число.</div>';return}
+  if(Math.abs(v-cur.m/cur.n)<1e-9){tot++;if(tries===0)first++;stat.textContent='Верно с первой попытки: '+first+' из '+tot;fb.innerHTML='<div class="done"><b>Верно.</b> '+dstr(...red(cur.m,cur.n))+'</div><button class="btn" id="nx">Следующая</button>';document.getElementById('nx').onclick=next}
+  else{tries++;fb.innerHTML='<div class="hint">Не совпало. Проверь, на какой вопрос ты отвечаешь (событие или противоположное) и не потерялись ли общие элементы.</div>'}};
+ document.getElementById('ok').onclick=check;inp.onkeydown=e=>{if(e.key==='Enter')check()};
+ document.getElementById('hn').onclick=()=>{const h=TYPES[k].hints;fb.innerHTML='<div class="hint">Подсказка: '+h[Math.min(hintN,h.length-1)]+'</div>';hintN++};
+ document.getElementById('sl').onclick=()=>{if(tries===0){tot++;}tries=9;stat.textContent='Верно с первой попытки: '+first+' из '+tot;fb.innerHTML='<div class="exp"><ol>'+cur.sol.map(s=>'<li>'+s+'</li>').join('')+'</ol></div><button class="btn" id="nx">Следующая</button>';document.getElementById('nx').onclick=next}}
+next();</script></body></html>

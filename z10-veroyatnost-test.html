@@ -1,0 +1,53 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Вероятность: тест</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:10px 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+sup{font-size:70%;line-height:0;vertical-align:super;white-space:nowrap}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px}.fr i{display:block;font-style:normal;padding:0 4px;border-bottom:1px solid currentColor;line-height:1.25}.fr b{display:block;font-weight:normal;padding:0 4px;line-height:1.25}
+.dice{border-collapse:collapse;margin:8px 0}.dice td{width:30px;height:28px;text-align:center;border:1px solid var(--line);font-size:13px}.dice td.y{background:rgba(242,214,117,.25);color:var(--butter);font-weight:700}.dice td.h{color:var(--muted)}
+</style></head><body><div class="wrap"><a href="z10-veroyatnost.html" style="color:var(--blue);font-size:14px;text-decoration:none">← Вероятность (задание 10)</a><h1>Вероятность: тест</h1><p class="sub">10 вопросов. После каждого ответа появляется разбор.</p><div class="bar"><i id="pb"></i></div><div id="box"></div></div>
+<script>const Q=[{"q": "Какая формула верна для вероятности события A, если n — число всех равновозможных исходов, а m — число благоприятных?", "a": "P(A) = m : n", "w": ["P(A) = n : m", "P(A) = m · n", "P(A) = m − n"], "e": "Вероятность — это доля благоприятных исходов среди всех: m : n. Формула n : m даёт число больше 1 при m < n, а вероятность не бывает больше 1."}, {"q": "В коробке 20 лампочек, 3 из них неисправны. Найдите вероятность того, что наугад взятая лампочка исправна.", "a": "0,85", "w": ["0,15", "17", "0,17"], "e": "Исправных 20 − 3 = 17, всего 20: <span class=\"fr\"><i>17</i><b>20</b></span> = <span class=\"fr\"><i>85</i><b>100</b></span> = 0,85. Ответ 0,15 — вероятность неисправной. Ответ 17 — только число благоприятных исходов, его нужно разделить на 20."}, {"q": "Игральный кубик бросают один раз. Найдите вероятность того, что выпадет число очков, меньшее 7.", "a": "1", "w": ["0,5", "6", "0"], "e": "Любое число очков на кубике (от 1 до 6) меньше 7, значит все 6 исходов благоприятны: 6 : 6 = 1. Это достоверное событие."}, {"q": "Вероятность того, что ученик придёт на кружок, равна 0,35. Найдите вероятность того, что он не придёт.", "a": "0,65", "w": ["0,35", "1,35", "0,55"], "e": "Противоположные события: P(не придёт) = 1 − 0,35 = 0,65. Ответ 1,35 получится при сложении, а вероятность больше 1 быть не может."}, {"q": "Какое из чисел не может быть значением вероятности?", "a": "1,2", "w": ["0", "0,5", "1"], "e": "Для любого события 0 ≤ P ≤ 1. Число 0 — вероятность невозможного события, 1 — достоверного. Число 1,2 больше 1, значит вероятностью быть не может."}, {"q": "В сборнике 25 билетов, в 6 из них есть вопрос по геометрии. Найдите вероятность того, что в выбранном наугад билете вопроса по геометрии нет.", "a": "0,76", "w": ["0,24", "0,6", "19"], "e": "Билетов без геометрии 25 − 6 = 19, P = <span class=\"fr\"><i>19</i><b>25</b></span> = <span class=\"fr\"><i>76</i><b>100</b></span> = 0,76. Ответ 0,24 — вероятность билета с геометрией."}, {"q": "Задумано натуральное число от 1 до 25. Найдите вероятность того, что оно делится на 5.", "a": "0,2", "w": ["5", "0,25", "0,04"], "e": "Кратны 5: 5, 10, 15, 20, 25 — их 5, всего чисел 25: <span class=\"fr\"><i>5</i><b>25</b></span> = 0,2. Ответ 5 — только m, а 0,25 получится, если взять 5 : 20."}, {"q": "Сколько всего равновозможных исходов при двух бросках игрального кубика?", "a": "36", "w": ["12", "6", "18"], "e": "Для каждого из 6 исходов первого броска есть 6 исходов второго: 6 · 6 = 36. Ответ 12 получится при сложении 6 + 6."}, {"q": "На карточках числа от 1 до 20. Найдите вероятность того, что число на выбранной карточке делится на 3 или на 5.", "a": "0,45", "w": ["0,5", "0,3", "0,25"], "e": "Кратны 3: 3, 6, 9, 12, 15, 18 (6 чисел). Кратны 5: 5, 10, 15, 20 (4 числа). Число 15 общее, поэтому m = 6 + 4 − 1 = 9, P = <span class=\"fr\"><i>9</i><b>20</b></span> = 0,45. Ответ 0,5 получится, если 15 посчитать дважды."}, {"q": "Из 200 флешек в среднем 8 неисправны. Найдите вероятность того, что выбранная флешка исправна.", "a": "0,96", "w": ["0,04", "0,8", "0,98"], "e": "Исправных 200 − 8 = 192: <span class=\"fr\"><i>192</i><b>200</b></span> = 0,96. Ответ 0,04 — вероятность неисправной флешки."}];
+let i=0,score=0,wrongs=[];const box=document.getElementById('box'),pb=document.getElementById('pb');
+const shuf=a=>{a=a.slice();for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a};
+function show(){
+ pb.style.width=(i/Q.length*100)+'%';
+ if(i>=Q.length){
+  box.innerHTML='<div class="card"><span class="tag">Результат</span><div class="big">'+score+' из '+Q.length+'</div><p>'+(score>=9?'Тема усвоена. Переходи к зачётному листу.':score>=7?'Хорошо. Разберись с вопросами, где были ошибки, и переходи к тренажёру.':score>=5?'Есть пробелы. Перечитай теорию, затем пройди тест ещё раз.':'Нужно повторить теорию с преподавателем и начать с базовых задач.')+'</p>'+(wrongs.length?'<p class="sub">Ошибки в вопросах: '+wrongs.join(', ')+'</p>':'')+'<button class="btn" id="re">Пройти заново</button> <button class="btn ghost" id="cp">Скопировать результат для Лилии</button></div>';
+  document.getElementById('re').onclick=()=>{i=0;score=0;wrongs=[];show()};
+  document.getElementById('cp').onclick=()=>{const t='Тест «Вероятность»: '+score+' из '+Q.length+(wrongs.length?'; ошибки в вопросах '+wrongs.join(', '):'');(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{document.getElementById('cp').textContent='Скопировано'}).catch(()=>{prompt('Скопируй текст:',t)})};
+  return}
+ const d=Q[i];const opts=shuf([d.a].concat(d.w));
+ box.innerHTML='<div class="card"><span class="tag">Вопрос '+(i+1)+' из '+Q.length+'</span><p class="q">'+d.q+'</p><div id="o"></div><div id="x"></div></div>';
+ const o=document.getElementById('o');
+ opts.forEach(t=>{const b=document.createElement('button');b.className='opt';b.textContent=t;b.onclick=()=>{
+   [...o.children].forEach(c=>{c.disabled=true;if(c.textContent===d.a)c.classList.add('ok')});
+   if(t===d.a)score++;else{b.classList.add('bad');wrongs.push(i+1)}
+   document.getElementById('x').innerHTML='<div class="exp">'+(t===d.a?'<b>Верно.</b> ':'<b>Не так.</b> Правильный ответ: '+d.a+'. ')+d.e+'</div><button class="btn" id="nx">'+(i+1<Q.length?'Дальше':'Результат')+'</button>';
+   document.getElementById('nx').onclick=()=>{i++;show()}};o.appendChild(b)});
+}
+show();</script></body></html>

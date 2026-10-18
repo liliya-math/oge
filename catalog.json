@@ -2528,6 +2528,177 @@
       "oge_task": 14,
       "status": "public",
       "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z10-veroyatnost.html",
+      "title": "Вероятность: все материалы по порядку",
+      "type": "sistema",
+      "class": 9,
+      "oge_task": 10,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z10-veroyatnost-teoriya.html",
+      "title": "Теория и устный опрос: вероятность",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 10,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z10-veroyatnost-test.html",
+      "title": "Тест: вероятность",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 10,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z10-veroyatnost-pyatiminutki.html",
+      "title": "Карточки-пятиминутки: вероятность (2 варианта)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 10,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z10-veroyatnost-razbor-5.html",
+      "title": "Разбор 5 задач повышенной сложности: вероятность",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 10,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z10-veroyatnost-trenazhor.html",
+      "title": "Тренажёр: 5 задач повышенной сложности, вероятность",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 10,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z10-veroyatnost-trenazhor-gen.html",
+      "title": "Тренажёр: вероятность, новые числа каждый раз",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 10,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z10-veroyatnost-pamyatka.html",
+      "title": "Памятка: алгоритм и запись ответа, вероятность",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 10,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z10-veroyatnost-kontrolnaya.html",
+      "title": "Зачётный лист: вероятность (3 уровня)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 10,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z10-veroyatnost-dz.html",
+      "title": "Домашняя карточка: вероятность (4 задачи)",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 10,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-veroyatnost-dialog.md",
+      "title": "Диалог ученик-учитель: вероятность, план урока и ДЗ (текст)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 10,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-veroyatnost-dialog.pdf",
+      "title": "Диалог ученик-учитель: вероятность, план урока и ДЗ (печать)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 10,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z10-veroyatnost-teoriya.pdf",
+      "title": "Вероятность, печать: теория",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 10,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z10-veroyatnost-pyatiminutki.pdf",
+      "title": "Вероятность, печать: пятиминутки",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 10,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z10-veroyatnost-razbor-5.pdf",
+      "title": "Вероятность, печать: разбор 5 задач",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 10,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z10-veroyatnost-pamyatka.pdf",
+      "title": "Вероятность, печать: памятка",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 10,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z10-veroyatnost-kontrolnaya.pdf",
+      "title": "Вероятность, печать: зачётный лист",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 10,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z10-veroyatnost-dz.pdf",
+      "title": "Вероятность, печать: домашняя карточка",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 10,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z10-veroyatnost-komplekt.pdf",
+      "title": "Вероятность, печать: комплект",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 10,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
     }
   ]
 }

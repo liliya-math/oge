@@ -1,0 +1,63 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Вероятность: памятка</title><style>
+@page{size:A4;margin:9mm}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#000;font:10.5pt/1.38 "PT Serif","DejaVu Serif",Georgia,"Times New Roman",serif}
+.wrap{max-width:200mm;margin:0 auto;padding:10px 12px 30px}
+.nav{font:13px -apple-system,Arial,sans-serif;margin:6px 0 10px}
+.nav a{color:#1747c9}
+h1{font-size:15pt;margin:0 0 2px}
+h2{font-size:11.5pt;margin:10px 0 4px;border-bottom:1px solid #000;padding-bottom:1px}
+h3{font-size:10.5pt;margin:7px 0 2px}
+.sub{font-size:9.5pt;margin:0 0 6px}
+p{margin:3px 0}
+ol,ul{margin:3px 0 3px 18px;padding:0}
+ol{margin-left:24px}
+li{margin:2px 0}
+sup{font-size:70%;line-height:0;vertical-align:super;white-space:nowrap}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 1px}
+.fr i{display:block;font-style:normal;padding:0 3px;border-bottom:1px solid currentColor;line-height:1.2}
+.fr b{display:block;font-weight:normal;padding:0 3px;line-height:1.2}
+.nw{white-space:nowrap}
+.box{border:1px solid #000;padding:4px 7px;margin:5px 0;break-inside:avoid}
+.rule{border:1.5px solid #000;padding:4px 7px;margin:5px 0;break-inside:avoid;background:#f2f2f2}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 10mm}
+.cols.cut > div:first-child{border-right:1px dashed #000;padding-right:5mm}
+.task{break-inside:avoid;margin:5px 0}
+.task .n{font-weight:bold}
+.sol{border:1px solid #bbb;background-image:linear-gradient(#ddd 1px,transparent 1px),linear-gradient(90deg,#ddd 1px,transparent 1px);background-size:5mm 5mm;margin:3px 0}
+.ans{margin-top:2px}
+.ans:after{content:" ______________"}
+.teacher{margin-top:10px;border-top:1px dashed #000;padding-top:4px;font-size:9.5pt;break-inside:avoid}
+.small{font-size:9.5pt}
+table{border-collapse:collapse;margin:4px 0}
+td,th{border:1px solid #000;padding:2px 6px;text-align:left;font-weight:normal;vertical-align:top}
+th{font-weight:bold;background:#eee}
+.lev{display:inline-block;border:1px solid #000;padding:0 6px;font-weight:bold;margin:6px 0 2px;font-size:10.5pt}
+.dice td{width:19px;height:17px;text-align:center;padding:0;font-size:8pt}
+.dice td.y{background:#d8d8d8;font-weight:bold}
+h2,h3,.lev{break-after:avoid}
+@media print{.nav,.noprint{display:none}.wrap{padding:0;max-width:none}body{font-size:9.5pt;line-height:1.3}h1{font-size:13.5pt}.rule{padding:3px 6px;margin:3px 0}h2{margin:6px 0 3px}}
+</style></head><body><div class="wrap"><div class="nav noprint"><a href="z10-veroyatnost.html">← Вероятность (задание 10)</a> · <a href="index.html">на главную</a></div><h1>Памятка: как решать и записывать задание 10 (вероятность)</h1>
+<p class="sub">Один лист A4. Задание 10 относится к первой части: проверяется только ответ, баллы за «ход решения» не ставятся.</p>
+<h2>Алгоритм</h2><ol><li><b>Прочитай вопрос и найди событие.</b> Что именно ищут: «будет», «не будет», «или», «ни… ни…»? Подчеркни слова «не», «или», «остальные», «в среднем».</li><li><b>Найди n — число всех равновозможных исходов.</b> Сколько всего билетов, карточек, учеников? У двух кубиков n = 36.</li><li><b>Найди m — число благоприятных исходов.</b> «Остальные» — вычитай. «Или» — складывай, общие вычитай. Сложно считать прямо — найди противоположное и вычти из 1.</li><li><b>Вычисли P = m : n.</b> Сократи дробь. Домножь до знаменателя 10, 100, 1000 или раздели столбиком.</li><li><b>Проверь результат.</b> Число между 0 и 1? Похоже на правду (событие частое — P больше 0,5)? Ответил на вопрос, а не на противоположный?</li><li><b>Запиши ответ в бланк.</b> Десятичная дробь с запятой, без единиц, процентов и пояснений.</li></ol>
+<div class="rule" style="text-align:center">P(A) = <span class="fr"><i>m</i><b>n</b></span> &nbsp;&nbsp;·&nbsp;&nbsp; P(не A) = 1 − P(A) &nbsp;&nbsp;·&nbsp;&nbsp; «или»: m = m₁ + m₂ − общие &nbsp;&nbsp;·&nbsp;&nbsp; 0 ≤ P ≤ 1</div>
+<div class="cols"><div>
+<h2>Как записать ответ в бланк №1</h2>
+<ul><li>Одна цифра или запятая — в одну клетку, начиная с первой клетки.</li>
+<li>Перед запятой всегда пиши ноль: 0,25, а не ,25.</li>
+<li>Запятая, а не точка.</li>
+<li>Без дроби 1/4, без процентов 25 %, без слов «ответ», «вероятность».</li>
+<li>Если вышло 0,50, пиши 0,5: без лишних нулей.</li>
+<li>Перепиши ответ из черновика ещё раз и сверь с условием.</li></ul>
+<p class="small">Образец: P = 3 : 12 = 1 : 4 = 0,25. В бланке: <span style="border:1px solid #000;padding:0 5px;margin:0 1px">0</span><span style="border:1px solid #000;padding:0 5px;margin:0 1px">,</span><span style="border:1px solid #000;padding:0 5px;margin:0 1px">2</span><span style="border:1px solid #000;padding:0 5px;margin:0 1px">5</span></p>
+</div><div>
+<h2>Как потерять балл (и как не потерять)</h2>
+<table><tr><th>Ошибка</th><th>Как избежать</th></tr>
+<tr><td>Ответил на противоположное событие (0,15 вместо 0,85)</td><td>Подчеркни вопрос; вернись к нему в конце</td></tr>
+<tr><td>Не вычел общие элементы при «или»</td><td>Выпиши оба списка, найди общие</td></tr>
+<tr><td>Вероятность больше 1 или отрицательная</td><td>Проверка 0 ≤ P ≤ 1</td></tr>
+<tr><td>Дробь 1/4 или 25 % в бланке</td><td>Только десятичная дробь</td></tr>
+<tr><td>Арифметика в уме</td><td>Считай столбиком в черновике</td></tr></table>
+</div></div>
+<h2>Шаблон записи в тетради (для классной работы)</h2>
+<div class="box small"><b>Дано:</b> n = ___ (всего исходов), m = ___ (благоприятных), как нашёл m: ______________________<br><b>Решение:</b> P = m : n = ___ : ___ = ___ = ___ (десятичная дробь)<br><b>Проверка:</b> 0 ≤ P ≤ 1; ответил на вопрос «______________________»<br><b>Ответ:</b> ________</div></div></body></html>
