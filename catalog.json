@@ -1268,6 +1268,15 @@
    "oge_task": 6,
    "status": "public",
    "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "trenazher-ustnyj-schet.html",
+   "title": "Тренажёр устного счёта: умножение, квадраты, корни, степени, дроби, проценты",
+   "type": "trenazher",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
   }
  ]
 }

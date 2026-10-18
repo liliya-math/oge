@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#14211e">
+<title>Тренажёр устного счёта</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--bg:#14211e;--glass:rgba(243,236,226,.05);--glass2:rgba(243,236,226,.085);--line:rgba(226,234,228,.13);--fg:#f3ece2;--muted:#a9b6ad;--faint:#6e7f77;--cobalt:#1747c9;--apricot:#f2905e;--mint:#a9d18e;--amber:#f5dc6a;--miss:#ff8f73;--sans:-apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--fg);margin:0}
+body{font-family:var(--sans);font-size:16px;line-height:1.5;min-height:100vh;-webkit-font-smoothing:antialiased}
+.wrap{max-width:640px;margin:0 auto;padding:20px 16px 80px}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:20px;min-height:32px}
+.back{background:none;border:0;color:var(--muted);font-size:20px;cursor:pointer;padding:4px 8px;margin-left:-8px;border-radius:10px;font-family:inherit;text-decoration:none;line-height:1}
+.back:hover{color:var(--fg)}
+.brand{font-weight:700;font-size:14px}.brand b{color:var(--apricot)}
+h1{font-size:26px;line-height:1.2;margin:0 0 6px;font-weight:800}
+.lead{color:var(--muted);margin:0 0 22px;font-size:15px}
+.card{background:var(--glass);border:1px solid var(--line);border-radius:24px;padding:24px;animation:enter .45s cubic-bezier(.2,.8,.2,1) both}
+@keyframes enter{from{opacity:0;transform:translateY(12px)}}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:520px){.modes{grid-template-columns:1fr}}
+.mode{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:6px;padding:16px 18px;border-radius:20px;background:var(--glass);border:1px solid var(--line);transition:.15s}
+.mode:hover{background:var(--glass2);border-color:rgba(242,144,94,.45)}
+.mode:focus-visible,.btn:focus-visible,.chip:focus-visible,.back:focus-visible,.field:focus-visible{outline:2px solid var(--apricot);outline-offset:2px}
+.mode .ex{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.mode .nm{font-size:14px;color:var(--muted)}
+.bar{height:6px;border-radius:99px;background:rgba(0,0,0,.3);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--mint);border-radius:99px;transition:width .4s}
+.mode .st{font-size:12px;color:var(--faint)}
+.btn{height:54px;padding:0 26px;border-radius:16px;border:0;font-weight:700;font-size:16px;background:var(--cobalt);color:#f3ece2;cursor:pointer;transition:.15s;font-family:inherit}
+.btn:hover{filter:brightness(1.1)}.btn:active{transform:scale(.97)}
+.btn.alt{background:var(--glass2);border:1px solid var(--line)}
+.btn.apr{background:var(--apricot);color:#1c1410}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row .btn{flex:1;min-width:150px}
+.sect{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:22px 0 10px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{all:unset;box-sizing:border-box;cursor:pointer;min-width:44px;height:40px;padding:0 12px;border-radius:12px;border:1px solid var(--line);display:grid;place-items:center;font-weight:600;font-variant-numeric:tabular-nums;color:var(--muted);transition:.15s}
+.chip[aria-pressed=true]{background:rgba(242,144,94,.16);border-color:var(--apricot);color:var(--fg)}
+.tiles{display:flex;flex-wrap:wrap;gap:6px}
+.tile{font-size:12px;padding:5px 8px;border-radius:9px;border:1px solid var(--line);color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tile.b0{background:rgba(255,143,115,.2);border-color:rgba(255,143,115,.5);color:var(--fg)}
+.tile.b1{background:rgba(245,220,106,.14);border-color:rgba(245,220,106,.4);color:var(--fg)}
+.tile.b2{background:rgba(169,209,142,.1);border-color:rgba(169,209,142,.3);color:var(--fg)}
+.tile.b3,.tile.b4{background:rgba(169,209,142,.26);border-color:rgba(169,209,142,.6);color:var(--fg)}
+.legend{font-size:12px;color:var(--faint);margin-top:10px}
+.qhead{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);margin-bottom:12px;font-variant-numeric:tabular-nums}
+.qhead b{color:var(--fg)}
+.qbig{font-size:clamp(34px,9vw,48px);font-weight:800;text-align:center;line-height:1.2;margin:20px 0 6px;font-variant-numeric:tabular-nums}
+.qbig.sm{font-size:clamp(20px,5.4vw,26px);font-weight:700;line-height:1.35}
+.qsub{text-align:center;color:var(--muted);font-size:14px;min-height:21px;margin-bottom:18px}
+sup{font-size:.6em;line-height:0}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:.8em;line-height:1.1;margin:0 6px}
+.fr>span:first-child{border-bottom:3px solid currentColor;padding:0 6px}
+.irow{display:flex;gap:10px}
+.field{flex:1;min-width:0;height:58px;padding:0 18px;border-radius:16px;border:1px solid var(--line);background:rgba(0,0,0,.25);font-size:24px;font-family:inherit;font-variant-numeric:tabular-nums;color:var(--fg);text-align:center;transition:.2s}
+.field:focus{border-color:var(--apricot);box-shadow:0 0 0 4px rgba(242,144,94,.15)}
+.field.ok{border-color:var(--mint);background:rgba(169,209,142,.12)}
+.field.bad{border-color:var(--miss);animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.fb{margin-top:16px;border-radius:16px;padding:14px 16px;font-size:15px;min-height:52px;display:flex;align-items:center}
+.fb.bad{background:rgba(255,143,115,.08);border:1px solid rgba(255,143,115,.3)}
+.fb.ok{background:rgba(169,209,142,.1);border:1px solid rgba(169,209,142,.35)}
+.fb.none{visibility:hidden}
+.seg{display:flex;gap:4px;margin-bottom:6px}
+.seg i{flex:1;height:6px;border-radius:99px;background:rgba(0,0,0,.3)}
+.seg i.d{background:var(--mint)}.seg i.m{background:var(--miss)}.seg i.c{background:var(--apricot)}
+.timer{height:8px;border-radius:99px;background:rgba(0,0,0,.3);overflow:hidden;margin-bottom:6px}
+.timer i{display:block;height:100%;width:100%;background:var(--apricot);transform-origin:left;transition:transform .25s linear}
+.res{text-align:center}
+.res img{width:132px;height:132px;border-radius:50%;object-fit:cover;border:2px solid var(--line);box-shadow:0 14px 30px -14px rgba(0,0,0,.8);margin:0 auto 14px;display:block}
+.res .big{font-size:44px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.res .sub{color:var(--muted);margin:6px 0 20px}
+.miss{text-align:left;margin:0 0 20px;padding:0;list-style:none;display:grid;gap:6px}
+.miss li{padding:10px 14px;border-radius:12px;background:rgba(255,143,115,.07);border:1px solid rgba(255,143,115,.22);font-variant-numeric:tabular-nums}
+.miss .fr{font-size:.85em;margin:0 4px}
+.reset{background:none;border:0;color:var(--faint);font-size:12px;cursor:pointer;margin-top:26px;text-decoration:underline;font-family:inherit;padding:0}
+.hide{display:none!important}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="back" id="backHome" href="index.html" aria-label="На главную">←</a>
+    <button class="back hide" id="backMenu" type="button" aria-label="В меню">←</button>
+    <div class="brand">Устный счёт · <b>lili.math</b></div>
+  </div>
+  <div id="app"></div>
+  <noscript>Для тренажёра нужен JavaScript.</noscript>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- хранилище ---------- */
+var KEY="lili.ustnyj-schet.v1", mem=null;
+function load(){
+  if(mem) return mem;
+  try{ var r=localStorage.getItem(KEY); if(r){ mem=JSON.parse(r); } }catch(e){}
+  if(!mem||typeof mem!=="object") mem={};
+  if(!mem.items) mem.items={}; if(!mem.best) mem.best={}; if(!mem.opts) mem.opts={};
+  return mem;
+}
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify(mem)); }catch(e){} }
+
+/* ---------- утилиты ---------- */
+function fmt(n){ return String(n).replace(".",","); }
+function frac(n,d){ return '<span class="fr"><span>'+n+'</span><span>'+d+'</span></span>'; }
+function esc(s){ return String(s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];}); }
+function parse(s){
+  s=String(s).replace(/\s+/g,"").replace(",",".").replace(/%$/,"");
+  if(!/^\d+(\.\d+)?$/.test(s)) return null;
+  return parseFloat(s);
+}
+function same(x,y){ return x!==null && Math.abs(x-y)<1e-9; }
+function rnd(n){ return Math.floor(Math.random()*n); }
+
+/* ---------- темы ---------- */
+function mulPool(chips){
+  var seen={},out=[];
+  chips.forEach(function(a){
+    for(var b=2;b<=10;b++){
+      var lo=Math.min(a,b),hi=Math.max(a,b),k=lo+"x"+hi;
+      if(seen[k]) continue; seen[k]=1;
+      (function(lo,hi,k){
+        out.push({k:k,a:lo*hi,lab:lo+"×"+hi,
+          q:function(){return Math.random()<.5?lo+" × "+hi+" = ?":hi+" × "+lo+" = ?";},
+          rev:lo+" × "+hi+" = <b>"+(lo*hi)+"</b>"});
+      })(lo,hi,k);
+    }
+  });
+  return out;
+}
+function sqPool(){
+  var o=[]; for(var n=2;n<=25;n++) o.push({k:"s"+n,a:n*n,lab:n+"²",q:n+"<sup>2</sup> = ?",rev:n+"<sup>2</sup> = <b>"+(n*n)+"</b>"});
+  return o;
+}
+function rtPool(){
+  var o=[]; for(var n=2;n<=25;n++) o.push({k:"r"+n,a:n,lab:"√"+(n*n),q:"√"+(n*n)+" = ?",rev:"√"+(n*n)+" = <b>"+n+"</b>"});
+  return o;
+}
+function pwPool(){
+  var o=[],n;
+  for(n=2;n<=10;n++) o.push({k:"c"+n,a:n*n*n,lab:n+"³",q:n+"<sup>3</sup> = ?",rev:n+"<sup>3</sup> = <b>"+(n*n*n)+"</b>"});
+  for(n=4;n<=10;n++) o.push({k:"t"+n,a:Math.pow(2,n),lab:"2^"+n,q:"2<sup>"+n+"</sup> = ?",rev:"2<sup>"+n+"</sup> = <b>"+Math.pow(2,n)+"</b>"});
+  for(n=3;n<=5;n++) o.push({k:"h"+n,a:Math.pow(3,n),lab:"3^"+n,q:"3<sup>"+n+"</sup> = ?",rev:"3<sup>"+n+"</sup> = <b>"+Math.pow(3,n)+"</b>"});
+  return o;
+}
+var FR=[[1,2],[1,4],[3,4],[1,5],[2,5],[3,5],[4,5],[1,8],[3,8],[5,8],[7,8],[1,20],[3,20],[1,25],[3,25],[1,50]];
+function frPool(){
+  var o=[];
+  FR.forEach(function(p){
+    var n=p[0],d=p[1],dec=Number((n/d).toFixed(6)),pc=Number((n/d*100).toFixed(6));
+    o.push({k:"d"+n+"/"+d,a:dec,lab:n+"/"+d+"→0,…",q:frac(n,d)+" = ?",sub:"десятичной дробью",rev:frac(n,d)+" = <b>"+fmt(dec)+"</b>"});
+    o.push({k:"p"+n+"/"+d,a:pc,lab:n+"/"+d+"→%",q:frac(n,d)+" = ?%",sub:"в процентах",rev:frac(n,d)+" = <b>"+fmt(pc)+"%</b>"});
+  });
+  return o;
+}
+function pcPool(){
+  var o=[],ps=[5,10,15,20,25,30,40,50,60,75,80,90],ns=[20,40,50,60,80,100,120,140,160,180,200,240,300,400,500,600];
+  ps.forEach(function(p){ ns.forEach(function(n){
+    if((p*n)%100!==0) return;
+    var a=p*n/100;
+    if(p===50&&n>200) return;
+    o.push({k:"q"+p+"_"+n,a:a,lab:p+"% от "+n,q:p+"% от "+n+" = ?",rev:p+"% от "+n+" = <b>"+a+"</b>"});
+  });});
+  return o;
+}
+function bwPool(){
+  var o=[];
+  for(var x=2;x<=150;x++){
+    var r=Math.floor(Math.sqrt(x)); if(r*r===x) continue;
+    o.push({k:"b"+x,a:r,lab:"√"+x,q:"√"+x,qcls:"",sub:"между какими соседними целыми числами лежит √"+x+"? Введи меньшее",
+      rev:"√"+x+" между <b>"+r+"</b> и <b>"+(r+1)+"</b>"});
+  }
+  return o;
+}
+
+var MODES=[
+  {id:"mul",ex:"7 × 8",nm:"Таблица умножения",fast:4,tiles:true,pool:function(){return mulPool(chipsFor());},chips:[2,3,4,5,6,7,8,9,11,12],chipsLabel:"Какие таблицы тренируем"},
+  {id:"sq",ex:"13²",nm:"Квадраты чисел до 25",fast:4,tiles:true,pool:sqPool},
+  {id:"rt",ex:"√196",nm:"Квадратные корни из полных квадратов",fast:5,tiles:true,pool:rtPool},
+  {id:"pw",ex:"2⁸",nm:"Кубы и степени двойки и тройки",fast:6,tiles:true,pool:pwPool},
+  {id:"bw",ex:"√70",nm:"Между какими целыми лежит корень",fast:6,tiles:false,pool:bwPool,mode:"sm"},
+  {id:"fr",ex:"3/8",nm:"Дроби, десятичные и проценты",fast:5,tiles:true,pool:frPool},
+  {id:"pc",ex:"15% от 240",nm:"Проценты от числа",fast:8,tiles:false,pool:pcPool,mode:"sm"}
+];
+var curMode=null;
+function chipsFor(){
+  var d=load(), s=d.opts.mulChips;
+  if(!Array.isArray(s)||!s.length) s=[2,3,4,5,6,7,8,9];
+  return s;
+}
+function itemRec(m,it){ return load().items[m.id+":"+it.k]; }
+function boxOf(m,it){ var r=itemRec(m,it); return r?r.b:null; }
+function learned(m){
+  var p=m.pool(),c=0; p.forEach(function(it){ var b=boxOf(m,it); if(b!==null&&b>=3) c++; });
+  return {n:c,total:p.length};
+}
+function weight(m,it){
+  var b=boxOf(m,it);
+  if(b===null) return 4;
+  return [5,3,2,1,.6][Math.min(b,4)];
+}
+function pickWeighted(m,pool,exclude){
+  var tot=0,i,w=[];
+  for(i=0;i<pool.length;i++){ w[i]=(exclude&&exclude.indexOf(pool[i])>-1)?0:weight(m,pool[i]); tot+=w[i]; }
+  if(tot<=0) return pool[rnd(pool.length)];
+  var r=Math.random()*tot;
+  for(i=0;i<pool.length;i++){ r-=w[i]; if(r<=0) return pool[i]; }
+  return pool[pool.length-1];
+}
+
+/* ---------- экраны ---------- */
+var app=document.getElementById("app"),backHome=document.getElementById("backHome"),backMenu=document.getElementById("backMenu");
+var timers=[];
+function clearTimers(){ timers.forEach(function(t){clearTimeout(t);clearInterval(t);}); timers=[]; }
+function setBack(toMenu){ backHome.classList.toggle("hide",toMenu); backMenu.classList.toggle("hide",!toMenu); }
+backMenu.addEventListener("click",function(){ if(curMode&&state.screen!=="mode") showMode(curMode); else showMenu(); });
+
+var state={screen:"menu"};
+
+function showMenu(){
+  clearTimers(); state.screen="menu"; curMode=null; setBack(false);
+  var h='<h1>Устный счёт</h1><p class="lead">Что нужно знать наизусть к ОГЭ. Тренажёр сам чаще даёт то, что у тебя пока не получается.</p><div class="modes">';
+  MODES.forEach(function(m){
+    var l=learned(m),pct=l.total?Math.round(l.n/l.total*100):0,best=load().best[m.id];
+    h+='<button class="mode" type="button" data-id="'+m.id+'"><span class="ex">'+m.ex+'</span><span class="nm">'+m.nm+'</span><span class="bar"><i style="width:'+pct+'%"></i></span><span class="st">выучено '+l.n+' из '+l.total+(best?' · спринт: '+best:'')+'</span></button>';
+  });
+  h+='</div>';
+  app.innerHTML=h;
+  [].forEach.call(app.querySelectorAll(".mode"),function(b){
+    b.addEventListener("click",function(){ showMode(MODES.filter(function(m){return m.id===b.dataset.id;})[0]); });
+  });
+}
+
+function showMode(m){
+  clearTimers(); curMode=m; state.screen="mode"; setBack(true);
+  var h='<div class="card"><h1>'+m.nm+'</h1><p class="lead" style="margin-bottom:6px">Раунд — 15 вопросов, ошибки повторяются в конце. Спринт — 60 секунд на рекорд.</p>';
+  if(m.chips){
+    var sel=chipsFor();
+    h+='<div class="sect">'+m.chipsLabel+'</div><div class="chips">';
+    m.chips.forEach(function(c){ h+='<button class="chip" type="button" aria-pressed="'+(sel.indexOf(c)>-1)+'" data-c="'+c+'">'+c+'</button>'; });
+    h+='</div>';
+  }
+  h+='<div class="row" style="margin-top:22px"><button class="btn apr" type="button" id="goRound">Раунд · 15</button><button class="btn" type="button" id="goSprint">Спринт · 60 с</button></div>';
+  if(m.tiles){
+    h+='<div class="sect">Карта: где пробелы</div><div class="tiles" id="tiles"></div><div class="legend">красное — ошибался, жёлтое — учится, зелёное — выучено, серое — ещё не встречалось</div>';
+  }
+  h+='<button class="reset" type="button" id="resetMode">Сбросить прогресс по этой теме</button></div>';
+  app.innerHTML=h;
+  drawTiles();
+  [].forEach.call(app.querySelectorAll(".chip"),function(c){
+    c.addEventListener("click",function(){
+      var v=+c.dataset.c,s=chipsFor().slice(),i=s.indexOf(v);
+      if(i>-1){ if(s.length===1) return; s.splice(i,1); } else s.push(v);
+      s.sort(function(a,b){return a-b;});
+      load().opts.mulChips=s; save();
+      c.setAttribute("aria-pressed",String(s.indexOf(v)>-1));
+      drawTiles();
+    });
+  });
+  document.getElementById("goRound").addEventListener("click",function(){ startPlay(m,"round"); });
+  document.getElementById("goSprint").addEventListener("click",function(){ startPlay(m,"sprint"); });
+  document.getElementById("resetMode").addEventListener("click",function(){
+    if(!confirm("Сбросить прогресс по теме «"+m.nm+"»?")) return;
+    var d=load(); Object.keys(d.items).forEach(function(k){ if(k.indexOf(m.id+":")===0) delete d.items[k]; });
+    delete d.best[m.id]; save(); showMode(m);
+  });
+}
+function drawTiles(){
+  var el=document.getElementById("tiles"); if(!el||!curMode) return;
+  var h="";
+  curMode.pool().forEach(function(it){
+    var b=boxOf(curMode,it);
+    h+='<span class="tile '+(b===null?"":"b"+Math.min(b,4))+'">'+esc(it.lab)+'</span>';
+  });
+  el.innerHTML=h;
+}
+
+/* ---------- игра ---------- */
+var G=null;
+function startPlay(m,kind){
+  clearTimers(); state.screen="play"; setBack(true);
+  var pool=m.pool(),queue=[];
+  if(kind==="round"){
+    var n=Math.min(15,pool.length),chosen=[];
+    while(chosen.length<n) chosen.push(pickWeighted(m,pool,chosen));
+    queue=chosen;
+  }
+  G={m:m,kind:kind,pool:pool,queue:queue,total:queue.length,cur:null,last:null,t0:0,
+     firstOk:0,firstTotal:0,missed:[],missedKeys:{},seen:{},retype:false,answered:0,over:false,
+     dots:[],timeLeft:60,endAt:0};
+  var h='<div class="card"><div class="qhead"><span id="qcount"></span><span id="qscore"></span></div>';
+  h+= kind==="round" ? '<div class="seg" id="seg"></div>' : '<div class="timer"><i id="tbar"></i></div>';
+  h+='<div class="qbig" id="qbig"></div><div class="qsub" id="qsub"></div>';
+  h+='<div class="irow"><input class="field" id="inp" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" inputmode="'+(m.id==="fr"?"decimal":"numeric")+'" aria-label="Ответ"><button class="btn" id="chk" type="button">Проверить</button></div>';
+  h+='<div class="fb none" id="fb" role="status" aria-live="polite"></div></div>';
+  app.innerHTML=h;
+  var inp=document.getElementById("inp");
+  inp.addEventListener("input",onInput);
+  inp.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); submit(); } });
+  document.getElementById("chk").addEventListener("click",submit);
+  if(kind==="round"){
+    var seg=document.getElementById("seg"),s="";
+    for(var i=0;i<G.total;i++) s+="<i></i>";
+    seg.innerHTML=s;
+  } else {
+    G.endAt=Date.now()+60000;
+    var tick=setInterval(function(){
+      var left=Math.max(0,G.endAt-Date.now());
+      document.getElementById("tbar").style.transform="scaleX("+(left/60000)+")";
+      document.getElementById("qcount").textContent=Math.ceil(left/1000)+" с";
+      if(left<=0){ clearInterval(tick); finish(); }
+    },250);
+    timers.push(tick);
+  }
+  nextQ();
+}
+function nextQ(){
+  if(!G||G.over) return;
+  var it;
+  if(G.kind==="round"){
+    if(!G.queue.length){ finish(); return; }
+    it=G.queue.shift();
+  } else {
+    it=pickWeighted(G.m,G.pool,G.last?[G.last]:null);
+  }
+  G.cur=it; G.last=it; G.retype=false; G.wrongThis=false; G.t0=Date.now();
+  G.isRep=(G.kind==="round")&&!!G.seen[it.k]; G.seen[it.k]=1;
+  var q=typeof it.q==="function"?it.q():it.q;
+  G.qhtml=q;
+  var big=document.getElementById("qbig");
+  big.className="qbig";
+  big.innerHTML=q;
+  document.getElementById("qsub").textContent=it.sub?it.sub:"";
+  var inp=document.getElementById("inp");
+  inp.value=""; inp.className="field"; inp.disabled=false;
+  var fb=document.getElementById("fb"); fb.className="fb none"; fb.innerHTML="&nbsp;";
+  updateHead();
+  inp.focus();
+}
+function updateHead(){
+  if(G.kind==="round"){
+    var done=G.firstTotal;
+    document.getElementById("qcount").textContent="Вопрос "+Math.min(done+1,G.total)+" из "+G.total;
+    document.getElementById("qscore").innerHTML="верно с первого раза: <b>"+G.firstOk+"</b>";
+  } else {
+    document.getElementById("qscore").innerHTML="верно: <b>"+G.firstOk+"</b>";
+  }
+}
+function onInput(){
+  if(!G||G.over) return;
+  var inp=document.getElementById("inp"),v=parse(inp.value);
+  if(same(v,G.cur.a)) accept();
+}
+function submit(){
+  if(!G||G.over) return;
+  var inp=document.getElementById("inp"),v=parse(inp.value);
+  if(inp.value.trim()===""){ inp.focus(); return; }
+  if(same(v,G.cur.a)){ accept(); return; }
+  reject();
+}
+function record(it,ok,fast){
+  var d=load(),k=G.m.id+":"+it.k,r=d.items[k]||{b:0,ok:0,bad:0,t:0};
+  if(ok){ r.ok++; r.b=fast?Math.min(4,r.b+1):Math.max(r.b,1); }
+  else { r.bad++; r.b=0; }
+  r.t=Date.now(); d.items[k]=r; save();
+}
+function accept(){
+  var it=G.cur,inp=document.getElementById("inp");
+  var first=!G.wrongThis,sec=(Date.now()-G.t0)/1000;
+  inp.className="field ok"; inp.disabled=true;
+  if(first){
+    if(!G.isRep){ G.firstOk++; G.firstTotal++; if(G.kind==="round") markSeg("d"); }
+    record(it,true,sec<=G.m.fast);
+  }
+  G.answered++;
+  updateHead();
+  var t=setTimeout(nextQ,first?180:250); timers.push(t);
+}
+function markSeg(cls){
+  var segs=document.getElementById("seg").children,i=G.firstTotal-1;
+  if(segs[i]) segs[i].className=cls;
+}
+function reject(){
+  var it=G.cur,inp=document.getElementById("inp"),fb=document.getElementById("fb");
+  inp.className="field bad";
+  void inp.offsetWidth;
+  if(!G.wrongThis){
+    G.wrongThis=true;
+    if(!G.isRep){ G.firstTotal++; if(G.kind==="round") markSeg("m"); }
+    record(it,false,false);
+    if(!G.missedKeys[it.k]){ G.missedKeys[it.k]=1; G.missed.push(it); }
+    if(G.kind==="round") G.queue.splice(Math.min(3,G.queue.length),0,it);
+    updateHead();
+  }
+  fb.className="fb bad";
+  fb.innerHTML="<div>Правильно: "+it.rev+(G.kind==="round"?". Введи ответ ещё раз, чтобы запомнить.":"")+"</div>";
+  if(G.kind==="sprint"){
+    inp.disabled=true;
+    var t=setTimeout(nextQ,1500); timers.push(t);
+  } else {
+    inp.value=""; inp.focus();
+  }
+}
+
+function finish(){
+  if(!G||G.over) return;
+  G.over=true; clearTimers();
+  var m=G.m,acc=G.firstTotal?Math.round(G.firstOk/G.firstTotal*100):0;
+  var img="ham-sad.jpg",msg;
+  if(acc>=90){img="ham-win.jpg";msg="Чисто. Это уже в памяти.";}
+  else if(acc>=70){img="ham-joy.jpg";msg="Хорошо, но есть что дожать.";}
+  else if(acc>=50){img="ham-think.jpg";msg="Середина пути. Ошибки ниже — на них стоит потренироваться.";}
+  else {msg="Пока слабо. Повтори раунд — ошибки будут выпадать чаще.";}
+  var h='<div class="card res"><img src="img/'+img+'" alt="">';
+  if(G.kind==="sprint"){
+    var best=load().best[m.id]||0,rec=G.firstOk>best;
+    if(rec){ load().best[m.id]=G.firstOk; save(); }
+    h+='<div class="big">'+G.firstOk+'</div><div class="sub">верных за 60 секунд'+(rec&&G.firstOk>0?" · новый рекорд":best?" · рекорд "+best:"")+'. Точность '+acc+'%. '+(G.firstTotal?msg:"")+'</div>';
+  } else {
+    h+='<div class="big">'+G.firstOk+' из '+G.firstTotal+'</div><div class="sub">с первого раза. '+msg+'</div>';
+  }
+  if(G.missed.length){
+    h+='<ul class="miss">';
+    G.missed.forEach(function(it){ h+='<li>'+it.rev+'</li>'; });
+    h+='</ul>';
+  }
+  h+='<div class="row"><button class="btn apr" type="button" id="again">Ещё раз</button><button class="btn alt" type="button" id="toMode">К теме</button></div></div>';
+  app.innerHTML=h; state.screen="result";
+  document.getElementById("again").addEventListener("click",function(){ startPlay(m,G.kind); });
+  document.getElementById("toMode").addEventListener("click",function(){ showMode(m); });
+}
+
+showMenu();
+})();
+</script>
+</body>
+</html>
