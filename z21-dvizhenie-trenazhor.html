@@ -53,7 +53,7 @@ function render(){
 function drawStep(s){
   const el=document.getElementById('in');
   if(s.t==='c'){
-    s.o.map((v,k)=>[v,k]).forEach(([v,k])=>{const b=document.createElement('button');b.className='opt';b.textContent=v;b.onclick=()=>check(k===s.a,b);el.appendChild(b)});
+    s.o.map((v,k)=>[v,k]).sort(()=>Math.random()-.5).forEach(([v,k])=>{const b=document.createElement('button');b.className='opt';b.textContent=v;b.onclick=()=>check(k===s.a,b);el.appendChild(b)});
   }else{
     el.innerHTML='<input class="num" id="num" inputmode="decimal" placeholder="Ответ"> <button class="btn" id="go">Проверить</button>';
     const f=()=>check(Math.abs(norm(document.getElementById('num').value)-s.a)<1e-9,null);
