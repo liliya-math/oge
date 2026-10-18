@@ -1,0 +1,230 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тренажёр: задачи на движение, новые числа каждый раз</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+a{color:var(--blue)}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 16px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.chips button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 12px;font:inherit;font-size:14px;cursor:pointer}
+.chips button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.cond{font-size:18px;margin:6px 0 14px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:170px}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin:6px 6px 0 0}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line)}
+.btn[disabled]{opacity:.45;cursor:default}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+.ok{border-left:3px solid var(--ok);background:rgba(155,211,160,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.bad{border-left:3px solid var(--bad);background:rgba(240,154,138,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.sol{border-left:3px solid var(--blue);background:rgba(125,162,255,.08);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:15px}
+.sol p{margin:6px 0}
+.stat{color:var(--muted);font-size:14px}
+</style></head><body><div class="wrap">
+<p class="sub"><a href="z21-dvizhenie.html">← Задачи на движение (задание 21)</a></p>
+<h1>Тренажёр: задачи на движение</h1>
+<p class="sub">Каждая задача новая: числа меняются, ответ целый. В бланк записывают только число, без единиц.</p>
+<div class="chips" id="chips"></div>
+<div class="card" id="box"></div>
+<p class="stat" id="stat"></p>
+</div>
+<script>
+function rnd(a,b){return a+Math.floor(Math.random()*(b-a+1))}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);return b?gcd(b,a%b):a}
+function fmt(n){return String(n).replace('.',',').replace('-','−')}
+function rt(n,d){var g=gcd(n,d);n/=g;d/=g;if(d<0){n=-n;d=-d}return d===1?fmt(n):fmt(n)+'/'+d}
+function fm(n){return String(n).replace('.',',')}
+function frs(n,d){var g=gcd(n,d);return (n/g)+'/'+(d/g)}
+function hrs(k){return k===1?'1 час':(k<5?k+' часа':k+' часов')}
+
+var TYPES={
+ meet:{name:'Встреча и погоня'},
+ river:{name:'Река'},
+ avg:{name:'Средняя скорость'},
+ train:{name:'Поезд и мост'},
+ late:{name:'Уравнение: кто приехал раньше'},
+ stop:{name:'Уравнение: река со стоянкой'},
+ circle:{name:'Круговая трасса'}
+};
+
+function genMeet(){
+ var m=pick(['toward','chase','find']);
+ var v1=pick([40,45,50,55,60,65,70,75,80,90]),v2=pick([20,25,30,35,40,45,50,55]);
+ if(v2>=v1){v2=v1-10}
+ var t=pick([2,3,4,5,6]);
+ if(m==='toward'){
+  var s=(v1+v2)*t;
+  return {type:'meet',data:{m:m,v1:v1,v2:v2,t:t,S:s},
+   cond:'Расстояние между городами '+s+' км. Из них навстречу друг другу одновременно выехали два автомобиля со скоростями '+v1+' км/ч и '+v2+' км/ч. Через сколько часов они встретятся?',
+   ans:t,
+   hints:['Скорость сближения при встречном движении — сумма скоростей.','Время = расстояние : скорость сближения.'],
+   sol:['Скорость сближения: '+v1+' + '+v2+' = '+(v1+v2)+' км/ч.','Время встречи: '+s+' : '+(v1+v2)+' = '+t+' ч.']};
+ }
+ if(m==='chase'){
+  var s2=(v1-v2)*t;
+  return {type:'meet',data:{m:m,v1:v1,v2:v2,t:t,S:s2},
+   cond:'Мотоциклист со скоростью '+v1+' км/ч догоняет велосипедиста, едущего со скоростью '+v2+' км/ч. Сейчас между ними '+s2+' км. Через сколько часов мотоциклист догонит велосипедиста?',
+   ans:t,
+   hints:['При движении вдогонку скорость сближения — разность скоростей.','Время = расстояние : скорость сближения.'],
+   sol:['Скорость сближения: '+v1+' − '+v2+' = '+(v1-v2)+' км/ч.','Время: '+s2+' : '+(v1-v2)+' = '+t+' ч.']};
+ }
+ var s3=(v1+v2)*t;
+ return {type:'meet',data:{m:m,v1:v1,v2:v2,t:t,S:s3},
+  cond:'Из двух пунктов, расстояние между которыми '+s3+' км, навстречу друг другу одновременно выехали два автомобиля. Скорость первого '+v1+' км/ч, до встречи они ехали '+t+' ч. Найдите скорость второго автомобиля (в км/ч).',
+  ans:v2,
+  hints:['Сначала найдите скорость сближения: расстояние : время.','Скорость второго = скорость сближения − скорость первого.'],
+  sol:['Скорость сближения: '+s3+' : '+t+' = '+(v1+v2)+' км/ч.','Скорость второго: '+(v1+v2)+' − '+v1+' = '+v2+' км/ч.']};
+}
+
+function genRiver(){
+ var m=pick(['time','u','v']);
+ var u=pick([2,3,4,5]),v=pick([12,14,15,16,18,20,24]);
+ if(m==='time'){
+  var k=pick([3,4,5,6]),S=(v-u)*k;
+  return {type:'river',data:{m:m,u:u,v:v,S:S,k:k},
+   cond:'Собственная скорость катера '+v+' км/ч, скорость течения реки '+u+' км/ч. За сколько часов катер пройдёт '+S+' км против течения?',
+   ans:k,
+   hints:['Против течения скорость равна собственной минус скорость течения.','Время = путь : скорость.'],
+   sol:['Скорость против течения: '+v+' − '+u+' = '+(v-u)+' км/ч.','Время: '+S+' : '+(v-u)+' = '+k+' ч.']};
+ }
+ var a=v+u,b=v-u;
+ if(m==='u'){
+  return {type:'river',data:{m:m,u:u,v:v},
+   cond:'Катер идёт по течению реки со скоростью '+a+' км/ч, а против течения со скоростью '+b+' км/ч. Найдите скорость течения реки (в км/ч).',
+   ans:u,
+   hints:['Скорость по течению больше скорости против течения на удвоенную скорость течения.','u = (по течению − против течения) : 2.'],
+   sol:['По течению v + u = '+a+', против v − u = '+b+'.','Вычитаем: 2u = '+a+' − '+b+' = '+(a-b)+', u = '+u+' км/ч.']};
+ }
+ return {type:'river',data:{m:m,u:u,v:v},
+  cond:'Катер идёт по течению реки со скоростью '+a+' км/ч, а против течения со скоростью '+b+' км/ч. Найдите собственную скорость катера (в км/ч).',
+  ans:v,
+  hints:['Сложите скорость по течению и скорость против течения: течение сократится.','v = (по течению + против течения) : 2.'],
+  sol:['По течению v + u = '+a+', против v − u = '+b+'.','Складываем: 2v = '+a+' + '+b+' = '+(a+b)+', v = '+v+' км/ч.']};
+}
+
+var AVG=[[40,60,48],[30,45,36],[48,96,64],[60,90,72],[20,30,24],[50,75,60],[45,90,60],[36,72,48],[50,150,75],[30,90,45]];
+function genAvg(){
+ var p=pick(AVG),m=pick(['avg','v2']);
+ if(m==='avg'){
+  return {type:'avg',data:{m:m,v1:p[0],v2:p[1],avg:p[2]},
+   cond:'Первую половину пути автомобиль ехал со скоростью '+p[0]+' км/ч, а вторую половину — со скоростью '+p[1]+' км/ч. Найдите среднюю скорость автомобиля на всём пути (в км/ч).',
+   ans:p[2],
+   hints:['Средняя скорость — это весь путь, делённый на всё время, а не среднее арифметическое.','Пусть весь путь 2S. Найдите время на каждой половине.'],
+   sol:['Пусть весь путь 2S. Время: S/'+p[0]+' + S/'+p[1]+' = S·('+p[0]+' + '+p[1]+')/('+p[0]*p[1]+') = S·'+(p[0]+p[1])+'/'+(p[0]*p[1])+'.','Средняя скорость: 2S : (S·'+(p[0]+p[1])+'/'+(p[0]*p[1])+') = 2·'+p[0]*p[1]+'/'+(p[0]+p[1])+' = '+p[2]+' км/ч.']};
+ }
+ var n=2*p[0]-p[2],d=2*p[0]*p[2],g=gcd(n,d);
+ return {type:'avg',data:{m:m,v1:p[0],v2:p[1],avg:p[2]},
+  cond:'Автомобиль проехал первую половину пути со скоростью '+p[0]+' км/ч, а вторую половину — с другой постоянной скоростью. Средняя скорость на всём пути '+p[2]+' км/ч. Найдите скорость на второй половине пути (в км/ч).',
+  ans:p[1],
+  hints:['Пусть весь путь S, скорость на второй половине x. Время на половинах: S/(2·'+p[0]+') и S/(2x), всё время S/'+p[2]+'.','Составьте уравнение 1/'+(2*p[0])+' + 1/(2x) = 1/'+p[2]+' и найдите 2x.'],
+  sol:['Время: S/'+(2*p[0])+' + S/(2x) = S/'+p[2]+'. Делим на S: 1/'+(2*p[0])+' + 1/(2x) = 1/'+p[2]+'.','1/(2x) = 1/'+p[2]+' − 1/'+(2*p[0])+' = '+frs(n,d)+', значит 2x = '+(d/g)/(n/g)+', x = '+p[1]+' км/ч.','Ловушка: 2·'+p[2]+' − '+p[0]+' = '+(2*p[2]-p[0])+' — неверно.']};
+}
+
+function genTrain(){
+ var v=pick([10,15,20,25]),t1=pick([8,10,12,15,16,20]),k=pick([2,3,4,5,6]);
+ var L=v*t1,l=v*k,t2=t1+k;
+ return {type:'train',data:{v:v,t1:t1,k:k,L:L,l:l,t2:t2},
+  cond:'Поезд проходит мимо столба за '+t1+' секунд, а по мосту длиной '+l+' метров — за '+t2+' секунд. Найдите длину поезда в метрах.',
+  ans:L,
+  hints:['Мимо столба поезд проходит путь, равный своей длине L; по мосту — L + '+l+'.','Скорость одна и та же: L/'+t1+' = (L + '+l+')/'+t2+'.'],
+  sol:['Пусть L — длина поезда. L/'+t1+' = (L + '+l+')/'+t2+'.',t2+'L = '+t1+'L + '+(t1*l)+'; '+k+'L = '+(t1*l)+'; L = '+L+' м.','Проверка: скорость '+v+' м/с, по мосту ('+L+' + '+l+') : '+v+' = '+t2+' с.']};
+}
+
+function genLate(){
+ var all=[];
+ [10,15,20].forEach(function(d){[1,2].forEach(function(t){
+  for(var x=20;x<=80;x+=5){var S=t*x*(x+d)/d;if(Number.isInteger(S)&&S>=60&&S<=500){all.push([x,d,t,S])}}
+ })});
+ var p=pick(all),x=p[0],d=p[1],t=p[2],S=p[3];
+ var a=t,b=t*d,c=-S*d,D=b*b-4*a*c,r=Math.round(Math.sqrt(D));
+ var x1=rt(-b-r,2*a),x2=rt(-b+r,2*a);
+ return {type:'late',data:{x:x,d:d,t:t,S:S},
+  cond:'Из А в В, расстояние между которыми '+S+' км, одновременно выехали два автомобиля. Скорость второго на '+d+' км/ч больше скорости первого, и он прибыл в В на '+hrs(t)+' раньше. Найдите скорость первого автомобиля (в км/ч).',
+  ans:x,
+  hints:['Пусть x км/ч — скорость первого, тогда (x + '+d+') км/ч — скорость второго. Время = '+S+' : скорость.','Первый ехал на '+t+' ч дольше: '+S+'/x − '+S+'/(x + '+d+') = '+t+'. Умножьте на x(x + '+d+').'],
+  sol:['Пусть x — скорость первого (x > 0). Уравнение: '+S+'/x − '+S+'/(x + '+d+') = '+t+'.','Умножаем на x(x + '+d+'): '+S*d+' = '+(t===1?'':t)+'x(x + '+d+'), то есть '+(t===1?'':t)+'x² + '+(t*d)+'x − '+(S*d)+' = 0.','D = '+D+' = '+r+'². x = ('+fmt(-b)+' ± '+r+') : '+(2*a)+', то есть '+x2+' или '+x1+'.','Скорость положительна, значит x = '+x+' км/ч. Проверка: '+S+'/'+x+' − '+S+'/'+(x+d)+' = '+(S/x)+' − '+(S/(x+d))+' = '+t+'.']};
+}
+
+function genStop(){
+ var Ss=[24,30,36,48,60,72,90,120],all=[];
+ Ss.forEach(function(S){for(var a=2;a<=S;a++){if(S%a)continue;for(var b=1;b<a;b++){
+  if(S%b)continue;if((a+b)%2)continue;var u=(a-b)/2,x=(a+b)/2;
+  var T=S/a+S/b;if(u>=1&&u<=6&&b>=4&&x<=30&&T>=3&&T<=9){all.push([S,x,u,T])}}}});
+ var p=pick(all),S=p[0],x=p[1],u=p[2],T=p[3],stop=pick([1,2]);
+ var A=T,B=-2*S,C=-T*u*u,D=B*B-4*A*C,r=Math.round(Math.sqrt(D));
+ var x1=rt(-B-r,2*A),x2=rt(-B+r,2*A);
+ return {type:'stop',data:{S:S,x:x,u:u,T:T,stop:stop},
+  cond:'Моторная лодка прошла от пристани А до пристани В по течению реки и вернулась обратно. Расстояние между пристанями '+S+' км, скорость течения '+u+' км/ч. В пункте В лодка стояла '+hrs(stop)+', всё путешествие заняло '+(T+stop)+' ч. Найдите собственную скорость лодки (в км/ч).',
+  ans:x,
+  hints:['Пусть x — собственная скорость, x > '+u+'. По течению x + '+u+', против x − '+u+'. В движении лодка была '+(T+stop)+' − '+stop+' = '+T+' ч.','Уравнение: '+S+'/(x + '+u+') + '+S+'/(x − '+u+') = '+T+'. Умножьте на (x + '+u+')(x − '+u+').'],
+  sol:['Время в движении: '+(T+stop)+' − '+stop+' = '+T+' ч. Уравнение: '+S+'/(x + '+u+') + '+S+'/(x − '+u+') = '+T+'.','Умножаем на (x + '+u+')(x − '+u+'): '+S+'(x − '+u+') + '+S+'(x + '+u+') = '+T+'(x² − '+(u*u)+'); '+(2*S)+'x = '+T+'x² − '+(T*u*u)+'; '+T+'x² − '+(2*S)+'x − '+(T*u*u)+' = 0.','D = '+D+' = '+r+'². x = ('+(2*S)+' ± '+r+') : '+(2*A)+', то есть '+x2+' или '+x1+'.','Подходит только x = '+x+' (больше '+u+'). Проверка: '+(S/(x+u))+' + '+stop+' + '+(S/(x-u))+' = '+(T+stop)+' ч.']};
+}
+
+var CIRC=[];
+[4,5,6,8,10,12].forEach(function(L){for(var x=30;x<=96;x++){for(var y=20;y<x;y++){
+ var p=x-y,q=x+y;if(p<4)continue;if((60*L)%p||(60*L)%q)continue;
+ var t1=60*L/p,t2=60*L/q;if(t2>=3&&t1<=120&&t2<t1){CIRC.push([L,x,y,t1,t2])}}}});
+function genCircle(){
+ var p=pick(CIRC),L=p[0],x=p[1],y=p[2],t1=p[3],t2=p[4];
+ return {type:'circle',data:{L:L,x:x,y:y,t1:t1,t2:t2},
+  cond:'Два мотоциклиста одновременно стартуют из одной точки круговой трассы длиной '+L+' км. В одном направлении первый (он быстрее) догоняет второго на круг через '+t1+' мин. В противоположных направлениях они впервые встречаются через '+t2+' мин. Найдите скорость первого мотоциклиста (в км/ч).',
+  ans:x,
+  hints:['Пусть x и y км/ч — скорости. Минуты переведите в часы: '+t1+' мин = '+frs(t1,60)+' ч, '+t2+' мин = '+frs(t2,60)+' ч.','Вдогонку: (x − y)·t = '+L+'. Навстречу: (x + y)·t = '+L+'. Получите две суммы-разности и сложите.'],
+  sol:['Вдогонку: x − y = '+L+' : '+frs(t1,60)+' = '+(x-y)+'. Навстречу: x + y = '+L+' : '+frs(t2,60)+' = '+(x+y)+'.','Складываем: 2x = '+(2*x)+', x = '+x+' км/ч, y = '+y+' км/ч.','Проверка: '+L+' : '+(x-y)+' ч = '+t1+' мин; '+L+' : '+(x+y)+' ч = '+t2+' мин.']};
+}
+
+var GEN={meet:genMeet,river:genRiver,avg:genAvg,train:genTrain,late:genLate,stop:genStop,circle:genCircle};
+if(typeof module!=='undefined'){module.exports={GEN:GEN,TYPES:TYPES,CIRC:CIRC}}
+
+var cur=null,hintN=0,solved=0,first=0,tried=false,chosen='all',locked=false;
+var chips=document.getElementById('chips'),box=document.getElementById('box'),stat=document.getElementById('stat');
+function drawChips(){
+ chips.innerHTML='';
+ var all=[['all','Все типы']].concat(Object.keys(TYPES).map(function(k){return [k,TYPES[k].name]}));
+ all.forEach(function(p){var b=document.createElement('button');b.textContent=p[1];if(p[0]===chosen)b.className='on';b.onclick=function(){chosen=p[0];drawChips();next()};chips.appendChild(b)});
+}
+function next(){
+ var k=chosen==='all'?Object.keys(GEN)[Math.floor(Math.random()*Object.keys(GEN).length)]:chosen;
+ cur=GEN[k]();hintN=0;tried=false;locked=false;
+ box.innerHTML='<span class="tag">'+TYPES[k].name+'</span><div class="cond">'+cur.cond+'</div>'+
+  '<input class="num" id="num" inputmode="decimal" placeholder="Ответ"> <button class="btn" id="go">Проверить</button>'+
+  '<button class="btn ghost" id="hb">Подсказка</button><button class="btn ghost" id="sb">Показать решение</button>'+
+  '<div id="fb"></div>';
+ document.getElementById('go').onclick=check;
+ document.getElementById('num').onkeydown=function(e){if(e.key==='Enter')check()};
+ document.getElementById('hb').onclick=hint;
+ document.getElementById('sb').onclick=function(){showSol(false)};
+ document.getElementById('num').focus();
+ upd();
+}
+function upd(){stat.textContent='Решено: '+solved+'. С первой попытки: '+first+'.'}
+function check(){
+ if(locked)return;
+ var v=parseFloat(String(document.getElementById('num').value).replace(',','.').replace(/\s/g,''));
+ var fb=document.getElementById('fb');
+ if(isNaN(v)){fb.innerHTML='<div class="bad">Введите число.</div>';return}
+ if(Math.abs(v-cur.ans)<1e-9){
+  locked=true;solved++;if(!tried)first++;upd();
+  fb.innerHTML='<div class="ok">Верно. Ответ: '+cur.ans+'.</div>'+solHtml()+'<button class="btn" onclick="next()">Следующая задача</button>';
+  document.getElementById('go').disabled=true;
+ }else{
+  tried=true;
+  fb.innerHTML='<div class="bad">Не то. Проверьте единицы и то, что именно спрашивают. Нужна подсказка — нажмите «Подсказка».</div>';
+ }
+}
+function hint(){
+ var fb=document.getElementById('fb');
+ if(hintN<cur.hints.length){tried=true;fb.innerHTML='<div class="hint">Подсказка '+(hintN+1)+': '+cur.hints[hintN]+'</div>';hintN++}
+ else{fb.innerHTML='<div class="hint">Подсказки закончились. Можно открыть решение.</div>'}
+}
+function solHtml(){return '<div class="sol"><b>Решение.</b>'+cur.sol.map(function(s){return '<p>'+s+'</p>'}).join('')+'</div>'}
+function showSol(){
+ tried=true;locked=true;
+ document.getElementById('fb').innerHTML=solHtml()+'<p>Ответ: <b>'+cur.ans+'</b>.</p><button class="btn" onclick="next()">Следующая задача</button>';
+ document.getElementById('go').disabled=true;
+}
+drawChips();next();
+</script></body></html>

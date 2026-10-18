@@ -647,6 +647,96 @@
    "oge_task": null,
    "status": "hidden",
    "note": "временный; удалить после вливания ветки landing-page"
+  },
+  {
+   "file": "z21-dvizhenie.html",
+   "title": "Задачи на движение: все материалы по порядку",
+   "type": "sistema",
+   "class": null,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-dvizhenie-teoriya.html",
+   "title": "Теория и устный опрос: задачи на движение",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-dvizhenie-pyatiminutki.html",
+   "title": "Карточки-пятиминутки: задачи на движение (2 варианта)",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-dvizhenie-razbor-5.html",
+   "title": "Разбор 5 задач повышенной сложности: движение",
+   "type": "razbor",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-dvizhenie-trenazhor-gen.html",
+   "title": "Тренажёр: задачи на движение, новые числа каждый раз",
+   "type": "trenazher",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-dvizhenie-pamyatka.html",
+   "title": "Памятка: алгоритм и оформление, задачи на движение",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-dvizhenie-kontrolnaya.html",
+   "title": "Зачётный лист: задачи на движение (3 уровня)",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-dvizhenie-dz.html",
+   "title": "Домашняя карточка: задачи на движение (4 задачи)",
+   "type": "dz",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "razbor-dvizhenie-dialog.md",
+   "title": "Диалог ученик-учитель: задачи на движение (текст)",
+   "type": "razbor",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "razbor-dvizhenie-dialog.pdf",
+   "title": "Диалог ученик-учитель: задачи на движение (печать)",
+   "type": "razbor",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
   }
  ]
 }
