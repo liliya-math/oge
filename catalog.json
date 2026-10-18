@@ -1,0 +1,643 @@
+{
+ "items": [
+  {
+   "file": "diagnostika-1-4-klass.html",
+   "title": "Диагностика 1–4 класс",
+   "type": "diagnostika",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "diagnostika-5-geom.html",
+   "title": "Диагностика · 5 класс · Геометрия",
+   "type": "diagnostika",
+   "class": 5,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "diagnostika-6-geom.html",
+   "title": "Диагностика · 6 класс · Геометрия",
+   "type": "diagnostika",
+   "class": 6,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "diagnostika-6-klass.html",
+   "title": "Диагностика · 6 класс",
+   "type": "diagnostika",
+   "class": 6,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "diagnostika-7-geom.html",
+   "title": "Диагностика · 7 класс · Геометрия",
+   "type": "diagnostika",
+   "class": 7,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "diagnostika-7-klass.html",
+   "title": "Диагностика · 7 класс · Алгебра",
+   "type": "diagnostika",
+   "class": 7,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "diagnostika-8-geom.html",
+   "title": "Диагностика · 8 класс · Геометрия",
+   "type": "diagnostika",
+   "class": 8,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "diagnostika-8-klass.html",
+   "title": "Диагностика · 8 класс · Алгебра",
+   "type": "diagnostika",
+   "class": 8,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "dz-chisla-s-raznymi-znakami.html",
+   "title": "ДЗ №2 · Числа с разными знаками",
+   "type": "dz",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "dz-chisla-s-raznymi-znakami.pdf",
+   "title": "",
+   "type": "dz",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "dz-desyatichnye-drobi-otvety.pdf",
+   "title": "",
+   "type": "dz",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "dz-desyatichnye-drobi.html",
+   "title": "ДЗ №1 · Десятичные дроби",
+   "type": "dz",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "dz-desyatichnye-drobi.pdf",
+   "title": "",
+   "type": "dz",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "dz-procenty-otvety.pdf",
+   "title": "",
+   "type": "dz",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "dz-procenty.pdf",
+   "title": "",
+   "type": "dz",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "7-klass.html",
+   "title": "7 класс · алгебра и геометрия",
+   "type": "klass",
+   "class": 7,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "8-klass.html",
+   "title": "8 класс · алгебра и геометрия",
+   "type": "klass",
+   "class": 8,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "9-klass.html",
+   "title": "9 класс · алгебра и геометрия",
+   "type": "klass",
+   "class": 9,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "mini-probnik-1.html",
+   "title": "Мини-пробник 25/25",
+   "type": "probnik",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "probnik-oge-1.html",
+   "title": "Диагностика 25/25",
+   "type": "probnik",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "probnik-oge-2.html",
+   "title": "Пробник ОГЭ №2",
+   "type": "probnik",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "probnik-oge-3.html",
+   "title": "Пробник ОГЭ №3",
+   "type": "probnik",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "razbor-drobi-dialog.html",
+   "title": "Разбор · Дроби · диалог",
+   "type": "razbor",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "razbor-probnik-oge-2.html",
+   "title": "Пробник №2 по шагам",
+   "type": "razbor",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "razbor-racionalnye-dialog.md",
+   "title": "",
+   "type": "razbor",
+   "class": null,
+   "oge_task": null,
+   "status": "hidden",
+   "note": ""
+  },
+  {
+   "file": "razbor-racionalnye-dialog.pdf",
+   "title": "",
+   "type": "razbor",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "razbor-treugolniki-dialog.html",
+   "title": "Разбор · Треугольники 7–9 · диалог",
+   "type": "razbor",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "razbor-znaki-dialog.html",
+   "title": "Разбор · Числа с разными знаками · диалог",
+   "type": "razbor",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "razbor-diag-5-geom.txt",
+   "title": "",
+   "type": "razbor",
+   "class": 5,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "razbor-diag-6-geom.txt",
+   "title": "",
+   "type": "razbor",
+   "class": 6,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "razbor-diag-6-klass.txt",
+   "title": "",
+   "type": "razbor",
+   "class": 6,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "razbor-diagnostika-6-klass.html",
+   "title": "Разбор · Диагностика 6 класс",
+   "type": "razbor",
+   "class": 6,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "razbor-diagnostika-6-klass.pdf",
+   "title": "",
+   "type": "razbor",
+   "class": 6,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "razbor-diag-7-geom.txt",
+   "title": "",
+   "type": "razbor",
+   "class": 7,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "razbor-diag-7-klass.txt",
+   "title": "",
+   "type": "razbor",
+   "class": 7,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "razbor-diag-8-geom.txt",
+   "title": "",
+   "type": "razbor",
+   "class": 8,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "razbor-diag-8-klass.txt",
+   "title": "",
+   "type": "razbor",
+   "class": 8,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "kabinet-apps-script.txt",
+   "title": "",
+   "type": "sistema",
+   "class": null,
+   "oge_task": null,
+   "status": "hidden",
+   "note": ""
+  },
+  {
+   "file": "kabinet.html",
+   "title": "Кабинет ученика",
+   "type": "sistema",
+   "class": null,
+   "oge_task": null,
+   "status": "hidden",
+   "note": ""
+  },
+  {
+   "file": "start.html",
+   "title": "Моя панель · lili.math",
+   "type": "sistema",
+   "class": null,
+   "oge_task": null,
+   "status": "hidden",
+   "note": ""
+  },
+  {
+   "file": "achievements.html",
+   "title": "Мои достижения",
+   "type": "sluzhebnoe",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "formulas.html",
+   "title": "Справочник формул ОГЭ",
+   "type": "sluzhebnoe",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "trainer.html",
+   "title": "Тренажёр: Задание 6",
+   "type": "trenazher",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "trenazher-62-63-65.html",
+   "title": "Решение задач № 62, 63, 65 — интерактивный тренажёр",
+   "type": "trenazher",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "drob-deistviya.html",
+   "title": "Действия с дробями · интерактивное обучение",
+   "type": "uchebnik",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "drob-s-nulya.html",
+   "title": "Дроби с нуля · интерактивное обучение",
+   "type": "uchebnik",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "materialy-drob.html",
+   "title": "Дроби навсегда · опорник к доске",
+   "type": "uchebnik",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "treug-s-nulya.html",
+   "title": "Треугольники с нуля · интерактивное обучение",
+   "type": "uchebnik",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "ucheba-racionalnye.html",
+   "title": "Преобразование рациональных выражений · 8 класс",
+   "type": "uchebnik",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "y-k-na-x.html",
+   "title": "y = k/x — интерактив · lili.math",
+   "type": "uchebnik",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "znaki-s-nulya.html",
+   "title": "Числа с разными знаками · интерактивное обучение",
+   "type": "uchebnik",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "ucheba-6-klass.html",
+   "title": "Интерактивное обучение · 6 класс",
+   "type": "uchebnik",
+   "class": 6,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "materialy-9-klass.html",
+   "title": "Опорные материалы · 9 класс · к доске",
+   "type": "uchebnik",
+   "class": 9,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "bissektrisy-parallelogramma.html",
+   "title": "Биссектрисы в параллелограмме",
+   "type": "zadanie",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "triangle-medians.html",
+   "title": "Медианы треугольника — S(ABC) = 3S",
+   "type": "zadanie",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "z15-bissektrisa-ravnye-otrezki.html",
+   "title": "Биссектриса и равные отрезки",
+   "type": "zadanie",
+   "class": null,
+   "oge_task": 15,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "z15-mediana-bissektrisa-srednyaya-liniya.html",
+   "title": "Медиана, биссектриса, средняя линия",
+   "type": "zadanie",
+   "class": null,
+   "oge_task": 15,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "z15-mediana-polovina-storony.html",
+   "title": "Медиана равна половине стороны",
+   "type": "zadanie",
+   "class": null,
+   "oge_task": 15,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "z15-pifagor.html",
+   "title": "Теорема Пифагора",
+   "type": "zadanie",
+   "class": null,
+   "oge_task": 15,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "z15-ploshchad.html",
+   "title": "Площадь треугольника",
+   "type": "zadanie",
+   "class": null,
+   "oge_task": 15,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "z15-ravnobedrennyy.html",
+   "title": "Равнобедренный треугольник",
+   "type": "zadanie",
+   "class": null,
+   "oge_task": 15,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "z15-ravnostoronniy.html",
+   "title": "Равносторонний треугольник",
+   "type": "zadanie",
+   "class": null,
+   "oge_task": 15,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "z15-sin-cos-tg-storona.html",
+   "title": "Синус, косинус и тангенс: найти сторону",
+   "type": "zadanie",
+   "class": null,
+   "oge_task": 15,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "z15-sin-cos-tg-znachenie.html",
+   "title": "Синус, косинус и тангенс: найти значение",
+   "type": "zadanie",
+   "class": null,
+   "oge_task": 15,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "z15-summa-uglov.html",
+   "title": "Сумма углов и внешний угол",
+   "type": "zadanie",
+   "class": null,
+   "oge_task": 15,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "z15-vysota-ugol.html",
+   "title": "Высота и угол ABH",
+   "type": "zadanie",
+   "class": null,
+   "oge_task": 15,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "z21-dvizhenie-test.html",
+   "title": "Тест: задачи на движение",
+   "type": "zadanie",
+   "class": null,
+   "oge_task": 21,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "z21-dvizhenie-trenazhor.html",
+   "title": "Тренажёр: задачи на движение, повышенный уровень",
+   "type": "zadanie",
+   "class": null,
+   "oge_task": 21,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "zadacha-279.html",
+   "title": "Задача № 279 — интерактивный разбор",
+   "type": "zadanie",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "zadacha-287.html",
+   "title": "Задание 287 — интерактивное решение",
+   "type": "zadanie",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  },
+  {
+   "file": "zadacha-691.html",
+   "title": "Задача 691 — деление отрезка в данном отношении",
+   "type": "zadanie",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": ""
+  }
+ ]
+}
