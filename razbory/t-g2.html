@@ -1,0 +1,180 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Практическое задание 2. Три точки и прямые</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"><style>
+:root{color-scheme:dark;--bg:#14211e;--card:rgba(243,236,226,.06);--card2:rgba(243,236,226,.11);--line:rgba(243,236,226,.16);--fg:#f3ece2;--muted:#b4b0a3;--blue:#1747c9;--lblue:#9db8ff;--apricot:#f2905e;--yellow:#f5dc6a;--sage:#a9d18e;--bad:#ff8f7a;--font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Inter,"Segoe UI",Roboto,Arial,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 17px/1.55 var(--font);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-top:0;padding-bottom:40px;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(60% 38% at 12% 0%,rgba(23,71,201,.30),transparent 70%),radial-gradient(50% 36% at 100% 100%,rgba(242,144,94,.12),transparent 70%),var(--bg)}
+a{color:var(--lblue)}
+.wrap{max-width:720px;margin:0 auto}
+.top{display:flex;align-items:center;gap:12px;padding:16px 0 10px;flex-wrap:wrap}
+.logo{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--fg);font:700 17px var(--font);letter-spacing:-.01em}
+.logo svg{display:block}
+.logo .dot{color:var(--apricot)}
+.crumb{font:600 13px var(--font);color:var(--muted);letter-spacing:.02em}
+h1{font:800 clamp(26px,6.4vw,38px)/1.12 var(--font);letter-spacing:-.025em;margin:6px 0 10px;text-wrap:balance}
+h1 .g,.g{background:linear-gradient(90deg,var(--yellow),var(--apricot));-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font:700 20px/1.25 var(--font);letter-spacing:-.01em;margin:2px 0 8px;text-wrap:balance}
+h3{font:700 17px/1.3 var(--font);margin:18px 0 6px;color:var(--yellow)}
+p{margin:0 0 10px}
+.lead{color:var(--muted);font-size:17px;margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 18px;margin:0 0 14px}
+.lab{font:600 12px var(--font);text-transform:uppercase;letter-spacing:.09em;color:var(--apricot);margin-bottom:6px}
+.cond{border-color:rgba(157,184,255,.35);background:rgba(23,71,201,.14)}
+.cond p{margin:0 0 6px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.chip{display:inline-block;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--fg);text-decoration:none;font:600 14px var(--font)}
+.chip:hover{background:var(--card2)}
+.chip.th{border-color:rgba(245,220,106,.5);color:var(--yellow)}
+b,strong{color:var(--yellow);font-weight:700}
+em{font-style:normal;color:var(--apricot);font-weight:600}
+.a{color:var(--apricot);font-weight:700}
+.bl{color:var(--lblue);font-weight:700}
+.sg{color:var(--sage);font-weight:700}
+.eq{border:1.5px solid var(--apricot);border-radius:14px;padding:10px 14px;margin:10px 0;font-weight:600;font-size:19px;text-align:center;background:rgba(242,144,94,.08);overflow-x:auto}
+.ansbox{border:1.5px solid var(--sage);border-radius:14px;padding:12px 14px;margin:10px 0;background:rgba(169,209,142,.10)}
+.ansbox .big{font:800 26px/1.2 var(--font);color:var(--sage);letter-spacing:-.01em}
+.say{border-left:3px solid var(--yellow);padding:2px 0 2px 12px;margin:10px 0;color:var(--fg)}
+pre.calc{font:500 17px/1.5 var(--mono);background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:10px 0;overflow-x:auto;white-space:pre;tab-size:4}
+table.tb{border-collapse:collapse;margin:8px 0 10px;font-variant-numeric:tabular-nums;max-width:100%}
+.tw{overflow-x:auto;max-width:100%}
+table.tb td,table.tb th{border:1px solid var(--line);padding:6px 11px;text-align:center;font-weight:500;white-space:nowrap}
+table.tb th{background:var(--card2);color:var(--yellow);font-weight:600}
+table.tb td.hl{background:rgba(242,144,94,.2);color:var(--fg);font-weight:700}
+ul,ol{margin:6px 0 10px;padding-left:22px}
+li{margin:3px 0}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.15;margin:0 .15em}
+.fr .n{border-bottom:1.5px solid currentColor;padding:0 .25em .08em}
+.fr .d{padding:.08em .25em 0}
+.rt{display:inline-flex;align-items:flex-start;white-space:nowrap}
+.rt .rs{margin-right:-.03em}
+.rt .ro{border-top:1.5px solid currentColor;padding:0 .12em;margin-top:.16em;line-height:1.15}
+sup{font-size:.7em;line-height:0}
+/* шаги */
+.step{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 18px 18px;margin:0 0 14px;scroll-margin-top:12px;animation:rise .35s ease both}
+.step.warn{border-color:rgba(255,143,122,.5);background:rgba(255,143,122,.07)}
+.sn{font:600 12px var(--font);text-transform:uppercase;letter-spacing:.09em;color:var(--apricot);margin-bottom:2px}
+.step .body{margin-top:4px}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.figwrap{max-width:520px;margin:12px auto 4px;background:rgba(0,0,0,.22);border:1px solid var(--line);border-radius:14px;padding:8px}
+svg.fig{width:100%;height:auto;max-height:420px;display:block}
+.ask{margin-top:12px;border:1px dashed rgba(245,220,106,.55);border-radius:14px;padding:12px 14px;background:rgba(245,220,106,.05)}
+.ask .q{font-weight:700;margin-bottom:8px}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{font:600 16px var(--font);text-align:left;color:var(--fg);background:var(--card2);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer;min-height:44px}
+.opt:hover{border-color:var(--lblue)}
+.opt.bad{border-color:var(--bad);background:rgba(255,143,122,.12)}
+.opt.good{border-color:var(--sage);background:rgba(169,209,142,.16)}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.inp{font:600 18px var(--font);color:var(--fg);background:rgba(0,0,0,.3);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;min-width:0;flex:1 1 120px;min-height:44px}
+.inp:focus{outline:2px solid var(--lblue);outline-offset:1px}
+.btn{font:700 16px var(--font);border-radius:12px;border:0;padding:10px 16px;cursor:pointer;min-height:44px;color:#fff;background:var(--blue)}
+.btn.sec{background:var(--card2);color:var(--fg);border:1px solid var(--line)}
+.btn:focus-visible,.opt:focus-visible,.chip:focus-visible,a:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
+.btn:disabled{opacity:.4;cursor:default}
+.fb{margin-top:8px;font-weight:500}
+.fb.ok{color:var(--sage)}
+.fb.no{color:var(--bad)}
+.endblock{margin-top:6px}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(20,33,30,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.bar .in{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:10px}
+.pw{flex:1;min-width:0}
+.pt{font:600 12px var(--font);color:var(--muted);margin-bottom:4px;display:flex;justify-content:space-between}
+.pbg{height:6px;border-radius:6px;background:var(--card2);overflow:hidden}
+.pfill{height:100%;width:0;background:linear-gradient(90deg,var(--yellow),var(--apricot));transition:width .3s}
+.bar .btn{min-width:92px}
+/* список */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.tcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.tcard .no{font:700 13px var(--font);color:var(--apricot);letter-spacing:.04em}
+.tcard .tt{font:600 16px/1.35 var(--font)}
+.tcard .ac{display:flex;gap:8px;margin-top:auto;padding-top:6px;flex-wrap:wrap}
+.tcard .ac a{text-decoration:none}
+.tcard .go{background:var(--blue);color:#fff;padding:9px 14px;border-radius:11px;font:700 15px var(--font);min-height:40px;display:inline-flex;align-items:center}
+.tcard .tl{border:1px solid rgba(245,220,106,.5);color:var(--yellow);padding:9px 14px;border-radius:11px;font:600 15px var(--font);min-height:40px;display:inline-flex;align-items:center}
+.sec-h{font:700 13px var(--font);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:26px 0 10px}
+details.dd{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px;margin-top:20px}
+details.dd summary{cursor:pointer;font-weight:700}
+details.dd table{width:100%}
+.nav2{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+/* SVG */
+.ln{stroke:var(--fg);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.thin{stroke:var(--fg);stroke-width:1;fill:none;opacity:.55}
+.grid2{stroke:rgba(243,236,226,.2);stroke-width:1;fill:none}
+.dim{stroke:var(--fg);stroke-width:2;fill:none;opacity:.28;stroke-linecap:round;stroke-linejoin:round}
+.ac2{stroke:var(--apricot);stroke-width:3.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.bl2{stroke:var(--lblue);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.sg2{stroke:var(--sage);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.yl2{stroke:var(--yellow);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.sgt{stroke:var(--sage);stroke-width:1.6;fill:none;opacity:.85}
+.dash{stroke-dasharray:6 5}
+.fa{fill:rgba(242,144,94,.30);stroke:none}
+.fb2{fill:rgba(157,184,255,.28);stroke:none}
+.fs{fill:rgba(169,209,142,.28);stroke:none}
+.fy{fill:rgba(245,220,106,.28);stroke:none}
+.fw{fill:rgba(243,236,226,.07);stroke:var(--fg);stroke-width:1.5}
+.pd{fill:var(--fg)} .pda{fill:var(--apricot)} .pdb{fill:var(--lblue)} .pds{fill:var(--sage)} .pdy{fill:var(--yellow)}
+.tx{fill:var(--fg);font:600 15px var(--font)}
+.tm{fill:var(--muted);font:500 12px var(--font)}
+.tmm{fill:var(--muted);font:500 10.5px var(--font)}
+.ta{fill:var(--apricot);font:700 15px var(--font)}
+.tb2{fill:var(--lblue);font:700 14px var(--font)}
+.ts{fill:var(--sage);font:700 14px var(--font)}
+.ty{fill:var(--yellow);font:700 15px var(--font)}
+.tbig{fill:var(--fg);font:700 26px var(--font)}
+.new{animation:pop .55s ease both}
+@keyframes pop{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.step,.new{animation:none}.pfill{transition:none}}
+@media (max-width:420px){body{font-size:16.5px}.bar .btn{min-width:84px;padding:10px 12px}}
+
+html{padding-top:env(safe-area-inset-top,0px)}</style></head><body><div class="wrap"><header class="top"><a class="logo" href="index.html"><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="9" fill="#1747c9"/><text x="17" y="15" text-anchor="middle" fill="#f3ece2" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="11">25</text><line x1="7" y1="18" x2="27" y2="18" stroke="#f3ece2" stroke-width="1.6" stroke-linecap="round"/><text x="17" y="29" text-anchor="middle" fill="#f3ece2" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="11">25</text></svg><span>lili<span class="dot">.</span>math</span></a><span class="crumb">25/25 · Практическое задание 2</span></header><main><h1>Практическое задание 2. Три точки и прямые</h1><div class="card cond"><div class="lab">Условие</div><p>Отметьте три точки A, B и C, не лежащие на одной прямой, и через каждую пару точек проведите прямую. Сколько прямых получилось?</p><div class="chips"><a class="chip th" href="th-line.html">Теория: Точка и прямая</a><a class="chip" href="index.html">Все задачи</a></div></div><div id="feed"></div><div id="endblock" class="endblock card" hidden><div class="lab">Что дальше</div><p>Решение закончено. Если что-то осталось непонятным, вернись по кнопке «Назад» или загляни в теорию.</p><div class="chips"><a class="chip th" href="th-line.html">Теория: Точка и прямая</a><a class="chip" href="t-g3.html">Следующая: Практическое задание 3</a><a class="chip" href="index.html">Все задачи</a></div></div></main></div><div hidden id="figstore"><svg class="fig" id="g2" viewBox="0 0 360 220" role="img" aria-label="Три точки и три прямые через каждую пару"><line class="ac2" x1="20" y1="162" x2="340" y2="178" data-s="2"/><line class="bl2" x1="307" y1="211" x2="163" y2="19" data-s="3"/><line class="sg2" x1="47" y1="198" x2="223" y2="22" data-s="4"/><circle class="pd" cx="80" cy="165" r="5"/><text class="tx" x="82" y="189" text-anchor="middle">A</text><circle class="pd" cx="280" cy="175" r="5"/><text class="tx" x="272" y="197" text-anchor="middle">B</text><circle class="pd" cx="190" cy="55" r="5"/><text class="tx" x="190" y="41" text-anchor="middle">C</text></svg></div><div class="bar"><div class="in"><button class="btn sec" id="back" type="button">Назад</button><div class="pw"><div class="pt"><span>Шаги</span><span id="pcount">0</span></div><div class="pbg"><div class="pfill" id="pfill"></div></div></div><button class="btn" id="next" type="button">Далее</button></div></div><script>var STEPS=[
+{t:`Отмечаем три точки`, h:`<p>Поставь три точки A, B и C так, чтобы они <b>не лежали на одной прямой</b> (получится как бы вершины треугольника). Подпиши их.</p>`, fig:'g2:1'},
+{t:`Проводим прямую через A и B`, h:`<p>Приложи линейку к точкам A и B и проведи прямую, продолжив её в обе стороны за точки.</p><div class="say">Через любые две точки проходит прямая, и притом только одна. Поэтому прямая AB получится одна и та же, как ни прикладывай линейку.</div>`, fig:'g2:2'},
+{t:`Проводим прямую через B и C`, h:`<p>Так же для пары B и C.</p>`, fig:'g2:3'},
+{t:`Проводим прямую через A и C`, h:`<p>И для пары A и C. Больше пар точек нет: пары это AB, BC и AC.</p>`, fig:'g2:4', ask:{q:`Сколько прямых получилось?`, opts:[`2`,`3`,`6`], ok:1, why:`Три пары точек (AB, BC, AC) дают три разные прямые.`, hints:[`Пар точек три, а не две: AB, BC и AC.`,`6 было бы, если считать AB и BA разными. Но это одна и та же прямая.`]}},
+{t:`Ответ`, h:`<div class="ansbox"><div class="big">Получилось 3 прямые</div></div><p>Почему именно три: каждая пара точек даёт одну прямую, а пар у трёх точек три.</p>`},
+{t:`Проверь себя`, fin:true, num:{q:`Сколько прямых можно провести через три точки, если все три лежат на одной прямой?`, ans:[1], show:`1`, why:`Если все три точки на одной прямой, то любая пара из них задаёт эту же самую прямую. Получается одна прямая.`, hint:`Подумай: прямая через A и B уже проходит через C?`}}
+];</script><script>
+function fmt(s){return String(s).replace(/\[\[r:([^\]]+)\]\]/g,'<span class="rt"><span class="rs">√</span><span class="ro">$1</span></span>').replace(/\[\[f:([^|\]]+)\|([^\]]+)\]\]/g,'<span class="fr"><span class="n">$1</span><span class="d">$2</span></span>');}
+function stageFig(svg,k,mark){svg.querySelectorAll('[data-s],[data-e]').forEach(function(el){var s=el.getAttribute('data-s')?+el.getAttribute('data-s'):0;var e=el.getAttribute('data-e')?+el.getAttribute('data-e'):1e9;var v=(s<=k&&k<e);el.style.display=v?'':'none';if(mark&&v&&s===k&&s>0)el.classList.add('new');});}
+
+(function(){
+var feed=document.getElementById('feed'),nextB=document.getElementById('next'),backB=document.getElementById('back'),pf=document.getElementById('pfill'),pc=document.getElementById('pcount'),endb=document.getElementById('endblock');
+var shown=0,locked=false,total=STEPS.length;
+function figHTML(spec){var p=spec.split(':'),src=document.getElementById(p[0]);if(!src)return '';var c=src.cloneNode(true);c.removeAttribute('id');stageFig(c,+p[1],true);return '<div class="figwrap">'+c.outerHTML+'</div>';}
+function num(v){var t=String(v).replace(/\s/g,'').replace(',','.').replace('−','-');if(t===''||isNaN(Number(t)))return null;return Number(t);}
+function unlock(){locked=false;refresh();}
+function card(i){
+ var s=STEPS[i],d=document.createElement('section');d.className='step'+(s.warn?' warn':'');
+ var h='<div class="sn">'+(s.fin?'Теперь сам':'Шаг '+(i+1))+'</div><h2>'+fmt(s.t)+'</h2>';
+ if(s.h)h+='<div class="body">'+fmt(s.h)+'</div>';
+ if(s.fig)h+=figHTML(s.fig);
+ if(s.ask){h+='<div class="ask"><div class="q">'+fmt(s.ask.q)+'</div><div class="opts">'+s.ask.opts.map(function(o,j){return '<button class="opt" type="button" data-i="'+j+'">'+fmt(o)+'</button>';}).join('')+'</div><div class="fb" role="status"></div></div>';}
+ if(s.num){h+='<div class="ask"><div class="q">'+fmt(s.num.q)+'</div><div class="row"><input class="inp" type="text" inputmode="decimal" autocomplete="off" aria-label="Ответ" placeholder="Твой ответ"><button class="btn chk" type="button">Проверить</button></div><div class="fb" role="status"></div></div>';}
+ d.innerHTML=h;
+ if(s.ask){var fb=d.querySelector('.fb'),btns=d.querySelectorAll('.opt');btns.forEach(function(b){b.addEventListener('click',function(){var j=+b.getAttribute('data-i');if(j===s.ask.ok){b.classList.add('good');btns.forEach(function(x){x.disabled=true;});fb.className='fb ok';fb.innerHTML=fmt('Верно. '+(s.ask.why||''));unlock();}else{b.classList.add('bad');fb.className='fb no';fb.innerHTML=fmt((s.ask.hints&&s.ask.hints[j])||'Не совсем. Прочитай шаг ещё раз и попробуй другой вариант.');}});});}
+ if(s.num){var inp=d.querySelector('.inp'),chk=d.querySelector('.chk'),fb2=d.querySelector('.fb'),tries=0;
+  var go=function(){var v=num(inp.value);if(v===null){fb2.className='fb no';fb2.textContent='Введи число, например 12 или 3,5.';return;}
+   var ok=s.num.ans.some(function(a){return Math.abs(a-v)<1e-9;});
+   if(ok){fb2.className='fb ok';fb2.innerHTML=fmt('Верно. '+(s.num.why||''));inp.disabled=true;chk.disabled=true;unlock();}
+   else{tries++;fb2.className='fb no';if(tries>=2){fb2.innerHTML=fmt('Не получилось. Правильный ответ: <b>'+s.num.show+'</b>. '+(s.num.why||''));inp.disabled=true;chk.disabled=true;unlock();}else{fb2.innerHTML=fmt('Пока не так. Подсказка: '+(s.num.hint||'проверь вычисления.'));}}};
+  chk.addEventListener('click',go);inp.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();go();}});}
+ return d;}
+function refresh(){
+ var done=shown>=total;
+ pf.style.width=(100*shown/total)+'%';pc.textContent=shown+' / '+total;
+ nextB.disabled=locked||done;nextB.textContent=done?'Готово':'Далее';backB.disabled=shown<=1;
+ endb.hidden=!(done&&!locked);
+}
+function reveal(){
+ if(locked||shown>=total)return;
+ var s=STEPS[shown],d=card(shown);feed.appendChild(d);shown++;
+ if(s.ask||s.num)locked=true;
+ refresh();
+ var rm=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ d.scrollIntoView({behavior:rm?'auto':'smooth',block:'start'});
+}
+function back(){if(shown<=1)return;feed.removeChild(feed.lastElementChild);shown--;locked=false;refresh();}
+nextB.addEventListener('click',reveal);backB.addEventListener('click',back);
+reveal();
+})();
+</script></body></html>

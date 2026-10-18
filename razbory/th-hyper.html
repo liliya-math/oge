@@ -1,0 +1,137 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Обратная пропорциональность</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"><style>
+:root{color-scheme:dark;--bg:#14211e;--card:rgba(243,236,226,.06);--card2:rgba(243,236,226,.11);--line:rgba(243,236,226,.16);--fg:#f3ece2;--muted:#b4b0a3;--blue:#1747c9;--lblue:#9db8ff;--apricot:#f2905e;--yellow:#f5dc6a;--sage:#a9d18e;--bad:#ff8f7a;--font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Inter,"Segoe UI",Roboto,Arial,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 17px/1.55 var(--font);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-top:0;padding-bottom:40px;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(60% 38% at 12% 0%,rgba(23,71,201,.30),transparent 70%),radial-gradient(50% 36% at 100% 100%,rgba(242,144,94,.12),transparent 70%),var(--bg)}
+a{color:var(--lblue)}
+.wrap{max-width:720px;margin:0 auto}
+.top{display:flex;align-items:center;gap:12px;padding:16px 0 10px;flex-wrap:wrap}
+.logo{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--fg);font:700 17px var(--font);letter-spacing:-.01em}
+.logo svg{display:block}
+.logo .dot{color:var(--apricot)}
+.crumb{font:600 13px var(--font);color:var(--muted);letter-spacing:.02em}
+h1{font:800 clamp(26px,6.4vw,38px)/1.12 var(--font);letter-spacing:-.025em;margin:6px 0 10px;text-wrap:balance}
+h1 .g,.g{background:linear-gradient(90deg,var(--yellow),var(--apricot));-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font:700 20px/1.25 var(--font);letter-spacing:-.01em;margin:2px 0 8px;text-wrap:balance}
+h3{font:700 17px/1.3 var(--font);margin:18px 0 6px;color:var(--yellow)}
+p{margin:0 0 10px}
+.lead{color:var(--muted);font-size:17px;margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 18px;margin:0 0 14px}
+.lab{font:600 12px var(--font);text-transform:uppercase;letter-spacing:.09em;color:var(--apricot);margin-bottom:6px}
+.cond{border-color:rgba(157,184,255,.35);background:rgba(23,71,201,.14)}
+.cond p{margin:0 0 6px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.chip{display:inline-block;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--fg);text-decoration:none;font:600 14px var(--font)}
+.chip:hover{background:var(--card2)}
+.chip.th{border-color:rgba(245,220,106,.5);color:var(--yellow)}
+b,strong{color:var(--yellow);font-weight:700}
+em{font-style:normal;color:var(--apricot);font-weight:600}
+.a{color:var(--apricot);font-weight:700}
+.bl{color:var(--lblue);font-weight:700}
+.sg{color:var(--sage);font-weight:700}
+.eq{border:1.5px solid var(--apricot);border-radius:14px;padding:10px 14px;margin:10px 0;font-weight:600;font-size:19px;text-align:center;background:rgba(242,144,94,.08);overflow-x:auto}
+.ansbox{border:1.5px solid var(--sage);border-radius:14px;padding:12px 14px;margin:10px 0;background:rgba(169,209,142,.10)}
+.ansbox .big{font:800 26px/1.2 var(--font);color:var(--sage);letter-spacing:-.01em}
+.say{border-left:3px solid var(--yellow);padding:2px 0 2px 12px;margin:10px 0;color:var(--fg)}
+pre.calc{font:500 17px/1.5 var(--mono);background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:10px 0;overflow-x:auto;white-space:pre;tab-size:4}
+table.tb{border-collapse:collapse;margin:8px 0 10px;font-variant-numeric:tabular-nums;max-width:100%}
+.tw{overflow-x:auto;max-width:100%}
+table.tb td,table.tb th{border:1px solid var(--line);padding:6px 11px;text-align:center;font-weight:500;white-space:nowrap}
+table.tb th{background:var(--card2);color:var(--yellow);font-weight:600}
+table.tb td.hl{background:rgba(242,144,94,.2);color:var(--fg);font-weight:700}
+ul,ol{margin:6px 0 10px;padding-left:22px}
+li{margin:3px 0}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.15;margin:0 .15em}
+.fr .n{border-bottom:1.5px solid currentColor;padding:0 .25em .08em}
+.fr .d{padding:.08em .25em 0}
+.rt{display:inline-flex;align-items:flex-start;white-space:nowrap}
+.rt .rs{margin-right:-.03em}
+.rt .ro{border-top:1.5px solid currentColor;padding:0 .12em;margin-top:.16em;line-height:1.15}
+sup{font-size:.7em;line-height:0}
+/* шаги */
+.step{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 18px 18px;margin:0 0 14px;scroll-margin-top:12px;animation:rise .35s ease both}
+.step.warn{border-color:rgba(255,143,122,.5);background:rgba(255,143,122,.07)}
+.sn{font:600 12px var(--font);text-transform:uppercase;letter-spacing:.09em;color:var(--apricot);margin-bottom:2px}
+.step .body{margin-top:4px}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.figwrap{max-width:520px;margin:12px auto 4px;background:rgba(0,0,0,.22);border:1px solid var(--line);border-radius:14px;padding:8px}
+svg.fig{width:100%;height:auto;max-height:420px;display:block}
+.ask{margin-top:12px;border:1px dashed rgba(245,220,106,.55);border-radius:14px;padding:12px 14px;background:rgba(245,220,106,.05)}
+.ask .q{font-weight:700;margin-bottom:8px}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{font:600 16px var(--font);text-align:left;color:var(--fg);background:var(--card2);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer;min-height:44px}
+.opt:hover{border-color:var(--lblue)}
+.opt.bad{border-color:var(--bad);background:rgba(255,143,122,.12)}
+.opt.good{border-color:var(--sage);background:rgba(169,209,142,.16)}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.inp{font:600 18px var(--font);color:var(--fg);background:rgba(0,0,0,.3);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;min-width:0;flex:1 1 120px;min-height:44px}
+.inp:focus{outline:2px solid var(--lblue);outline-offset:1px}
+.btn{font:700 16px var(--font);border-radius:12px;border:0;padding:10px 16px;cursor:pointer;min-height:44px;color:#fff;background:var(--blue)}
+.btn.sec{background:var(--card2);color:var(--fg);border:1px solid var(--line)}
+.btn:focus-visible,.opt:focus-visible,.chip:focus-visible,a:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
+.btn:disabled{opacity:.4;cursor:default}
+.fb{margin-top:8px;font-weight:500}
+.fb.ok{color:var(--sage)}
+.fb.no{color:var(--bad)}
+.endblock{margin-top:6px}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(20,33,30,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.bar .in{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:10px}
+.pw{flex:1;min-width:0}
+.pt{font:600 12px var(--font);color:var(--muted);margin-bottom:4px;display:flex;justify-content:space-between}
+.pbg{height:6px;border-radius:6px;background:var(--card2);overflow:hidden}
+.pfill{height:100%;width:0;background:linear-gradient(90deg,var(--yellow),var(--apricot));transition:width .3s}
+.bar .btn{min-width:92px}
+/* список */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.tcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.tcard .no{font:700 13px var(--font);color:var(--apricot);letter-spacing:.04em}
+.tcard .tt{font:600 16px/1.35 var(--font)}
+.tcard .ac{display:flex;gap:8px;margin-top:auto;padding-top:6px;flex-wrap:wrap}
+.tcard .ac a{text-decoration:none}
+.tcard .go{background:var(--blue);color:#fff;padding:9px 14px;border-radius:11px;font:700 15px var(--font);min-height:40px;display:inline-flex;align-items:center}
+.tcard .tl{border:1px solid rgba(245,220,106,.5);color:var(--yellow);padding:9px 14px;border-radius:11px;font:600 15px var(--font);min-height:40px;display:inline-flex;align-items:center}
+.sec-h{font:700 13px var(--font);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:26px 0 10px}
+details.dd{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px;margin-top:20px}
+details.dd summary{cursor:pointer;font-weight:700}
+details.dd table{width:100%}
+.nav2{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+/* SVG */
+.ln{stroke:var(--fg);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.thin{stroke:var(--fg);stroke-width:1;fill:none;opacity:.55}
+.grid2{stroke:rgba(243,236,226,.2);stroke-width:1;fill:none}
+.dim{stroke:var(--fg);stroke-width:2;fill:none;opacity:.28;stroke-linecap:round;stroke-linejoin:round}
+.ac2{stroke:var(--apricot);stroke-width:3.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.bl2{stroke:var(--lblue);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.sg2{stroke:var(--sage);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.yl2{stroke:var(--yellow);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.sgt{stroke:var(--sage);stroke-width:1.6;fill:none;opacity:.85}
+.dash{stroke-dasharray:6 5}
+.fa{fill:rgba(242,144,94,.30);stroke:none}
+.fb2{fill:rgba(157,184,255,.28);stroke:none}
+.fs{fill:rgba(169,209,142,.28);stroke:none}
+.fy{fill:rgba(245,220,106,.28);stroke:none}
+.fw{fill:rgba(243,236,226,.07);stroke:var(--fg);stroke-width:1.5}
+.pd{fill:var(--fg)} .pda{fill:var(--apricot)} .pdb{fill:var(--lblue)} .pds{fill:var(--sage)} .pdy{fill:var(--yellow)}
+.tx{fill:var(--fg);font:600 15px var(--font)}
+.tm{fill:var(--muted);font:500 12px var(--font)}
+.tmm{fill:var(--muted);font:500 10.5px var(--font)}
+.ta{fill:var(--apricot);font:700 15px var(--font)}
+.tb2{fill:var(--lblue);font:700 14px var(--font)}
+.ts{fill:var(--sage);font:700 14px var(--font)}
+.ty{fill:var(--yellow);font:700 15px var(--font)}
+.tbig{fill:var(--fg);font:700 26px var(--font)}
+.new{animation:pop .55s ease both}
+@keyframes pop{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.step,.new{animation:none}.pfill{transition:none}}
+@media (max-width:420px){body{font-size:16.5px}.bar .btn{min-width:84px;padding:10px 12px}}
+
+html{padding-top:env(safe-area-inset-top,0px)}</style></head><body><div class="wrap"><header class="top"><a class="logo" href="index.html"><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="9" fill="#1747c9"/><text x="17" y="15" text-anchor="middle" fill="#f3ece2" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="11">25</text><line x1="7" y1="18" x2="27" y2="18" stroke="#f3ece2" stroke-width="1.6" stroke-linecap="round"/><text x="17" y="29" text-anchor="middle" fill="#f3ece2" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="11">25</text></svg><span>lili<span class="dot">.</span>math</span></a><span class="crumb">25/25 · Теория</span></header><main><h1>Обратная пропорциональность</h1><div class="card"><h2>Определение</h2><p><b>Обратной пропорциональностью</b> называется функция, которую можно задать формулой вида y = [[f:k|x]], где x — независимая переменная и k — не равное нулю число.</p><p>Область определения — все числа, кроме 0 (на нуль делить нельзя).</p></div><div class="card"><h2>График — гипербола</h2><p>Графиком обратной пропорциональности является <b>гипербола</b>: линия из двух ветвей.</p><ul><li>Если k &gt; 0, ветви расположены в I и III координатных четвертях.</li><li>Если k &lt; 0, ветви расположены во II и IV четвертях.</li></ul><p>График не пересекает оси координат: x ≠ 0 и y ≠ 0.</p><div class="figwrap"><svg class="fig" id="th" viewBox="0 0 300 260" role="img" aria-label="Гиперболы y = 2/x и y = −2/x"><line class="ln" x1="10" y1="130" x2="290" y2="130"/><line class="ln" x1="150" y1="250" x2="150" y2="10"/><text class="tx" x="284" y="148" text-anchor="middle">x</text><text class="tx" x="162" y="20" text-anchor="middle">y</text><polyline class="sg2" points="160,32.9 162.5,52.3 165,65.3 167.4,74.5 169.9,81.4 172.4,86.8 174.9,91.1 177.4,94.7 179.9,97.6 182.4,100.1 184.9,102.2 187.4,104.1 189.9,105.7 192.3,107.1 194.8,108.4 197.3,109.5 199.8,110.6 202.3,111.5 204.8,112.3 207.3,113.1 209.8,113.8 212.3,114.5 214.8,115.1 217.2,115.6 219.7,116.1 222.2,116.6 224.7,117 227.2,117.5 229.7,117.9 232.2,118.2 234.7,118.6 237.2,118.9 239.7,119.2 242.2,119.5 244.6,119.8 247.1,120 249.6,120.3 252.1,120.5 254.6,120.7 257.1,121 259.6,121.2 262.1,121.4 264.6,121.6 267.1,121.7 269.5,121.9 272,122.1 274.5,122.2 277,122.4 279.5,122.5 282,122.7"/><polyline class="sg2" points="140,227.1 137.5,207.7 135,194.7 132.6,185.5 130.1,178.6 127.6,173.2 125.1,168.9 122.6,165.3 120.1,162.4 117.6,159.9 115.1,157.8 112.6,155.9 110.1,154.3 107.7,152.9 105.2,151.6 102.7,150.5 100.2,149.4 97.7,148.5 95.2,147.7 92.7,146.9 90.2,146.2 87.7,145.5 85.2,144.9 82.8,144.4 80.3,143.9 77.8,143.4 75.3,143 72.8,142.5 70.3,142.1 67.8,141.8 65.3,141.4 62.8,141.1 60.3,140.8 57.8,140.5 55.4,140.2 52.9,140 50.4,139.7 47.9,139.5 45.4,139.3 42.9,139 40.4,138.8 37.9,138.6 35.4,138.4 32.9,138.3 30.5,138.1 28,137.9 25.5,137.8 23,137.6 20.5,137.5 18,137.3"/><polyline class="ac2" points="160,227.1 162.5,207.7 165,194.7 167.4,185.5 169.9,178.6 172.4,173.2 174.9,168.9 177.4,165.3 179.9,162.4 182.4,159.9 184.9,157.8 187.4,155.9 189.9,154.3 192.3,152.9 194.8,151.6 197.3,150.5 199.8,149.4 202.3,148.5 204.8,147.7 207.3,146.9 209.8,146.2 212.3,145.5 214.8,144.9 217.2,144.4 219.7,143.9 222.2,143.4 224.7,143 227.2,142.5 229.7,142.1 232.2,141.8 234.7,141.4 237.2,141.1 239.7,140.8 242.2,140.5 244.6,140.2 247.1,140 249.6,139.7 252.1,139.5 254.6,139.3 257.1,139 259.6,138.8 262.1,138.6 264.6,138.4 267.1,138.3 269.5,138.1 272,137.9 274.5,137.8 277,137.6 279.5,137.5 282,137.3"/><polyline class="ac2" points="140,32.9 137.5,52.3 135,65.3 132.6,74.5 130.1,81.4 127.6,86.8 125.1,91.1 122.6,94.7 120.1,97.6 117.6,100.1 115.1,102.2 112.6,104.1 110.1,105.7 107.7,107.1 105.2,108.4 102.7,109.5 100.2,110.6 97.7,111.5 95.2,112.3 92.7,113.1 90.2,113.8 87.7,114.5 85.2,115.1 82.8,115.6 80.3,116.1 77.8,116.6 75.3,117 72.8,117.5 70.3,117.9 67.8,118.2 65.3,118.6 62.8,118.9 60.3,119.2 57.8,119.5 55.4,119.8 52.9,120 50.4,120.3 47.9,120.5 45.4,120.7 42.9,121 40.4,121.2 37.9,121.4 35.4,121.6 32.9,121.7 30.5,121.9 28,122.1 25.5,122.2 23,122.4 20.5,122.5 18,122.7"/><text class="ts" x="250" y="60" text-anchor="middle">k > 0</text><text class="ts" x="250" y="76" text-anchor="middle">I и III</text><text class="ta" x="70" y="60" text-anchor="middle">k < 0</text><text class="ta" x="70" y="76" text-anchor="middle">II и IV</text></svg></div></div><div class="card"><h2>Как найти k по точке графика</h2><p>Если график проходит через точку (x; y), то её координаты подходят в формулу, то есть y = [[f:k|x]]. Умножив на x, получаем:</p><div class="eq">k = x · y</div><p>Пример: через точку (2; 3) проходит график y = [[f:k|x]]. Тогда k = 2 · 3 = 6.</p></div><div class="card"><h2>Как построить график</h2><ol><li>Найди k и запиши формулу.</li><li>Составь таблицу: возьми несколько x (и положительных, и отрицательных) и посчитай y.</li><li>Отметь точки на координатной плоскости.</li><li>Соедини точки каждой ветви плавной линией.</li></ol></div><div class="card"><h2>Типичные ошибки</h2><ul><li>Соединяют две ветви линией через ось: так нельзя.</li><li>Ветви касаются осей: на самом деле они только приближаются к ним.</li><li>Путают знак: минус, делённый на минус, даёт плюс.</li><li>Не проверяют, что точка из условия лежит на построенной линии.</li></ul></div><div class="card"><div class="lab">Где это пригодится</div><p>Разборы задач по этой теме:</p><div class="chips"><a class="chip" href="t-287.html">Задача 287</a></div></div><div class="card"><div class="lab">Другая теория</div><div class="chips"><a class="chip th" href="th-sqrt.html">Квадратный корень</a><a class="chip th" href="th-median.html">Медианы треугольника</a><a class="chip th" href="th-fales.html">Теорема Фалеса и деление отрезка</a><a class="chip th" href="th-round.html">Округление чисел</a><a class="chip th" href="th-percent.html">Проценты</a><a class="chip th" href="th-ratio.html">Отношение и деление в данном отношении</a><a class="chip th" href="th-line.html">Точка и прямая</a><a class="chip th" href="th-broken.html">Отрезок, ломаная, многоугольник</a></div></div><div class="nav2"><a class="chip" href="index.html">Все задачи и теория</a></div></main></div><script>
+function fmt(s){return String(s).replace(/\[\[r:([^\]]+)\]\]/g,'<span class="rt"><span class="rs">√</span><span class="ro">$1</span></span>').replace(/\[\[f:([^|\]]+)\|([^\]]+)\]\]/g,'<span class="fr"><span class="n">$1</span><span class="d">$2</span></span>');}
+function stageFig(svg,k,mark){svg.querySelectorAll('[data-s],[data-e]').forEach(function(el){var s=el.getAttribute('data-s')?+el.getAttribute('data-s'):0;var e=el.getAttribute('data-e')?+el.getAttribute('data-e'):1e9;var v=(s<=k&&k<e);el.style.display=v?'':'none';if(mark&&v&&s===k&&s>0)el.classList.add('new');});}
+
+document.addEventListener('DOMContentLoaded',function(){
+ var m=document.querySelector('main');if(m)m.innerHTML=fmt(m.innerHTML);
+ document.querySelectorAll('.fstat').forEach(function(w){var svg=w.querySelector('svg');if(svg)stageFig(svg,+w.getAttribute('data-k')||99,false);});
+});
+</script></body></html>
