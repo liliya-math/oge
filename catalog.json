@@ -917,6 +917,186 @@
    "oge_task": 21,
    "status": "public",
    "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-kvadratnye.html",
+   "title": "Квадратные уравнения: все материалы по порядку",
+   "type": "sistema",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-kvadratnye-teoriya.html",
+   "title": "Теория и устный опрос: квадратные уравнения",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-kvadratnye-test.html",
+   "title": "Тест: квадратные уравнения",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-kvadratnye-pyatiminutki.html",
+   "title": "Карточки-пятиминутки: квадратные уравнения (2 варианта)",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-kvadratnye-razbor-5.html",
+   "title": "Разбор 5 задач повышенной сложности: квадратные уравнения",
+   "type": "razbor",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-kvadratnye-trenazhor.html",
+   "title": "Тренажёр: квадратные уравнения, повышенный уровень",
+   "type": "trenazher",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-kvadratnye-trenazhor-gen.html",
+   "title": "Тренажёр: квадратные уравнения, новые числа каждый раз",
+   "type": "trenazher",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-kvadratnye-pamyatka.html",
+   "title": "Памятка: алгоритм и оформление, квадратные уравнения",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-kvadratnye-kontrolnaya.html",
+   "title": "Зачётный лист: квадратные уравнения (3 уровня)",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-kvadratnye-dz.html",
+   "title": "Домашняя карточка: квадратные уравнения (4 задачи)",
+   "type": "dz",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-kvadratnye-plan-uroka.html",
+   "title": "План урока на 60 минут и ДЗ: квадратные уравнения",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "для репетитора; добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-kvadratnye-teoriya.pdf",
+   "title": "Квадратные уравнения, печать: teoriya",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-kvadratnye-pyatiminutki.pdf",
+   "title": "Квадратные уравнения, печать: pyatiminutki",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-kvadratnye-pamyatka.pdf",
+   "title": "Квадратные уравнения, печать: pamyatka",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-kvadratnye-kontrolnaya.pdf",
+   "title": "Квадратные уравнения, печать: kontrolnaya",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-kvadratnye-dz.pdf",
+   "title": "Квадратные уравнения, печать: dz",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-kvadratnye-plan-uroka.pdf",
+   "title": "Квадратные уравнения, печать: plan-uroka",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-kvadratnye-komplekt.pdf",
+   "title": "Квадратные уравнения, печать: komplekt",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "razbor-kvadratnye-dialog.pdf",
+   "title": "Разбор в диалоге: квадратные уравнения (печать)",
+   "type": "razbor",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "razbor-kvadratnye-dialog.md",
+   "title": "Разбор в диалоге: квадратные уравнения (исходный текст)",
+   "type": "razbor",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
   }
  ]
 }

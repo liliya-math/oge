@@ -1,0 +1,77 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тренажёр: квадратные уравнения, повышенный уровень</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+</style></head><body><div class="wrap">
+<p class="sub"><a href="z20-kvadratnye.html" style="color:#7da2ff">← Квадратные уравнения (№9 и №20)</a></p><h1>Тренажёр: квадратные уравнения</h1><p class="sub">Пять задач повышенной сложности (№20). На каждом шаге ответьте, затем нажмите «Дальше».</p>
+<div class="tabs" id="tabs"></div><div class="bar"><i id="pb"></i></div><div id="box"></div></div>
+<script>
+const T=[{"title": "Задача 1. Замена переменной", "cond": "Решите уравнение (x² − 3x)² − 2(x² − 3x) − 8 = 0. В ответ запишите все корни.", "steps": [{"t": "c", "q": "Что удобно обозначить за t?", "o": ["t = x² − 3x", "t = x²", "t = x − 3", "t = 2x"], "a": 0, "h": "Ищите выражение, которое повторяется.", "r": "Выражение x² − 3x встречается дважды. Пусть t = x² − 3x."}, {"t": "c", "q": "Какое уравнение получится для t?", "o": ["t² − 2t − 8 = 0", "t² − 2t + 8 = 0", "t² + 2t − 8 = 0", "t² − 8 = 0"], "a": 0, "h": "Подставьте t вместо x² − 3x в каждое место.", "r": "t² − 2t − 8 = 0."}, {"t": "n", "q": "Найдите больший корень уравнения t² − 2t − 8 = 0.", "a": 4, "h": "D = 4 + 32 = 36, t = (2 ± 6)/2.", "r": "D = 36; t₁ = 4, t₂ = −2."}, {"t": "n", "q": "Решите x² − 3x = 4 (то есть x² − 3x − 4 = 0). Запишите больший корень.", "a": 4, "h": "D = 9 + 16 = 25; x = (3 ± 5)/2.", "r": "x = 4 или x = −1."}, {"t": "n", "q": "Решите x² − 3x = −2 (то есть x² − 3x + 2 = 0). Запишите меньший корень.", "a": 1, "h": "D = 9 − 8 = 1; x = (3 ± 1)/2.", "r": "x = 2 или x = 1."}, {"t": "n", "q": "Сколько всего различных корней у исходного уравнения?", "a": 4, "h": "Корни от первого t и от второго t.", "r": "Корни: −1; 1; 2; 4. Ответ: четыре корня. Ловушка: остановиться на t."}]}, {"title": "Задача 2. Дробно-рациональное уравнение", "cond": "Решите уравнение (x + 1)/(x − 1) + (x − 1)/(x + 1) = 10/3.", "steps": [{"t": "c", "q": "Чему равна область допустимых значений?", "o": ["x ≠ 1 и x ≠ −1", "x ≠ 0", "x ≠ 1 только", "любые x"], "a": 0, "h": "Знаменатели не должны обращаться в нуль.", "r": "ОДЗ: x ≠ 1 и x ≠ −1."}, {"t": "c", "q": "Чему равен числитель (x + 1)² + (x − 1)² после приведения к знаменателю x² − 1?", "o": ["2x² + 2", "2x²", "2x + 2", "x² + 1"], "a": 0, "h": "Раскройте квадраты: x² + 2x + 1 и x² − 2x + 1.", "r": "Средние слагаемые сокращаются: 2x² + 2."}, {"t": "c", "q": "Выберите уравнение после умножения крест-накрест.", "o": ["3(2x² + 2) = 10(x² − 1)", "2x² + 2 = 10(x² − 1)", "3(2x² + 2) = 10", "6x² + 2 = 10x² − 1"], "a": 0, "h": "Пропорция a/b = c/d даёт ad = bc.", "r": "3(2x² + 2) = 10(x² − 1), то есть 6x² + 6 = 10x² − 10."}, {"t": "n", "q": "Найдите x² из уравнения 6x² + 6 = 10x² − 10.", "a": 4, "h": "Соберите x² слева, числа справа: 4x² = 16.", "r": "4x² = 16; x² = 4."}, {"t": "n", "q": "Найдите больший корень.", "a": 2, "h": "x = 2 или x = −2; оба удовлетворяют ОДЗ.", "r": "Ответ: −2; 2. Проверка x = 2: 3/1 + 1/3 = 10/3."}]}, {"title": "Задача 3. Кубическое уравнение, группировка", "cond": "Решите уравнение x³ + 3x² − 4x − 12 = 0.", "steps": [{"t": "c", "q": "Что получится после группировки и вынесения общих множителей?", "o": ["(x + 3)(x² − 4) = 0", "(x − 3)(x² − 4) = 0", "(x + 3)(x² + 4) = 0", "x(x + 3)(x − 4) = 0"], "a": 0, "h": "x³ + 3x² = x²(x + 3); 4x + 12 = 4(x + 3).", "r": "x²(x + 3) − 4(x + 3) = (x + 3)(x² − 4)."}, {"t": "c", "q": "Как разложить x² − 4?", "o": ["(x − 2)(x + 2)", "(x − 2)²", "(x − 4)(x + 1)", "(x + 4)(x − 1)"], "a": 0, "h": "Разность квадратов: a² − b² = (a − b)(a + b).", "r": "(x + 3)(x − 2)(x + 2) = 0."}, {"t": "n", "q": "Найдите наименьший корень.", "a": -3, "h": "Каждый множитель приравняйте к нулю.", "r": "x = −3, x = −2, x = 2."}, {"t": "n", "q": "Найдите наибольший корень.", "a": 2, "h": "Из трёх корней выберите больший.", "r": "Наибольший 2."}, {"t": "c", "q": "Почему нельзя поделить обе части на (x + 3)?", "o": ["Потеряется корень x = −3", "Получится дробь", "Уравнение станет линейным", "Можно, ничего не изменится"], "a": 0, "h": "Подумайте, что произойдёт с корнем, при котором x + 3 = 0.", "r": "Ответ: −3; −2; 2. Общий множитель выносят за скобку, а не сокращают."}]}, {"title": "Задача 4. Посторонний корень", "cond": "Решите уравнение x/(x − 2) − 8/(x² − 4) = 1/(x + 2).", "steps": [{"t": "c", "q": "Чему равна область допустимых значений?", "o": ["x ≠ 2 и x ≠ −2", "x ≠ 4", "x ≠ 0", "x ≠ 2 только"], "a": 0, "h": "x² − 4 = (x − 2)(x + 2).", "r": "ОДЗ: x ≠ 2 и x ≠ −2."}, {"t": "c", "q": "На что умножить обе части уравнения?", "o": ["(x − 2)(x + 2)", "x²", "x − 2", "x + 2"], "a": 0, "h": "Общий знаменатель всех трёх дробей.", "r": "Умножаем на (x − 2)(x + 2) = x² − 4."}, {"t": "c", "q": "Выберите уравнение после умножения.", "o": ["x(x + 2) − 8 = x − 2", "x(x − 2) − 8 = x + 2", "x + 2 − 8 = x − 2", "x(x + 2) − 8 = 1"], "a": 0, "h": "Первую дробь умножаем на (x + 2), третью на (x − 2).", "r": "x(x + 2) − 8 = x − 2; после упрощения x² + x − 6 = 0."}, {"t": "n", "q": "Найдите дискриминант уравнения x² + x − 6 = 0.", "a": 25, "h": "D = 1 − 4 · 1 · (−6).", "r": "D = 1 + 24 = 25."}, {"t": "n", "q": "Найдите больший корень уравнения x² + x − 6 = 0.", "a": 2, "h": "x = (−1 ± 5)/2.", "r": "x = 2 или x = −3."}, {"t": "c", "q": "Какой корень посторонний?", "o": ["x = 2, он обращает знаменатель в нуль", "x = −3", "оба подходят", "оба посторонние"], "a": 0, "h": "Проверьте оба числа по ОДЗ.", "r": "x = 2 не входит в ОДЗ."}, {"t": "n", "q": "Запишите ответ: корень исходного уравнения.", "a": -3, "h": "Остался один корень.", "r": "Ответ: −3. Проверка: −3/(−5) − 8/5 = −1 = 1/(−1)."}]}, {"title": "Задача 5. Система с квадратным уравнением", "cond": "Решите систему уравнений: x² + y² = 29, x − y = 3.", "steps": [{"t": "c", "q": "Что выразить из линейного уравнения?", "o": ["x = y + 3", "x = y − 3", "y = x + 3", "x = 3y"], "a": 0, "h": "x − y = 3, перенесите y вправо.", "r": "x = y + 3."}, {"t": "c", "q": "Какое уравнение получится после подстановки в первое?", "o": ["(y + 3)² + y² = 29", "y² + 9 + y² = 29", "(y + 3)² = 29", "(y − 3)² + y² = 29"], "a": 0, "h": "Подставьте y + 3 вместо x, квадрат относится ко всей скобке.", "r": "(y + 3)² + y² = 29."}, {"t": "c", "q": "Приведите к виду ay² + by + c = 0 и упростите.", "o": ["y² + 3y − 10 = 0", "y² + 6y − 20 = 0", "y² + 3y + 10 = 0", "2y² + 6y + 9 = 0"], "a": 0, "h": "y² + 6y + 9 + y² = 29; 2y² + 6y − 20 = 0; разделите на 2.", "r": "2y² + 6y − 20 = 0, или y² + 3y − 10 = 0."}, {"t": "n", "q": "Найдите больший y.", "a": 2, "h": "D = 9 + 40 = 49; y = (−3 ± 7)/2.", "r": "y = 2 или y = −5."}, {"t": "n", "q": "Найдите меньший y.", "a": -5, "h": "Второй корень из той же формулы.", "r": "y = −5."}, {"t": "n", "q": "Чему равен x, если y = −5?", "a": -2, "h": "x = y + 3.", "r": "x = −2; при y = 2 получаем x = 5."}, {"t": "n", "q": "Сколько решений (пар чисел) у системы?", "a": 2, "h": "Каждому y соответствует одно x.", "r": "Ответ: (5; 2) и (−2; −5). Проверка: 25 + 4 = 29, 5 − 2 = 3."}]}];
+let cur=0,st=0,prog=T.map(()=>0);
+const tabs=document.getElementById('tabs'),box=document.getElementById('box'),pb=document.getElementById('pb');
+function norm(s){return parseFloat(String(s).replace(',','.').replace(/\s/g,''))}
+function renderTabs(){tabs.innerHTML='';T.forEach((t,k)=>{const b=document.createElement('button');b.textContent='Задача '+(k+1)+(prog[k]===t.steps.length?' (готово)':'');if(k===cur)b.className='on';b.onclick=()=>{cur=k;st=prog[k]>=t.steps.length?0:prog[k];render()};tabs.appendChild(b)})}
+function render(){
+  renderTabs();
+  const t=T[cur];pb.style.width=(prog[cur]/t.steps.length*100)+'%';
+  let h='<div class="card"><span class="tag">'+t.title+'</span><div class="cond">'+t.cond+'</div>';
+  for(let k=0;k<prog[cur]&&k<t.steps.length;k++){h+='<div class="done">'+t.steps[k].r+'</div>'}
+  if(prog[cur]<t.steps.length){
+    const s=t.steps[prog[cur]];
+    h+='<p class="q" style="margin-top:16px">Шаг '+(prog[cur]+1)+' из '+t.steps.length+'. '+s.q+'</p><div id="in"></div><div id="fb"></div>';
+  }else{
+    h+='<p style="margin-top:14px">Задача разобрана. '+(cur<T.length-1?'<button class="btn" onclick="cur++;st=0;render()">Следующая задача</button>':'Это была последняя. Хороший трудный набор: теперь попробуйте решить любую из них с чистого листа.')+'</p>';
+  }
+  box.innerHTML=h+'</div>';
+  if(prog[cur]<t.steps.length)drawStep(t.steps[prog[cur]]);
+}
+function drawStep(s){
+  const el=document.getElementById('in');
+  if(s.t==='c'){
+    s.o.map((v,k)=>[v,k]).sort(()=>Math.random()-.5).forEach(([v,k])=>{const b=document.createElement('button');b.className='opt';b.textContent=v;b.onclick=()=>check(k===s.a,b);el.appendChild(b)});
+  }else{
+    el.innerHTML='<input class="num" id="num" inputmode="decimal" placeholder="Ответ"> <button class="btn" id="go">Проверить</button>';
+    const f=()=>check(Math.abs(norm(document.getElementById('num').value)-s.a)<1e-9,null);
+    document.getElementById('go').onclick=f;document.getElementById('num').onkeydown=e=>{if(e.key==='Enter')f()};
+  }
+}
+let tries=0;
+function check(ok,btn){
+  const s=T[cur].steps[prog[cur]],fb=document.getElementById('fb');
+  if(ok){
+    document.querySelectorAll('.opt').forEach(x=>x.disabled=true);if(btn)btn.classList.add('ok');
+    const inp=document.getElementById('num');if(inp)inp.disabled=true;const go=document.getElementById('go');if(go)go.disabled=true;
+    fb.innerHTML='<div class="exp">Верно. '+s.r+'</div><button class="btn" onclick="prog[cur]++;tries=0;render()">Дальше</button>';
+  }else{
+    tries++;if(btn){btn.classList.add('bad');btn.disabled=true}
+    fb.innerHTML='<div class="hint">Не то. Подсказка: '+s.h+'</div>'+(tries>=3?'<button class="btn ghost" onclick="reveal()">Показать ответ</button>':'');
+  }
+}
+function reveal(){const s=T[cur].steps[prog[cur]];document.getElementById('fb').innerHTML='<div class="exp">'+s.r+'</div><button class="btn" onclick="prog[cur]++;tries=0;render()">Дальше</button>'}
+render();
+</script></body></html>

@@ -1,0 +1,57 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тест: квадратные уравнения</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+</style></head><body><div class="wrap">
+<p class="sub"><a href="z20-kvadratnye.html" style="color:#7da2ff">← Квадратные уравнения (№9 и №20)</a></p><h1>Квадратные уравнения: тест</h1><p class="sub">10 вопросов. После каждого ответа появляется разбор.</p>
+<div class="bar"><i id="pb"></i></div><div id="box"></div></div>
+<script>
+const Q=[["Какое из уравнений является квадратным?", ["3x² − 5 = 0", "x³ − x = 0", "2x − 7 = 0", "x² − 3x = x² + 1"], 0, "Квадратное уравнение имеет вид ax² + bx + c = 0 при a ≠ 0. Последнее после переноса сводится к −3x = 1, это линейное уравнение: x² сокращается."], ["Назовите коэффициенты a, b, c уравнения 2x² − 5x + 3 = 0.", ["a = 2, b = −5, c = 3", "a = 2, b = 5, c = 3", "a = −5, b = 2, c = 3", "a = 2, b = 3, c = −5"], 0, "Коэффициент берут вместе со знаком: b = −5."], ["Решите уравнение x² − 49 = 0.", ["−7; 7", "7", "49", "корней нет"], 0, "x² = 49, поэтому x = 7 или x = −7."], ["Решите уравнение x² + 6x = 0.", ["−6; 0", "−6", "6; 0", "0"], 0, "x(x + 6) = 0; x = 0 или x = −6. Делить на x нельзя: потеряется корень 0."], ["Чему равен дискриминант уравнения 3x² − 4x − 4 = 0?", ["64", "−32", "32", "16"], 0, "D = b² − 4ac = 16 − 4 · 3 · (−4) = 16 + 48 = 64."], ["Сколько корней имеет уравнение x² − 4x + 5 = 0?", ["Ни одного", "Один", "Два", "Бесконечно много"], 0, "D = 16 − 20 = −4 &lt; 0, действительных корней нет."], ["Чему равны сумма и произведение корней уравнения x² − 7x + 12 = 0?", ["Сумма 7, произведение 12", "Сумма −7, произведение 12", "Сумма 7, произведение −12", "Сумма 12, произведение 7"], 0, "По теореме Виета x₁ + x₂ = −p = 7, x₁ · x₂ = q = 12. Корни 3 и 4."], ["Найдите корни уравнения x² + 2x − 15 = 0.", ["−5; 3", "5; −3", "−5; −3", "3; 5"], 0, "Сумма корней −2, произведение −15: подходят −5 и 3. Проверка D = 4 + 60 = 64, x = (−2 ± 8)/2."], ["Сколько корней имеет уравнение x⁴ − 5x² + 4 = 0?", ["Четыре", "Два", "Один", "Ни одного"], 0, "Замена t = x²: t² − 5t + 4 = 0, t = 1 или t = 4. Тогда x = ±1 и x = ±2: четыре корня."], ["Решите уравнение (x² − x − 6)/(x − 3) = 0.", ["−2", "3", "−2; 3", "корней нет"], 0, "Числитель равен нулю при x = 3 и x = −2, но при x = 3 знаменатель равен нулю. Корень 3 посторонний, остаётся −2."]];
+let i=0,score=0,wrong=[];
+const box=document.getElementById('box'),pb=document.getElementById('pb');
+function shuffle(a){const r=a.map((v,k)=>[v,k]);for(let j=r.length-1;j>0;j--){const m=Math.floor(Math.random()*(j+1));[r[j],r[m]]=[r[m],r[j]]}return r}
+function show(){
+  if(i>=Q.length){return end()}
+  pb.style.width=(i/Q.length*100)+'%';
+  const [q,opts,ans,exp]=Q[i];
+  box.innerHTML='<div class="card"><span class="tag">Вопрос '+(i+1)+' из '+Q.length+'</span><p class="q">'+q+'</p><div id="o"></div><div id="e"></div></div>';
+  const o=document.getElementById('o');
+  shuffle(opts).forEach(([t,k])=>{const b=document.createElement('button');b.className='opt';b.textContent=t;b.onclick=()=>pick(b,k===ans,exp);o.appendChild(b);b.dataset.k=k});
+}
+function pick(b,ok,exp){
+  document.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(+x.dataset.k===Q[i][2])x.classList.add('ok')});
+  if(ok){score++}else{b.classList.add('bad');wrong.push(i+1)}
+  document.getElementById('e').innerHTML='<div class="exp">'+(ok?'Верно. ':'Неверно. ')+exp+'</div><button class="btn" onclick="i++;show()">'+(i===Q.length-1?'Результат':'Дальше')+'</button>';
+}
+function end(){
+  pb.style.width='100%';
+  const msg=score>=9?'Тема усвоена. Можно переходить к задачам №20.':score>=7?'Хороший результат. Повторите вопросы, где были ошибки.':score>=5?'Есть пробелы. Вернитесь к теории и разберите ошибки.':'Нужно повторить теорию и типы задач с начала.';
+  box.innerHTML='<div class="card"><span class="tag">Результат</span><div class="big">'+score+' из '+Q.length+'</div><p>'+msg+'</p>'+(wrong.length?'<p class="sub">Ошибки в вопросах: '+wrong.join(', ')+'</p>':'')+'<button class="btn" onclick="i=0;score=0;wrong=[];show()">Пройти заново</button></div>';
+}
+show();
+</script></body></html>

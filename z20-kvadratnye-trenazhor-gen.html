@@ -1,0 +1,127 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тренажёр: квадратные уравнения, новые числа каждый раз</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+a{color:var(--blue)}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 16px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.chips button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 12px;font:inherit;font-size:14px;cursor:pointer}
+.chips button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.cond{font-size:18px;margin:6px 0 14px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:170px}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin:6px 6px 0 0}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line)}
+.btn[disabled]{opacity:.45;cursor:default}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+.ok{border-left:3px solid var(--ok);background:rgba(155,211,160,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.bad{border-left:3px solid var(--bad);background:rgba(240,154,138,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.sol{border-left:3px solid var(--blue);background:rgba(125,162,255,.08);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:15px}
+.sol p{margin:6px 0}
+.stat{color:var(--muted);font-size:14px}
+</style></head><body><div class="wrap"><p class="sub"><a href="z20-kvadratnye.html">← Квадратные уравнения (№9 и №20)</a></p><h1>Тренажёр: квадратные уравнения</h1><p class="sub">Каждая задача новая: числа меняются, ответ целое число. Типы №9 и №20: неполные, полные, Виета, скобки, замена, дробь с ОДЗ, группировка.</p><div class="chips" id="chips"></div><div class="card" id="box"></div><p class="stat" id="stat"></p></div><script>function rnd(a,b){return a+Math.floor(Math.random()*(b-a+1))}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function fm(n){var s=String(Math.round(n*1000)/1000).replace('.',',');return s.replace('-','−')}
+function isInt(x){return Math.abs(x-Math.round(x))<1e-9}
+function tm(c,v,first){ // член многочлена: коэффициент c при v
+  if(c===0)return '';
+  var sg=c<0?'−':'+',a=Math.abs(c),body=(v&&a===1)?v:(String(a)+(v||''));
+  if(first)return (c<0?'−':'')+body;
+  return ' '+sg+' '+body;
+}
+function quad(a,b,c,v){v=v||'x';return tm(a,v+'²',true)+tm(b,v,false)+tm(c,'',false)}
+function rootsOf(a,b,c){var D=b*b-4*a*c;return D<0?[]:[(-b-Math.sqrt(D))/(2*a),(-b+Math.sqrt(D))/(2*a)]}
+var TYPES={
+ nep1:{name:'Неполное: x² = c'},
+ nep2:{name:'Неполное: x² + bx = 0'},
+ full:{name:'Полное, дискриминант'},
+ vieta:{name:'Теорема Виета'},
+ brk:{name:'Скобки: (x + m)(x + n) = c'},
+ bq:{name:'Биквадратное (замена)'},
+ frac:{name:'Дробь и ОДЗ'},
+ grp:{name:'Кубическое, группировка'}
+};
+var GEN={
+ nep1:function(){
+  var k=rnd(2,15),big=pick([true,false]);
+  return{cond:'Решите уравнение '+tm(1,'x²',true)+' − '+(k*k)+' = 0. Если корней несколько, запишите '+(big?'больший':'меньший')+'.',ans:big?k:-k,
+   hint:'Перенесите число вправо: x² = '+(k*k)+'. Квадрат равен числу — два корня, плюс и минус.',
+   sol:'<p>x² = '+(k*k)+', x = '+k+' или x = −'+k+'.</p>',f:function(x){return x*x-k*k}};
+ },
+ nep2:function(){
+  var a=pick([1,1,2,3]),r=rnd(1,9)*pick([-1,1]),b=-a*r,big=pick([true,false]),ans=big?Math.max(0,r):Math.min(0,r);
+  return{cond:'Решите уравнение '+quad(a,b,0)+' = 0. Запишите '+(big?'больший':'меньший')+' корень.',ans:ans,
+   hint:'Вынесите x за скобку: x(…) = 0. Произведение равно нулю, когда один из множителей равен нулю. Делить на x нельзя.',
+   sol:'<p>x('+(a===1?'x':a+'x')+tm(b,'',false)+') = 0; x = 0 или '+(a===1?'x':a+'x')+tm(b,'',false)+' = 0, откуда x = '+fm(r)+'.</p>',f:function(x){return a*x*x+b*x}};
+ },
+ full:function(){
+  for(;;){var a=pick([1,2,2,3]),r1=rnd(-9,9),r2=rnd(-9,9);if(r1===r2||r1===0||r2===0)continue;
+   var b=-a*(r1+r2),c=a*r1*r2,D=b*b-4*a*c,big=pick([true,false]),ans=big?Math.max(r1,r2):Math.min(r1,r2);
+   return{cond:'Решите уравнение '+quad(a,b,c)+' = 0. Запишите '+(big?'больший':'меньший')+' корень.',ans:ans,
+    hint:'D = b² − 4ac = '+fm(b)+'² − 4 · '+fm(a)+' · '+fm(c)+'. Корни x = (−b ± √D)/(2a).',
+    sol:'<p>D = '+fm(b)+'² − 4 · '+fm(a)+' · '+fm(c)+' = '+D+', √D = '+Math.sqrt(D)+'.</p><p>x = ('+fm(-b)+' ± '+Math.sqrt(D)+')/'+(2*a)+'; x = '+r1+' и x = '+r2+'.</p>',f:function(x){return a*x*x+b*x+c}};}
+ },
+ vieta:function(){
+  for(;;){var r1=rnd(-8,8),r2=rnd(-8,8);if(r1===r2||r1===0||r2===0)continue;
+   var p=-(r1+r2),q=r1*r2,k=pick(['sq','prod','sum']);
+   if(k==='sq')return{cond:'Не решая уравнение '+quad(1,p,q)+' = 0, найдите сумму квадратов его корней x₁² + x₂².',ans:p*p-2*q,
+    hint:'x₁² + x₂² = (x₁ + x₂)² − 2x₁x₂. По теореме Виета x₁ + x₂ = −p, x₁x₂ = q.',
+    sol:'<p>x₁ + x₂ = '+fm(-p)+', x₁x₂ = '+fm(q)+'.</p><p>x₁² + x₂² = '+fm(p*p)+' − 2 · ('+fm(q)+') = '+fm(p*p-2*q)+'.</p>',f:function(){return 0}};
+   if(k==='prod')return{cond:'Найдите произведение корней уравнения '+quad(1,p,q)+' = 0 (корни существуют).',ans:q,
+    hint:'Теорема Виета: x₁ · x₂ = q для x² + px + q = 0.',sol:'<p>x₁ · x₂ = '+fm(q)+'.</p>',f:function(){return 0}};
+   return{cond:'Найдите сумму корней уравнения '+quad(1,p,q)+' = 0 (корни существуют).',ans:-p,
+    hint:'Теорема Виета: x₁ + x₂ = −p.',sol:'<p>x₁ + x₂ = −('+fm(p)+') = '+fm(-p)+'.</p>',f:function(){return 0}};}
+ },
+ brk:function(){
+  for(;;){var m=rnd(-6,6),n=rnd(-6,6),r1=rnd(-8,8),r2=-(m+n)-r1;if(r1===r2||m===0||n===0||Math.abs(r2)>9)continue;
+   var cc=m*n-r1*r2,big=pick([true,false]),ans=big?Math.max(r1,r2):Math.min(r1,r2);
+   return{cond:'Решите уравнение (x '+(m<0?'−':'+')+' '+Math.abs(m)+')(x '+(n<0?'−':'+')+' '+Math.abs(n)+') = '+fm(cc)+'. Запишите '+(big?'больший':'меньший')+' корень.',ans:ans,
+    hint:'Раскройте скобки, перенесите всё влево и приведите к виду x² + bx + c = 0.',
+    sol:'<p>'+quad(1,m+n,m*n)+' = '+fm(cc)+'; '+quad(1,m+n,m*n-cc)+' = 0.</p><p>Корни: x = '+r1+' и x = '+r2+' (сумма '+fm(-(m+n))+', произведение '+fm(r1*r2)+').</p>',f:function(x){return (x+m)*(x+n)-cc}};}
+ },
+ bq:function(){
+  for(;;){var u=rnd(1,7),v=rnd(1,7);if(u===v)continue;
+   var S=u*u+v*v,Pp=u*u*v*v;
+   return{cond:'Решите уравнение x⁴ − '+S+'x² + '+Pp+' = 0. В ответ запишите наибольший корень.',ans:Math.max(u,v),
+    hint:'Замена t = x², t ≥ 0. Решите t² − '+S+'t + '+Pp+' = 0, затем вернитесь к x.',
+    sol:'<p>t = x²: t² − '+S+'t + '+Pp+' = 0; t = '+(u*u)+' или t = '+(v*v)+'.</p><p>x = ±'+u+' или x = ±'+v+'. Наибольший корень '+Math.max(u,v)+'.</p>',f:function(x){return Math.pow(x,4)-S*x*x+Pp}};}
+ },
+ frac:function(){
+  for(;;){var r1=rnd(-8,8),r2=rnd(-8,8);if(r1===r2||r1===0||r2===0)continue;
+   return{cond:'Решите уравнение ('+quad(1,-(r1+r2),r1*r2)+')/(x '+(r2<0?'+':'−')+' '+Math.abs(r2)+') = 0. Запишите корень (если корней несколько, наибольший).',ans:r1,
+    hint:'Дробь равна нулю, когда числитель равен нулю, а знаменатель не равен нулю. Один из корней числителя обращает знаменатель в нуль.',
+    sol:'<p>Числитель: '+quad(1,-(r1+r2),r1*r2)+' = (x '+(r1<0?'+':'−')+' '+Math.abs(r1)+')(x '+(r2<0?'+':'−')+' '+Math.abs(r2)+') = 0, откуда x = '+r1+' или x = '+r2+'.</p><p>Знаменатель x '+(r2<0?'+':'−')+' '+Math.abs(r2)+' ≠ 0, значит x ≠ '+r2+'. Остаётся x = '+r1+'.</p>',f:function(x){return x===r2?NaN:(x-r1)}};}
+ },
+ grp:function(){
+  for(;;){var a=rnd(1,6),b=rnd(1,6);if(a===b)continue;
+   return{cond:'Решите уравнение x³ '+(a>0?'+':'−')+' '+a+'x² − '+(b*b)+'x − '+(a*b*b)+' = 0. Запишите наибольший корень.',ans:Math.max(-a,b,-b),
+    hint:'Сгруппируйте: x²(x + '+a+') − '+(b*b)+'(x + '+a+'). Вынесите общую скобку, разложите разность квадратов.',
+    sol:'<p>x²(x + '+a+') − '+(b*b)+'(x + '+a+') = (x + '+a+')(x² − '+(b*b)+') = (x + '+a+')(x − '+b+')(x + '+b+') = 0.</p><p>Корни: −'+a+'; '+b+'; −'+b+'. Наибольший '+Math.max(-a,b,-b)+'.</p>',f:function(x){return x*x*x+a*x*x-b*b*x-a*b*b}};}
+ }
+};
+var keys=Object.keys(TYPES),cur='all',task=null,solved=0,total=0,done=false,tries=0;
+var chips=document.getElementById('chips'),box=document.getElementById('box'),stat=document.getElementById('stat');
+function norm(s){return parseFloat(String(s).replace(',','.').replace('−','-').replace(/\s/g,''))}
+function drawChips(){chips.innerHTML='';[['all','Все типы']].concat(keys.map(function(k){return[k,TYPES[k].name]})).forEach(function(p){var b=document.createElement('button');b.textContent=p[1];if(p[0]===cur)b.className='on';b.onclick=function(){cur=p[0];drawChips();next()};chips.appendChild(b)})}
+function next(){
+  var k=cur==='all'?pick(keys):cur;task=GEN[k]();task.type=TYPES[k].name;done=false;tries=0;
+  box.innerHTML='<span class="tag">'+task.type+'</span><div class="cond">'+task.cond+'</div><input class="num" id="num" inputmode="decimal" placeholder="Ответ"> <button class="btn" id="go">Проверить</button><button class="btn ghost" id="hb">Подсказка</button><button class="btn ghost" id="sb">Показать решение</button><button class="btn ghost" id="nb">Другая задача</button><div id="fb"></div>';
+  var inp=document.getElementById('num');inp.focus();
+  document.getElementById('go').onclick=check;inp.onkeydown=function(e){if(e.key==='Enter')check()};
+  document.getElementById('hb').onclick=function(){document.getElementById('fb').innerHTML='<div class="hint">Подсказка: '+task.hint+'</div>'};
+  document.getElementById('sb').onclick=function(){document.getElementById('fb').innerHTML='<div class="sol">'+task.sol+'<p>Ответ: '+fm(task.ans)+'.</p></div>'};
+  document.getElementById('nb').onclick=next;upd();
+}
+function check(){
+  if(done)return;var v=norm(document.getElementById('num').value),fb=document.getElementById('fb');
+  if(isNaN(v)){fb.innerHTML='<div class="bad">Введите число.</div>';return}
+  tries++;
+  if(Math.abs(v-task.ans)<1e-6){done=true;total++;if(tries===1)solved++;fb.innerHTML='<div class="ok">Верно.'+(tries>1?' С '+tries+'-й попытки.':'')+'</div><button class="btn" onclick="next()">Следующая</button>';document.getElementById('num').disabled=true;upd()}
+  else{fb.innerHTML='<div class="bad">Неверно. Нажмите «Подсказка» или проверьте знаки и выбор корня (меньший или больший).</div>'}
+}
+function upd(){stat.textContent='С первой попытки верно: '+solved+' из '+total+'.'}
+drawChips();next();
+</script></body></html>
