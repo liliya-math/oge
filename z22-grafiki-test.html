@@ -1,0 +1,56 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>График функции: тест</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+sup{font-size:70%;line-height:0;vertical-align:super;white-space:nowrap}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px}.fr i{display:block;font-style:normal;padding:0 4px;border-bottom:1px solid currentColor;line-height:1.25}.fr b{display:block;font-weight:normal;padding:0 4px;line-height:1.25}
+.rt{white-space:nowrap}.ro{border-top:1px solid currentColor;padding:0 2px;margin-left:1px}
+</style></head><body><div class="wrap"><a href="z22-grafiki.html" style="color:var(--blue);font-size:14px;text-decoration:none">← Графики функций (задание 22)</a><h1 style="margin-top:10px">График функции: тест</h1><p class="sub">10 вопросов. После каждого ответа появляется разбор.</p><div class="bar"><i id="pb"></i></div><div id="box"></div></div><script>const Q=[["Найдите область определения функции y = <span class=\"fr\"><i>x<sup>2</sup> − 4</i><b>x − 2</b></span>.", ["все числа, кроме 2", "все числа, кроме −2 и 2", "все числа", "x &gt; 2"], "Знаменатель не может быть равен нулю: x − 2 ≠ 0, значит x ≠ 2. Сокращение дроби (после него y = x + 2) область определения не расширяет: x = 2 по-прежнему не входит в неё. Ответ «кроме −2 и 2» получится, если приравнять к нулю числитель, а нужно знаменатель. Ответ «все числа» не учитывает, что на нуль делить нельзя. Ответ x &gt; 2 не следует из формулы."], ["Функция задана формулой <span class=\"cs\"><span class=\"br\">{</span><span class=\"rows\"><span>f(x) = x + 1, если x &lt; 0</span><span>f(x) = x<sup>2</sup>, если x ≥ 0</span></span></span>Найдите f(−3) + f(2).", ["2", "13", "1", "6"], "Число −3 меньше нуля, значит f(−3) = −3 + 1 = −2. Число 2 не меньше нуля, значит f(2) = 2<sup>2</sup> = 4. Сумма: −2 + 4 = 2. Ответ 13 получится, если f(−3) считать по формуле x<sup>2</sup> (9 + 4). Ответ 1 — если f(2) считать по формуле x + 1 (−2 + 3). Ответ 6 — если потерять знак у f(−3)."], ["Найдите координаты вершины параболы y = x<sup>2</sup> − 6x + 8.", ["(3; −1)", "(−3; 35)", "(3; 8)", "(6; 8)"], "Абсцисса вершины x<sub>0</sub> = −b/(2a) = 6/2 = 3, ордината y<sub>0</sub> = 9 − 18 + 8 = −1. Ответ (−3; 35) получится при знаковой ошибке: взято x<sub>0</sub> = −3. Ответ (3; 8) — ордината взята как свободный член. Ответ (6; 8) — потеряно деление на 2a."], ["Сократите дробь в формуле y = <span class=\"fr\"><i>x<sup>2</sup> − 9</i><b>x + 3</b></span>. Какое утверждение верно?", ["y = x − 3; точка (−3; −6) выколота", "y = x − 3; точка (3; 0) выколота", "y = x + 3; точка (−3; 0) выколота", "y = x − 3; выколотых точек нет"], "x<sup>2</sup> − 9 = (x − 3)(x + 3), после сокращения на (x + 3) получаем y = x − 3 при x ≠ −3. Ордината выколотой точки: −3 − 3 = −6, точка (−3; −6). Ответ с (3; 0) — взят корень числителя вместо знаменателя. Ответ y = x + 3 — потеряна разность квадратов. Ответ «выколотых точек нет» неверен: x = −3 в область определения не входит."], ["Раскройте модуль: при x &lt; 0 функция y = |x| − 2 принимает вид", ["y = −x − 2", "y = x − 2", "y = −x + 2", "y = x + 2"], "При x &lt; 0 выполняется |x| = −x, поэтому y = −x − 2. Вариант y = x − 2 получается, если просто убрать знак модуля: так можно делать только при x ≥ 0. Вариант y = −x + 2 — минус поставлен перед числом 2. Вариант y = x + 2 — перепутаны оба знака."], ["Сколько общих точек имеет прямая y = −4 с параболой y = x<sup>2</sup> − 4x?", ["1", "0", "2", "3"], "Вершина параболы: x<sub>0</sub> = 4/2 = 2, y<sub>0</sub> = 4 − 8 = −4, то есть (2; −4). Прямая y = −4 проходит через вершину и касается параболы: одна общая точка. Ответ 0 был бы, если бы прямая лежала ниже вершины, ответ 2 — если бы выше."], ["Найдите нули функции y = x<sup>2</sup> − 5x + 6.", ["2 и 3", "−2 и −3", "1 и 6", "только 2"], "Нули функции — корни уравнения x<sup>2</sup> − 5x + 6 = 0. По теореме Виета сумма корней 5, произведение 6, значит корни 2 и 3. Ответ −2 и −3 — потеряны знаки. Ответ 1 и 6 даёт произведение 6, но сумма равна 7. Ответ «только 2» теряет второй корень."], ["Сколько общих точек имеет прямая y = −4 с графиком функции y = <span class=\"fr\"><i>x<sup>2</sup> − 4x</i><b>x</b></span>?", ["0", "1", "2", "бесконечно много"], "Область определения: x ≠ 0. После сокращения y = x − 4 при x ≠ 0. Уравнение x − 4 = −4 даёт x = 0, но эта точка выколота. Значит общих точек нет. Ответ 1 получится, если забыть про выколотую точку (0; −4)."], ["Укажите промежуток, на котором убывает функция y = x<sup>2</sup> − 2x − 3.", ["(−∞; 1]", "[1; +∞)", "(−∞; −1]", "[−1; 3]"], "Ветви параболы направлены вверх, вершина при x<sub>0</sub> = 2/2 = 1. Слева от вершины функция убывает: (−∞; 1]. Промежуток [1; +∞) — промежуток возрастания. Промежуток (−∞; −1] получается при ошибке в знаке. Промежуток [−1; 3] — это отрезок между нулями, а не промежуток монотонности."], ["При каком значении m прямая y = m имеет ровно три общие точки с графиком функции y = |x<sup>2</sup> − 4x|?", ["4", "0", "−4", "2"], "Часть графика y = x<sup>2</sup> − 4x ниже оси Ox (вершина (2; −4)) отражается вверх: новая вершина (2; 4). При m = 4 общие точки: x = 2 (вершина) и x = 2 ± 2√2, всего три. При m = 0 точек две (0 и 4). При m = −4 точек нет. При m = 2 точек четыре."]].map(q=>[q[0],q[1],q[2]]);
+let i=0,score=0,wrong=[];
+const box=document.getElementById('box'),pb=document.getElementById('pb');
+function shuffle(a){const r=a.map((v,k)=>[v,k]);for(let j=r.length-1;j>0;j--){const m=Math.floor(Math.random()*(j+1));[r[j],r[m]]=[r[m],r[j]]}return r}
+function show(){
+  if(i>=Q.length){return end()}
+  pb.style.width=(i/Q.length*100)+'%';
+  const [q,opts,exp]=Q[i];
+  box.innerHTML='<div class="card"><span class="tag">Вопрос '+(i+1)+' из '+Q.length+'</span><p class="q">'+q+'</p><div id="o"></div><div id="e"></div></div>';
+  const o=document.getElementById('o');
+  shuffle(opts).forEach(([t,k])=>{const b=document.createElement('button');b.className='opt';b.innerHTML=t;b.onclick=()=>pick(b,k===0,exp);o.appendChild(b);b.dataset.k=k});
+}
+function pick(b,ok,exp){
+  document.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(+x.dataset.k===0)x.classList.add('ok')});
+  if(ok){score++}else{b.classList.add('bad');wrong.push(i+1)}
+  document.getElementById('e').innerHTML='<div class="exp">'+(ok?'Верно. ':'Неверно. ')+exp+'</div><button class="btn" onclick="i++;show()">'+(i===Q.length-1?'Результат':'Дальше')+'</button>';
+}
+function end(){
+  pb.style.width='100%';
+  const msg=score>=9?'Тема усвоена. Можно переходить к задачам повышенной сложности.':score>=7?'Хороший результат. Повторите вопросы, где были ошибки.':score>=5?'Есть пробелы. Вернитесь к теории и разберите ошибки.':'Нужно повторить теорию с начала: построение парабол, выколотые точки и модуль.';
+  box.innerHTML='<div class="card"><span class="tag">Результат</span><div class="big">'+score+' из '+Q.length+'</div><p>'+msg+'</p>'+(wrong.length?'<p class="sub">Ошибки в вопросах: '+wrong.join(', ')+'</p>':'')+'<button class="btn" onclick="i=0;score=0;wrong=[];show()">Пройти заново</button></div>';
+}
+show();
+</script></body></html>

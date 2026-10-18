@@ -1,0 +1,119 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>График функции: тренажёр с новыми числами</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+sup{font-size:70%;line-height:0;vertical-align:super;white-space:nowrap}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px}.fr i{display:block;font-style:normal;padding:0 4px;border-bottom:1px solid currentColor;line-height:1.25}.fr b{display:block;font-weight:normal;padding:0 4px;line-height:1.25}
+.rt{white-space:nowrap}.ro{border-top:1px solid currentColor;padding:0 2px;margin-left:1px}
+</style></head><body><div class="wrap"><a href="z22-grafiki.html" style="color:var(--blue);font-size:14px;text-decoration:none">← Графики функций (задание 22)</a><h1 style="margin-top:10px">Тренажёр: новые числа каждый раз</h1><p class="sub">Четыре типа задания 22: дробь с выколотой точкой, модуль, дробь с модулем, прямая y = kx. Числа меняются при каждом новом задании. Построение делайте на бумаге, здесь проверяйте ключевые значения. Несколько чисел пишите через точку с запятой.</p><div id="box"></div></div><script>
+function ri(a,b){return a+Math.floor(Math.random()*(b-a+1))}
+function f(v){let s=String(Math.round(v*100)/100).replace('.',',');return s.replace('-','−')}
+function br(v){return v===0?'x':(v>0?'(x − '+v+')':'(x + '+(-v)+')')}
+function fa(v){return String(Math.round(v*100)/100)}
+function frac(n,d){return '<span class="fr"><i>'+n+'</i><b>'+d+'</b></span>'}
+const GENS=[
+ function(){ // дробь с сокращением, y=m, одна общая точка
+  let a,b,c;do{a=ri(-4,4);b=ri(-4,4);c=ri(-4,4)}while(a===b||b===c||a===c||2*b===a+c);
+  const v=(b-a)*(b-c),w=-((a-c)*(a-c))/4;
+  return {topic:'Дробь с выколотой точкой, прямая y = m',
+   disp:'y = '+frac(br(a)+br(b)+br(c),br(b))+', ровно одна общая точка с прямой y = m',
+   steps:[
+    {q:'Абсцисса выколотой точки?',a:fa(b),hint:'Знаменатель обращается в нуль при x = '+b+'.',why:'Знаменатель '+br(b)+' равен нулю при x = '+b+'.'},
+    {q:'Ордината выколотой точки?',a:fa(v),hint:'После сокращения y = '+br(a)+br(c)+'. Подставьте x = '+b+'.',why:'y('+b+') = ('+b+' − '+(a)+')('+b+' − '+(c)+') = '+v+'.'},
+    {q:'Ордината вершины параболы?',a:fa(w),hint:'Вершина посередине между нулями '+a+' и '+c+': x₀ = '+f((a+c)/2)+'.',why:'y(x₀) = '+f(w)+'.'},
+    {q:'Запишите через точку с запятой все значения m, при которых ровно одна общая точка.',a:fa(w)+'; '+fa(v),hint:'Это ордината вершины и ордината выколотой точки.',why:'В вершине прямая касается параболы. На уровне выколотой точки из двух точек пересечения одна (x = '+b+') выколота, остаётся только x = '+f(a+c-b)+'.'}],
+   ans:'m = '+f(w)+'; m = '+f(v)}},
+ function(){ // x|x|-p|x|, три общие точки
+  const p=ri(2,6),w=-p*p/4;
+  return {topic:'Модуль, прямая y = m',
+   disp:'y = x|x| − '+p+'|x|, ровно три общие точки с прямой y = m',
+   steps:[
+    {q:'При x &lt; 0 функция имеет вид y = −x² + bx. Чему равно b?',a:fa(p),hint:'При x &lt; 0: |x| = −x, поэтому −'+p+'|x| = '+p+'x.',why:'y = −x² + '+p+'x при x &lt; 0.'},
+    {q:'Ордината вершины правой параболы y = x² − '+p+'x?',a:fa(w),hint:'x₀ = '+f(p/2)+'. Подставьте.',why:'y(x₀) = '+f(w)+'.'},
+    {q:'Запишите через точку с запятой границы промежутка (сначала меньшую): три общие точки при … &lt; m &lt; …',a:fa(w)+'; 0',hint:'Нижняя граница — вершина правой параболы, верхняя — точка (0; 0).',why:'При '+f(w)+' &lt; m &lt; 0 справа две точки, слева одна.'}],
+   ans:f(w)+' &lt; m &lt; 0'}},
+ function(){ // (x²-p|x|)/x
+  const p=ri(2,7);
+  return {topic:'Дробь с модулем, прямая y = m',
+   disp:'y = '+frac('x² − '+p+'|x|','x')+', ровно одна общая точка с прямой y = m',
+   steps:[
+    {q:'Ордината выколотой точки справа (при x &gt; 0 функция y = x − '+p+')?',a:fa(-p),hint:'Подставьте x = 0 в y = x − '+p+'.',why:'Точка (0; '+f(-p)+') выколота.'},
+    {q:'Ордината выколотой точки слева (при x &lt; 0 функция y = x + '+p+')?',a:fa(p),hint:'Подставьте x = 0 в y = x + '+p+'.',why:'Точка (0; '+p+') выколота.'},
+    {q:'Запишите через точку с запятой числа a и b: одна точка при m ≤ a и при m ≥ b.',a:fa(-p)+'; '+fa(p),hint:'Граничные значения входят в ответ.',why:'Левый луч принимает все y &lt; '+p+', правый все y &gt; '+f(-p)+'; на уровнях '+f(-p)+' и '+p+' одна из точек выколота.'}],
+   ans:'m ≤ '+f(-p)+' или m ≥ '+p}},
+ function(){ // (x³-c²x)/(x-c), y=kx
+  const c=ri(2,6);
+  return {topic:'Дробь, прямая y = kx',
+   disp:'y = '+frac('x³ − '+(c*c)+'x','x − '+c)+', ровно одна общая точка с прямой y = kx',
+   steps:[
+    {q:'Абсцисса выколотой точки?',a:fa(c),hint:'Знаменатель равен нулю при x = '+c+'.',why:'x ≠ '+c+'.'},
+    {q:'Ордината выколотой точки? (После сокращения y = x² + '+c+'x.)',a:fa(2*c*c),hint:'Подставьте x = '+c+' в y = x² + '+c+'x.',why:c+'² + '+c+'·'+c+' = '+(2*c*c)+'.'},
+    {q:'Запишите через точку с запятой оба значения k. (Уравнение x(x + '+c+' − k) = 0, второй корень x = k − '+c+'.)',a:fa(c)+'; '+fa(2*c),hint:'Второй корень равен 0 (касание) или равен '+c+' (выколотая точка).',why:'k − '+c+' = 0 даёт k = '+c+'; k − '+c+' = '+c+' даёт k = '+(2*c)+'.'}],
+   ans:'k = '+c+'; k = '+(2*c)}}
+];
+
+let cur=null,si=0,tries=0,solved=0,total=0,streak=0,tclean=true;
+const box=document.getElementById('box');
+function val(s){s=String(s).trim().replace(/[−–—]/g,'-').replace(',','.').replace(/\s+/g,' ');let m;
+  if(m=s.match(/^(-?\d+)\/(\d+)$/)){return (+m[1])/(+m[2])}
+  if(/^-?\d+(\.\d+)?$/.test(s))return parseFloat(s);return NaN}
+function nums(s){return String(s).split(';').map(val)}
+function same(a,b){const x=nums(a),y=nums(b);if(x.length!==y.length||x.some(isNaN))return false;
+  const p=[...x].sort((u,v)=>u-v),q=[...y].sort((u,v)=>u-v);return p.every((v,k)=>Math.abs(v-q[k])<1e-9)}
+function pretty(a){return String(a).split(';').map(v=>v.trim().replace('-','−').replace('.',',')).join('; ')}
+function nextTask(){
+  cur=GENS[ri(0,GENS.length-1)]();si=0;tclean=true;
+  box.innerHTML='<div class="card"><span class="tag">'+cur.topic+'</span><div class="cond"><b>Постройте график функции</b><br><span style="font-size:19px">'+cur.disp+'</span></div><div id="steps"></div></div><p class="sub">Решено без ошибок: '+solved+' из '+total+'. Серия: '+streak+'.</p>';
+  step();
+}
+function step(){
+  const s=cur.steps[si];tries=0;
+  const d=document.createElement('div');
+  d.innerHTML='<p class="q" style="font-size:16px"><b>Шаг '+(si+1)+' из '+cur.steps.length+'.</b> '+s.q+'</p><input class="num" id="in'+si+'" autocomplete="off" placeholder="ответ" style="width:220px"> <button class="btn" id="ck'+si+'">Проверить</button><div id="fb'+si+'"></div>';
+  document.getElementById('steps').appendChild(d);
+  const inp=document.getElementById('in'+si),ck=document.getElementById('ck'+si);
+  ck.onclick=()=>check();inp.onkeydown=e=>{if(e.key==='Enter')check()};inp.focus();
+}
+function lock(k,msg,cls){document.getElementById('in'+k).disabled=true;document.getElementById('ck'+k).style.display='none';document.getElementById('fb'+k).innerHTML='<div class="'+cls+'">'+msg+'</div>'}
+function check(){
+  const s=cur.steps[si],v=document.getElementById('in'+si).value;if(!v.trim())return;
+  if(same(v,s.a)){lock(si,'Верно. '+s.why,'done');next()}
+  else{tries++;tclean=false;
+    if(tries===1){document.getElementById('fb'+si).innerHTML='<div class="hint">Не так. Подсказка: '+s.hint+'</div>'}
+    else{lock(si,'Правильно так: '+pretty(s.a)+'. '+s.why,'exp');next()}}
+}
+function next(){
+  if(si<cur.steps.length-1){si++;step();return}
+  total++;if(tclean){solved++;streak++}else{streak=0}
+  const fb=document.createElement('div');
+  fb.innerHTML='<div class="exp" style="margin-top:14px"><b>Ответ: '+cur.ans+'.</b></div><button class="btn" id="nx">Новое задание</button>';
+  document.getElementById('steps').appendChild(fb);
+  document.getElementById('nx').onclick=nextTask;
+}
+nextTask();
+</script></body></html>

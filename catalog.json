@@ -2699,6 +2699,177 @@
       "oge_task": 10,
       "status": "public",
       "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-grafiki.html",
+      "title": "Графики кусочных функций: все материалы по порядку",
+      "type": "sistema",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-grafiki-teoriya.html",
+      "title": "Теория и устный опрос: график функции",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-grafiki-test.html",
+      "title": "Тест: график функции",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-grafiki-pyatiminutki.html",
+      "title": "Карточки-пятиминутки: график функции (2 варианта)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-grafiki-razbor-5.html",
+      "title": "Разбор 5 задач повышенной сложности: график функции",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-grafiki-trenazhor.html",
+      "title": "Тренажёр: 5 задач повышенной сложности, график функции",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-grafiki-trenazhor-gen.html",
+      "title": "Тренажёр: график функции, новые числа каждый раз",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-grafiki-pamyatka.html",
+      "title": "Памятка: алгоритм и оформление задания 22",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-grafiki-kontrolnaya.html",
+      "title": "Зачётный лист: график функции (3 уровня)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-grafiki-dz.html",
+      "title": "Домашняя карточка: график функции (4 задачи)",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-grafiki-dialog.md",
+      "title": "Диалог ученик-учитель: график функции, план урока и ДЗ (текст)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-grafiki-dialog.pdf",
+      "title": "Диалог ученик-учитель: график функции, план урока и ДЗ (печать)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-grafiki-teoriya.pdf",
+      "title": "График функции, печать: теория",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-grafiki-pyatiminutki.pdf",
+      "title": "График функции, печать: пятиминутки",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-grafiki-razbor-5.pdf",
+      "title": "График функции, печать: разбор 5 задач",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-grafiki-pamyatka.pdf",
+      "title": "График функции, печать: памятка",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-grafiki-kontrolnaya.pdf",
+      "title": "График функции, печать: зачётный лист",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-grafiki-dz.pdf",
+      "title": "График функции, печать: домашняя карточка",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-grafiki-komplekt.pdf",
+      "title": "График функции, печать: комплект",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
     }
   ]
 }
