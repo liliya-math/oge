@@ -1466,6 +1466,177 @@
    "oge_task": 20,
    "status": "public",
    "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-obyknovennye.html",
+   "title": "Обыкновенные дроби: все материалы по порядку",
+   "type": "sistema",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-obyknovennye-teoriya.html",
+   "title": "Теория и устный опрос: обыкновенные дроби и смешанные числа",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-obyknovennye-test.html",
+   "title": "Тест: обыкновенные дроби и смешанные числа",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-obyknovennye-pyatiminutki.html",
+   "title": "Карточки-пятиминутки: обыкновенные дроби (2 варианта)",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-obyknovennye-razbor-5.html",
+   "title": "Разбор 5 задач повышенной сложности: обыкновенные дроби",
+   "type": "razbor",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-obyknovennye-trenazhor.html",
+   "title": "Тренажёр: 5 задач повышенной сложности, обыкновенные дроби",
+   "type": "trenazher",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-obyknovennye-trenazhor-gen.html",
+   "title": "Тренажёр: обыкновенные дроби, новые числа каждый раз",
+   "type": "trenazher",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-obyknovennye-pamyatka.html",
+   "title": "Памятка: алгоритм и запись ответа, обыкновенные дроби",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-obyknovennye-kontrolnaya.html",
+   "title": "Зачётный лист: обыкновенные дроби (3 уровня)",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-obyknovennye-dz.html",
+   "title": "Домашняя карточка: обыкновенные дроби (4 задачи)",
+   "type": "dz",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "razbor-obyknovennye-dialog.md",
+   "title": "Диалог ученик-учитель: обыкновенные дроби, план урока и ДЗ (текст)",
+   "type": "razbor",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "razbor-obyknovennye-dialog.pdf",
+   "title": "Диалог ученик-учитель: обыкновенные дроби, план урока и ДЗ (печать)",
+   "type": "razbor",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-obyknovennye-teoriya.pdf",
+   "title": "Обыкновенные дроби, печать: теория",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-obyknovennye-pyatiminutki.pdf",
+   "title": "Обыкновенные дроби, печать: пятиминутки",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-obyknovennye-razbor-5.pdf",
+   "title": "Обыкновенные дроби, печать: разбор 5 задач",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-obyknovennye-pamyatka.pdf",
+   "title": "Обыкновенные дроби, печать: памятка",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-obyknovennye-kontrolnaya.pdf",
+   "title": "Обыкновенные дроби, печать: зачётный лист",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-obyknovennye-dz.pdf",
+   "title": "Обыкновенные дроби, печать: домашняя карточка",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-obyknovennye-komplekt.pdf",
+   "title": "Обыкновенные дроби, печать: комплект",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
   }
  ]
 }

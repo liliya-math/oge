@@ -1,0 +1,85 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тренажёр: пять задач, обыкновенные дроби</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px}.fr i{display:block;font-style:normal;padding:0 4px;border-bottom:1px solid currentColor;line-height:1.25}.fr b{display:block;font-weight:normal;padding:0 4px;line-height:1.25}</style></head><body><div class="wrap"><a href="z6-obyknovennye.html" style="color:var(--blue);font-size:14px;text-decoration:none">← Обыкновенные дроби и смешанные числа (задание 6)</a><h1 style="margin-top:10px">Тренажёр: пять задач повышенной сложности</h1><p class="sub">Выполняйте шаги по порядку. Ответ можно писать десятичной дробью (4,5), обыкновенной (9/2) или смешанным числом (4 1/2). После ошибки появляется подсказка, после второй ошибки — верный ответ с разбором.</p><div class="bar"><i id="pb"></i></div><div id="box"></div></div><script>const T=[{"id": "A", "topic": "Порядок действий: скобки, затем деление и умножение слева направо; обыкновенные и десятичные дроби вместе", "disp": "2<span class=\"fr\"><i>1</i><b>4</b></span> : (1<span class=\"fr\"><i>1</i><b>2</b></span> − 0,75) · 0,4", "ans": "1,2", "trap": "Умножение и деление равноправны и идут слева направо. Если сначала умножить 0,75 · 0,4, получится 2<span class=\"fr\"><i>1</i><b>4</b></span> : 0,3 = 7,5 вместо 1,2.", "steps": [{"q": "Чему равно значение в скобках 1<span class=\"fr\"><i>1</i><b>2</b></span> − 0,75? Запишите десятичной дробью.", "a": "0,75", "ah": "0,75", "hint": "1<span class=\"fr\"><i>1</i><b>2</b></span> — это 1,5. Приведите числа к одной форме и вычтите.", "why": "1<span class=\"fr\"><i>1</i><b>2</b></span> = 1,5; 1,5 − 0,75 = 0,75."}, {"q": "Чему равно 2<span class=\"fr\"><i>1</i><b>4</b></span> : 0,75?", "a": "3", "ah": "3", "hint": "2<span class=\"fr\"><i>1</i><b>4</b></span> = 2,25. Перенесите запятые на два знака вправо: 225 : 75.", "why": "2<span class=\"fr\"><i>1</i><b>4</b></span> = 2,25; 225 : 75 = 3. Дробями: <span class=\"fr\"><i>9</i><b>4</b></span> : <span class=\"fr\"><i>3</i><b>4</b></span> = 3."}, {"q": "Чему равно 3 · 0,4?", "a": "1,2", "ah": "1,2", "hint": "Умножьте 3 · 4 и отделите один знак.", "why": "3 · 0,4 = 1,2."}]}, {"id": "B", "topic": "Смешанные числа с разными знаменателями", "disp": "3<span class=\"fr\"><i>5</i><b>6</b></span> − 1<span class=\"fr\"><i>3</i><b>8</b></span> + 2<span class=\"fr\"><i>1</i><b>24</b></span>", "ans": "4,5", "trap": "Нельзя складывать и вычитать знаменатели. Сначала общий знаменатель, потом действие. Частая ошибка — не сократить <span class=\"fr\"><i>12</i><b>24</b></span> и записать 4<span class=\"fr\"><i>12</i><b>24</b></span>.", "steps": [{"q": "Чему равен наименьший общий знаменатель дробей <span class=\"fr\"><i>5</i><b>6</b></span>, <span class=\"fr\"><i>3</i><b>8</b></span> и <span class=\"fr\"><i>1</i><b>24</b></span>?", "a": "24", "ah": "24", "hint": "Найдите наименьшее число, которое делится на 6, на 8 и на 24.", "why": "НОК(6, 8, 24) = 24."}, {"q": "Чему равно 3<span class=\"fr\"><i>5</i><b>6</b></span> − 1<span class=\"fr\"><i>3</i><b>8</b></span>? Ответ запишите смешанным числом, например 2<span class=\"fr\"><i>1</i><b>2</b></span>.", "a": "2 11/24", "ah": "2<span class=\"fr\"><i>11</i><b>24</b></span>", "hint": "<span class=\"fr\"><i>5</i><b>6</b></span> = <span class=\"fr\"><i>20</i><b>24</b></span>, <span class=\"fr\"><i>3</i><b>8</b></span> = <span class=\"fr\"><i>9</i><b>24</b></span>. Вычтите отдельно целые и дробные части.", "why": "3<span class=\"fr\"><i>20</i><b>24</b></span> − 1<span class=\"fr\"><i>9</i><b>24</b></span> = 2<span class=\"fr\"><i>11</i><b>24</b></span>."}, {"q": "Чему равно 2<span class=\"fr\"><i>11</i><b>24</b></span> + 2<span class=\"fr\"><i>1</i><b>24</b></span>?", "a": "4 1/2", "ah": "4<span class=\"fr\"><i>1</i><b>2</b></span>", "hint": "Сложите целые части и числители, потом сократите.", "why": "2 + 2 = 4; <span class=\"fr\"><i>11</i><b>24</b></span> + <span class=\"fr\"><i>1</i><b>24</b></span> = <span class=\"fr\"><i>12</i><b>24</b></span> = <span class=\"fr\"><i>1</i><b>2</b></span>. Получилось 4<span class=\"fr\"><i>1</i><b>2</b></span>."}, {"q": "Запишите 4<span class=\"fr\"><i>1</i><b>2</b></span> десятичной дробью.", "a": "4,5", "ah": "4,5", "hint": "<span class=\"fr\"><i>1</i><b>2</b></span> — это 0,5.", "why": "<span class=\"fr\"><i>1</i><b>2</b></span> = 0,5, значит 4<span class=\"fr\"><i>1</i><b>2</b></span> = 4,5."}]}, {"id": "C", "topic": "Отрицательные числа: знаки в произведении, частном и «минус перед отрицательным»", "disp": "−<span class=\"fr\"><i>2</i><b>3</b></span> · (−4,5) − 1<span class=\"fr\"><i>1</i><b>2</b></span> : (−<span class=\"fr\"><i>3</i><b>4</b></span>)", "ans": "5", "trap": "3 − (−2) — это 3 + 2 = 5. Если записать 3 − 2, получится 1.", "steps": [{"q": "Чему равно −<span class=\"fr\"><i>2</i><b>3</b></span> · (−4,5)?", "a": "3", "ah": "3", "hint": "Знаки одинаковые — результат положительный. 4,5 = <span class=\"fr\"><i>9</i><b>2</b></span>; сократите.", "why": "<span class=\"fr\"><i>2</i><b>3</b></span> · <span class=\"fr\"><i>9</i><b>2</b></span> = 3; знаки одинаковые, значит +3."}, {"q": "Чему равно 1<span class=\"fr\"><i>1</i><b>2</b></span> : (−<span class=\"fr\"><i>3</i><b>4</b></span>)?", "a": "-2", "ah": "−2", "hint": "1<span class=\"fr\"><i>1</i><b>2</b></span> = <span class=\"fr\"><i>3</i><b>2</b></span>. Деление — умножение на обратную: <span class=\"fr\"><i>3</i><b>2</b></span> · <span class=\"fr\"><i>4</i><b>3</b></span>. Знаки разные.", "why": "<span class=\"fr\"><i>3</i><b>2</b></span> : <span class=\"fr\"><i>3</i><b>4</b></span> = <span class=\"fr\"><i>3</i><b>2</b></span> · <span class=\"fr\"><i>4</i><b>3</b></span> = 2; знаки разные, значит −2."}, {"q": "Чему равно 3 − (−2)?", "a": "5", "ah": "5", "hint": "Минус перед отрицательным числом превращается в плюс.", "why": "3 − (−2) = 3 + 2 = 5."}]}, {"id": "D", "topic": "Дробная черта: числитель и знаменатель считаются отдельно", "disp": "<span class=\"fr\"><i>1<span class=\"fr\"><i>1</i><b>2</b></span> + <span class=\"fr\"><i>2</i><b>3</b></span> · 0,75</i><b>3,5 − 2<span class=\"fr\"><i>1</i><b>4</b></span></b></span>", "ans": "1,6", "trap": "Нельзя делить отдельные слагаемые числителя на знаменатель. Сначала весь числитель, потом весь знаменатель, потом деление.", "steps": [{"q": "Чему равно <span class=\"fr\"><i>2</i><b>3</b></span> · 0,75?", "a": "0,5", "ah": "0,5", "hint": "0,75 = <span class=\"fr\"><i>3</i><b>4</b></span>. Тогда <span class=\"fr\"><i>2</i><b>3</b></span> · <span class=\"fr\"><i>3</i><b>4</b></span>.", "why": "0,75 = <span class=\"fr\"><i>3</i><b>4</b></span>; <span class=\"fr\"><i>2</i><b>3</b></span> · <span class=\"fr\"><i>3</i><b>4</b></span> = <span class=\"fr\"><i>1</i><b>2</b></span> = 0,5."}, {"q": "Чему равен числитель 1<span class=\"fr\"><i>1</i><b>2</b></span> + 0,5?", "a": "2", "ah": "2", "hint": "1<span class=\"fr\"><i>1</i><b>2</b></span> = 1,5.", "why": "1,5 + 0,5 = 2."}, {"q": "Чему равен знаменатель 3,5 − 2<span class=\"fr\"><i>1</i><b>4</b></span>?", "a": "1,25", "ah": "1,25", "hint": "2<span class=\"fr\"><i>1</i><b>4</b></span> = 2,25.", "why": "3,5 − 2,25 = 1,25."}, {"q": "Чему равно 2 : 1,25?", "a": "1,6", "ah": "1,6", "hint": "Перенесите запятые на два знака: 200 : 125. Или 2 : <span class=\"fr\"><i>5</i><b>4</b></span> = 2 · <span class=\"fr\"><i>4</i><b>5</b></span>.", "why": "200 : 125 = 1,6. Проверка: 1,25 · 1,6 = 2."}]}, {"id": "E", "topic": "Рациональный счёт: вынести общий множитель", "disp": "<span class=\"fr\"><i>5</i><b>8</b></span> · 3,2 + <span class=\"fr\"><i>3</i><b>8</b></span> · 3,2 − 1<span class=\"fr\"><i>1</i><b>4</b></span> · 0,4", "ans": "2,7", "trap": "Не нужно считать <span class=\"fr\"><i>5</i><b>8</b></span> · 3,2 и <span class=\"fr\"><i>3</i><b>8</b></span> · 3,2 по отдельности: общий множитель выносится, и <span class=\"fr\"><i>5</i><b>8</b></span> + <span class=\"fr\"><i>3</i><b>8</b></span> = 1.", "steps": [{"q": "Чему равна сумма <span class=\"fr\"><i>5</i><b>8</b></span> + <span class=\"fr\"><i>3</i><b>8</b></span> (после вынесения 3,2 за скобки)?", "a": "1", "ah": "1", "hint": "В <span class=\"fr\"><i>5</i><b>8</b></span> · 3,2 + <span class=\"fr\"><i>3</i><b>8</b></span> · 3,2 есть общий множитель 3,2.", "why": "<span class=\"fr\"><i>5</i><b>8</b></span> · 3,2 + <span class=\"fr\"><i>3</i><b>8</b></span> · 3,2 = (<span class=\"fr\"><i>5</i><b>8</b></span> + <span class=\"fr\"><i>3</i><b>8</b></span>) · 3,2 = 1 · 3,2."}, {"q": "Чему равна сумма первых двух слагаемых?", "a": "3,2", "ah": "3,2", "hint": "Умножьте сумму в скобках на 3,2.", "why": "1 · 3,2 = 3,2."}, {"q": "Чему равно 1<span class=\"fr\"><i>1</i><b>4</b></span> · 0,4?", "a": "0,5", "ah": "0,5", "hint": "1<span class=\"fr\"><i>1</i><b>4</b></span> = <span class=\"fr\"><i>5</i><b>4</b></span>; 0,4 = <span class=\"fr\"><i>2</i><b>5</b></span>.", "why": "<span class=\"fr\"><i>5</i><b>4</b></span> · <span class=\"fr\"><i>2</i><b>5</b></span> = <span class=\"fr\"><i>1</i><b>2</b></span> = 0,5."}, {"q": "Чему равно 3,2 − 0,5?", "a": "2,7", "ah": "2,7", "hint": "Вычтите столбиком.", "why": "3,2 − 0,5 = 2,7."}]}];
+let ti=0,si=0,tries=0,help=0,clean=0,tot=0,tclean=true;
+const box=document.getElementById('box'),pb=document.getElementById('pb');
+function val(s){s=String(s).trim().replace(/[−–—]/g,'-').replace(',','.').replace(/\s+/g,' ');let m;
+  if(m=s.match(/^(-?)(\d+) (\d+)\/(\d+)$/)){const v=+m[2]+(+m[3])/(+m[4]);return m[1]?-v:v}
+  if(m=s.match(/^(-?\d+)\/(\d+)$/)){return (+m[1])/(+m[2])}
+  if(/^-?\d+(\.\d+)?$/.test(s))return parseFloat(s);
+  return NaN}
+function same(a,b){const x=val(a),y=val(b);return !isNaN(x)&&Math.abs(x-y)<1e-9}
+function task(){
+  if(ti>=T.length)return end();
+  pb.style.width=(ti/T.length*100)+'%';
+  const t=T[ti];si=0;tclean=true;
+  box.innerHTML='<div class="card"><span class="tag">Задача '+(ti+1)+' из '+T.length+'</span><p class="sub" style="margin:0 0 8px">'+t.topic+'</p><div class="cond"><b>Найдите значение выражения</b><br><span style="font-size:20px">'+t.disp+'</span></div><div id="steps"></div></div>';
+  step();
+}
+function step(){
+  const t=T[ti],s=t.steps[si];tries=0;
+  const d=document.createElement('div');d.id='st'+si;
+  d.innerHTML='<p class="q" style="font-size:16px"><b>Шаг '+(si+1)+' из '+t.steps.length+'.</b> '+s.q+'</p><input class="num" id="in'+si+'" autocomplete="off" placeholder="ответ"> <button class="btn" id="ck'+si+'">Проверить</button><div id="fb'+si+'"></div>';
+  document.getElementById('steps').appendChild(d);
+  const inp=document.getElementById('in'+si),ck=document.getElementById('ck'+si);
+  ck.onclick=()=>check();inp.onkeydown=e=>{if(e.key==='Enter')check()};inp.focus();
+}
+function lock(k,msg,cls){
+  document.getElementById('in'+k).disabled=true;document.getElementById('ck'+k).style.display='none';
+  document.getElementById('fb'+k).innerHTML='<div class="'+cls+'">'+msg+'</div>';
+}
+function check(){
+  const t=T[ti],s=t.steps[si],v=document.getElementById('in'+si).value;
+  if(!v.trim())return;
+  tot++;
+  if(same(v,s.a)){
+    if(tries>0)tclean=false;else clean++;
+    lock(si,'Верно. '+s.why,'done');next();
+  }else{
+    tries++;tclean=false;if(tries===1)help++;
+    if(tries===1){document.getElementById('fb'+si).innerHTML='<div class="hint">Не так. Подсказка: '+s.hint+'</div>'}
+    else{lock(si,'Правильно так: '+s.ah+'. '+s.why,'exp');next()}
+  }
+}
+function next(){
+  const t=T[ti];
+  if(si<t.steps.length-1){si++;step();return}
+  const fb=document.createElement('div');
+  fb.innerHTML='<div class="exp" style="margin-top:14px"><b>Ответ: '+t.ans+'.</b><br>Ловушка: '+t.trap+'</div><button class="btn" id="nx">'+(ti===T.length-1?'Результат':'Следующая задача')+'</button>';
+  document.getElementById('steps').appendChild(fb);
+  document.getElementById('nx').onclick=()=>{ti++;task()};
+}
+function end(){
+  pb.style.width='100%';
+  const n=T.reduce((a,t)=>a+t.steps.length,0);
+  box.innerHTML='<div class="card"><span class="tag">Итог</span><div class="big">'+clean+' из '+n+'</div><p>шагов выполнено с первой попытки.</p><p class="sub">Если меньше 70%, вернитесь к теории (правила 4–7) и пройдите ещё раз: задачи те же, но вы уже знаете ловушки. Затем решайте тренажёр с новыми числами.</p><button class="btn" onclick="ti=0;clean=0;tot=0;help=0;task()">Пройти заново</button> <a class="btn ghost" style="text-decoration:none;display:inline-block" href="z6-obyknovennye-trenazhor-gen.html">Тренажёр с новыми числами</a></div>';
+}
+task();
+</script></body></html>

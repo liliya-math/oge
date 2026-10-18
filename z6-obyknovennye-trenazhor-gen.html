@@ -1,0 +1,105 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тренажёр: обыкновенные дроби, новые числа</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px}.fr i{display:block;font-style:normal;padding:0 4px;border-bottom:1px solid currentColor;line-height:1.25}.fr b{display:block;font-weight:normal;padding:0 4px;line-height:1.25}</style></head><body><div class="wrap"><a href="z6-obyknovennye.html" style="color:var(--blue);font-size:14px;text-decoration:none">← Обыкновенные дроби и смешанные числа (задание 6)</a><h1 style="margin-top:10px">Тренажёр: новые числа каждый раз</h1><p class="sub">Семь типов заданий 6. Ответ можно писать десятичной дробью (4,5), обыкновенной (9/2) или смешанным числом (4 1/2).</p><div class="tabs" id="tabs"></div><p class="sub" id="stat">Верно с первой попытки: 0 из 0</p><div id="box"></div></div><script>const gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a);
+const lcm=(a,b)=>a/gcd(a,b)*b;
+const rd=(n,d)=>{if(d<0){n=-n;d=-d}const g=gcd(n,d)||1;return [n/g,d/g]};
+const add=(a,b)=>rd(a[0]*b[1]+b[0]*a[1],a[1]*b[1]);
+const sub=(a,b)=>rd(a[0]*b[1]-b[0]*a[1],a[1]*b[1]);
+const mul=(a,b)=>rd(a[0]*b[0],a[1]*b[1]);
+const dv=(a,b)=>rd(a[0]*b[1],a[1]*b[0]);
+const term=f=>{let d=f[1];while(d%2===0)d/=2;while(d%5===0)d/=5;return d===1};
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[R(0,a.length-1)];
+const FR=(n,d)=>'<span class="fr"><i>'+n+'</i><b>'+d+'</b></span>';
+const neg=s=>s.replace(/^−/,'');
+function dstr(f){let n=f[0],d=f[1];const ng=n<0;n=Math.abs(n);let s=String(Math.floor(n/d));let r=n%d,k=0;if(r){s+=',';while(r&&k<8){r*=10;s+=Math.floor(r/d);r%=d;k++}}return (ng?'−':'')+s}
+function fh(f){let n=f[0];const ng=n<0;n=Math.abs(n);const d=f[1],w=Math.floor(n/d),r=n%d;let s;if(r===0)s=String(w);else if(w===0)s=FR(r,d);else s=w+FR(r,d);return (ng?'−':'')+s}
+function ans(v){return 'Ответ: '+dstr(v)+(v[1]!==1?' ('+fh(v)+')':'')+'.'}
+const DEN=[2,3,4,5,6,8,10,12,15,20,25];
+const proper=()=>{let d=pick(DEN),n=R(1,d-1);return rd(n,d)};
+const prop2=()=>{let f;do{f=proper()}while(f[1]===1);return f};
+const mixed=()=>{const f=prop2();return rd(R(1,5)*f[1]+f[0],f[1])};
+const anyf=()=>Math.random()<.5?prop2():mixed();
+function val(s){s=String(s).trim().replace(/[−–—]/g,'-').replace(',','.').replace(/\s+/g,' ');let m;
+  if(m=s.match(/^(-?)(\d+) (\d+)\/(\d+)$/)){const v=+m[2]+(+m[3])/(+m[4]);return m[1]?-v:v}
+  if(m=s.match(/^(-?\d+)\/(\d+)$/)){return (+m[1])/(+m[2])}
+  if(/^-?\d+(\.\d+)?$/.test(s))return parseFloat(s);
+  return NaN}
+const imp=f=>FR(f[0],f[1]);
+const T=[
+ {name:'Сложение и вычитание дробей',hint:'Приведите дроби к наименьшему общему знаменателю, затем сложите или вычтите числители. В конце сократите.',
+  gen(){for(;;){const a=prop2(),b=prop2(),op=pick(['+','−']);if(a[1]===b[1])continue;const v=op==='+'?add(a,b):sub(a,b);if(v[0]<=0||!term(v)||v[0]/v[1]>4)continue;const L=lcm(a[1],b[1]);
+   return{html:fh(a)+' '+op+' '+fh(b),v,sol:'Наименьший общий знаменатель '+L+'. '+fh(a)+' = '+FR(a[0]*L/a[1],L)+', '+fh(b)+' = '+FR(b[0]*L/b[1],L)+'. '+FR(a[0]*L/a[1],L)+' '+op+' '+FR(b[0]*L/b[1],L)+' = '+fh(v)+'. '+ans(v)}}}},
+ {name:'Смешанные числа: сложение и вычитание',hint:'Приведите дробные части к общему знаменателю. Складывайте и вычитайте отдельно целые и дробные части; если дробная часть уменьшаемого меньше, займите единицу.',
+  gen(){for(;;){const a=mixed(),b=mixed(),op=pick(['+','−']);if(a[1]===b[1])continue;const v=op==='+'?add(a,b):sub(a,b);if(v[0]<=0||!term(v)||v[0]/v[1]>12)continue;
+   return{html:fh(a)+' '+op+' '+fh(b),v,sol:'В неправильные дроби: '+imp(a)+' '+op+' '+imp(b)+'. Общий знаменатель '+lcm(a[1],b[1])+': '+imp(rd(a[0]*lcm(a[1],b[1])/a[1],lcm(a[1],b[1])))+' '+op+' '+imp(rd(b[0]*lcm(a[1],b[1])/b[1],lcm(a[1],b[1])))+' = '+fh(v)+'. '+ans(v)}}}},
+ {name:'Умножение дробей',hint:'Смешанные числа запишите неправильными дробями. Сократите числители со знаменателями крест-накрест и только потом умножайте.',
+  gen(){for(;;){const a=anyf(),b=anyf();const v=mul(a,b);if(!term(v)||v[0]/v[1]>30||v[1]===1&&Math.random()<.6)continue;
+   return{html:fh(a)+' · '+fh(b),v,sol:imp(a)+' · '+imp(b)+' = '+imp([a[0]*b[0],a[1]*b[1]])+' = '+fh(v)+'. '+ans(v)}}}},
+ {name:'Деление дробей',hint:'Запишите смешанные числа неправильными дробями. Делимое умножьте на число, обратное делителю.',
+  gen(){for(;;){const a=anyf(),b=anyf();const v=dv(a,b);if(!term(v)||v[0]/v[1]>30||v[1]===1&&Math.random()<.5)continue;
+   return{html:fh(a)+' : '+fh(b),v,sol:imp(a)+' : '+imp(b)+' = '+imp(a)+' · '+imp([b[1],b[0]])+' = '+fh(v)+'. '+ans(v)}}}},
+ {name:'Скобки и порядок действий',hint:'Сначала скобки, затем умножение или деление. Каждое действие записывайте отдельно.',
+  gen(){for(;;){const a=anyf(),b=anyf(),c=anyf(),op=pick(['+','−']),op2=pick(['·',':']);const s=op==='+'?add(a,b):sub(a,b);if(s[0]<=0||s[1]>40)continue;const v=op2==='·'?mul(s,c):dv(s,c);if(!term(v)||v[0]/v[1]>30)continue;
+   return{html:'('+fh(a)+' '+op+' '+fh(b)+') '+op2+' '+fh(c),v,sol:'В скобках: '+fh(a)+' '+op+' '+fh(b)+' = '+fh(s)+'. Затем '+fh(s)+' '+op2+' '+fh(c)+' = '+fh(v)+'. '+ans(v)}}}},
+ {name:'Обыкновенные и десятичные дроби вместе',hint:'Переведите смешанное число в десятичную дробь (1/2 = 0,5; 1/4 = 0,25; 1/5 = 0,2; 1/8 = 0,125) и считайте по порядку действий.',
+  gen(){for(;;){const m=rd(R(1,4)*pick([2,4,5,8,10,20])+R(1,3),pick([2,4,5,8,10,20]));const mm=mixed();const k=R(2,9)/10;const kk=rd(Math.round(k*10),10);const j=R(1,9)/10;const jj=rd(Math.round(j*10),10);const op=pick(['+','−']);
+   const p=mul(mm,kk);const v=op==='+'?add(p,jj):sub(p,jj);if(v[0]<=0||!term(v)||v[0]/v[1]>20)continue;
+   return{html:fh(mm)+' · '+dstr(kk)+' '+op+' '+dstr(jj),v,sol:fh(mm)+' = '+dstr(mm)+'. '+dstr(mm)+' · '+dstr(kk)+' = '+dstr(p)+'. '+dstr(p)+' '+op+' '+dstr(jj)+' = '+dstr(v)+'. '+ans(v)}}}},
+ {name:'Отрицательные числа',hint:'Определите знак каждого действия: одинаковые знаки — плюс, разные — минус. Вычитание отрицательного числа — это сложение.',
+  gen(){for(;;){const a=anyf(),b=anyf(),c=anyf(),d=anyf();const s1=pick([1,-1]),s2=pick([1,-1]),s3=pick([1,-1]);
+   const A=[s1*a[0],a[1]],B=[b[0],b[1]],C=[s2*c[0],c[1]],D=[s3*d[0],d[1]];const p=mul(A,B),q=dv(C,D);const v=sub(p,q);
+   if(v[0]===0||!term(v)||Math.abs(v[0]/v[1])>20||p[0]===0||q[0]===0)continue;
+   const sh=x=>x[0]<0?'(−'+fh([-x[0],x[1]])+')':fh(x);
+   return{html:(s1<0?'−':'')+fh(a)+' · '+fh(b)+' − '+sh(C)+' : '+sh(D),v,sol:'Произведение: '+fh(p)+'. Частное: '+fh(q)+'. Вычитаем: '+sh(p)+' − '+sh(q)+' = '+fh(v)+'. '+ans(v)}}}}
+];
+let cur=null,tries=0,ok=0,tot=0,mode=-1;
+const box=document.getElementById('box');
+function tabs(){const el=document.getElementById('tabs');el.innerHTML='';[['Все типы',-1]].concat(T.map((t,i)=>[t.name,i])).forEach(([n,k])=>{const b=document.createElement('button');b.textContent=n;if(k===mode)b.className='on';b.onclick=()=>{mode=k;tabs();nextTask()};el.appendChild(b)})}
+function nextTask(){
+  const t=T[mode<0?R(0,T.length-1):mode];cur=t.gen();cur.t=t;tries=0;
+  box.innerHTML='<div class="card"><span class="tag">'+t.name+'</span><div class="cond"><b>Найдите значение выражения</b><br><span style="font-size:20px">'+cur.html+'</span></div>'
+   +'<input class="num" id="in" autocomplete="off" placeholder="ответ"> <button class="btn" id="ck">Проверить</button>'
+   +'<div id="fb"></div><div style="margin-top:10px"><button class="btn ghost" id="hb" style="margin-left:0">Подсказка</button><button class="btn ghost" id="sb">Показать решение</button><button class="btn ghost" id="nb">Другое задание</button></div></div>';
+  const inp=document.getElementById('in');inp.focus();
+  document.getElementById('ck').onclick=check;inp.onkeydown=e=>{if(e.key==='Enter')check()};
+  document.getElementById('hb').onclick=()=>{document.getElementById('fb').innerHTML='<div class="hint">Подсказка: '+cur.t.hint+'</div>'};
+  document.getElementById('sb').onclick=()=>{tot++;document.getElementById('fb').innerHTML='<div class="exp">'+cur.sol+'</div>';stat()};
+  document.getElementById('nb').onclick=nextTask;
+}
+function check(){
+  const v=document.getElementById('in').value;if(!v.trim())return;
+  const x=val(v),y=cur.v[0]/cur.v[1];
+  if(!isNaN(x)&&Math.abs(x-y)<1e-9){tot++;if(tries===0)ok++;document.getElementById('fb').innerHTML='<div class="done">Верно. '+cur.sol+'</div><button class="btn" onclick="nextTask()">Следующее</button>';stat()}
+  else{tries++;document.getElementById('fb').innerHTML='<div class="hint">'+(tries>1?'Ещё не так. Нажмите «Подсказка» или «Показать решение».':'Не так. Проверьте порядок действий и знаки, затем попробуйте ещё раз.')+'</div>'}
+}
+function stat(){document.getElementById('stat').textContent='Верно с первой попытки: '+ok+' из '+tot}
+tabs();nextTask();
+</script></body></html>

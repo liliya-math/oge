@@ -1,0 +1,53 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Обыкновенные дроби и смешанные числа: тест</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px}.fr i{display:block;font-style:normal;padding:0 4px;border-bottom:1px solid currentColor;line-height:1.25}.fr b{display:block;font-weight:normal;padding:0 4px;line-height:1.25}</style></head><body><div class="wrap"><a href="z6-obyknovennye.html" style="color:var(--blue);font-size:14px;text-decoration:none">← Обыкновенные дроби и смешанные числа (задание 6)</a><h1 style="margin-top:10px">Обыкновенные дроби и смешанные числа: тест</h1><p class="sub">10 вопросов. После каждого ответа появляется разбор.</p><div class="bar"><i id="pb"></i></div><div id="box"></div></div><script>const Q=[["Найдите значение выражения <span class=\"fr\"><i>3</i><b>4</b></span> + <span class=\"fr\"><i>5</i><b>6</b></span>.", ["1<span class=\"fr\"><i>7</i><b>12</b></span>", "<span class=\"fr\"><i>8</i><b>10</b></span>", "<span class=\"fr\"><i>19</i><b>24</b></span>", "1<span class=\"fr\"><i>5</i><b>12</b></span>"], "Наименьший общий знаменатель 12: <span class=\"fr\"><i>3</i><b>4</b></span> = <span class=\"fr\"><i>9</i><b>12</b></span>, <span class=\"fr\"><i>5</i><b>6</b></span> = <span class=\"fr\"><i>10</i><b>12</b></span>. <span class=\"fr\"><i>9</i><b>12</b></span> + <span class=\"fr\"><i>10</i><b>12</b></span> = <span class=\"fr\"><i>19</i><b>12</b></span> = 1<span class=\"fr\"><i>7</i><b>12</b></span>. Ответ <span class=\"fr\"><i>8</i><b>10</b></span> получится, если сложить и числители, и знаменатели."], ["Найдите значение выражения 5<span class=\"fr\"><i>1</i><b>3</b></span> − 2<span class=\"fr\"><i>5</i><b>6</b></span>.", ["2,5", "3,5", "2,25", "3"], "5<span class=\"fr\"><i>1</i><b>3</b></span> = <span class=\"fr\"><i>16</i><b>3</b></span> = <span class=\"fr\"><i>32</i><b>6</b></span>, 2<span class=\"fr\"><i>5</i><b>6</b></span> = <span class=\"fr\"><i>17</i><b>6</b></span>. <span class=\"fr\"><i>32</i><b>6</b></span> − <span class=\"fr\"><i>17</i><b>6</b></span> = <span class=\"fr\"><i>15</i><b>6</b></span> = <span class=\"fr\"><i>5</i><b>2</b></span> = 2,5. Ответ 3,5 получится, если из дробной части <span class=\"fr\"><i>5</i><b>6</b></span> вычесть <span class=\"fr\"><i>1</i><b>3</b></span> и забыть про заём единицы."], ["Найдите значение выражения <span class=\"fr\"><i>2</i><b>3</b></span> · <span class=\"fr\"><i>9</i><b>10</b></span>.", ["0,6", "<span class=\"fr\"><i>20</i><b>27</b></span>", "<span class=\"fr\"><i>11</i><b>13</b></span>", "0,06"], "Сокращаем: <span class=\"fr\"><i>2</i><b>3</b></span> · <span class=\"fr\"><i>9</i><b>10</b></span> = (2 · 9)/(3 · 10) = <span class=\"fr\"><i>18</i><b>30</b></span> = <span class=\"fr\"><i>3</i><b>5</b></span> = 0,6. Ответ <span class=\"fr\"><i>20</i><b>27</b></span> получится, если умножение заменить делением."], ["Найдите значение выражения <span class=\"fr\"><i>3</i><b>5</b></span> : <span class=\"fr\"><i>3</i><b>10</b></span>.", ["2", "<span class=\"fr\"><i>1</i><b>2</b></span>", "<span class=\"fr\"><i>9</i><b>50</b></span>", "<span class=\"fr\"><i>2</i><b>5</b></span>"], "Деление — умножение на обратную дробь: <span class=\"fr\"><i>3</i><b>5</b></span> · <span class=\"fr\"><i>10</i><b>3</b></span> = 2. Ответ <span class=\"fr\"><i>1</i><b>2</b></span> получится, если перевернуть не ту дробь."], ["Найдите значение выражения 1<span class=\"fr\"><i>1</i><b>2</b></span> · 2<span class=\"fr\"><i>2</i><b>3</b></span>.", ["4", "2<span class=\"fr\"><i>1</i><b>3</b></span>", "3<span class=\"fr\"><i>1</i><b>6</b></span>", "5"], "Записываем неправильными дробями: <span class=\"fr\"><i>3</i><b>2</b></span> · <span class=\"fr\"><i>8</i><b>3</b></span> = 4. Нельзя умножать отдельно целые и дробные части: 1 · 2 = 2 и <span class=\"fr\"><i>1</i><b>2</b></span> · <span class=\"fr\"><i>2</i><b>3</b></span> = <span class=\"fr\"><i>1</i><b>3</b></span> дают неверное 2<span class=\"fr\"><i>1</i><b>3</b></span>."], ["Запишите дробь 7/8 в виде десятичной.", ["0,875", "0,78", "0,75", "1,14"], "7 : 8 = 0,875. Проверка: <span class=\"fr\"><i>1</i><b>8</b></span> = 0,125, а 7 · 0,125 = 0,875."], ["Какое из чисел наибольшее?", ["<span class=\"fr\"><i>5</i><b>8</b></span>", "0,6", "<span class=\"fr\"><i>7</i><b>12</b></span>", "<span class=\"fr\"><i>3</i><b>5</b></span>"], "В десятичной записи: <span class=\"fr\"><i>5</i><b>8</b></span> = 0,625; 0,6; <span class=\"fr\"><i>7</i><b>12</b></span> ≈ 0,583; <span class=\"fr\"><i>3</i><b>5</b></span> = 0,6. Наибольшее <span class=\"fr\"><i>5</i><b>8</b></span>."], ["Найдите значение выражения <span class=\"fr\"><i>1</i><b>2</b></span> + <span class=\"fr\"><i>1</i><b>3</b></span> · <span class=\"fr\"><i>3</i><b>4</b></span>.", ["0,75", "0,625", "1", "0,5"], "Сначала умножение: <span class=\"fr\"><i>1</i><b>3</b></span> · <span class=\"fr\"><i>3</i><b>4</b></span> = <span class=\"fr\"><i>1</i><b>4</b></span>. Затем <span class=\"fr\"><i>1</i><b>2</b></span> + <span class=\"fr\"><i>1</i><b>4</b></span> = <span class=\"fr\"><i>3</i><b>4</b></span> = 0,75. Ответ 0,625 получится, если сложить первыми <span class=\"fr\"><i>1</i><b>2</b></span> + <span class=\"fr\"><i>1</i><b>3</b></span>."], ["Найдите значение выражения (<span class=\"fr\"><i>3</i><b>4</b></span> − 0,25) : <span class=\"fr\"><i>1</i><b>8</b></span>.", ["4", "<span class=\"fr\"><i>1</i><b>4</b></span>", "0,5", "16"], "В скобках 0,75 − 0,25 = 0,5. Затем 0,5 : <span class=\"fr\"><i>1</i><b>8</b></span> = 0,5 · 8 = 4."], ["Найдите значение выражения 3,5 − 1<span class=\"fr\"><i>3</i><b>4</b></span> · 0,4.", ["2,8", "0,7", "1,4", "1,75"], "1<span class=\"fr\"><i>3</i><b>4</b></span> = 1,75. Сначала умножение: 1,75 · 0,4 = 0,7. Затем 3,5 − 0,7 = 2,8. Ответ 0,7 получится, если вычитание выполнить первым."]];
+let i=0,score=0,wrong=[];
+const box=document.getElementById('box'),pb=document.getElementById('pb');
+function shuffle(a){const r=a.map((v,k)=>[v,k]);for(let j=r.length-1;j>0;j--){const m=Math.floor(Math.random()*(j+1));[r[j],r[m]]=[r[m],r[j]]}return r}
+function show(){
+  if(i>=Q.length){return end()}
+  pb.style.width=(i/Q.length*100)+'%';
+  const [q,opts,exp]=Q[i];
+  box.innerHTML='<div class="card"><span class="tag">Вопрос '+(i+1)+' из '+Q.length+'</span><p class="q">'+q+'</p><div id="o"></div><div id="e"></div></div>';
+  const o=document.getElementById('o');
+  shuffle(opts).forEach(([t,k])=>{const b=document.createElement('button');b.className='opt';b.innerHTML=t;b.onclick=()=>pick(b,k===0,exp);o.appendChild(b);b.dataset.k=k});
+}
+function pick(b,ok,exp){
+  document.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(+x.dataset.k===0)x.classList.add('ok')});
+  if(ok){score++}else{b.classList.add('bad');wrong.push(i+1)}
+  document.getElementById('e').innerHTML='<div class="exp">'+(ok?'Верно. ':'Неверно. ')+exp+'</div><button class="btn" onclick="i++;show()">'+(i===Q.length-1?'Результат':'Дальше')+'</button>';
+}
+function end(){
+  pb.style.width='100%';
+  const msg=score>=9?'Тема усвоена. Можно переходить к задачам повышенной сложности.':score>=7?'Хороший результат. Повторите вопросы, где были ошибки.':score>=5?'Есть пробелы. Вернитесь к теории и разберите ошибки.':'Нужно повторить теорию с начала: правила 4–6.';
+  box.innerHTML='<div class="card"><span class="tag">Результат</span><div class="big">'+score+' из '+Q.length+'</div><p>'+msg+'</p>'+(wrong.length?'<p class="sub">Ошибки в вопросах: '+wrong.join(', ')+'</p>':'')+'<button class="btn" onclick="i=0;score=0;wrong=[];show()">Пройти заново</button></div>';
+}
+show();
+</script></body></html>
