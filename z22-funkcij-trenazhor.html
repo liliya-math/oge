@@ -1,0 +1,449 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Графики функций: тренажёр</title><style>
+
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+
+
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+a{color:var(--blue)}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 16px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.chips button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 12px;font:inherit;font-size:14px;cursor:pointer}
+.chips button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.cond{font-size:18px;margin:6px 0 14px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:170px}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin:6px 6px 0 0}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line)}
+.btn[disabled]{opacity:.45;cursor:default}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+.ok{border-left:3px solid var(--ok);background:rgba(155,211,160,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.bad{border-left:3px solid var(--bad);background:rgba(240,154,138,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.sol{border-left:3px solid var(--blue);background:rgba(125,162,255,.08);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:15px}
+.sol p{margin:6px 0}
+.stat{color:var(--muted);font-size:14px}
+
+.sys{display:inline-flex;align-items:center;vertical-align:middle;margin:2px 6px}
+.sys .br{align-self:stretch;width:7px;border:2px solid currentColor;border-right:0;border-radius:9px 0 0 9px;margin-right:8px}
+.sys .rows{display:flex;flex-direction:column;gap:3px;text-align:left}
+.sys .rows span{white-space:nowrap}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px}
+.fr i{display:block;font-style:normal;padding:0 3px;border-bottom:1px solid currentColor;line-height:1.2}
+.fr b{display:block;font-weight:normal;padding:0 3px;line-height:1.2}
+.cond{overflow-x:auto}
+.links a{display:inline-block;margin:4px 10px 0 0}
+@media(max-width:480px){.sys .rows span{white-space:normal}}
+
+
+svg.gfig{display:block;width:100%;height:auto;max-width:520px;margin:6px auto}
+.figwrap{background:rgba(15,31,25,.6);border:1px solid #2c4a3d;border-radius:12px;padding:8px;margin:10px 0}
+.figs3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
+.figs3>div{text-align:center;font-size:14px;color:#a9b8ac}
+.live{border:1px dashed #2c4a3d;border-radius:12px;padding:12px;margin-top:14px}
+.live input[type=range]{width:100%;accent-color:#f0a35e}
+.live .big2{font-size:18px;color:#f2d675;font-weight:700}
+.ansline{font-size:20px;color:#f2d675;font-weight:700}
+.opt .mono{font-variant-numeric:tabular-nums}
+@media(max-width:480px){.figs3{grid-template-columns:1fr}}
+</style></head><body><div class="wrap"><p class="sub"><a href="z22-funkcij.html" style="color:#7da2ff">← Графики функций (№22)</a></p><h1>Тренажёр: графики функций</h1><p class="sub">Пять задач уровня №22. На каждом шаге ответьте, затем нажмите «Дальше». График появляется после построения, в конце можно двигать прямую и проверять ответ. Десятичные числа можно писать через запятую.</p><div class="tabs" id="tabs"></div><div class="bar"><i id="pb"></i></div><div id="box"></div></div><script>/* core.js — графики функций: рисование SVG, модель кусочных функций, семейства задач №22.
+   Работает и в Node (module.exports), и в браузере (глобальный CORE). */
+(function (root) {
+  'use strict';
+  var EPS = 1e-9, INF = 1e9;
+
+  /* ---------- форматирование ---------- */
+  function fmt(n) {
+    var r = Math.round(n * 100) / 100;
+    var s = String(r).replace('-', '−').replace('.', ',');
+    return s;
+  }
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+  /* ---------- рисование ---------- */
+  var THEMES = {
+    light: { bg: '#fff', grid: '#d4d4d4', gridMain: '#bdbdbd', axis: '#000', curve: '#000', curve2: '#444', aux: '#555', aux2: '#888', pt: '#000', ptHi: '#000', ptBg: '#fff', text: '#000', hi: '#000' },
+    dark: { bg: 'none', grid: '#26443a', gridMain: '#35574a', axis: '#a9b8ac', curve: '#f3ead7', curve2: '#7da2ff', aux: '#f0a35e', aux2: '#9bb59a', pt: '#f3ead7', ptHi: '#f2d675', ptBg: '#1a3329', text: '#a9b8ac', hi: '#f2d675' }
+  };
+
+  function autoStep(range, unitPx) {
+    var cands = [1, 2, 5, 10, 20, 50];
+    for (var i = 0; i < cands.length; i++) if (cands[i] * unitPx >= 22) return cands[i];
+    return 100;
+  }
+
+  function sampleCurve(f, a, b, n, ymin, ymax) {
+    // возвращает список отрезков-путей [[x,y],...], разрывая путь за границами рисунка
+    var segs = [], cur = [], lim = (ymax - ymin) * 1.2;
+    for (var i = 0; i <= n; i++) {
+      var x = a + (b - a) * i / n, y = f(x);
+      var ok = isFinite(y) && y >= ymin - lim && y <= ymax + lim;
+      if (ok) cur.push([x, y]); else { if (cur.length > 1) segs.push(cur); cur = []; }
+    }
+    if (cur.length > 1) segs.push(cur);
+    return segs;
+  }
+
+  /* o: {w, xmin,xmax,ymin,ymax, ar, theme, curves:[{f,a,b,col,dash,sw}], marks:[{x,y,open,label,dx,dy,hi}],
+        lines:[{kind:'h'|'k'|'v', v, label, dash, col}], texts:[{x,y,t,anchor}], sx, sy, labelX, labelY, title} */
+  function plot(o) {
+    var T = THEMES[o.theme || 'light'];
+    var W = o.w || 300;
+    var xmin = o.xmin, xmax = o.xmax, ymin = o.ymin, ymax = o.ymax;
+    var padL = 24, padR = 14, padT = 12, padB = 20;
+    var ux = (W - padL - padR) / (xmax - xmin);
+    var uy = ux * (o.ar || 1);
+    var H = (ymax - ymin) * uy + padT + padB;
+    function X(x) { return padL + (x - xmin) * ux; }
+    function Y(y) { return padT + (ymax - y) * uy; }
+    var sx = o.sx || autoStep(xmax - xmin, ux), sy = o.sy || autoStep(ymax - ymin, uy);
+    var s = [];
+    s.push('<svg class="gfig" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W.toFixed(1) + ' ' + H.toFixed(1) + '" role="img"' + (o.title ? ' aria-label="' + esc(o.title) + '"' : '') + ' font-family="-apple-system,Helvetica,Arial,sans-serif" font-size="10">');
+    // сетка
+    var gx0 = Math.ceil(xmin - EPS), gx1 = Math.floor(xmax + EPS);
+    for (var gx = gx0; gx <= gx1; gx++) s.push('<line x1="' + X(gx).toFixed(1) + '" y1="' + Y(ymax).toFixed(1) + '" x2="' + X(gx).toFixed(1) + '" y2="' + Y(ymin).toFixed(1) + '" stroke="' + (gx % sx === 0 ? T.gridMain : T.grid) + '" stroke-width="' + (gx % sx === 0 ? 0.7 : 0.4) + '"/>');
+    var gy0 = Math.ceil(ymin - EPS), gy1 = Math.floor(ymax + EPS);
+    for (var gy = gy0; gy <= gy1; gy++) s.push('<line x1="' + X(xmin).toFixed(1) + '" y1="' + Y(gy).toFixed(1) + '" x2="' + X(xmax).toFixed(1) + '" y2="' + Y(gy).toFixed(1) + '" stroke="' + (gy % sy === 0 ? T.gridMain : T.grid) + '" stroke-width="' + (gy % sy === 0 ? 0.7 : 0.4) + '"/>');
+    // оси
+    var ax = (0 >= xmin && 0 <= xmax) ? X(0) : X(xmin), ay = (0 >= ymin && 0 <= ymax) ? Y(0) : Y(ymin);
+    s.push('<line x1="' + X(xmin).toFixed(1) + '" y1="' + ay.toFixed(1) + '" x2="' + (X(xmax) + 6).toFixed(1) + '" y2="' + ay.toFixed(1) + '" stroke="' + T.axis + '" stroke-width="1.1"/>');
+    s.push('<line x1="' + ax.toFixed(1) + '" y1="' + Y(ymin).toFixed(1) + '" x2="' + ax.toFixed(1) + '" y2="' + (Y(ymax) - 6).toFixed(1) + '" stroke="' + T.axis + '" stroke-width="1.1"/>');
+    s.push('<path d="M' + (X(xmax) + 6).toFixed(1) + ' ' + ay.toFixed(1) + 'l-5 -2.4v4.8z" fill="' + T.axis + '"/>');
+    s.push('<path d="M' + ax.toFixed(1) + ' ' + (Y(ymax) - 6).toFixed(1) + 'l-2.4 5h4.8z" fill="' + T.axis + '"/>');
+    s.push('<text x="' + (X(xmax) + 6).toFixed(1) + '" y="' + (ay - 5).toFixed(1) + '" fill="' + T.text + '" text-anchor="end" font-style="normal">x</text>');
+    s.push('<text x="' + (ax + 7).toFixed(1) + '" y="' + (Y(ymax) - 1).toFixed(1) + '" fill="' + T.text + '">y</text>');
+    // подписи делений
+    for (gx = gx0; gx <= gx1; gx++) {
+      if (gx === 0 || gx % sx !== 0) continue;
+      s.push('<line x1="' + X(gx).toFixed(1) + '" y1="' + (ay - 2.5).toFixed(1) + '" x2="' + X(gx).toFixed(1) + '" y2="' + (ay + 2.5).toFixed(1) + '" stroke="' + T.axis + '" stroke-width="1"/>');
+      s.push('<text x="' + X(gx).toFixed(1) + '" y="' + (ay + 12).toFixed(1) + '" text-anchor="middle" fill="' + T.text + '">' + String(gx).replace('-', '−') + '</text>');
+    }
+    for (gy = gy0; gy <= gy1; gy++) {
+      if (gy === 0 || gy % sy !== 0) continue;
+      s.push('<line x1="' + (ax - 2.5).toFixed(1) + '" y1="' + Y(gy).toFixed(1) + '" x2="' + (ax + 2.5).toFixed(1) + '" y2="' + Y(gy).toFixed(1) + '" stroke="' + T.axis + '" stroke-width="1"/>');
+      s.push('<text x="' + (ax - 4).toFixed(1) + '" y="' + (Y(gy) + 3.4).toFixed(1) + '" text-anchor="end" fill="' + T.text + '">' + String(gy).replace('-', '−') + '</text>');
+    }
+    if (o.showO !== false && 0 >= xmin && 0 <= xmax && 0 >= ymin && 0 <= ymax) s.push('<text x="' + (ax - 4).toFixed(1) + '" y="' + (ay + 11).toFixed(1) + '" text-anchor="end" fill="' + T.text + '">O</text>');
+    // вспомогательные прямые
+    (o.lines || []).forEach(function (L) {
+      var x1, y1, x2, y2;
+      if (L.kind === 'h') { x1 = xmin; x2 = xmax; y1 = y2 = L.v; }
+      else if (L.kind === 'v') { y1 = ymin; y2 = ymax; x1 = x2 = L.v; }
+      else { // y = kx, обрезаем по рамке
+        var k = L.v, xa = xmin, xb = xmax;
+        if (k > EPS) { xa = Math.max(xmin, ymin / k); xb = Math.min(xmax, ymax / k); }
+        else if (k < -EPS) { xa = Math.max(xmin, ymax / k); xb = Math.min(xmax, ymin / k); }
+        x1 = xa; x2 = xb; y1 = k * xa; y2 = k * xb;
+      }
+      s.push('<line x1="' + X(x1).toFixed(1) + '" y1="' + Y(y1).toFixed(1) + '" x2="' + X(x2).toFixed(1) + '" y2="' + Y(y2).toFixed(1) + '" stroke="' + (L.col || T.aux) + '" stroke-width="' + (L.sw || 1.2) + '" stroke-dasharray="' + (L.dash === false ? '' : (L.dash || '5 3')) + '"/>');
+      if (L.label) {
+        var lx = L.kind === 'h' ? X(xmax) - 3 : (L.kind === 'v' ? X(L.v) + 3 : X(x2) - 3);
+        var ly = L.kind === 'h' ? Y(L.v) - 3 : (L.kind === 'v' ? Y(ymax) + 10 : Y(y2) + (L.v >= 0 ? 10 : -4));
+        s.push('<text x="' + lx.toFixed(1) + '" y="' + ly.toFixed(1) + '" text-anchor="end" fill="' + (L.col || T.aux) + '" font-size="9.5">' + esc(L.label) + '</text>');
+      }
+    });
+    // кривые
+    (o.curves || []).forEach(function (c, ci) {
+      var a = Math.max(c.a === undefined ? xmin : c.a, xmin), b = Math.min(c.b === undefined ? xmax : c.b, xmax);
+      if (b <= a) return;
+      sampleCurve(c.f, a, b, c.n || 360, ymin, ymax).forEach(function (seg) {
+        var d = seg.map(function (p, i) { return (i ? 'L' : 'M') + X(p[0]).toFixed(2) + ' ' + Math.max(-4000, Math.min(4000, Y(p[1]))).toFixed(2); }).join('');
+        s.push('<path d="' + d + '" fill="none" stroke="' + (c.col || T.curve) + '" stroke-width="' + (c.sw || 1.9) + '" stroke-linejoin="round" stroke-linecap="round"' + (c.dash ? ' stroke-dasharray="' + c.dash + '"' : '') + ' clip-path="url(#clip' + (o.uid || '') + ')"/>');
+      });
+    });
+    // точки
+    (o.marks || []).forEach(function (m) {
+      var cx = X(m.x), cy = Y(m.y);
+      if (m.x < xmin - EPS || m.x > xmax + EPS || m.y < ymin - EPS || m.y > ymax + EPS) return;
+      s.push('<circle cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="' + (m.r || 3.3) + '" fill="' + (m.open ? T.ptBg : (m.hi ? T.ptHi : T.pt)) + '" stroke="' + (m.hi && !m.open ? T.ptHi : T.pt) + '" stroke-width="1.5"/>');
+      if (m.label) s.push('<text x="' + (cx + (m.dx === undefined ? 6 : m.dx)).toFixed(1) + '" y="' + (cy + (m.dy === undefined ? -5 : m.dy)).toFixed(1) + '" fill="' + T.text + '" font-size="9.5"' + (m.anchor ? ' text-anchor="' + m.anchor + '"' : '') + '>' + esc(m.label) + '</text>');
+    });
+    (o.texts || []).forEach(function (t) {
+      s.push('<text x="' + X(t.x).toFixed(1) + '" y="' + Y(t.y).toFixed(1) + '" fill="' + (t.col || T.text) + '"' + (t.anchor ? ' text-anchor="' + t.anchor + '"' : '') + ' font-size="' + (t.size || 10.5) + '">' + esc(t.t) + '</text>');
+    });
+    s.push('</svg>');
+    // clipPath: добавляем в начало
+    var clip = '<defs><clipPath id="clip' + (o.uid || '') + '"><rect x="' + X(xmin).toFixed(1) + '" y="' + Y(ymax).toFixed(1) + '" width="' + (X(xmax) - X(xmin)).toFixed(1) + '" height="' + (Y(ymin) - Y(ymax)).toFixed(1) + '"/></clipPath></defs>';
+    s.splice(1, 0, clip);
+    return s.join('');
+  }
+
+  /* ---------- модель функции из кусков ---------- */
+  // кусок: {t:'p', a,b,c} => y = a x² + b x + c ;  {t:'h', c} => y = c / x ; область: lo,hi,loInc,hiInc
+  function P(a, b, c, lo, hi, loInc, hiInc) { return { t: 'p', a: a, b: b, c: c, lo: lo === undefined ? -INF : lo, hi: hi === undefined ? INF : hi, loInc: !!loInc, hiInc: !!hiInc }; }
+  function H(c, lo, hi, loInc, hiInc) { return { t: 'h', c: c, lo: lo === undefined ? -INF : lo, hi: hi === undefined ? INF : hi, loInc: !!loInc, hiInc: !!hiInc }; }
+  function pv(pc, x) { return pc.t === 'p' ? (pc.a * x * x + pc.b * x + pc.c) : pc.c / x; }
+  function inDom(pc, x) {
+    var okLo = pc.loInc ? x >= pc.lo - EPS : x > pc.lo + EPS;
+    var okHi = pc.hiInc ? x <= pc.hi + EPS : x < pc.hi - EPS;
+    return okLo && okHi;
+  }
+  function solveLine(pc, kind, v) {
+    if (pc.t === 'p') {
+      var A = pc.a, B = pc.b, C = pc.c;
+      if (kind === 'm') C -= v; else B -= v;
+      if (Math.abs(A) < EPS) { if (Math.abs(B) < EPS) return []; return [-C / B]; }
+      var D = B * B - 4 * A * C;
+      if (D < -EPS) return [];
+      if (Math.abs(D) <= EPS) return [-B / (2 * A)];
+      var sq = Math.sqrt(D);
+      return [(-B - sq) / (2 * A), (-B + sq) / (2 * A)];
+    }
+    if (kind === 'm') { if (Math.abs(v) < EPS) return []; return [pc.c / v]; }
+    if (Math.abs(v) < EPS) return [];
+    var q = pc.c / v;
+    if (q <= EPS) return [];
+    var r = Math.sqrt(q);
+    return [-r, r];
+  }
+  // F: {pieces:[...], excl:[x...]}
+  function points(F, kind, v) {
+    var out = [];
+    F.pieces.forEach(function (pc) {
+      solveLine(pc, kind, v).forEach(function (x) {
+        if (!inDom(pc, x)) return;
+        if ((F.excl || []).some(function (e) { return Math.abs(e - x) < 1e-7; })) return;
+        if (out.some(function (p) { return Math.abs(p[0] - x) < 1e-7; })) return;
+        out.push([x, pv(pc, x)]);
+      });
+    });
+    return out;
+  }
+  function evalF(F, x) {
+    for (var i = 0; i < F.pieces.length; i++) if (inDom(F.pieces[i], x)) return pv(F.pieces[i], x);
+    return null;
+  }
+  function curvesOf(F, xmin, xmax, theme) {
+    return F.pieces.map(function (pc) {
+      var a = Math.max(pc.lo, xmin), b = Math.min(pc.hi, xmax);
+      return { f: pc.t === 'p' ? (function (A, B, C) { return function (x) { return A * x * x + B * x + C; }; })(pc.a, pc.b, pc.c) : (function (C) { return function (x) { return C / x; }; })(pc.c), a: a, b: b, n: 420 };
+    });
+  }
+
+  /* ---------- разметка формул (HTML) ---------- */
+  function term(c, v, first) {
+    if (c === 0) return '';
+    var a = Math.abs(c), body = (v && a === 1) ? v : (String(a) + (v || ''));
+    if (first) return (c < 0 ? '−' : '') + body;
+    return ' ' + (c < 0 ? '−' : '+') + ' ' + body;
+  }
+  function poly() {
+    var s = '', first = true;
+    for (var i = 0; i < arguments.length; i++) { var c = arguments[i][0], v = arguments[i][1]; if (c === 0) continue; s += term(c, v, first); first = false; }
+    return s || '0';
+  }
+  function fr(a, b) { return '<span class="fr"><i>' + a + '</i><b>' + b + '</b></span>'; }
+  function sys() { var r = Array.prototype.slice.call(arguments).map(function (x) { return '<span>' + x + '</span>'; }).join(''); return '<span class="sys"><span class="br"></span><span class="rows">' + r + '</span></span>'; }
+  function mn(n) { return String(n).replace('-', '−'); }
+
+  /* ---------- семейства задач №22 ---------- */
+  // A: y = x|x| − a|x| − b x ; прямая y = m ; «ровно две общие точки»
+  function famA(a, b) {
+    var s = a + b, yL = (b - a) * (b - a) / 4, yR = -s * s / 4;
+    var F = { pieces: [P(1, -s, 0, 0, INF, true, false), P(-1, a - b, 0, -INF, 0, false, false)], excl: [] };
+    return {
+      fam: 'A', kind: 'm', F: F,
+      ftext: 'y = x|x| − ' + (a === 1 ? '' : a) + '|x| − ' + (b === 1 ? '' : b) + 'x',
+      formula: 'y = x|x| − ' + (a === 1 ? '' : a) + '|x| − ' + (b === 1 ? '' : b) + 'x',
+      ask: 'при каких значениях m прямая y = m имеет с графиком ровно две общие точки',
+      xr: [a - b - 2, s + 2], yr: [Math.floor(yR) - 2, Math.ceil(yL) + 5],
+      marks: [{ x: s / 2, y: yR, label: '(' + fmt(s / 2) + '; ' + fmt(yR) + ')', dx: 6, dy: 12 }, { x: (a - b) / 2, y: yL, label: '(' + fmt((a - b) / 2) + '; ' + fmt(yL) + ')', dx: 6, dy: -6 }],
+      special: [{ v: yR, label: 'm = ' + fmt(yR) }, { v: yL, label: 'm = ' + fmt(yL) }],
+      answerVals: [yR, yL], answerText: 'm = ' + fmt(yR) + '; m = ' + fmt(yL),
+      target: 2, params: { a: a, b: b },
+      sliderMin: Math.floor(yR) - 2, sliderMax: Math.ceil(yL) + 4, step: 0.5, sliderLabel: 'm'
+    };
+  }
+  // B: y = (x⁴ − (p²+q²)x² + p²q²)/((x − p)(x + q)) ; ровно одна общая точка с y = m
+  function famB(p, q) {
+    var x0 = (q - p) / 2, y0 = -(p + q) * (p + q) / 4, h1 = 2 * p * (p - q), h2 = 2 * q * (q - p);
+    var F = { pieces: [P(1, p - q, -p * q)], excl: [p, -q] };
+    var lo = Math.min(p, q), hi = Math.max(p, q);
+    var vals = [y0, h1, h2].sort(function (u, v) { return u - v; });
+    var num = 'x⁴ − ' + (p * p + q * q) + 'x² + ' + (p * p * q * q);
+    var den = '(x − ' + p + ')(x + ' + q + ')';
+    return {
+      fam: 'B', kind: 'm', F: F,
+      ftext: 'y = (' + num + ')/(' + den + ')',
+      formula: 'y = ' + fr(num, den),
+      ask: 'при каких значениях m прямая y = m имеет с графиком ровно одну общую точку',
+      xr: [-hi - 2, hi + 3], yr: [Math.floor(y0) - 2, Math.max(h1, h2) + 4], ar: 0.5,
+      marks: [{ x: x0, y: y0, label: '(' + fmt(x0) + '; ' + fmt(y0) + ')', dx: 6, dy: 12 }, { x: p, y: h1, open: true, label: '(' + p + '; ' + fmt(h1) + ')', dx: 6, dy: 12 }, { x: -q, y: h2, open: true, label: '(' + mn(-q) + '; ' + fmt(h2) + ')', dx: 6, dy: -6 }],
+      special: [{ v: y0, label: 'm = ' + fmt(y0) }, { v: h1, label: 'm = ' + fmt(h1) }, { v: h2, label: 'm = ' + fmt(h2) }],
+      answerVals: vals, answerText: 'm = ' + vals.map(fmt).join('; m = '), target: 1, params: { p: p, q: q },
+      holes: [[p, h1], [-q, h2]], vertex: [x0, y0],
+      sliderMin: Math.floor(y0) - 2, sliderMax: Math.max(h1, h2) + 3, step: 1, sliderLabel: 'm'
+    };
+  }
+  // C: y = (a|x| − 1)/(|x| − a x²) ; прямая y = kx ; «нет общих точек»
+  function famC(a) {
+    var F = { pieces: [H(-1, 0, INF, false, false), H(1, -INF, 0, false, false)], excl: [1 / a, -1 / a] };
+    return {
+      fam: 'C', kind: 'k', F: F,
+      ftext: 'y = (' + a + '|x| − 1)/(|x| − ' + a + 'x²)',
+      formula: 'y = ' + fr(a + '|x| − 1', '|x| − ' + a + 'x²'),
+      ask: 'при каких значениях k прямая y = kx не имеет с графиком ни одной общей точки',
+      xr: [-3, 3], yr: [-(a + 3), 2], ar: 0.7,
+      marks: [{ x: 1 / a, y: -a, open: true, label: '(' + fmt(1 / a) + '; ' + mn(-a) + ')', dx: 5, dy: 13 }, { x: -1 / a, y: -a, open: true, label: '(' + mn(fmt(-1 / a)) + '; ' + mn(-a) + ')', dx: -5, dy: 13, anchor: 'end' }],
+      special: [{ v: -a * a, label: 'k = ' + mn(-a * a) }, { v: a * a, label: 'k = ' + a * a }, { v: 0, label: 'k = 0' }],
+      answerVals: [-a * a, 0, a * a], answerText: 'k = ' + mn(-a * a) + '; k = 0; k = ' + a * a, target: 0, params: { a: a },
+      sliderMin: -a * a - 2, sliderMax: a * a + 2, step: 0.5, sliderLabel: 'k'
+    };
+  }
+  // D: y = c − x при x < x0 ; y = x² − 2h x + h² − d при x ≥ x0 ; «ровно одна общая точка с y = m»
+  function famD(x0, c, h, d) {
+    var L = c - x0, v1 = (x0 - h) * (x0 - h) - d;
+    var F = { pieces: [P(0, -1, c, -INF, x0, false, false), P(1, -2 * h, h * h - d, x0, INF, true, false)], excl: [] };
+    return {
+      fam: 'D', kind: 'm', F: F,
+      ftext: 'y = c − x (x < x0); y = x² − 2hx + h² − d (x ≥ x0)',
+      rows: [(c) + ' − x при x < ' + mn(x0), 'x² ' + term(-2 * h, 'x', false) + term(h * h - d, '', false) + ' при x ≥ ' + mn(x0)],
+      ask: 'при каких значениях m прямая y = m имеет с графиком ровно одну общую точку',
+      xr: [x0 - 4, h + 4], yr: [-d - 2, L + 4], ar: 0.8,
+      marks: [{ x: x0, y: L, open: true, label: '(' + mn(x0) + '; ' + mn(L) + ')', dx: 6, dy: -4 }, { x: x0, y: v1, label: '(' + mn(x0) + '; ' + mn(v1) + ')', dx: -6, dy: 12, anchor: 'end' }, { x: h, y: -d, label: '(' + h + '; ' + mn(-d) + ')', dx: 6, dy: 12 }],
+      special: [{ v: -d, label: 'm = ' + mn(-d) }, { v: v1, label: 'm = ' + mn(v1) }, { v: L, label: 'm = ' + mn(L) }],
+      answerText: 'm = ' + mn(-d) + ' и ' + mn(v1) + ' < m ≤ ' + mn(L),
+      answerSet: { pts: [-d], ints: [[v1, L, false, true]] },
+      target: 1, params: { x0: x0, c: c, h: h, d: d }, L: L, v1: v1, vertexD: -d,
+      sliderMin: -d - 2, sliderMax: L + 3, step: 0.5, sliderLabel: 'm'
+    };
+  }
+  // E: y = |x² − b x| ; прямая y = kx ; mode 'one' (ровно одна) или 'three' (ровно три)
+  function famE(b, mode) {
+    mode = mode || 'one';
+    var F = { pieces: [P(1, -b, 0, -INF, 0, false, true), P(-1, b, 0, 0, b, false, false), P(1, -b, 0, b, INF, true, false)], excl: [] };
+    var three = mode === 'three';
+    return {
+      fam: 'E', kind: 'k', F: F, mode: mode,
+      ftext: 'y = |x² − ' + b + 'x|',
+      formula: 'y = |x² − ' + (b === 1 ? '' : b) + 'x|',
+      ask: 'при каких значениях k прямая y = kx имеет с графиком ' + (three ? 'ровно три общие точки' : 'ровно одну общую точку'),
+      xr: [-3, b + 3], yr: [-2, Math.ceil(b * b / 4) + 8], ar: 0.7,
+      marks: [{ x: 0, y: 0, label: 'O', dx: -9, dy: 13, anchor: 'end' }, { x: b, y: 0, label: '(' + b + '; 0)', dx: 0, dy: 13, anchor: 'middle' }, { x: b / 2, y: b * b / 4, label: '(' + fmt(b / 2) + '; ' + fmt(b * b / 4) + ')', dx: 0, dy: -6, anchor: 'middle' }],
+      special: [{ v: -b, label: 'k = ' + mn(-b) }, { v: 0, label: 'k = 0' }, { v: b, label: 'k = ' + b }],
+      answerText: three ? '0 < k < ' + b : mn(-b) + ' ≤ k < 0',
+      answerSet: three ? { pts: [], ints: [[0, b, false, false]] } : { pts: [], ints: [[-b, 0, true, false]] },
+      target: three ? 3 : 1, params: { b: b },
+      sliderMin: -b - 2, sliderMax: b + 2, step: 0.5, sliderLabel: 'k'
+    };
+  }
+  // S: образец для памятки: y = x² − 2|x| − 3 ; «ровно три общие точки»
+  function famS() {
+    var F = { pieces: [P(1, -2, -3, 0, INF, true, false), P(1, 2, -3, -INF, 0, false, false)], excl: [] };
+    return {
+      fam: 'S', kind: 'm', F: F, ftext: 'y = x² − 2|x| − 3', formula: 'y = x² − 2|x| − 3',
+      ask: 'при каких значениях m прямая y = m имеет с графиком ровно три общие точки',
+      xr: [-5, 5], yr: [-5, 5], ar: 0.8,
+      marks: [{ x: 1, y: -4, label: '(1; −4)', dx: 5, dy: 12 }, { x: -1, y: -4, label: '(−1; −4)', dx: -5, dy: 12, anchor: 'end' }, { x: 0, y: -3, label: '(0; −3)', dx: 6, dy: -6 }],
+      special: [{ v: -3, label: 'm = −3' }], answerText: 'm = −3', answerVals: [-3], target: 3, params: {},
+      sliderMin: -6, sliderMax: 4, step: 0.5, sliderLabel: 'm'
+    };
+  }
+
+  /* ---------- общая отрисовка задачи ---------- */
+  // opt: {theme, w, line:{kind,v}, showSpecial:true, showPts:true}
+  function drawTask(T, opt) {
+    opt = opt || {};
+    var xmin = T.xr[0], xmax = T.xr[1], ymin = T.yr[0], ymax = T.yr[1];
+    var lines = [];
+    if (opt.showSpecial) T.special.forEach(function (sp) { lines.push({ kind: T.kind === 'm' ? 'h' : 'k', v: sp.v, label: sp.label, col: undefined }); });
+    if (opt.line) lines.push({ kind: opt.line.kind === 'm' ? 'h' : opt.line.kind, v: opt.line.v, label: opt.line.label, col: opt.line.col, dash: false, sw: 1.6 });
+    var marks = (opt.noMarks ? [] : T.marks.map(function (m) { var c = {}; for (var k in m) c[k] = m[k]; if (opt.noLabels) delete c.label; return c; }));
+    if (opt.line && opt.showPts !== false) {
+      points(T.F, opt.line.kind, opt.line.v).forEach(function (p) { marks.push({ x: p[0], y: p[1], hi: true, r: 4.2 }); });
+    }
+    return plot({ w: opt.w || 300, xmin: xmin, xmax: xmax, ymin: ymin, ymax: ymax, ar: T.ar || 1, theme: opt.theme || 'light', curves: curvesOf(T.F, xmin, xmax), marks: marks, lines: lines, uid: opt.uid || '', title: 'График функции ' + T.ftext });
+  }
+
+  /* ---------- №11: фигуры для соответствия ---------- */
+  function simpleFig(f, o) {
+    o = o || {};
+    var xr = o.xr || [-4, 4], yr = o.yr || [-4, 4];
+    var curves = Array.isArray(f) ? f : [{ f: f, a: o.a, b: o.b, n: 360 }];
+    return plot({ w: o.w || 150, xmin: xr[0], xmax: xr[1], ymin: yr[0], ymax: yr[1], theme: o.theme || 'light', curves: curves, marks: o.marks || [], lines: o.lines || [], texts: o.texts || [], ar: o.ar || 1, uid: o.uid || '', sx: o.sx || 1, sy: o.sy || 1, title: o.title || 'график' });
+  }
+  function hyper(k) { return [{ f: function (x) { return k / x; }, a: -50, b: -0.01, n: 600 }, { f: function (x) { return k / x; }, a: 0.01, b: 50, n: 600 }]; }
+
+  var CORE = { plot: plot, points: points, evalF: evalF, inDom: inDom, pv: pv, curvesOf: curvesOf, drawTask: drawTask, P: P, H: H, fmt: fmt, mn: mn, term: term, poly: poly, fr: fr, sys: sys, esc: esc,
+    famA: famA, famB: famB, famC: famC, famD: famD, famE: famE, famS: famS, simpleFig: simpleFig, hyper: hyper, THEMES: THEMES, EPS: EPS };
+  if (typeof module !== 'undefined' && module.exports) module.exports = CORE; else root.CORE = CORE;
+})(typeof window !== 'undefined' ? window : this);
+
+const T=[{"title":"Задача 1. Раскрытие модуля: x|x|","cond":"Постройте график функции y = x|x| − 2|x| − 4x. Определите, при каких значениях m прямая y = m имеет с графиком ровно две общие точки.","spec":["A",2,4],"figAt":3,"steps":[{"t":"c","q":"С чего начать, если в формуле есть |x|?","o":["Раскрыть модуль отдельно при x ≥ 0 и при x < 0","Построить график, а модуль учесть потом","Возвести обе части в квадрат","Взять x = 0"],"a":0,"h":"Модуль раскрывается по определению, и без этого график не построить.","r":"Две формулы: при x ≥ 0 получаем y = x² − 6x, при x < 0 получаем y = −x² − 2x."},{"t":"n","q":"При x ≥ 0 получилась парабола y = x² − 6x. Чему равна ордината её вершины?","o":null,"a":-9,"h":"Выделите квадрат: x² − 6x = (x − 3)² − 9.","r":"Вершина (3; −9). Эта вершина принадлежит графику (3 ≥ 0)."},{"t":"n","q":"При x < 0 получилась парабола y = −x² − 2x. Чему равна ордината её вершины?","o":null,"a":1,"h":"y = −(x² + 2x) = −(x + 1)² + 1.","r":"Вершина (−1; 1), и −1 < 0, значит, она принадлежит графику."},{"t":"n","q":"Сколько общих точек у графика и прямой y = 0?","o":null,"a":3,"h":"Решите x² − 6x = 0 при x ≥ 0 и −x² − 2x = 0 при x < 0. Точку x = 0 считайте один раз.","r":"Корни: x = 0 и x = 6 из первой части, x = −2 из второй. Три точки: (−2; 0), (0; 0), (6; 0)."},{"t":"c","q":"При каких m общих точек ровно две?","o":["m = −9 и m = 1","только m = −9","только m = 1","−9 < m < 1"],"a":0,"h":"Две точки бывают на уровне вершин: при m = −9 и m = 1. Между ними три точки, вне — одна.","r":"При m = −9 и при m = 1 ровно две общие точки. Ответ: m = −9; m = 1."}]},{"title":"Задача 2. Дробь и выколотые точки","cond":"Постройте график функции y = <span class=\"fr\"><i>x⁴ − 20x² + 64</i><b>(x − 2)(x + 4)</b></span>. Определите, при каких значениях m прямая y = m имеет с графиком ровно одну общую точку.","spec":["B",2,4],"figAt":4,"steps":[{"t":"c","q":"Что записать до всяких преобразований?","o":["Область определения: x ≠ 2 и x ≠ −4","x = 2 и x = −4","Ничего, сократить сразу","x > 0"],"a":0,"h":"Знаменатель (x − 2)(x + 4) не равен нулю.","r":"Область определения записывают до сокращения: x ≠ 2, x ≠ −4. Из неё потом берутся выколотые точки."},{"t":"c","q":"Что получится после разложения числителя и сокращения?","o":["y = (x + 2)(x − 4) = x² − 2x − 8","y = x² − 16","y = (x − 2)(x + 4)","сократить нельзя"],"a":0,"h":"t = x²: t² − 20t + 64 = (t − 4)(t − 16) = (x² − 4)(x² − 16).","r":"Числитель (x − 2)(x + 2)(x − 4)(x + 4). После сокращения на (x − 2)(x + 4) остаётся (x + 2)(x − 4)."},{"t":"n","q":"Чему равна ордината вершины параболы y = x² − 2x − 8?","o":null,"a":-9,"h":"y = (x − 1)² − 9.","r":"Вершина (1; −9). Абсцисса 1 не равна 2 и −4, поэтому вершина не выколота."},{"t":"n","q":"Чему равна ордината выколотой точки с абсциссой x = 2?","o":null,"a":-8,"h":"Подставьте x = 2 в сокращённую формулу y = x² − 2x − 8.","r":"y = 4 − 4 − 8 = −8. Выколота точка (2; −8)."},{"t":"n","q":"Чему равна ордината выколотой точки с абсциссой x = −4?","o":null,"a":16,"h":"Подставьте x = −4 в y = x² − 2x − 8.","r":"y = 16 + 8 − 8 = 16. Выколота точка (−4; 16)."},{"t":"c","q":"При каких m общая точка ровно одна?","o":["m = −9; m = −8; m = 16","только m = −9","m = −8; m = 16","m = −9; m = 16"],"a":0,"h":"Одна точка: вершина, а также значения, при которых одна из двух точек пересечения выколота.","r":"Вершина даёт m = −9. При m = −8 и m = 16 одна из двух точек выколота. Ответ: m = −9; m = −8; m = 16."}]},{"title":"Задача 3. Гипербола с модулем и y = kx","cond":"Постройте график функции y = <span class=\"fr\"><i>2|x| − 1</i><b>|x| − 2x²</b></span>. Определите, при каких значениях k прямая y = kx не имеет с графиком ни одной общей точки.","spec":["C",2],"figAt":3,"steps":[{"t":"c","q":"Какова область определения?","o":["x ≠ 0 и x ≠ ±1/2","x ≠ 0","x ≠ 1/2","любое x"],"a":0,"h":"Знаменатель |x| − 2x² = |x|(1 − 2|x|) не равен нулю.","r":"x ≠ 0 и |x| ≠ 1/2, то есть x ≠ ±1/2."},{"t":"c","q":"Что получится после сокращения?","o":["y = −1/|x|","y = 1/|x|","y = −1/x","y = −|x|"],"a":0,"h":"Числитель 2|x| − 1 = −(1 − 2|x|).","r":"Сокращаем на (1 − 2|x|): y = −1/|x|. Это две ветви гиперболы в III и IV четвертях."},{"t":"n","q":"Чему равна ордината выколотых точек (x = ±1/2)?","o":null,"a":-2,"h":"Подставьте |x| = 1/2 в y = −1/|x|.","r":"y = −1/(1/2) = −2. Выколоты (0,5; −2) и (−0,5; −2)."},{"t":"c","q":"Сколько общих точек у графика и прямой y = 0 (k = 0)?","o":["Ни одной","Одна","Две","Бесконечно много"],"a":0,"h":"Весь график лежит ниже оси Ox (y < 0).","r":"При k = 0 общих точек нет: значение k = 0 входит в ответ."},{"t":"n","q":"Прямая y = kx при каком k > 0 проходит через выколотую точку (−0,5; −2)? Найдите k.","o":null,"a":4,"h":"k = y/x = −2/(−0,5).","r":"k = 4. Единственная общая точка при k > 0 выколота, значит, общих точек нет. Симметрично k = −4."},{"t":"c","q":"Наибольшее k, при котором общих точек нет:","o":["4","0","2","−4"],"a":0,"h":"Значения k без общих точек: −4, 0, 4.","r":"Среди значений −4; 0; 4 наибольшее равно 4."}]},{"title":"Задача 4. Кусочная функция","cond":"Постройте график функции y = <span class=\"sys\"><span class=\"br\"></span><span class=\"rows\"><span>3 − x при x < 1</span><span>x²  − 4x + 1 при x ≥ 1</span></span></span>. Определите, при каких значениях m прямая y = m имеет с графиком ровно одну общую точку.","spec":["D",1,3,2,3],"figAt":3,"steps":[{"t":"n","q":"При x < 1 функция y = 3 − x. Чему равна ордината выколотой точки при x = 1?","o":null,"a":2,"h":"Подставьте x = 1 в 3 − x; точка выколота, так как x < 1 строго.","r":"y = 2, точка (1; 2) выколота."},{"t":"n","q":"При x ≥ 1 функция y = x² − 4x + 1. Чему равна ордината закрашенной точки при x = 1?","o":null,"a":-2,"h":"Подставьте x = 1 в x² − 4x + 1.","r":"y = 1 − 4 + 1 = −2, точка (1; −2) принадлежит графику."},{"t":"n","q":"Чему равна ордината вершины параболы y = (x − 2)² − 3?","o":null,"a":-3,"h":"Вершина (2; −3), и 2 ≥ 1, значит, вершина на графике.","r":"Вершина (2; −3) принадлежит графику."},{"t":"c","q":"Сколько общих точек при m = −2?","o":["Две","Одна","Три","Ни одной"],"a":0,"h":"Решите (x − 2)² − 3 = −2 и проверьте, что оба корня не меньше 1.","r":"x = 1 и x = 3, оба на промежутке x ≥ 1: две точки, значит m = −2 не подходит."},{"t":"c","q":"При каких m общая точка ровно одна?","o":["m = −3 и −2 < m ≤ 2","m = −3 и −2 ≤ m ≤ 2","m = −3 и −2 < m < 2","−3 ≤ m ≤ 2"],"a":0,"h":"Ровно одна: вершина, а также промежуток между −2 и 2. Проверьте оба конца.","r":"m = −2 даёт две точки (не подходит), m = 2 даёт одну: прямая в выколотую точку не попадает. Ответ: m = −3 и −2 < m ≤ 2."}]},{"title":"Задача 5. Модуль трёхчлена и y = kx","cond":"Постройте график функции y = |x² − 4x|. Определите, при каких значениях k прямая y = kx имеет с графиком ровно одну общую точку.","spec":["E",4],"figAt":2,"steps":[{"t":"c","q":"Какая точка принадлежит графику и прямой y = kx при любом k?","o":["O(0; 0)","(4; 0)","(2; 4)","такой точки нет"],"a":0,"h":"Подставьте x = 0.","r":"Прямая y = kx проходит через O, а график y = |x² − 4x| при x = 0 даёт 0. Значит, общая точка есть всегда."},{"t":"n","q":"Чему равна ордината вершины отражённой части y = −x² + 4x (при 0 < x < 4)?","o":null,"a":4,"h":"Вершина при x = 2.","r":"y(2) = −4 + 8 = 4. Вершина (2; 4)."},{"t":"n","q":"Сколько общих точек при k = 2?","o":null,"a":3,"h":"Корни: x = 0, x = 4 + k (если k ≥ 0), x = 4 − k (если 0 < k < 4).","r":"x = 0, x = 6 (6 ≥ 4) и x = 2 (0 < 2 < 4). Три точки."},{"t":"n","q":"Сколько общих точек при k = −4?","o":null,"a":1,"h":"x = 4 + k = 0 попадает в корень x = 0; других корней нет.","r":"Остаётся только O: одна точка, значит k = −4 подходит."},{"t":"c","q":"При каких k общая точка ровно одна?","o":["−4 ≤ k < 0","−4 < k < 0","−4 ≤ k ≤ 0","k ≤ −4"],"a":0,"h":"Проверьте оба конца: k = −4 и k = 0.","r":"При k = −4 точка одна, при k = 0 две (O и (4; 0)). Ответ: −4 ≤ k < 0."}]}];
+const MK={A:CORE.famA,B:CORE.famB,C:CORE.famC,D:CORE.famD,E:CORE.famE};
+function mk(t){return MK[t.spec[0]].apply(null,t.spec.slice(1))}
+let cur=0,prog=T.map(()=>0),tries=0;
+const tabs=document.getElementById('tabs'),box=document.getElementById('box'),pb=document.getElementById('pb');
+function norm(s){return parseFloat(String(s).replace(',','.').replace('−','-').replace(/\s/g,''))}
+function renderTabs(){tabs.innerHTML='';T.forEach((t,k)=>{const b=document.createElement('button');b.textContent='Задача '+(k+1)+(prog[k]===t.steps.length?' (готово)':'');if(k===cur)b.className='on';b.onclick=()=>{cur=k;tries=0;render()};tabs.appendChild(b)})}
+function render(){
+  renderTabs();
+  const t=T[cur],F=mk(t),n=t.steps.length;pb.style.width=(prog[cur]/n*100)+'%';
+  let h='<div class="card"><span class="tag">'+t.title+'</span><div class="cond">'+t.cond+'</div>';
+  if(prog[cur]>=t.figAt&&prog[cur]<n)h+='<div class="figwrap">'+CORE.drawTask(F,{theme:'dark',w:340,uid:'t'+cur,noMarks:true,noLabels:true})+'</div>';
+  for(let k=0;k<prog[cur]&&k<n;k++){h+='<div class="done">'+t.steps[k].r+'</div>'}
+  if(prog[cur]<n){
+    const s=t.steps[prog[cur]];
+    h+='<p class="q" style="margin-top:16px">Шаг '+(prog[cur]+1)+' из '+n+'. '+s.q+'</p><div id="in"></div><div id="fb"></div>';
+  }else{
+    h+='<p class="ansline" style="margin-top:14px">Ответ: '+F.answerText+'</p><div class="live"><div>Проверьте сами: двигайте прямую и считайте общие точки. Нужно ровно '+F.target+'.</div><input type="range" id="sl" min="'+F.sliderMin+'" max="'+F.sliderMax+'" step="'+F.step+'" value="'+F.sliderMin+'"><div class="big2" id="lc"></div><div id="lf"></div></div>';
+    h+='<p style="margin-top:14px">'+(cur<T.length-1?'<button class="btn" onclick="cur++;tries=0;render()">Следующая задача</button>':'Это была последняя. Теперь решите любую из них с чистого листа, затем возьмите тренажёр с новыми числами.')+'</p>';
+  }
+  box.innerHTML=h+'</div>';
+  if(prog[cur]<n)drawStep(t.steps[prog[cur]]);
+  else{const sl=document.getElementById('sl');const upd=()=>{const v=parseFloat(sl.value),c=CORE.points(F.F,F.kind,v).length;document.getElementById('lc').textContent=F.sliderLabel+' = '+String(v).replace('.',',').replace('-','−')+': общих точек '+c+(c===F.target?' (подходит)':'');document.getElementById('lf').innerHTML=CORE.drawTask(F,{theme:'dark',w:340,uid:'l'+cur,noLabels:true,noMarks:true,line:{kind:F.kind,v:v,label:F.sliderLabel+' = '+String(v).replace('.',',').replace('-','−')}})};sl.oninput=upd;upd()}
+}
+function drawStep(s){
+  const el=document.getElementById('in');
+  if(s.t==='c'){
+    s.o.map((v,k)=>[v,k]).sort(()=>Math.random()-.5).forEach(([v,k])=>{const b=document.createElement('button');b.className='opt';b.textContent=v;b.onclick=()=>check(k===s.a,b);el.appendChild(b)});
+  }else{
+    el.innerHTML='<input class="num" id="num" inputmode="decimal" placeholder="Ответ"> <button class="btn" id="go">Проверить</button>';
+    const f=()=>check(Math.abs(norm(document.getElementById('num').value)-s.a)<1e-9,null);
+    document.getElementById('go').onclick=f;document.getElementById('num').onkeydown=e=>{if(e.key==='Enter')f()};
+  }
+}
+function check(ok,btn){
+  const s=T[cur].steps[prog[cur]],fb=document.getElementById('fb');
+  if(ok){
+    document.querySelectorAll('.opt').forEach(x=>x.disabled=true);if(btn)btn.classList.add('ok');
+    const inp=document.getElementById('num');if(inp)inp.disabled=true;const go=document.getElementById('go');if(go)go.disabled=true;
+    fb.innerHTML='<div class="exp">Верно. '+s.r+'</div><button class="btn" onclick="prog[cur]++;tries=0;render()">Дальше</button>';
+  }else{
+    tries++;if(btn){btn.classList.add('bad');btn.disabled=true}
+    fb.innerHTML='<div class="hint">Не то. Подсказка: '+s.h+'</div>'+(tries>=3?'<button class="btn ghost" onclick="reveal()">Показать ответ</button>':'');
+  }
+}
+function reveal(){const s=T[cur].steps[prog[cur]];document.getElementById('fb').innerHTML='<div class="exp">'+s.r+'</div><button class="btn" onclick="prog[cur]++;tries=0;render()">Дальше</button>'}
+render();
+</script></body></html>

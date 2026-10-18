@@ -1,0 +1,67 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>План урока: графики функций</title><style>
+
+@page{size:A4;margin:9mm}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#000;font:10.5pt/1.38 "PT Serif","DejaVu Serif",Georgia,"Times New Roman",serif}
+.wrap{max-width:200mm;margin:0 auto;padding:10px 12px 30px}
+.nav{font:13px -apple-system,Arial,sans-serif;margin:6px 0 10px}
+.nav a{color:#1747c9}
+h1{font-size:15pt;margin:0 0 2px}
+h2{font-size:11.5pt;margin:10px 0 4px;border-bottom:1px solid #000;padding-bottom:1px}
+h3{font-size:10.5pt;margin:7px 0 2px}
+.sub{font-size:9.5pt;margin:0 0 6px}
+p{margin:3px 0}
+ol,ul{margin:3px 0 3px 18px;padding:0}
+li{margin:2px 0}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 1px}
+.fr i{display:block;font-style:normal;padding:0 3px;border-bottom:1px solid currentColor;line-height:1.2}
+.fr b{display:block;font-weight:normal;padding:0 3px;line-height:1.2}
+.box{border:1px solid #000;padding:4px 7px;margin:5px 0;break-inside:avoid}
+.rule{border:1.5px solid #000;padding:4px 7px;margin:5px 0;break-inside:avoid;background:#f2f2f2}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 10mm}
+.cols.cut > div:first-child{border-right:1px dashed #000;padding-right:5mm}
+.task{break-inside:avoid;margin:5px 0}
+.task .n{font-weight:bold}
+.sol{border:1px solid #bbb;background-image:linear-gradient(#ddd 1px,transparent 1px),linear-gradient(90deg,#ddd 1px,transparent 1px);background-size:5mm 5mm;margin:3px 0}
+.ans{margin-top:2px}
+.ans:after{content:" ______________"}
+.teacher{margin-top:10px;border-top:1px dashed #000;padding-top:4px;font-size:9.5pt}
+.small{font-size:9.5pt}
+table{border-collapse:collapse;margin:4px 0}
+td,th{border:1px solid #000;padding:2px 6px;text-align:left;font-weight:normal}
+th{font-weight:bold;background:#eee}
+.lev{display:inline-block;border:1px solid #000;padding:0 6px;font-weight:bold;margin:6px 0 2px;font-size:10.5pt}
+details{margin:2px 0}
+summary{cursor:pointer}
+@media print{.nav,.noprint{display:none}.wrap{padding:0;max-width:none}body{font-size:10pt}}
+
+.sys{display:inline-flex;align-items:center;vertical-align:middle;margin:2px 5px}
+.sys .br{align-self:stretch;width:7px;border:2px solid currentColor;border-right:0;border-radius:9px 0 0 9px;margin-right:7px}
+.sys .rows{display:flex;flex-direction:column;gap:3px;text-align:left}
+.sys .rows span{white-space:nowrap}
+.pair{white-space:nowrap}
+.qa{margin:2px 0;break-inside:avoid}
+.key{border:1px dashed #000;padding:3px 7px;margin:4px 0;font-size:9.5pt;break-inside:avoid}
+.pg{break-before:page}
+@media screen and (max-width:640px){.cols{grid-template-columns:1fr}.cols.cut>div:first-child{border-right:0;padding-right:0}table{display:block;overflow-x:auto}}
+.mini td,.mini th{padding:1px 5px;font-size:9.5pt}
+@media print{body{font-size:9.6pt;line-height:1.33}h2{margin:7px 0 3px}}
+
+svg.gfig{display:block;width:100%;height:auto}
+.fig{display:block;margin:3px auto;break-inside:avoid}
+.f30{width:30mm}.f36{width:36mm}.f42{width:42mm}.f50{width:50mm}.f60{width:60mm}.f70{width:70mm}.f80{width:80mm}
+.figrow{display:grid;grid-template-columns:1fr auto;gap:5mm;align-items:start}
+.figs3{display:flex;gap:3mm;justify-content:flex-start;flex-wrap:nowrap}
+.figs3>div{text-align:center;font-size:9.5pt}
+.figs3 svg.gfig{width:100%}
+.cap{font-size:9pt;text-align:center;margin:0 0 3px}
+.hole{white-space:nowrap}
+.ans2{margin-top:2px;font-size:10pt}
+.vals td,.vals th{padding:1px 5px;font-size:9.5pt;text-align:center}
+.vals th{background:#eee}
+.crit td{font-size:9.5pt}
+.nobr{white-space:nowrap}
+.pgb{break-before:page}
+.step{margin:2px 0}
+@media screen and (max-width:640px){.figrow{grid-template-columns:1fr}.figs3{flex-wrap:wrap}}
+</style></head><body><div class="wrap"><div class="nav"><a href="z22-funkcij.html">← Графики функций (№22)</a> · <a href="index.html">на главную</a> · <a href="z22-funkcij-plan-uroka.pdf">скачать PDF для печати</a></div><h1>План урока и домашнего задания · графики функций (№11, №22)</h1><p class="sub">Индивидуальные занятия по 60 минут, 9 класс. Тема не помещается в одно занятие (построение и работа с прямой y = m, y = kx — разные навыки), поэтому два урока. Для репетитора: на печать 2 страницы.</p><h2>Рамка</h2><p class="small"><b>Целевые задания ОГЭ:</b> №11 (часть 1, соответствие графиков и формул) и №22 (часть 2, 2 балла). <b>Поток:</b> А (алгебра и анализ). <b>Предпосылки:</b> квадратные уравнения, линейная функция, модуль числа. <b>Предположение:</b> на прошлых занятиях были квадратные уравнения и системы уравнений; если у вас иначе, замените блок «Возврат».</p><p class="small"><b>По трекам.</b> <b>C</b> — оба урока целиком, №22 — основной результат. <b>B</b> — урок 1 без блока «оформление» (вместо него — №11 и построение параболы); из №22 только знакомство: прямая y = m и парабола (тест, пятиминутки). <b>A</b> — задание 22 в программу не входит: берём только разделы 1–4 теории, пересечение с осями, вершину параболы и №11 (тест, пятиминутки, зачётный лист уровень 1).</p><h2>Урок 1 · Построение графиков с модулем и дробью, выколотые точки (трек C)</h2><p class="small"><b>Критерий освоения:</b> по формуле с модулем или дробью без подсказок строит график (две формулы или сокращение), указывает вершины, нули и выколотые точки; из трёх заданий серии верно не менее двух. <b>Точка диагностики:</b> задача 2 серии (y = x|x| − 2|x| − 4x): если ученик строит параболы целиком или путает вершины, к прямой y = m не переходить, вернуться к правилу 5 теории и разобрать ещё одну функцию с модулем.</p><table class="small"><tr><th style="width:17mm">Минуты</th><th>Что делаем</th><th style="width:40mm">Материал</th></tr><tr><td>0–5</td><td><b>Разминка.</b> Три быстрых вопроса по прошлой теме (формула корней, теорема Виета) и вопрос на вход: «как найти вершину параболы y = x² − 6x + 5?» Ответ: x₀ = 3, y₀ = −4.</td><td>Теория, вопросы 6, 8</td></tr><tr><td>5–13</td><td><b>Возврат к раннему материалу</b> (тема 2–4 занятия назад, предположительно квадратные уравнения). Две задачи: (1) x² − 5x − 6 = 0 → x = −1 и x = 6; (2) нули и вершина y = x² − 6x + 5 → нули 1 и 5, вершина (3; −4).</td><td>Лист, тест «квадратные уравнения»</td></tr><tr><td>13–25</td><td><b>Новая тема.</b> Разобрать <b>один</b> пример полностью: y = x² − 2|x| − 3. Раскрыть модуль (x ≥ 0: (x − 1)² − 4; x &lt; 0: (x + 1)² − 4), таблицы, график, «горб» в (0; −3), нули ±3. Затем 3 минуты: y = <span class="fr"><i>x² − 9</i><b>x − 3</b></span> = x + 3, выколота (3; 6). Ученик пересказывает алгоритм.</td><td>Теория, разделы 5–7; памятка, образец</td></tr><tr><td>25–40</td><td><b>Отработка (15 мин).</b> Серия со снятием опор, строим только график: (1) y = x² − 4|x| (копия примера: вершины (±2; −4), O — «горб», нули −4, 0, 4); (2) y = x|x| − 2|x| − 4x (вершины (3; −9) и (−1; 1), нули −2, 0, 6); (3) y = <span class="fr"><i>x² − x − 6</i><b>x − 3</b></span> = x + 2, выколота (3; 5); (4) кусочная y = 3 − x при x &lt; 1, y = x² − 4x + 1 при x ≥ 1: (1; 2) выколота, (1; −2) закрашена, вершина (2; −3).</td><td>Разбор 5 задач (рисунки для сверки)</td></tr><tr><td>40–48</td><td><b>Оформление по критериям.</b> Задачу 2 серии ученик записывает на листе как на бланке №2: формулы, таблицы, график. Учитель — эксперт: проверяет по чек-листу памятки, ученик находит, где потерял бы балл, и исправляет.</td><td>Памятка, чек-лист</td></tr><tr><td>48–56</td><td><b>Смешанная практика</b> (без объявления темы): (1) знаки a и c по рисунку параболы y = −x² + 2x − 3 → a &lt; 0, c &lt; 0; (2) система x + y = 7, xy = 12 → (3; 4), (4; 3); (3) сколько решений имеет |x² − 4| = 3 → 4.</td><td>Пятиминутки, вариант А</td></tr><tr><td>56–60</td><td><b>Итог и ДЗ.</b> Вопросы: «Как раскрыть модуль?», «Когда точку выкалывают?». ДЗ-1: тест «Графики функций» (цель — не менее 8 из 10) и три построения: а) y = x² − 6|x| + 5 (вершины (±3; −4), в нуле 5); б) y = x|x| − |x| − 3x (вершины (2; −4) и (−1; 1)); в) y = <span class="fr"><i>x² − 4x</i><b>x − 4</b></span> = x, выколота (4; 4).</td><td>Тест; лист для ДЗ</td></tr></table><p class="small"><b>При нехватке времени:</b> сокращаем блок «Новая тема» (дробь — на следующий урок) и серию до трёх задач. «Возврат» и «Смешанную практику» не убираем: они дают удержание.</p><h2 class="pgb">Урок 2 · Прямые y = m и y = kx: общие точки, оформление №22 (трек C)</h2><p class="small"><b>Критерий освоения:</b> по построенному графику находит все особые значения m (или k) и записывает ответ с верными границами; из трёх задач на 2 балла — не менее двух. <b>Точка диагностики:</b> задача 2 разбора (выколотые точки): если ученик записывает только m = −9, вернуться к правилу «выколотая точка забирает одну из общих точек» и решить аналог из зачётного листа (3.2).</p><table class="small"><tr><th style="width:17mm">Минуты</th><th>Что делаем</th><th style="width:40mm">Материал</th></tr><tr><td>0–5</td><td><b>Разминка и проверка ДЗ-1.</b> Сверяем вершины и выколотую точку по ключам; ошибка — на доску. Два вопроса: «Чему равно число общих точек графика и прямой y = m?», «Как найти k, если прямая y = kx проходит через точку (x₀; y₀)?»</td><td>Теория, вопросы 16, 18</td></tr><tr><td>5–13</td><td><b>Возврат</b> (тема 2–4 занятия назад, предположительно системы уравнений): (1) y = x² и y = 2x − 1 → (1; 1), одна точка (касание); (2) x² + y² = 25 и x = 3 → (3; 4), (3; −4).</td><td>Лист</td></tr><tr><td>13–25</td><td><b>Новая тема.</b> Двигаем y = m по графику y = x² − 2|x| − 3 (m = −4, −3,5, −3, 0): 2, 4, 3, 2 точки. Ученик называет особые положения. Затем y = kx на функции y = <span class="fr"><i>2|x| − 1</i><b>|x| − 2x²</b></span>: k = 0, потом k &gt; 0, k &lt; 0, прямая через выколотую точку. Ученик сам формулирует алгоритм до решения.</td><td>Теория, раздел 8; разбор, задача 3</td></tr><tr><td>25–40</td><td><b>Отработка (15 мин).</b> Графики уже построены на уроке 1. (1) Парабола y = x² − 6x + 5 и y = m: сколько точек при m = −4, −5, 0 → 1, 0, 2. (2) Задача 1 разбора: ровно две точки → m = −9; 1. (3) Задача 4: кусочная → m = −3 и −2 &lt; m ≤ 2. (4) Задача 3: y = kx → k = −4; 0; 4 (с опорой на алгоритм). Ученик сам проверяет границы.</td><td>Разбор 5 задач; тренажёр по шагам</td></tr><tr><td>40–48</td><td><b>Оформление по критериям.</b> Задача 2 разбора (или 3.2 из зачётного листа) записывается целиком: ОДЗ, сокращение, таблица, график, особые m, ответ −9; −8; 16. Учитель проверяет по схеме 2 / 1 / 0 баллов, ученик исправляет.</td><td>Памятка, критерии</td></tr><tr><td>48–56</td><td><b>Смешанная практика:</b> (1) соответствие А, Б, В — параболы, прямая, гипербола (зачётный лист 1.4 → 231); (2) найти k, если прямая y = kx проходит через (3; −6) → k = −2; (3) любая задача из прошлой темы по плану (предположительно квадратное неравенство).</td><td>Зачётный лист, 1.4</td></tr><tr><td>56–60</td><td><b>Итог и ДЗ-2.</b> Что закрыли, что осталось открытым (kx с касанием). ДЗ: домашняя карточка (4 задачи), оформить полностью.</td><td>Домашняя карточка</td></tr></table><p class="small"><b>При нехватке времени:</b> в блоке «Новая тема» оставляем один пример на m (параболу с модулем) и один на k; задачи 3 и 4 отработки переносим в ДЗ. Блоки «Возврат» и «Смешанная практика» не убираем; «Оформление» сокращаем до проверки одного решения по чек-листу.</p><h2>План домашней работы</h2><ol class="small"><li><b>После урока 1.</b> Тест (10 вопросов) и три построения (а, б, в). 25–30 минут.</li><li><b>Дни 1–2 после урока 2.</b> Домашняя карточка: по две задачи в день, с таблицами и графиками.</li><li><b>День 3.</b> Тренажёр «новые числа»: 10 задач, сначала типы, где были ошибки на уроке; записывать, где ошибся.</li><li><b>Перед следующим занятием.</b> Три вопроса устного опроса (16, 17, 19): ученик отвечает первым делом.</li><li><b>Следующее занятие.</b> Проверка карточки по ключевым точкам (10 минут), затем зачётный лист: уровень 1 обязателен, уровни 2 и 3 по треку.</li><li><b>Через неделю.</b> Две задачи на графики вперемешку с другими темами (системы, неравенства), чтобы проверить, что навык удержался.</li></ol></div></body></html>

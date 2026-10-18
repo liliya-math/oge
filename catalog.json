@@ -2870,6 +2870,195 @@
       "oge_task": 22,
       "status": "public",
       "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-funkcij.html",
+      "title": "Графики функций (модуль, дробь, параметр): все материалы по порядку",
+      "type": "sistema",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-funkcij-teoriya.html",
+      "title": "Теория и устный опрос: графики функций с параметром",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-funkcij-test.html",
+      "title": "Тест: графики функций с параметром",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-funkcij-pyatiminutki.html",
+      "title": "Карточки-пятиминутки: графики функций с параметром (2 варианта)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-funkcij-razbor-5.html",
+      "title": "Разбор 5 задач повышенной сложности: графики функций с параметром",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-funkcij-trenazhor.html",
+      "title": "Тренажёр: графики функций с параметром, повышенный уровень",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-funkcij-trenazhor-gen.html",
+      "title": "Тренажёр: графики функций с параметром, новые числа каждый раз",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-funkcij-pamyatka.html",
+      "title": "Памятка: алгоритм и оформление, графики функций с параметром",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-funkcij-kontrolnaya.html",
+      "title": "Зачётный лист: графики функций с параметром (3 уровня)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-funkcij-dz.html",
+      "title": "Домашняя карточка: графики функций с параметром (4 задачи)",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-funkcij-plan-uroka.html",
+      "title": "План урока на 60 минут и ДЗ: графики функций с параметром",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-funkcij-teoriya.pdf",
+      "title": "Графики функций с параметром, печать: teoriya",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-funkcij-pyatiminutki.pdf",
+      "title": "Графики функций с параметром, печать: pyatiminutki",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-funkcij-razbor-5.pdf",
+      "title": "Графики функций с параметром, печать: razbor-5",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-funkcij-pamyatka.pdf",
+      "title": "Графики функций с параметром, печать: pamyatka",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-funkcij-kontrolnaya.pdf",
+      "title": "Графики функций с параметром, печать: kontrolnaya",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-funkcij-dz.pdf",
+      "title": "Графики функций с параметром, печать: dz",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-funkcij-plan-uroka.pdf",
+      "title": "Графики функций с параметром, печать: plan-uroka",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z22-funkcij-komplekt.pdf",
+      "title": "Графики функций с параметром, печать: komplekt",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-funkcij-dialog.pdf",
+      "title": "Графики функций с параметром, печать: диалог-разбор",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-funkcij-dialog.md",
+      "title": "Графики функций с параметром: диалог-разбор (текст)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 22,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
     }
   ]
 }
