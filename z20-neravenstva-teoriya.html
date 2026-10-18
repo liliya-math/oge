@@ -1,0 +1,66 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Теория и устный опрос: неравенства</title><style>
+@page{size:A4;margin:9mm}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#000;font:10.5pt/1.38 "PT Serif","DejaVu Serif",Georgia,"Times New Roman",serif}
+.wrap{max-width:200mm;margin:0 auto;padding:10px 12px 30px}
+.nav{font:13px -apple-system,Arial,sans-serif;margin:6px 0 10px}
+.nav a{color:#1747c9}
+h1{font-size:15pt;margin:0 0 2px}
+h2{font-size:11.5pt;margin:10px 0 4px;border-bottom:1px solid #000;padding-bottom:1px}
+h3{font-size:10.5pt;margin:7px 0 2px}
+.sub{font-size:9.5pt;margin:0 0 6px}
+p{margin:3px 0}
+ol,ul{margin:3px 0 3px 18px;padding:0}
+li{margin:2px 0}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 1px}
+.fr i{display:block;font-style:normal;padding:0 3px;border-bottom:1px solid currentColor;line-height:1.2}
+.fr b{display:block;font-weight:normal;padding:0 3px;line-height:1.2}
+.box{border:1px solid #000;padding:4px 7px;margin:5px 0;break-inside:avoid}
+.rule{border:1.5px solid #000;padding:4px 7px;margin:5px 0;break-inside:avoid;background:#f2f2f2}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 10mm}
+.cols.cut > div:first-child{border-right:1px dashed #000;padding-right:5mm}
+.task{break-inside:avoid;margin:5px 0}
+.task .n{font-weight:bold}
+.sol{border:1px solid #bbb;background-image:linear-gradient(#ddd 1px,transparent 1px),linear-gradient(90deg,#ddd 1px,transparent 1px);background-size:5mm 5mm;margin:3px 0}
+.ans{margin-top:2px}
+.ans:after{content:" ______________"}
+.teacher{margin-top:10px;border-top:1px dashed #000;padding-top:4px;font-size:9.5pt}
+.small{font-size:9.5pt}
+table{border-collapse:collapse;margin:4px 0}
+td,th{border:1px solid #000;padding:2px 6px;text-align:left;font-weight:normal}
+th{font-weight:bold;background:#eee}
+.lev{display:inline-block;border:1px solid #000;padding:0 6px;font-weight:bold;margin:6px 0 2px;font-size:10.5pt}
+details{margin:2px 0}
+summary{cursor:pointer}
+@media print{.nav,.noprint{display:none}.wrap{padding:0;max-width:none}body{font-size:10pt}}
+
+.sys{display:inline-flex;align-items:center;vertical-align:middle;margin:2px 5px}
+.sys .br{align-self:stretch;width:7px;border:2px solid currentColor;border-right:0;border-radius:9px 0 0 9px;margin-right:7px}
+.sys .rows{display:flex;flex-direction:column;gap:3px;text-align:left}
+.sys .rows span{white-space:nowrap}
+.pair{white-space:nowrap}
+.qa{margin:2px 0;break-inside:avoid}
+.key{border:1px dashed #000;padding:3px 7px;margin:4px 0;font-size:9.5pt;break-inside:avoid}
+.pg{break-before:page}
+@media screen and (max-width:640px){.cols{grid-template-columns:1fr}.cols.cut>div:first-child{border-right:0;padding-right:0}table{display:block;overflow-x:auto}}
+.mini td,.mini th{padding:1px 5px;font-size:9.5pt}
+@media print{body{font-size:9.6pt;line-height:1.33}h2{margin:7px 0 3px}}
+</style></head><body><div class="wrap"><div class="nav"><a href="z20-neravenstva.html">← Неравенства (№13, №20)</a> · <a href="index.html">на главную</a> · <a href="z20-neravenstva-teoriya.pdf">скачать PDF для печати</a></div><h1>Неравенства: теория и устный опрос</h1><p class="sub">№13 (часть 1) и №20 (часть 2). Печать: 3 страницы A4. Определения и правила записаны близко к школьному учебнику (алгебра, 8–9 класс).</p><div class="cols cut"><div><h2>1. Решение неравенства</h2><div class="rule"><b>Решением неравенства с одной переменной</b> называется значение переменной, которое обращает его в верное числовое неравенство. <b>Решить неравенство</b> — значит найти все его решения или доказать, что решений нет. Неравенства, имеющие одни и те же решения, называют <b>равносильными</b>.</div><p>Пример. Число 3 — решение неравенства 2x − 1 &gt; 4: при x = 3 получаем 5 &gt; 4, это верно. Число 2 не решение: 3 &gt; 4 неверно.</p>
+<h2>2. Свойства неравенств</h2><div class="rule"><ol><li>Если к обеим частям неравенства прибавить (или из обеих частей вычесть) одно и то же число, получится равносильное неравенство. Любое слагаемое можно перенести из одной части в другую, изменив его знак.</li><li>Если обе части неравенства умножить (или разделить) на одно и то же <b>положительное</b> число, получится равносильное неравенство.</li><li>Если обе части умножить (или разделить) на одно и то же <b>отрицательное</b> число и <b>изменить знак неравенства на противоположный</b>, получится равносильное неравенство.</li></ol></div><p>Пример. −3x &gt; 12. Делим на −3 и меняем знак: x &lt; −4.</p>
+<h2>3. Линейное неравенство</h2><p>Неравенство ax &gt; b сводится к виду: при a &gt; 0 получаем x &gt; b/a; при a &lt; 0 получаем x &lt; b/a (знак меняется). Если a = 0, неравенство 0·x &gt; b верно при любом x (если b &lt; 0) или не имеет решений (если b ≥ 0).</p><p>Пример. 5x − 7 ≤ 8x + 2; 5x − 8x ≤ 2 + 7; −3x ≤ 9; x ≥ −3. Ответ: [−3; +∞).</p>
+<h2>4. Числовые промежутки</h2><table class="mini"><tr><th>Запись</th><th>Неравенство</th><th>Название</th></tr>
+<tr><td>[a; b]</td><td>a ≤ x ≤ b</td><td>отрезок</td></tr>
+<tr><td>(a; b)</td><td>a &lt; x &lt; b</td><td>интервал</td></tr>
+<tr><td>[a; b) и (a; b]</td><td>a ≤ x &lt; b и a &lt; x ≤ b</td><td>полуинтервалы</td></tr>
+<tr><td>[a; +∞)</td><td>x ≥ a</td><td>луч</td></tr>
+<tr><td>(a; +∞)</td><td>x &gt; a</td><td>открытый луч</td></tr>
+<tr><td>(−∞; a]</td><td>x ≤ a</td><td>луч</td></tr>
+<tr><td>(−∞; a)</td><td>x &lt; a</td><td>открытый луч</td></tr></table><div class="rule">Знаки −∞ и +∞ всегда пишут с <b>круглой</b> скобкой. Квадратная скобка (закрашенная точка) — число входит в решение (знаки ≤, ≥). Круглая скобка (пустая точка) — не входит (знаки &lt;, &gt;).</div>
+<h2>5. Системы неравенств</h2><div class="rule"><b>Решением системы неравенств</b> с одной переменной называется значение переменной, при котором верно каждое неравенство системы. Чтобы решить систему, решают каждое неравенство, отмечают решения на одной числовой прямой и берут их <b>общую часть</b> (пересечение).</div><p>Пример. Система x &gt; 1, x ≤ 4: общая часть (1; 4]. Если общих точек нет, решений нет. Не путайте пересечение (система) с объединением (две ветки).</p></div><div><h2>6. Квадратное неравенство</h2><div class="rule">Неравенство вида ax² + bx + c &gt; 0 (&lt; 0, ≥ 0, ≤ 0), где x — переменная, a, b, c — числа, a ≠ 0, называется <b>квадратным неравенством</b>.</div><ol><li>Если a &lt; 0, умножить обе части на −1 и сменить знак неравенства.</li><li>Найти корни трёхчлена (дискриминант или теорема Виета).</li><li>Схематично изобразить параболу (ветви вверх) и отметить корни.</li><li>Выбрать промежутки: «&gt; 0» — где парабола выше оси, «&lt; 0» — где ниже.</li><li>Записать ответ с нужными скобками.</li></ol><table class="mini" style="width:100%"><tr><th>При a &gt; 0</th><th>D &gt; 0, x₁ &lt; x₂</th><th>D = 0</th><th>D &lt; 0</th></tr>
+<tr><td>ax² + bx + c &gt; 0</td><td>(−∞; x₁) ∪ (x₂; +∞)</td><td>все x, кроме x₁</td><td>любое x</td></tr>
+<tr><td>ax² + bx + c &lt; 0</td><td>(x₁; x₂)</td><td>решений нет</td><td>решений нет</td></tr>
+<tr><td>ax² + bx + c ≥ 0</td><td>(−∞; x₁] ∪ [x₂; +∞)</td><td>любое x</td><td>любое x</td></tr>
+<tr><td>ax² + bx + c ≤ 0</td><td>[x₁; x₂]</td><td>только x = x₁</td><td>решений нет</td></tr></table><p class="small">Примеры. x² &lt; 9: (−3; 3). x² &gt; 9: (−∞; −3) ∪ (3; +∞). Запись «x &gt; ±3» неверна.</p>
+<h2>7. Метод интервалов</h2><div class="rule">Чтобы решить неравенство (x − x₁)(x − x₂)…(x − xₙ) &gt; 0 (&lt; 0): 1) отметить на оси нули множителей; 2) определить знак на самом правом промежутке (при положительном старшем коэффициенте это «+»); 3) расставить знаки справа налево, меняя знак при переходе через корень <b>нечётной</b> кратности; через корень <b>чётной</b> кратности знак не меняется; 4) выбрать промежутки нужного знака.</div><p>Корень чётной кратности, например (x − 1)², при нестрогом знаке даёт в ответ отдельную точку, если рядом знак «минус».</p>
+<h2>8. Дробно-рациональные неравенства</h2><div class="rule">Дробь P/Q положительна, если P и Q одного знака; отрицательна, если разных знаков; равна нулю, если P = 0, а Q ≠ 0.</div><ol><li>Перенести всё в левую часть, привести к одной дроби.</li><li>Разложить числитель и знаменатель на множители, отметить их нули.</li><li><b>Нули знаменателя всегда выколоты</b>; нули числителя закрашены только при ≥ и ≤.</li><li>Решить методом интервалов.</li></ol><p><b>Нельзя</b> умножать обе части на выражение с неизвестным знаком и сокращать на выражение с переменной.</p>
+<h2>9. Где это в ОГЭ</h2><p class="small">№13 (часть 1): по неравенству выбрать верный промежуток или рисунок, в ответ записывается номер. №20 (часть 2): полное решение на бланке №2, в ответе записывается промежуток. Точные формулировки и критерии — по актуальным материалам ФИПИ.</p></div></div><h2>Вопросы для устного опроса (с ответами)</h2><p class="small">Ученику читают вопрос, ответ закрыт. Ответ «своими словами» засчитывается, если сохранён смысл правила. Для 5-минутного опроса: вопросы 4, 7, 9, 11, 14.</p><table class="small" style="width:100%"><tr><th style="width:7mm">№</th><th style="width:75mm">Вопрос</th><th>Ответ</th></tr><tr><td>1</td><td>Что называют решением неравенства с одной переменной?</td><td>Значение переменной, при котором неравенство обращается в верное числовое неравенство.</td></tr><tr><td>2</td><td>Что значит «решить неравенство»?</td><td>Найти все его решения или доказать, что решений нет.</td></tr><tr><td>3</td><td>Какие неравенства называют равносильными?</td><td>Те, у которых одни и те же решения.</td></tr><tr><td>4</td><td>Что происходит со знаком неравенства при делении обеих частей на отрицательное число?</td><td>Знак меняется на противоположный.</td></tr><tr><td>5</td><td>Решите −3x &gt; 12 и объясните каждый шаг.</td><td>Делим на −3, знак меняется: x &lt; −4.</td></tr><tr><td>6</td><td>Когда в записи промежутка ставят квадратную скобку?</td><td>Когда число входит в решение: знаки ≤, ≥.</td></tr><tr><td>7</td><td>Какая скобка стоит рядом с бесконечностью?</td><td>Всегда круглая.</td></tr><tr><td>8</td><td>Что называют решением системы неравенств?</td><td>Значения переменной, при которых верно каждое неравенство; это общая часть (пересечение) решений.</td></tr><tr><td>9</td><td>Решите систему x &gt; 1, x ≤ 4.</td><td>(1; 4].</td></tr><tr><td>10</td><td>Что делать с квадратным неравенством, если a &lt; 0?</td><td>Умножить на −1 и сменить знак (или рисовать ветви параболы вниз).</td></tr><tr><td>11</td><td>Решите x² &lt; 9 и x² &gt; 9.</td><td>(−3; 3) и (−∞; −3) ∪ (3; +∞).</td></tr><tr><td>12</td><td>Что можно сказать о x² − 4x + 5 &gt; 0, если D &lt; 0 и a &gt; 0?</td><td>Трёхчлен положителен при любом x: решение — любое число.</td></tr><tr><td>13</td><td>Меняется ли знак при переходе через корень (x − 1)²?</td><td>Нет: корень чётной кратности, знак не меняется.</td></tr><tr><td>14</td><td>Какие точки в дробном неравенстве выколоты всегда?</td><td>Нули знаменателя.</td></tr><tr><td>15</td><td>Почему нельзя умножить обе части неравенства 6/(x + 1) ≥ x на x + 1?</td><td>Знак x + 1 неизвестен: при отрицательном x + 1 знак неравенства пришлось бы менять; можно потерять решения.</td></tr></table><h2>Типичные ошибки (на что смотреть)</h2><ol class="small"><li>Деление на отрицательное число без смены знака неравенства.</li><li>Для x² &gt; 9 записали только x &gt; 3 (потеряли x &lt; −3).</li><li>Квадратная скобка у бесконечности или круглая у закрашенной точки.</li><li>Вместо пересечения решений системы записали объединение.</li><li>В дроби не выколота нулевая точка знаменателя.</li><li>Умножили обе части на выражение с x, не зная его знак.</li><li>Потеряли изолированную точку от корня чётной кратности (x − 1)² при знаке ≥ или ≤.</li><li>Не заметили, что D &lt; 0: решили «до корней» там, где решений нет или подходит любое x.</li></ol></div></body></html>

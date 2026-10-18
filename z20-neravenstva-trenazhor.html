@@ -1,0 +1,111 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тренажёр: неравенства, повышенный уровень</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+
+
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+a{color:var(--blue)}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 16px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.chips button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 12px;font:inherit;font-size:14px;cursor:pointer}
+.chips button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.cond{font-size:18px;margin:6px 0 14px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:170px}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin:6px 6px 0 0}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line)}
+.btn[disabled]{opacity:.45;cursor:default}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+.ok{border-left:3px solid var(--ok);background:rgba(155,211,160,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.bad{border-left:3px solid var(--bad);background:rgba(240,154,138,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.sol{border-left:3px solid var(--blue);background:rgba(125,162,255,.08);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:15px}
+.sol p{margin:6px 0}
+.stat{color:var(--muted);font-size:14px}
+
+.sys{display:inline-flex;align-items:center;vertical-align:middle;margin:2px 6px}
+.sys .br{align-self:stretch;width:7px;border:2px solid currentColor;border-right:0;border-radius:9px 0 0 9px;margin-right:8px}
+.sys .rows{display:flex;flex-direction:column;gap:3px;text-align:left}
+.sys .rows span{white-space:nowrap}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px}
+.fr i{display:block;font-style:normal;padding:0 3px;border-bottom:1px solid currentColor;line-height:1.2}
+.fr b{display:block;font-weight:normal;padding:0 3px;line-height:1.2}
+.cond{overflow-x:auto}
+.links a{display:inline-block;margin:4px 10px 0 0}
+@media(max-width:480px){.sys .rows span{white-space:normal}}
+
+.opt svg{display:block;margin:0 0 4px;max-width:100%}.opt small{color:var(--muted);font-size:13px}.nv-note{color:var(--muted);font-size:13px}
+</style></head><body><div class="wrap"><p class="sub"><a href="z20-neravenstva.html" style="color:#7da2ff">← Неравенства (№13, №20)</a></p><h1>Тренажёр: неравенства</h1><p class="sub">Пять задач повышенной сложности (№20). На каждом шаге ответьте, затем нажмите «Дальше». Десятичные числа можно писать через запятую.</p><div class="tabs" id="tabs"></div><div class="bar"><i id="pb"></i></div><div id="box"></div></div><script>const T=[{"title": "Задача 1. Дробь с переносом", "cond": "Решите неравенство: <span class=\"fr\"><i>6</i><b>x + 1</b></span> ≥ x.", "steps": [{"t": "c", "q": "Как поступим с дробью?", "o": ["Перенесём всё влево и приведём к одной дроби", "Умножим обе части на x + 1", "Возведём обе части в квадрат", "Разделим обе части на x"], "a": 0, "h": "Знак x + 1 неизвестен.", "r": "Умножать на x + 1 нельзя: знак выражения неизвестен. Переносим x влево, приводим к общему знаменателю."}, {"t": "n", "q": "После переноса и умножения на −1 получится <span class=\"fr\"><i>x² + x − 6</i><b>x + 1</b></span> ≤ 0. Найдите больший корень числителя.", "a": 2, "h": "D = 25; x = (−1 ± 5)/2.", "r": "Корни 2 и −3: x² + x − 6 = (x − 2)(x + 3)."}, {"t": "n", "q": "Запишите нуль знаменателя.", "a": -1, "h": "x + 1 = 0.", "r": "x = −1: эта точка выколота всегда."}, {"t": "n", "q": "Знак дроби справа от всех точек положителен. Сколько промежутков со знаком «−» (нужно ≤ 0)?", "a": 2, "h": "Знаки чередуются справа налево: +, −, +, −.", "r": "Знаки справа налево: «+» на (2; +∞), «−» на (−1; 2), «+» на (−3; −1), «−» на (−∞; −3). Нужны два промежутка."}, {"t": "n", "q": "Запишите правую границу самого правого промежутка из ответа.", "a": 2, "h": "Промежуток (−1; 2].", "r": "Это (−1; 2]: 2 входит, нуль числителя при ≤."}, {"t": "c", "q": "Выберите ответ.", "o": ["(−∞; −3] ∪ (−1; 2]", "(−∞; −3) ∪ (−1; 2)", "[−3; 2]", "(−3; −1) ∪ [2; +∞)"], "a": 0, "h": "Подставьте x = −2 и x = 1.", "r": "Ответ: (−∞; −3] ∪ (−1; 2]. Проверка: x = 1: 3 ≥ 1 верно; x = −2: −6 ≥ −2 неверно."}]}, {"title": "Задача 2. Корень чётной кратности", "cond": "Решите неравенство: <span class=\"fr\"><i>(x − 1)²(x + 3)</i><b>x − 4</b></span> ≥ 0.", "steps": [{"t": "n", "q": "Сколько различных чисел нужно отметить на оси (нули числителя и знаменателя)?", "a": 3, "h": "Числитель: −3 и 1. Знаменатель: 4.", "r": "Три точки: −3, 1 и 4."}, {"t": "c", "q": "Что происходит со знаком при переходе через x = 1?", "o": ["Знак не меняется (корень чётной кратности)", "Знак меняется", "Дробь не определена", "Знак меняется только при x &gt; 1"], "a": 0, "h": "Множитель (x − 1)² во второй степени.", "r": "Корень чётной кратности: знак не меняется."}, {"t": "n", "q": "Знак дроби при x = 5: «плюс» — запишите 1, «минус» — запишите −1.", "a": 1, "h": "Подставьте 5: 16 · 8 / 1.", "r": "16 · 8 / 1 &gt; 0: «+»."}, {"t": "n", "q": "Сколько из четырёх промежутков (−∞; −3), (−3; 1), (1; 4), (4; +∞) имеют знак «+»?", "a": 2, "h": "Знаки справа налево: +, −, −, +.", "r": "«+» на (4; +∞) и на (−∞; −3), «−» на (1; 4) и (−3; 1)."}, {"t": "c", "q": "Входит ли точка x = 1 в ответ?", "o": ["Да: дробь равна 0, а нужно ≥ 0", "Нет: рядом знак «−»", "Нет: это нуль знаменателя", "Да, но только если неравенство строгое"], "a": 0, "h": "Подставьте x = 1.", "r": "x = 1 входит как отдельная точка."}, {"t": "c", "q": "Выберите ответ.", "o": ["(−∞; −3] ∪ {1} ∪ (4; +∞)", "(−∞; −3] ∪ (4; +∞)", "[−3; 4)", "(−∞; −3] ∪ [1; 4)"], "a": 0, "h": "Не забудьте про изолированную точку.", "r": "Ответ: (−∞; −3] ∪ {1} ∪ (4; +∞). Проверка x = 1: 0 ≥ 0 верно."}]}, {"title": "Задача 3. Система: квадратное и линейное", "cond": "Решите систему неравенств: <span class=\"sys\"><span class=\"br\"></span><span class=\"rows\"><span>x² − 3x − 10 &lt; 0</span><span><span class=\"fr\"><i>3 − x</i><b>2</b></span> ≤ <span class=\"fr\"><i>x + 1</i><b>3</b></span></span></span></span>", "steps": [{"t": "n", "q": "Найдите больший корень уравнения x² − 3x − 10 = 0.", "a": 5, "h": "D = 49; x = (3 ± 7)/2.", "r": "Корни 5 и −2."}, {"t": "c", "q": "Решение первого неравенства:", "o": ["(−2; 5)", "(−∞; −2) ∪ (5; +∞)", "[−2; 5]", "(−5; 2)"], "a": 0, "h": "Ветви вверх, нужно «&lt; 0».", "r": "Парабола ниже оси между корнями, концы не входят: (−2; 5)."}, {"t": "n", "q": "Умножьте второе неравенство на 6: 3(3 − x) ≤ 2(x + 1). Получится 7 ≤ 5x. Какое число стоит слева?", "a": 7, "h": "9 − 3x ≤ 2x + 2, перенесите 3x вправо, 2 влево.", "r": "9 − 2 = 7 и 5x: 7 ≤ 5x."}, {"t": "n", "q": "Запишите границу x ≥ 7/5 десятичной дробью.", "a": 1.4, "h": "7 : 5.", "r": "x ≥ 1,4."}, {"t": "c", "q": "Общая часть двух решений:", "o": ["[1,4; 5)", "(1,4; 5)", "[1,4; 5]", "(−2; 1,4]"], "a": 0, "h": "Левый конец 1,4 входит, правый 5 не входит.", "r": "Ответ: [1,4; 5). Число 5 не входит (первое неравенство строгое)."}]}, {"title": "Задача 4. Трёхчлен без корней", "cond": "Решите неравенство: <span class=\"fr\"><i>x² − 6x + 10</i><b>9 − x²</b></span> ≤ 0.", "steps": [{"t": "n", "q": "Найдите дискриминант x² − 6x + 10.", "a": -4, "h": "36 − 4 · 10.", "r": "D = 36 − 40 = −4."}, {"t": "c", "q": "Что это значит для знака числителя?", "o": ["Числитель положителен при любом x", "Числитель отрицателен при любом x", "Числитель равен нулю при двух x", "Знак зависит от x"], "a": 0, "h": "Ветви вверх, корней нет.", "r": "Парабола целиком выше оси: числитель всегда положителен."}, {"t": "c", "q": "Значит, исходное неравенство равносильно:", "o": ["9 − x² &lt; 0", "9 − x² ≤ 0", "9 − x² &gt; 0", "x² − 6x + 10 &lt; 0"], "a": 0, "h": "Дробь ≤ 0, числитель &gt; 0. Знаменатель нулём быть не может.", "r": "Знаменатель отрицателен и не равен нулю: 9 − x² &lt; 0."}, {"t": "n", "q": "Решите x² &gt; 9. Сколько промежутков в ответе?", "a": 2, "h": "x &lt; −3 или x &gt; 3.", "r": "Два луча."}, {"t": "c", "q": "Выберите ответ.", "o": ["(−∞; −3) ∪ (3; +∞)", "(−3; 3)", "(−∞; −3] ∪ [3; +∞)", "[−3; 3]"], "a": 0, "h": "Скобки около −3 и 3.", "r": "Ответ: (−∞; −3) ∪ (3; +∞)."}]}, {"title": "Задача 5. Кубическое неравенство", "cond": "Решите неравенство: x³ − 4x² − 9x + 36 ≥ 0.", "steps": [{"t": "c", "q": "Как разложить на множители?", "o": ["Группировкой: x²(x − 4) − 9(x − 4)", "Дискриминантом", "Нельзя разложить", "Делением на x"], "a": 0, "h": "Первые два слагаемых имеют общий множитель x², последние два — 9.", "r": "x²(x − 4) − 9(x − 4) = (x − 4)(x² − 9) = (x − 4)(x − 3)(x + 3)."}, {"t": "n", "q": "Запишите наименьший из трёх корней.", "a": -3, "h": "Корни: 4, 3 и −3.", "r": "Корни −3, 3, 4."}, {"t": "n", "q": "Знак выражения (x − 4)(x − 3)(x + 3) при x = 5: «плюс» — 1, «минус» — −1.", "a": 1, "h": "Все три множителя положительны.", "r": "«+» при x &gt; 4."}, {"t": "n", "q": "Сколько промежутков со знаком «+» (между корнями и по краям)?", "a": 2, "h": "Знаки справа налево: +, −, +, −.", "r": "«+» на (4; +∞) и (−3; 3)."}, {"t": "c", "q": "Выберите ответ.", "o": ["[−3; 3] ∪ [4; +∞)", "(−∞; −3] ∪ [3; 4]", "(−3; 3) ∪ (4; +∞)", "[−3; 4]"], "a": 0, "h": "Корни входят (знак ≥).", "r": "Ответ: [−3; 3] ∪ [4; +∞)."}]}];
+let cur=0,st=0,prog=T.map(()=>0);
+const tabs=document.getElementById('tabs'),box=document.getElementById('box'),pb=document.getElementById('pb');
+function norm(s){return parseFloat(String(s).replace(',','.').replace('\u2212','-').replace(/\s/g,''))}
+function renderTabs(){tabs.innerHTML='';T.forEach((t,k)=>{const b=document.createElement('button');b.textContent='Задача '+(k+1)+(prog[k]===t.steps.length?' (готово)':'');if(k===cur)b.className='on';b.onclick=()=>{cur=k;st=prog[k]>=t.steps.length?0:prog[k];render()};tabs.appendChild(b)})}
+function render(){
+  renderTabs();
+  const t=T[cur];pb.style.width=(prog[cur]/t.steps.length*100)+'%';
+  let h='<div class="card"><span class="tag">'+t.title+'</span><div class="cond">'+t.cond+'</div>';
+  for(let k=0;k<prog[cur]&&k<t.steps.length;k++){h+='<div class="done">'+t.steps[k].r+'</div>'}
+  if(prog[cur]<t.steps.length){
+    const s=t.steps[prog[cur]];
+    h+='<p class="q" style="margin-top:16px">Шаг '+(prog[cur]+1)+' из '+t.steps.length+'. '+s.q+'</p><div id="in"></div><div id="fb"></div>';
+  }else{
+    h+='<p style="margin-top:14px">Задача разобрана. '+(cur<T.length-1?'<button class="btn" onclick="cur++;st=0;render()">Следующая задача</button>':'Это была последняя. Теперь решите любую из них с чистого листа и сверьте запись с памяткой.')+'</p>';
+  }
+  box.innerHTML=h+'</div>';
+  if(prog[cur]<t.steps.length)drawStep(t.steps[prog[cur]]);
+}
+function drawStep(s){
+  const el=document.getElementById('in');
+  if(s.t==='c'){
+    s.o.map((v,k)=>[v,k]).sort(()=>Math.random()-.5).forEach(([v,k])=>{const b=document.createElement('button');b.className='opt';b.innerHTML=v;b.onclick=()=>check(k===s.a,b);el.appendChild(b)});
+  }else{
+    el.innerHTML='<input class="num" id="num" inputmode="decimal" placeholder="Ответ"> <button class="btn" id="go">Проверить</button>';
+    const f=()=>check(Math.abs(norm(document.getElementById('num').value)-s.a)<1e-9,null);
+    document.getElementById('go').onclick=f;document.getElementById('num').onkeydown=e=>{if(e.key==='Enter')f()};
+  }
+}
+let tries=0;
+function check(ok,btn){
+  const s=T[cur].steps[prog[cur]],fb=document.getElementById('fb');
+  if(ok){
+    document.querySelectorAll('.opt').forEach(x=>x.disabled=true);if(btn)btn.classList.add('ok');
+    const inp=document.getElementById('num');if(inp)inp.disabled=true;const go=document.getElementById('go');if(go)go.disabled=true;
+    fb.innerHTML='<div class="exp">Верно. '+s.r+'</div><button class="btn" onclick="prog[cur]++;tries=0;render()">Дальше</button>';
+  }else{
+    tries++;if(btn){btn.classList.add('bad');btn.disabled=true}
+    fb.innerHTML='<div class="hint">Не то. Подсказка: '+s.h+'</div>'+(tries>=3?'<button class="btn ghost" onclick="reveal()">Показать ответ</button>':'');
+  }
+}
+function reveal(){const s=T[cur].steps[prog[cur]];document.getElementById('fb').innerHTML='<div class="exp">'+s.r+'</div><button class="btn" onclick="prog[cur]++;tries=0;render()">Дальше</button>'}
+render();
+</script></body></html>

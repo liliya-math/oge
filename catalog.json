@@ -1637,6 +1637,195 @@
    "oge_task": 6,
    "status": "public",
    "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-neravenstva.html",
+   "title": "Неравенства: все материалы по порядку",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-neravenstva-teoriya.html",
+   "title": "Теория и устный опрос: неравенства",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-neravenstva-test.html",
+   "title": "Тест: неравенства",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-neravenstva-pyatiminutki.html",
+   "title": "Пятиминутки: неравенства",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-neravenstva-razbor-5.html",
+   "title": "Разбор 5 задач: неравенства",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-neravenstva-trenazhor.html",
+   "title": "Тренажёр по шагам: неравенства",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-neravenstva-trenazhor-gen.html",
+   "title": "Тренажёр с новыми числами: неравенства",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-neravenstva-pamyatka.html",
+   "title": "Памятка: алгоритм и оформление, неравенства",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-neravenstva-kontrolnaya.html",
+   "title": "Зачётный лист: неравенства",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-neravenstva-dz.html",
+   "title": "Домашняя карточка: неравенства",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-neravenstva-plan-uroka.html",
+   "title": "План урока и ДЗ: неравенства",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-neravenstva-teoriya.pdf",
+   "title": "PDF: Теория и устный опрос: неравенства",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-neravenstva-pyatiminutki.pdf",
+   "title": "PDF: Пятиминутки: неравенства",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-neravenstva-razbor-5.pdf",
+   "title": "PDF: Разбор 5 задач: неравенства",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-neravenstva-pamyatka.pdf",
+   "title": "PDF: Памятка: алгоритм и оформление, неравенства",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-neravenstva-kontrolnaya.pdf",
+   "title": "PDF: Зачётный лист: неравенства",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-neravenstva-dz.pdf",
+   "title": "PDF: Домашняя карточка: неравенства",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-neravenstva-plan-uroka.pdf",
+   "title": "PDF: План урока и ДЗ: неравенства",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-neravenstva-komplekt.pdf",
+   "title": "PDF: весь комплект: неравенства",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "razbor-neravenstva-dialog.pdf",
+   "title": "Диалог-разбор: неравенства (PDF)",
+   "type": "razbor",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "razbor-neravenstva-dialog.md",
+   "title": "Диалог-разбор: неравенства (текст)",
+   "type": "razbor",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
   }
  ]
 }
