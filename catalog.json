@@ -638,6 +638,15 @@
    "oge_task": null,
    "status": "hidden",
    "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
+  },
+  {
+   "file": "preview-landing.html",
+   "title": "Предпросмотр новой главной",
+   "type": "sistema",
+   "class": null,
+   "oge_task": null,
+   "status": "hidden",
+   "note": "временный; удалить после вливания ветки landing-page"
   }
  ]
 }

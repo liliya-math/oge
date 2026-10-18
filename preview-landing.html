@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Математика 5–9 классы и ОГЭ онлайн · lili.math</title>
+<meta name="description" content="Репетитор по математике онлайн: 5–9 классы, подготовка к ОГЭ. Бесплатная диагностика и пробное занятие. Занятие от 1200 ₽.">
+<meta name="color-scheme" content="dark">
+<style>
+:root{
+  --bg:#14211e; --bg2:#1b2b28; --bg3:#223632; --line:#2f4640;
+  --fg:#f3ece2; --muted:#a9b6ad;
+  --cobalt:#1747c9; --cobalt-soft:#9db8ff; --apricot:#f2905e; --butter:#f5dc6a; --sage:#a9d18e;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Segoe UI",system-ui,Roboto,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px}
+section{padding:56px 0 0}
+h1,h2,h3{font-weight:650;letter-spacing:-.02em;margin:0;text-wrap:balance}
+h1{font-size:clamp(32px,7vw,52px);line-height:1.08}
+h2{font-size:clamp(25px,4.6vw,34px);line-height:1.15;margin-bottom:8px}
+h3{font-size:18px;letter-spacing:-.01em}
+p{margin:0}
+.eyebrow{font-size:13px;letter-spacing:.09em;text-transform:uppercase;color:var(--butter);font-weight:600;margin-bottom:14px}
+.sub{color:var(--muted);max-width:58ch}
+em{font-style:normal;color:var(--apricot)}
+
+/* кнопки */
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 24px;border-radius:14px;font-weight:600;font-size:16px;text-decoration:none;border:1px solid transparent;transition:transform .15s,background .15s,border-color .15s}
+.btn.main{background:var(--apricot);color:#2a1510}
+.btn.main:hover{transform:translateY(-1px);background:#f6a07a}
+.btn.ghost{border-color:var(--line);background:var(--bg2)}
+.btn.ghost:hover{border-color:var(--cobalt-soft)}
+.btn:focus-visible,a:focus-visible{outline:2px solid var(--butter);outline-offset:3px}
+
+/* верх */
+.top{display:flex;justify-content:space-between;align-items:center;padding:20px 0}
+.logo{font-weight:700;letter-spacing:-.02em}
+.logo span{color:var(--apricot)}
+.top a.link{color:var(--muted);text-decoration:none;font-size:15px}
+.top a.link:hover{color:var(--fg)}
+.hero{padding-top:28px;display:grid;gap:32px;grid-template-columns:1.15fr .85fr;align-items:center}
+.hero img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:28px;border:1px solid var(--line);box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;padding:0;list-style:none}
+.facts li{font-size:14px;padding:6px 12px;border-radius:99px;background:var(--bg2);border:1px solid var(--line);color:var(--muted)}
+@media(max-width:700px){.hero{grid-template-columns:1fr}.hero img{order:-1;aspect-ratio:4/3;object-position:center 30%}}
+
+/* шаги */
+.steps{counter-reset:s;display:grid;gap:14px;margin:24px 0 0;padding:0;list-style:none}
+.steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:16px;background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:18px 20px}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--cobalt);font-weight:700;font-size:18px}
+.steps p{color:var(--muted);margin-top:4px;font-size:16px}
+.tagfree{display:inline-block;margin-left:8px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#1c2a12;background:var(--sage);padding:2px 9px;border-radius:99px;vertical-align:2px}
+
+/* карточки */
+.cards{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:24px}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:20px}
+.card p{color:var(--muted);margin-top:6px;font-size:16px}
+.card a.more{display:inline-block;margin-top:12px;color:var(--cobalt-soft);text-decoration:none;font-weight:600;font-size:15px}
+.card a.more:hover{text-decoration:underline}
+
+/* диагностика по классам */
+.diag{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));margin-top:24px}
+.diag a{display:flex;flex-direction:column;gap:2px;text-decoration:none;background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:16px 18px;transition:border-color .15s,transform .15s}
+.diag a:hover{border-color:var(--apricot);transform:translateY(-2px)}
+.diag b{font-size:20px;letter-spacing:-.01em}
+.diag span{color:var(--muted);font-size:14px}
+
+/* цена */
+.price{background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--line);border-radius:24px;padding:28px;display:grid;gap:18px;grid-template-columns:auto 1fr;align-items:center}
+.price .sum{font-size:clamp(36px,8vw,56px);font-weight:700;letter-spacing:-.03em;line-height:1}
+.price .sum small{display:block;font-size:14px;font-weight:500;letter-spacing:0;color:var(--muted);margin-bottom:6px}
+.price ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.price li{padding-left:26px;position:relative;color:var(--muted)}
+.price li::before{content:"";position:absolute;left:0;top:.55em;width:12px;height:12px;border-radius:50%;background:var(--sage)}
+.price li b{color:var(--fg);font-weight:600}
+@media(max-width:640px){.price{grid-template-columns:1fr}}
+
+/* об авторе */
+.about{display:grid;gap:24px;grid-template-columns:200px 1fr;align-items:center}
+.about img{width:200px;height:200px;border-radius:50%;object-fit:cover;border:1px solid var(--line)}
+.about p+p{margin-top:12px}
+@media(max-width:640px){.about{grid-template-columns:1fr}.about img{width:140px;height:140px}}
+
+/* финал */
+.final{margin:64px 0 0;padding:40px 24px;text-align:center;background:var(--cobalt);border-radius:28px}
+.final h2{margin-bottom:10px}
+.final p{color:#dfe7ff;max-width:48ch;margin:0 auto}
+.final .btns{justify-content:center}
+.final .btn.ghost{background:transparent;border-color:rgba(255,255,255,.4)}
+footer{padding:32px 0 48px;color:var(--muted);font-size:14px;display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
+footer a{color:var(--muted)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <div class="logo">lili<span>.</span>math</div>
+    <a class="link" href="index.html">Материалы для учеников</a>
+  </div>
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Репетитор по математике · онлайн · 5–9 класс</div>
+      <h1>Математика и ОГЭ: сначала <em>разберёмся, что не так</em>, потом будем учить</h1>
+      <p class="sub" style="margin-top:18px">Начинаем с бесплатной диагностики и письменного разбора. Он покажет, какие темы ребёнок знает, где пробелы и с чего начинать. Подходит любому классу, неважно, готовится ребёнок к ОГЭ или просто учится.</p>
+      <div class="btns">
+        <a class="btn main" href="https://t.me/ohh_my_lily">Написать в Telegram</a>
+        <a class="btn ghost" href="#diagnostika">Пройти диагностику</a>
+      </div>
+      <ul class="facts">
+        <li>Диагностика бесплатно</li>
+        <li>Пробное занятие бесплатно</li>
+        <li>От 1200 ₽ за занятие</li>
+      </ul>
+    </div>
+    <img src="img/capy-idle.jpg" alt="Капибара в пиджаке с кофе: один из героев наших материалов" width="640" height="640">
+  </header>
+
+  <section id="kak">
+    <h2>Как мы начнём</h2>
+    <p class="sub">Платить до того, как станет понятно, нужен ли вам такой формат, не придётся.</p>
+    <ol class="steps">
+      <li><div><h3>Диагностика<span class="tagfree">бесплатно</span></h3><p>Ребёнок проходит её онлайн в игровой форме. Для ОГЭ это все 25 заданий, для 5–8 классов диагностика по программе предыдущих лет. Вы получаете письменный разбор: что решает, где путается, что не знает.</p></div></li>
+      <li><div><h3>Пробное занятие<span class="tagfree">бесплатно</span></h3><p>Знакомимся, разбираем сложные места из диагностики, смотрим, как ребёнку удобно заниматься. Младшим классам диагностику помогаю пройти вместе, объясняю, если что-то не получается.</p></div></li>
+      <li><div><h3>Занятия по 60 минут</h3><p>Онлайн, на общей доске. По желанию один раз в неделю можно по 90 минут. Алгебра, геометрия и практические задачи идут параллельно, а не по очереди.</p></div></li>
+      <li><div><h3>Отчёт родителям раз в месяц</h3><p>Что прошли, как идут дела, что дальше. Без «всё хорошо» вместо информации.</p></div></li>
+    </ol>
+  </section>
+
+  <section id="vnutri">
+    <h2>Что вы получаете</h2>
+    <div class="cards">
+      <div class="card"><h3>Личный кабинет ученика</h3><p>Карта тем с отметками, домашние задания, результаты пробников. У родителей свой режим просмотра.</p><a class="more" href="kabinet.html#demo">Посмотреть демо →</a></div>
+      <div class="card"><h3>Разборы по шагам</h3><p>Чертёж открывается постепенно: сначала подумай сам, потом жми «Далее». Так ребёнок учится решать, а не списывать.</p><a class="more" href="index.html">Открыть материалы →</a></div>
+      <div class="card"><h3>Пробники ОГЭ</h3><p>Полные варианты на 25 заданий с баллами по шкале ФИПИ 2026, подсказками и разбором ошибок.</p><a class="more" href="probnik-oge-1.html">Попробовать №1 →</a></div>
+    </div>
+  </section>
+
+  <section id="kogo">
+    <h2>С кем я работаю</h2>
+    <div class="cards">
+      <div class="card"><h3>9 класс: ОГЭ</h3><p>Подготовка по всем 25 заданиям. Занятия идут тремя линиями: алгебра, геометрия, практическая часть.</p></div>
+      <div class="card"><h3>5–8 классы</h3><p>Подтянуть успеваемость, закрыть пробелы или идти вперёд по школьной программе. Алгебру и геометрию можно брать отдельно.</p></div>
+      <div class="card"><h3>Из любого города</h3><p>Занятия онлайн, время подбираем под ваш часовой пояс. Я в Самаре.</p></div>
+    </div>
+  </section>
+
+  <section id="diagnostika">
+    <h2>Диагностика онлайн</h2>
+    <p class="sub">Выберите класс и пройдите сами, без регистрации. Результат пришлите мне в Telegram, и я сделаю письменный разбор.</p>
+    <div class="diag">
+      <a href="diagnostika-1-4-klass.html"><b>5 класс</b><span>математика за 1–4 класс · около 45 минут</span></a>
+      <a href="diagnostika-6-klass.html"><b>6 класс</b><span>математика · около 70 минут</span></a>
+      <a href="diagnostika-7-klass.html"><b>7 класс</b><span>алгебра · около 70 минут</span></a>
+      <a href="diagnostika-8-klass.html"><b>8 класс</b><span>алгебра · около 70 минут</span></a>
+      <a href="probnik-oge-1.html"><b>9 класс</b><span>полный пробник ОГЭ · около 60 минут</span></a>
+    </div>
+  </section>
+
+  <section id="cena">
+    <h2>Стоимость</h2>
+    <div class="price" style="margin-top:18px">
+      <div class="sum"><small>занятие от</small>1200 ₽</div>
+      <ul>
+        <li><b>Диагностика и пробное занятие</b> — бесплатно</li>
+        <li>Точную цену обсудим в Telegram, она зависит от класса и формата</li>
+        <li>Формат: 60 минут или 90 минут раз в неделю</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="obo-mne">
+    <h2>Кто занимается с ребёнком</h2>
+    <div class="about" style="margin-top:20px">
+      <img src="img/lab-idle.jpg" alt="Лабрадор в шарфе: наш герой" width="200" height="200" loading="lazy">
+      <div>
+        <p>Меня зовут Лилия Кузнецова. Все материалы на этом сайте, от пробников до личного кабинета, я сделала сама под своих учеников.</p>
+        <p>На занятиях я весёлая, но строгая и справедливая. Занятия строятся на своей методике и собственных материалах.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="final">
+    <h2>Начнём с диагностики?</h2>
+    <p>Напишите класс ребёнка и что беспокоит. Я отвечу и пришлю ссылку.</p>
+    <div class="btns">
+      <a class="btn main" href="https://t.me/ohh_my_lily">Написать в Telegram</a>
+      <a class="btn ghost" href="#diagnostika">Выбрать диагностику</a>
+    </div>
+  </div>
+
+  <footer>
+    <span>Лилия Кузнецова · репетитор по математике · 25/25</span>
+    <span><a href="index.html">Все материалы</a> · <a href="https://t.me/ohh_my_lily">@ohh_my_lily</a></span>
+  </footer>
+</div>
+</body>
+</html>
