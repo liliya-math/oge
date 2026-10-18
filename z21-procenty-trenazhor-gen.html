@@ -1,0 +1,101 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тренажёр: проценты, новые числа каждый раз</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+a{color:var(--blue)}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 16px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.chips button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 12px;font:inherit;font-size:14px;cursor:pointer}
+.chips button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.cond{font-size:18px;margin:6px 0 14px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:170px}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin:6px 6px 0 0}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line)}
+.btn[disabled]{opacity:.45;cursor:default}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+.ok{border-left:3px solid var(--ok);background:rgba(155,211,160,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.bad{border-left:3px solid var(--bad);background:rgba(240,154,138,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.sol{border-left:3px solid var(--blue);background:rgba(125,162,255,.08);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:15px}
+.sol p{margin:6px 0}
+.stat{color:var(--muted);font-size:14px}
+</style></head><body><div class="wrap"><p class="sub"><a href="z21-procenty.html">← Проценты (задание 21)</a></p><h1>Тренажёр: проценты</h1><p class="sub">Каждая задача новая: числа меняются, ответ целый или с конечной десятичной дробью. В бланк записывают только число, без единиц.</p><div class="chips" id="chips"></div><div class="card" id="box"></div><p class="stat" id="stat"></p></div><script>
+function rnd(a,b){return a+Math.floor(Math.random()*(b-a+1))}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function fm(n){var s=String(Math.round(n*1000)/1000).replace('.',',');var p=s.split(',');p[0]=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,' ');return p.join(',')}
+function isInt(x){return Math.abs(x-Math.round(x))<1e-9}
+var TYPES={
+ part:{name:'Три задачи на проценты'},
+ chg:{name:'Подорожал, подешевел'},
+ twice:{name:'Два одинаковых снижения'},
+ updown:{name:'Вверх на x%, вниз на x%'},
+ dep:{name:'Вклад'},
+ mix:{name:'Смесь двух растворов'},
+ alloy:{name:'Сплавы'},
+ dry:{name:'Сушка'}
+};
+var GEN={
+ part:function(){
+  var k=rnd(0,2),p=5*rnd(1,19),a=20*rnd(3,40),b=a*p/100;
+  if(k===0)return{cond:'Найдите '+p+'% от числа '+fm(a)+'.',ans:b,hint:'Переведите проценты в десятичную дробь и умножьте: '+p+'% = '+fm(p/100)+'.',sol:'<p>'+p+'% = '+fm(p/100)+'.</p><p>'+fm(a)+' · '+fm(p/100)+' = '+fm(b)+'.</p>'};
+  if(k===1)return{cond:fm(p)+'% некоторого числа равны '+fm(b)+'. Найдите это число.',ans:a,hint:'Число находят по его части: часть делят на долю.',sol:'<p>'+fm(b)+' : '+fm(p/100)+' = '+fm(a)+'.</p>'};
+  return{cond:'Сколько процентов составляет число '+fm(b)+' от числа '+fm(a)+'?',ans:p,hint:'Часть делят на целое и умножают на 100%.',sol:'<p>'+fm(b)+' : '+fm(a)+' · 100% = '+fm(p)+'%.</p>'};
+ },
+ chg:function(){
+  for(;;){var a=100*rnd(8,60),p=5*rnd(2,12),q=5*rnd(2,12),r=a*(100+p)*(100-q)/10000;
+   if(isInt(r)&&p!==q){var m1=a*(100+p)/100;
+    return{cond:'Цена товара '+fm(a)+' руб. Сначала её повысили на '+p+'%, а затем снизили на '+q+'%. Сколько рублей стал стоить товар?',ans:r,hint:'Коэффициенты: повышение на '+p+'% — '+fm(1+p/100)+', снижение на '+q+'% — '+fm(1-q/100)+'. Второй процент берут от новой цены.',sol:'<p>После повышения: '+fm(a)+' · '+fm(1+p/100)+' = '+fm(m1)+' руб.</p><p>После снижения: '+fm(m1)+' · '+fm(1-q/100)+' = '+fm(r)+' руб.</p>'}}}
+ },
+ twice:function(){
+  for(;;){var x=pick([10,20,25,30,40,50]),a=100*rnd(10,100),b=a*(100-x)*(100-x)/10000;
+   if(isInt(b))return{cond:'Цену товара два раза подряд снижали на одно и то же число процентов. Было '+fm(a)+' руб., стало '+fm(b)+' руб. На сколько процентов снижали цену каждый раз?',ans:x,hint:'Уравнение '+fm(a)+'(1 − x/100)² = '+fm(b)+'. Извлеките корень, отберите x между 0 и 100.',sol:'<p>'+fm(a)+'(1 − x/100)² = '+fm(b)+'; (1 − x/100)² = '+fm(b/a)+'.</p><p>1 − x/100 = '+fm(1-x/100)+' (отрицательное значение даёт x больше 100). Отсюда x = '+x+'.</p>'}}
+ },
+ updown:function(){
+  var x=pick([10,20,30,40,50]),d=x*x/100;
+  return{cond:'Цену товара повысили на x%, а затем снизили на x%. В результате товар стал дешевле первоначальной цены на '+fm(d)+'%. Найдите x.',ans:x,hint:'(1 + x/100)(1 − x/100) = '+fm(1-d/100)+'; левая часть равна 1 − x²/10 000.',sol:'<p>1 − x²/10 000 = '+fm(1-d/100)+'; x² = '+(x*x)+'.</p><p>x = '+x+' (отрицательный корень не подходит).</p>'};
+ },
+ dep:function(){
+  for(;;){var P=10000*rnd(1,9),r=pick([5,10,15,20]),F=P*(100+r)*(100+r)/10000;
+   if(isInt(F))return{cond:'Вкладчик положил в банк '+fm(P)+' руб. под '+r+'% годовых. Сколько рублей будет на его счёте через 2 года, если проценты начисляют раз в год на всю накопленную сумму?',ans:F,hint:'Каждый год сумма умножается на '+fm(1+r/100)+'. Два года — квадрат.',sol:'<p>'+fm(P)+' · '+fm(1+r/100)+'² = '+fm(F)+' руб.</p>'}}
+ },
+ mix:function(){
+  for(;;){var c1=5*rnd(2,8),c2=5*rnd(c1/5+2,18),x=rnd(2,15),y=rnd(2,15),M=x+y,s=c1*x+c2*y;
+   if(s%M===0&&x!==y){var c3=s/M;
+    return{cond:'Смешали '+c1+'%-ный и '+c2+'%-ный растворы кислоты и получили '+M+' кг '+c3+'%-ного раствора. Сколько килограммов '+c1+'%-ного раствора взяли?',ans:x,hint:'Пусть x кг — первого раствора, тогда ('+M+' − x) кг — второго. Уравнение по кислоте.',sol:'<p>Пусть x кг — '+c1+'%-ного, ('+M+' − x) кг — '+c2+'%-ного.</p><p>'+fm(c1/100)+'x + '+fm(c2/100)+'('+M+' − x) = '+fm(c3/100)+' · '+M+'.</p><p>Отсюда x = '+x+'.</p>'}}}
+ },
+ alloy:function(){
+  for(;;){var c1=5*rnd(1,8),c2=5*rnd(c1/5+1,16),x=rnd(2,12),d=rnd(2,9),M=2*x+d,s=c1*x+c2*(x+d);
+   if(s%M===0){var c3=s/M;
+    return{cond:'Первый сплав содержит '+c1+'% меди, второй — '+c2+'% меди. Масса второго сплава на '+d+' кг больше массы первого. Из этих двух сплавов получили третий, содержащий '+c3+'% меди. Найдите массу третьего сплава. Ответ дайте в килограммах.',ans:M,hint:'Пусть x кг — первый сплав, (x + '+d+') кг — второй, (2x + '+d+') кг — третий. Уравнение по меди.',sol:'<p>'+fm(c1/100)+'x + '+fm(c2/100)+'(x + '+d+') = '+fm(c3/100)+'(2x + '+d+').</p><p>Решение: x = '+x+'. Масса третьего: 2 · '+x+' + '+d+' = '+M+' кг.</p>'}}}
+ },
+ dry:function(){
+  for(;;){var a=pick([60,70,80,85,90,95]),b=pick([10,12,15,20,25]),m=rnd(2,20),M=m*(100-b)/(100-a);
+   if(isInt(M)&&M>m&&M<=400)return{cond:'Свежие фрукты содержат '+a+'% воды, а сушёные — '+b+'% воды. Сколько килограммов свежих фруктов нужно взять, чтобы получить '+m+' кг сушёных?',ans:M,hint:'Сухое вещество при сушке не меняется. В сушёных его '+(100-b)+'%, в свежих '+(100-a)+'%.',sol:'<p>Сухого вещества в сушёных: '+fm(m*(100-b)/100)+' кг.</p><p>В свежих его '+(100-a)+'%, значит свежих: '+fm(m*(100-b)/100)+' : '+fm((100-a)/100)+' = '+fm(M)+' кг.</p>'}}
+ }
+};
+var keys=Object.keys(TYPES),cur='all',task=null,solved=0,total=0,done=false,tries=0;
+var chips=document.getElementById('chips'),box=document.getElementById('box'),stat=document.getElementById('stat');
+function norm(s){return parseFloat(String(s).replace(',','.').replace(/\s/g,''))}
+function drawChips(){chips.innerHTML='';[['all','Все типы']].concat(keys.map(function(k){return[k,TYPES[k].name]})).forEach(function(p){var b=document.createElement('button');b.textContent=p[1];if(p[0]===cur)b.className='on';b.onclick=function(){cur=p[0];drawChips();next()};chips.appendChild(b)})}
+function next(){
+  var k=cur==='all'?pick(keys):cur;task=GEN[k]();task.type=TYPES[k].name;done=false;tries=0;
+  box.innerHTML='<span class="tag">'+task.type+'</span><div class="cond">'+task.cond+'</div><input class="num" id="num" inputmode="decimal" placeholder="Ответ"> <button class="btn" id="go">Проверить</button><button class="btn ghost" id="hb">Подсказка</button><button class="btn ghost" id="sb">Показать решение</button><button class="btn ghost" id="nb">Другая задача</button><div id="fb"></div>';
+  var inp=document.getElementById('num');inp.focus();
+  document.getElementById('go').onclick=check;inp.onkeydown=function(e){if(e.key==='Enter')check()};
+  document.getElementById('hb').onclick=function(){document.getElementById('fb').innerHTML='<div class="hint">Подсказка: '+task.hint+'</div>'};
+  document.getElementById('sb').onclick=function(){document.getElementById('fb').innerHTML='<div class="sol">'+task.sol+'<p>Ответ: '+fm(task.ans)+'.</p></div>'};
+  document.getElementById('nb').onclick=next;upd();
+}
+function check(){
+  if(done)return;var v=norm(document.getElementById('num').value),fb=document.getElementById('fb');
+  if(isNaN(v)){fb.innerHTML='<div class="bad">Введите число.</div>';return}
+  tries++;
+  if(Math.abs(v-task.ans)<1e-6){done=true;total++;if(tries===1)solved++;fb.innerHTML='<div class="ok">Верно.'+(tries>1?' С '+tries+'-й попытки.':'')+'</div><button class="btn" onclick="next()">Следующая</button>';document.getElementById('num').disabled=true;upd()}
+  else{fb.innerHTML='<div class="bad">Неверно. Нажмите «Подсказка» или проверьте единицы и переход от процентов к десятичным дробям.</div>'}
+}
+function upd(){stat.textContent='С первой попытки верно: '+solved+' из '+total+'.'}
+drawChips();next();
+</script></body></html>

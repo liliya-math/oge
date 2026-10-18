@@ -1,0 +1,57 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тест: проценты</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+</style></head><body><div class="wrap">
+<p class="sub"><a href="z21-procenty.html" style="color:#7da2ff">← Проценты (задание 21)</a></p><h1>Проценты: тест</h1><p class="sub">10 вопросов. После каждого ответа появляется разбор.</p>
+<div class="bar"><i id="pb"></i></div><div id="box"></div></div>
+<script>
+const Q=[["Найдите 15% от 240.", ["36", "16", "360", "3,6"], 0, "15% = 0,15; 240 · 0,15 = 36."], ["Сколько процентов составляет число 18 от числа 60?", ["30%", "3,3%", "42%", "18%"], 0, "Делим часть на целое и умножаем на 100%: 18/60 · 100% = 30%."], ["12% некоторого числа равны 30. Найдите это число.", ["250", "3,6", "360", "18"], 0, "Число находят по его части: 30 : 0,12 = 250."], ["Цену 800 руб. повысили на 25%. Какова новая цена?", ["1000 руб.", "820 руб.", "1025 руб.", "600 руб."], 0, "Коэффициент 1 + 0,25 = 1,25; 800 · 1,25 = 1000."], ["Цену повысили на 20%, а потом снизили на 20%. Как цена изменилась по сравнению с первоначальной?", ["Снизилась на 4%", "Не изменилась", "Повысилась на 4%", "Снизилась на 20%"], 0, "Коэффициенты перемножают: 1,2 · 0,8 = 0,96. Цена составляет 96% от начальной, то есть стала на 4% ниже. Второй процент берут от новой цены."], ["Зарплату дважды повысили на 10%. На сколько процентов она выросла в итоге?", ["На 21%", "На 20%", "На 11%", "На 10%"], 0, "1,1 · 1,1 = 1,21. Проценты не складывают: второе повышение считают от уже повышенной зарплаты."], ["Вкладчик положил 10 000 руб. под 10% годовых, проценты начисляют раз в год на всю сумму. Сколько руб. будет на счёте через 2 года?", ["12 100", "12 000", "11 000", "10 200"], 0, "10 000 · 1,1² = 10 000 · 1,21 = 12 100."], ["В 200 г раствора содержится 15% соли. Сколько граммов соли в растворе?", ["30 г", "15 г", "185 г", "3 г"], 0, "Масса вещества = масса раствора · доля вещества: 200 · 0,15 = 30 г."], ["Смешали 100 г 10%-ного и 100 г 30%-ного раствора соли. Какова концентрация смеси?", ["20%", "40%", "25%", "10%"], 0, "Соли 10 + 30 = 40 г, масса смеси 200 г, 40 : 200 = 20%. Складывают массы вещества, а не концентрации."], ["Первый сплав: x кг, 10% меди. Второй: (x + 3) кг, 40% меди. Третий получен из них, в нём 30% меди. Какое уравнение верно?", ["0,1x + 0,4(x + 3) = 0,3(2x + 3)", "0,1 + 0,4 = 0,3", "0,1x + 0,4x = 0,3(2x + 3)", "0,1x + 0,4(x + 3) = 0,3(x + 3)"], 0, "Масса третьего сплава x + (x + 3) = 2x + 3. Медь двух сплавов целиком переходит в третий."]];
+let i=0,score=0,wrong=[];
+const box=document.getElementById('box'),pb=document.getElementById('pb');
+function shuffle(a){const r=a.map((v,k)=>[v,k]);for(let j=r.length-1;j>0;j--){const m=Math.floor(Math.random()*(j+1));[r[j],r[m]]=[r[m],r[j]]}return r}
+function show(){
+  if(i>=Q.length){return end()}
+  pb.style.width=(i/Q.length*100)+'%';
+  const [q,opts,ans,exp]=Q[i];
+  box.innerHTML='<div class="card"><span class="tag">Вопрос '+(i+1)+' из '+Q.length+'</span><p class="q">'+q+'</p><div id="o"></div><div id="e"></div></div>';
+  const o=document.getElementById('o');
+  shuffle(opts).forEach(([t,k])=>{const b=document.createElement('button');b.className='opt';b.textContent=t;b.onclick=()=>pick(b,k===ans,exp);o.appendChild(b);b.dataset.k=k});
+}
+function pick(b,ok,exp){
+  document.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(+x.dataset.k===Q[i][2])x.classList.add('ok')});
+  if(ok){score++}else{b.classList.add('bad');wrong.push(i+1)}
+  document.getElementById('e').innerHTML='<div class="exp">'+(ok?'Верно. ':'Неверно. ')+exp+'</div><button class="btn" onclick="i++;show()">'+(i===Q.length-1?'Результат':'Дальше')+'</button>';
+}
+function end(){
+  pb.style.width='100%';
+  const msg=score>=9?'Тема усвоена. Можно переходить к задачам повышенной сложности.':score>=7?'Хороший результат. Повторите вопросы, где были ошибки.':score>=5?'Есть пробелы. Вернитесь к теории и разберите ошибки.':'Нужно повторить теорию и типы задач с начала.';
+  box.innerHTML='<div class="card"><span class="tag">Результат</span><div class="big">'+score+' из '+Q.length+'</div><p>'+msg+'</p>'+(wrong.length?'<p class="sub">Ошибки в вопросах: '+wrong.join(', ')+'</p>':'')+'<button class="btn" onclick="i=0;score=0;wrong=[];show()">Пройти заново</button></div>';
+}
+show();
+</script></body></html>

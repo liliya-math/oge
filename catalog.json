@@ -737,6 +737,186 @@
    "oge_task": 21,
    "status": "public",
    "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-procenty.html",
+   "title": "Проценты: все материалы по порядку",
+   "type": "sistema",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-procenty-teoriya.html",
+   "title": "Теория и устный опрос: проценты",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-procenty-test.html",
+   "title": "Тест: проценты",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-procenty-pyatiminutki.html",
+   "title": "Карточки-пятиминутки: проценты (2 варианта)",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-procenty-razbor-5.html",
+   "title": "Разбор 5 задач повышенной сложности: проценты",
+   "type": "razbor",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-procenty-trenazhor.html",
+   "title": "Тренажёр: проценты, повышенный уровень",
+   "type": "trenazher",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-procenty-trenazhor-gen.html",
+   "title": "Тренажёр: проценты, новые числа каждый раз",
+   "type": "trenazher",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-procenty-pamyatka.html",
+   "title": "Памятка: алгоритм и оформление, проценты",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-procenty-kontrolnaya.html",
+   "title": "Зачётный лист: проценты (3 уровня)",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-procenty-dz.html",
+   "title": "Домашняя карточка: проценты (4 задачи)",
+   "type": "dz",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-procenty-plan-uroka.html",
+   "title": "План урока на 60 минут и ДЗ: проценты",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "для репетитора; добавлено 2026-10-18"
+  },
+  {
+   "file": "razbor-procenty-dialog.md",
+   "title": "Диалог-разбор: проценты (исходник)",
+   "type": "razbor",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "razbor-procenty-dialog.pdf",
+   "title": "Диалог-разбор: проценты (PDF)",
+   "type": "razbor",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-procenty-teoriya.pdf",
+   "title": "Проценты, печать: teoriya",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-procenty-pyatiminutki.pdf",
+   "title": "Проценты, печать: pyatiminutki",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-procenty-pamyatka.pdf",
+   "title": "Проценты, печать: pamyatka",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-procenty-kontrolnaya.pdf",
+   "title": "Проценты, печать: kontrolnaya",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-procenty-dz.pdf",
+   "title": "Проценты, печать: dz",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-procenty-plan-uroka.pdf",
+   "title": "Проценты, печать: plan-uroka",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z21-procenty-komplekt.pdf",
+   "title": "Проценты, печать: komplekt",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 21,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
   }
  ]
 }

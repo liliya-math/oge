@@ -1,0 +1,78 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тренажёр: проценты, повышенный уровень</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+</style></head><body><div class="wrap">
+<p class="sub"><a href="z21-procenty.html" style="color:#7da2ff">← Проценты (задание 21)</a></p><h1>Тренажёр: проценты</h1><p class="sub">Пять задач повышенной сложности. На каждом шаге ответьте, затем нажмите «Дальше».</p>
+<div class="tabs" id="tabs"></div><div class="bar"><i id="pb"></i></div><div id="box"></div></div>
+<script>
+const T=[{"title": "Задача 1. Два одинаковых снижения", "cond": "Цену на товар два раза подряд снижали на одно и то же число процентов. Сначала товар стоил 5000 рублей, после двух снижений стал стоить 4050 рублей. На сколько процентов снижали цену каждый раз?", "steps": [{"t": "c", "q": "Что удобнее взять за x?", "o": ["x — число процентов, на которое снижали цену каждый раз", "x — новая цена", "x — коэффициент 1,5"], "a": 0, "h": "Спрашивают про проценты, их и обозначаем.", "r": "Пусть x% — на сколько снижали цену каждый раз, 0 &lt; x &lt; 100."}, {"t": "c", "q": "Во сколько раз умножается цена при одном снижении на x%?", "o": ["1 − x/100", "1 + x/100", "x/100", "100 − x"], "a": 0, "h": "Было 100%, стало (100 − x)%, то есть (100 − x)/100 прежней цены.", "r": "После первого снижения цена 5000(1 − x/100), после второго 5000(1 − x/100)²."}, {"t": "c", "q": "Выберите верное уравнение.", "o": ["5000(1 − x/100)² = 4050", "5000(1 − 2x/100) = 4050", "5000(1 + x/100)² = 4050", "5000(1 − x/100) = 4050/2"], "a": 0, "h": "Второй раз процент берут от уже сниженной цены, поэтому коэффициент возводится в квадрат.", "r": "5000(1 − x/100)² = 4050. Складывать проценты (2x) нельзя."}, {"t": "n", "q": "Чему равно (1 − x/100)²? (десятичная дробь)", "a": 0.81, "h": "Разделите 4050 на 5000.", "r": "(1 − x/100)² = 4050 : 5000 = 0,81."}, {"t": "n", "q": "Найдите x (число процентов).", "a": 10, "h": "1 − x/100 = 0,9 (или −0,9, но тогда x &gt; 100).", "r": "1 − x/100 = 0,9, x = 10. Второй вариант −0,9 даёт x = 190, это больше 100. Ответ: 10. Проверка: 5000 · 0,9 = 4500, 4500 · 0,9 = 4050."}]}, {"title": "Задача 2. Вверх на x%, вниз на x%", "cond": "Цену товара повысили на x%, а затем снизили на x%. В результате товар стал дешевле первоначальной цены на 4%. Найдите x.", "steps": [{"t": "c", "q": "Пусть первоначальная цена a. Какова цена после повышения на x%, а затем снижения на x%?", "o": ["a(1 + x/100)(1 − x/100)", "a(1 + x/100) − x", "a(1 + x/100)²", "a(1 + x/100 − x/100)"], "a": 0, "h": "Каждое изменение — свой коэффициент, коэффициенты перемножают.", "r": "После повышения a(1 + x/100), после снижения a(1 + x/100)(1 − x/100)."}, {"t": "n", "q": "Итоговая цена на 4% ниже первоначальной. Какую долю от a она составляет? (десятичная дробь)", "a": 0.96, "h": "100% − 4% = 96%.", "r": "Итоговая цена 0,96a."}, {"t": "c", "q": "Выберите верное уравнение.", "o": ["(1 + x/100)(1 − x/100) = 0,96", "(1 + x/100)(1 − x/100) = 0,04", "(1 + x/100) + (1 − x/100) = 0,96", "1 + x/100 − x/100 = 0,96"], "a": 0, "h": "Величина a сокращается; справа доля 0,96.", "r": "(1 + x/100)(1 − x/100) = 0,96, то есть 1 − x²/10 000 = 0,96 (разность квадратов)."}, {"t": "n", "q": "Найдите x².", "a": 400, "h": "x²/10 000 = 1 − 0,96 = 0,04.", "r": "x²/10 000 = 0,04, x² = 400."}, {"t": "n", "q": "Найдите x (число процентов).", "a": 20, "h": "Процент положительный.", "r": "x = 20 или x = −20; отрицательный не подходит. Ответ: 20. Проверка: 1,2 · 0,8 = 0,96."}]}, {"title": "Задача 3. Два условия, система", "cond": "Смешали 30%-ный и 60%-ный растворы кислоты и добавили 10 кг чистой воды, получили 36%-ный раствор кислоты. Если бы вместо воды добавили 10 кг 50%-ного раствора той же кислоты, то получили бы 41%-ный раствор. Сколько килограммов 30%-ного раствора использовали?", "steps": [{"t": "c", "q": "Что взять за неизвестные?", "o": ["x кг — 30%-ного раствора, y кг — 60%-ного", "x кг — кислоты, y кг — воды", "x = 36, y = 41"], "a": 0, "h": "Нужно найти массу 30%-ного раствора; массу 60%-ного тоже не знаем.", "r": "Пусть x кг — 30%-ного раствора, y кг — 60%-ного (x &gt; 0, y &gt; 0)."}, {"t": "c", "q": "Сколько кислоты в смеси в первом случае (добавили воду)?", "o": ["0,3x + 0,6y", "0,3x + 0,6y + 10", "0,3x + 0,6y + 5", "0,36(x + y)"], "a": 0, "h": "Вода кислоту не добавляет.", "r": "Кислоты 0,3x + 0,6y; масса всей смеси x + y + 10."}, {"t": "c", "q": "Выберите первое уравнение.", "o": ["0,3x + 0,6y = 0,36(x + y + 10)", "0,3x + 0,6y = 0,36(x + y)", "0,3x + 0,6y + 10 = 0,36(x + y + 10)", "0,3x + 0,6y = 0,36 · 10"], "a": 0, "h": "Кислота в смеси равна 36% от массы всей смеси, включая воду.", "r": "Раскрываем: 0,24y − 0,06x = 3,6; делим на 0,06: 4y − x = 60."}, {"t": "c", "q": "Выберите второе уравнение (добавили 10 кг 50%-ного раствора, в нём 5 кг кислоты).", "o": ["0,3x + 0,6y + 5 = 0,41(x + y + 10)", "0,3x + 0,6y + 10 = 0,41(x + y + 10)", "0,3x + 0,6y + 5 = 0,41(x + y)", "0,3x + 0,6y + 0,5 = 0,41(x + y + 10)"], "a": 0, "h": "10 · 0,5 = 5 кг кислоты, масса смеси снова x + y + 10.", "r": "Раскрываем: 0,19y − 0,11x = −0,9; умножаем на 100: 19y − 11x = −90."}, {"t": "n", "q": "Из первого x = 4y − 60. Подставьте во второе и найдите y (кг).", "a": 30, "h": "19y − 11(4y − 60) = −90, то есть −25y = −750.", "r": "19y − 44y + 660 = −90, −25y = −750, y = 30."}, {"t": "n", "q": "Найдите x (кг): это и есть ответ.", "a": 60, "h": "x = 4y − 60.", "r": "x = 4 · 30 − 60 = 60. Ответ: 60 кг. Проверка: смесь 100 кг, кислоты 18 + 18 = 36 кг (36%); во втором случае 41 кг из 100 кг (41%)."}]}, {"title": "Задача 4. Сплавы", "cond": "Первый сплав содержит 10% меди, второй — 40% меди. Масса второго сплава на 3 кг больше массы первого. Из этих двух сплавов получили третий сплав, содержащий 30% меди. Найдите массу третьего сплава. Ответ дайте в килограммах.", "steps": [{"t": "c", "q": "Что взять за x и как выразить остальные массы?", "o": ["x — масса первого; второй x + 3; третий 2x + 3", "x — масса третьего; первый x − 3", "x = 30"], "a": 0, "h": "Третий сплав составлен из первых двух, массы складываются.", "r": "Пусть x кг — масса первого сплава, (x + 3) кг — второго, (2x + 3) кг — третьего."}, {"t": "c", "q": "Сколько меди в первом, втором и третьем сплаве?", "o": ["0,1x; 0,4(x + 3); 0,3(2x + 3)", "0,1x; 0,4x; 0,3(2x + 3)", "10x; 40(x + 3); 30(2x + 3)", "0,1x; 0,4(x + 3); 0,3x"], "a": 0, "h": "Масса меди = масса сплава · доля меди; проценты переводим в десятичные дроби.", "r": "Меди: 0,1x; 0,4(x + 3); 0,3(2x + 3) кг."}, {"t": "c", "q": "Что с чем приравнять?", "o": ["Медь первого + медь второго = медь третьего", "Масса первого = масса второго", "10% + 40% = 30%"], "a": 0, "h": "При сплавлении медь не исчезает.", "r": "0,1x + 0,4(x + 3) = 0,3(2x + 3)."}, {"t": "n", "q": "Решите уравнение, найдите x.", "a": 3, "h": "0,5x + 1,2 = 0,6x + 0,9.", "r": "0,1x + 0,4x + 1,2 = 0,6x + 0,9; 0,1x = 0,3; x = 3."}, {"t": "n", "q": "Найдите массу третьего сплава (кг).", "a": 9, "h": "Третий сплав весит 2x + 3.", "r": "2 · 3 + 3 = 9. Проверка: меди 0,3 + 2,4 = 2,7 кг = 0,3 · 9. Ответ: 9 кг. Ловушка: ответ — масса третьего сплава, не x."}]}, {"title": "Задача 5. Сушка", "cond": "Свежие яблоки содержат 80% воды, а сушёные — 20% воды. Сколько килограммов воды испарится при сушке 50 кг свежих яблок?", "steps": [{"t": "c", "q": "Что остаётся неизменным при сушке?", "o": ["Масса сухого вещества", "Масса воды", "Общая масса", "Доля воды"], "a": 0, "h": "Испаряется только вода.", "r": "Масса сухого вещества не меняется."}, {"t": "n", "q": "Сколько килограммов сухого вещества в 50 кг свежих яблок?", "a": 10, "h": "Сухого вещества 100% − 80% = 20%.", "r": "0,2 · 50 = 10 кг."}, {"t": "c", "q": "Какую долю сухое вещество составляет в сушёных яблоках?", "o": ["80%", "20%", "100%", "10%"], "a": 0, "h": "Воды 20%, остальное — сухое вещество.", "r": "100% − 20% = 80%. Пусть m кг — масса сушёных яблок, тогда 0,8m = 10."}, {"t": "n", "q": "Найдите m — массу сушёных яблок (кг).", "a": 12.5, "h": "m = 10 : 0,8.", "r": "m = 12,5 кг."}, {"t": "n", "q": "Сколько килограммов воды испарилось?", "a": 37.5, "h": "Было 50 кг, стало 12,5 кг; испарилась только вода.", "r": "50 − 12,5 = 37,5. Проверка: воды было 40 кг, осталось 0,2 · 12,5 = 2,5 кг, испарилось 37,5. Ответ: 37,5 кг."}]}];
+
+let cur=0,st=0,prog=T.map(()=>0);
+const tabs=document.getElementById('tabs'),box=document.getElementById('box'),pb=document.getElementById('pb');
+function norm(s){return parseFloat(String(s).replace(',','.').replace(/\s/g,''))}
+function renderTabs(){tabs.innerHTML='';T.forEach((t,k)=>{const b=document.createElement('button');b.textContent='Задача '+(k+1)+(prog[k]===t.steps.length?' (готово)':'');if(k===cur)b.className='on';b.onclick=()=>{cur=k;st=prog[k]>=t.steps.length?0:prog[k];render()};tabs.appendChild(b)})}
+function render(){
+  renderTabs();
+  const t=T[cur];pb.style.width=(prog[cur]/t.steps.length*100)+'%';
+  let h='<div class="card"><span class="tag">'+t.title+'</span><div class="cond">'+t.cond+'</div>';
+  for(let k=0;k<prog[cur]&&k<t.steps.length;k++){h+='<div class="done">'+t.steps[k].r+'</div>'}
+  if(prog[cur]<t.steps.length){
+    const s=t.steps[prog[cur]];
+    h+='<p class="q" style="margin-top:16px">Шаг '+(prog[cur]+1)+' из '+t.steps.length+'. '+s.q+'</p><div id="in"></div><div id="fb"></div>';
+  }else{
+    h+='<p style="margin-top:14px">Задача разобрана. '+(cur<T.length-1?'<button class="btn" onclick="cur++;st=0;render()">Следующая задача</button>':'Это была последняя. Хороший трудный набор: теперь попробуйте решить любую из них с чистого листа.')+'</p>';
+  }
+  box.innerHTML=h+'</div>';
+  if(prog[cur]<t.steps.length)drawStep(t.steps[prog[cur]]);
+}
+function drawStep(s){
+  const el=document.getElementById('in');
+  if(s.t==='c'){
+    s.o.map((v,k)=>[v,k]).sort(()=>Math.random()-.5).forEach(([v,k])=>{const b=document.createElement('button');b.className='opt';b.textContent=v;b.onclick=()=>check(k===s.a,b);el.appendChild(b)});
+  }else{
+    el.innerHTML='<input class="num" id="num" inputmode="decimal" placeholder="Ответ"> <button class="btn" id="go">Проверить</button>';
+    const f=()=>check(Math.abs(norm(document.getElementById('num').value)-s.a)<1e-9,null);
+    document.getElementById('go').onclick=f;document.getElementById('num').onkeydown=e=>{if(e.key==='Enter')f()};
+  }
+}
+let tries=0;
+function check(ok,btn){
+  const s=T[cur].steps[prog[cur]],fb=document.getElementById('fb');
+  if(ok){
+    document.querySelectorAll('.opt').forEach(x=>x.disabled=true);if(btn)btn.classList.add('ok');
+    const inp=document.getElementById('num');if(inp)inp.disabled=true;const go=document.getElementById('go');if(go)go.disabled=true;
+    fb.innerHTML='<div class="exp">Верно. '+s.r+'</div><button class="btn" onclick="prog[cur]++;tries=0;render()">Дальше</button>';
+  }else{
+    tries++;if(btn){btn.classList.add('bad');btn.disabled=true}
+    fb.innerHTML='<div class="hint">Не то. Подсказка: '+s.h+'</div>'+(tries>=3?'<button class="btn ghost" onclick="reveal()">Показать ответ</button>':'');
+  }
+}
+function reveal(){const s=T[cur].steps[prog[cur]];document.getElementById('fb').innerHTML='<div class="exp">'+s.r+'</div><button class="btn" onclick="prog[cur]++;tries=0;render()">Дальше</button>'}
+render();
+</script></body></html>
