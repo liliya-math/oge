@@ -1,0 +1,196 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тренажёр: системы уравнений, новые числа каждый раз</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+
+
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+a{color:var(--blue)}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 16px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.chips button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 12px;font:inherit;font-size:14px;cursor:pointer}
+.chips button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.cond{font-size:18px;margin:6px 0 14px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:170px}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin:6px 6px 0 0}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line)}
+.btn[disabled]{opacity:.45;cursor:default}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+.ok{border-left:3px solid var(--ok);background:rgba(155,211,160,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.bad{border-left:3px solid var(--bad);background:rgba(240,154,138,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.sol{border-left:3px solid var(--blue);background:rgba(125,162,255,.08);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:15px}
+.sol p{margin:6px 0}
+.stat{color:var(--muted);font-size:14px}
+
+.sys{display:inline-flex;align-items:center;vertical-align:middle;margin:2px 6px}
+.sys .br{align-self:stretch;width:7px;border:2px solid currentColor;border-right:0;border-radius:9px 0 0 9px;margin-right:8px}
+.sys .rows{display:flex;flex-direction:column;gap:3px;text-align:left}
+.sys .rows span{white-space:nowrap}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px}
+.fr i{display:block;font-style:normal;padding:0 3px;border-bottom:1px solid currentColor;line-height:1.2}
+.fr b{display:block;font-weight:normal;padding:0 3px;line-height:1.2}
+.cond{overflow-x:auto}
+.links a{display:inline-block;margin:4px 10px 0 0}
+@media(max-width:480px){.sys .rows span{white-space:normal}}
+</style></head><body><div class="wrap"><p class="sub"><a href="z20-sistemy.html" style="color:#7da2ff">← Системы уравнений (№20)</a></p><h1>Тренажёр: системы уравнений</h1><p class="sub">Каждая задача новая: числа меняются, ответ целые числа. Шесть типов: парабола и прямая, Виета, сложение, подстановка, однородное уравнение, произведение равно нулю.</p><div class="chips" id="chips"></div><div class="card" id="box"></div><p class="stat" id="st"></p></div><script>
+function rnd(a,b){return a+Math.floor(Math.random()*(b-a+1))}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function sg(n){return n<0?'−':''}
+function tm(c,v,first){
+  if(c===0)return '';
+  var a=Math.abs(c),body=(v&&a===1)?v:(String(a)+(v||''));
+  if(first)return (c<0?'−':'')+body;
+  return ' '+(c<0?'−':'+')+' '+body;
+}
+function poly(){ // poly([c,'x²'],[c,'x'],[c,'']) с учётом знаков
+  var s='',first=true;
+  for(var i=0;i<arguments.length;i++){var c=arguments[i][0],v=arguments[i][1];if(c===0)continue;s+=tm(c,v,first);first=false}
+  return s||'0';
+}
+function fm(n){return String(n).replace('-','−')}
+function pr(p){return '('+fm(p[0])+'; '+fm(p[1])+')'}
+function sysH(a,b){return '<span class="sys"><span class="br"></span><span class="rows"><span>'+a+'</span><span>'+b+'</span></span></span>'}
+function uniq(a){var o=[],k={};a.forEach(function(p){var s=p[0]+','+p[1];if(!k[s]){k[s]=1;o.push(p)}});return o}
+function pairsText(a){return a.map(pr).join(', ')}
+var TYPES={
+ par:{name:'Парабола и прямая'},
+ sym:{name:'x + y и x² + y²'},
+ add:{name:'Сложение: x² и y²'},
+ dif:{name:'x − y и xy'},
+ hom:{name:'Однородное уравнение'},
+ zero:{name:'Произведение равно нулю'}
+};
+var REPS=[[50,[1,7],[5,5]],[65,[1,8],[4,7]],[85,[2,9],[6,7]],[125,[2,11],[5,10]],[130,[3,11],[7,9]]];
+var GEN={
+ par:function(){
+  for(;;){
+   var x1=rnd(-6,6),x2=rnd(-6,6),k=rnd(-3,3),m=rnd(-5,5);
+   if(x1===x2||k===0)continue;
+   var b=k-(x1+x2),c=m+x1*x2;
+   var sols=[[x1,k*x1+m],[x2,k*x2+m]];
+   return{cond:sysH('y = '+poly([1,'x²'],[b,'x'],[c,'']),'y = '+poly([k,'x'],[m,''])),sols:sols,
+    eq:function(x,y){return [y-(x*x+b*x+c),y-(k*x+m)]},
+    hint:'Подставьте y из второго уравнения в первое и решите квадратное уравнение относительно x. Затем найдите y из второго уравнения.',
+    sol:'<p>'+poly([k,'x'],[m,''])+' = '+poly([1,'x²'],[b,'x'],[c,''])+'; '+poly([1,'x²'],[b-k,'x'],[c-m,''])+' = 0.</p><p>Корни: x = '+x1+' и x = '+x2+'.</p><p>y = '+poly([k,'x'],[m,''])+': '+pairsText(sols)+'.</p>'};
+  }
+ },
+ sym:function(){
+  for(;;){
+   var a=rnd(-9,9),b=rnd(-9,9);
+   if(a===b||a===0||b===0||a+b===0)continue;
+   var s=a+b,q=a*a+b*b,p=a*b;
+   return{cond:sysH('x + y = '+fm(s),'x² + y² = '+q),sols:[[a,b],[b,a]],
+    eq:function(x,y){return [x+y-s,x*x+y*y-q]},
+    hint:'Пусть p = xy. Тогда x² + y² = (x + y)² − 2xy, отсюда найдите p. Затем x и y — корни t² − st + p = 0.',
+    sol:'<p>x² + y² = (x + y)² − 2xy: '+q+' = '+(s*s)+' − 2p, p = '+fm(p)+'.</p><p>x и y — корни t² '+tm(-s,'t',false)+tm(p,'',false)+' = 0: t = '+fm(a)+' и t = '+fm(b)+'.</p><p>Решения: '+pairsText([[a,b],[b,a]])+'.</p>'};
+  }
+ },
+ add:function(){
+  for(;;){
+   var a=rnd(1,6),b=rnd(1,6),al=rnd(1,3),be=rnd(1,3),ga=rnd(1,3),de=rnd(-3,-1);
+   if(a===b||al*de-be*ga===0)continue;
+   var X=a*a,Y=b*b,c1=al*X+be*Y,c2=ga*X+de*Y;
+   var sols=[[a,b],[a,-b],[-a,b],[-a,-b]];
+   return{cond:sysH(poly([al,'x²'],[be,'y²'])+' = '+fm(c1),poly([ga,'x²'],[de,'y²'])+' = '+fm(c2)),sols:sols,
+    eq:function(x,y){return [al*x*x+be*y*y-c1,ga*x*x+de*y*y-c2]},
+    hint:'Введите a = x², b = y² (оба не меньше нуля) и решите систему сложением. Затем из каждого квадрата получите два значения.',
+    sol:'<p>Из системы по a = x², b = y² получаем x² = '+X+', y² = '+Y+'.</p><p>x = ±'+a+', y = ±'+b+'. Подходят все четыре сочетания знаков: '+pairsText(sols)+'.</p>'};
+  }
+ },
+ dif:function(){
+  for(;;){
+   var y1=rnd(-8,8),y2=rnd(-8,8);
+   if(y1===y2||y1===0||y2===0||y1+y2===0)continue;
+   var d=-(y1+y2),p=-y1*y2;
+   var sols=[[y1+d,y1],[y2+d,y2]];
+   return{cond:sysH('x − y = '+fm(d),'xy = '+fm(p)),sols:sols,
+    eq:function(x,y){return [x-y-d,x*y-p]},
+    hint:'Выразите x = y + ('+fm(d)+') из первого уравнения и подставьте во второе: получится квадратное уравнение относительно y.',
+    sol:'<p>x = y '+(d<0?'−':'+')+' '+Math.abs(d)+'. Подстановка: y(y '+(d<0?'−':'+')+' '+Math.abs(d)+') = '+fm(p)+', '+poly([1,'y²'],[d,'y'],[-p,''])+' = 0.</p><p>y = '+fm(y1)+' или y = '+fm(y2)+'. Тогда x = '+fm(y1+d)+' и x = '+fm(y2+d)+': '+pairsText(sols)+'.</p>'};
+  }
+ },
+ hom:function(){
+  for(;;){
+   var a=rnd(1,4),b=rnd(1,4),mm=rnd(1,2);
+   if(a===b)continue;
+   var s=mm*(a+1)*(b+1),t1=s/(a+1),t2=s/(b+1);
+   var sols=[[a*t1,t1],[b*t2,t2]];
+   return{cond:sysH(poly([1,'x²'],[-(a+b),'xy'],[a*b,'y²'])+' = 0','x + y = '+s),sols:sols,
+    eq:function(x,y){return [x*x-(a+b)*x*y+a*b*y*y,x+y-s]},
+    hint:'Разложите левую часть первого уравнения на множители: (x − …y)(x − …y) = 0. Решите две системы с x + y = '+s+'.',
+    sol:'<p>'+poly([1,'x²'],[-(a+b),'xy'],[a*b,'y²'])+' = (x − '+(a===1?'':a)+'y)(x − '+(b===1?'':b)+'y) = 0.</p><p>Случай x = '+(a===1?'':a)+'y: '+(a+1)+'y = '+s+', y = '+t1+', x = '+(a*t1)+'. Случай x = '+(b===1?'':b)+'y: '+(b+1)+'y = '+s+', y = '+t2+', x = '+(b*t2)+'.</p><p>Решения: '+pairsText(sols)+'.</p>'};
+  }
+ },
+ zero:function(){
+  for(;;){
+   var R=pick(REPS),N=R[0],r1=R[1].slice(),r2=R[2].slice();
+   if(Math.random()<.5)r1.reverse();if(Math.random()<.5)r2.reverse();
+   var p=pick([-1,1])*r1[0],q=pick([-1,1])*r2[1];
+   var yy=Math.sqrt(N-p*p),xx=Math.sqrt(N-q*q);
+   var sols=uniq([[p,yy],[p,-yy],[xx,q],[-xx,q]]);
+   return{cond:sysH('(x '+(p<0?'+':'−')+' '+Math.abs(p)+')(y '+(q<0?'+':'−')+' '+Math.abs(q)+') = 0','x² + y² = '+N),sols:sols,
+    eq:function(x,y){return [(x-p)*(y-q),x*x+y*y-N]},
+    hint:'Разбейте на две системы: x = '+fm(p)+' и y = '+fm(q)+' (каждая вместе с x² + y² = '+N+'). Объедините решения: одинаковые пары записывайте один раз.',
+    sol:'<p>Случай x = '+fm(p)+': y² = '+N+' − '+(p*p)+' = '+(yy*yy)+', y = ±'+yy+'.</p><p>Случай y = '+fm(q)+': x² = '+N+' − '+(q*q)+' = '+(xx*xx)+', x = ±'+xx+'.</p><p>Решения: '+pairsText(sols)+'.</p>'};
+  }
+ }
+};
+var keys=Object.keys(TYPES),cur='all',task=null,solved=0,total=0,done=false,tries=0;
+function target(sols){return sols.slice().sort(function(u,v){return v[0]-u[0]||v[1]-u[1]})[0]}
+var chips,box;
+function norm(s){return parseFloat(String(s).replace(',','.').replace('−','-').replace(/\s/g,''))}
+function drawChips(){chips.innerHTML='';[['all','Все типы']].concat(keys.map(function(k){return[k,TYPES[k].name]})).forEach(function(p){var b=document.createElement('button');b.textContent=p[1];if(p[0]===cur)b.className='on';b.onclick=function(){cur=p[0];drawChips();next()};chips.appendChild(b)})}
+function next(){
+  var k=cur==='all'?pick(keys):cur;task=GEN[k]();task.type=TYPES[k].name;task.tg=target(task.sols);done=false;tries=0;
+  box.innerHTML='<span class="tag">'+task.type+'</span><div class="cond">Решите систему уравнений: '+task.cond+'</div><p class="stat">Запишите решение, у которого x наибольший (если у двух решений одинаковый x, берите то, где y больше). Решений может быть несколько.</p><p>x = <input class="num" id="nx" inputmode="decimal" style="width:90px"> &nbsp; y = <input class="num" id="ny" inputmode="decimal" style="width:90px"></p><button class="btn" id="go">Проверить</button><button class="btn ghost" id="hb">Подсказка</button><button class="btn ghost" id="sb">Показать решение</button><button class="btn ghost" id="nb">Другая задача</button><div id="fb"></div>';
+  document.getElementById('nx').focus();
+  document.getElementById('go').onclick=check;
+  ['nx','ny'].forEach(function(id){document.getElementById(id).onkeydown=function(e){if(e.key==='Enter')check()}});
+  document.getElementById('hb').onclick=function(){document.getElementById('fb').innerHTML='<div class="hint">Подсказка: '+task.hint+'</div>'};
+  document.getElementById('sb').onclick=function(){document.getElementById('fb').innerHTML='<div class="sol">'+task.sol+'<p>Ответ в задаче: '+pr(task.tg)+'.</p></div>'};
+  document.getElementById('nb').onclick=next;upd();
+}
+function check(){
+  if(done)return;var vx=norm(document.getElementById('nx').value),vy=norm(document.getElementById('ny').value),fb=document.getElementById('fb');
+  if(isNaN(vx)||isNaN(vy)){fb.innerHTML='<div class="bad">Введите оба числа: x и y.</div>';return}
+  tries++;
+  if(Math.abs(vx-task.tg[0])<1e-6&&Math.abs(vy-task.tg[1])<1e-6){done=true;total++;if(tries===1)solved++;fb.innerHTML='<div class="ok">Верно.'+(tries>1?' С '+tries+'-й попытки.':'')+'</div><button class="btn" onclick="next()">Следующая</button>';document.getElementById('nx').disabled=true;document.getElementById('ny').disabled=true;upd()}
+  else{
+    var isOther=task.sols.some(function(s){return Math.abs(vx-s[0])<1e-6&&Math.abs(vy-s[1])<1e-6});
+    fb.innerHTML='<div class="bad">'+(isOther?'Эта пара тоже решение, но нужно решение с наибольшим x (при равных x — с наибольшим y).':'Неверно. Нажмите «Подсказка», проверьте знаки и подставьте пару в оба уравнения.')+'</div>'}
+}
+function upd(){document.getElementById('st').textContent='С первой попытки верно: '+solved+' из '+total+'.'}
+if(typeof document!=='undefined'){chips=document.getElementById('chips');box=document.getElementById('box');drawChips();next()}
+if(typeof module!=='undefined')module.exports={GEN:GEN,TYPES:TYPES,target:target};
+</script></body></html>

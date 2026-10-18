@@ -1,0 +1,109 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тренажёр: системы уравнений, повышенный уровень</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+
+
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+a{color:var(--blue)}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 16px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.chips button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 12px;font:inherit;font-size:14px;cursor:pointer}
+.chips button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.cond{font-size:18px;margin:6px 0 14px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:170px}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin:6px 6px 0 0}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line)}
+.btn[disabled]{opacity:.45;cursor:default}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+.ok{border-left:3px solid var(--ok);background:rgba(155,211,160,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.bad{border-left:3px solid var(--bad);background:rgba(240,154,138,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.sol{border-left:3px solid var(--blue);background:rgba(125,162,255,.08);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:15px}
+.sol p{margin:6px 0}
+.stat{color:var(--muted);font-size:14px}
+
+.sys{display:inline-flex;align-items:center;vertical-align:middle;margin:2px 6px}
+.sys .br{align-self:stretch;width:7px;border:2px solid currentColor;border-right:0;border-radius:9px 0 0 9px;margin-right:8px}
+.sys .rows{display:flex;flex-direction:column;gap:3px;text-align:left}
+.sys .rows span{white-space:nowrap}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px}
+.fr i{display:block;font-style:normal;padding:0 3px;border-bottom:1px solid currentColor;line-height:1.2}
+.fr b{display:block;font-weight:normal;padding:0 3px;line-height:1.2}
+.cond{overflow-x:auto}
+.links a{display:inline-block;margin:4px 10px 0 0}
+@media(max-width:480px){.sys .rows span{white-space:normal}}
+</style></head><body><div class="wrap"><p class="sub"><a href="z20-sistemy.html" style="color:#7da2ff">← Системы уравнений (№20)</a></p><h1>Тренажёр: системы уравнений</h1><p class="sub">Пять задач повышенной сложности (№20). На каждом шаге ответьте, затем нажмите «Дальше». Десятичные числа можно писать через запятую.</p><div class="tabs" id="tabs"></div><div class="bar"><i id="pb"></i></div><div id="box"></div></div><script>const T=[{"title": "Задача 1. Дробь и замена t = x/y", "cond": "Решите систему: <span class=\"sys\"><span class=\"br\"></span><span class=\"rows\"><span><span class=\"fr\"><i>x</i><b>y</b></span> + <span class=\"fr\"><i>y</i><b>x</b></span> = <span class=\"fr\"><i>5</i><b>2</b></span></span><span>x² − y² = 3</span></span></span> Запишите решение с наибольшим x.", "steps": [{"t": "c", "q": "Что нужно записать до преобразований?", "o": ["ОДЗ: x ≠ 0 и y ≠ 0", "x = y", "Ничего, сразу решать", "ОДЗ: x > 0 и y > 0"], "a": 0, "h": "В системе есть деление на x и на y.", "r": "x и y стоят в знаменателях: ОДЗ x ≠ 0 и y ≠ 0. Условия «больше нуля» нет, отрицательные значения допустимы."}, {"t": "c", "q": "Какую замену введём?", "o": ["t = x/y, тогда y/x = 1/t", "t = x − y", "t = x²", "t = x + y"], "a": 0, "h": "Ищите пару взаимно обратных выражений.", "r": "x/y и y/x взаимно обратны. Пусть t = x/y, тогда y/x = 1/t."}, {"t": "n", "q": "Решите t + 1/t = 5/2 (умножьте на 2t, получится 2t² − 5t + 2 = 0). Запишите больший t.", "a": 2, "h": "D = 25 − 16 = 9; t = (5 ± 3)/4.", "r": "t = 2 или t = 1/2."}, {"t": "n", "q": "Для t = 2 подставьте x = 2y в x² − y² = 3. Чему равно y²?", "a": 1, "h": "4y² − y² = 3y² = 3.", "r": "3y² = 3, y² = 1: y = 1 или y = −1; x = 2y даёт пары (2; 1) и (−2; −1)."}, {"t": "c", "q": "Что получится при t = 1/2, то есть x = y/2?", "o": ["y² = −4, решений нет", "y² = 4", "y = 1", "y = −1 и y = 1"], "a": 0, "h": "Подставьте y/2 вместо x: y²/4 − y² = 3.", "r": "y²/4 − y² = −3y²/4 = 3, y² = −4. Эта ветка решений не даёт."}, {"t": "n", "q": "Запишите x решения с наибольшим x.", "a": 2, "h": "Решения: (2; 1) и (−2; −1).", "r": "Наибольший x равен 2."}, {"t": "n", "q": "Чему равен y в этом решении?", "a": 1, "h": "Подставьте x = 2 в x = 2y.", "r": "y = 1. Ответ: (2; 1), (−2; −1). Проверка: 2/1 + 1/2 = 5/2, 4 − 1 = 3."}]}, {"title": "Задача 2. Сложение, только x² и y²", "cond": "Решите систему: <span class=\"sys\"><span class=\"br\"></span><span class=\"rows\"><span>2x² + 3y² = 30</span><span>3x² − y² = 23</span></span></span> Запишите решение, у которого x и y положительны.", "steps": [{"t": "c", "q": "Какой способ выбрать?", "o": ["Сложение: в обоих уравнениях только x² и y²", "Подстановка из линейного уравнения", "Графический способ с точным ответом", "Деление первого уравнения на второе"], "a": 0, "h": "В системе нет линейных членов и произведения xy.", "r": "Только x² и y²: удобно сложение с умножением на число."}, {"t": "c", "q": "Как избавиться от y²?", "o": ["Умножить второе уравнение на 3 и сложить", "Сложить уравнения без умножения", "Вычесть второе из первого", "Умножить первое на 3 и сложить"], "a": 0, "h": "Нужны противоположные коэффициенты: в первом +3y², во втором −y².", "r": "3 · (второе): 9x² − 3y² = 69. Сложение с первым даёт 11x² = 99."}, {"t": "n", "q": "Чему равно x²?", "a": 9, "h": "11x² = 99.", "r": "x² = 9, значит x = 3 или x = −3."}, {"t": "n", "q": "Найдите y² из второго уравнения 3x² − y² = 23.", "a": 4, "h": "y² = 3x² − 23.", "r": "y² = 27 − 23 = 4, значит y = 2 или y = −2."}, {"t": "n", "q": "Сколько решений у системы?", "a": 4, "h": "Знаки x и y независимы.", "r": "Четыре пары: (3; 2), (3; −2), (−3; 2), (−3; −2). Проверка: 18 + 12 = 30, 27 − 4 = 23."}, {"t": "n", "q": "Запишите x в решении с положительными x и y.", "a": 3, "h": "Из четырёх пар выберите положительную.", "r": "x = 3."}, {"t": "n", "q": "Запишите y в этом же решении.", "a": 2, "h": "Ответ — пара (3; 2).", "r": "y = 2."}]}, {"title": "Задача 3. Симметричная система, s = x + y и p = xy", "cond": "Решите систему: <span class=\"sys\"><span class=\"br\"></span><span class=\"rows\"><span>x² + y² + x + y = 12</span><span>xy = 4</span></span></span> Запишите решение с наименьшим x.", "steps": [{"t": "c", "q": "Что удобно ввести?", "o": ["s = x + y и p = xy", "t = x/y", "t = x²", "a = x − y"], "a": 0, "h": "Система симметрична: x и y входят одинаково.", "r": "x² + y² = s² − 2p; обозначим s = x + y и p = xy."}, {"t": "n", "q": "Подставьте p = 4. Получится s² + s − 20 = 0. Найдите больший s.", "a": 4, "h": "D = 1 + 80 = 81; s = (−1 ± 9)/2.", "r": "s = 4 или s = −5."}, {"t": "n", "q": "При s = 4 и p = 4 решите t² − 4t + 4 = 0. Чему равен x?", "a": 2, "h": "(t − 2)² = 0.", "r": "t = 2, поэтому x = y = 2. Это одна пара (2; 2)."}, {"t": "n", "q": "При s = −5 и p = 4 решите t² + 5t + 4 = 0. Запишите меньший корень.", "a": -4, "h": "D = 25 − 16 = 9; t = (−5 ± 3)/2.", "r": "t = −1 и t = −4: пары (−1; −4) и (−4; −1)."}, {"t": "n", "q": "Сколько всего решений у системы?", "a": 3, "h": "Одна пара от s = 4 и две от s = −5.", "r": "Три: (2; 2), (−1; −4), (−4; −1). Проверка (−1; −4): 1 + 16 − 1 − 4 = 12, xy = 4."}, {"t": "n", "q": "Запишите x решения с наименьшим x.", "a": -4, "h": "Из трёх пар найдите минимальное x.", "r": "x = −4."}, {"t": "n", "q": "Запишите y в этом же решении.", "a": -1, "h": "Ответ — пара (−4; −1).", "r": "y = −1."}]}, {"title": "Задача 4. Однородное уравнение", "cond": "Решите систему: <span class=\"sys\"><span class=\"br\"></span><span class=\"rows\"><span>x² − 3xy + 2y² = 0</span><span>x + y = 6</span></span></span> Запишите решение с наибольшим x.", "steps": [{"t": "c", "q": "Что делаем с первым уравнением?", "o": ["Раскладываем левую часть на множители", "Возводим обе части в квадрат", "Складываем уравнения", "Делим всё на x"], "a": 0, "h": "Левая часть — квадратный трёхчлен, равный нулю.", "r": "Разложим левую часть на множители, чтобы свести к двум простым случаям."}, {"t": "c", "q": "Чему равно x² − 3xy + 2y²?", "o": ["(x − y)(x − 2y)", "(x + y)(x + 2y)", "(x − y)(x + 2y)", "(x − 3y)(x − 2y)"], "a": 0, "h": "Проверьте раскрытием скобок: сумма коэффициентов при xy должна быть −3.", "r": "(x − y)(x − 2y) = x² − 2xy − xy + 2y² = x² − 3xy + 2y²."}, {"t": "n", "q": "Случай x − y = 0 вместе с x + y = 6. Чему равно y?", "a": 3, "h": "x = y, значит 2y = 6.", "r": "y = 3, x = 3. Пара (3; 3)."}, {"t": "n", "q": "Случай x − 2y = 0 вместе с x + y = 6. Чему равно y?", "a": 2, "h": "x = 2y, значит 3y = 6.", "r": "y = 2, x = 4. Пара (4; 2)."}, {"t": "n", "q": "Сколько решений у системы?", "a": 2, "h": "Каждый множитель даёт одну пару.", "r": "Две: (3; 3) и (4; 2). Проверка (4; 2): 16 − 24 + 8 = 0, 4 + 2 = 6."}, {"t": "n", "q": "Запишите x решения с наибольшим x.", "a": 4, "h": "Сравните x в парах (3; 3) и (4; 2).", "r": "x = 4."}, {"t": "n", "q": "Запишите y в этом же решении.", "a": 2, "h": "Ответ — пара (4; 2).", "r": "y = 2."}]}, {"title": "Задача 5. Произведение равно нулю", "cond": "Решите систему: <span class=\"sys\"><span class=\"br\"></span><span class=\"rows\"><span>(x − 2)(y + 1) = 0</span><span>x² + y² = 5</span></span></span> Запишите решение с наименьшим x.", "steps": [{"t": "c", "q": "Как использовать первое уравнение?", "o": ["Разбить на две системы: x = 2 или y = −1", "Раскрыть скобки и подставить", "Разделить на y + 1", "Приравнять скобки друг другу"], "a": 0, "h": "Произведение равно нулю, когда хотя бы один множитель равен нулю.", "r": "Получаем две системы: с x = 2 и с y = −1."}, {"t": "n", "q": "Ветка x = 2. Сколько значений y даёт 4 + y² = 5?", "a": 2, "h": "y² = 1.", "r": "y = 1 или y = −1: пары (2; 1) и (2; −1)."}, {"t": "n", "q": "Ветка y = −1. Найдите наибольшее x из x² + 1 = 5.", "a": 2, "h": "x² = 4.", "r": "x = 2 или x = −2: пары (2; −1) и (−2; −1)."}, {"t": "n", "q": "Сколько различных решений у исходной системы?", "a": 3, "h": "Сравните пары из двух веток: есть ли общая?", "r": "Пара (2; −1) встретилась дважды. Различных решений три: (2; 1), (2; −1), (−2; −1)."}, {"t": "n", "q": "Запишите x решения с наименьшим x.", "a": -2, "h": "Из трёх пар найдите минимальное x.", "r": "x = −2."}, {"t": "n", "q": "Запишите y в этом же решении.", "a": -1, "h": "Ответ — пара (−2; −1).", "r": "y = −1. Ответ: (2; 1), (2; −1), (−2; −1). Проверка (−2; −1): (−4) · 0 = 0, 4 + 1 = 5."}]}];
+let cur=0,st=0,prog=T.map(()=>0);
+const tabs=document.getElementById('tabs'),box=document.getElementById('box'),pb=document.getElementById('pb');
+function norm(s){return parseFloat(String(s).replace(',','.').replace(/\s/g,''))}
+function renderTabs(){tabs.innerHTML='';T.forEach((t,k)=>{const b=document.createElement('button');b.textContent='Задача '+(k+1)+(prog[k]===t.steps.length?' (готово)':'');if(k===cur)b.className='on';b.onclick=()=>{cur=k;st=prog[k]>=t.steps.length?0:prog[k];render()};tabs.appendChild(b)})}
+function render(){
+  renderTabs();
+  const t=T[cur];pb.style.width=(prog[cur]/t.steps.length*100)+'%';
+  let h='<div class="card"><span class="tag">'+t.title+'</span><div class="cond">'+t.cond+'</div>';
+  for(let k=0;k<prog[cur]&&k<t.steps.length;k++){h+='<div class="done">'+t.steps[k].r+'</div>'}
+  if(prog[cur]<t.steps.length){
+    const s=t.steps[prog[cur]];
+    h+='<p class="q" style="margin-top:16px">Шаг '+(prog[cur]+1)+' из '+t.steps.length+'. '+s.q+'</p><div id="in"></div><div id="fb"></div>';
+  }else{
+    h+='<p style="margin-top:14px">Задача разобрана. '+(cur<T.length-1?'<button class="btn" onclick="cur++;st=0;render()">Следующая задача</button>':'Это была последняя. Хороший трудный набор: теперь попробуйте решить любую из них с чистого листа.')+'</p>';
+  }
+  box.innerHTML=h+'</div>';
+  if(prog[cur]<t.steps.length)drawStep(t.steps[prog[cur]]);
+}
+function drawStep(s){
+  const el=document.getElementById('in');
+  if(s.t==='c'){
+    s.o.map((v,k)=>[v,k]).sort(()=>Math.random()-.5).forEach(([v,k])=>{const b=document.createElement('button');b.className='opt';b.textContent=v;b.onclick=()=>check(k===s.a,b);el.appendChild(b)});
+  }else{
+    el.innerHTML='<input class="num" id="num" inputmode="decimal" placeholder="Ответ"> <button class="btn" id="go">Проверить</button>';
+    const f=()=>check(Math.abs(norm(document.getElementById('num').value)-s.a)<1e-9,null);
+    document.getElementById('go').onclick=f;document.getElementById('num').onkeydown=e=>{if(e.key==='Enter')f()};
+  }
+}
+let tries=0;
+function check(ok,btn){
+  const s=T[cur].steps[prog[cur]],fb=document.getElementById('fb');
+  if(ok){
+    document.querySelectorAll('.opt').forEach(x=>x.disabled=true);if(btn)btn.classList.add('ok');
+    const inp=document.getElementById('num');if(inp)inp.disabled=true;const go=document.getElementById('go');if(go)go.disabled=true;
+    fb.innerHTML='<div class="exp">Верно. '+s.r+'</div><button class="btn" onclick="prog[cur]++;tries=0;render()">Дальше</button>';
+  }else{
+    tries++;if(btn){btn.classList.add('bad');btn.disabled=true}
+    fb.innerHTML='<div class="hint">Не то. Подсказка: '+s.h+'</div>'+(tries>=3?'<button class="btn ghost" onclick="reveal()">Показать ответ</button>':'');
+  }
+}
+function reveal(){const s=T[cur].steps[prog[cur]];document.getElementById('fb').innerHTML='<div class="exp">'+s.r+'</div><button class="btn" onclick="prog[cur]++;tries=0;render()">Дальше</button>'}
+render();
+</script></body></html>

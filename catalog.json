@@ -1277,6 +1277,195 @@
    "oge_task": null,
    "status": "public",
    "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-sistemy.html",
+   "title": "Системы уравнений: все материалы по порядку",
+   "type": "sistema",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-sistemy-teoriya.html",
+   "title": "Теория и устный опрос: системы уравнений",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-sistemy-test.html",
+   "title": "Тест: системы уравнений",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-sistemy-pyatiminutki.html",
+   "title": "Карточки-пятиминутки: системы уравнений (2 варианта)",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-sistemy-razbor-5.html",
+   "title": "Разбор 5 задач повышенной сложности: системы уравнений",
+   "type": "razbor",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-sistemy-trenazhor.html",
+   "title": "Тренажёр: системы уравнений, повышенный уровень",
+   "type": "trenazher",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-sistemy-trenazhor-gen.html",
+   "title": "Тренажёр: системы уравнений, новые числа каждый раз",
+   "type": "trenazher",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-sistemy-pamyatka.html",
+   "title": "Памятка: алгоритм и оформление, системы уравнений",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-sistemy-kontrolnaya.html",
+   "title": "Зачётный лист: системы уравнений (3 уровня)",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-sistemy-dz.html",
+   "title": "Домашняя карточка: системы уравнений (4 задачи)",
+   "type": "dz",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-sistemy-plan-uroka.html",
+   "title": "План урока на 60 минут и ДЗ: системы уравнений",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18; для репетитора"
+  },
+  {
+   "file": "z20-sistemy-teoriya.pdf",
+   "title": "Системы уравнений, печать: teoriya",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-sistemy-pyatiminutki.pdf",
+   "title": "Системы уравнений, печать: pyatiminutki",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-sistemy-razbor-5.pdf",
+   "title": "Системы уравнений, печать: razbor-5",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-sistemy-pamyatka.pdf",
+   "title": "Системы уравнений, печать: pamyatka",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-sistemy-kontrolnaya.pdf",
+   "title": "Системы уравнений, печать: kontrolnaya",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-sistemy-dz.pdf",
+   "title": "Системы уравнений, печать: dz",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-sistemy-plan-uroka.pdf",
+   "title": "Системы уравнений, печать: plan-uroka",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z20-sistemy-komplekt.pdf",
+   "title": "Системы уравнений, печать: komplekt",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "razbor-sistemy-dialog.md",
+   "title": "Системы уравнений: разбор в диалоге (текст)",
+   "type": "razbor",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "razbor-sistemy-dialog.pdf",
+   "title": "Системы уравнений: разбор в диалоге, печать",
+   "type": "razbor",
+   "class": 9,
+   "oge_task": 20,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
   }
  ]
 }

@@ -1,0 +1,47 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Памятка: алгоритм и оформление, системы уравнений (№20)</title><style>
+@page{size:A4;margin:9mm}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#000;font:10.5pt/1.38 "PT Serif","DejaVu Serif",Georgia,"Times New Roman",serif}
+.wrap{max-width:200mm;margin:0 auto;padding:10px 12px 30px}
+.nav{font:13px -apple-system,Arial,sans-serif;margin:6px 0 10px}
+.nav a{color:#1747c9}
+h1{font-size:15pt;margin:0 0 2px}
+h2{font-size:11.5pt;margin:10px 0 4px;border-bottom:1px solid #000;padding-bottom:1px}
+h3{font-size:10.5pt;margin:7px 0 2px}
+.sub{font-size:9.5pt;margin:0 0 6px}
+p{margin:3px 0}
+ol,ul{margin:3px 0 3px 18px;padding:0}
+li{margin:2px 0}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 1px}
+.fr i{display:block;font-style:normal;padding:0 3px;border-bottom:1px solid currentColor;line-height:1.2}
+.fr b{display:block;font-weight:normal;padding:0 3px;line-height:1.2}
+.box{border:1px solid #000;padding:4px 7px;margin:5px 0;break-inside:avoid}
+.rule{border:1.5px solid #000;padding:4px 7px;margin:5px 0;break-inside:avoid;background:#f2f2f2}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 10mm}
+.cols.cut > div:first-child{border-right:1px dashed #000;padding-right:5mm}
+.task{break-inside:avoid;margin:5px 0}
+.task .n{font-weight:bold}
+.sol{border:1px solid #bbb;background-image:linear-gradient(#ddd 1px,transparent 1px),linear-gradient(90deg,#ddd 1px,transparent 1px);background-size:5mm 5mm;margin:3px 0}
+.ans{margin-top:2px}
+.ans:after{content:" ______________"}
+.teacher{margin-top:10px;border-top:1px dashed #000;padding-top:4px;font-size:9.5pt}
+.small{font-size:9.5pt}
+table{border-collapse:collapse;margin:4px 0}
+td,th{border:1px solid #000;padding:2px 6px;text-align:left;font-weight:normal}
+th{font-weight:bold;background:#eee}
+.lev{display:inline-block;border:1px solid #000;padding:0 6px;font-weight:bold;margin:6px 0 2px;font-size:10.5pt}
+details{margin:2px 0}
+summary{cursor:pointer}
+@media print{.nav,.noprint{display:none}.wrap{padding:0;max-width:none}body{font-size:10pt}}
+
+.sys{display:inline-flex;align-items:center;vertical-align:middle;margin:2px 5px}
+.sys .br{align-self:stretch;width:7px;border:2px solid currentColor;border-right:0;border-radius:9px 0 0 9px;margin-right:7px}
+.sys .rows{display:flex;flex-direction:column;gap:3px;text-align:left}
+.sys .rows span{white-space:nowrap}
+.pair{white-space:nowrap}
+.qa{margin:2px 0;break-inside:avoid}
+.key{border:1px dashed #000;padding:3px 7px;margin:4px 0;font-size:9.5pt;break-inside:avoid}
+.pg{break-before:page}
+@media screen and (max-width:640px){.cols{grid-template-columns:1fr}.cols.cut>div:first-child{border-right:0;padding-right:0}table{display:block;overflow-x:auto}}
+.mini td,.mini th{padding:1px 5px;font-size:9.5pt}
+@media print{body{font-size:9.2pt;line-height:1.3}h2{margin:6px 0 3px}.box,.rule{padding:3px 6px;margin:4px 0}ol,ul{margin:2px 0 2px 16px}}</style></head><body><div class="wrap"><div class="nav"><a href="z20-sistemy.html">← Системы уравнений (№20)</a> · <a href="index.html">на главную</a> · <a href="z20-sistemy-pamyatka.pdf">скачать PDF для печати</a></div><h1>Памятка: алгоритм и оформление, системы уравнений (№20)</h1><p class="sub">№20 оформляют полностью на бланке №2 (2 балла). В ответе — пары чисел (x; y). Ход решения должен быть виден эксперту.</p><div class="cols"><div><h2>Алгоритм решения системы</h2><ol><li><b>Посмотри на уравнения.</b> Какие члены есть: x², y², xy, дроби, линейное уравнение, произведение?</li><li><b>Если есть дробь — запиши ОДЗ:</b> x ≠ 0, y ≠ 0 и т. д.</li><li><b>Выбери способ</b> по таблице ниже. Напиши фразу: «Из второго уравнения выразим x» или «Сложим уравнения».</li><li><b>Сведи к одному уравнению с одной переменной</b> и реши его (дискриминант, Виета, разложение).</li><li><b>Для каждого найденного значения найди вторую переменную.</b> Запиши пары.</li><li><b>Проверь</b> пары по ОДЗ и подстановкой хотя бы в одно уравнение (лучше в оба).</li><li><b>Запиши ответ</b> парами: (x₁; y₁), (x₂; y₂). Совпавшие пары — один раз.</li></ol><h2>Какой способ выбрать</h2><table class="small" style="width:100%"><tr><th>Что вижу</th><th>Что делаю</th></tr><tr><td>Есть линейное уравнение</td><td>Подстановка: выразить переменную из линейного.</td></tr><tr><td>Только x² и y² в обоих</td><td>Сложение или вычитание (с умножением), затем ±.</td></tr><tr><td>x + y и xy (или x² + y²)</td><td>s = x + y, p = xy; t² − st + p = 0.</td></tr><tr><td>Произведение равно 0</td><td>Две системы: каждый множитель = 0.</td></tr><tr><td>Однородное уравнение второй степени</td><td>Разложить на множители (x − ay)(x − by) = 0.</td></tr><tr><td>x/y + y/x или другие дроби</td><td>ОДЗ; замена t = x/y; потом x = ty.</td></tr></table><div class="rule"><b>Формулы.</b> x² + y² = (x + y)² − 2xy. (x − y)² = (x + y)² − 4xy. Корни t² − st + p = 0 — это x и y. Из x² = a (a &gt; 0): x = ±√a.</div><h2>Что снимает баллы</h2><ul class="small"><li>В ответе только x (или только y), нет пар.</li><li>Потеряна ветка: решена одна из двух систем (произведение, однородное).</li><li>Из x² = 4 записано только x = 2.</li><li>Совпавшая пара записана дважды или не отброшена после проверки ОДЗ.</li><li>Деление обеих частей на переменную: теряется корень (или решение с нулём).</li><li>Вычислительная ошибка при верном ходе: 1 балл вместо 2. Только ответ без хода: 0 баллов.</li></ul></div><div><h2>Образец записи (№20)</h2><div class="box small"><b>Задача.</b> Решите систему уравнений: <span class="sys"><span class="br"></span><span class="rows"><span>x + y = 7</span><span>x² + y² = 25</span></span></span></div><p><b>Решение.</b> Пусть x + y = s, xy = p. Тогда x² + y² = s² − 2p.</p><p>Из условия s = 7 и 25 = 7² − 2p; 2p = 49 − 25 = 24, p = 12.</p><p>Числа x и y — корни уравнения t² − 7t + 12 = 0. D = 49 − 48 = 1; t₁ = (7 + 1)/2 = 4; t₂ = (7 − 1)/2 = 3.</p><p>Значит, пары <span class="pair">(4; 3)</span> и <span class="pair">(3; 4)</span>.</p><p><b>Проверка.</b> <span class="pair">(4; 3)</span>: 4 + 3 = 7; 16 + 9 = 25. Верно. Вторая пара получается перестановкой, система симметрична.</p><p><b>Ответ:</b> <span class="pair">(3; 4)</span>, <span class="pair">(4; 3)</span>.</p><div class="box small"><b>Образец с дробью.</b> Система <span class="sys"><span class="br"></span><span class="rows"><span><span class="fr"><i>1</i><b>x</b></span> + <span class="fr"><i>1</i><b>y</b></span> = <span class="fr"><i>5</i><b>6</b></span></span><span>x + y = 5</span></span></span>. ОДЗ: x ≠ 0, y ≠ 0. Так как <span class="fr"><i>1</i><b>x</b></span> + <span class="fr"><i>1</i><b>y</b></span> = <span class="fr"><i>x + y</i><b>xy</b></span>, получаем <span class="fr"><i>5</i><b>xy</b></span> = <span class="fr"><i>5</i><b>6</b></span>, то есть xy = 6. Вместе с x + y = 5: t² − 5t + 6 = 0, t = 2 или t = 3. Пары <span class="pair">(2; 3)</span>, <span class="pair">(3; 2)</span>. Числа не равны нулю, ОДЗ выполнено. <b>Ответ:</b> <span class="pair">(2; 3)</span>, <span class="pair">(3; 2)</span>.</div><div class="box small"><b>Где эксперт ищет баллы:</b> 1) выбран и назван способ; 2) уравнения верно преобразованы (одно уравнение с одной переменной); 3) оно верно решено; 4) для каждого корня найдена вторая переменная; 5) в ответ записаны все пары и только они. Описка при верном ходе — 1 балл из 2. Точные критерии смотрите в актуальных материалах ФИПИ.</div><h2>Чек-лист перед сдачей</h2><p class="small">☐ ОДЗ записано (если есть дробь). ☐ Назван способ. ☐ Найдены обе переменные. ☐ Пары в правильном порядке (x; y). ☐ Ни одно решение не потеряно (знаки ±, обе ветки). ☐ Совпавшие пары записаны один раз. ☐ Проверена подстановкой. ☐ Ответ записан парами.</p></div></div></div></body></html>
