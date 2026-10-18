@@ -2168,6 +2168,195 @@
       "oge_task": 8,
       "status": "public",
       "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-smesi.html",
+      "title": "Смеси: все материалы по порядку",
+      "type": "sistema",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-smesi-teoriya.html",
+      "title": "Теория и устный опрос: смеси",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-smesi-test.html",
+      "title": "Тест: смеси",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-smesi-pyatiminutki.html",
+      "title": "Карточки-пятиминутки: смеси (2 варианта)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-smesi-razbor-5.html",
+      "title": "Разбор 5 задач повышенной сложности: смеси",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-smesi-trenazhor.html",
+      "title": "Тренажёр: 5 задач повышенной сложности, смеси",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-smesi-trenazhor-gen.html",
+      "title": "Тренажёр: смеси, новые числа каждый раз",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-smesi-pamyatka.html",
+      "title": "Памятка: алгоритм и запись ответа, смеси",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-smesi-kontrolnaya.html",
+      "title": "Зачётный лист: смеси (3 уровня)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-smesi-dz.html",
+      "title": "Домашняя карточка: смеси (4 задачи)",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-smesi-plan-uroka.html",
+      "title": "План урока и домашнего задания: смеси",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-smesi-dialog.md",
+      "title": "Диалог ученик-учитель: смеси, план урока и ДЗ (текст)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-smesi-dialog.pdf",
+      "title": "Диалог ученик-учитель: смеси, план урока и ДЗ (печать)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-smesi-teoriya.pdf",
+      "title": "Смеси, печать: теория",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-smesi-pyatiminutki.pdf",
+      "title": "Смеси, печать: пятиминутки",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-smesi-razbor-5.pdf",
+      "title": "Смеси, печать: разбор 5 задач",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-smesi-pamyatka.pdf",
+      "title": "Смеси, печать: памятка",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-smesi-kontrolnaya.pdf",
+      "title": "Смеси, печать: зачётный лист",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-smesi-dz.pdf",
+      "title": "Смеси, печать: домашняя карточка",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-smesi-plan-uroka.pdf",
+      "title": "Смеси, печать: план урока",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-smesi-komplekt.pdf",
+      "title": "Смеси, печать: комплект",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
     }
   ]
 }

@@ -1,0 +1,36 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Разбор 5 задач повышенной сложности: смеси</title><style>
+@page{size:A4;margin:9mm}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#000;font:10.5pt/1.38 "PT Serif","DejaVu Serif",Georgia,"Times New Roman",serif}
+.wrap{max-width:200mm;margin:0 auto;padding:10px 12px 30px}
+.nav{font:13px -apple-system,Arial,sans-serif;margin:6px 0 10px}
+.nav a{color:#1747c9}
+h1{font-size:15pt;margin:0 0 2px}
+h2{font-size:11.5pt;margin:10px 0 4px;border-bottom:1px solid #000;padding-bottom:1px}
+h3{font-size:10.5pt;margin:7px 0 2px}
+.sub{font-size:9.5pt;margin:0 0 6px}
+p{margin:3px 0}
+ol,ul{margin:3px 0 3px 18px;padding:0}
+li{margin:2px 0}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 1px}
+.fr i{display:block;font-style:normal;padding:0 3px;border-bottom:1px solid currentColor;line-height:1.2}
+.fr b{display:block;font-weight:normal;padding:0 3px;line-height:1.2}
+.box{border:1px solid #000;padding:4px 7px;margin:5px 0;break-inside:avoid}
+.rule{border:1.5px solid #000;padding:4px 7px;margin:5px 0;break-inside:avoid;background:#f2f2f2}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 10mm}
+.cols.cut > div:first-child{border-right:1px dashed #000;padding-right:5mm}
+.task{break-inside:avoid;margin:5px 0}
+.task .n{font-weight:bold}
+.sol{border:1px solid #bbb;background-image:linear-gradient(#ddd 1px,transparent 1px),linear-gradient(90deg,#ddd 1px,transparent 1px);background-size:5mm 5mm;margin:3px 0}
+.ans{margin-top:2px}
+.ans:after{content:" ______________"}
+.teacher{margin-top:10px;border-top:1px dashed #000;padding-top:4px;font-size:9.5pt}
+.small{font-size:9.5pt}
+table{border-collapse:collapse;margin:4px 0}
+td,th{border:1px solid #000;padding:2px 6px;text-align:left;font-weight:normal}
+th{font-weight:bold;background:#eee}
+.lev{display:inline-block;border:1px solid #000;padding:0 6px;font-weight:bold;margin:6px 0 2px;font-size:10.5pt}
+details{margin:2px 0}
+summary{cursor:pointer}
+@media print{.nav,.noprint{display:none}.wrap{padding:0;max-width:none}body{font-size:10pt}}
+</style></head><body><div class="wrap"><div class="nav"><a href="z21-smesi.html">← Смеси (задание 21)</a> · <a href="index.html">на главную</a></div><h1>5 задач повышенной сложности: подробный разбор</h1><p class="sub">Те же пять задач, что в интерактивном тренажёре <a href="z21-smesi-trenazhor.html">z21-smesi-trenazhor.html</a>: сначала решите там по шагам, потом сверьтесь здесь.</p><div class="task box"><b>Задача 1. Выпаривание</b><p>Имеется 50 кг 16%-ного раствора соли. Сколько килограммов воды нужно выпарить, чтобы концентрация соли стала 25%?</p><ol><li>При выпаривании уходит только вода, масса соли не меняется.</li><li>Соли в исходном растворе: 0,16 · 50 = 8 кг.</li><li>Пусть m кг — масса нового раствора (0 &lt; m &lt; 50). Соли в нём 0,25m. Уравнение: 0,25m = 8.</li><li>m = 8 : 0,25 = 32 кг.</li><li>Выпарили 50 − 32 = 18 кг воды. Проверка: 8 : 32 = 0,25 = 25%.</li></ol><p><b>Ответ:</b> 18 кг.</p><p class="small"><i>Ловушка:</i> в ответ идёт масса выпаренной воды (18), а не масса нового раствора (32).</p></div><div class="task box"><b>Задача 2. Смесь двух растворов, правило креста для проверки</b><p>Смешали 30%-ный и 50%-ный растворы кислоты и получили 600 г 42%-ного раствора. Сколько граммов 50%-ного раствора взяли?</p><ol><li>Пусть x г — масса 30%-ного раствора, тогда (600 − x) г — масса 50%-ного (0 &lt; x &lt; 600).</li><li>Кислоты в смеси: 0,42 · 600 = 252 г. Кислота в частях: 0,3x и 0,5(600 − x).</li><li>Уравнение по кислоте: 0,3x + 0,5(600 − x) = 252.</li><li>300 − 0,2x = 252; 0,2x = 48; x = 240. Значит, 30%-ного раствора 240 г, 50%-ного 600 − 240 = 360 г.</li><li>Проверка: 0,3 · 240 + 0,5 · 360 = 72 + 180 = 252. По правилу креста: (50 − 42) : (42 − 30) = 8 : 12 = 2 : 3, и 240 : 360 = 2 : 3.</li></ol><p><b>Ответ:</b> 360 г.</p><p class="small"><i>Ловушка:</i> спрашивают про 50%-ный раствор, а x мы обозначили для 30%-ного.</p></div><div class="task box"><b>Задача 3. Переливание, отбор корня</b><p>Сосуд вместимостью 10 л наполнен 80%-ным раствором кислоты. Из сосуда отлили x л раствора и долили x л воды, затем эту операцию повторили. В результате получился 20%-ный раствор. Найдите x. Ответ дайте в литрах.</p><ol><li>0 &lt; x &lt; 10. После отлива осталось (10 − x) л с прежней концентрацией 0,8, кислоты 0,8(10 − x) л.</li><li>Долили x л воды, снова 10 л. Концентрация 0,8(10 − x) : 10 = 0,8(1 − x/10). После второго цикла 0,8(1 − x/10)².</li><li>Уравнение: 0,8(1 − x/10)² = 0,2. Тогда (1 − x/10)² = 0,25, и 1 − x/10 = 0,5 или 1 − x/10 = −0,5.</li><li>Из первого x = 5, из второго x = 15. Условию 0 &lt; x &lt; 10 подходит только x = 5.</li><li>Проверка: 0,8 · 0,5 = 0,4; 0,4 · 0,5 = 0,2.</li></ol><p><b>Ответ:</b> 5 л.</p><p class="small"><i>Ловушка:</i> нельзя писать 0,8(1 − 2x/10) = 0,2: второй раз отливают уже разбавленный раствор, поэтому множитель возводят в квадрат.</p></div><div class="task box"><b>Задача 4. Два условия, система</b><p>Имеются два сосуда. Первый содержит 20 кг, а второй — 30 кг раствора кислоты разной концентрации. Если их слить вместе, получится раствор, содержащий 52% кислоты. Если же слить равные массы этих растворов, получится раствор, содержащий 55% кислоты. Сколько килограммов кислоты содержится в первом сосуде?</p><ol><li>Пусть x кг — кислоты в первом сосуде, y кг — во втором (x &gt; 0, y &gt; 0). Концентрации растворов x/20 и y/30.</li><li>Слили всё: 50 кг раствора, кислоты в нём 0,52 · 50 = 26 кг. Первое уравнение: x + y = 26.</li><li>Слили равные массы m кг: кислоты m · x/20 + m · y/30, масса смеси 2m, концентрация 0,55. Второе уравнение: (x/20 + y/30) : 2 = 0,55, то есть x/20 + y/30 = 1,1.</li><li>Умножаем второе на 60: 3x + 2y = 66.</li><li>Из первого y = 26 − x: 3x + 52 − 2x = 66; x = 14, y = 12.</li><li>Проверка: x/20 = 0,7, y/30 = 0,4; среднее 0,55; кислоты 14 + 12 = 26 кг, 26 : 50 = 52%.</li></ol><p><b>Ответ:</b> 14 кг.</p><p class="small"><i>Ловушка:</i> вопрос про массу кислоты в первом сосуде, а не про концентрацию; при равных массах нельзя писать «масса кислоты = 0,55 · 50».</p></div><div class="task box"><b>Задача 5. Сплавы</b><p>Имеются два сплава. Первый содержит 10% никеля, второй — 40% никеля. Из этих двух сплавов получили третий сплав массой 300 кг, содержащий 34% никеля. На сколько килограммов масса первого сплава меньше массы второго?</p><ol><li>Пусть x кг — масса первого сплава, y кг — второго (x &gt; 0, y &gt; 0).</li><li>Масса третьего сплава: x + y = 300. Никеля в третьем: 0,34 · 300 = 102 кг.</li><li>Никель двух сплавов перешёл в третий: 0,1x + 0,4y = 102.</li><li>Из первого y = 300 − x: 0,1x + 120 − 0,4x = 102; −0,3x = −18; x = 60, y = 240.</li><li>Разность масс: 240 − 60 = 180 кг. Проверка: 6 + 96 = 102 кг никеля.</li></ol><p><b>Ответ:</b> 180 кг.</p><p class="small"><i>Ловушка:</i> ответ — разность масс (180), а не масса первого сплава.</p></div></div></body></html>

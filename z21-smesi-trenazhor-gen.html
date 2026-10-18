@@ -1,0 +1,101 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тренажёр: смеси, новые числа каждый раз</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+a{color:var(--blue)}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 16px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.chips button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 12px;font:inherit;font-size:14px;cursor:pointer}
+.chips button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.cond{font-size:18px;margin:6px 0 14px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:170px}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin:6px 6px 0 0}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line)}
+.btn[disabled]{opacity:.45;cursor:default}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+.ok{border-left:3px solid var(--ok);background:rgba(155,211,160,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.bad{border-left:3px solid var(--bad);background:rgba(240,154,138,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.sol{border-left:3px solid var(--blue);background:rgba(125,162,255,.08);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:15px}
+.sol p{margin:6px 0}
+.stat{color:var(--muted);font-size:14px}
+</style></head><body><div class="wrap"><p class="sub"><a href="z21-smesi.html">← Смеси (задание 21)</a></p><h1>Тренажёр: смеси</h1><p class="sub">Каждая задача новая: числа меняются, ответ целый или с конечной десятичной дробью. В бланк записывают только число, без единиц.</p><div class="chips" id="chips"></div><div class="card" id="box"></div><p class="stat" id="stat"></p></div><script>
+function rnd(a,b){return a+Math.floor(Math.random()*(b-a+1))}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function fm(n){var s=String(Math.round(n*1000)/1000).replace('.',',');var p=s.split(',');p[0]=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,' ');return p.join(',')}
+function isInt(x){return Math.abs(x-Math.round(x))<1e-9}
+var TYPES={
+ dil:{name:'Добавили воду'},
+ evap:{name:'Выпарили воду'},
+ addsub:{name:'Добавили вещество'},
+ mix2:{name:'Смесь двух растворов'},
+ alloy:{name:'Сплавы, разность масс'},
+ over:{name:'Переливание'},
+ sys:{name:'Два сосуда, система'}
+};
+var GEN={
+ dil:function(){
+  for(;;){var c1=pick([20,25,30,40,50,60]),c2=pick([5,8,10,12,15,16,20,24,25,30]),M1=pick([20,30,40,50,60,80,100,120,150,200]);
+   if(c2>=c1)continue;var M2=M1*c1/c2;
+   if(isInt(M2)&&M2-M1<=500){var s=M1*c1/100;
+    return{cond:'К '+fm(M1)+' кг '+c1+'%-ного раствора соли добавили воду и получили '+c2+'%-ный раствор. Сколько килограммов воды добавили?',ans:M2-M1,hint:'Масса соли не меняется: соли '+fm(s)+' кг. Найдите массу нового раствора и вычтите прежнюю.',sol:'<p>Соли: '+fm(M1)+' · '+fm(c1/100)+' = '+fm(s)+' кг (при добавлении воды не меняется).</p><p>Новый раствор: '+fm(s)+' : '+fm(c2/100)+' = '+fm(M2)+' кг.</p><p>Воды добавили: '+fm(M2)+' − '+fm(M1)+' = '+fm(M2-M1)+' кг.</p>'}}}
+ },
+ evap:function(){
+  for(;;){var c1=pick([5,8,10,12,15,16,20]),c2=pick([20,25,30,40,50]),M1=pick([20,30,40,50,60,80,100,120,150,200]);
+   if(c2<=c1)continue;var M2=M1*c1/c2;
+   if(isInt(M2)&&M2<M1){var s=M1*c1/100;
+    return{cond:'Имеется '+fm(M1)+' кг '+c1+'%-ного раствора соли. Сколько килограммов воды нужно выпарить, чтобы концентрация соли стала '+c2+'%?',ans:M1-M2,hint:'При выпаривании масса соли не меняется: соли '+fm(s)+' кг. Найдите массу нового раствора.',sol:'<p>Соли: '+fm(M1)+' · '+fm(c1/100)+' = '+fm(s)+' кг.</p><p>Новый раствор: '+fm(s)+' : '+fm(c2/100)+' = '+fm(M2)+' кг.</p><p>Выпарили: '+fm(M1)+' − '+fm(M2)+' = '+fm(M1-M2)+' кг.</p>'}}}
+ },
+ addsub:function(){
+  for(;;){var M=pick([20,30,40,50,60,80,100,200]),c=pick([10,20,25,30,40]),s=pick([5,10,15,20,25,30,40,50]),p=(M*c/100+s)/(M+s)*100;
+   if(Math.abs(p*10-Math.round(p*10))<1e-9)
+    return{cond:'К '+fm(M)+' кг '+c+'%-ного раствора соли добавили '+fm(s)+' кг соли. Сколько процентов соли в новом растворе?',ans:p,hint:'Соли стало больше на '+fm(s)+' кг, и раствора тоже. Разделите массу соли на массу раствора и умножьте на 100%.',sol:'<p>Соли было '+fm(M*c/100)+' кг, стало '+fm(M*c/100+s)+' кг.</p><p>Раствора стало '+fm(M+s)+' кг.</p><p>'+fm(M*c/100+s)+' : '+fm(M+s)+' · 100% = '+fm(p)+'%.</p>'}}
+ },
+ mix2:function(){
+  for(;;){var c1=pick([10,15,20,25,30]),c2=pick([40,45,50,55,60,70]),c3=5*rnd(c1/5+1,c2/5-1),M=pick([100,200,300,400,500,600,800]),x=M*(c2-c3)/(c2-c1);
+   if(isInt(x)&&x>0&&x<M){var k=rnd(0,1);
+    return{cond:'Смешали '+c1+'%-ный и '+c2+'%-ный растворы кислоты и получили '+fm(M)+' г '+c3+'%-ного раствора. Сколько граммов '+(k?c2:c1)+'%-ного раствора взяли?',ans:k?M-x:x,hint:'Пусть x г — '+c1+'%-ного раствора, тогда ('+fm(M)+' − x) г — '+c2+'%-ного. Уравнение по кислоте. Читайте, про какой раствор спрашивают.',sol:'<p>'+fm(c1/100)+'x + '+fm(c2/100)+'('+fm(M)+' − x) = '+fm(c3/100)+' · '+fm(M)+'.</p><p>Отсюда x = '+fm(x)+' г ('+c1+'%-ного), '+c2+'%-ного: '+fm(M)+' − '+fm(x)+' = '+fm(M-x)+' г.</p><p>Крест: ('+c2+' − '+c3+') : ('+c3+' − '+c1+') = '+(c2-c3)+' : '+(c3-c1)+'.</p>'}}}
+ },
+ alloy:function(){
+  for(;;){var c1=pick([5,10,15,20]),c2=pick([30,35,40,45,50]),c3=rnd(c1+1,c2-1),M=pick([100,150,200,240,300,400]),x=M*(c2-c3)/(c2-c1),y=M-x;
+   if(c3>(c1+c2)/2&&isInt(x)&&x>0&&y>x)
+    return{cond:'Первый сплав содержит '+c1+'% меди, второй — '+c2+'% меди. Из этих двух сплавов получили третий сплав массой '+fm(M)+' кг, содержащий '+c3+'% меди. На сколько килограммов масса второго сплава больше массы первого?',ans:y-x,hint:'Пусть x кг — первый сплав, y кг — второй. Система: x + y = '+fm(M)+' и уравнение по меди. Ответ — разность y − x.',sol:'<p>x + y = '+fm(M)+'; '+fm(c1/100)+'x + '+fm(c2/100)+'y = '+fm(c3/100)+' · '+fm(M)+' = '+fm(c3*M/100)+'.</p><p>Решение: x = '+fm(x)+', y = '+fm(y)+'.</p><p>Разность: '+fm(y)+' − '+fm(x)+' = '+fm(y-x)+' кг.</p>'}}
+ },
+ over:function(){
+  for(;;){var V=pick([10,20,25,40]),r=pick([0.5,0.6,0.7,0.75,0.8,0.9]),x=V*(1-r),c0=pick([40,50,60,70,80,90,100]),cf=c0*r*r;
+   if(isInt(x))
+    return{cond:'Сосуд вместимостью '+V+' л наполнен '+c0+'%-ным раствором кислоты. Из сосуда отлили x л раствора и долили x л воды, затем эту операцию повторили. В результате получился '+fm(cf)+'%-ный раствор. Найдите x. Ответ дайте в литрах.',ans:x,hint:'За один цикл концентрация умножается на (1 − x/'+V+'). После двух циклов: '+fm(c0/100)+'(1 − x/'+V+')² = '+fm(cf/100)+'. Отберите корень, x должно быть меньше '+V+'.',sol:'<p>'+fm(c0/100)+'(1 − x/'+V+')² = '+fm(cf/100)+'; (1 − x/'+V+')² = '+fm(r*r)+'.</p><p>1 − x/'+V+' = '+fm(r)+' (или −'+fm(r)+', тогда x = '+fm(V*(1+r))+' &gt; '+V+', не подходит).</p><p>x = '+V+' · (1 − '+fm(r)+') = '+fm(x)+'.</p>'}}
+ },
+ sys:function(){
+  for(;;){var m1=pick([10,20,30,40]),m2=pick([10,20,30,40,50]),a=pick([20,30,40,50,60,70]),b=pick([40,50,60,70,80,90]);
+   if(m1===m2||a===b)continue;var p1=(a*m1+b*m2)/(m1+m2),p2=(a+b)/2;
+   if(Math.abs(p1*10-Math.round(p1*10))<1e-9&&p2%1===0){var x=a*m1/100,y=b*m2/100,M=m1+m2;
+    return{cond:'Имеются два сосуда: в первом '+m1+' кг, во втором '+m2+' кг раствора кислоты разной концентрации. Если растворы слить, получится '+fm(p1)+'%-ный раствор. Если слить равные массы этих растворов, получится '+fm(p2)+'%-ный раствор. Сколько килограммов кислоты в первом сосуде?',ans:x,hint:'Пусть x и y кг — кислота в первом и втором сосудах. Слили всё: x + y = '+fm(p1/100)+' · '+M+'. Равные массы: x/'+m1+' + y/'+m2+' = 2 · '+fm(p2/100)+'.',sol:'<p>x + y = '+fm(p1/100)+' · '+M+' = '+fm(x+y)+'.</p><p>x/'+m1+' + y/'+m2+' = '+fm(p2/50)+'.</p><p>Решение: x = '+fm(x)+', y = '+fm(y)+'. Проверка: '+fm(x)+'/'+m1+' = '+fm(a/100)+', '+fm(y)+'/'+m2+' = '+fm(b/100)+', среднее '+fm(p2/100)+'.</p>'}}}
+ }
+};
+var keys=Object.keys(TYPES),cur='all',task=null,solved=0,total=0,done=false,tries=0;
+var chips=document.getElementById('chips'),box=document.getElementById('box'),stat=document.getElementById('stat');
+function norm(s){return parseFloat(String(s).replace(',','.').replace(/\s/g,''))}
+function drawChips(){chips.innerHTML='';[['all','Все типы']].concat(keys.map(function(k){return[k,TYPES[k].name]})).forEach(function(p){var b=document.createElement('button');b.textContent=p[1];if(p[0]===cur)b.className='on';b.onclick=function(){cur=p[0];drawChips();next()};chips.appendChild(b)})}
+function next(){
+  var k=cur==='all'?pick(keys):cur;task=GEN[k]();task.type=TYPES[k].name;done=false;tries=0;
+  box.innerHTML='<span class="tag">'+task.type+'</span><div class="cond">'+task.cond+'</div><input class="num" id="num" inputmode="decimal" placeholder="Ответ"> <button class="btn" id="go">Проверить</button><button class="btn ghost" id="hb">Подсказка</button><button class="btn ghost" id="sb">Показать решение</button><button class="btn ghost" id="nb">Другая задача</button><div id="fb"></div>';
+  var inp=document.getElementById('num');inp.focus();
+  document.getElementById('go').onclick=check;inp.onkeydown=function(e){if(e.key==='Enter')check()};
+  document.getElementById('hb').onclick=function(){document.getElementById('fb').innerHTML='<div class="hint">Подсказка: '+task.hint+'</div>'};
+  document.getElementById('sb').onclick=function(){document.getElementById('fb').innerHTML='<div class="sol">'+task.sol+'<p>Ответ: '+fm(task.ans)+'.</p></div>'};
+  document.getElementById('nb').onclick=next;upd();
+}
+function check(){
+  if(done)return;var v=norm(document.getElementById('num').value),fb=document.getElementById('fb');
+  if(isNaN(v)){fb.innerHTML='<div class="bad">Введите число.</div>';return}
+  tries++;
+  if(Math.abs(v-task.ans)<1e-6){done=true;total++;if(tries===1)solved++;fb.innerHTML='<div class="ok">Верно.'+(tries>1?' С '+tries+'-й попытки.':'')+'</div><button class="btn" onclick="next()">Следующая</button>';document.getElementById('num').disabled=true;upd()}
+  else{fb.innerHTML='<div class="bad">Неверно. Нажмите «Подсказка» или проверьте единицы и переход от процентов к десятичным дробям.</div>'}
+}
+function upd(){stat.textContent='С первой попытки верно: '+solved+' из '+total+'.'}
+drawChips();next();
+</script></body></html>

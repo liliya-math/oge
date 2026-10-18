@@ -1,0 +1,78 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тренажёр: смеси, повышенный уровень</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+</style></head><body><div class="wrap">
+<p class="sub"><a href="z21-smesi.html" style="color:#7da2ff">← Смеси (задание 21)</a></p><h1>Тренажёр: смеси</h1><p class="sub">Пять задач повышенной сложности. На каждом шаге ответьте, затем нажмите «Дальше».</p>
+<div class="tabs" id="tabs"></div><div class="bar"><i id="pb"></i></div><div id="box"></div></div>
+<script>
+const T=[{"title": "Задача 1. Выпаривание", "cond": "Имеется 50 кг 16%-ного раствора соли. Сколько килограммов воды нужно выпарить, чтобы концентрация соли стала 25%?", "steps": [{"t": "c", "q": "Что не меняется при выпаривании?", "o": ["Масса соли", "Масса раствора", "Концентрация", "Масса воды"], "a": 0, "h": "Испаряется только вода.", "r": "Масса соли не меняется, уменьшается масса воды и масса раствора."}, {"t": "n", "q": "Сколько килограммов соли в 50 кг 16%-ного раствора?", "a": 8, "h": "50 · 0,16.", "r": "0,16 · 50 = 8 кг."}, {"t": "c", "q": "Пусть m кг — масса нового раствора. Выберите уравнение.", "o": ["0,25m = 8", "0,25m = 50", "0,16m = 8", "0,25(50 − m) = 8"], "a": 0, "h": "Соли в новом растворе 25% от его массы, а соли столько же, сколько было: 8 кг.", "r": "0,25m = 8."}, {"t": "n", "q": "Найдите m (кг).", "a": 32, "h": "m = 8 : 0,25.", "r": "m = 32 кг."}, {"t": "n", "q": "Сколько килограммов воды выпарили?", "a": 18, "h": "Было 50 кг раствора, стало 32 кг.", "r": "50 − 32 = 18. Проверка: 8 : 32 = 0,25. Ответ: 18 кг. Ловушка: в ответ идёт масса воды, а не масса нового раствора."}]}, {"title": "Задача 2. Смесь двух растворов", "cond": "Смешали 30%-ный и 50%-ный растворы кислоты и получили 600 г 42%-ного раствора. Сколько граммов 50%-ного раствора взяли?", "steps": [{"t": "c", "q": "Что взять за x?", "o": ["x г — масса 30%-ного раствора; тогда (600 − x) г — масса 50%-ного", "x — концентрация смеси", "x г — масса смеси"], "a": 0, "h": "Массы двух растворов в сумме дают 600 г.", "r": "Пусть x г — масса 30%-ного раствора, (600 − x) г — масса 50%-ного, 0 &lt; x &lt; 600."}, {"t": "c", "q": "Сколько кислоты в двух растворах вместе?", "o": ["0,3x + 0,5(600 − x)", "0,3x + 0,5x", "0,3 + 0,5", "0,3(600 − x) + 0,5x"], "a": 0, "h": "Масса кислоты — масса раствора, умноженная на концентрацию.", "r": "Кислоты 0,3x + 0,5(600 − x) граммов."}, {"t": "n", "q": "Сколько граммов кислоты в 600 г 42%-ного раствора?", "a": 252, "h": "600 · 0,42.", "r": "0,42 · 600 = 252 г."}, {"t": "n", "q": "Решите уравнение 0,3x + 0,5(600 − x) = 252. Найдите x.", "a": 240, "h": "300 − 0,2x = 252.", "r": "0,2x = 48, x = 240."}, {"t": "n", "q": "Сколько граммов 50%-ного раствора взяли?", "a": 360, "h": "Всего 600 г, 30%-ного 240 г.", "r": "600 − 240 = 360. Проверка: 72 + 180 = 252. Крест: (50 − 42) : (42 − 30) = 8 : 12 = 2 : 3 = 240 : 360. Ответ: 360 г. Ловушка: x — это 30%-ный, а спрашивают про 50%-ный."}]}, {"title": "Задача 3. Переливание", "cond": "Сосуд вместимостью 10 л наполнен 80%-ным раствором кислоты. Из сосуда отлили x л раствора и долили x л воды, затем эту операцию повторили. В результате получился 20%-ный раствор. Найдите x. Ответ дайте в литрах.", "steps": [{"t": "c", "q": "Как меняется концентрация за один цикл (отлили x л, долили x л воды)?", "o": ["Умножается на (1 − x/10)", "Уменьшается на x%", "Умножается на x/10", "Не меняется"], "a": 0, "h": "После отлива осталось (10 − x) л с прежней концентрацией; потом объём снова становится 10 л.", "r": "Кислоты осталось c(10 − x), объём 10 л: новая концентрация c(1 − x/10)."}, {"t": "c", "q": "Выберите уравнение после двух циклов.", "o": ["0,8(1 − x/10)² = 0,2", "0,8(1 − 2x/10) = 0,2", "0,8(1 − x/10) = 0,2", "0,8(1 + x/10)² = 0,2"], "a": 0, "h": "Второй раз отливают уже разбавленный раствор, множитель применяют дважды.", "r": "0,8(1 − x/10)² = 0,2. Складывать (2x) нельзя."}, {"t": "n", "q": "Чему равно (1 − x/10)²? (десятичная дробь)", "a": 0.25, "h": "Разделите 0,2 на 0,8.", "r": "(1 − x/10)² = 0,2 : 0,8 = 0,25."}, {"t": "n", "q": "Найдите положительное значение 1 − x/10.", "a": 0.5, "h": "Извлеките корень из 0,25. Второе значение −0,5.", "r": "1 − x/10 = 0,5 или 1 − x/10 = −0,5."}, {"t": "n", "q": "Найдите x (литров).", "a": 5, "h": "x = 10(1 − 0,5). Для −0,5 получим x = 15.", "r": "Из 0,5: x = 5. Из −0,5: x = 15, но x &lt; 10, не подходит. Ответ: 5 л. Проверка: 0,8 · 0,5 = 0,4; 0,4 · 0,5 = 0,2."}]}, {"title": "Задача 4. Два условия, система", "cond": "Имеются два сосуда. Первый содержит 20 кг, а второй — 30 кг раствора кислоты разной концентрации. Если их слить вместе, получится раствор, содержащий 52% кислоты. Если же слить равные массы этих растворов, получится раствор, содержащий 55% кислоты. Сколько килограммов кислоты содержится в первом сосуде?", "steps": [{"t": "c", "q": "Что взять за неизвестные?", "o": ["x кг — кислоты в первом сосуде, y кг — во втором", "x = 52, y = 55", "x кг — первый раствор, y кг — второй"], "a": 0, "h": "Спрашивают массу кислоты в первом сосуде; во втором её тоже не знаем.", "r": "Пусть x кг — кислоты в первом, y кг — во втором. Концентрации растворов: x/20 и y/30."}, {"t": "n", "q": "Сколько килограммов кислоты в 50 кг 52%-ного раствора (если слили всё)?", "a": 26, "h": "50 · 0,52.", "r": "Первое уравнение: x + y = 26."}, {"t": "c", "q": "Выберите уравнение для равных масс (по m кг каждого раствора).", "o": ["x/20 + y/30 = 2 · 0,55", "x + y = 0,55 · 50", "x/20 + y/30 = 0,55", "x/20 = y/30"], "a": 0, "h": "Кислоты m·x/20 + m·y/30, масса смеси 2m, концентрация 0,55; m сокращается.", "r": "(x/20 + y/30) : 2 = 0,55, то есть x/20 + y/30 = 1,1."}, {"t": "n", "q": "Умножьте уравнение x/20 + y/30 = 1,1 на 60: 3x + 2y = ?", "a": 66, "h": "1,1 · 60.", "r": "3x + 2y = 66."}, {"t": "n", "q": "Решите систему x + y = 26, 3x + 2y = 66. Найдите x (кг).", "a": 14, "h": "y = 26 − x, тогда 3x + 52 − 2x = 66.", "r": "x = 14, y = 12. Проверка: x/20 = 0,7; y/30 = 0,4; среднее 0,55; 26 : 50 = 0,52. Ответ: 14 кг. Ловушка: спрашивают массу кислоты, не концентрацию."}]}, {"title": "Задача 5. Сплавы", "cond": "Имеются два сплава. Первый содержит 10% никеля, второй — 40% никеля. Из этих двух сплавов получили третий сплав массой 300 кг, содержащий 34% никеля. На сколько килограммов масса первого сплава меньше массы второго?", "steps": [{"t": "c", "q": "Что взять за неизвестные?", "o": ["x кг — масса первого сплава, y кг — второго", "x — разность масс", "x = 34"], "a": 0, "h": "Нужно знать обе массы, чтобы найти разность.", "r": "Пусть x кг — первый сплав, y кг — второй (x &gt; 0, y &gt; 0)."}, {"t": "c", "q": "Выберите систему.", "o": ["x + y = 300; 0,1x + 0,4y = 0,34 · 300", "x + y = 300; 0,1x + 0,4y = 0,34", "x + y = 300; 10x + 40y = 34", "x = y; 0,1x + 0,4y = 102"], "a": 0, "h": "Первое уравнение — по массе сплавов, второе — по массе никеля.", "r": "x + y = 300 и 0,1x + 0,4y = 0,34 · 300."}, {"t": "n", "q": "Сколько килограммов никеля в третьем сплаве?", "a": 102, "h": "300 · 0,34.", "r": "0,34 · 300 = 102 кг."}, {"t": "n", "q": "Подставьте y = 300 − x в уравнение 0,1x + 0,4y = 102 и найдите x (кг).", "a": 60, "h": "0,1x + 120 − 0,4x = 102.", "r": "−0,3x = −18, x = 60, y = 240."}, {"t": "n", "q": "На сколько килограммов масса первого сплава меньше массы второго?", "a": 180, "h": "Из y = 240 вычтите x = 60.", "r": "240 − 60 = 180. Проверка: 6 + 96 = 102. Ответ: 180 кг. Ловушка: ответ — разность масс, а не x."}]}];
+
+let cur=0,st=0,prog=T.map(()=>0);
+const tabs=document.getElementById('tabs'),box=document.getElementById('box'),pb=document.getElementById('pb');
+function norm(s){return parseFloat(String(s).replace(',','.').replace(/\s/g,''))}
+function renderTabs(){tabs.innerHTML='';T.forEach((t,k)=>{const b=document.createElement('button');b.textContent='Задача '+(k+1)+(prog[k]===t.steps.length?' (готово)':'');if(k===cur)b.className='on';b.onclick=()=>{cur=k;st=prog[k]>=t.steps.length?0:prog[k];render()};tabs.appendChild(b)})}
+function render(){
+  renderTabs();
+  const t=T[cur];pb.style.width=(prog[cur]/t.steps.length*100)+'%';
+  let h='<div class="card"><span class="tag">'+t.title+'</span><div class="cond">'+t.cond+'</div>';
+  for(let k=0;k<prog[cur]&&k<t.steps.length;k++){h+='<div class="done">'+t.steps[k].r+'</div>'}
+  if(prog[cur]<t.steps.length){
+    const s=t.steps[prog[cur]];
+    h+='<p class="q" style="margin-top:16px">Шаг '+(prog[cur]+1)+' из '+t.steps.length+'. '+s.q+'</p><div id="in"></div><div id="fb"></div>';
+  }else{
+    h+='<p style="margin-top:14px">Задача разобрана. '+(cur<T.length-1?'<button class="btn" onclick="cur++;st=0;render()">Следующая задача</button>':'Это была последняя. Хороший трудный набор: теперь попробуйте решить любую из них с чистого листа.')+'</p>';
+  }
+  box.innerHTML=h+'</div>';
+  if(prog[cur]<t.steps.length)drawStep(t.steps[prog[cur]]);
+}
+function drawStep(s){
+  const el=document.getElementById('in');
+  if(s.t==='c'){
+    s.o.map((v,k)=>[v,k]).sort(()=>Math.random()-.5).forEach(([v,k])=>{const b=document.createElement('button');b.className='opt';b.textContent=v;b.onclick=()=>check(k===s.a,b);el.appendChild(b)});
+  }else{
+    el.innerHTML='<input class="num" id="num" inputmode="decimal" placeholder="Ответ"> <button class="btn" id="go">Проверить</button>';
+    const f=()=>check(Math.abs(norm(document.getElementById('num').value)-s.a)<1e-9,null);
+    document.getElementById('go').onclick=f;document.getElementById('num').onkeydown=e=>{if(e.key==='Enter')f()};
+  }
+}
+let tries=0;
+function check(ok,btn){
+  const s=T[cur].steps[prog[cur]],fb=document.getElementById('fb');
+  if(ok){
+    document.querySelectorAll('.opt').forEach(x=>x.disabled=true);if(btn)btn.classList.add('ok');
+    const inp=document.getElementById('num');if(inp)inp.disabled=true;const go=document.getElementById('go');if(go)go.disabled=true;
+    fb.innerHTML='<div class="exp">Верно. '+s.r+'</div><button class="btn" onclick="prog[cur]++;tries=0;render()">Дальше</button>';
+  }else{
+    tries++;if(btn){btn.classList.add('bad');btn.disabled=true}
+    fb.innerHTML='<div class="hint">Не то. Подсказка: '+s.h+'</div>'+(tries>=3?'<button class="btn ghost" onclick="reveal()">Показать ответ</button>':'');
+  }
+}
+function reveal(){const s=T[cur].steps[prog[cur]];document.getElementById('fb').innerHTML='<div class="exp">'+s.r+'</div><button class="btn" onclick="prog[cur]++;tries=0;render()">Дальше</button>'}
+render();
+</script></body></html>

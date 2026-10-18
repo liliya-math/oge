@@ -1,0 +1,57 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тест: смеси</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+</style></head><body><div class="wrap">
+<p class="sub"><a href="z21-smesi.html" style="color:#7da2ff">← Смеси (задание 21)</a></p><h1>Смеси: тест</h1><p class="sub">10 вопросов. После каждого ответа появляется разбор.</p>
+<div class="bar"><i id="pb"></i></div><div id="box"></div></div>
+<script>
+const Q=[["Сколько граммов соли содержится в 250 г 8%-ного раствора?", ["20 г", "8 г", "230 г", "200 г"], 0, "Масса вещества равна массе раствора, умноженной на концентрацию: 250 · 0,08 = 20 г."], ["В 400 г раствора содержится 60 г кислоты. Какова концентрация раствора?", ["15%", "6,7%", "24%", "60%"], 0, "Концентрация — отношение массы вещества к массе раствора: 60 : 400 = 0,15 = 15%."], ["К 200 г 10%-ного раствора соли добавили 50 г воды. Какой стала концентрация?", ["8%", "10%", "6%", "12%"], 0, "Соли 200 · 0,1 = 20 г, она не изменилась. Раствора стало 250 г. 20 : 250 = 0,08 = 8%."], ["Из 500 г 12%-ного раствора выпарили 100 г воды. Какой стала концентрация?", ["15%", "12%", "20%", "18%"], 0, "Соли 500 · 0,12 = 60 г, она не изменилась. Раствора стало 400 г. 60 : 400 = 0,15 = 15%."], ["К 30 кг 20%-ного раствора соли добавили 10 кг соли. Какой стала концентрация?", ["40%", "15%", "33%", "25%"], 0, "Соли было 6 кг, стало 16 кг. Раствора 30 + 10 = 40 кг. 16 : 40 = 0,4 = 40%. Добавили вещество — растёт и масса соли, и масса раствора."], ["Смешали 200 г 10%-ного и 300 г 20%-ного растворов. Какова концентрация смеси?", ["16%", "15%", "30%", "14%"], 0, "Соли 20 + 60 = 80 г, масса смеси 500 г, 80 : 500 = 0,16 = 16%. Среднее арифметическое (15%) подходит только при равных массах."], ["Смешали 20%-ный и 60%-ный растворы и получили 30%-ный. В каком отношении взяты массы 20%-ного и 60%-ного растворов?", ["3 : 1", "1 : 3", "2 : 1", "1 : 1"], 0, "Правило креста: (60 − 30) : (30 − 20) = 30 : 10 = 3 : 1. Получилось ближе к 20%, значит 20%-ного раствора больше."], ["Первый сплав: x кг, 20% меди. Второй: (x + 6) кг, 50% меди. Из них получили третий сплав с 40% меди. Какое уравнение верно?", ["0,2x + 0,5(x + 6) = 0,4(2x + 6)", "0,2 + 0,5 = 0,4", "0,2x + 0,5x = 0,4(2x + 6)", "0,2x + 0,5(x + 6) = 0,4(x + 6)"], 0, "Масса третьего сплава x + (x + 6) = 2x + 6. Медь двух сплавов целиком переходит в третий."], ["В сосуде 5 л 40%-ного раствора. Отлили 1 л раствора и долили 1 л воды. Какой стала концентрация?", ["32%", "30%", "36%", "20%"], 0, "После отлива осталось 4 л с концентрацией 40%, кислоты 1,6 л. Долили воду: 1,6 : 5 = 0,32 = 32%. Или 40% · (1 − 1/5) = 32%."], ["К 60 кг 30%-ного раствора добавили воду и получили 20%-ный раствор. Сколько килограммов воды добавили?", ["30", "90", "20", "10"], 0, "Соли 18 кг. Новый раствор 18 : 0,2 = 90 кг. Воды добавили 90 − 60 = 30 кг. Ловушка: 90 — масса всего раствора, а спрашивают про воду."]];
+let i=0,score=0,wrong=[];
+const box=document.getElementById('box'),pb=document.getElementById('pb');
+function shuffle(a){const r=a.map((v,k)=>[v,k]);for(let j=r.length-1;j>0;j--){const m=Math.floor(Math.random()*(j+1));[r[j],r[m]]=[r[m],r[j]]}return r}
+function show(){
+  if(i>=Q.length){return end()}
+  pb.style.width=(i/Q.length*100)+'%';
+  const [q,opts,ans,exp]=Q[i];
+  box.innerHTML='<div class="card"><span class="tag">Вопрос '+(i+1)+' из '+Q.length+'</span><p class="q">'+q+'</p><div id="o"></div><div id="e"></div></div>';
+  const o=document.getElementById('o');
+  shuffle(opts).forEach(([t,k])=>{const b=document.createElement('button');b.className='opt';b.textContent=t;b.onclick=()=>pick(b,k===ans,exp);o.appendChild(b);b.dataset.k=k});
+}
+function pick(b,ok,exp){
+  document.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(+x.dataset.k===Q[i][2])x.classList.add('ok')});
+  if(ok){score++}else{b.classList.add('bad');wrong.push(i+1)}
+  document.getElementById('e').innerHTML='<div class="exp">'+(ok?'Верно. ':'Неверно. ')+exp+'</div><button class="btn" onclick="i++;show()">'+(i===Q.length-1?'Результат':'Дальше')+'</button>';
+}
+function end(){
+  pb.style.width='100%';
+  const msg=score>=9?'Тема усвоена. Можно переходить к задачам повышенной сложности.':score>=7?'Хороший результат. Повторите вопросы, где были ошибки.':score>=5?'Есть пробелы. Вернитесь к теории и разберите ошибки.':'Нужно повторить теорию и типы задач с начала.';
+  box.innerHTML='<div class="card"><span class="tag">Результат</span><div class="big">'+score+' из '+Q.length+'</div><p>'+msg+'</p>'+(wrong.length?'<p class="sub">Ошибки в вопросах: '+wrong.join(', ')+'</p>':'')+'<button class="btn" onclick="i=0;score=0;wrong=[];show()">Пройти заново</button></div>';
+}
+show();
+</script></body></html>
