@@ -1,5 +1,9 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 6 (разборы: таблица + редактор в кабинете)
+ * Кабинет ученика 25/25 · lili.math — версия 7.0
+ * (анкета ученика: фамилия, дата рождения, родитель и телефон, класс;
+ *  программы по классам: алгебра / геометрия / ОГЭ / все три;
+ *  домашка по разделам + несколько PDF для печати; анонимные письма учеников;
+ *  школьные оценки с графиком среднего балла)
  * Таблица — источник данных для страницы kabinet.html.
  *
  * После замены кода:
@@ -9,9 +13,8 @@
  * 3. Развернуть → Управление развёртываниями → карандаш → Версия: «Новая версия» → Развернуть.
  *    Адрес веб-приложения останется прежним.
  *
- * Лист «Разборы» создаётся автоматически при setup(). Первый столбец — код ученика,
- * дальше: ссылка (выбирается из выпадающего списка), название и короткая подпись.
- * Каждая строка — одна карточка в разделе «Разборы» кабинета этого ученика.
+ * Новые листы («Файлы», «Оценки», «Письма») и новые столбцы создаст setup() сам —
+ * старые данные не пострадают. Лист «Разборы» создаётся автоматически при setup().
  * Список материалов для выпадающего списка лежит в константе MATERIALS ниже
  * и обновляется в таблице кнопкой меню «Кабинет → Обновить список материалов».
  */
@@ -21,13 +24,17 @@ const PAGE = 'https://liliya-math.github.io/oge/kabinet.html';
 const SHEETS = {
   'Ученики': ['Код', 'Имя', 'Кому (дательный)', 'Цель, баллов', 'Дни занятий', 'Время (по Самаре)',
               'Тема следующего занятия', 'Ссылка на доску', 'Над чем работаем (через ;)',
-              'Занятий в месяце по плану', 'Проведено в этом месяце', 'Активен', 'Ссылка на кабинет'],
-  'Карта': ['Код', 'Имя'].concat(Array.from({length: 25}, (_, i) => String(i + 1))),
+              'Занятий в месяце по плану', 'Проведено в этом месяце', 'Активен', 'Ссылка на кабинет',
+              'Программа', 'Фамилия', 'Дата рождения', 'Родитель', 'Телефон родителя', 'Класс'],
+  'Карта': ['Код', 'Имя'].concat(Array.from({length: 58}, (_, i) => String(i + 1))),
   'Комментарии': ['Код', 'Задание ОГЭ', 'Комментарий', 'Ссылка на разбор', 'Подпись ссылки'],
   'Разборы': ['Код', 'Ссылка', 'Название', 'Подпись'],
   'Материалы': ['Ссылка', 'Название'],
-  'Домашка': ['Код', 'Что сделать', 'Задания ОГЭ', 'Срок', 'Ссылка', 'Подпись ссылки', 'Сделано', 'Отмечено', 'Файл (PDF)'],
-  'Пробники': ['Код', 'Дата', 'Название', 'Баллы']
+  'Домашка': ['Код', 'Что сделать', 'Задания ОГЭ', 'Срок', 'Ссылка', 'Подпись ссылки', 'Сделано', 'Отмечено', 'Файл (PDF)', 'Раздел'],
+  'Файлы': ['Код', 'Строка ДЗ', 'Название', 'Ссылка'],
+  'Пробники': ['Код', 'Дата', 'Название', 'Баллы'],
+  'Оценки': ['Код', 'Дата', 'Предмет', 'Оценка', 'Примечание'],
+  'Письма': ['Код', 'Дата', 'Текст', 'Прочитано']
 };
 const STATUSES = ['решает', 'путается', 'не решает', 'не проходили'];
 const STATUS_KEY = {'решает': 'solid', 'путается': 'shaky', 'не решает': 'gap', 'не проходили': 'new'};
@@ -49,10 +56,22 @@ const MATERIALS = [
   ['z15-bissektrisa-ravnye-otrezki.html', 'Биссектриса и равные отрезки'],
   ['bissektrisy-parallelogramma.html', 'Биссектрисы в параллелограмме'],
   ['razbor-probnik-oge-2.html', 'Разбор пробника №2'],
-  ['dz-6-desyatichnye-drobi-1.html', 'ДЗ №1 · Действия с десятичными дробями'],
-  ['dz-6-desyatichnye-drobi-1.pdf', 'ДЗ №1 · для печати (PDF)'],
-  ['dz-6-chisla-s-raznymi-znakami-2.html', 'ДЗ №2 · Числа с разными знаками'],
-  ['dz-6-chisla-s-raznymi-znakami-2.pdf', 'ДЗ №2 · для печати (PDF)'],
+  ['ucheba-6-klass.html', 'Интерактивное обучение · 6 класс'],
+  ['znaki-s-nulya.html', 'Урок с нуля · числа с разными знаками'],
+  ['drob-deistviya.html', 'Урок с нуля · действия с дробями'],
+  ['treug-s-nulya.html', 'Урок с нуля · треугольники'],
+  ['drob-s-nulya.html', 'Игра «Дроби с нуля»'],
+  ['razbor-znaki-dialog.html', 'Разбор-диалог · числа с разными знаками'],
+  ['razbor-drobi-dialog.html', 'Разбор-диалог · действия с дробями'],
+  ['razbor-treugolniki-dialog.html', 'Разбор-диалог · треугольники'],
+  ['diagnostika-6-klass.html', 'Диагностика · 6 класс'],
+  ['razbor-diagnostika-6-klass.html', 'Разбор диагностики · 6 класс'],
+  ['materialy-drob.html', 'Материалы для доски · дроби'],
+  ['materialy-9-klass.html', 'Материалы для доски · 9 класс'],
+  ['dz-desyatichnye-drobi.html', 'ДЗ №1 · Действия с десятичными дробями'],
+  ['dz-desyatichnye-drobi.pdf', 'ДЗ №1 · для печати (PDF)'],
+  ['dz-chisla-s-raznymi-znakami.html', 'ДЗ №2 · Числа с разными знаками'],
+  ['dz-chisla-s-raznymi-znakami.pdf', 'ДЗ №2 · для печати (PDF)'],
   ['mini-probnik-1.html', 'Мини-пробник №1'],
   ['probnik-oge-1.html', 'Пробник ОГЭ №1'],
   ['probnik-oge-2.html', 'Пробник ОГЭ №2'],
@@ -66,18 +85,57 @@ const MATERIALS = [
 ];
 const C = {bg: '#14211e', bg2: '#1b2b28', fg: '#f3ece2', muted: '#a9b6ad', cobalt: '#1747c9', apricot: '#f2905e',
            amber: '#f5dc6a', sage: '#a9d18e', miss: '#ff8f73', none: '#2a3a36'};
-const STUDENT_COLS = {name: 2, dat: 3, goal: 4, days: 5, time: 6, topic: 7, board: 8, work: 9, lessonsPlan: 10, lessonsDone: 11, active: 12, prog: 14};
+const STUDENT_COLS = {name: 2, dat: 3, goal: 4, days: 5, time: 6, topic: 7, board: 8, work: 9, lessonsPlan: 10, lessonsDone: 11, active: 12, prog: 14,
+                      fname: 15, bdate: 16, parent: 17, phone: 18, cls: 19};
+const HW_SECS = ['разборы', 'теория', 'устный опрос', 'огэ'];
+const HW_SEC_KEY = {'разборы': 'raz', 'теория': 'theor', 'устный опрос': 'oral', 'огэ': 'oge'};
 function normProg_(p) {
   p = String(p || '');
   if (p === 'school') return 'school5';
-  return (p === 'oge9' || /^school[5-8]$/.test(p)) ? p : 'oge9';
+  return (p === 'oge9' || /^school[5-8]$/.test(p) || /^((alg|geo|mix)[789])$/.test(p)) ? p : 'oge9';
 }
 function progOf_(row, f) {
   if (f && f.prog !== undefined) return normProg_(f.prog);
   return normProg_(row[13]);
 }
-function goalMax_(p) { return p === 'oge9' ? 31 : 15; }
-function nMax_(p) { return p === 'oge9' ? 25 : 15; }
+function clsOfProg_(p) {
+  const m = /^[a-z]*(\d)$/.exec(String(p || ''));
+  return m ? Number(m[1]) : 9;
+}
+function goalMax_(p) {
+  if (p === 'oge9') return 31;
+  if (p === 'mix9') return 64;
+  if (p === 'mix7') return 26;
+  if (p === 'mix8') return 27;
+  if (p === 'geo7') return 11;
+  if (p === 'geo8') return 12;
+  if (p === 'geo9') return 18;
+  return 15;
+}
+function nMax_(p) {
+  if (p === 'oge9') return 25;
+  if (p === 'mix9') return 58;
+  if (p === 'mix7') return 26;
+  if (p === 'mix8') return 27;
+  if (p === 'geo7') return 11;
+  if (p === 'geo8') return 12;
+  if (p === 'geo9') return 18;
+  return 15;
+}
+function ptsOf_(p, n) {
+  if (p === 'oge9') return n >= 20 ? 2 : 1;
+  if (p === 'mix9') return n <= 33 ? 1 : (n - 33 >= 20 ? 2 : 1);
+  return 1;
+}
+function sheet_(ss, name) {
+  let sh = ss.getSheetByName(name);
+  if (!sh && SHEETS[name]) {
+    sh = ss.insertSheet(name, 99);
+    sh.getRange(1, 1, 1, SHEETS[name].length).setValues([SHEETS[name]]);
+    sh.setFrozenRows(1);
+  }
+  return sh;
+}
 
 /* ================= меню ================= */
 function onOpen() {
@@ -98,6 +156,7 @@ function setup() {
     let sh = ss.getSheetByName(name);
     if (!sh) sh = ss.insertSheet(name, i);
     const head = SHEETS[name];
+    if (sh.getMaxColumns() < head.length) sh.insertColumnsAfter(sh.getMaxColumns(), head.length - sh.getMaxColumns());
     sh.getRange(1, 1, 1, head.length).setValues([head]);
     sh.setFrozenRows(1);
   });
@@ -107,17 +166,25 @@ function setup() {
   });
   const map = ss.getSheetByName('Карта');
   const rule = SpreadsheetApp.newDataValidation().requireValueInList(STATUSES, true).setAllowInvalid(false).build();
-  map.getRange(2, 3, 300, 25).setDataValidation(rule);
+  map.getRange(2, 3, 300, 58).setDataValidation(rule);
 
   const hw = ss.getSheetByName('Домашка');
   hw.getRange(2, 7, 1000, 1).insertCheckboxes();
   hw.getRange(2, 4, 1000, 1).setNumberFormat('dd.MM.yyyy');
   hw.getRange(2, 8, 1000, 1).setNumberFormat('dd.MM.yyyy HH:mm');
+  const hwSecRule = SpreadsheetApp.newDataValidation().requireValueInList(HW_SECS, true).setAllowInvalid(true).build();
+  hw.getRange(2, 10, 1000, 1).setDataValidation(hwSecRule);
   ss.getSheetByName('Пробники').getRange(2, 2, 1000, 1).setNumberFormat('dd.MM.yyyy');
+  ss.getSheetByName('Оценки').getRange(2, 2, 1000, 1).setNumberFormat('dd.MM.yyyy');
+  const letters = ss.getSheetByName('Письма');
+  letters.getRange(2, 4, 1000, 1).insertCheckboxes();
+  letters.getRange(2, 2, 1000, 1).setNumberFormat('dd.MM.yyyy HH:mm');
   const us = ss.getSheetByName('Ученики');
   us.getRange(2, 12, 300, 1).insertCheckboxes();
   us.getRange(2, 6, 300, 1).setNumberFormat('@');
   us.getRange(2, 1, 300, 1).setNumberFormat('@');
+  us.getRange(2, 18, 300, 1).setNumberFormat('@');
+  us.getRange(2, 16, 300, 1).setNumberFormat('dd.MM.yyyy');
   if (us.getLastRow() >= 2) {
     const codes = us.getRange(2, 1, us.getLastRow() - 1, 1).getValues();
     us.getRange(2, 13, codes.length, 1).setValues(codes.map(c => [c[0] ? PAGE + '#' + c[0] : '']));
@@ -154,15 +221,18 @@ function syncMaterials() {
 function styleSheets() {
   const ss = SpreadsheetApp.getActive();
   const widths = {
-    'Ученики': [110, 120, 130, 90, 110, 110, 260, 200, 320, 110, 110, 80, 380],
-    'Карта': [110, 120].concat(Array(25).fill(96)),
+    'Ученики': [110, 120, 130, 90, 110, 110, 260, 200, 320, 110, 110, 80, 380, 130, 130, 120, 160, 160, 70],
+    'Карта': [110, 120].concat(Array(58).fill(54)),
     'Комментарии': [110, 90, 420, 260, 200],
     'Разборы': [110, 300, 320, 160],
     'Материалы': [300, 320],
-    'Домашка': [110, 340, 110, 110, 260, 160, 90, 150, 300],
-    'Пробники': [110, 110, 220, 90]
+    'Домашка': [110, 340, 110, 110, 260, 160, 90, 150, 300, 150],
+    'Файлы': [110, 110, 260, 340],
+    'Пробники': [110, 110, 220, 90],
+    'Оценки': [110, 110, 140, 90, 300],
+    'Письма': [110, 150, 520, 100]
   };
-  const tabs = {'Ученики': C.cobalt, 'Карта': C.sage, 'Комментарии': C.amber, 'Разборы': C.miss, 'Материалы': '#9db8ff', 'Домашка': C.apricot, 'Пробники': '#9db8ff'};
+  const tabs = {'Ученики': C.cobalt, 'Карта': C.sage, 'Комментарии': C.amber, 'Разборы': C.miss, 'Материалы': '#9db8ff', 'Домашка': C.apricot, 'Файлы': '#9db8ff', 'Пробники': '#9db8ff', 'Оценки': C.sage, 'Письма': C.amber};
   Object.keys(SHEETS).forEach(name => {
     const sh = ss.getSheetByName(name);
     if (!sh) return;
@@ -191,9 +261,9 @@ function styleSheets() {
 
   const map = ss.getSheetByName('Карта');
   if (map) {
-    const rng = map.getRange(2, 3, Math.max(map.getMaxRows() - 1, 1), 25);
+    const rng = map.getRange(2, 3, Math.max(map.getMaxRows() - 1, 1), 58);
     rng.setHorizontalAlignment('center').setFontWeight('bold').setFontSize(10);
-    map.getRange(1, 3, 1, 25).setHorizontalAlignment('center').setFontSize(14);
+    map.getRange(1, 3, 1, 58).setHorizontalAlignment('center').setFontSize(14);
     const colors = [['решает', C.sage, C.bg], ['путается', C.amber, C.bg], ['не решает', C.miss, '#2a1510'], ['не проходили', C.none, C.muted]];
     map.setConditionalFormatRules(colors.map(([v, bg, fg]) => SpreadsheetApp.newConditionalFormatRule()
       .whenTextEqualTo(v).setBackground(bg).setFontColor(fg).setRanges([rng]).build()));
@@ -224,13 +294,15 @@ function addStudent() {
   showLinkFor_(name, code);
 }
 
-function createStudent_(name, dat, prog) {
+function createStudent_(name, dat, prog, cls) {
   const ss = SpreadsheetApp.getActive();
   if (!ss.getSheetByName('Ученики')) setup();
   const code = newCode_();
-  ss.getSheetByName('Ученики').appendRow([code, name, dat || name, 22, 'ср, сб', '18:00',
-    '', 'https://learnboard.ru', '', 8, 0, true, PAGE + '#' + code, normProg_(prog)]);
-  ss.getSheetByName('Карта').appendRow([code, name].concat(Array(25).fill('не проходили')));
+  const p = normProg_(prog);
+  const goal = p === 'oge9' ? 22 : Math.round(goalMax_(p) * 0.8);
+  ss.getSheetByName('Ученики').appendRow([code, name, dat || name, goal, 'ср, сб', '18:00',
+    '', 'https://learnboard.ru', '', 8, 0, true, PAGE + '#' + code, p, '', '', '', '', cls || clsOfProg_(p)]);
+  ss.getSheetByName('Карта').appendRow([code, name].concat(Array(58).fill('не проходили')));
   return code;
 }
 
@@ -277,8 +349,19 @@ function doPost(e) {
   try {
     const st = findStudentRow_(body.t);
     if (!st || st.row[11] === false) return json_({error: 'not_found'});
-    return json_(setHwDone_(String(body.t).trim(), body.id, body.text, body.done));
+    const code = String(body.t).trim();
+    if (body.letter !== undefined) return json_(saveLetter_(code, body.letter));
+    return json_(setHwDone_(code, body.id, body.text, body.done));
   } finally { lock.releaseLock(); }
+}
+
+function saveLetter_(code, text) {
+  const t = String(text || '').trim().slice(0, 2000);
+  if (t.length < 2) return {error: 'bad_value'};
+  let sh = SpreadsheetApp.getActive().getSheetByName('Письма');
+  if (!sh) { sh = SpreadsheetApp.getActive().insertSheet('Письма', 99); sh.getRange(1, 1, 1, 4).setValues([SHEETS['Письма']]); sh.setFrozenRows(1); }
+  sh.appendRow([code, new Date(), t, false]);
+  return {ok: true};
 }
 
 function setHwDone_(code, id, text, done) {
@@ -310,7 +393,7 @@ function admin_(b) {
       case 'addStudent': {
         const name = String(b.name || '').trim();
         if (!name) return {error: 'no_name'};
-        return {ok: true, code: createStudent_(name, String(b.dat || '').trim(), b.prog)};
+        return {ok: true, code: createStudent_(name, String(b.dat || '').trim(), b.prog, Number(b.cls) || undefined)};
       }
       case 'student': {
         const st = need(), sh = ss.getSheetByName('Ученики'), f = b.fields || {};
@@ -322,6 +405,8 @@ function admin_(b) {
           else if (k === 'prog') v = normProg_(v);
           else if (k === 'goal' || k === 'lessonsPlan' || k === 'lessonsDone') v = Math.max(0, Math.min(k === 'goal' ? goalMax_(pr) : 99, Number(v) || 0));
           else if (k === 'active') v = !!v;
+          else if (k === 'bdate') v = /^\d{4}-\d{2}-\d{2}$/.test(String(v || '')) ? new Date(String(v) + 'T00:00:00') : '';
+          else if (k === 'cls') v = Math.max(0, Math.min(11, Number(v) || 0));
           else v = String(v).trim();
           sh.getRange(st.index, STUDENT_COLS[k]).setValue(v);
         });
@@ -354,7 +439,29 @@ function admin_(b) {
         need();
         const t = String(b.text || '').trim();
         if (!t) return {error: 'bad_value'};
-        ss.getSheetByName('Домашка').appendRow([code, t, String(b.n || ''), ruDate_(b.due), String(b.url || ''), String(b.label || ''), false, '', String(b.file || '')]);
+        const sec = HW_SEC_KEY[String(b.sec || '').trim().toLowerCase()] || '';
+        const hwSh = ss.getSheetByName('Домашка');
+        hwSh.appendRow([code, t, String(b.n || ''), ruDate_(b.due), String(b.url || ''), String(b.label || ''), false, '', String(b.file || ''), sec]);
+        const rowNo = hwSh.getLastRow();
+        (Array.isArray(b.files) ? b.files : []).slice(0, 10).forEach(f => {
+          const u = String(f && f.url || '').trim();
+          if (u) sheet_(ss, 'Файлы').appendRow([code, rowNo, String(f.name || 'PDF для печати').trim().slice(0, 120), u]);
+        });
+        return fresh();
+      }
+      case 'fileAdd': {
+        need();
+        const hwRow = Number(b.hw);
+        const u = String(b.url || '').trim();
+        if (!(hwRow >= 2) || !u) return {error: 'bad_value'};
+        sheet_(ss, 'Файлы').appendRow([code, hwRow, String(b.name || 'PDF для печати').trim().slice(0, 120), u]);
+        return fresh();
+      }
+      case 'fileDel': {
+        need();
+        const sh = sheet_(ss, 'Файлы'), row = Number(b.id);
+        if (!(row >= 2 && row <= sh.getLastRow()) || String(sh.getRange(row, 1).getValue()).trim() !== code) return {error: 'changed'};
+        sh.deleteRow(row);
         return fresh();
       }
       case 'upload': {
@@ -375,6 +482,43 @@ function admin_(b) {
         if (!(row >= 2 && row <= sh.getLastRow())) return {error: 'no_task'};
         const v = sh.getRange(row, 1, 1, 2).getValues()[0];
         if (String(v[0]).trim() !== code || String(v[1]).trim() !== String(b.text || '').trim()) return {error: 'changed'};
+        sh.deleteRow(row);
+        const fs = sheet_(ss, 'Файлы');
+        if (fs.getLastRow() >= 2) {
+          const del = [];
+          fs.getRange(2, 1, fs.getLastRow() - 1, 2).getValues().forEach((r, i) => {
+            if (String(r[0]).trim() === code && Number(r[1]) === row) del.push(i + 2);
+          });
+          del.sort((x, y) => y - x).forEach(r => fs.deleteRow(r));
+        }
+        return fresh();
+      }
+      case 'gradeAdd': {
+        need();
+        const p = Number(b.p);
+        if (!(p >= 2 && p <= 5)) return {error: 'bad_value'};
+        const dv = /^\d{4}-\d{2}-\d{2}$/.test(String(b.d || '')) ? new Date(String(b.d) + 'T00:00:00') : '';
+        sheet_(ss, 'Оценки').appendRow([code, dv, String(b.subj || 'математика').trim().slice(0, 60), p, String(b.note || '').trim().slice(0, 200)]);
+        return fresh();
+      }
+      case 'gradeDel': {
+        need();
+        const sh = sheet_(ss, 'Оценки'), row = Number(b.id);
+        if (!(row >= 2 && row <= sh.getLastRow()) || String(sh.getRange(row, 1).getValue()).trim() !== code) return {error: 'changed'};
+        sh.deleteRow(row);
+        return fresh();
+      }
+      case 'letterRead': {
+        need();
+        const sh = sheet_(ss, 'Письма'), row = Number(b.id);
+        if (!(row >= 2 && row <= sh.getLastRow()) || String(sh.getRange(row, 1).getValue()).trim() !== code) return {error: 'changed'};
+        sh.getRange(row, 4).setValue(true);
+        return fresh();
+      }
+      case 'letterDel': {
+        need();
+        const sh = sheet_(ss, 'Письма'), row = Number(b.id);
+        if (!(row >= 2 && row <= sh.getLastRow()) || String(sh.getRange(row, 1).getValue()).trim() !== code) return {error: 'changed'};
         sh.deleteRow(row);
         return fresh();
       }
@@ -424,21 +568,27 @@ function admin_(b) {
 function listStudents_() {
   const ss = SpreadsheetApp.getActive(), sh = ss.getSheetByName('Ученики');
   if (!sh || sh.getLastRow() < 2) return [];
-  const rows = sh.getRange(2, 1, sh.getLastRow() - 1, 14).getValues();
+  const rows = sh.getRange(2, 1, sh.getLastRow() - 1, 19).getValues();
   const times = sh.getRange(2, 6, sh.getLastRow() - 1, 1).getDisplayValues();
   const mapSh = ss.getSheetByName('Карта'), maps = {};
-  if (mapSh && mapSh.getLastRow() >= 2) mapSh.getRange(2, 1, mapSh.getLastRow() - 1, 27).getValues().forEach(r => { maps[String(r[0]).trim()] = r; });
+  if (mapSh && mapSh.getLastRow() >= 2) mapSh.getRange(2, 1, mapSh.getLastRow() - 1, Math.max(mapSh.getLastColumn(), 2)).getValues().forEach(r => { maps[String(r[0]).trim()] = r; });
   const hwSh = ss.getSheetByName('Домашка'), left = {};
   if (hwSh && hwSh.getLastRow() >= 2) hwSh.getRange(2, 1, hwSh.getLastRow() - 1, 7).getValues().forEach(r => {
     const c = String(r[0]).trim(); if (c && String(r[1]).trim() && r[6] !== true) left[c] = (left[c] || 0) + 1;
+  });
+  const letters = {};
+  const ltSh = ss.getSheetByName('Письма');
+  if (ltSh && ltSh.getLastRow() >= 2) ltSh.getRange(2, 1, ltSh.getLastRow() - 1, 4).getValues().forEach(r => {
+    const c = String(r[0]).trim(); if (c && String(r[2]).trim() && r[3] !== true) letters[c] = (letters[c] || 0) + 1;
   });
   return rows.map((r, i) => ({r: r, time: String(times[i][0]).trim()})).filter(x => String(x.r[0]).trim()).map(x => {
     const r = x.r, c = String(r[0]).trim(), m = maps[c];
     const pr = progOf_(r), nmax = nMax_(pr);
     let p = 0;
-    if (m) for (let n = 1; n <= nmax; n++) if (STATUS_KEY[String(m[n + 1]).trim().toLowerCase()] === 'solid') p += (pr === 'oge9' && n >= 20) ? 2 : 1;
-    return {code: c, name: String(r[1]), goal: Number(r[3]) || (pr === 'oge9' ? 22 : 12), days: String(r[4] || ''), time: x.time,
-            active: r[11] !== false, prog: pr, pts: p, hwLeft: left[c] || 0};
+    if (m) for (let n = 1; n <= nmax; n++) if (STATUS_KEY[String(m[n + 1]).trim().toLowerCase()] === 'solid') p += ptsOf_(pr, n);
+    return {code: c, name: String(r[1]), fname: String(r[14] || ''), goal: Number(r[3]) || Math.round(goalMax_(pr) * 0.8),
+            days: String(r[4] || ''), time: x.time, active: r[11] !== false, prog: pr, pts: p, hwLeft: left[c] || 0,
+            letters: letters[c] || 0, cls: Number(r[18]) || clsOfProg_(pr)};
   });
 }
 
@@ -456,16 +606,27 @@ function studentData_(code, admin) {
   };
   const map = {};
   const m = rows('Карта')[0];
-  for (let n = 1; n <= 25; n++) map[n] = STATUS_KEY[String(m ? m.v[n + 1] : '').trim().toLowerCase()] || 'new';
+  for (let n = 1; n <= 58; n++) map[n] = STATUS_KEY[String(m ? m.v[n + 1] : '').trim().toLowerCase()] || 'new';
   const notes = {};
   rows('Комментарии').forEach(x => {
     const n = parseInt(x.v[1], 10);
-    if (n >= 1 && n <= 25) notes[n] = {t: String(x.v[2] || ''), url: String(x.v[3] || ''), label: String(x.v[4] || '')};
+    if (n >= 1 && n <= 58) notes[n] = {t: String(x.v[2] || ''), url: String(x.v[3] || ''), label: String(x.v[4] || '')};
+  });
+  const hwFiles = {};
+  rows('Файлы').forEach(x => {
+    const k = Number(x.v[1]);
+    if (k >= 2) (hwFiles[k] = hwFiles[k] || []).push({name: String(x.v[2] || 'PDF для печати'), url: String(x.v[3] || ''), id: x.row});
   });
   const hw = rows('Домашка').filter(x => String(x.v[1]).trim()).map(x => ({
     id: x.row, t: String(x.v[1]).trim(), n: String(x.v[2] || ''), due: day_(x.v[3]),
-    url: String(x.v[4] || ''), label: String(x.v[5] || ''), done: x.v[6] === true, file: String(x.v[8] || '')
+    url: String(x.v[4] || ''), label: String(x.v[5] || ''), done: x.v[6] === true, file: String(x.v[8] || ''),
+    sec: HW_SEC_KEY[String(x.v[9] || '').trim().toLowerCase()] || '',
+    files: hwFiles[x.row] || (String(x.v[8] || '').trim() ? [{name: 'PDF с заданиями', url: String(x.v[8]).trim()}] : [])
   }));
+  const grades = rows('Оценки')
+    .map(x => ({id: x.row, d: day_(x.v[1]), subj: String(x.v[2] || '').trim(), p: Number(x.v[3]), note: String(x.v[4] || '').trim()}))
+    .filter(g => g.p >= 2 && g.p <= 5)
+    .sort((a, b) => String(a.d).localeCompare(String(b.d)));
   const hist = rows('Пробники').filter(x => String(x.v[3]).trim() !== '' && (!isNaN(Number(x.v[3])) || /зач/i.test(String(x.v[3]))))
     .map(x => ({id: x.row, d: day_(x.v[1]), t: String(x.v[2] || ''), p: isNaN(Number(x.v[3])) ? (/^\s*не/i.test(String(x.v[3])) ? 'незачёт' : 'зачёт') : Number(x.v[3])}))
     .sort((a, b) => String(a.d).localeCompare(String(b.d)));
@@ -476,13 +637,23 @@ function studentData_(code, admin) {
   const matsAll = (matsSh && matsSh.getLastRow() >= 2) ? matsSh.getLastRow() - 1 : 0;
   const prog = progOf_(r);
   const out = {
-    name: String(r[1]), dat: String(r[2] || r[1]), goal: Number(r[3]) || (prog === 'oge9' ? 22 : 12),
+    name: String(r[1]), dat: String(r[2] || r[1]), goal: Number(r[3]) || Math.round(goalMax_(prog) * 0.8),
     days: String(r[4] || ''), time: st.time, topic: String(r[6] || ''), board: String(r[7] || ''),
     work: String(r[8] || '').split(';').map(s => s.trim()).filter(Boolean),
     lessonsPlan: Number(r[9]) || 0, lessonsDone: Number(r[10]) || 0,
-    map: map, notes: notes, hw: hw, hist: hist, mats: mats, matsAll: matsAll, prog: prog
+    map: map, notes: notes, hw: hw, hist: hist, mats: mats, matsAll: matsAll, prog: prog,
+    fname: String(r[14] || ''), bdate: day_(r[15]), parent: String(r[16] || ''), phone: String(r[17] || ''),
+    cls: Number(r[18]) || clsOfProg_(prog), grades: grades
   };
-  if (admin) { out.active = r[11] !== false; out.code = code; }
+  if (admin) {
+    out.active = r[11] !== false; out.code = code;
+    const tz = SpreadsheetApp.getActive().getSpreadsheetTimeZone();
+    out.letters = rows('Письма').map(x => ({
+      id: x.row, d: day_(x.v[1]),
+      time: x.v[1] instanceof Date ? Utilities.formatDate(x.v[1], tz, 'HH:mm') : '',
+      text: String(x.v[2] || ''), read: x.v[3] === true
+    })).sort((a, b) => b.id - a.id);
+  }
   return out;
 }
 
@@ -492,7 +663,7 @@ function findStudentRow_(code) {
   if (!code) return null;
   const sh = SpreadsheetApp.getActive().getSheetByName('Ученики');
   if (!sh || sh.getLastRow() < 2) return null;
-  const v = sh.getRange(2, 1, sh.getLastRow() - 1, 14).getValues();
+  const v = sh.getRange(2, 1, sh.getLastRow() - 1, 19).getValues();
   for (let i = 0; i < v.length; i++) if (String(v[i][0]).trim() === code)
     return {row: v[i], index: i + 2, time: String(sh.getRange(i + 2, 6).getDisplayValue()).trim()};
   return null;
