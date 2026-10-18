@@ -42,8 +42,8 @@
    "type": "diagnostika",
    "class": 7,
    "oge_task": null,
-   "status": "public",
-   "note": ""
+   "status": "hidden",
+   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
   },
   {
    "file": "diagnostika-7-klass.html",
@@ -60,8 +60,8 @@
    "type": "diagnostika",
    "class": 8,
    "oge_task": null,
-   "status": "public",
-   "note": ""
+   "status": "hidden",
+   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
   },
   {
    "file": "diagnostika-8-klass.html",
@@ -223,7 +223,7 @@
    "class": null,
    "oge_task": null,
    "status": "hidden",
-   "note": ""
+   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
   },
   {
    "file": "razbor-racionalnye-dialog.pdf",
@@ -231,8 +231,8 @@
    "type": "razbor",
    "class": null,
    "oge_task": null,
-   "status": "public",
-   "note": ""
+   "status": "hidden",
+   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
   },
   {
    "file": "razbor-treugolniki-dialog.html",
@@ -294,8 +294,8 @@
    "type": "razbor",
    "class": 6,
    "oge_task": null,
-   "status": "public",
-   "note": ""
+   "status": "hidden",
+   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
   },
   {
    "file": "razbor-diag-7-geom.txt",
@@ -303,8 +303,8 @@
    "type": "razbor",
    "class": 7,
    "oge_task": null,
-   "status": "public",
-   "note": ""
+   "status": "hidden",
+   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
   },
   {
    "file": "razbor-diag-7-klass.txt",
@@ -321,8 +321,8 @@
    "type": "razbor",
    "class": 8,
    "oge_task": null,
-   "status": "public",
-   "note": ""
+   "status": "hidden",
+   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
   },
   {
    "file": "razbor-diag-8-klass.txt",
@@ -393,8 +393,8 @@
    "type": "trenazher",
    "class": null,
    "oge_task": null,
-   "status": "public",
-   "note": ""
+   "status": "hidden",
+   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
   },
   {
    "file": "drob-deistviya.html",
@@ -438,8 +438,8 @@
    "type": "uchebnik",
    "class": null,
    "oge_task": null,
-   "status": "public",
-   "note": ""
+   "status": "hidden",
+   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
   },
   {
    "file": "y-k-na-x.html",
@@ -447,8 +447,8 @@
    "type": "uchebnik",
    "class": null,
    "oge_task": null,
-   "status": "public",
-   "note": ""
+   "status": "hidden",
+   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
   },
   {
    "file": "znaki-s-nulya.html",
@@ -492,8 +492,8 @@
    "type": "zadanie",
    "class": null,
    "oge_task": null,
-   "status": "public",
-   "note": ""
+   "status": "hidden",
+   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
   },
   {
    "file": "z15-bissektrisa-ravnye-otrezki.html",
@@ -618,8 +618,8 @@
    "type": "zadanie",
    "class": null,
    "oge_task": null,
-   "status": "public",
-   "note": ""
+   "status": "hidden",
+   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
   },
   {
    "file": "zadacha-287.html",
@@ -627,8 +627,8 @@
    "type": "zadanie",
    "class": null,
    "oge_task": null,
-   "status": "public",
-   "note": ""
+   "status": "hidden",
+   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
   },
   {
    "file": "zadacha-691.html",
@@ -636,8 +636,8 @@
    "type": "zadanie",
    "class": null,
    "oge_task": null,
-   "status": "public",
-   "note": ""
+   "status": "hidden",
+   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
   }
  ]
 }
