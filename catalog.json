@@ -638,6 +638,15 @@
    "oge_task": null,
    "status": "hidden",
    "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
+  },
+  {
+   "file": "materialy.html",
+   "title": "Все материалы (каталог для учеников)",
+   "type": "sistema",
+   "class": null,
+   "oge_task": null,
+   "status": "public",
+   "note": "бывший index.html; kabinet.html читает его список материалов"
   }
  ]
 }

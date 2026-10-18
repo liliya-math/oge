@@ -3,527 +3,204 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Разборы ОГЭ по математике</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=PT+Serif:ital@0;1&display=swap">
+<title>Математика 5–9 классы и ОГЭ онлайн · lili.math</title>
+<meta name="description" content="Репетитор по математике онлайн: 5–9 классы, подготовка к ОГЭ. Бесплатная диагностика и пробное занятие. Занятие от 1200 ₽.">
+<meta name="color-scheme" content="dark">
 <style>
-/* Layout: одна колонка — шапка, группы заданий по номерам ОГЭ, подвал */
 :root{
-  --paper:#f7f8fb; --sheet:#ffffff; --grid:#e6eaf3; --ink:#1f2a44; --muted:#5d6782;
-  --pen:#2346a8; --red:#c8402c; --line:#cfd6e4;
-  --f-body:"Golos Text",system-ui,sans-serif; --f-math:"PT Serif",Georgia,serif;
+  --bg:#14211e; --bg2:#1b2b28; --bg3:#223632; --line:#2f4640;
+  --fg:#f3ece2; --muted:#a9b6ad;
+  --cobalt:#1747c9; --cobalt-soft:#9db8ff; --apricot:#f2905e; --butter:#f5dc6a; --sage:#a9d18e;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Segoe UI",system-ui,Roboto,sans-serif;
+  color-scheme:dark;
 }
-@media (prefers-color-scheme: dark){:root{
-  --paper:#13161d; --sheet:#1b1f29; --grid:#20252f; --ink:#e6e9f2; --muted:#9aa3bb;
-  --pen:#8aa6ff; --red:#ff8a73; --line:#323a4c; color-scheme:dark}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:32px 48px;
-  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:20px 20px}
-.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:32px}
-header{display:flex;flex-direction:column;gap:8px}
-.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500}
-h1{font-family:var(--f-math);font-weight:400;font-size:clamp(30px,6vw,42px);line-height:1.15;margin:0;text-wrap:balance}
-h1 em{color:var(--pen)}
-.lead{margin:0;max-width:60ch;color:var(--muted)}
-section{display:flex;flex-direction:column;gap:12px}
-h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin:0;padding-bottom:6px;border-bottom:1px solid var(--line)}
-.list{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
-.item a{display:grid;grid-template-columns:64px 1fr;gap:16px;align-items:center;background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:14px 18px;color:inherit;text-decoration:none;transition:border-color .2s}
-.item a.masc{grid-template-columns:56px 56px 1fr;gap:12px}
-.mimg{width:56px;height:56px;border-radius:50%;object-fit:cover;border:1px solid var(--line);box-shadow:0 8px 18px -10px rgba(0,0,0,.7);flex:none}
-@media (max-width:520px){.item a.masc{grid-template-columns:44px 1fr}.mimg{display:none}}
-.item a:hover{border-color:var(--pen)}
-.item a:focus-visible{outline:2px solid var(--pen);outline-offset:2px}
-.num{font-family:var(--f-math);font-size:38px;line-height:1;color:var(--red);text-align:center;font-variant-numeric:tabular-nums}
-.num small{display:block;font-family:var(--f-body);font-size:11px;color:var(--muted);letter-spacing:.06em;margin-top:4px}
-.txt{min-width:0;display:flex;flex-direction:column;gap:4px}
-.t{font-weight:600;font-size:17px}
-.d{color:var(--muted);font-size:15px}
-.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
-.tag{font-size:12px;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
-.empty{color:var(--muted);font-size:15px;margin:0}
-footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);padding-top:16px}
-@media (prefers-reduced-motion:reduce){.item a{transition:none}}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px}
+section{padding:56px 0 0}
+h1,h2,h3{font-weight:650;letter-spacing:-.02em;margin:0;text-wrap:balance}
+h1{font-size:clamp(32px,7vw,52px);line-height:1.08}
+h2{font-size:clamp(25px,4.6vw,34px);line-height:1.15;margin-bottom:8px}
+h3{font-size:18px;letter-spacing:-.01em}
+p{margin:0}
+.eyebrow{font-size:13px;letter-spacing:.09em;text-transform:uppercase;color:var(--butter);font-weight:600;margin-bottom:14px}
+.sub{color:var(--muted);max-width:58ch}
+em{font-style:normal;color:var(--apricot)}
+
+/* кнопки */
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 24px;border-radius:14px;font-weight:600;font-size:16px;text-decoration:none;border:1px solid transparent;transition:transform .15s,background .15s,border-color .15s}
+.btn.main{background:var(--apricot);color:#2a1510}
+.btn.main:hover{transform:translateY(-1px);background:#f6a07a}
+.btn.ghost{border-color:var(--line);background:var(--bg2)}
+.btn.ghost:hover{border-color:var(--cobalt-soft)}
+.btn:focus-visible,a:focus-visible{outline:2px solid var(--butter);outline-offset:3px}
+
+/* верх */
+.top{display:flex;justify-content:space-between;align-items:center;padding:20px 0}
+.logo{font-weight:700;letter-spacing:-.02em}
+.logo span{color:var(--apricot)}
+.top a.link{color:var(--muted);text-decoration:none;font-size:15px}
+.top a.link:hover{color:var(--fg)}
+.hero{padding-top:28px;display:grid;gap:32px;grid-template-columns:1.15fr .85fr;align-items:center}
+.hero img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:28px;border:1px solid var(--line);box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;padding:0;list-style:none}
+.facts li{font-size:14px;padding:6px 12px;border-radius:99px;background:var(--bg2);border:1px solid var(--line);color:var(--muted)}
+@media(max-width:700px){.hero{grid-template-columns:1fr}.hero img{order:-1;aspect-ratio:4/3;object-position:center 30%}}
+
+/* шаги */
+.steps{counter-reset:s;display:grid;gap:14px;margin:24px 0 0;padding:0;list-style:none}
+.steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:16px;background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:18px 20px}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--cobalt);font-weight:700;font-size:18px}
+.steps p{color:var(--muted);margin-top:4px;font-size:16px}
+.tagfree{display:inline-block;margin-left:8px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#1c2a12;background:var(--sage);padding:2px 9px;border-radius:99px;vertical-align:2px}
+
+/* карточки */
+.cards{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:24px}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:20px}
+.card p{color:var(--muted);margin-top:6px;font-size:16px}
+.card a.more{display:inline-block;margin-top:12px;color:var(--cobalt-soft);text-decoration:none;font-weight:600;font-size:15px}
+.card a.more:hover{text-decoration:underline}
+
+/* диагностика по классам */
+.diag{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));margin-top:24px}
+.diag a{display:flex;flex-direction:column;gap:2px;text-decoration:none;background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:16px 18px;transition:border-color .15s,transform .15s}
+.diag a:hover{border-color:var(--apricot);transform:translateY(-2px)}
+.diag b{font-size:20px;letter-spacing:-.01em}
+.diag span{color:var(--muted);font-size:14px}
+
+/* цена */
+.price{background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--line);border-radius:24px;padding:28px;display:grid;gap:18px;grid-template-columns:auto 1fr;align-items:center}
+.price .sum{font-size:clamp(36px,8vw,56px);font-weight:700;letter-spacing:-.03em;line-height:1}
+.price .sum small{display:block;font-size:14px;font-weight:500;letter-spacing:0;color:var(--muted);margin-bottom:6px}
+.price ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.price li{padding-left:26px;position:relative;color:var(--muted)}
+.price li::before{content:"";position:absolute;left:0;top:.55em;width:12px;height:12px;border-radius:50%;background:var(--sage)}
+.price li b{color:var(--fg);font-weight:600}
+@media(max-width:640px){.price{grid-template-columns:1fr}}
+
+/* об авторе */
+.about{display:grid;gap:24px;grid-template-columns:200px 1fr;align-items:center}
+.about img{width:200px;height:200px;border-radius:50%;object-fit:cover;border:1px solid var(--line)}
+.about p+p{margin-top:12px}
+@media(max-width:640px){.about{grid-template-columns:1fr}.about img{width:140px;height:140px}}
+
+/* финал */
+.final{margin:64px 0 0;padding:40px 24px;text-align:center;background:var(--cobalt);border-radius:28px}
+.final h2{margin-bottom:10px}
+.final p{color:#dfe7ff;max-width:48ch;margin:0 auto}
+.final .btns{justify-content:center}
+.final .btn.ghost{background:transparent;border-color:rgba(255,255,255,.4)}
+footer{padding:32px 0 48px;color:var(--muted);font-size:14px;display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
+footer a{color:var(--muted)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <div class="eyebrow">ОГЭ · математика · 9 класс</div>
-    <h1>Разборы заданий <em>по шагам</em></h1>
-    <p class="lead">Чертёж открывается постепенно: на каждом шаге сначала подумай сам, что будет дальше, потом нажимай «Далее».</p>
+
+  <div class="top">
+    <div class="logo">lili<span>.</span>math</div>
+    <a class="link" href="materialy.html">Материалы для учеников</a>
+  </div>
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Репетитор по математике · онлайн · 5–9 класс</div>
+      <h1>Математика и ОГЭ: сначала <em>разберёмся, что не так</em>, потом будем учить</h1>
+      <p class="sub" style="margin-top:18px">Начинаем с бесплатной диагностики и письменного разбора. Он покажет, какие темы ребёнок знает, где пробелы и с чего начинать. Подходит любому классу, неважно, готовится ребёнок к ОГЭ или просто учится.</p>
+      <div class="btns">
+        <a class="btn main" href="https://t.me/ohh_my_lily">Написать в Telegram</a>
+        <a class="btn ghost" href="#diagnostika">Пройти диагностику</a>
+      </div>
+      <ul class="facts">
+        <li>Диагностика бесплатно</li>
+        <li>Пробное занятие бесплатно</li>
+        <li>От 1200 ₽ за занятие</li>
+      </ul>
+    </div>
+    <img src="img/capy-idle.jpg" alt="Капибара в пиджаке с кофе: один из героев наших материалов" width="640" height="640">
   </header>
 
-  <section>
-    <h2>Проверь себя · пробники</h2>
-    <ul class="list">
-      <li class="item"><a class="masc" href="probnik-oge-1.html">
-        <img class=mimg src="img/lab-desk-wide.jpg" alt="" loading="lazy">
-        <div class="num">25<small>заданий</small></div>
-        <div class="txt">
-          <span class="t">Пробник ОГЭ №1 · полный вариант</span>
-          <span class="d">Все 25 заданий, баллы по шкале ФИПИ 2026, диплом и разбор ошибок у репетитора.</span>
-          <span class="tags"><span class="tag">около 60 минут</span><span class="tag">с подсказками</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a class="masc" href="probnik-oge-2.html">
-        <img class=mimg src="img/capy-desk-wide.jpg" alt="" loading="lazy">
-        <div class="num">25<small>заданий</small></div>
-        <div class="txt">
-          <span class="t">Пробник ОГЭ №2 · полный вариант</span>
-          <span class="d">План квартиры и все 25 заданий, баллы по шкале ФИПИ 2026, диплом и разбор ошибок у репетитора.</span>
-          <span class="tags"><span class="tag">около 60 минут</span><span class="tag">с подсказками</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a class="masc" href="razbor-probnik-oge-2.html">
-        <img class=mimg src="img/rac-desk-wide.jpg" alt="" loading="lazy">
-        <div class="num">12<small>заданий</small></div>
-        <div class="txt">
-          <span class="t">Пробник ОГЭ №2 · разбор по шагам</span>
-          <span class="d">Задания с чертежами и графиками: по кнопке «Дальше» появляется следующий шаг, чертёж дорисовывается.</span>
-          <span class="tags"><span class="tag">после пробника</span><span class="tag">пошагово</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="probnik-oge-3.html">
-        <div class="num">25<small>заданий</small></div>
-        <div class="txt">
-          <span class="t">Пробник ОГЭ №3 · полный вариант</span>
-          <span class="d">Маршрут между деревнями и все 25 заданий, баллы по шкале ФИПИ 2026, диплом и разбор ошибок у репетитора.</span>
-          <span class="tags"><span class="tag">около 60 минут</span><span class="tag">с подсказками</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="mini-probnik-1.html">
-        <div class="num">10<small>заданий</small></div>
-        <div class="txt">
-          <span class="t">Мини-пробник №1 · часть 1</span>
-          <span class="d">Задания 6–19: вычисления, уравнения, вероятность, графики, геометрия. Подсказки и разбор ошибок у репетитора.</span>
-          <span class="tags"><span class="tag">около 20 минут</span><span class="tag">с подсказками</span></span>
-        </div>
-      </a></li>
-    </ul>
+  <section id="kak">
+    <h2>Как мы начнём</h2>
+    <p class="sub">Платить до того, как станет понятно, нужен ли вам такой формат, не придётся.</p>
+    <ol class="steps">
+      <li><div><h3>Диагностика<span class="tagfree">бесплатно</span></h3><p>Ребёнок проходит её онлайн в игровой форме. Для ОГЭ это все 25 заданий, для 5–8 классов диагностика по программе предыдущих лет. Вы получаете письменный разбор: что решает, где путается, что не знает.</p></div></li>
+      <li><div><h3>Пробное занятие<span class="tagfree">бесплатно</span></h3><p>Знакомимся, разбираем сложные места из диагностики, смотрим, как ребёнку удобно заниматься. Младшим классам диагностику помогаю пройти вместе, объясняю, если что-то не получается.</p></div></li>
+      <li><div><h3>Занятия по 60 минут</h3><p>Онлайн, на общей доске. По желанию один раз в неделю можно по 90 минут. Алгебра, геометрия и практические задачи идут параллельно, а не по очереди.</p></div></li>
+      <li><div><h3>Отчёт родителям раз в месяц</h3><p>Что прошли, как идут дела, что дальше. Без «всё хорошо» вместо информации.</p></div></li>
+    </ol>
   </section>
 
-  <section>
-    <h2>Домашние работы · по номерам ОГЭ</h2>
-    <ul class="list">
-      <li class="item"><a class="masc" href="dz-desyatichnye-drobi.html">
-        <img class=mimg src="img/ham-pizza.jpg" alt="" loading="lazy">
-        <div class="num">6<small>задание</small></div>
-        <div class="txt">
-          <span class="t">ДЗ · Действия с десятичными дробями</span>
-          <span class="d">11 заданий в трёх уровнях: разминка, как на ОГЭ, со звёздочкой. Подсказки и разбор, если не получилось.</span>
-          <span class="tags"><span class="tag">25–35 минут</span><span class="tag">3 уровня</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="dz-desyatichnye-drobi.pdf">
-        <div class="num">PDF<small>печать</small></div>
-        <div class="txt">
-          <span class="t">ДЗ · Десятичные дроби · для печати</span>
-          <span class="d">Те же 11 заданий на листах А4: мини-теория, поле в клетку под решение и строка для ответа.</span>
-          <span class="tags"><span class="tag">6 страниц</span><span class="tag">без ответов</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="dz-desyatichnye-drobi-otvety.pdf">
-        <div class="num">PDF<small>печать</small></div>
-        <div class="txt">
-          <span class="t">ДЗ · Десятичные дроби · ответы</span>
-          <span class="d">Ответы и краткие решения всех заданий — для самопроверки или быстрой проверки родителем.</span>
-          <span class="tags"><span class="tag">с ответами</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a class="masc" href="dz-chisla-s-raznymi-znakami.html">
-        <img class=mimg src="img/ham-thermo.jpg" alt="" loading="lazy">
-        <div class="num">6<small>задание</small></div>
-        <div class="txt">
-          <span class="t">ДЗ · Действия с числами с разными знаками</span>
-          <span class="d">15 заданий в трёх уровнях: разминка, как на ОГЭ, со звёздочкой. Подсказки и разбор, если не получилось.</span>
-          <span class="tags"><span class="tag">30–40 минут</span><span class="tag">3 уровня</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="dz-chisla-s-raznymi-znakami.pdf">
-        <div class="num">PDF<small>печать</small></div>
-        <div class="txt">
-          <span class="t">ДЗ · Числа с разными знаками · для печати</span>
-          <span class="d">Те же 15 заданий на листах А4: мини-теория, поле в клетку под решение и строка для ответа.</span>
-          <span class="tags"><span class="tag">7 страниц</span><span class="tag">без ответов</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="dz-procenty.pdf">
-        <div class="num">PDF<small>печать</small></div>
-        <div class="txt">
-          <span class="t">ДЗ · Задачи на проценты · для печати</span>
-          <span class="d">Три типа задач на проценты, каждый — в трёх уровнях сложности. Сверху напоминалка с теорией и правилами.</span>
-          <span class="tags"><span class="tag">3 типа задач</span><span class="tag">3 уровня</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="dz-procenty-otvety.pdf">
-        <div class="num">PDF<small>печать</small></div>
-        <div class="txt">
-          <span class="t">ДЗ · Задачи на проценты · ответы</span>
-          <span class="d">Ответы и краткие решения всех заданий — для самопроверки или быстрой проверки родителем.</span>
-          <span class="tags"><span class="tag">с ответами</span></span>
-        </div>
-      </a></li>
-    </ul>
+  <section id="vnutri">
+    <h2>Что вы получаете</h2>
+    <div class="cards">
+      <div class="card"><h3>Личный кабинет ученика</h3><p>Карта тем с отметками, домашние задания, результаты пробников. У родителей свой режим просмотра.</p><a class="more" href="kabinet.html#demo">Посмотреть демо →</a></div>
+      <div class="card"><h3>Разборы по шагам</h3><p>Чертёж открывается постепенно: сначала подумай сам, потом жми «Далее». Так ребёнок учится решать, а не списывать.</p><a class="more" href="materialy.html">Открыть материалы →</a></div>
+      <div class="card"><h3>Пробники ОГЭ</h3><p>Полные варианты на 25 заданий с баллами по шкале ФИПИ 2026, подсказками и разбором ошибок.</p><a class="more" href="probnik-oge-1.html">Попробовать №1 →</a></div>
+    </div>
   </section>
 
-  <section>
-    <h2>Тренажёр и инструменты</h2>
-    <ul class="list">
-      <li class="item"><a class="masc" href="trainer.html">
-        <img class=mimg src="img/shiba-board.jpg" alt="" loading="lazy">
-        <div class="num">6<small>задание</small></div>
-        <div class="txt">
-          <span class="t">Тренажёр · задание 6: обыкновенные дроби</span>
-          <span class="d">Новый пример на каждой попытке: деление дробей с сокращением. Две подсказки и мгновенная проверка.</span>
-          <span class="tags"><span class="tag">бесконечные примеры</span><span class="tag">с подсказками</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a class="masc" href="formulas.html">
-        <img class=mimg src="img/panda-cup.jpg" alt="" loading="lazy">
-        <div class="num">a²<small>формулы</small></div>
-        <div class="txt">
-          <span class="t">Справочник формул ОГЭ</span>
-          <span class="d">Уравнения, степени и корни, треугольники, окружность: нажми на раздел — раскроются формулы.</span>
-          <span class="tags"><span class="tag">алгебра и геометрия</span><span class="tag">перед пробником</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a class="masc" href="achievements.html">
-        <img class=mimg src="img/rac-win.jpg" alt="" loading="lazy">
-        <div class="num">★<small>награды</small></div>
-        <div class="txt">
-          <span class="t">Мои достижения</span>
-          <span class="d">Питомец, коллекция стикеров за серии занятий и сертификат за упорство. Прогресс хранится на устройстве.</span>
-          <span class="tags"><span class="tag">игровая</span><span class="tag">для учеников</span></span>
-        </div>
-      </a></li>
-    </ul>
+  <section id="kogo">
+    <h2>С кем я работаю</h2>
+    <div class="cards">
+      <div class="card"><h3>9 класс: ОГЭ</h3><p>Подготовка по всем 25 заданиям. Занятия идут тремя линиями: алгебра, геометрия, практическая часть.</p></div>
+      <div class="card"><h3>5–8 классы</h3><p>Подтянуть успеваемость, закрыть пробелы или идти вперёд по школьной программе. Алгебру и геометрию можно брать отдельно.</p></div>
+      <div class="card"><h3>Из любого города</h3><p>Занятия онлайн, время подбираем под ваш часовой пояс. Я в Самаре.</p></div>
+    </div>
   </section>
 
-  <section>
-    <h2>5 класс · диагностика</h2>
-    <ul class="list">
-      <li class="item"><a class="masc" href="diagnostika-1-4-klass.html">
-        <img class=mimg src="img/lab-pizza.jpg" alt="" loading="lazy">
-        <div class="num">14<small>заданий</small></div>
-        <div class="txt">
-          <span class="t">Диагностика по математике за 1–4 класс</span>
-          <span class="d">Формат ВПР: вычисления, задачи, фигуры, диаграммы и логика. Оценка по шкале ВПР и диплом.</span>
-          <span class="tags"><span class="tag">около 45 минут</span><span class="tag">в игровой форме</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a class="masc" href="diagnostika-5-geom.html">
-        <img class=mimg src="img/mer-lupa.jpg" alt="" loading="lazy">
-        <div class="num">25<small>заданий</small></div>
-        <div class="txt">
-          <span class="t">Диагностика по геометрии · 5 класс</span>
-          <span class="d">Фигуры, периметр и площадь: разминка, испытание и вызов. Три уровня, подсказки и маскоты, итог по каждому уровню.</span>
-          <span class="tags"><span class="tag">около 60 минут</span><span class="tag">в игровой форме</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="razbor-diag-5-geom.txt">
-        <div class="num">25<small>разборов</small></div>
-        <div class="txt">
-          <span class="t">Разбор диагностики · 5 класс · геометрия (текст)</span>
-          <span class="d">Разбор всех 25 заданий в формате диалога «ученик — учитель» с подробным объяснением каждого шага. Файл для печати.</span>
-          <span class="tags"><span class="tag">для печати</span><span class="tag">по каждому заданию</span></span>
-        </div>
-      </a></li>
-    </ul>
+  <section id="diagnostika">
+    <h2>Диагностика онлайн</h2>
+    <p class="sub">Выберите класс и пройдите сами, без регистрации. Результат пришлите мне в Telegram, и я сделаю письменный разбор.</p>
+    <div class="diag">
+      <a href="diagnostika-1-4-klass.html"><b>5 класс</b><span>математика за 1–4 класс · около 45 минут</span></a>
+      <a href="diagnostika-6-klass.html"><b>6 класс</b><span>математика · около 70 минут</span></a>
+      <a href="diagnostika-7-klass.html"><b>7 класс</b><span>алгебра · около 70 минут</span></a>
+      <a href="diagnostika-8-klass.html"><b>8 класс</b><span>алгебра · около 70 минут</span></a>
+      <a href="probnik-oge-1.html"><b>9 класс</b><span>полный пробник ОГЭ · около 60 минут</span></a>
+    </div>
   </section>
 
-  <section>
-    <h2>6 класс · диагностика</h2>
-    <ul class="list">
-      <li class="item"><a class="masc" href="diagnostika-6-klass.html">
-        <img class=mimg src="img/mer-lupa.jpg" alt="" loading="lazy">
-        <div class="num">25<small>заданий</small></div>
-        <div class="txt">
-          <span class="t">Диагностика по математике · 6 класс</span>
-          <span class="d">Дроби, проценты, уравнения и пропорции: разминка, испытание и вызов. Подсказки и маскоты, итог по каждому уровню.</span>
-          <span class="tags"><span class="tag">около 70 минут</span><span class="tag">в игровой форме</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a class="masc" href="diagnostika-6-geom.html">
-        <img class=mimg src="img/rac-pizza.jpg" alt="" loading="lazy">
-        <div class="num">25<small>заданий</small></div>
-        <div class="txt">
-          <span class="t">Диагностика по геометрии · 6 класс</span>
-          <span class="d">Углы, треугольники, координаты и масштаб: разминка, испытание и вызов. Три уровня, подсказки и маскоты.</span>
-          <span class="tags"><span class="tag">около 60 минут</span><span class="tag">в игровой форме</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="razbor-diag-6-klass.txt">
-        <div class="num">25<small>разборов</small></div>
-        <div class="txt">
-          <span class="t">Разбор диагностики · 6 класс (текст)</span>
-          <span class="d">Разбор всех 25 заданий в формате диалога «ученик — учитель» с подробным объяснением каждого шага. Файл для печати.</span>
-          <span class="tags"><span class="tag">для печати</span><span class="tag">по каждому заданию</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="razbor-diag-6-geom.txt">
-        <div class="num">25<small>разборов</small></div>
-        <div class="txt">
-          <span class="t">Разбор диагностики · 6 класс · геометрия (текст)</span>
-          <span class="d">Разбор всех 25 заданий в формате диалога «ученик — учитель» с подробным объяснением каждого шага. Файл для печати.</span>
-          <span class="tags"><span class="tag">для печати</span><span class="tag">по каждому заданию</span></span>
-        </div>
-      </a></li>
-    </ul>
+  <section id="cena">
+    <h2>Стоимость</h2>
+    <div class="price" style="margin-top:18px">
+      <div class="sum"><small>занятие от</small>1200 ₽</div>
+      <ul>
+        <li><b>Диагностика и пробное занятие</b> — бесплатно</li>
+        <li>Точную цену обсудим в Telegram, она зависит от класса и формата</li>
+        <li>Формат: 60 минут или 90 минут раз в неделю</li>
+      </ul>
+    </div>
   </section>
 
-  <section>
-    <h2>Интерактивное обучение</h2>
-    <ul class="list">
-      <li class="item"><a class="masc" href="drob-s-nulya.html">
-        <img class=mimg src="img/rat-pizza.jpg" alt="" loading="lazy">
-        <div class="num">5<small>уроков</small></div>
-        <div class="txt">
-          <span class="t">Дроби с нуля · пироги и игры</span>
-          <span class="d">Для тех, кто совсем ничего не понимает. Настоящие рисунки пицц, кнопки «разрезать» и «взять кусочек», игры «покажи дробь» и «что больше».</span>
-          <span class="tags"><span class="tag">самый старт</span><span class="tag">всё интерактивно</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a class="masc" href="ucheba-6-klass.html#frac">
-        <img class=mimg src="img/rat-pie.jpg" alt="" loading="lazy">
-        <div class="num">6<small>уроков</small></div>
-        <div class="txt">
-          <span class="t">Дроби · полный курс</span>
-          <span class="d">От доли и числителя до умножения, деления и сравнения. Уроки с картинками, мини-проверки и 16 заданий практики.</span>
-          <span class="tags"><span class="tag">6 уроков</span><span class="tag">16 заданий</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a class="masc" href="ucheba-6-klass.html#sign">
-        <img class=mimg src="img/rat-thermo.jpg" alt="" loading="lazy">
-        <div class="num">5<small>уроков</small></div>
-        <div class="txt">
-          <span class="t">Числа с разными знаками</span>
-          <span class="d">Отрицательные числа, модуль, сложение и вычитание на числовой прямой, умножение, порядок действий.</span>
-          <span class="tags"><span class="tag">5 уроков</span><span class="tag">16 заданий</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a class="masc" href="ucheba-6-klass.html#pct">
-        <img class=mimg src="img/ham-chart.jpg" alt="" loading="lazy">
-        <div class="num">5<small>уроков</small></div>
-        <div class="txt">
-          <span class="t">Проценты</span>
-          <span class="d">Что такое процент, как считать процент от числа и число по проценту, скидки и изменения в процентах.</span>
-          <span class="tags"><span class="tag">5 уроков</span><span class="tag">16 заданий</span></span>
-        </div>
-      </a></li>
-    </ul>
+  <section id="obo-mne">
+    <h2>Кто занимается с ребёнком</h2>
+    <div class="about" style="margin-top:20px">
+      <img src="img/lab-idle.jpg" alt="Лабрадор в шарфе: наш герой" width="200" height="200" loading="lazy">
+      <div>
+        <p>Меня зовут Лилия Кузнецова. Все материалы на этом сайте, от пробников до личного кабинета, я сделала сама под своих учеников.</p>
+        <p>На занятиях я весёлая, но строгая и справедливая. Занятия строятся на своей методике и собственных материалах.</p>
+      </div>
+    </div>
   </section>
 
-  <section>
-  <section>
-    <h2>Классы · алгебра и геометрия · зачёты</h2>
-    <ul class="list">
-      <li class="item"><a class="masc" href="7-klass.html">
-        <img class=mimg src="img/rat-joy.jpg" alt="" loading="lazy">
-        <div class="num">7<small>класс</small></div>
-        <div class="txt">
-          <span class="t">7 класс · алгебра и геометрия</span>
-          <span class="d">Десять тем по каждому разделу и зачёт в конце: 10 вопросов с мгновенной проверкой и объяснениями. Можно перепроходить.</span>
-          <span class="tags"><span class="tag">уравнения</span><span class="tag">треугольники</span><span class="tag">зачёт</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a class="masc" href="8-klass.html">
-        <img class=mimg src="img/ham-joy.jpg" alt="" loading="lazy">
-        <div class="num">8<small>класс</small></div>
-        <div class="txt">
-          <span class="t">8 класс · алгебра и геометрия</span>
-          <span class="d">Корни, квадратные уравнения и Виета; четырёхугольники, площади, подобие. В конце каждого раздела — зачёт.</span>
-          <span class="tags"><span class="tag">дискриминант</span><span class="tag">площади</span><span class="tag">зачёт</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a class="masc" href="9-klass.html">
-        <img class=mimg src="img/lab-joy.jpg" alt="" loading="lazy">
-        <div class="num">9<small>класс</small></div>
-        <div class="txt">
-          <span class="t">9 класс · алгебра, геометрия и ОГЭ</span>
-          <span class="d">Прогрессии, вероятность, парабола; вся геометрия курса. Плюс раздел по номерам заданий ОГЭ — пробники, тренажёр, разборы.</span>
-          <span class="tags"><span class="tag">прогрессии</span><span class="tag">ОГЭ по номерам</span><span class="tag">зачёт</span></span>
-        </div>
-      </a></li>
-    </ul>
-  </section>
+  <div class="final">
+    <h2>Начнём с диагностики?</h2>
+    <p>Напишите класс ребёнка и что беспокоит. Я отвечу и пришлю ссылку.</p>
+    <div class="btns">
+      <a class="btn main" href="https://t.me/ohh_my_lily">Написать в Telegram</a>
+      <a class="btn ghost" href="#diagnostika">Выбрать диагностику</a>
+    </div>
+  </div>
 
-    <h2>7 класс · диагностика</h2>
-    <ul class="list">
-      <li class="item"><a class="masc" href="diagnostika-7-klass.html">
-        <img class=mimg src="img/cat-pizza.jpg" alt="" loading="lazy">
-        <div class="num">25<small>заданий</small></div>
-        <div class="txt">
-          <span class="t">Диагностика по математике · 7 класс</span>
-          <span class="d">Разминка, испытание и вызов: степени, формулы сокращённого умножения, уравнения и функции. Итог по каждому уровню.</span>
-          <span class="tags"><span class="tag">около 70 минут</span><span class="tag">в игровой форме</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="razbor-diag-7-klass.txt">
-        <div class="num">25<small>разборов</small></div>
-        <div class="txt">
-          <span class="t">Разбор диагностики · 7 класс · алгебра (текст)</span>
-          <span class="d">Разбор всех 25 заданий в формате диалога «ученик — учитель» с подробным объяснением каждого шага. Файл для печати.</span>
-          <span class="tags"><span class="tag">для печати</span><span class="tag">по каждому заданию</span></span>
-        </div>
-      </a></li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>8 класс · диагностика</h2>
-    <ul class="list">
-      <li class="item"><a class="masc" href="diagnostika-8-klass.html">
-        <img class=mimg src="img/capy-coin.jpg" alt="" loading="lazy">
-        <div class="num">25<small>заданий</small></div>
-        <div class="txt">
-          <span class="t">Диагностика по математике · 8 класс</span>
-          <span class="d">Разминка, испытание и вызов: корни, квадратные уравнения и формулы сокращённого умножения. Итог по каждому уровню.</span>
-          <span class="tags"><span class="tag">около 70 минут</span><span class="tag">в игровой форме</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="razbor-diag-8-klass.txt">
-        <div class="num">25<small>разборов</small></div>
-        <div class="txt">
-          <span class="t">Разбор диагностики · 8 класс · алгебра (текст)</span>
-          <span class="d">Разбор всех 25 заданий в формате диалога «ученик — учитель» с подробным объяснением каждого шага. Файл для печати.</span>
-          <span class="tags"><span class="tag">для печати</span><span class="tag">по каждому заданию</span></span>
-        </div>
-      </a></li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>Часть 1 · геометрия · задание 15 · треугольники</h2>
-    <ul class="list">
-      <li class="item"><a href="z15-sin-cos-tg-znachenie.html">
-        <div class="num">15<small>задание</small></div>
-        <div class="txt">
-          <span class="t">Синус, косинус и тангенс: найти значение</span>
-          <span class="d">sin, cos, tg угла по двум сторонам прямоугольного треугольника.</span>
-          <span class="tags"><span class="tag">5 шагов</span><span class="tag">30 задач в банке</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="z15-sin-cos-tg-storona.html">
-        <div class="num">15<small>задание</small></div>
-        <div class="txt">
-          <span class="t">Синус, косинус и тангенс: найти сторону</span>
-          <span class="d">Сторона по гипотенузе или катету и значению sin, cos, tg.</span>
-          <span class="tags"><span class="tag">5 шагов</span><span class="tag">30 задач в банке</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="z15-pifagor.html">
-        <div class="num">15<small>задание</small></div>
-        <div class="txt">
-          <span class="t">Теорема Пифагора</span>
-          <span class="d">Гипотенуза по двум катетам или катет по катету и гипотенузе.</span>
-          <span class="tags"><span class="tag">5 шагов</span><span class="tag">24 задач в банке</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="z15-ravnostoronniy.html">
-        <div class="num">15<small>задание</small></div>
-        <div class="txt">
-          <span class="t">Равносторонний треугольник</span>
-          <span class="d">Сторона, высота, медиана и биссектриса: числа с √3.</span>
-          <span class="tags"><span class="tag">5 шагов</span><span class="tag">24 задач в банке</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="z15-summa-uglov.html">
-        <div class="num">15<small>задание</small></div>
-        <div class="txt">
-          <span class="t">Сумма углов и внешний угол</span>
-          <span class="d">Третий угол треугольника, второй острый угол, внешний угол.</span>
-          <span class="tags"><span class="tag">5 шагов</span><span class="tag">34 задач в банке</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="z15-ploshchad.html">
-        <div class="num">15<small>задание</small></div>
-        <div class="txt">
-          <span class="t">Площадь треугольника</span>
-          <span class="d">Три формулы площади: по катетам, по высоте, через синус.</span>
-          <span class="tags"><span class="tag">4 шага</span><span class="tag">32 задач в банке</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="z15-mediana-bissektrisa-srednyaya-liniya.html">
-        <div class="num">15<small>задание</small></div>
-        <div class="txt">
-          <span class="t">Медиана, биссектриса, средняя линия</span>
-          <span class="d">Задачи на определение: лишние данные и половина отрезка или угла.</span>
-          <span class="tags"><span class="tag">4 шага</span><span class="tag">36 задач в банке</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="z15-ravnobedrennyy.html">
-        <div class="num">15<small>задание</small></div>
-        <div class="txt">
-          <span class="t">Равнобедренный треугольник</span>
-          <span class="d">AB = BC, угол при вершине дан, найти угол при основании.</span>
-          <span class="tags"><span class="tag">5 шагов</span><span class="tag">12 задач в банке</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="z15-vysota-ugol.html">
-        <div class="num">15<small>задание</small></div>
-        <div class="txt">
-          <span class="t">Высота и угол ABH</span>
-          <span class="d">BH — высота, угол BAC дан, найти угол ABH.</span>
-          <span class="tags"><span class="tag">5 шагов</span><span class="tag">10 задач в банке</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="z15-mediana-polovina-storony.html">
-        <div class="num">15<small>задание</small></div>
-        <div class="txt">
-          <span class="t">Медиана равна половине стороны</span>
-          <span class="d">BM = AM = MC: угол B прямой, угол A ищем через 90°.</span>
-          <span class="tags"><span class="tag">5 шагов</span><span class="tag">10 задач в банке</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="z15-bissektrisa-ravnye-otrezki.html">
-        <div class="num">15<small>задание</small></div>
-        <div class="txt">
-          <span class="t">Биссектриса и равные отрезки</span>
-          <span class="d">AK — биссектриса, AK = CK: угол B = 180° − 3∠C.</span>
-          <span class="tags"><span class="tag">4 шага</span><span class="tag">10 задач в банке</span></span>
-        </div>
-      </a></li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>Часть 2 · геометрия</h2>
-    <ul class="list">
-      <li class="item"><a href="bissektrisy-parallelogramma.html">
-        <div class="num">25<small>задание</small></div>
-        <div class="txt">
-          <span class="t">Биссектрисы в параллелограмме</span>
-          <span class="d">Свойство биссектрисы угла, высота из двух отрезков, площадь параллелограмма.</span>
-          <span class="tags"><span class="tag">6 шагов</span><span class="tag">с ответом</span></span>
-        </div>
-      </a></li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>Часть 2 · алгебра · задание 21 · задачи на движение</h2>
-    <ul class="list">
-      <li class="item"><a href="z21-dvizhenie-test.html">
-        <div class="num">21<small>задание</small></div>
-        <div class="txt">
-          <span class="t">Задачи на движение: тест</span>
-          <span class="d">Единицы измерения, сближение, река, средняя скорость, поезд и мост, круговая трасса. После каждого ответа разбор.</span>
-          <span class="tags"><span class="tag">10 вопросов</span><span class="tag">с разбором</span></span>
-        </div>
-      </a></li>
-      <li class="item"><a href="z21-dvizhenie-trenazhor.html">
-        <div class="num">21<small>задание</small></div>
-        <div class="txt">
-          <span class="t">Задачи на движение: тренажёр, повышенный уровень</span>
-          <span class="d">Пять задач с пошаговым разбором: переменная, уравнение, решение, отбор корня.</span>
-          <span class="tags"><span class="tag">5 задач</span><span class="tag">по шагам</span></span>
-        </div>
-      </a></li>
-    </ul>
-  </section>
-
-  <footer>Лилия Кузнецова · репетитор по математике, подготовка к ОГЭ</footer>
+  <footer>
+    <span>Лилия Кузнецова · репетитор по математике · 25/25</span>
+    <span><a href="materialy.html">Все материалы</a> · <a href="https://t.me/ohh_my_lily">@ohh_my_lily</a></span>
+  </footer>
 </div>
 </body>
 </html>

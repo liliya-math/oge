@@ -1524,7 +1524,7 @@ function bindDetail(){const n=S.sel;if(!n)return;
 }
 let PAGES=[];
 function readB64(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(',')[1]);r.onerror=()=>rej(new Error('Не получилось прочитать файл'));r.readAsDataURL(f)})}
-function loadPages(){fetch('index.html',{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{if(!t)return;const d=new DOMParser().parseFromString(t,'text/html');const seen=new Set();
+function loadPages(){fetch('materialy.html',{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{if(!t)return;const d=new DOMParser().parseFromString(t,'text/html');const seen=new Set();
   PAGES=[...d.querySelectorAll('a[href$=".html"],a[href$=".pdf"]')].map(a=>{const h=a.getAttribute('href').replace(/^\.\//,'');const tt=a.querySelector('.t');return [h,(tt?tt.textContent:a.textContent).trim().replace(/\s+/g,' ')]}).filter(p=>p[0]!=='kabinet.html'&&!seen.has(p[0])&&seen.add(p[0]));
   const dl=document.getElementById('sitepages');if(dl)dl.innerHTML=PAGES.map(p=>`<option value="${esc(p[0])}">${esc(p[1])}</option>`).join('')}).catch(()=>{})}
 function tRoute(){loadPages();if(!API)return tFail(new Error('Кабинет не подключён к таблице'),tRoute);if(!PASS)return tLogin('');if(CODE)tStudent();else tList()}
