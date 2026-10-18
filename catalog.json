@@ -917,6 +917,177 @@
    "oge_task": 21,
    "status": "public",
    "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-drobi.html",
+   "title": "Десятичные дроби: все материалы по порядку",
+   "type": "sistema",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-drobi-teoriya.html",
+   "title": "Теория и устный опрос: действия с десятичными дробями",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-drobi-test.html",
+   "title": "Тест: действия с десятичными дробями",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-drobi-pyatiminutki.html",
+   "title": "Карточки-пятиминутки: десятичные дроби (2 варианта)",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-drobi-razbor-5.html",
+   "title": "Разбор 5 задач повышенной сложности: десятичные дроби",
+   "type": "razbor",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-drobi-trenazhor.html",
+   "title": "Тренажёр: 5 задач повышенной сложности, десятичные дроби",
+   "type": "trenazher",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-drobi-trenazhor-gen.html",
+   "title": "Тренажёр: десятичные дроби, новые числа каждый раз",
+   "type": "trenazher",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-drobi-pamyatka.html",
+   "title": "Памятка: алгоритм и запись ответа, задание 6",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-drobi-kontrolnaya.html",
+   "title": "Зачётный лист: десятичные дроби (3 уровня)",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-drobi-dz.html",
+   "title": "Домашняя карточка: десятичные дроби (4 задачи)",
+   "type": "dz",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "razbor-drobi-6-dialog.md",
+   "title": "Диалог ученик-учитель: десятичные дроби, план урока и ДЗ (текст)",
+   "type": "razbor",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "razbor-drobi-6-dialog.pdf",
+   "title": "Диалог ученик-учитель: десятичные дроби, план урока и ДЗ (печать)",
+   "type": "razbor",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-drobi-teoriya.pdf",
+   "title": "Десятичные дроби, печать: теория",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-drobi-pyatiminutki.pdf",
+   "title": "Десятичные дроби, печать: пятиминутки",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-drobi-razbor-5.pdf",
+   "title": "Десятичные дроби, печать: разбор 5 задач",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-drobi-pamyatka.pdf",
+   "title": "Десятичные дроби, печать: памятка",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-drobi-kontrolnaya.pdf",
+   "title": "Десятичные дроби, печать: зачётный лист",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-drobi-dz.pdf",
+   "title": "Десятичные дроби, печать: домашняя карточка",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
+  },
+  {
+   "file": "z6-drobi-komplekt.pdf",
+   "title": "Десятичные дроби, печать: комплект",
+   "type": "zadanie",
+   "class": 9,
+   "oge_task": 6,
+   "status": "public",
+   "note": "добавлено 2026-10-18"
   }
  ]
 }

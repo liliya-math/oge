@@ -1,0 +1,201 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тренажёр: новые числа каждый раз</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px}.fr i{display:block;font-style:normal;padding:0 4px;border-bottom:1px solid currentColor;line-height:1.25}.fr b{display:block;font-weight:normal;padding:0 4px;line-height:1.25}</style></head><body><div class="wrap"><a href="z6-drobi.html" style="color:var(--blue);font-size:14px;text-decoration:none">← Действия с десятичными дробями (задание 6)</a><h1 style="margin-top:10px">Тренажёр: новые числа каждый раз</h1><p class="sub">Семь типов, числа меняются при каждом нажатии «Новая задача». Ответ вводите числом, запятая или точка.</p><div class="tabs" id="tabs"></div><div id="box"></div><p class="sub" id="stat"></p></div><script>function rnd(a,b){return a+Math.floor(Math.random()*(b-a+1))}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=a%b;a=b;b=t}return a||1}
+function R(n,d){if(d===undefined)d=1;if(d<0){n=-n;d=-d}var g=gcd(n,d);return {n:n/g,d:d/g}}
+function add(a,b){return R(a.n*b.d+b.n*a.d,a.d*b.d)}
+function sub(a,b){return R(a.n*b.d-b.n*a.d,a.d*b.d)}
+function mul(a,b){return R(a.n*b.n,a.d*b.d)}
+function dv(a,b){return R(a.n*b.d,a.d*b.n)}
+function dec(s){s=String(s).replace(',','.');var neg=s.charAt(0)==='-';if(neg)s=s.slice(1);var p=s.split('.');var k=p[1]?p[1].length:0;var n=parseInt(p[0]+(p[1]||''),10);return R(neg?-n:n,Math.pow(10,k))}
+function term(r){var d=r.d;while(d%2===0)d/=2;while(d%5===0)d/=5;return d===1}
+function digs(r){for(var k=0;k<=6;k++){if((Math.abs(r.n)*Math.pow(10,k))%r.d===0)return k}return 99}
+function fmt(r){
+  var neg=r.n<0,n=Math.abs(r.n),k=digs(r);
+  var val=n*Math.pow(10,k)/r.d,s=String(val);
+  if(k>0){while(s.length<k+1)s='0'+s;s=s.slice(0,s.length-k)+','+s.slice(s.length-k)}
+  return (neg?'−':'')+s;
+}
+function sh(r){return r.n<0?'('+fmt(r)+')':fmt(r)}
+function FRh(n,d){return '<span class="fr"><i>'+n+'</i><b>'+d+'</b></span>'}
+function D(s){return dec(s)}
+function rd(lo,hi,k){ // случайная десятичная с k знаками в [lo,hi]
+  var m=Math.pow(10,k);return R(rnd(Math.round(lo*m),Math.round(hi*m)),m)}
+function ok(r,maxd,lo,hi){var a=Math.abs(r.n/r.d);return term(r)&&digs(r)<=maxd&&a>=lo&&a<=hi}
+
+var TYPES={
+ order:{name:'Порядок действий'},
+ mixed:{name:'Смешанные числа'},
+ neg:{name:'Знаки'},
+ bar:{name:'Дробная черта'},
+ rat:{name:'Рациональный счёт'},
+ divdec:{name:'Деление на десятичную'},
+ shop:{name:'Покупки'}
+};
+var MULS=['0,5','0,25','2','1,5','0,2','0,4','2,5','0,75','0,1','4'];
+var FRS=[[1,2],[1,4],[3,4],[1,5],[2,5],[3,5],[1,8],[3,8],[1,20],[7,20],[3,25]];
+
+function gOrder(){
+ var b=rd(1,9.9,1),c=rd(0.1,9.8,1),k=sub(b,c);
+ if(k.n<=0)return null;
+ var m=rnd(2,15),a=mul(k,R(m)),d=dec(pick(MULS)),u=R(m),ans=mul(u,d);
+ if(!ok(ans,3,0.2,200)||!ok(a,2,0.5,150))return null;
+ var e=fmt(a)+' : ('+fmt(b)+' − '+fmt(c)+') · '+fmt(d);
+ return {type:'order',cond:e,expr:e,ans:fmt(ans),
+  hints:['Сначала действие в скобках, затем деление и умножение по порядку слева направо.','Чтобы разделить на десятичную дробь, перенесите запятые вправо на столько знаков, сколько их в делителе.'],
+  sol:['В скобках: '+fmt(b)+' − '+fmt(c)+' = '+fmt(k)+'.',fmt(a)+' : '+fmt(k)+' = '+fmt(u)+'.',fmt(u)+' · '+fmt(d)+' = '+fmt(ans)+'.']};
+}
+function gMixed(){
+ var f=pick(FRS),w=rnd(1,4),M=add(R(w),R(f[0],f[1])),x=rd(0.1,w,2),p=sub(M,x);
+ if(p.n<=0)return null;
+ var y=dec(pick(['0,05','0,1','0,2','0,25','0,4','0,5','0,8','1,5','2,5'])),q=dv(p,y);
+ var z=dec(pick(['0,2','0,25','0,4','0,5','0,6','0,8','1,2','1,6','2,5','0,75'])),kk=dec(pick(['0,5','0,25','0,4','1,5','2','3','0,2','0,6'])),v=mul(z,kk),ans=add(q,v);
+ if(!ok(q,2,0.1,200)||!ok(v,3,0.05,100)||!ok(ans,3,0.2,250)||!ok(p,2,0.05,50))return null;
+ var disp='('+w+FRh(f[0],f[1])+' − '+fmt(x)+') : '+fmt(y)+' + '+fmt(z)+' · '+fmt(kk);
+ var ex='([ '+w+'+'+f[0]+'/'+f[1]+' ] − '+fmt(x)+') : '+fmt(y)+' + '+fmt(z)+' · '+fmt(kk);
+ ex=ex.replace('[ ','[').replace(' ]',']');
+ return {type:'mixed',cond:disp,expr:ex,ans:fmt(ans),
+  hints:['Смешанное число запишите десятичной дробью: целая часть остаётся, дробь переведите (1/4 = 0,25).','Порядок: скобки, затем деление и умножение, затем сложение.'],
+  sol:[w+' '+f[0]+'/'+f[1]+' = '+fmt(M)+'.',fmt(M)+' − '+fmt(x)+' = '+fmt(p)+'.',fmt(p)+' : '+fmt(y)+' = '+fmt(q)+'.',fmt(z)+' · '+fmt(kk)+' = '+fmt(v)+'.',fmt(q)+' + '+fmt(v)+' = '+fmt(ans)+'.']};
+}
+function gNeg(){
+ var a=rd(0.2,3,1),b=rd(0.2,4,1),d=rd(0.1,1.5,2);
+ var m=rnd(2,15),c=mul(d,R(m));
+ var sa=pick([-1,1]),sb=pick([-1,1]),sd=pick([-1,1]);
+ if(sa>0&&sb>0&&sd>0)return null;
+ var A=mul(a,R(sa)),B=mul(b,R(sb)),Dd=mul(d,R(sd));
+ var t1=mul(A,B),t2=dv(c,Dd),op=pick(['+','−']);
+ var ans=op==='+'?add(t1,t2):sub(t1,t2);
+ if(!ok(t1,3,0.1,100)||!ok(t2,3,0.1,100)||!ok(ans,3,0.05,200)||ans.n===0)return null;
+ if(!ok(c,3,0.2,100))return null;
+ var e=fmt(A)+' · '+sh(B)+' '+op+' '+fmt(c)+' : '+sh(Dd);
+ var e2=e;
+ var sol=[fmt(A)+' · '+sh(B)+' = '+fmt(t1)+(t1.n>0?' (знаки одинаковые).':' (знаки разные).'),fmt(c)+' : '+sh(Dd)+' = '+fmt(t2)+(t2.n>0?' (знаки одинаковые).':' (знаки разные).')];
+ sol.push(fmt(t1)+' '+op+' '+sh(t2)+' = '+fmt(ans)+'.');
+ return {type:'neg',cond:e,expr:e2,ans:fmt(ans),
+  hints:['Определите знак каждого произведения и частного: одинаковые знаки — плюс, разные — минус.','Вычитание отрицательного числа — это сложение: 2 − (−5) = 7.'],
+  sol:sol};
+}
+function gBar(){
+ var a=rd(0.4,9,1),b=dec(pick(['0,25','0,5','0,2','0,4','0,3','0,6','1,5','2'])),c=rd(0.4,9,1),d=dec(pick(['0,25','0,5','0,2','0,4','0,3','0,6','1,5','2']));
+ var e1=rd(0.1,1.5,2),f=dec(pick(['0,2','0,25','0,4','0,5','0,6','0,3','0,8']));
+ var n1=mul(a,b),n2=mul(c,d),N=add(n1,n2),Dn=mul(e1,f),ans=dv(N,Dn);
+ if(!ok(n1,3,0.05,50)||!ok(n2,3,0.05,50)||!ok(N,3,0.1,100)||!ok(Dn,4,0.02,5)||!ok(ans,1,0.5,80))return null;
+ var num=fmt(a)+' · '+fmt(b)+' + '+fmt(c)+' · '+fmt(d),den=fmt(e1)+' · '+fmt(f);
+ return {type:'bar',cond:'<span class="fr"><i>'+num+'</i><b>'+den+'</b></span>',expr:'('+num+') : ('+den+')',ans:fmt(ans),
+  hints:['Дробная черта заменяет скобки: отдельно считайте числитель и знаменатель.','При умножении считайте число знаков после запятой в обоих множителях вместе.'],
+  sol:['Числитель: '+fmt(a)+' · '+fmt(b)+' = '+fmt(n1)+'; '+fmt(c)+' · '+fmt(d)+' = '+fmt(n2)+'; сумма '+fmt(N)+'.','Знаменатель: '+fmt(e1)+' · '+fmt(f)+' = '+fmt(Dn)+'.',fmt(N)+' : '+fmt(Dn)+' = '+fmt(ans)+'.']};
+}
+function gRat(){
+ var a=rd(1.1,9.9,1),s=pick([2,3,4,5,10]),b=rd(0.1,s-0.1,1),c=sub(R(s),b),d=rd(1.1,9.9,1),e=dec(pick(['1,2','1,5','0,8','2,5','0,4','1,6','0,25']));
+ var t=mul(a,R(s)),u=mul(d,e),ans=sub(t,u);
+ if(digs(b)!==1||digs(c)!==1||digs(a)!==1||(b.n===c.n&&b.d===c.d))return null;
+ if(!ok(t,2,2,100)||!ok(u,3,0.2,50)||!ok(ans,3,0.5,100)||ans.n<=0)return null;
+ var ex=fmt(a)+' · '+fmt(b)+' + '+fmt(a)+' · '+fmt(c)+' − '+fmt(d)+' · '+fmt(e);
+ return {type:'rat',cond:ex,expr:ex,ans:fmt(ans),
+  hints:['В двух первых слагаемых есть общий множитель '+fmt(a)+'. Вынесите его за скобки.','Сумма в скобках получится целым числом.'],
+  sol:[fmt(a)+' · '+fmt(b)+' + '+fmt(a)+' · '+fmt(c)+' = '+fmt(a)+' · ('+fmt(b)+' + '+fmt(c)+') = '+fmt(a)+' · '+s+' = '+fmt(t)+'.',fmt(d)+' · '+fmt(e)+' = '+fmt(u)+'.',fmt(t)+' − '+fmt(u)+' = '+fmt(ans)+'.']};
+}
+function gDivdec(){
+ var b=dec(pick(['0,02','0,04','0,05','0,2','0,25','0,4','0,5','0,8','1,25','0,125'])),m=rnd(3,40),a=mul(b,R(m));
+ var c=rd(0.2,9,1),dd=dec(pick(['0,5','0,2','0,25','0,4','1,5','0,3','0,6'])),v=mul(c,dd),op=pick(['+','−']);
+ var ans=op==='+'?add(R(m),v):sub(R(m),v);
+ if(!ok(a,3,0.2,100)||!ok(v,3,0.05,50)||!ok(ans,3,0.2,200)||ans.n<=0)return null;
+ var ex=fmt(a)+' : '+fmt(b)+' '+op+' '+fmt(c)+' · '+fmt(dd);
+ return {type:'divdec',cond:ex,expr:ex,ans:fmt(ans),
+  hints:['Чтобы разделить на десятичную дробь, перенесите запятые в делимом и делителе вправо на одинаковое число знаков.','Деление и умножение выполняются раньше сложения и вычитания.'],
+  sol:[fmt(a)+' : '+fmt(b)+' = '+fmt(R(m))+' (запятые перенесли вправо, делим как натуральные).',fmt(c)+' · '+fmt(dd)+' = '+fmt(v)+'.',fmt(R(m))+' '+op+' '+fmt(v)+' = '+fmt(ans)+'.']};
+}
+function gShop(){
+ if(Math.random()<0.5){
+  var P=rd(12,60,1),kop=pick([0,50]),pr=add(R(rnd(12,60)),R(kop,100)),S=pick([100,150,200,250,300,400,500]);
+  var q=dv(R(S),pr),fl=Math.floor(q.n/q.d);
+  if(fl<2||q.d===1)return null;
+  var rub=Math.floor(pr.n/pr.d),kk=kop;
+  var price=kk===0?rub+' руб.':rub+' руб. '+kk+' коп.';
+  var an=fmt(R(fl));
+  return {type:'shop',cond:'Тетрадь стоит '+price+' Сколько таких тетрадей можно купить на '+S+' руб.?',expr:S+' : '+fmt(pr),floor:true,ans:an,
+   hints:['Разделите сумму на цену одной тетради.','Купить можно только целое число тетрадей: дробную часть отбросьте.'],
+   sol:['Цена: '+price+(kk===0?'':' = '+fmt(pr)+' руб.'),S+' : '+fmt(pr)+' = '+fmt(R(Math.floor(q.n*1000/q.d),1000))+'…','Целое число тетрадей: '+fl+'.']};
+ }
+ var p2=R(rnd(20,120)),qq=dec(pick(['0,4','0,5','1,5','2,5','0,25','1,2','0,75','0,2','3,5'])),ans2=mul(p2,qq);
+ if(ans2.d!==1)return null;
+ var item=pick(['яблок','сыра','печенья','творога','орехов']);
+ return {type:'shop',cond:'Килограмм '+item+' стоит '+p2.n+' руб. Сколько рублей надо заплатить за '+fmt(qq)+' кг?',expr:p2.n+' · '+fmt(qq),ans:fmt(ans2),
+  hints:['Стоимость = цена за 1 кг · масса.','Умножайте как натуральные числа и отделите нужное число знаков.'],
+  sol:[p2.n+' · '+fmt(qq)+' = '+fmt(ans2)+' руб.']};
+}
+var GEN={order:gOrder,mixed:gMixed,neg:gNeg,bar:gBar,rat:gRat,divdec:gDivdec,shop:gShop};
+function make(type){for(var i=0;i<2000;i++){var t=GEN[type]();if(t)return t}return null}
+
+
+var cur=null,hi=0,type='all',solved=0,tried=0,sw=false;
+var box=document.getElementById('box'),stat=document.getElementById('stat'),tabs=document.getElementById('tabs');
+function norm(s){return String(s).replace(/\s/g,'').replace(/[−–—]/g,'-').replace(',','.')}
+function same(a,b){a=norm(a);b=norm(b);if(!/^-?\d+(\.\d+)?$/.test(a))return false;return Math.abs(parseFloat(a)-parseFloat(b))<1e-9}
+function tabsRender(){
+  var keys=['all'].concat(Object.keys(TYPES));
+  tabs.innerHTML='';
+  keys.forEach(function(k){var b=document.createElement('button');b.textContent=k==='all'?'Все типы':TYPES[k].name;if(k===type)b.className='on';b.onclick=function(){type=k;tabsRender();nw()};tabs.appendChild(b)});
+}
+function nw(){
+  var k=type==='all'?pick(Object.keys(TYPES)):type;
+  cur=make(k);hi=0;sw=false;
+  var head=cur.type==='shop'?'':'<b>Найдите значение выражения</b><br>';
+  box.innerHTML='<div class="card"><span class="tag">'+TYPES[cur.type].name+'</span><div class="cond">'+head+'<span style="font-size:20px">'+cur.cond+'</span></div>'+
+   '<input class="num" id="ans" inputmode="decimal" autocomplete="off" placeholder="ответ"> <button class="btn" id="ck">Проверить</button> <button class="btn ghost" id="hn">Подсказка</button> <button class="btn ghost" id="sl">Решение</button><div id="out"></div></div>';
+  var inp=document.getElementById('ans');inp.focus();
+  document.getElementById('ck').onclick=chk;inp.onkeydown=function(e){if(e.key==='Enter')chk()};
+  document.getElementById('hn').onclick=function(){if(hi<cur.hints.length){hi++}var h='';for(var i=0;i<hi;i++)h+='<div class="hint">Подсказка '+(i+1)+': '+cur.hints[i]+'</div>';document.getElementById('out').innerHTML=h};
+  document.getElementById('sl').onclick=showSol;
+  upd();
+}
+function showSol(){
+  sw=true;var h='<div class="exp"><b>Решение.</b><ol style="margin:6px 0 0 18px;padding:0">';
+  cur.sol.forEach(function(s){h+='<li>'+s+'</li>'});
+  h+='</ol><b>Ответ: '+cur.ans+'.</b></div><button class="btn" onclick="nw()">Новая задача</button>';
+  document.getElementById('out').innerHTML=h;
+}
+function chk(){
+  var v=document.getElementById('ans').value;if(!v.trim())return;
+  tried++;
+  if(same(v,cur.ans)){
+    if(!sw)solved++;
+    document.getElementById('out').innerHTML='<div class="done">Верно. Ответ: '+cur.ans+'.</div><button class="btn" onclick="nw()">Новая задача</button>';
+    document.getElementById('ans').disabled=true;document.getElementById('ck').style.display='none';
+  }else{
+    document.getElementById('out').innerHTML='<div class="hint">Не совпало. Проверьте знаки, запятую и порядок действий. Нажмите «Подсказка» или «Решение».</div>';
+  }
+  upd();
+}
+function upd(){stat.textContent='Решено верно: '+solved+' · попыток ввода: '+tried}
+tabsRender();nw();
+</script></body></html>
