@@ -1,0 +1,88 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Степени: тренажёр, пять задач</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+sup{font-size:70%;line-height:0;vertical-align:super;white-space:nowrap}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px}.fr i{display:block;font-style:normal;padding:0 4px;border-bottom:1px solid currentColor;line-height:1.25}.fr b{display:block;font-weight:normal;padding:0 4px;line-height:1.25}
+.rt{white-space:nowrap}.ro{border-top:1px solid currentColor;padding:0 2px;margin-left:1px}
+</style></head><body><div class="wrap"><a href="z8-stepeni.html" style="color:var(--blue);font-size:14px;text-decoration:none">← Степени (задание 8)</a><h1 style="margin-top:10px">Тренажёр: пять задач повышенной сложности</h1><p class="sub">Выполняйте шаги по порядку. Ответ можно писать десятичной дробью (4,5), обыкновенной (9/2) или смешанным числом (4 1/2). После ошибки появляется подсказка, после второй ошибки верный ответ с разбором.</p><div class="bar"><i id="pb"></i></div><div id="box"></div></div><script>const T=[{"id": "A", "topic": "Приведение к одному основанию, степень степени, отрицательные показатели", "disp": "<span class=\"fr\"><i>8<sup>−3</sup> · 16<sup>2</sup></i><b>32<sup>−1</sup> · 4<sup>−2</sup></b></span>", "ans": "256", "trap": "Вычитание отрицательного показателя: −1 − (−9) = 8, а не −10. Ещё одна частая ошибка — перемножить показатели при умножении степеней.", "steps": [{"q": "Запишите 8<sup>−3</sup> степенью числа 2. Чему равен показатель?", "a": "-9", "ah": "−9", "hint": "8 = 2<sup>3</sup>. При возведении степени в степень показатели перемножают: 3 · (−3).", "why": "8<sup>−3</sup> = (2<sup>3</sup>)<sup>−3</sup> = 2<sup>−9</sup>."}, {"q": "Числитель 8<sup>−3</sup> · 16<sup>2</sup> равен 2<sup>k</sup>. Чему равно k?", "a": "-1", "ah": "−1", "hint": "16 = 2<sup>4</sup>, значит 16<sup>2</sup> = 2<sup>8</sup>. Сложите показатели −9 и 8.", "why": "2<sup>−9</sup> · 2<sup>8</sup> = 2<sup>−1</sup>."}, {"q": "Знаменатель 32<sup>−1</sup> · 4<sup>−2</sup> равен 2<sup>k</sup>. Чему равно k?", "a": "-9", "ah": "−9", "hint": "32 = 2<sup>5</sup>, 4 = 2<sup>2</sup>. Получится 2<sup>−5</sup> · 2<sup>−4</sup>.", "why": "(2<sup>5</sup>)<sup>−1</sup> · (2<sup>2</sup>)<sup>−2</sup> = 2<sup>−5</sup> · 2<sup>−4</sup> = 2<sup>−9</sup>."}, {"q": "Частное 2<sup>−1</sup> : 2<sup>−9</sup> равно 2<sup>k</sup>. Чему равно k?", "a": "8", "ah": "8", "hint": "При делении показатели вычитают: −1 − (−9).", "why": "−1 − (−9) = −1 + 9 = 8."}, {"q": "Чему равно 2<sup>8</sup>?", "a": "256", "ah": "256", "hint": "2<sup>4</sup> = 16, значит 2<sup>8</sup> = 16<sup>2</sup>.", "why": "2<sup>8</sup> = 16<sup>2</sup> = 256."}]}, {"id": "B", "topic": "Разные основания: разложение на простые множители", "disp": "<span class=\"fr\"><i>12<sup>4</sup> · 6<sup>−3</sup></i><b>2<sup>3</sup> · 3</b></span>", "ans": "4", "trap": "Нельзя складывать показатели у разных оснований: 12<sup>4</sup> · 6<sup>−3</sup> не равно ни 12<sup>1</sup>, ни 6<sup>1</sup> (значение равно 96). Сначала разложение на простые множители, потом показатели каждого множителя отдельно.", "steps": [{"q": "Чему равен показатель числа 2 в 12<sup>4</sup>, если 12 = 2<sup>2</sup> · 3?", "a": "8", "ah": "8", "hint": "12<sup>4</sup> = (2<sup>2</sup> · 3)<sup>4</sup> = (2<sup>2</sup>)<sup>4</sup> · 3<sup>4</sup>.", "why": "(2<sup>2</sup>)<sup>4</sup> = 2<sup>8</sup>, а 3<sup>4</sup> остаётся."}, {"q": "Чему равен показатель числа 3 в числителе 12<sup>4</sup> · 6<sup>−3</sup>? Из 12<sup>4</sup> получается 3<sup>4</sup>, из 6<sup>−3</sup> — 3<sup>−3</sup>.", "a": "1", "ah": "1", "hint": "Сложите показатели тройки: 4 + (−3).", "why": "3<sup>4</sup> · 3<sup>−3</sup> = 3<sup>1</sup>."}, {"q": "Чему равен показатель числа 2 в числителе? Из 12<sup>4</sup> получается 2<sup>8</sup>, из 6<sup>−3</sup> — 2<sup>−3</sup>.", "a": "5", "ah": "5", "hint": "Сложите показатели двойки: 8 + (−3).", "why": "2<sup>8</sup> · 2<sup>−3</sup> = 2<sup>5</sup>."}, {"q": "Числитель равен 2<sup>5</sup> · 3, знаменатель 2<sup>3</sup> · 3. Чему равен показатель числа 2 в частном?", "a": "2", "ah": "2", "hint": "При делении показатели вычитают: 5 − 3.", "why": "2<sup>5</sup> : 2<sup>3</sup> = 2<sup>2</sup>. Тройки сократились: 3<sup>1−1</sup> = 3<sup>0</sup> = 1."}, {"q": "Чему равно значение выражения 2<sup>2</sup> · 3<sup>0</sup>?", "a": "4", "ah": "4", "hint": "Нулевая степень любого числа, не равного нулю, равна 1.", "why": "2<sup>2</sup> · 3<sup>0</sup> = 4 · 1 = 4."}]}, {"id": "C", "topic": "Отрицательные основания, отрицательный показатель, порядок действий", "disp": "(−2)<sup>−3</sup> · (−4)<sup>3</sup> − (−3)<sup>2</sup> : 3<sup>2</sup>", "ans": "7", "trap": "(−3)<sup>2</sup> = 9, а не −9: скобки значат, что в квадрат возводят число с минусом. Отрицательный показатель не меняет знак основания: (−2)<sup>−3</sup> = −0,125, а не 0,125.", "steps": [{"q": "Чему равно (−2)<sup>−3</sup>? Ответ запишите десятичной дробью.", "a": "-0,125", "ah": "−0,125", "hint": "(−2)<sup>−3</sup> = <span class=\"fr\"><i>1</i><b>(−2)<sup>3</sup></b></span>. Нечётная степень отрицательного числа отрицательна.", "why": "(−2)<sup>3</sup> = −8, значит (−2)<sup>−3</sup> = <span class=\"fr\"><i>1</i><b>−8</b></span> = −0,125."}, {"q": "Чему равно (−4)<sup>3</sup>?", "a": "-64", "ah": "−64", "hint": "Нечётный показатель — результат отрицательный. 4<sup>3</sup> = 64.", "why": "(−4)<sup>3</sup> = −64."}, {"q": "Чему равно произведение −0,125 · (−64)?", "a": "8", "ah": "8", "hint": "Знаки одинаковые. 0,125 = <span class=\"fr\"><i>1</i><b>8</b></span>.", "why": "<span class=\"fr\"><i>1</i><b>8</b></span> · 64 = 8."}, {"q": "Чему равно (−3)<sup>2</sup> : 3<sup>2</sup>?", "a": "1", "ah": "1", "hint": "(−3)<sup>2</sup> = 9 и 3<sup>2</sup> = 9.", "why": "9 : 9 = 1."}, {"q": "Чему равно значение выражения 8 − 1?", "a": "7", "ah": "7", "hint": "Последнее действие — вычитание.", "why": "Ответ: 7."}]}, {"id": "D", "topic": "Корень из степени и степень произведения", "disp": "<span class=\"fr\"><i><span class=\"rt\">√<span class=\"ro\">2<sup>6</sup> · 3<sup>4</sup></span></span></i><b>(2<sup>−1</sup> · 3)<sup>2</sup></b></span>", "ans": "32", "trap": "Корень делит показатель пополам: <span class=\"rt\">√<span class=\"ro\">2<sup>6</sup></span></span> = 2<sup>3</sup>, а не 2<sup>12</sup> и не 2<sup>6</sup>. В степень возводят каждый множитель: (2<sup>−1</sup> · 3)<sup>2</sup> = 2<sup>−2</sup> · 3<sup>2</sup>, а не 2<sup>−1</sup> · 3<sup>2</sup>.", "steps": [{"q": "Чему равно <span class=\"rt\">√<span class=\"ro\">2<sup>6</sup></span></span>?", "a": "8", "ah": "8", "hint": "2<sup>6</sup> = (2<sup>3</sup>)<sup>2</sup>.", "why": "<span class=\"rt\">√<span class=\"ro\">(2<sup>3</sup>)<sup>2</sup></span></span> = 2<sup>3</sup> = 8."}, {"q": "Чему равно <span class=\"rt\">√<span class=\"ro\">3<sup>4</sup></span></span>?", "a": "9", "ah": "9", "hint": "3<sup>4</sup> = (3<sup>2</sup>)<sup>2</sup>.", "why": "<span class=\"rt\">√<span class=\"ro\">(3<sup>2</sup>)<sup>2</sup></span></span> = 3<sup>2</sup> = 9."}, {"q": "Чему равно значение числителя <span class=\"rt\">√<span class=\"ro\">2<sup>6</sup> · 3<sup>4</sup></span></span>?", "a": "72", "ah": "72", "hint": "Корень из произведения равен произведению корней: 8 · 9.", "why": "8 · 9 = 72."}, {"q": "Чему равно (2<sup>−1</sup> · 3)<sup>2</sup>? Можно писать дробью, например 9/4.", "a": "2,25", "ah": "2,25", "hint": "2<sup>−1</sup> · 3 = <span class=\"fr\"><i>3</i><b>2</b></span>. Возведите в квадрат.", "why": "(<span class=\"fr\"><i>3</i><b>2</b></span>)<sup>2</sup> = <span class=\"fr\"><i>9</i><b>4</b></span> = 2,25."}, {"q": "Чему равно 72 : 2,25?", "a": "32", "ah": "32", "hint": "2,25 = <span class=\"fr\"><i>9</i><b>4</b></span>. Делить на дробь — умножать на обратную.", "why": "72 · <span class=\"fr\"><i>4</i><b>9</b></span> = 8 · 4 = 32."}]}, {"id": "E", "topic": "Стандартный вид числа и степени десяти", "disp": "<span class=\"fr\"><i>3,6 · 10<sup>5</sup> · 5 · 10<sup>−3</sup></i><b>1,2 · 10<sup>2</sup></b></span>", "ans": "15", "trap": "10<sup>5</sup> · 10<sup>−3</sup> = 10<sup>2</sup> (показатели складывают), а не 10<sup>−15</sup> и не 10<sup>8</sup>. При делении 18 : 1,2 переносите запятую в обоих числах: 180 : 12.", "steps": [{"q": "Чему равно 3,6 · 5?", "a": "18", "ah": "18", "hint": "36 · 5 = 180, затем отделите один знак.", "why": "3,6 · 5 = 18."}, {"q": "Произведение 10<sup>5</sup> · 10<sup>−3</sup> равно 10<sup>k</sup>. Чему равно k?", "a": "2", "ah": "2", "hint": "Показатели складывают: 5 + (−3).", "why": "10<sup>5</sup> · 10<sup>−3</sup> = 10<sup>2</sup>."}, {"q": "Чему равно значение числителя 18 · 10<sup>2</sup>?", "a": "1800", "ah": "1800", "hint": "10<sup>2</sup> = 100.", "why": "18 · 100 = 1800."}, {"q": "Чему равно значение знаменателя 1,2 · 10<sup>2</sup>?", "a": "120", "ah": "120", "hint": "10<sup>2</sup> = 100.", "why": "1,2 · 100 = 120."}, {"q": "Чему равно 1800 : 120?", "a": "15", "ah": "15", "hint": "Сократите на 10, затем на 12: 180 : 12.", "why": "180 : 12 = 15."}]}];
+let ti=0,si=0,tries=0,help=0,clean=0,tot=0,tclean=true;
+const box=document.getElementById('box'),pb=document.getElementById('pb');
+function val(s){s=String(s).trim().replace(/[−–—]/g,'-').replace(',','.').replace(/\s+/g,' ');let m;
+  if(m=s.match(/^(-?)(\d+) (\d+)\/(\d+)$/)){const v=+m[2]+(+m[3])/(+m[4]);return m[1]?-v:v}
+  if(m=s.match(/^(-?\d+)\/(\d+)$/)){return (+m[1])/(+m[2])}
+  if(/^-?\d+(\.\d+)?$/.test(s))return parseFloat(s);
+  return NaN}
+function same(a,b){const x=val(a),y=val(b);return !isNaN(x)&&Math.abs(x-y)<1e-9}
+function task(){
+  if(ti>=T.length)return end();
+  pb.style.width=(ti/T.length*100)+'%';
+  const t=T[ti];si=0;tclean=true;
+  box.innerHTML='<div class="card"><span class="tag">Задача '+(ti+1)+' из '+T.length+'</span><p class="sub" style="margin:0 0 8px">'+t.topic+'</p><div class="cond"><b>Найдите значение выражения</b><br><span style="font-size:20px">'+t.disp+'</span></div><div id="steps"></div></div>';
+  step();
+}
+function step(){
+  const t=T[ti],s=t.steps[si];tries=0;
+  const d=document.createElement('div');d.id='st'+si;
+  d.innerHTML='<p class="q" style="font-size:16px"><b>Шаг '+(si+1)+' из '+t.steps.length+'.</b> '+s.q+'</p><input class="num" id="in'+si+'" autocomplete="off" placeholder="ответ"> <button class="btn" id="ck'+si+'">Проверить</button><div id="fb'+si+'"></div>';
+  document.getElementById('steps').appendChild(d);
+  const inp=document.getElementById('in'+si),ck=document.getElementById('ck'+si);
+  ck.onclick=()=>check();inp.onkeydown=e=>{if(e.key==='Enter')check()};inp.focus();
+}
+function lock(k,msg,cls){
+  document.getElementById('in'+k).disabled=true;document.getElementById('ck'+k).style.display='none';
+  document.getElementById('fb'+k).innerHTML='<div class="'+cls+'">'+msg+'</div>';
+}
+function check(){
+  const t=T[ti],s=t.steps[si],v=document.getElementById('in'+si).value;
+  if(!v.trim())return;
+  tot++;
+  if(same(v,s.a)){
+    if(tries>0)tclean=false;else clean++;
+    lock(si,'Верно. '+s.why,'done');next();
+  }else{
+    tries++;tclean=false;if(tries===1)help++;
+    if(tries===1){document.getElementById('fb'+si).innerHTML='<div class="hint">Не так. Подсказка: '+s.hint+'</div>'}
+    else{lock(si,'Правильно так: '+s.ah+'. '+s.why,'exp');next()}
+  }
+}
+function next(){
+  const t=T[ti];
+  if(si<t.steps.length-1){si++;step();return}
+  const fb=document.createElement('div');
+  fb.innerHTML='<div class="exp" style="margin-top:14px"><b>Ответ: '+t.ans+'.</b><br>Ловушка: '+t.trap+'</div><button class="btn" id="nx">'+(ti===T.length-1?'Результат':'Следующая задача')+'</button>';
+  document.getElementById('steps').appendChild(fb);
+  document.getElementById('nx').onclick=()=>{ti++;task()};
+}
+function end(){
+  pb.style.width='100%';
+  const n=T.reduce((a,t)=>a+t.steps.length,0);
+  box.innerHTML='<div class="card"><span class="tag">Итог</span><div class="big">'+clean+' из '+n+'</div><p>шагов выполнено с первой попытки.</p><p class="sub">Если меньше 70%, вернитесь к теории и памятке и пройдите ещё раз: задачи те же, но вы уже знаете ловушки. Затем решайте тренажёр с новыми числами.</p><button class="btn" onclick="ti=0;clean=0;tot=0;help=0;task()">Пройти заново</button> <a class="btn ghost" style="text-decoration:none;display:inline-block" href="z8-stepeni-trenazhor-gen.html">Тренажёр с новыми числами</a></div>';
+}
+task();
+</script></body></html>

@@ -1,1831 +1,2002 @@
 {
- "items": [
-  {
-   "file": "diagnostika-1-4-klass.html",
-   "title": "Диагностика 1–4 класс",
-   "type": "diagnostika",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "diagnostika-5-geom.html",
-   "title": "Диагностика · 5 класс · Геометрия",
-   "type": "diagnostika",
-   "class": 5,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "diagnostika-6-geom.html",
-   "title": "Диагностика · 6 класс · Геометрия",
-   "type": "diagnostika",
-   "class": 6,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "diagnostika-6-klass.html",
-   "title": "Диагностика · 6 класс",
-   "type": "diagnostika",
-   "class": 6,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "diagnostika-7-geom.html",
-   "title": "Диагностика · 7 класс · Геометрия",
-   "type": "diagnostika",
-   "class": 7,
-   "oge_task": null,
-   "status": "hidden",
-   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
-  },
-  {
-   "file": "diagnostika-7-klass.html",
-   "title": "Диагностика · 7 класс · Алгебра",
-   "type": "diagnostika",
-   "class": 7,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "diagnostika-8-geom.html",
-   "title": "Диагностика · 8 класс · Геометрия",
-   "type": "diagnostika",
-   "class": 8,
-   "oge_task": null,
-   "status": "hidden",
-   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
-  },
-  {
-   "file": "diagnostika-8-klass.html",
-   "title": "Диагностика · 8 класс · Алгебра",
-   "type": "diagnostika",
-   "class": 8,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "dz-chisla-s-raznymi-znakami.html",
-   "title": "ДЗ №2 · Числа с разными знаками",
-   "type": "dz",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "dz-chisla-s-raznymi-znakami.pdf",
-   "title": "",
-   "type": "dz",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "dz-desyatichnye-drobi-otvety.pdf",
-   "title": "",
-   "type": "dz",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "dz-desyatichnye-drobi.html",
-   "title": "ДЗ №1 · Десятичные дроби",
-   "type": "dz",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "dz-desyatichnye-drobi.pdf",
-   "title": "",
-   "type": "dz",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "dz-procenty-otvety.pdf",
-   "title": "",
-   "type": "dz",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "dz-procenty.pdf",
-   "title": "",
-   "type": "dz",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "7-klass.html",
-   "title": "7 класс · алгебра и геометрия",
-   "type": "klass",
-   "class": 7,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "8-klass.html",
-   "title": "8 класс · алгебра и геометрия",
-   "type": "klass",
-   "class": 8,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "9-klass.html",
-   "title": "9 класс · алгебра и геометрия",
-   "type": "klass",
-   "class": 9,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "mini-probnik-1.html",
-   "title": "Мини-пробник 25/25",
-   "type": "probnik",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "probnik-oge-1.html",
-   "title": "Диагностика 25/25",
-   "type": "probnik",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "probnik-oge-2.html",
-   "title": "Пробник ОГЭ №2",
-   "type": "probnik",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "probnik-oge-3.html",
-   "title": "Пробник ОГЭ №3",
-   "type": "probnik",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "razbor-drobi-dialog.html",
-   "title": "Разбор · Дроби · диалог",
-   "type": "razbor",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "razbor-probnik-oge-2.html",
-   "title": "Пробник №2 по шагам",
-   "type": "razbor",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "razbor-racionalnye-dialog.md",
-   "title": "",
-   "type": "razbor",
-   "class": null,
-   "oge_task": null,
-   "status": "hidden",
-   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
-  },
-  {
-   "file": "razbor-racionalnye-dialog.pdf",
-   "title": "",
-   "type": "razbor",
-   "class": null,
-   "oge_task": null,
-   "status": "hidden",
-   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
-  },
-  {
-   "file": "razbor-treugolniki-dialog.html",
-   "title": "Разбор · Треугольники 7–9 · диалог",
-   "type": "razbor",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "razbor-znaki-dialog.html",
-   "title": "Разбор · Числа с разными знаками · диалог",
-   "type": "razbor",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "razbor-diag-5-geom.txt",
-   "title": "",
-   "type": "razbor",
-   "class": 5,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "razbor-diag-6-geom.txt",
-   "title": "",
-   "type": "razbor",
-   "class": 6,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "razbor-diag-6-klass.txt",
-   "title": "",
-   "type": "razbor",
-   "class": 6,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "razbor-diagnostika-6-klass.html",
-   "title": "Разбор · Диагностика 6 класс",
-   "type": "razbor",
-   "class": 6,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "razbor-diagnostika-6-klass.pdf",
-   "title": "",
-   "type": "razbor",
-   "class": 6,
-   "oge_task": null,
-   "status": "hidden",
-   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
-  },
-  {
-   "file": "razbor-diag-7-geom.txt",
-   "title": "",
-   "type": "razbor",
-   "class": 7,
-   "oge_task": null,
-   "status": "hidden",
-   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
-  },
-  {
-   "file": "razbor-diag-7-klass.txt",
-   "title": "",
-   "type": "razbor",
-   "class": 7,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "razbor-diag-8-geom.txt",
-   "title": "",
-   "type": "razbor",
-   "class": 8,
-   "oge_task": null,
-   "status": "hidden",
-   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
-  },
-  {
-   "file": "razbor-diag-8-klass.txt",
-   "title": "",
-   "type": "razbor",
-   "class": 8,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "kabinet-apps-script.txt",
-   "title": "",
-   "type": "sistema",
-   "class": null,
-   "oge_task": null,
-   "status": "hidden",
-   "note": ""
-  },
-  {
-   "file": "kabinet.html",
-   "title": "Кабинет ученика",
-   "type": "sistema",
-   "class": null,
-   "oge_task": null,
-   "status": "hidden",
-   "note": ""
-  },
-  {
-   "file": "start.html",
-   "title": "Моя панель · lili.math",
-   "type": "sistema",
-   "class": null,
-   "oge_task": null,
-   "status": "hidden",
-   "note": ""
-  },
-  {
-   "file": "achievements.html",
-   "title": "Мои достижения",
-   "type": "sluzhebnoe",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "formulas.html",
-   "title": "Справочник формул ОГЭ",
-   "type": "sluzhebnoe",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "trainer.html",
-   "title": "Тренажёр: Задание 6",
-   "type": "trenazher",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "trenazher-62-63-65.html",
-   "title": "Решение задач № 62, 63, 65 — интерактивный тренажёр",
-   "type": "trenazher",
-   "class": null,
-   "oge_task": null,
-   "status": "hidden",
-   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
-  },
-  {
-   "file": "drob-deistviya.html",
-   "title": "Действия с дробями · интерактивное обучение",
-   "type": "uchebnik",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "drob-s-nulya.html",
-   "title": "Дроби с нуля · интерактивное обучение",
-   "type": "uchebnik",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "materialy-drob.html",
-   "title": "Дроби навсегда · опорник к доске",
-   "type": "uchebnik",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "treug-s-nulya.html",
-   "title": "Треугольники с нуля · интерактивное обучение",
-   "type": "uchebnik",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "ucheba-racionalnye.html",
-   "title": "Преобразование рациональных выражений · 8 класс",
-   "type": "uchebnik",
-   "class": null,
-   "oge_task": null,
-   "status": "hidden",
-   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
-  },
-  {
-   "file": "y-k-na-x.html",
-   "title": "y = k/x — интерактив · lili.math",
-   "type": "uchebnik",
-   "class": null,
-   "oge_task": null,
-   "status": "hidden",
-   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
-  },
-  {
-   "file": "znaki-s-nulya.html",
-   "title": "Числа с разными знаками · интерактивное обучение",
-   "type": "uchebnik",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "ucheba-6-klass.html",
-   "title": "Интерактивное обучение · 6 класс",
-   "type": "uchebnik",
-   "class": 6,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "materialy-9-klass.html",
-   "title": "Опорные материалы · 9 класс · к доске",
-   "type": "uchebnik",
-   "class": 9,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "bissektrisy-parallelogramma.html",
-   "title": "Биссектрисы в параллелограмме",
-   "type": "zadanie",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "triangle-medians.html",
-   "title": "Медианы треугольника — S(ABC) = 3S",
-   "type": "zadanie",
-   "class": null,
-   "oge_task": null,
-   "status": "hidden",
-   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
-  },
-  {
-   "file": "z15-bissektrisa-ravnye-otrezki.html",
-   "title": "Биссектриса и равные отрезки",
-   "type": "zadanie",
-   "class": null,
-   "oge_task": 15,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "z15-mediana-bissektrisa-srednyaya-liniya.html",
-   "title": "Медиана, биссектриса, средняя линия",
-   "type": "zadanie",
-   "class": null,
-   "oge_task": 15,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "z15-mediana-polovina-storony.html",
-   "title": "Медиана равна половине стороны",
-   "type": "zadanie",
-   "class": null,
-   "oge_task": 15,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "z15-pifagor.html",
-   "title": "Теорема Пифагора",
-   "type": "zadanie",
-   "class": null,
-   "oge_task": 15,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "z15-ploshchad.html",
-   "title": "Площадь треугольника",
-   "type": "zadanie",
-   "class": null,
-   "oge_task": 15,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "z15-ravnobedrennyy.html",
-   "title": "Равнобедренный треугольник",
-   "type": "zadanie",
-   "class": null,
-   "oge_task": 15,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "z15-ravnostoronniy.html",
-   "title": "Равносторонний треугольник",
-   "type": "zadanie",
-   "class": null,
-   "oge_task": 15,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "z15-sin-cos-tg-storona.html",
-   "title": "Синус, косинус и тангенс: найти сторону",
-   "type": "zadanie",
-   "class": null,
-   "oge_task": 15,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "z15-sin-cos-tg-znachenie.html",
-   "title": "Синус, косинус и тангенс: найти значение",
-   "type": "zadanie",
-   "class": null,
-   "oge_task": 15,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "z15-summa-uglov.html",
-   "title": "Сумма углов и внешний угол",
-   "type": "zadanie",
-   "class": null,
-   "oge_task": 15,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "z15-vysota-ugol.html",
-   "title": "Высота и угол ABH",
-   "type": "zadanie",
-   "class": null,
-   "oge_task": 15,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "z21-dvizhenie-test.html",
-   "title": "Тест: задачи на движение",
-   "type": "zadanie",
-   "class": null,
-   "oge_task": 21,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "z21-dvizhenie-trenazhor.html",
-   "title": "Тренажёр: задачи на движение, повышенный уровень",
-   "type": "zadanie",
-   "class": null,
-   "oge_task": 21,
-   "status": "public",
-   "note": ""
-  },
-  {
-   "file": "zadacha-279.html",
-   "title": "Задача № 279 — интерактивный разбор",
-   "type": "zadanie",
-   "class": null,
-   "oge_task": null,
-   "status": "hidden",
-   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
-  },
-  {
-   "file": "zadacha-287.html",
-   "title": "Задание 287 — интерактивное решение",
-   "type": "zadanie",
-   "class": null,
-   "oge_task": null,
-   "status": "hidden",
-   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
-  },
-  {
-   "file": "zadacha-691.html",
-   "title": "Задача 691 — деление отрезка в данном отношении",
-   "type": "zadanie",
-   "class": null,
-   "oge_task": null,
-   "status": "hidden",
-   "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
-  },
-  {
-   "file": "preview-landing.html",
-   "title": "Предпросмотр новой главной",
-   "type": "sistema",
-   "class": null,
-   "oge_task": null,
-   "status": "hidden",
-   "note": "временный; удалить после вливания ветки landing-page"
-  },
-  {
-   "file": "z21-dvizhenie.html",
-   "title": "Задачи на движение: все материалы по порядку",
-   "type": "sistema",
-   "class": null,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-dvizhenie-teoriya.html",
-   "title": "Теория и устный опрос: задачи на движение",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-dvizhenie-pyatiminutki.html",
-   "title": "Карточки-пятиминутки: задачи на движение (2 варианта)",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-dvizhenie-razbor-5.html",
-   "title": "Разбор 5 задач повышенной сложности: движение",
-   "type": "razbor",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-dvizhenie-trenazhor-gen.html",
-   "title": "Тренажёр: задачи на движение, новые числа каждый раз",
-   "type": "trenazher",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-dvizhenie-pamyatka.html",
-   "title": "Памятка: алгоритм и оформление, задачи на движение",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-dvizhenie-kontrolnaya.html",
-   "title": "Зачётный лист: задачи на движение (3 уровня)",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-dvizhenie-dz.html",
-   "title": "Домашняя карточка: задачи на движение (4 задачи)",
-   "type": "dz",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "razbor-dvizhenie-dialog.md",
-   "title": "Диалог ученик-учитель: задачи на движение (текст)",
-   "type": "razbor",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "razbor-dvizhenie-dialog.pdf",
-   "title": "Диалог ученик-учитель: задачи на движение (печать)",
-   "type": "razbor",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-procenty.html",
-   "title": "Проценты: все материалы по порядку",
-   "type": "sistema",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-procenty-teoriya.html",
-   "title": "Теория и устный опрос: проценты",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-procenty-test.html",
-   "title": "Тест: проценты",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-procenty-pyatiminutki.html",
-   "title": "Карточки-пятиминутки: проценты (2 варианта)",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-procenty-razbor-5.html",
-   "title": "Разбор 5 задач повышенной сложности: проценты",
-   "type": "razbor",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-procenty-trenazhor.html",
-   "title": "Тренажёр: проценты, повышенный уровень",
-   "type": "trenazher",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-procenty-trenazhor-gen.html",
-   "title": "Тренажёр: проценты, новые числа каждый раз",
-   "type": "trenazher",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-procenty-pamyatka.html",
-   "title": "Памятка: алгоритм и оформление, проценты",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-procenty-kontrolnaya.html",
-   "title": "Зачётный лист: проценты (3 уровня)",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-procenty-dz.html",
-   "title": "Домашняя карточка: проценты (4 задачи)",
-   "type": "dz",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-procenty-plan-uroka.html",
-   "title": "План урока на 60 минут и ДЗ: проценты",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "для репетитора; добавлено 2026-10-18"
-  },
-  {
-   "file": "razbor-procenty-dialog.md",
-   "title": "Диалог-разбор: проценты (исходник)",
-   "type": "razbor",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "razbor-procenty-dialog.pdf",
-   "title": "Диалог-разбор: проценты (PDF)",
-   "type": "razbor",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-procenty-teoriya.pdf",
-   "title": "Проценты, печать: teoriya",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-procenty-pyatiminutki.pdf",
-   "title": "Проценты, печать: pyatiminutki",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-procenty-pamyatka.pdf",
-   "title": "Проценты, печать: pamyatka",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-procenty-kontrolnaya.pdf",
-   "title": "Проценты, печать: kontrolnaya",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-procenty-dz.pdf",
-   "title": "Проценты, печать: dz",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-procenty-plan-uroka.pdf",
-   "title": "Проценты, печать: plan-uroka",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z21-procenty-komplekt.pdf",
-   "title": "Проценты, печать: komplekt",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 21,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-kvadratnye.html",
-   "title": "Квадратные уравнения: все материалы по порядку",
-   "type": "sistema",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-kvadratnye-teoriya.html",
-   "title": "Теория и устный опрос: квадратные уравнения",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-kvadratnye-test.html",
-   "title": "Тест: квадратные уравнения",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-kvadratnye-pyatiminutki.html",
-   "title": "Карточки-пятиминутки: квадратные уравнения (2 варианта)",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-kvadratnye-razbor-5.html",
-   "title": "Разбор 5 задач повышенной сложности: квадратные уравнения",
-   "type": "razbor",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-kvadratnye-trenazhor.html",
-   "title": "Тренажёр: квадратные уравнения, повышенный уровень",
-   "type": "trenazher",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-kvadratnye-trenazhor-gen.html",
-   "title": "Тренажёр: квадратные уравнения, новые числа каждый раз",
-   "type": "trenazher",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-kvadratnye-pamyatka.html",
-   "title": "Памятка: алгоритм и оформление, квадратные уравнения",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-kvadratnye-kontrolnaya.html",
-   "title": "Зачётный лист: квадратные уравнения (3 уровня)",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-kvadratnye-dz.html",
-   "title": "Домашняя карточка: квадратные уравнения (4 задачи)",
-   "type": "dz",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-kvadratnye-plan-uroka.html",
-   "title": "План урока на 60 минут и ДЗ: квадратные уравнения",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "для репетитора; добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-kvadratnye-teoriya.pdf",
-   "title": "Квадратные уравнения, печать: teoriya",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-kvadratnye-pyatiminutki.pdf",
-   "title": "Квадратные уравнения, печать: pyatiminutki",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-kvadratnye-pamyatka.pdf",
-   "title": "Квадратные уравнения, печать: pamyatka",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-kvadratnye-kontrolnaya.pdf",
-   "title": "Квадратные уравнения, печать: kontrolnaya",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-kvadratnye-dz.pdf",
-   "title": "Квадратные уравнения, печать: dz",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-kvadratnye-plan-uroka.pdf",
-   "title": "Квадратные уравнения, печать: plan-uroka",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-kvadratnye-komplekt.pdf",
-   "title": "Квадратные уравнения, печать: komplekt",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "razbor-kvadratnye-dialog.pdf",
-   "title": "Разбор в диалоге: квадратные уравнения (печать)",
-   "type": "razbor",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "razbor-kvadratnye-dialog.md",
-   "title": "Разбор в диалоге: квадратные уравнения (исходный текст)",
-   "type": "razbor",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-drobi.html",
-   "title": "Десятичные дроби: все материалы по порядку",
-   "type": "sistema",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-drobi-teoriya.html",
-   "title": "Теория и устный опрос: действия с десятичными дробями",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-drobi-test.html",
-   "title": "Тест: действия с десятичными дробями",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-drobi-pyatiminutki.html",
-   "title": "Карточки-пятиминутки: десятичные дроби (2 варианта)",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-drobi-razbor-5.html",
-   "title": "Разбор 5 задач повышенной сложности: десятичные дроби",
-   "type": "razbor",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-drobi-trenazhor.html",
-   "title": "Тренажёр: 5 задач повышенной сложности, десятичные дроби",
-   "type": "trenazher",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-drobi-trenazhor-gen.html",
-   "title": "Тренажёр: десятичные дроби, новые числа каждый раз",
-   "type": "trenazher",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-drobi-pamyatka.html",
-   "title": "Памятка: алгоритм и запись ответа, задание 6",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-drobi-kontrolnaya.html",
-   "title": "Зачётный лист: десятичные дроби (3 уровня)",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-drobi-dz.html",
-   "title": "Домашняя карточка: десятичные дроби (4 задачи)",
-   "type": "dz",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "razbor-drobi-6-dialog.md",
-   "title": "Диалог ученик-учитель: десятичные дроби, план урока и ДЗ (текст)",
-   "type": "razbor",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "razbor-drobi-6-dialog.pdf",
-   "title": "Диалог ученик-учитель: десятичные дроби, план урока и ДЗ (печать)",
-   "type": "razbor",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-drobi-teoriya.pdf",
-   "title": "Десятичные дроби, печать: теория",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-drobi-pyatiminutki.pdf",
-   "title": "Десятичные дроби, печать: пятиминутки",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-drobi-razbor-5.pdf",
-   "title": "Десятичные дроби, печать: разбор 5 задач",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-drobi-pamyatka.pdf",
-   "title": "Десятичные дроби, печать: памятка",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-drobi-kontrolnaya.pdf",
-   "title": "Десятичные дроби, печать: зачётный лист",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-drobi-dz.pdf",
-   "title": "Десятичные дроби, печать: домашняя карточка",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-drobi-komplekt.pdf",
-   "title": "Десятичные дроби, печать: комплект",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "trenazher-ustnyj-schet.html",
-   "title": "Тренажёр устного счёта: умножение, квадраты, корни, степени, дроби, проценты",
-   "type": "trenazher",
-   "class": null,
-   "oge_task": null,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-sistemy.html",
-   "title": "Системы уравнений: все материалы по порядку",
-   "type": "sistema",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-sistemy-teoriya.html",
-   "title": "Теория и устный опрос: системы уравнений",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-sistemy-test.html",
-   "title": "Тест: системы уравнений",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-sistemy-pyatiminutki.html",
-   "title": "Карточки-пятиминутки: системы уравнений (2 варианта)",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-sistemy-razbor-5.html",
-   "title": "Разбор 5 задач повышенной сложности: системы уравнений",
-   "type": "razbor",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-sistemy-trenazhor.html",
-   "title": "Тренажёр: системы уравнений, повышенный уровень",
-   "type": "trenazher",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-sistemy-trenazhor-gen.html",
-   "title": "Тренажёр: системы уравнений, новые числа каждый раз",
-   "type": "trenazher",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-sistemy-pamyatka.html",
-   "title": "Памятка: алгоритм и оформление, системы уравнений",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-sistemy-kontrolnaya.html",
-   "title": "Зачётный лист: системы уравнений (3 уровня)",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-sistemy-dz.html",
-   "title": "Домашняя карточка: системы уравнений (4 задачи)",
-   "type": "dz",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-sistemy-plan-uroka.html",
-   "title": "План урока на 60 минут и ДЗ: системы уравнений",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18; для репетитора"
-  },
-  {
-   "file": "z20-sistemy-teoriya.pdf",
-   "title": "Системы уравнений, печать: teoriya",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-sistemy-pyatiminutki.pdf",
-   "title": "Системы уравнений, печать: pyatiminutki",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-sistemy-razbor-5.pdf",
-   "title": "Системы уравнений, печать: razbor-5",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-sistemy-pamyatka.pdf",
-   "title": "Системы уравнений, печать: pamyatka",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-sistemy-kontrolnaya.pdf",
-   "title": "Системы уравнений, печать: kontrolnaya",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-sistemy-dz.pdf",
-   "title": "Системы уравнений, печать: dz",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-sistemy-plan-uroka.pdf",
-   "title": "Системы уравнений, печать: plan-uroka",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-sistemy-komplekt.pdf",
-   "title": "Системы уравнений, печать: komplekt",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "razbor-sistemy-dialog.md",
-   "title": "Системы уравнений: разбор в диалоге (текст)",
-   "type": "razbor",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "razbor-sistemy-dialog.pdf",
-   "title": "Системы уравнений: разбор в диалоге, печать",
-   "type": "razbor",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-obyknovennye.html",
-   "title": "Обыкновенные дроби: все материалы по порядку",
-   "type": "sistema",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-obyknovennye-teoriya.html",
-   "title": "Теория и устный опрос: обыкновенные дроби и смешанные числа",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-obyknovennye-test.html",
-   "title": "Тест: обыкновенные дроби и смешанные числа",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-obyknovennye-pyatiminutki.html",
-   "title": "Карточки-пятиминутки: обыкновенные дроби (2 варианта)",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-obyknovennye-razbor-5.html",
-   "title": "Разбор 5 задач повышенной сложности: обыкновенные дроби",
-   "type": "razbor",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-obyknovennye-trenazhor.html",
-   "title": "Тренажёр: 5 задач повышенной сложности, обыкновенные дроби",
-   "type": "trenazher",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-obyknovennye-trenazhor-gen.html",
-   "title": "Тренажёр: обыкновенные дроби, новые числа каждый раз",
-   "type": "trenazher",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-obyknovennye-pamyatka.html",
-   "title": "Памятка: алгоритм и запись ответа, обыкновенные дроби",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-obyknovennye-kontrolnaya.html",
-   "title": "Зачётный лист: обыкновенные дроби (3 уровня)",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-obyknovennye-dz.html",
-   "title": "Домашняя карточка: обыкновенные дроби (4 задачи)",
-   "type": "dz",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "razbor-obyknovennye-dialog.md",
-   "title": "Диалог ученик-учитель: обыкновенные дроби, план урока и ДЗ (текст)",
-   "type": "razbor",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "razbor-obyknovennye-dialog.pdf",
-   "title": "Диалог ученик-учитель: обыкновенные дроби, план урока и ДЗ (печать)",
-   "type": "razbor",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-obyknovennye-teoriya.pdf",
-   "title": "Обыкновенные дроби, печать: теория",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-obyknovennye-pyatiminutki.pdf",
-   "title": "Обыкновенные дроби, печать: пятиминутки",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-obyknovennye-razbor-5.pdf",
-   "title": "Обыкновенные дроби, печать: разбор 5 задач",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-obyknovennye-pamyatka.pdf",
-   "title": "Обыкновенные дроби, печать: памятка",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-obyknovennye-kontrolnaya.pdf",
-   "title": "Обыкновенные дроби, печать: зачётный лист",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-obyknovennye-dz.pdf",
-   "title": "Обыкновенные дроби, печать: домашняя карточка",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z6-obyknovennye-komplekt.pdf",
-   "title": "Обыкновенные дроби, печать: комплект",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 6,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-neravenstva.html",
-   "title": "Неравенства: все материалы по порядку",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-neravenstva-teoriya.html",
-   "title": "Теория и устный опрос: неравенства",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-neravenstva-test.html",
-   "title": "Тест: неравенства",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-neravenstva-pyatiminutki.html",
-   "title": "Пятиминутки: неравенства",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-neravenstva-razbor-5.html",
-   "title": "Разбор 5 задач: неравенства",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-neravenstva-trenazhor.html",
-   "title": "Тренажёр по шагам: неравенства",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-neravenstva-trenazhor-gen.html",
-   "title": "Тренажёр с новыми числами: неравенства",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-neravenstva-pamyatka.html",
-   "title": "Памятка: алгоритм и оформление, неравенства",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-neravenstva-kontrolnaya.html",
-   "title": "Зачётный лист: неравенства",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-neravenstva-dz.html",
-   "title": "Домашняя карточка: неравенства",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-neravenstva-plan-uroka.html",
-   "title": "План урока и ДЗ: неравенства",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-neravenstva-teoriya.pdf",
-   "title": "PDF: Теория и устный опрос: неравенства",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-neravenstva-pyatiminutki.pdf",
-   "title": "PDF: Пятиминутки: неравенства",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-neravenstva-razbor-5.pdf",
-   "title": "PDF: Разбор 5 задач: неравенства",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-neravenstva-pamyatka.pdf",
-   "title": "PDF: Памятка: алгоритм и оформление, неравенства",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-neravenstva-kontrolnaya.pdf",
-   "title": "PDF: Зачётный лист: неравенства",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-neravenstva-dz.pdf",
-   "title": "PDF: Домашняя карточка: неравенства",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-neravenstva-plan-uroka.pdf",
-   "title": "PDF: План урока и ДЗ: неравенства",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "z20-neravenstva-komplekt.pdf",
-   "title": "PDF: весь комплект: неравенства",
-   "type": "zadanie",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "razbor-neravenstva-dialog.pdf",
-   "title": "Диалог-разбор: неравенства (PDF)",
-   "type": "razbor",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  },
-  {
-   "file": "razbor-neravenstva-dialog.md",
-   "title": "Диалог-разбор: неравенства (текст)",
-   "type": "razbor",
-   "class": 9,
-   "oge_task": 20,
-   "status": "public",
-   "note": "добавлено 2026-10-18"
-  }
- ]
+  "items": [
+    {
+      "file": "diagnostika-1-4-klass.html",
+      "title": "Диагностика 1–4 класс",
+      "type": "diagnostika",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "diagnostika-5-geom.html",
+      "title": "Диагностика · 5 класс · Геометрия",
+      "type": "diagnostika",
+      "class": 5,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "diagnostika-6-geom.html",
+      "title": "Диагностика · 6 класс · Геометрия",
+      "type": "diagnostika",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "diagnostika-6-klass.html",
+      "title": "Диагностика · 6 класс",
+      "type": "diagnostika",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "diagnostika-7-geom.html",
+      "title": "Диагностика · 7 класс · Геометрия",
+      "type": "diagnostika",
+      "class": 7,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
+    },
+    {
+      "file": "diagnostika-7-klass.html",
+      "title": "Диагностика · 7 класс · Алгебра",
+      "type": "diagnostika",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "diagnostika-8-geom.html",
+      "title": "Диагностика · 8 класс · Геометрия",
+      "type": "diagnostika",
+      "class": 8,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
+    },
+    {
+      "file": "diagnostika-8-klass.html",
+      "title": "Диагностика · 8 класс · Алгебра",
+      "type": "diagnostika",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "dz-chisla-s-raznymi-znakami.html",
+      "title": "ДЗ №2 · Числа с разными знаками",
+      "type": "dz",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "dz-chisla-s-raznymi-znakami.pdf",
+      "title": "",
+      "type": "dz",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "dz-desyatichnye-drobi-otvety.pdf",
+      "title": "",
+      "type": "dz",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "dz-desyatichnye-drobi.html",
+      "title": "ДЗ №1 · Десятичные дроби",
+      "type": "dz",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "dz-desyatichnye-drobi.pdf",
+      "title": "",
+      "type": "dz",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "dz-procenty-otvety.pdf",
+      "title": "",
+      "type": "dz",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "dz-procenty.pdf",
+      "title": "",
+      "type": "dz",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "7-klass.html",
+      "title": "7 класс · алгебра и геометрия",
+      "type": "klass",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "8-klass.html",
+      "title": "8 класс · алгебра и геометрия",
+      "type": "klass",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "9-klass.html",
+      "title": "9 класс · алгебра и геометрия",
+      "type": "klass",
+      "class": 9,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "mini-probnik-1.html",
+      "title": "Мини-пробник 25/25",
+      "type": "probnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "probnik-oge-1.html",
+      "title": "Диагностика 25/25",
+      "type": "probnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "probnik-oge-2.html",
+      "title": "Пробник ОГЭ №2",
+      "type": "probnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "probnik-oge-3.html",
+      "title": "Пробник ОГЭ №3",
+      "type": "probnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "razbor-drobi-dialog.html",
+      "title": "Разбор · Дроби · диалог",
+      "type": "razbor",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "razbor-probnik-oge-2.html",
+      "title": "Пробник №2 по шагам",
+      "type": "razbor",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "razbor-racionalnye-dialog.md",
+      "title": "",
+      "type": "razbor",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
+    },
+    {
+      "file": "razbor-racionalnye-dialog.pdf",
+      "title": "",
+      "type": "razbor",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
+    },
+    {
+      "file": "razbor-treugolniki-dialog.html",
+      "title": "Разбор · Треугольники 7–9 · диалог",
+      "type": "razbor",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "razbor-znaki-dialog.html",
+      "title": "Разбор · Числа с разными знаками · диалог",
+      "type": "razbor",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "razbor-diag-5-geom.txt",
+      "title": "",
+      "type": "razbor",
+      "class": 5,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "razbor-diag-6-geom.txt",
+      "title": "",
+      "type": "razbor",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "razbor-diag-6-klass.txt",
+      "title": "",
+      "type": "razbor",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "razbor-diagnostika-6-klass.html",
+      "title": "Разбор · Диагностика 6 класс",
+      "type": "razbor",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "razbor-diagnostika-6-klass.pdf",
+      "title": "",
+      "type": "razbor",
+      "class": 6,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
+    },
+    {
+      "file": "razbor-diag-7-geom.txt",
+      "title": "",
+      "type": "razbor",
+      "class": 7,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
+    },
+    {
+      "file": "razbor-diag-7-klass.txt",
+      "title": "",
+      "type": "razbor",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "razbor-diag-8-geom.txt",
+      "title": "",
+      "type": "razbor",
+      "class": 8,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
+    },
+    {
+      "file": "razbor-diag-8-klass.txt",
+      "title": "",
+      "type": "razbor",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "kabinet-apps-script.txt",
+      "title": "",
+      "type": "sistema",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": ""
+    },
+    {
+      "file": "kabinet.html",
+      "title": "Кабинет ученика",
+      "type": "sistema",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": ""
+    },
+    {
+      "file": "start.html",
+      "title": "Моя панель · lili.math",
+      "type": "sistema",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": ""
+    },
+    {
+      "file": "achievements.html",
+      "title": "Мои достижения",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "formulas.html",
+      "title": "Справочник формул ОГЭ",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "trainer.html",
+      "title": "Тренажёр: Задание 6",
+      "type": "trenazher",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "trenazher-62-63-65.html",
+      "title": "Решение задач № 62, 63, 65 — интерактивный тренажёр",
+      "type": "trenazher",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
+    },
+    {
+      "file": "drob-deistviya.html",
+      "title": "Действия с дробями · интерактивное обучение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "drob-s-nulya.html",
+      "title": "Дроби с нуля · интерактивное обучение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "materialy-drob.html",
+      "title": "Дроби навсегда · опорник к доске",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "treug-s-nulya.html",
+      "title": "Треугольники с нуля · интерактивное обучение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "ucheba-racionalnye.html",
+      "title": "Преобразование рациональных выражений · 8 класс",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
+    },
+    {
+      "file": "y-k-na-x.html",
+      "title": "y = k/x — интерактив · lili.math",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
+    },
+    {
+      "file": "znaki-s-nulya.html",
+      "title": "Числа с разными знаками · интерактивное обучение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "ucheba-6-klass.html",
+      "title": "Интерактивное обучение · 6 класс",
+      "type": "uchebnik",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "materialy-9-klass.html",
+      "title": "Опорные материалы · 9 класс · к доске",
+      "type": "uchebnik",
+      "class": 9,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "bissektrisy-parallelogramma.html",
+      "title": "Биссектрисы в параллелограмме",
+      "type": "zadanie",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "triangle-medians.html",
+      "title": "Медианы треугольника — S(ABC) = 3S",
+      "type": "zadanie",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
+    },
+    {
+      "file": "z15-bissektrisa-ravnye-otrezki.html",
+      "title": "Биссектриса и равные отрезки",
+      "type": "zadanie",
+      "class": null,
+      "oge_task": 15,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "z15-mediana-bissektrisa-srednyaya-liniya.html",
+      "title": "Медиана, биссектриса, средняя линия",
+      "type": "zadanie",
+      "class": null,
+      "oge_task": 15,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "z15-mediana-polovina-storony.html",
+      "title": "Медиана равна половине стороны",
+      "type": "zadanie",
+      "class": null,
+      "oge_task": 15,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "z15-pifagor.html",
+      "title": "Теорема Пифагора",
+      "type": "zadanie",
+      "class": null,
+      "oge_task": 15,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "z15-ploshchad.html",
+      "title": "Площадь треугольника",
+      "type": "zadanie",
+      "class": null,
+      "oge_task": 15,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "z15-ravnobedrennyy.html",
+      "title": "Равнобедренный треугольник",
+      "type": "zadanie",
+      "class": null,
+      "oge_task": 15,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "z15-ravnostoronniy.html",
+      "title": "Равносторонний треугольник",
+      "type": "zadanie",
+      "class": null,
+      "oge_task": 15,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "z15-sin-cos-tg-storona.html",
+      "title": "Синус, косинус и тангенс: найти сторону",
+      "type": "zadanie",
+      "class": null,
+      "oge_task": 15,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "z15-sin-cos-tg-znachenie.html",
+      "title": "Синус, косинус и тангенс: найти значение",
+      "type": "zadanie",
+      "class": null,
+      "oge_task": 15,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "z15-summa-uglov.html",
+      "title": "Сумма углов и внешний угол",
+      "type": "zadanie",
+      "class": null,
+      "oge_task": 15,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "z15-vysota-ugol.html",
+      "title": "Высота и угол ABH",
+      "type": "zadanie",
+      "class": null,
+      "oge_task": 15,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "z21-dvizhenie-test.html",
+      "title": "Тест: задачи на движение",
+      "type": "zadanie",
+      "class": null,
+      "oge_task": 21,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "z21-dvizhenie-trenazhor.html",
+      "title": "Тренажёр: задачи на движение, повышенный уровень",
+      "type": "zadanie",
+      "class": null,
+      "oge_task": 21,
+      "status": "public",
+      "note": ""
+    },
+    {
+      "file": "zadacha-279.html",
+      "title": "Задача № 279 — интерактивный разбор",
+      "type": "zadanie",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
+    },
+    {
+      "file": "zadacha-287.html",
+      "title": "Задание 287 — интерактивное решение",
+      "type": "zadanie",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
+    },
+    {
+      "file": "zadacha-691.html",
+      "title": "Задача 691 — деление отрезка в данном отношении",
+      "type": "zadanie",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
+    },
+    {
+      "file": "preview-landing.html",
+      "title": "Предпросмотр новой главной",
+      "type": "sistema",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "временный; удалить после вливания ветки landing-page"
+    },
+    {
+      "file": "z21-dvizhenie.html",
+      "title": "Задачи на движение: все материалы по порядку",
+      "type": "sistema",
+      "class": null,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-dvizhenie-teoriya.html",
+      "title": "Теория и устный опрос: задачи на движение",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-dvizhenie-pyatiminutki.html",
+      "title": "Карточки-пятиминутки: задачи на движение (2 варианта)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-dvizhenie-razbor-5.html",
+      "title": "Разбор 5 задач повышенной сложности: движение",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-dvizhenie-trenazhor-gen.html",
+      "title": "Тренажёр: задачи на движение, новые числа каждый раз",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-dvizhenie-pamyatka.html",
+      "title": "Памятка: алгоритм и оформление, задачи на движение",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-dvizhenie-kontrolnaya.html",
+      "title": "Зачётный лист: задачи на движение (3 уровня)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-dvizhenie-dz.html",
+      "title": "Домашняя карточка: задачи на движение (4 задачи)",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-dvizhenie-dialog.md",
+      "title": "Диалог ученик-учитель: задачи на движение (текст)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-dvizhenie-dialog.pdf",
+      "title": "Диалог ученик-учитель: задачи на движение (печать)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-procenty.html",
+      "title": "Проценты: все материалы по порядку",
+      "type": "sistema",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-procenty-teoriya.html",
+      "title": "Теория и устный опрос: проценты",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-procenty-test.html",
+      "title": "Тест: проценты",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-procenty-pyatiminutki.html",
+      "title": "Карточки-пятиминутки: проценты (2 варианта)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-procenty-razbor-5.html",
+      "title": "Разбор 5 задач повышенной сложности: проценты",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-procenty-trenazhor.html",
+      "title": "Тренажёр: проценты, повышенный уровень",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-procenty-trenazhor-gen.html",
+      "title": "Тренажёр: проценты, новые числа каждый раз",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-procenty-pamyatka.html",
+      "title": "Памятка: алгоритм и оформление, проценты",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-procenty-kontrolnaya.html",
+      "title": "Зачётный лист: проценты (3 уровня)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-procenty-dz.html",
+      "title": "Домашняя карточка: проценты (4 задачи)",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-procenty-plan-uroka.html",
+      "title": "План урока на 60 минут и ДЗ: проценты",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "для репетитора; добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-procenty-dialog.md",
+      "title": "Диалог-разбор: проценты (исходник)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-procenty-dialog.pdf",
+      "title": "Диалог-разбор: проценты (PDF)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-procenty-teoriya.pdf",
+      "title": "Проценты, печать: teoriya",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-procenty-pyatiminutki.pdf",
+      "title": "Проценты, печать: pyatiminutki",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-procenty-pamyatka.pdf",
+      "title": "Проценты, печать: pamyatka",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-procenty-kontrolnaya.pdf",
+      "title": "Проценты, печать: kontrolnaya",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-procenty-dz.pdf",
+      "title": "Проценты, печать: dz",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-procenty-plan-uroka.pdf",
+      "title": "Проценты, печать: plan-uroka",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z21-procenty-komplekt.pdf",
+      "title": "Проценты, печать: komplekt",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 21,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-kvadratnye.html",
+      "title": "Квадратные уравнения: все материалы по порядку",
+      "type": "sistema",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-kvadratnye-teoriya.html",
+      "title": "Теория и устный опрос: квадратные уравнения",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-kvadratnye-test.html",
+      "title": "Тест: квадратные уравнения",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-kvadratnye-pyatiminutki.html",
+      "title": "Карточки-пятиминутки: квадратные уравнения (2 варианта)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-kvadratnye-razbor-5.html",
+      "title": "Разбор 5 задач повышенной сложности: квадратные уравнения",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-kvadratnye-trenazhor.html",
+      "title": "Тренажёр: квадратные уравнения, повышенный уровень",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-kvadratnye-trenazhor-gen.html",
+      "title": "Тренажёр: квадратные уравнения, новые числа каждый раз",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-kvadratnye-pamyatka.html",
+      "title": "Памятка: алгоритм и оформление, квадратные уравнения",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-kvadratnye-kontrolnaya.html",
+      "title": "Зачётный лист: квадратные уравнения (3 уровня)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-kvadratnye-dz.html",
+      "title": "Домашняя карточка: квадратные уравнения (4 задачи)",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-kvadratnye-plan-uroka.html",
+      "title": "План урока на 60 минут и ДЗ: квадратные уравнения",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "для репетитора; добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-kvadratnye-teoriya.pdf",
+      "title": "Квадратные уравнения, печать: teoriya",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-kvadratnye-pyatiminutki.pdf",
+      "title": "Квадратные уравнения, печать: pyatiminutki",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-kvadratnye-pamyatka.pdf",
+      "title": "Квадратные уравнения, печать: pamyatka",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-kvadratnye-kontrolnaya.pdf",
+      "title": "Квадратные уравнения, печать: kontrolnaya",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-kvadratnye-dz.pdf",
+      "title": "Квадратные уравнения, печать: dz",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-kvadratnye-plan-uroka.pdf",
+      "title": "Квадратные уравнения, печать: plan-uroka",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-kvadratnye-komplekt.pdf",
+      "title": "Квадратные уравнения, печать: komplekt",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-kvadratnye-dialog.pdf",
+      "title": "Разбор в диалоге: квадратные уравнения (печать)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-kvadratnye-dialog.md",
+      "title": "Разбор в диалоге: квадратные уравнения (исходный текст)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-drobi.html",
+      "title": "Десятичные дроби: все материалы по порядку",
+      "type": "sistema",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-drobi-teoriya.html",
+      "title": "Теория и устный опрос: действия с десятичными дробями",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-drobi-test.html",
+      "title": "Тест: действия с десятичными дробями",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-drobi-pyatiminutki.html",
+      "title": "Карточки-пятиминутки: десятичные дроби (2 варианта)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-drobi-razbor-5.html",
+      "title": "Разбор 5 задач повышенной сложности: десятичные дроби",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-drobi-trenazhor.html",
+      "title": "Тренажёр: 5 задач повышенной сложности, десятичные дроби",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-drobi-trenazhor-gen.html",
+      "title": "Тренажёр: десятичные дроби, новые числа каждый раз",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-drobi-pamyatka.html",
+      "title": "Памятка: алгоритм и запись ответа, задание 6",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-drobi-kontrolnaya.html",
+      "title": "Зачётный лист: десятичные дроби (3 уровня)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-drobi-dz.html",
+      "title": "Домашняя карточка: десятичные дроби (4 задачи)",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-drobi-6-dialog.md",
+      "title": "Диалог ученик-учитель: десятичные дроби, план урока и ДЗ (текст)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-drobi-6-dialog.pdf",
+      "title": "Диалог ученик-учитель: десятичные дроби, план урока и ДЗ (печать)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-drobi-teoriya.pdf",
+      "title": "Десятичные дроби, печать: теория",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-drobi-pyatiminutki.pdf",
+      "title": "Десятичные дроби, печать: пятиминутки",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-drobi-razbor-5.pdf",
+      "title": "Десятичные дроби, печать: разбор 5 задач",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-drobi-pamyatka.pdf",
+      "title": "Десятичные дроби, печать: памятка",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-drobi-kontrolnaya.pdf",
+      "title": "Десятичные дроби, печать: зачётный лист",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-drobi-dz.pdf",
+      "title": "Десятичные дроби, печать: домашняя карточка",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-drobi-komplekt.pdf",
+      "title": "Десятичные дроби, печать: комплект",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "trenazher-ustnyj-schet.html",
+      "title": "Тренажёр устного счёта: умножение, квадраты, корни, степени, дроби, проценты",
+      "type": "trenazher",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-sistemy.html",
+      "title": "Системы уравнений: все материалы по порядку",
+      "type": "sistema",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-sistemy-teoriya.html",
+      "title": "Теория и устный опрос: системы уравнений",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-sistemy-test.html",
+      "title": "Тест: системы уравнений",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-sistemy-pyatiminutki.html",
+      "title": "Карточки-пятиминутки: системы уравнений (2 варианта)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-sistemy-razbor-5.html",
+      "title": "Разбор 5 задач повышенной сложности: системы уравнений",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-sistemy-trenazhor.html",
+      "title": "Тренажёр: системы уравнений, повышенный уровень",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-sistemy-trenazhor-gen.html",
+      "title": "Тренажёр: системы уравнений, новые числа каждый раз",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-sistemy-pamyatka.html",
+      "title": "Памятка: алгоритм и оформление, системы уравнений",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-sistemy-kontrolnaya.html",
+      "title": "Зачётный лист: системы уравнений (3 уровня)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-sistemy-dz.html",
+      "title": "Домашняя карточка: системы уравнений (4 задачи)",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-sistemy-plan-uroka.html",
+      "title": "План урока на 60 минут и ДЗ: системы уравнений",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18; для репетитора"
+    },
+    {
+      "file": "z20-sistemy-teoriya.pdf",
+      "title": "Системы уравнений, печать: teoriya",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-sistemy-pyatiminutki.pdf",
+      "title": "Системы уравнений, печать: pyatiminutki",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-sistemy-razbor-5.pdf",
+      "title": "Системы уравнений, печать: razbor-5",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-sistemy-pamyatka.pdf",
+      "title": "Системы уравнений, печать: pamyatka",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-sistemy-kontrolnaya.pdf",
+      "title": "Системы уравнений, печать: kontrolnaya",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-sistemy-dz.pdf",
+      "title": "Системы уравнений, печать: dz",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-sistemy-plan-uroka.pdf",
+      "title": "Системы уравнений, печать: plan-uroka",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-sistemy-komplekt.pdf",
+      "title": "Системы уравнений, печать: komplekt",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-sistemy-dialog.md",
+      "title": "Системы уравнений: разбор в диалоге (текст)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-sistemy-dialog.pdf",
+      "title": "Системы уравнений: разбор в диалоге, печать",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-obyknovennye.html",
+      "title": "Обыкновенные дроби: все материалы по порядку",
+      "type": "sistema",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-obyknovennye-teoriya.html",
+      "title": "Теория и устный опрос: обыкновенные дроби и смешанные числа",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-obyknovennye-test.html",
+      "title": "Тест: обыкновенные дроби и смешанные числа",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-obyknovennye-pyatiminutki.html",
+      "title": "Карточки-пятиминутки: обыкновенные дроби (2 варианта)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-obyknovennye-razbor-5.html",
+      "title": "Разбор 5 задач повышенной сложности: обыкновенные дроби",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-obyknovennye-trenazhor.html",
+      "title": "Тренажёр: 5 задач повышенной сложности, обыкновенные дроби",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-obyknovennye-trenazhor-gen.html",
+      "title": "Тренажёр: обыкновенные дроби, новые числа каждый раз",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-obyknovennye-pamyatka.html",
+      "title": "Памятка: алгоритм и запись ответа, обыкновенные дроби",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-obyknovennye-kontrolnaya.html",
+      "title": "Зачётный лист: обыкновенные дроби (3 уровня)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-obyknovennye-dz.html",
+      "title": "Домашняя карточка: обыкновенные дроби (4 задачи)",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-obyknovennye-dialog.md",
+      "title": "Диалог ученик-учитель: обыкновенные дроби, план урока и ДЗ (текст)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-obyknovennye-dialog.pdf",
+      "title": "Диалог ученик-учитель: обыкновенные дроби, план урока и ДЗ (печать)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-obyknovennye-teoriya.pdf",
+      "title": "Обыкновенные дроби, печать: теория",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-obyknovennye-pyatiminutki.pdf",
+      "title": "Обыкновенные дроби, печать: пятиминутки",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-obyknovennye-razbor-5.pdf",
+      "title": "Обыкновенные дроби, печать: разбор 5 задач",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-obyknovennye-pamyatka.pdf",
+      "title": "Обыкновенные дроби, печать: памятка",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-obyknovennye-kontrolnaya.pdf",
+      "title": "Обыкновенные дроби, печать: зачётный лист",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-obyknovennye-dz.pdf",
+      "title": "Обыкновенные дроби, печать: домашняя карточка",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z6-obyknovennye-komplekt.pdf",
+      "title": "Обыкновенные дроби, печать: комплект",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-neravenstva.html",
+      "title": "Неравенства: все материалы по порядку",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-neravenstva-teoriya.html",
+      "title": "Теория и устный опрос: неравенства",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-neravenstva-test.html",
+      "title": "Тест: неравенства",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-neravenstva-pyatiminutki.html",
+      "title": "Пятиминутки: неравенства",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-neravenstva-razbor-5.html",
+      "title": "Разбор 5 задач: неравенства",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-neravenstva-trenazhor.html",
+      "title": "Тренажёр по шагам: неравенства",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-neravenstva-trenazhor-gen.html",
+      "title": "Тренажёр с новыми числами: неравенства",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-neravenstva-pamyatka.html",
+      "title": "Памятка: алгоритм и оформление, неравенства",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-neravenstva-kontrolnaya.html",
+      "title": "Зачётный лист: неравенства",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-neravenstva-dz.html",
+      "title": "Домашняя карточка: неравенства",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-neravenstva-plan-uroka.html",
+      "title": "План урока и ДЗ: неравенства",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-neravenstva-teoriya.pdf",
+      "title": "PDF: Теория и устный опрос: неравенства",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-neravenstva-pyatiminutki.pdf",
+      "title": "PDF: Пятиминутки: неравенства",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-neravenstva-razbor-5.pdf",
+      "title": "PDF: Разбор 5 задач: неравенства",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-neravenstva-pamyatka.pdf",
+      "title": "PDF: Памятка: алгоритм и оформление, неравенства",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-neravenstva-kontrolnaya.pdf",
+      "title": "PDF: Зачётный лист: неравенства",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-neravenstva-dz.pdf",
+      "title": "PDF: Домашняя карточка: неравенства",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-neravenstva-plan-uroka.pdf",
+      "title": "PDF: План урока и ДЗ: неравенства",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z20-neravenstva-komplekt.pdf",
+      "title": "PDF: весь комплект: неравенства",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-neravenstva-dialog.pdf",
+      "title": "Диалог-разбор: неравенства (PDF)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-neravenstva-dialog.md",
+      "title": "Диалог-разбор: неравенства (текст)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-stepeni.html",
+      "title": "Степени: все материалы по порядку",
+      "type": "sistema",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-stepeni-teoriya.html",
+      "title": "Теория и устный опрос: степени",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-stepeni-test.html",
+      "title": "Тест: степени",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-stepeni-pyatiminutki.html",
+      "title": "Карточки-пятиминутки: степени (2 варианта)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-stepeni-razbor-5.html",
+      "title": "Разбор 5 задач повышенной сложности: степени",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-stepeni-trenazhor.html",
+      "title": "Тренажёр: 5 задач повышенной сложности, степени",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-stepeni-trenazhor-gen.html",
+      "title": "Тренажёр: степени, новые числа каждый раз",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-stepeni-pamyatka.html",
+      "title": "Памятка: алгоритм и запись ответа, степени",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-stepeni-kontrolnaya.html",
+      "title": "Зачётный лист: степени (3 уровня)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-stepeni-dz.html",
+      "title": "Домашняя карточка: степени (4 задачи)",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-stepeni-dialog.md",
+      "title": "Диалог ученик-учитель: степени, план урока и ДЗ (текст)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "razbor-stepeni-dialog.pdf",
+      "title": "Диалог ученик-учитель: степени, план урока и ДЗ (печать)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-stepeni-teoriya.pdf",
+      "title": "Степени, печать: теория",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-stepeni-pyatiminutki.pdf",
+      "title": "Степени, печать: пятиминутки",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-stepeni-razbor-5.pdf",
+      "title": "Степени, печать: разбор 5 задач",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-stepeni-pamyatka.pdf",
+      "title": "Степени, печать: памятка",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-stepeni-kontrolnaya.pdf",
+      "title": "Степени, печать: зачётный лист",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-stepeni-dz.pdf",
+      "title": "Степени, печать: домашняя карточка",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z8-stepeni-komplekt.pdf",
+      "title": "Степени, печать: комплект",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 8,
+      "status": "public",
+      "note": "добавлено 2026-10-18"
+    }
+  ]
 }

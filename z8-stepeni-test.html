@@ -1,0 +1,56 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Степени: тест</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+sup{font-size:70%;line-height:0;vertical-align:super;white-space:nowrap}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px}.fr i{display:block;font-style:normal;padding:0 4px;border-bottom:1px solid currentColor;line-height:1.25}.fr b{display:block;font-weight:normal;padding:0 4px;line-height:1.25}
+.rt{white-space:nowrap}.ro{border-top:1px solid currentColor;padding:0 2px;margin-left:1px}
+</style></head><body><div class="wrap"><a href="z8-stepeni.html" style="color:var(--blue);font-size:14px;text-decoration:none">← Степени (задание 8)</a><h1 style="margin-top:10px">Степени: тест</h1><p class="sub">10 вопросов. После каждого ответа появляется разбор.</p><div class="bar"><i id="pb"></i></div><div id="box"></div></div><script>const Q=[["Найдите значение выражения 5<sup>−3</sup> · 5<sup>5</sup>.", ["25", "0,04", "125", "10"], "Основание одно, показатели складываем: −3 + 5 = 2, 5<sup>2</sup> = 25. Ответ 0,04 получится, если потерять минус у показателя −3 и вычесть: 3 − 5 = −2. Ответ 10 получится, если основание умножить на сумму показателей."], ["Найдите значение выражения (3<sup>−4</sup> · 3<sup>7</sup>) : 3<sup>−2</sup>.", ["243", "3", "27", "9"], "В скобках 3<sup>−4+7</sup> = 3<sup>3</sup>. Деление: показатели вычитают, 3 − (−2) = 5, 3<sup>5</sup> = 243. Ответ 3 получится, если вместо вычитания −2 прибавить −2. Ответ 27 получится, если делитель не учесть."], ["Найдите значение выражения 6<sup>4</sup> : (2<sup>3</sup> · 3<sup>3</sup>).", ["6", "36", "216", "1"], "2<sup>3</sup> · 3<sup>3</sup> = (2 · 3)<sup>3</sup> = 6<sup>3</sup>: при одинаковых показателях основания перемножаются. Затем 6<sup>4</sup> : 6<sup>3</sup> = 6<sup>4−3</sup> = 6. Ответ 216 это 6<sup>3</sup>: знаменатель не учтён как делитель. Ответ 36 получится, если показатели вычесть неверно: 4 − 2."], ["Найдите значение выражения (−2)<sup>3</sup> · (−3)<sup>2</sup>.", ["−72", "72", "1", "−36"], "(−2)<sup>3</sup> = −8 (нечётная степень отрицательного числа отрицательна), (−3)<sup>2</sup> = 9 (чётная — положительна). Произведение −8 · 9 = −72. Ответ 72 получится, если потерять знак. Ответ 1 получится, если сложить: −8 + 9."], ["Найдите значение выражения (<span class=\"fr\"><i>2</i><b>3</b></span>)<sup>−3</sup>. Ответ запишите десятичной дробью.", ["3,375", "<span class=\"fr\"><i>8</i><b>27</b></span>", "<span class=\"fr\"><i>9</i><b>2</b></span>", "−2"], "Отрицательный показатель переворачивает дробь: (<span class=\"fr\"><i>2</i><b>3</b></span>)<sup>−3</sup> = (<span class=\"fr\"><i>3</i><b>2</b></span>)<sup>3</sup> = <span class=\"fr\"><i>27</i><b>8</b></span> = 3,375. Ответ <span class=\"fr\"><i>8</i><b>27</b></span> получится, если дробь не перевернуть, а просто возвести в куб. Ответ −2 получится, если показатель умножить на дробь."], ["Найдите значение выражения (2<sup>3</sup>)<sup>4</sup> : 2<sup>9</sup>.", ["8", "0,25", "4096", "64"], "Степень в степени: показатели перемножают, (2<sup>3</sup>)<sup>4</sup> = 2<sup>12</sup>. Деление: 12 − 9 = 3, 2<sup>3</sup> = 8. Ответ 0,25 получится, если в степени степени показатели сложить: 3 + 4 = 7, 2<sup>7−9</sup> = 2<sup>−2</sup>. Ответ 4096 это 2<sup>12</sup> без деления."], ["Найдите значение выражения 0,2<sup>−2</sup> · 0,04.", ["1", "0,0016", "25", "0,16"], "0,2 = <span class=\"fr\"><i>1</i><b>5</b></span>, значит 0,2<sup>−2</sup> = 5<sup>2</sup> = 25. Тогда 25 · 0,04 = 1. Ответ 0,0016 получится, если принять 0,2<sup>−2</sup> за 0,04. Ответ 25 это первый множитель, второй забыт."], ["Какая запись является числом 0,00072 в стандартном виде (множитель от 1 до 10)?", ["7,2 · 10<sup>−4</sup>", "72 · 10<sup>−5</sup>", "7,2 · 10<sup>−3</sup>", "7,2 · 10<sup>4</sup>"], "Запятую переносим вправо до первой ненулевой цифры: 7,2. Перенесли на 4 знака, значит 10<sup>−4</sup>. Запись 72 · 10<sup>−5</sup> равна тому же числу, но множитель 72 не лежит между 1 и 10, поэтому это не стандартный вид."], ["Найдите значение выражения (3<span class=\"rt\">√<span class=\"ro\">2</span></span>)<sup>2</sup>.", ["18", "36", "12", "6"], "В квадрат возводятся оба множителя: 3<sup>2</sup> · (<span class=\"rt\">√<span class=\"ro\">2</span></span>)<sup>2</sup> = 9 · 2 = 18. Ответ 36 получится, если (<span class=\"rt\">√<span class=\"ro\">2</span></span>)<sup>2</sup> принять за 4. Ответ 6 это 3 · 2: возвели в квадрат только корень и забыли про тройку."], ["Найдите значение выражения −3<sup>2</sup> + (−3)<sup>2</sup> · 2.", ["9", "−27", "27", "0"], "−3<sup>2</sup> = −9 (минус не входит в основание), (−3)<sup>2</sup> = 9. Сначала умножение: 9 · 2 = 18, затем −9 + 18 = 9. Ответ 0 получится, если сложить до умножения: (−9 + 9) · 2. Ответ 27: если −3<sup>2</sup> принять за 9."]];
+let i=0,score=0,wrong=[];
+const box=document.getElementById('box'),pb=document.getElementById('pb');
+function shuffle(a){const r=a.map((v,k)=>[v,k]);for(let j=r.length-1;j>0;j--){const m=Math.floor(Math.random()*(j+1));[r[j],r[m]]=[r[m],r[j]]}return r}
+function show(){
+  if(i>=Q.length){return end()}
+  pb.style.width=(i/Q.length*100)+'%';
+  const [q,opts,exp]=Q[i];
+  box.innerHTML='<div class="card"><span class="tag">Вопрос '+(i+1)+' из '+Q.length+'</span><p class="q">'+q+'</p><div id="o"></div><div id="e"></div></div>';
+  const o=document.getElementById('o');
+  shuffle(opts).forEach(([t,k])=>{const b=document.createElement('button');b.className='opt';b.innerHTML=t;b.onclick=()=>pick(b,k===0,exp);o.appendChild(b);b.dataset.k=k});
+}
+function pick(b,ok,exp){
+  document.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(+x.dataset.k===0)x.classList.add('ok')});
+  if(ok){score++}else{b.classList.add('bad');wrong.push(i+1)}
+  document.getElementById('e').innerHTML='<div class="exp">'+(ok?'Верно. ':'Неверно. ')+exp+'</div><button class="btn" onclick="i++;show()">'+(i===Q.length-1?'Результат':'Дальше')+'</button>';
+}
+function end(){
+  pb.style.width='100%';
+  const msg=score>=9?'Тема усвоена. Можно переходить к задачам повышенной сложности.':score>=7?'Хороший результат. Повторите вопросы, где были ошибки.':score>=5?'Есть пробелы. Вернитесь к теории и разберите ошибки.':'Нужно повторить теорию с начала: свойства степени и знаки.';
+  box.innerHTML='<div class="card"><span class="tag">Результат</span><div class="big">'+score+' из '+Q.length+'</div><p>'+msg+'</p>'+(wrong.length?'<p class="sub">Ошибки в вопросах: '+wrong.join(', ')+'</p>':'')+'<button class="btn" onclick="i=0;score=0;wrong=[];show()">Пройти заново</button></div>';
+}
+show();
+</script></body></html>
