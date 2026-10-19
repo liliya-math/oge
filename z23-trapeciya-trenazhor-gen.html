@@ -1,0 +1,221 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тренажёр: трапеция, новые числа каждый раз</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+
+
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+a{color:var(--blue)}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 16px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.chips button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 12px;font:inherit;font-size:14px;cursor:pointer}
+.chips button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.cond{font-size:18px;margin:6px 0 14px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:170px}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin:6px 6px 0 0}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line)}
+.btn[disabled]{opacity:.45;cursor:default}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+.ok{border-left:3px solid var(--ok);background:rgba(155,211,160,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.bad{border-left:3px solid var(--bad);background:rgba(240,154,138,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.sol{border-left:3px solid var(--blue);background:rgba(125,162,255,.08);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:15px}
+.sol p{margin:6px 0}
+.stat{color:var(--muted);font-size:14px}
+
+.sys{display:inline-flex;align-items:center;vertical-align:middle;margin:2px 6px}
+.sys .br{align-self:stretch;width:7px;border:2px solid currentColor;border-right:0;border-radius:9px 0 0 9px;margin-right:8px}
+.sys .rows{display:flex;flex-direction:column;gap:3px;text-align:left}
+.sys .rows span{white-space:nowrap}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px}
+.fr i{display:block;font-style:normal;padding:0 3px;border-bottom:1px solid currentColor;line-height:1.2}
+.fr b{display:block;font-weight:normal;padding:0 3px;line-height:1.2}
+.cond{overflow-x:auto}
+.links a{display:inline-block;margin:4px 10px 0 0}
+@media(max-width:480px){.sys .rows span{white-space:normal}}
+.fig{display:block;margin:10px auto;max-width:100%;height:auto;color:var(--cream)}
+.tabs button.on{background:var(--apricot);color:#2a1a08;border-color:var(--apricot)}
+</style></head><body><div class="wrap"><p class="sub"><a href="z23-trapeciya.html" style="color:#7da2ff">← Трапеция (№23–25)</a></p><h1>Тренажёр: трапеция, новые числа</h1><p class="sub">Восемь типов задач. Числа меняются каждый раз, ответ всегда целое число. «Решено верно» считается, если ответ с первой попытки.</p><div class="tabs" id="chips"></div><p class="sub" id="stat"></p><div class="card" id="box"></div></div><script>
+function rnd(a,b){return a+Math.floor(Math.random()*(b-a+1))}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function fm(n){return String(n).replace('-','−')}
+var TRIPLES=[[3,4,5],[4,3,5],[5,12,13],[12,5,13],[8,15,17],[15,8,17],[6,8,10],[8,6,10],[9,12,15],[12,9,15],[7,24,25],[24,7,25],[12,16,20],[16,12,20],[15,20,25],[20,15,25],[10,24,26],[24,10,26]];
+var HERON={12:[[5,13],[9,15],[16,20]],8:[[6,10],[15,17]],15:[[8,17],[20,25]],24:[[7,25],[10,26],[18,30]]};
+var TYPES={
+ area:{name:'Площадь по формуле'},
+ mid:{name:'Средняя линия'},
+ iso:{name:'Равнобедренная, площадь'},
+ right:{name:'Прямоугольная'},
+ sides:{name:'Известны боковые стороны'},
+ diag:{name:'Диагонали и площади'},
+ incIso:{name:'Окружность в равнобедренной'},
+ incRight:{name:'Окружность в прямоугольной'}
+};
+function mk(a,b,h,x0){return {A:[0,0],B:[x0,h],C:[x0+b,h],D:[a,0]}}
+var GEN={
+ area:function(){
+  var a,b,h;
+  do{a=rnd(8,24);b=rnd(3,a-2);h=rnd(3,12)}while(((a+b)*h)%2!==0);
+  var x0=rnd(0,a-b);
+  return{kind:'area',geo:mk(a,b,h,x0),nums:{a:a,b:b,h:h},ans:(a+b)*h/2,
+   cond:'Основания трапеции равны '+a+' и '+b+', высота равна '+h+'. Найдите площадь трапеции.',
+   hint:'Площадь трапеции равна произведению полусуммы оснований на высоту.',
+   sol:'<p>S = (a + b) / 2 · h = ('+a+' + '+b+') / 2 · '+h+' = '+((a+b)*h/2)+'.</p>'};
+ },
+ mid:function(){
+  var a,b,m,known,other;
+  do{m=rnd(6,20);a=rnd(4,2*m-3);b=2*m-a}while(a===b||b<2);
+  var h=rnd(3,10);var geo=a>=b?mk(a,b,h,rnd(0,a-b)):{A:[0,0],B:[0,h],C:[a,h],D:[b,0]};
+  var givenAD=Math.random()<.5;
+  var lenAD=geo.D[0]-geo.A[0],lenBC=geo.C[0]-geo.B[0];
+  known=givenAD?lenAD:lenBC;other=givenAD?lenBC:lenAD;
+  return{kind:'mid',geo:geo,nums:{m:m,known:known,givenAD:givenAD},ans:other,
+   cond:'Средняя линия трапеции равна '+m+', одно из оснований равно '+known+'. Найдите другое основание.',
+   hint:'Средняя линия равна полусумме оснований: a + b = 2m.',
+   sol:'<p>Средняя линия m = (a + b) / 2, поэтому a + b = 2 · '+m+' = '+(2*m)+'.</p><p>Другое основание: '+(2*m)+' − '+known+' = '+other+'.</p>'};
+ },
+ iso:function(){
+  var t=pick(TRIPLES.filter(function(t){return t[0]<=15}));var p=t[0],h=t[1],c=t[2];
+  var b=rnd(3,14),a=b+2*p;
+  return{kind:'iso',geo:mk(a,b,h,p),nums:{a:a,b:b,c:c},ans:(a+b)*h/2,
+   cond:'Основания равнобедренной трапеции равны '+a+' и '+b+', боковая сторона равна '+c+'. Найдите площадь трапеции.',
+   hint:'Проведите две высоты. Отрезок большего основания, отсекаемый высотой, равен полуразности оснований. Высоту найдите по теореме Пифагора.',
+   sol:'<p>Высота отсекает отрезок (a − b) / 2 = ('+a+' − '+b+') / 2 = '+p+'.</p><p>h = √('+c+'² − '+p+'²) = √'+(c*c-p*p)+' = '+h+'.</p><p>S = ('+a+' + '+b+') / 2 · '+h+' = '+((a+b)*h/2)+'.</p>'};
+ },
+ right:function(){
+  var t=pick(TRIPLES.filter(function(t){return t[0]<=24}));var p=t[0],h=t[1],c=t[2];
+  var b=rnd(3,14),a=b+p;var askH=Math.random()<.4;
+  var geo={A:[0,0],B:[0,h],C:[b,h],D:[a,0]};
+  if(askH){
+   return{kind:'right',ask:'h',geo:geo,nums:{a:a,b:b,c:c},ans:h,
+    cond:'В прямоугольной трапеции основания равны '+a+' и '+b+', а большая боковая сторона равна '+c+'. Найдите меньшую боковую сторону.',
+    hint:'Меньшая боковая сторона равна высоте. Проведите высоту из вершины тупого угла: получится прямоугольный треугольник с катетом a − b.',
+    sol:'<p>Разность оснований a − b = '+a+' − '+b+' = '+p+'.</p><p>Меньшая боковая сторона равна высоте: h = √('+c+'² − '+p+'²) = √'+(c*c-p*p)+' = '+h+'.</p>'};
+  }
+  return{kind:'right',ask:'c',geo:geo,nums:{a:a,b:b,h:h},ans:c,
+   cond:'В прямоугольной трапеции основания равны '+a+' и '+b+', а меньшая боковая сторона равна '+h+'. Найдите большую боковую сторону.',
+   hint:'Проведите высоту из вершины тупого угла: получится прямоугольный треугольник с катетами h и a − b.',
+   sol:'<p>Разность оснований a − b = '+a+' − '+b+' = '+p+'.</p><p>Большая боковая сторона c = √('+h+'² + '+p+'²) = √'+(h*h+p*p)+' = '+c+'.</p>'};
+ },
+ sides:function(){
+  var hs=[12,8,15,24],h=pick(hs),L=HERON[h].slice();
+  var i=rnd(0,L.length-1),j;do{j=rnd(0,L.length-1)}while(j===i);
+  var p=L[i][0],c=L[i][1],q=L[j][0],d=L[j][1];
+  var b=rnd(3,13),a=b+p+q;
+  if(((a+b)*h)%2!==0){b+=1;a+=1}
+  return{kind:'sides',geo:mk(a,b,h,p),nums:{a:a,b:b,c:c,d:d},ans:(a+b)*h/2,
+   cond:'Основания трапеции равны '+a+' и '+b+', боковые стороны равны '+c+' и '+d+'. Найдите площадь трапеции.',
+   hint:'Через вершину меньшего основания проведите прямую, параллельную боковой стороне. Получится параллелограмм и треугольник со сторонами '+c+', '+d+' и '+(a-b)+'. Найдите его высоту.',
+   sol:'<p>Проведём CE ∥ AB. ABCE — параллелограмм, AE = '+b+', CE = '+c+', ED = '+a+' − '+b+' = '+(a-b)+'.</p><p>Треугольник CED со сторонами '+c+', '+d+', '+(a-b)+': его высота к ED равна '+h+' (проекции '+q+' и '+p+': '+q+'² + '+h+'² = '+d+'², '+p+'² + '+h+'² = '+c+'², '+p+' + '+q+' = '+(a-b)+').</p><p>S = ('+a+' + '+b+') / 2 · '+h+' = '+((a+b)*h/2)+'.</p>'};
+ },
+ diag:function(){
+  var m,n;do{m=rnd(1,7);n=rnd(1,7)}while(m===n);
+  var H=2*(m+n),x0=rnd(0,Math.max(0,n-m));
+  var geo=n>m?{A:[0,0],B:[x0,H],C:[x0+m,H],D:[n,0]}:{A:[0,0],B:[0,H],C:[m,H],D:[n,0]};
+  var swap=n<m;
+  // BC=m, AD=n. Площадь BOC=m², AOD=n²
+  var s1=m*m,s2=n*n;
+  return{kind:'diag',geo:geo,diag:true,nums:{s1:s1,s2:s2,m:m,n:n},ans:(m+n)*(m+n),
+   cond:'Диагонали AC и BD трапеции ABCD с основаниями AD и BC пересекаются в точке O. Площади треугольников BOC и AOD равны '+s1+' и '+s2+'. Найдите площадь трапеции.',
+   hint:'Треугольники BOC и AOD подобны, коэффициент равен корню из отношения площадей. Боковые треугольники AOB и COD имеют равные площади, каждая равна √(S(BOC) · S(AOD)).',
+   sol:'<p>k² = '+s1+' / '+s2+', поэтому BC : AD = '+m+' : '+n+', AO : OC = '+n+' : '+m+'.</p><p>S(AOB) = S(BOC) · AO / OC = '+s1+' · '+n+' / '+m+' = '+(m*n)+'. S(COD) = S(AOB) = '+(m*n)+'.</p><p>S = '+s1+' + '+s2+' + '+(m*n)+' + '+(m*n)+' = '+((m+n)*(m+n))+'.</p>'};
+ },
+ incIso:function(){
+  var P=pick([[2,1],[3,1],[3,2],[4,1],[4,3],[5,2],[5,4],[5,1]]);var p=P[0],q=P[1];
+  var k=(p<=3)?pick([2,4]):2;
+  var a=k*p*p,b=k*q*q,h=k*p*q,c=(a+b)/2;
+  return{kind:'incIso',geo:mk(a,b,h,(a-b)/2),circle:{cx:a/2,cy:h/2,r:h/2},nums:{a:a,b:b},ans:h/2,
+   cond:'В равнобедренную трапецию с основаниями '+a+' и '+b+' вписана окружность. Найдите радиус этой окружности.',
+   hint:'Суммы противоположных сторон равны, поэтому боковая сторона равна (a + b) / 2. Высота равна диаметру.',
+   sol:'<p>AD + BC = AB + CD и AB = CD, поэтому боковая сторона c = ('+a+' + '+b+') / 2 = '+c+'.</p><p>Высота: h = √('+c+'² − (('+a+' − '+b+') / 2)²) = √('+c*c+' − '+Math.pow((a-b)/2,2)+') = '+h+'.</p><p>h = 2r, поэтому r = '+(h/2)+'.</p>'};
+ },
+ incRight:function(){
+  var T=pick([[8,6,10],[6,8,10],[15,8,17],[5,12,13],[9,12,15],[16,12,20],[24,10,26]]);var dx=T[0],h=T[1],c=T[2];
+  var a=(h+c+dx)/2,b=(h+c-dx)/2,r=h/2;
+  return{kind:'incRight',geo:{A:[0,0],B:[0,h],C:[b,h],D:[a,0]},circle:{cx:r,cy:r,r:r},nums:{r:r,c:c},ans:(h+c)*h/2,
+   cond:'Около окружности радиуса '+r+' описана прямоугольная трапеция, большая боковая сторона которой равна '+c+'. Найдите площадь трапеции.',
+   hint:'Высота равна диаметру. Сумма оснований равна сумме боковых сторон: AD + BC = AB + CD, где AB = h.',
+   sol:'<p>h = 2r = '+h+', меньшая боковая сторона AB = h = '+h+'.</p><p>AD + BC = AB + CD = '+h+' + '+c+' = '+(h+c)+'.</p><p>S = ('+(h+c)+') / 2 · '+h+' = '+((h+c)*h/2)+'.</p>'};
+ }
+};
+function figSVG(t){
+  var g=t.geo,names=['A','B','C','D'],W=270,H=160,pad=26;
+  var xs=names.map(function(k){return g[k][0]}),ys=names.map(function(k){return g[k][1]});
+  var minx=Math.min.apply(null,xs),maxx=Math.max.apply(null,xs),miny=Math.min.apply(null,ys),maxy=Math.max.apply(null,ys);
+  var w=maxx-minx||1,h=maxy-miny||1,sc=Math.min((W-2*pad)/w,(H-2*pad)/h);
+  var VW=w*sc+2*pad,VH=h*sc+2*pad;
+  function T(p){return[pad+(p[0]-minx)*sc,pad+(maxy-p[1])*sc]}
+  var cx=0,cy=0;names.forEach(function(k){var q=T(g[k]);cx+=q[0]/4;cy+=q[1]/4});
+  var s='<svg class="fig" viewBox="0 0 '+VW.toFixed(0)+' '+VH.toFixed(0)+'" width="'+VW.toFixed(0)+'" height="'+VH.toFixed(0)+'" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">';
+  if(t.circle){var c=T([t.circle.cx,t.circle.cy]);s+='<circle cx="'+c[0].toFixed(1)+'" cy="'+c[1].toFixed(1)+'" r="'+(t.circle.r*sc).toFixed(1)+'" stroke-width="1.3"/>'}
+  s+='<polygon points="'+names.map(function(k){var q=T(g[k]);return q[0].toFixed(1)+','+q[1].toFixed(1)}).join(' ')+'"/>';
+  if(t.diag){var a=T(g.A),c2=T(g.C),b=T(g.B),d=T(g.D);
+   s+='<line x1="'+a[0].toFixed(1)+'" y1="'+a[1].toFixed(1)+'" x2="'+c2[0].toFixed(1)+'" y2="'+c2[1].toFixed(1)+'"/><line x1="'+b[0].toFixed(1)+'" y1="'+b[1].toFixed(1)+'" x2="'+d[0].toFixed(1)+'" y2="'+d[1].toFixed(1)+'"/>'}
+  s+='</g>';
+  var L=names.slice();
+  L.forEach(function(k){var q=T(g[k]),dx=q[0]-cx,dy=q[1]-cy,n=Math.hypot(dx,dy)||1;
+   s+='<text x="'+(q[0]+dx/n*12).toFixed(1)+'" y="'+(q[1]+dy/n*12).toFixed(1)+'" text-anchor="middle" dominant-baseline="central" font-family="Arial,sans-serif" font-size="13" fill="currentColor">'+k+'</text>'});
+  return s+'</svg>';
+}
+
+/*DOM*/
+var keys=Object.keys(TYPES),cur='all',task=null,solved=0,total=0,done=false,tries=0;
+var chips=document.getElementById('chips'),box=document.getElementById('box'),stat=document.getElementById('stat');
+function norm(s){return parseFloat(String(s).replace(',','.').replace('−','-').replace(/\s/g,''))}
+function drawChips(){chips.innerHTML='';[['all','Все типы']].concat(keys.map(function(k){return[k,TYPES[k].name]})).forEach(function(p){var b=document.createElement('button');b.textContent=p[1];if(p[0]===cur)b.className='on';b.onclick=function(){cur=p[0];drawChips();next()};chips.appendChild(b)})}
+function next(){
+  var k=cur==='all'?pick(keys):cur;task=GEN[k]();task.type=TYPES[k].name;done=false;tries=0;
+  box.innerHTML='<span class="tag">'+task.type+'</span><div class="cond">'+figSVG(task)+'<p>'+task.cond+'</p></div><p>Ответ: <input class="num" id="ans" inputmode="decimal" style="width:120px"></p><button class="btn" id="go">Проверить</button><button class="btn ghost" id="hb">Подсказка</button><button class="btn ghost" id="sb">Показать решение</button><button class="btn ghost" id="nb">Новая задача</button><div id="fb"></div>';
+  document.getElementById('go').onclick=check;
+  document.getElementById('ans').onkeydown=function(e){if(e.key==='Enter')check()};
+  document.getElementById('hb').onclick=function(){document.getElementById('fb').innerHTML='<div class="hint">Подсказка: '+task.hint+'</div>'};
+  document.getElementById('sb').onclick=function(){finish(false)};
+  document.getElementById('nb').onclick=function(){if(!done)total++;upd();next()};
+  upd();
+}
+function upd(){stat.textContent='Решено верно: '+solved+' из '+total}
+function check(){
+  if(done)return;
+  var v=norm(document.getElementById('ans').value),fb=document.getElementById('fb');
+  if(isNaN(v)){fb.innerHTML='<div class="hint">Введите число.</div>';return}
+  if(Math.abs(v-task.ans)<1e-9){finish(true)}
+  else{tries++;fb.innerHTML='<div class="hint">Не то. '+(tries>=2?'Нажмите «Подсказка» или «Показать решение».':'Проверьте построение и вычисления ещё раз.')+'</div>'}
+}
+function finish(ok){
+  if(done)return;done=true;total++;if(ok&&tries===0)solved++;
+  document.getElementById('go').disabled=true;
+  document.getElementById('fb').innerHTML='<div class="exp">'+(ok?'Верно. ':'Решение. ')+task.sol+'<p>Ответ: '+String(task.ans).replace('.',',')+'.</p></div><button class="btn" onclick="next()">Следующая</button>';
+  upd();
+}
+drawChips();next();
+</script></body></html>

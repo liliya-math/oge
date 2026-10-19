@@ -3059,6 +3059,195 @@
       "oge_task": 22,
       "status": "public",
       "note": "добавлено 2026-10-18"
+    },
+    {
+      "file": "z23-trapeciya.html",
+      "title": "Трапеция: все материалы по порядку",
+      "type": "sistema",
+      "class": 9,
+      "oge_task": 23,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "z23-trapeciya-teoriya.html",
+      "title": "Теория и устный опрос: трапеция",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 23,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "z23-trapeciya-test.html",
+      "title": "Тест: трапеция",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 23,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "z23-trapeciya-pyatiminutki.html",
+      "title": "Карточки-пятиминутки: трапеция (2 варианта)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 23,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "z23-trapeciya-razbor-5.html",
+      "title": "Разбор 5 задач повышенной сложности: трапеция",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 23,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "z23-trapeciya-trenazhor.html",
+      "title": "Тренажёр: 5 задач повышенной сложности, трапеция",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 23,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "z23-trapeciya-trenazhor-gen.html",
+      "title": "Тренажёр: трапеция, новые числа каждый раз",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 23,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "z23-trapeciya-pamyatka.html",
+      "title": "Памятка: алгоритм и оформление, трапеция",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 23,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "z23-trapeciya-kontrolnaya.html",
+      "title": "Зачётный лист: трапеция (3 уровня)",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 23,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "z23-trapeciya-dz.html",
+      "title": "Домашняя карточка: трапеция (4 задачи)",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 23,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "z23-trapeciya-plan-uroka.html",
+      "title": "План урока на 60 минут и ДЗ: трапеция",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 23,
+      "status": "public",
+      "note": "добавлено 2026-10-19; для репетитора"
+    },
+    {
+      "file": "z23-trapeciya-teoriya.pdf",
+      "title": "Трапеция, печать: teoriya",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 23,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "z23-trapeciya-pyatiminutki.pdf",
+      "title": "Трапеция, печать: pyatiminutki",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 23,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "z23-trapeciya-razbor-5.pdf",
+      "title": "Трапеция, печать: razbor-5",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 23,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "z23-trapeciya-pamyatka.pdf",
+      "title": "Трапеция, печать: pamyatka",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 23,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "z23-trapeciya-kontrolnaya.pdf",
+      "title": "Трапеция, печать: kontrolnaya",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 23,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "z23-trapeciya-dz.pdf",
+      "title": "Трапеция, печать: dz",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 23,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "z23-trapeciya-plan-uroka.pdf",
+      "title": "Трапеция, печать: plan-uroka",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 23,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "z23-trapeciya-komplekt.pdf",
+      "title": "Трапеция, печать: komplekt",
+      "type": "zadanie",
+      "class": 9,
+      "oge_task": 23,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "razbor-trapeciya-dialog.md",
+      "title": "Трапеция: разбор в диалоге (текст)",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 23,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "razbor-trapeciya-dialog.pdf",
+      "title": "Трапеция: разбор в диалоге, печать",
+      "type": "razbor",
+      "class": 9,
+      "oge_task": 23,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
     }
   ]
 }

@@ -1,0 +1,55 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>План урока на 60 минут и ДЗ: трапеция</title><style>
+@page{size:A4;margin:9mm}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#000;font:10.5pt/1.38 "PT Serif","DejaVu Serif",Georgia,"Times New Roman",serif}
+.wrap{max-width:200mm;margin:0 auto;padding:10px 12px 30px}
+.nav{font:13px -apple-system,Arial,sans-serif;margin:6px 0 10px}
+.nav a{color:#1747c9}
+h1{font-size:15pt;margin:0 0 2px}
+h2{font-size:11.5pt;margin:10px 0 4px;border-bottom:1px solid #000;padding-bottom:1px}
+h3{font-size:10.5pt;margin:7px 0 2px}
+.sub{font-size:9.5pt;margin:0 0 6px}
+p{margin:3px 0}
+ol,ul{margin:3px 0 3px 18px;padding:0}
+li{margin:2px 0}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 1px}
+.fr i{display:block;font-style:normal;padding:0 3px;border-bottom:1px solid currentColor;line-height:1.2}
+.fr b{display:block;font-weight:normal;padding:0 3px;line-height:1.2}
+.box{border:1px solid #000;padding:4px 7px;margin:5px 0;break-inside:avoid}
+.rule{border:1.5px solid #000;padding:4px 7px;margin:5px 0;break-inside:avoid;background:#f2f2f2}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 10mm}
+.cols.cut > div:first-child{border-right:1px dashed #000;padding-right:5mm}
+.task{break-inside:avoid;margin:5px 0}
+.task .n{font-weight:bold}
+.sol{border:1px solid #bbb;background-image:linear-gradient(#ddd 1px,transparent 1px),linear-gradient(90deg,#ddd 1px,transparent 1px);background-size:5mm 5mm;margin:3px 0}
+.ans{margin-top:2px}
+.ans:after{content:" ______________"}
+.teacher{margin-top:10px;border-top:1px dashed #000;padding-top:4px;font-size:9.5pt}
+.small{font-size:9.5pt}
+table{border-collapse:collapse;margin:4px 0}
+td,th{border:1px solid #000;padding:2px 6px;text-align:left;font-weight:normal}
+th{font-weight:bold;background:#eee}
+.lev{display:inline-block;border:1px solid #000;padding:0 6px;font-weight:bold;margin:6px 0 2px;font-size:10.5pt}
+details{margin:2px 0}
+summary{cursor:pointer}
+@media print{.nav,.noprint{display:none}.wrap{padding:0;max-width:none}body{font-size:10pt}}
+
+.sys{display:inline-flex;align-items:center;vertical-align:middle;margin:2px 5px}
+.sys .br{align-self:stretch;width:7px;border:2px solid currentColor;border-right:0;border-radius:9px 0 0 9px;margin-right:7px}
+.sys .rows{display:flex;flex-direction:column;gap:3px;text-align:left}
+.sys .rows span{white-space:nowrap}
+.pair{white-space:nowrap}
+.qa{margin:2px 0;break-inside:avoid}
+.key{border:1px dashed #000;padding:3px 7px;margin:4px 0;font-size:9.5pt;break-inside:avoid}
+.pg{break-before:page}
+@media screen and (max-width:640px){.cols{grid-template-columns:1fr}.cols.cut>div:first-child{border-right:0;padding-right:0}table{display:block;overflow-x:auto}}
+.mini td,.mini th{padding:1px 5px;font-size:9.5pt}
+@media print{body{font-size:9.6pt;line-height:1.33}h2{margin:7px 0 3px}}
+.fig{display:block;margin:6px auto;max-width:100%;height:auto;color:#000}
+.figs{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start;margin:4px 0}
+.figs figure{margin:0;text-align:center;font-size:9pt}
+.pair{white-space:nowrap}
+.cap{font-size:9pt;margin:0 0 4px}
+.stepbox{margin:3px 0 3px 0}
+.tbl td{vertical-align:top}
+</style></head><body><div class="wrap"><div class="nav"><a href="z23-trapeciya.html">← Трапеция (№23–25)</a> · <a href="index.html">на главную</a> · <a href="z23-trapeciya-plan-uroka.pdf">скачать PDF для печати</a></div><h1>План урока и домашнего задания · трапеция (№23–25)</h1><p class="sub">Индивидуальное занятие, 60 минут, 9 класс, подготовка к ОГЭ. Для репетитора: на печать 1 страница.</p><h2>Цель</h2><p>К концу урока ученик называет приём по виду данных (две высоты, перенос боковой стороны, перенос диагонали, подобие), решает одну задачу уровня №23 и записывает её так, чтобы эксперт поставил 2 балла: чертёж, обоснованные шаги, верные вычисления, ответ.</p><h2>Ход урока</h2><table class="small"><tr><th style="width:17mm">Минуты</th><th>Что делаем</th><th style="width:48mm">Материал</th></tr><tr><td>0–5</td><td><b>Устный опрос.</b> Пять вопросов подряд без подготовки: 3, 5, 6, 9, 12. Ошибку не поправляем, записываем: вернёмся на 5-й минуте.</td><td>Теория и опрос, вопросы</td></tr><tr><td>5–12</td><td><b>Открытие.</b> Даём задачу 3 без подсказки: основания 11 и 25, боковые 13 и 15. Ученик обычно пытается найти высоту из одного треугольника и застревает: в нём две неизвестные. Спрашиваем: чего не хватает? Фиксируем правило: нужна высота, а данные лежат на разных сторонах.</td><td>Разбор, задача 3 (условие и чертёж)</td></tr><tr><td>12–27</td><td><b>Разбор вслух двух задач по этапам диалога</b> «Что видим — идея — шаги — проверка»: задача 3 (перенос боковой стороны) и задача 2 (две высоты и CD² = HD · AD). Ученик сам называет приём до счёта.</td><td>Диалог-разбор, задачи 3 и 2</td></tr><tr><td>27–35</td><td><b>Пятиминутка</b> (вариант А), 7 минут без подсказок, затем сверка по ответам и разбор ошибок.</td><td>Карточки-пятиминутки</td></tr><tr><td>35–50</td><td><b>Самостоятельная задача уровня №23:</b> задача 4 или 1 в интерактивном тренажёре по шагам; затем та же задача записывается на листе как на экзамене.</td><td>Тренажёр по шагам; памятка</td></tr><tr><td>50–57</td><td><b>Учитель — эксперт.</b> Проверяем запись по списку «Где теряют баллы» из памятки. Ученик находит, где потерял бы балл, и переписывает этот шаг.</td><td>Памятка, образец записи</td></tr><tr><td>57–60</td><td><b>Итог и ДЗ.</b> Вопрос: «По каким данным ты выбираешь приём?» (даны боковые — перенос стороны; даны диагонали — перенос диагонали; площади треугольников — подобие; окружность — суммы сторон и h = 2r). Выдаём домашнюю карточку.</td><td>Домашняя карточка</td></tr></table><h2>Как подстроить под уровень</h2><ul class="small"><li><b>Трек A:</b> в блоке 12–27 разбираем задачи 3 и 2 целиком по диалогу; самостоятельно — задача 4 по шагам; ДЗ — задачи 3 и 4 из карточки.</li><li><b>Трек B:</b> план как есть; задачу 3 ученик решает сразу сам, учитель только слушает.</li><li><b>Трек C:</b> вместо задач 3 и 2 берём 1 и 5 (подобие и доказательство); в блоке 35–50 — задача 5 без подсказок; вопрос «Можно ли без формулы (√S₁ + √S₂)² и почему её нужно выводить?».</li></ul><h2>Домашнее задание</h2><ol class="small"><li>Домашняя карточка из 4 задач (№23), оформить полностью. Срок — к следующему занятию.</li><li>Интерактивный тест «Трапеция» (10 вопросов). Цель — не меньше 8.</li><li>Тренажёр «новые числа каждый раз»: 10 задач подряд любых типов.</li><li>На следующем уроке: зачётный лист на 45 минут (при хорошем результате — только уровень 3).</li></ol><h2>Что подготовить заранее</h2><p class="small">Распечатать: теорию и вопросы, пятиминутки (вырезать), памятку, домашнюю карточку. Открыть на втором экране: тренажёр по шагам. Чертежи рисовать на онлайн-доске вместе с учеником, а не показывать готовые.</p><p class="small"><b>Критерий успеха урока.</b> Ученик сам называет построение до того, как начал считать, и на экспертной проверке находит свою ошибку в оформлении.</p></div></body></html>

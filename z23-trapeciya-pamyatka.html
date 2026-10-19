@@ -1,0 +1,55 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Памятка: трапеция — алгоритм и оформление</title><style>
+@page{size:A4;margin:9mm}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#000;font:10.5pt/1.38 "PT Serif","DejaVu Serif",Georgia,"Times New Roman",serif}
+.wrap{max-width:200mm;margin:0 auto;padding:10px 12px 30px}
+.nav{font:13px -apple-system,Arial,sans-serif;margin:6px 0 10px}
+.nav a{color:#1747c9}
+h1{font-size:15pt;margin:0 0 2px}
+h2{font-size:11.5pt;margin:10px 0 4px;border-bottom:1px solid #000;padding-bottom:1px}
+h3{font-size:10.5pt;margin:7px 0 2px}
+.sub{font-size:9.5pt;margin:0 0 6px}
+p{margin:3px 0}
+ol,ul{margin:3px 0 3px 18px;padding:0}
+li{margin:2px 0}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 1px}
+.fr i{display:block;font-style:normal;padding:0 3px;border-bottom:1px solid currentColor;line-height:1.2}
+.fr b{display:block;font-weight:normal;padding:0 3px;line-height:1.2}
+.box{border:1px solid #000;padding:4px 7px;margin:5px 0;break-inside:avoid}
+.rule{border:1.5px solid #000;padding:4px 7px;margin:5px 0;break-inside:avoid;background:#f2f2f2}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 10mm}
+.cols.cut > div:first-child{border-right:1px dashed #000;padding-right:5mm}
+.task{break-inside:avoid;margin:5px 0}
+.task .n{font-weight:bold}
+.sol{border:1px solid #bbb;background-image:linear-gradient(#ddd 1px,transparent 1px),linear-gradient(90deg,#ddd 1px,transparent 1px);background-size:5mm 5mm;margin:3px 0}
+.ans{margin-top:2px}
+.ans:after{content:" ______________"}
+.teacher{margin-top:10px;border-top:1px dashed #000;padding-top:4px;font-size:9.5pt}
+.small{font-size:9.5pt}
+table{border-collapse:collapse;margin:4px 0}
+td,th{border:1px solid #000;padding:2px 6px;text-align:left;font-weight:normal}
+th{font-weight:bold;background:#eee}
+.lev{display:inline-block;border:1px solid #000;padding:0 6px;font-weight:bold;margin:6px 0 2px;font-size:10.5pt}
+details{margin:2px 0}
+summary{cursor:pointer}
+@media print{.nav,.noprint{display:none}.wrap{padding:0;max-width:none}body{font-size:10pt}}
+
+.sys{display:inline-flex;align-items:center;vertical-align:middle;margin:2px 5px}
+.sys .br{align-self:stretch;width:7px;border:2px solid currentColor;border-right:0;border-radius:9px 0 0 9px;margin-right:7px}
+.sys .rows{display:flex;flex-direction:column;gap:3px;text-align:left}
+.sys .rows span{white-space:nowrap}
+.pair{white-space:nowrap}
+.qa{margin:2px 0;break-inside:avoid}
+.key{border:1px dashed #000;padding:3px 7px;margin:4px 0;font-size:9.5pt;break-inside:avoid}
+.pg{break-before:page}
+@media screen and (max-width:640px){.cols{grid-template-columns:1fr}.cols.cut>div:first-child{border-right:0;padding-right:0}table{display:block;overflow-x:auto}}
+.mini td,.mini th{padding:1px 5px;font-size:9.5pt}
+@media print{body{font-size:9.6pt;line-height:1.33}h2{margin:7px 0 3px}}
+.fig{display:block;margin:6px auto;max-width:100%;height:auto;color:#000}
+.figs{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start;margin:4px 0}
+.figs figure{margin:0;text-align:center;font-size:9pt}
+.pair{white-space:nowrap}
+.cap{font-size:9pt;margin:0 0 4px}
+.stepbox{margin:3px 0 3px 0}
+.tbl td{vertical-align:top}
+</style></head><body><div class="wrap"><div class="nav"><a href="z23-trapeciya.html">← Трапеция (№23–25)</a> · <a href="index.html">на главную</a> · <a href="z23-trapeciya-pamyatka.pdf">скачать PDF для печати</a></div><h1>Памятка · трапеция: алгоритм и оформление (№23–25)</h1><p class="sub">Печать: 1–2 листа A4. Образцы записи внизу.</p><div class="cols cut"><div><h2>Алгоритм решения задачи про трапецию</h2><ol><li><b>Чертёж и данные.</b> Нарисуйте трапецию ABCD, основания AD и BC. Впишите все числа. Чертёж нужен вам: красота чертежа не оценивается.</li><li><b>Вид трапеции.</b> Произвольная, равнобедренная, прямоугольная? Есть вписанная или описанная окружность? Диагонали перпендикулярны?</li><li><b>Построение.</b> Выберите одно: две высоты; перенос боковой стороны (a − b, c, d); перенос диагонали (a + b, d₁, d₂); продолжение боковых сторон; диагонали и подобие BOC и DOA.</li><li><b>Цепочка.</b> Обозначьте неизвестное буквой и найдите недостающие отрезки по одному, каждый раз называя теорему или свойство.</li><li><b>Формула.</b> Запишите S = (a + b) / 2 · h или нужную величину и подставьте числа.</li><li><b>Проверка и ответ.</b> Высота меньше боковой стороны, средняя линия между основаниями, ответ отвечает на вопрос задачи (площадь, а не высота). Запишите «Ответ: …».</li></ol><table class="small mini"><tr><th>Что дано</th><th>Построение</th></tr><tr><td>Равнобедренная трапеция, даны основания и боковая</td><td>Две высоты, (a − b)/2, теорема Пифагора</td></tr><tr><td>Даны обе боковые стороны</td><td>Перенос боковой стороны, треугольник c, d, a − b</td></tr><tr><td>Даны диагонали и сумма оснований (средняя линия)</td><td>Перенос диагонали, треугольник d₁, d₂, a + b</td></tr><tr><td>Вписанная окружность</td><td>AD + BC = AB + CD, h = 2r</td></tr><tr><td>Площади треугольников при диагоналях</td><td>Подобие BOC и DOA, площади k², AOB = COD</td></tr></table></div><div><h2>Как оформить, чтобы эксперт не снял баллы</h2><p class="small">По методическим рекомендациям ФИПИ 2026 (критерии заданий 23–25).</p><div class="box"><b>Баллы за №23 и №25 (по 2 балла).</b> 2 балла: ход верный, все шаги выполнены правильно, ответ верный. 1 балл: решение в целом верное, но есть несущественные недостатки или вычислительная ошибка. 0 баллов: всё остальное, в том числе существенная геометрическая ошибка при верном числе.<br><b>№24 (доказательство, 2 балла).</b> 2 балла: доказательство верное, все шаги обоснованы. 1 балл: в целом верное, но с несущественными недостатками.</div><div class="cols"><div><h3>Что эксперту не важно</h3><ul class="small"><li>Аккуратность чертежа: он только иллюстрация.</li><li>«Дано / Найти» и красивая рамка: оценивается только решение.</li><li>Нерациональный способ и лишние рассуждения.</li><li>Описка, отсутствие значка градуса, не поясняющие слова.</li><li>Ссылки на факты из учебников: доказывать формулу площади трапеции или теорему Пифагора не нужно.</li></ul></div><div><h3>Где теряют баллы</h3><ul class="small"><li><b>Вычисления.</b> Верный ход и арифметическая ошибка дают 1 балл. Пересчитайте всё второй раз.</li><li><b>Неверное утверждение.</b> «Высота делит основание пополам» (в равнобедренной трапеции: на (a − b)/2 и (a + b)/2). «Диагонали трапеции равны» без условия.</li><li><b>Необоснованный ключевой шаг.</b> «Треугольники подобны» без углов; «O — середина» без причины.</li><li><b>Частный случай.</b> В доказательстве нельзя подставлять числа и ссылаться на чертёж: «видно по рисунку».</li><li><b>Нетиповой факт без вывода.</b> Формулу вроде (√S₁ + √S₂)² выведите по ходу решения.</li></ul></div></div></div></div><div class="box"><b>Образец записи №23.</b> Основания трапеции 11 и 25, боковые стороны 13 и 15. Найдите площадь.<br>Пусть ABCD — трапеция, AD ∥ BC, AD = 25, BC = 11, AB = 13, CD = 15. Проведём CE ∥ AB, E на AD. ABCE — параллелограмм (BC ∥ AE, AB ∥ CE), поэтому AE = BC = 11, CE = AB = 13, ED = 25 − 11 = 14. В треугольнике CED стороны 13, 14, 15, p = 21, по формуле Герона S = √(21 · 8 · 7 · 6) = 84. Высота CH = 2S / ED = 2 · 84 / 14 = 12; это высота трапеции. S(ABCD) = (25 + 11) / 2 · 12 = 216.<br><b>Ответ: 216.</b></div><div class="box"><b>Образец записи №24.</b> Диагонали AC и BD трапеции ABCD с основаниями AD и BC пересекаются в точке O. Докажите, что S(AOB) = S(COD).<br>Треугольники ABD и ACD имеют общее основание AD, а их высоты равны, так как BC ∥ AD (расстояние между параллельными прямыми постоянно). Значит, S(ABD) = S(ACD). Но S(ABD) = S(AOB) + S(AOD), S(ACD) = S(COD) + S(AOD). Вычитая S(AOD), получаем S(AOB) = S(COD). Что и требовалось доказать.</div><p class="small"><b>Ответ в №23.</b> Единицы измерения не обязательны. Если получилась дробь, оставьте дробь или запишите десятичную, но не округляйте без просьбы в условии.</p></div></body></html>

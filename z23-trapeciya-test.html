@@ -1,0 +1,90 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тест: трапеция</title><style>
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--apricot);width:0;transition:width .3s}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.q{font-size:18px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt[disabled]{cursor:default}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
+.btn[disabled]{opacity:.45;cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
+.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
+
+
+:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+a{color:var(--blue)}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 16px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.chips button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 12px;font:inherit;font-size:14px;cursor:pointer}
+.chips button.on{background:var(--cream);color:var(--bg);font-weight:600}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
+.cond{font-size:18px;margin:6px 0 14px}
+input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:170px}
+.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin:6px 6px 0 0}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line)}
+.btn[disabled]{opacity:.45;cursor:default}
+.hint{color:var(--butter);font-size:14px;margin-top:8px}
+.ok{border-left:3px solid var(--ok);background:rgba(155,211,160,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.bad{border-left:3px solid var(--bad);background:rgba(240,154,138,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.sol{border-left:3px solid var(--blue);background:rgba(125,162,255,.08);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:15px}
+.sol p{margin:6px 0}
+.stat{color:var(--muted);font-size:14px}
+
+.sys{display:inline-flex;align-items:center;vertical-align:middle;margin:2px 6px}
+.sys .br{align-self:stretch;width:7px;border:2px solid currentColor;border-right:0;border-radius:9px 0 0 9px;margin-right:8px}
+.sys .rows{display:flex;flex-direction:column;gap:3px;text-align:left}
+.sys .rows span{white-space:nowrap}
+.fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px}
+.fr i{display:block;font-style:normal;padding:0 3px;border-bottom:1px solid currentColor;line-height:1.2}
+.fr b{display:block;font-weight:normal;padding:0 3px;line-height:1.2}
+.cond{overflow-x:auto}
+.links a{display:inline-block;margin:4px 10px 0 0}
+@media(max-width:480px){.sys .rows span{white-space:normal}}
+.fig{display:block;margin:10px auto;max-width:100%;height:auto;color:var(--cream)}
+</style></head><body><div class="wrap"><p class="sub"><a href="z23-trapeciya.html" style="color:#7da2ff">← Трапеция (№23–25)</a></p><h1>Трапеция: тест</h1><p class="sub">10 вопросов. После каждого ответа появляется разбор.</p><div class="bar"><i id="pb"></i></div><div id="box"></div></div><script>const Q=[["Что называется трапецией?", ["Четырёхугольник, у которого две стороны параллельны, а две другие не параллельны", "Четырёхугольник, у которого все стороны равны", "Четырёхугольник, у которого две стороны равны", "Четырёхугольник, у которого все углы прямые"], 0, "Определение по учебнику: две стороны (основания) параллельны, две другие (боковые стороны) не параллельны."], ["Основания трапеции равны 8 и 14. Чему равна её средняя линия?", ["11", "22", "6", "112"], 0, "Средняя линия равна полусумме оснований: (8 + 14) / 2 = 11."], ["Основания трапеции равны 6 и 10, высота равна 5. Найдите площадь.", ["40", "80", "30", "50"], 0, "S = (6 + 10) / 2 · 5 = 8 · 5 = 40."], ["Чему равна сумма двух углов трапеции, прилежащих к боковой стороне?", ["180°", "90°", "360°", "120°"], 0, "Это односторонние углы при параллельных основаниях и секущей (боковой стороне): сумма 180°."], ["Угол при меньшем основании равнобедренной трапеции равен 130°. Чему равен угол при большем основании?", ["50°", "130°", "40°", "70°"], 0, "Угол при меньшем основании и угол при большем на одной боковой стороне дают 180°: 180° − 130° = 50°."], ["Основания равнобедренной трапеции равны 10 и 24. На какие отрезки высота из вершины тупого угла делит большее основание?", ["7 и 17", "12 и 12", "5 и 19", "10 и 14"], 0, "Меньший отрезок (24 − 10) / 2 = 7, больший (24 + 10) / 2 = 17. Проверка: 7 + 17 = 24."], ["Когда в трапецию можно вписать окружность?", ["Когда сумма оснований равна сумме боковых сторон", "Всегда", "Когда трапеция равнобедренная", "Когда диагонали равны"], 0, "Окружность можно вписать в выпуклый четырёхугольник, если суммы противоположных сторон равны. Для трапеции AD + BC = AB + CD. Равнобедренность для вписанной окружности не нужна."], ["Около какой трапеции можно описать окружность?", ["Только около равнобедренной", "Около любой", "Только около прямоугольной", "Только около той, у которой основания равны"], 0, "Около трапеции можно описать окружность тогда и только тогда, когда она равнобедренная."], ["Диагонали трапеции ABCD с основаниями AD = 10 и BC = 4 пересекаются в точке O. Чему равно отношение BO : OD?", ["2 : 5", "5 : 2", "4 : 10 только если трапеция равнобедренная", "1 : 1"], 0, "Треугольники BOC и DOA подобны, k = BC : AD = 4 : 10 = 2 : 5. Поэтому BO : OD = 2 : 5. Равнобедренность не нужна."], ["Диагонали трапеции ABCD пересекаются в точке O. Какие два треугольника имеют равные площади?", ["AOB и COD", "BOC и AOD", "AOB и BOC", "Равных площадей нет"], 0, "S(ABD) = S(ACD): общее основание AD и равные высоты. Вычитая общий треугольник AOD, получаем S(AOB) = S(COD)."]];
+let i=0,score=0,wrong=[];
+const box=document.getElementById('box'),pb=document.getElementById('pb');
+function shuffle(a){const r=a.map((v,k)=>[v,k]);for(let j=r.length-1;j>0;j--){const m=Math.floor(Math.random()*(j+1));[r[j],r[m]]=[r[m],r[j]]}return r}
+function show(){
+  if(i>=Q.length){return end()}
+  pb.style.width=(i/Q.length*100)+'%';
+  const [q,opts,ans,exp]=Q[i];
+  box.innerHTML='<div class="card"><span class="tag">Вопрос '+(i+1)+' из '+Q.length+'</span><p class="q">'+q+'</p><div id="o"></div><div id="e"></div></div>';
+  const o=document.getElementById('o');
+  shuffle(opts).forEach(([t,k])=>{const b=document.createElement('button');b.className='opt';b.textContent=t;b.onclick=()=>pick(b,k===ans,exp);o.appendChild(b);b.dataset.k=k});
+}
+function pick(b,ok,exp){
+  document.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(+x.dataset.k===Q[i][2])x.classList.add('ok')});
+  if(ok){score++}else{b.classList.add('bad');wrong.push(i+1)}
+  document.getElementById('e').innerHTML='<div class="exp">'+(ok?'Верно. ':'Неверно. ')+exp+'</div><button class="btn" onclick="i++;show()">'+(i===Q.length-1?'Результат':'Дальше')+'</button>';
+}
+function end(){
+  pb.style.width='100%';
+  const msg=score>=9?'Тема усвоена. Можно переходить к задачам №23.':score>=7?'Хороший результат. Повторите вопросы, где были ошибки.':score>=5?'Есть пробелы. Вернитесь к теории и разберите ошибки.':'Нужно повторить теорию с начала.';
+  box.innerHTML='<div class="card"><span class="tag">Результат</span><div class="big">'+score+' из '+Q.length+'</div><p>'+msg+'</p>'+(wrong.length?'<p class="sub">Ошибки в вопросах: '+wrong.join(', ')+'</p>':'')+'<button class="btn" onclick="i=0;score=0;wrong=[];show()">Пройти заново</button></div>';
+}
+show();
+</script></body></html>
