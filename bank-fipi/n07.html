@@ -1,0 +1,212 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>ФИПИ №7 Числа на координатной прямой</title><style>
+:root{color-scheme:dark;--bg:#14211e;--card:rgba(243,236,226,.06);--line:rgba(243,236,226,.16);--fg:#f3ece2;--muted:#b4b0a3;--lblue:#9db8ff;--apricot:#f2905e;--yellow:#f5dc6a;--font:-apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,"Segoe UI",Roboto,Arial,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 17px/1.55 var(--font);padding:0 16px 48px}
+a{color:var(--lblue)}.wrap{max-width:760px;margin:0 auto}
+.top{padding:16px 0 6px;font:600 14px var(--font);color:var(--muted)}
+.top a{color:var(--fg);text-decoration:none;font-weight:700}
+h1{font:800 clamp(26px,6vw,36px)/1.15 var(--font);letter-spacing:-.02em;margin:6px 0 10px}
+.lead{color:var(--muted);margin:0 0 16px}
+.nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+.nav a{padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--fg);text-decoration:none;font:600 14px var(--font)}
+.nav a.on{border-color:var(--apricot);color:var(--yellow)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin:0 0 14px;text-decoration:none;color:var(--fg);display:block}
+.card b{color:var(--yellow)}
+.t{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px 14px;margin:0 0 12px;scroll-margin-top:10px}
+.t h2{font:600 13px var(--font);text-transform:uppercase;letter-spacing:.08em;color:var(--apricot);margin:0 0 8px}
+.t h2 span{color:var(--muted);text-transform:none;letter-spacing:0;font-weight:500}
+.t .im{background:#fff;border-radius:10px;padding:8px;overflow-x:auto}
+.t img{display:block;max-width:100%;height:auto;margin:0 auto}
+.bad{color:var(--apricot);font-size:14px;margin-top:6px}
+.jump{display:flex;gap:8px;align-items:center;margin:0 0 16px}
+.jump input{flex:0 0 120px;background:var(--card);border:1px solid var(--line);color:var(--fg);border-radius:10px;padding:8px 10px;font:500 16px var(--font)}
+.jump button{background:var(--card);border:1px solid var(--line);color:var(--fg);border-radius:10px;padding:8px 14px;font:600 15px var(--font)}
+</style></head><body><div class="wrap">
+<div class="top"><a href="../">lili.math</a> · <a href="index.html">Банк ФИПИ</a></div>
+<h1>№7. Числа на координатной прямой</h1>
+<p class="lead">Задач из открытого банка ФИПИ: 182. Порядок как в банке. У каждой задачи номер ФИПИ и страница банка. Ответов здесь нет.</p>
+<div class="nav"><a href="n06.html">№6</a><a href="n07.html" class=on>№7</a><a href="n08.html">№8</a><a href="n09.html">№9</a></div>
+<div class="jump"><input id="q" type="number" min="1" placeholder="№ задачи"><button onclick="var v=document.getElementById('q').value;var e=document.getElementById('t'+v);if(e){e.scrollIntoView()}">Перейти</button></div>
+<div class="t" id="t1"><h2>7.1 <span>· ФИПИ 453B45 · стр. 1</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_453B45.png" alt="Задача 7.1, ФИПИ 453B45"></div></div>
+<div class="t" id="t2"><h2>7.2 <span>· ФИПИ F1F841 · стр. 2</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_F1F841.png" alt="Задача 7.2, ФИПИ F1F841"></div></div>
+<div class="t" id="t3"><h2>7.3 <span>· ФИПИ F2CF43 · стр. 3</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_F2CF43.png" alt="Задача 7.3, ФИПИ F2CF43"></div></div>
+<div class="t" id="t4"><h2>7.4 <span>· ФИПИ 7C7947 · стр. 4</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_7C7947.png" alt="Задача 7.4, ФИПИ 7C7947"></div></div>
+<div class="t" id="t5"><h2>7.5 <span>· ФИПИ 73D345 · стр. 4</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_73D345.png" alt="Задача 7.5, ФИПИ 73D345"></div></div>
+<div class="t" id="t6"><h2>7.6 <span>· ФИПИ 9DCF4D · стр. 11</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_9DCF4D.png" alt="Задача 7.6, ФИПИ 9DCF4D"></div></div>
+<div class="t" id="t7"><h2>7.7 <span>· ФИПИ 9BFC49 · стр. 11</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_9BFC49.png" alt="Задача 7.7, ФИПИ 9BFC49"></div></div>
+<div class="t" id="t8"><h2>7.8 <span>· ФИПИ 98B04E · стр. 12</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_98B04E.png" alt="Задача 7.8, ФИПИ 98B04E"></div></div>
+<div class="t" id="t9"><h2>7.9 <span>· ФИПИ E34047 · стр. 12</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_E34047.png" alt="Задача 7.9, ФИПИ E34047"></div></div>
+<div class="t" id="t10"><h2>7.10 <span>· ФИПИ 6F944F · стр. 13</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_6F944F.png" alt="Задача 7.10, ФИПИ 6F944F"></div></div>
+<div class="t" id="t11"><h2>7.11 <span>· ФИПИ 37B64D · стр. 15</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_37B64D.png" alt="Задача 7.11, ФИПИ 37B64D"></div></div>
+<div class="t" id="t12"><h2>7.12 <span>· ФИПИ 393749 · стр. 15</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_393749.png" alt="Задача 7.12, ФИПИ 393749"></div></div>
+<div class="t" id="t13"><h2>7.13 <span>· ФИПИ 8D164C · стр. 16</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_8D164C.png" alt="Задача 7.13, ФИПИ 8D164C"></div></div>
+<div class="t" id="t14"><h2>7.14 <span>· ФИПИ 4D9EF5 · стр. 17</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_4D9EF5.png" alt="Задача 7.14, ФИПИ 4D9EF5"></div></div>
+<div class="t" id="t15"><h2>7.15 <span>· ФИПИ F212F1 · стр. 19</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_F212F1.png" alt="Задача 7.15, ФИПИ F212F1"></div></div>
+<div class="t" id="t16"><h2>7.16 <span>· ФИПИ 02F0F3 · стр. 20</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_02F0F3.png" alt="Задача 7.16, ФИПИ 02F0F3"></div></div>
+<div class="t" id="t17"><h2>7.17 <span>· ФИПИ DC38F4 · стр. 23</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_DC38F4.png" alt="Задача 7.17, ФИПИ DC38F4"></div></div>
+<div class="t" id="t18"><h2>7.18 <span>· ФИПИ 5493FC · стр. 25</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_5493FC.png" alt="Задача 7.18, ФИПИ 5493FC"></div></div>
+<div class="t" id="t19"><h2>7.19 <span>· ФИПИ A796FE · стр. 26</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_A796FE.png" alt="Задача 7.19, ФИПИ A796FE"></div></div>
+<div class="t" id="t20"><h2>7.20 <span>· ФИПИ C257F8 · стр. 27</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_C257F8.png" alt="Задача 7.20, ФИПИ C257F8"></div></div>
+<div class="t" id="t21"><h2>7.21 <span>· ФИПИ 9029F5 · стр. 27</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_9029F5.png" alt="Задача 7.21, ФИПИ 9029F5"></div></div>
+<div class="t" id="t22"><h2>7.22 <span>· ФИПИ 9179F3 · стр. 28</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_9179F3.png" alt="Задача 7.22, ФИПИ 9179F3"></div></div>
+<div class="t" id="t23"><h2>7.23 <span>· ФИПИ EFACFA · стр. 28</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_EFACFA.png" alt="Задача 7.23, ФИПИ EFACFA"></div></div>
+<div class="t" id="t24"><h2>7.24 <span>· ФИПИ EFB5F8 · стр. 29</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_EFB5F8.png" alt="Задача 7.24, ФИПИ EFB5F8"></div></div>
+<div class="t" id="t25"><h2>7.25 <span>· ФИПИ 6A8FF7 · стр. 29</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_6A8FF7.png" alt="Задача 7.25, ФИПИ 6A8FF7"></div></div>
+<div class="t" id="t26"><h2>7.26 <span>· ФИПИ 7D0807 · стр. 33</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_7D0807.png" alt="Задача 7.26, ФИПИ 7D0807"></div></div>
+<div class="t" id="t27"><h2>7.27 <span>· ФИПИ B00E05 · стр. 34</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_B00E05.png" alt="Задача 7.27, ФИПИ B00E05"></div></div>
+<div class="t" id="t28"><h2>7.28 <span>· ФИПИ 596B05 · стр. 38</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_596B05.png" alt="Задача 7.28, ФИПИ 596B05"></div></div>
+<div class="t" id="t29"><h2>7.29 <span>· ФИПИ 953702 · стр. 40</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_953702.png" alt="Задача 7.29, ФИПИ 953702"></div></div>
+<div class="t" id="t30"><h2>7.30 <span>· ФИПИ 983402 · стр. 40</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_983402.png" alt="Задача 7.30, ФИПИ 983402"></div></div>
+<div class="t" id="t31"><h2>7.31 <span>· ФИПИ 61230E · стр. 42</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_61230E.png" alt="Задача 7.31, ФИПИ 61230E"></div></div>
+<div class="t" id="t32"><h2>7.32 <span>· ФИПИ 344704 · стр. 42</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_344704.png" alt="Задача 7.32, ФИПИ 344704"></div></div>
+<div class="t" id="t33"><h2>7.33 <span>· ФИПИ 8A5E07 · стр. 44</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_8A5E07.png" alt="Задача 7.33, ФИПИ 8A5E07"></div></div>
+<div class="t" id="t34"><h2>7.34 <span>· ФИПИ 8F6802 · стр. 44</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_8F6802.png" alt="Задача 7.34, ФИПИ 8F6802"></div></div>
+<div class="t" id="t35"><h2>7.35 <span>· ФИПИ 8A3F0C · стр. 44</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_8A3F0C.png" alt="Задача 7.35, ФИПИ 8A3F0C"></div></div>
+<div class="t" id="t36"><h2>7.36 <span>· ФИПИ F79579 · стр. 46</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_F79579.png" alt="Задача 7.36, ФИПИ F79579"></div></div>
+<div class="t" id="t37"><h2>7.37 <span>· ФИПИ 087F7B · стр. 47</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_087F7B.png" alt="Задача 7.37, ФИПИ 087F7B"></div></div>
+<div class="t" id="t38"><h2>7.38 <span>· ФИПИ 06EB7E · стр. 47</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_06EB7E.png" alt="Задача 7.38, ФИПИ 06EB7E"></div></div>
+<div class="t" id="t39"><h2>7.39 <span>· ФИПИ 775677 · стр. 47</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_775677.png" alt="Задача 7.39, ФИПИ 775677"></div></div>
+<div class="t" id="t40"><h2>7.40 <span>· ФИПИ BE2D7B · стр. 49</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_BE2D7B.png" alt="Задача 7.40, ФИПИ BE2D7B"></div></div>
+<div class="t" id="t41"><h2>7.41 <span>· ФИПИ BBB673 · стр. 50</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_BBB673.png" alt="Задача 7.41, ФИПИ BBB673"></div></div>
+<div class="t" id="t42"><h2>7.42 <span>· ФИПИ 2C6175 · стр. 51</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_2C6175.png" alt="Задача 7.42, ФИПИ 2C6175"></div></div>
+<div class="t" id="t43"><h2>7.43 <span>· ФИПИ A04F76 · стр. 53</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_A04F76.png" alt="Задача 7.43, ФИПИ A04F76"></div></div>
+<div class="t" id="t44"><h2>7.44 <span>· ФИПИ C3877A · стр. 54</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_C3877A.png" alt="Задача 7.44, ФИПИ C3877A"></div></div>
+<div class="t" id="t45"><h2>7.45 <span>· ФИПИ CF457C · стр. 54</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_CF457C.png" alt="Задача 7.45, ФИПИ CF457C"></div></div>
+<div class="t" id="t46"><h2>7.46 <span>· ФИПИ 98CD7C · стр. 55</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_98CD7C.png" alt="Задача 7.46, ФИПИ 98CD7C"></div></div>
+<div class="t" id="t47"><h2>7.47 <span>· ФИПИ 3ACC7D · стр. 58</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_3ACC7D.png" alt="Задача 7.47, ФИПИ 3ACC7D"></div></div>
+<div class="t" id="t48"><h2>7.48 <span>· ФИПИ BA76BA · стр. 64</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_BA76BA.png" alt="Задача 7.48, ФИПИ BA76BA"></div></div>
+<div class="t" id="t49"><h2>7.49 <span>· ФИПИ D00EB3 · стр. 68</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_D00EB3.png" alt="Задача 7.49, ФИПИ D00EB3"></div></div>
+<div class="t" id="t50"><h2>7.50 <span>· ФИПИ 5159B6 · стр. 68</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_5159B6.png" alt="Задача 7.50, ФИПИ 5159B6"></div></div>
+<div class="t" id="t51"><h2>7.51 <span>· ФИПИ 9444BA · стр. 70</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_9444BA.png" alt="Задача 7.51, ФИПИ 9444BA"></div></div>
+<div class="t" id="t52"><h2>7.52 <span>· ФИПИ E4D3B7 · стр. 71</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_E4D3B7.png" alt="Задача 7.52, ФИПИ E4D3B7"></div></div>
+<div class="t" id="t53"><h2>7.53 <span>· ФИПИ 3D87BB · стр. 73</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_3D87BB.png" alt="Задача 7.53, ФИПИ 3D87BB"></div></div>
+<div class="t" id="t54"><h2>7.54 <span>· ФИПИ F0091E · стр. 75</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_F0091E.png" alt="Задача 7.54, ФИПИ F0091E"></div></div>
+<div class="t" id="t55"><h2>7.55 <span>· ФИПИ F80913 · стр. 75</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_F80913.png" alt="Задача 7.55, ФИПИ F80913"></div></div>
+<div class="t" id="t56"><h2>7.56 <span>· ФИПИ F4AE13 · стр. 75</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_F4AE13.png" alt="Задача 7.56, ФИПИ F4AE13"></div></div>
+<div class="t" id="t57"><h2>7.57 <span>· ФИПИ BA6A17 · стр. 77</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_BA6A17.png" alt="Задача 7.57, ФИПИ BA6A17"></div></div>
+<div class="t" id="t58"><h2>7.58 <span>· ФИПИ B59F1A · стр. 78</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_B59F1A.png" alt="Задача 7.58, ФИПИ B59F1A"></div></div>
+<div class="t" id="t59"><h2>7.59 <span>· ФИПИ 1B8B19 · стр. 80</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_1B8B19.png" alt="Задача 7.59, ФИПИ 1B8B19"></div></div>
+<div class="t" id="t60"><h2>7.60 <span>· ФИПИ 2CFE17 · стр. 80</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_2CFE17.png" alt="Задача 7.60, ФИПИ 2CFE17"></div></div>
+<div class="t" id="t61"><h2>7.61 <span>· ФИПИ D0C118 · стр. 82</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_D0C118.png" alt="Задача 7.61, ФИПИ D0C118"></div></div>
+<div class="t" id="t62"><h2>7.62 <span>· ФИПИ 9DA310 · стр. 85</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_9DA310.png" alt="Задача 7.62, ФИПИ 9DA310"></div></div>
+<div class="t" id="t63"><h2>7.63 <span>· ФИПИ 68B11A · стр. 87</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_68B11A.png" alt="Задача 7.63, ФИПИ 68B11A"></div></div>
+<div class="t" id="t64"><h2>7.64 <span>· ФИПИ 63AD19 · стр. 87</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_63AD19.png" alt="Задача 7.64, ФИПИ 63AD19"></div></div>
+<div class="t" id="t65"><h2>7.65 <span>· ФИПИ 32F618 · стр. 89</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_32F618.png" alt="Задача 7.65, ФИПИ 32F618"></div></div>
+<div class="t" id="t66"><h2>7.66 <span>· ФИПИ F08D22 · стр. 92</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_F08D22.png" alt="Задача 7.66, ФИПИ F08D22"></div></div>
+<div class="t" id="t67"><h2>7.67 <span>· ФИПИ F38B2D · стр. 92</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_F38B2D.png" alt="Задача 7.67, ФИПИ F38B2D"></div></div>
+<div class="t" id="t68"><h2>7.68 <span>· ФИПИ F9B223 · стр. 92</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_F9B223.png" alt="Задача 7.68, ФИПИ F9B223"></div></div>
+<div class="t" id="t69"><h2>7.69 <span>· ФИПИ 01C720 · стр. 93</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_01C720.png" alt="Задача 7.69, ФИПИ 01C720"></div></div>
+<div class="t" id="t70"><h2>7.70 <span>· ФИПИ 76A62C · стр. 94</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_76A62C.png" alt="Задача 7.70, ФИПИ 76A62C"></div></div>
+<div class="t" id="t71"><h2>7.71 <span>· ФИПИ B3D324 · стр. 95</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_B3D324.png" alt="Задача 7.71, ФИПИ B3D324"></div></div>
+<div class="t" id="t72"><h2>7.72 <span>· ФИПИ BC1F2C · стр. 96</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_BC1F2C.png" alt="Задача 7.72, ФИПИ BC1F2C"></div></div>
+<div class="t" id="t73"><h2>7.73 <span>· ФИПИ 103326 · стр. 97</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_103326.png" alt="Задача 7.73, ФИПИ 103326"></div></div>
+<div class="t" id="t74"><h2>7.74 <span>· ФИПИ DEB12D · стр. 98</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_DEB12D.png" alt="Задача 7.74, ФИПИ DEB12D"></div></div>
+<div class="t" id="t75"><h2>7.75 <span>· ФИПИ DDAD2E · стр. 98</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_DDAD2E.png" alt="Задача 7.75, ФИПИ DDAD2E"></div></div>
+<div class="t" id="t76"><h2>7.76 <span>· ФИПИ D2322E · стр. 99</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_D2322E.png" alt="Задача 7.76, ФИПИ D2322E"></div></div>
+<div class="t" id="t77"><h2>7.77 <span>· ФИПИ 96A124 · стр. 102</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_96A124.png" alt="Задача 7.77, ФИПИ 96A124"></div></div>
+<div class="t" id="t78"><h2>7.78 <span>· ФИПИ 973F29 · стр. 103</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_973F29.png" alt="Задача 7.78, ФИПИ 973F29"></div></div>
+<div class="t" id="t79"><h2>7.79 <span>· ФИПИ 9DBC28 · стр. 103</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_9DBC28.png" alt="Задача 7.79, ФИПИ 9DBC28"></div></div>
+<div class="t" id="t80"><h2>7.80 <span>· ФИПИ EA4E23 · стр. 104</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_EA4E23.png" alt="Задача 7.80, ФИПИ EA4E23"></div></div>
+<div class="t" id="t81"><h2>7.81 <span>· ФИПИ 8C0E23 · стр. 106</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_8C0E23.png" alt="Задача 7.81, ФИПИ 8C0E23"></div></div>
+<div class="t" id="t82"><h2>7.82 <span>· ФИПИ B64AD1 · стр. 110</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_B64AD1.png" alt="Задача 7.82, ФИПИ B64AD1"></div></div>
+<div class="t" id="t83"><h2>7.83 <span>· ФИПИ 2FC0DC · стр. 112</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_2FC0DC.png" alt="Задача 7.83, ФИПИ 2FC0DC"></div></div>
+<div class="t" id="t84"><h2>7.84 <span>· ФИПИ 2099DE · стр. 112</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_2099DE.png" alt="Задача 7.84, ФИПИ 2099DE"></div></div>
+<div class="t" id="t85"><h2>7.85 <span>· ФИПИ D427DD · стр. 113</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_D427DD.png" alt="Задача 7.85, ФИПИ D427DD"></div></div>
+<div class="t" id="t86"><h2>7.86 <span>· ФИПИ 5E67D4 · стр. 113</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_5E67D4.png" alt="Задача 7.86, ФИПИ 5E67D4"></div></div>
+<div class="t" id="t87"><h2>7.87 <span>· ФИПИ CBA7D0 · стр. 115</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_CBA7D0.png" alt="Задача 7.87, ФИПИ CBA7D0"></div></div>
+<div class="t" id="t88"><h2>7.88 <span>· ФИПИ 9995D6 · стр. 116</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_9995D6.png" alt="Задача 7.88, ФИПИ 9995D6"></div></div>
+<div class="t" id="t89"><h2>7.89 <span>· ФИПИ 9A90D8 · стр. 116</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_9A90D8.png" alt="Задача 7.89, ФИПИ 9A90D8"></div></div>
+<div class="t" id="t90"><h2>7.90 <span>· ФИПИ EDFEDE · стр. 117</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_EDFEDE.png" alt="Задача 7.90, ФИПИ EDFEDE"></div></div>
+<div class="t" id="t91"><h2>7.91 <span>· ФИПИ 432550 · стр. 120</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_432550.png" alt="Задача 7.91, ФИПИ 432550"></div></div>
+<div class="t" id="t92"><h2>7.92 <span>· ФИПИ 4DD651 · стр. 120</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_4DD651.png" alt="Задача 7.92, ФИПИ 4DD651"></div></div>
+<div class="t" id="t93"><h2>7.93 <span>· ФИПИ 714C50 · стр. 122</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_714C50.png" alt="Задача 7.93, ФИПИ 714C50"></div></div>
+<div class="t" id="t94"><h2>7.94 <span>· ФИПИ B04F56 · стр. 124</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_B04F56.png" alt="Задача 7.94, ФИПИ B04F56"></div></div>
+<div class="t" id="t95"><h2>7.95 <span>· ФИПИ 1B7550 · стр. 124</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_1B7550.png" alt="Задача 7.95, ФИПИ 1B7550"></div></div>
+<div class="t" id="t96"><h2>7.96 <span>· ФИПИ DF4D5B · стр. 126</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_DF4D5B.png" alt="Задача 7.96, ФИПИ DF4D5B"></div></div>
+<div class="t" id="t97"><h2>7.97 <span>· ФИПИ D23851 · стр. 126</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_D23851.png" alt="Задача 7.97, ФИПИ D23851"></div></div>
+<div class="t" id="t98"><h2>7.98 <span>· ФИПИ A6FF59 · стр. 128</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_A6FF59.png" alt="Задача 7.98, ФИПИ A6FF59"></div></div>
+<div class="t" id="t99"><h2>7.99 <span>· ФИПИ A7075E · стр. 128</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_A7075E.png" alt="Задача 7.99, ФИПИ A7075E"></div></div>
+<div class="t" id="t100"><h2>7.100 <span>· ФИПИ E2C456 · стр. 130</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_E2C456.png" alt="Задача 7.100, ФИПИ E2C456"></div></div>
+<div class="t" id="t101"><h2>7.101 <span>· ФИПИ 69B952 · стр. 131</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_69B952.png" alt="Задача 7.101, ФИПИ 69B952"></div></div>
+<div class="t" id="t102"><h2>7.102 <span>· ФИПИ 69755C · стр. 132</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_69755C.png" alt="Задача 7.102, ФИПИ 69755C"></div></div>
+<div class="t" id="t103"><h2>7.103 <span>· ФИПИ 35275B · стр. 132</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_35275B.png" alt="Задача 7.103, ФИПИ 35275B"></div></div>
+<div class="t" id="t104"><h2>7.104 <span>· ФИПИ 0F25A1 · стр. 136</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_0F25A1.png" alt="Задача 7.104, ФИПИ 0F25A1"></div></div>
+<div class="t" id="t105"><h2>7.105 <span>· ФИПИ 7112A5 · стр. 137</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_7112A5.png" alt="Задача 7.105, ФИПИ 7112A5"></div></div>
+<div class="t" id="t106"><h2>7.106 <span>· ФИПИ B4A1A7 · стр. 137</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_B4A1A7.png" alt="Задача 7.106, ФИПИ B4A1A7"></div></div>
+<div class="t" id="t107"><h2>7.107 <span>· ФИПИ 227CAA · стр. 139</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_227CAA.png" alt="Задача 7.107, ФИПИ 227CAA"></div></div>
+<div class="t" id="t108"><h2>7.108 <span>· ФИПИ 54D6A9 · стр. 141</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_54D6A9.png" alt="Задача 7.108, ФИПИ 54D6A9"></div></div>
+<div class="t" id="t109"><h2>7.109 <span>· ФИПИ AE8DA0 · стр. 141</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_AE8DA0.png" alt="Задача 7.109, ФИПИ AE8DA0"></div></div>
+<div class="t" id="t110"><h2>7.110 <span>· ФИПИ CAB6AD · стр. 142</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_CAB6AD.png" alt="Задача 7.110, ФИПИ CAB6AD"></div></div>
+<div class="t" id="t111"><h2>7.111 <span>· ФИПИ 648BA1 · стр. 144</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_648BA1.png" alt="Задача 7.111, ФИПИ 648BA1"></div></div>
+<div class="t" id="t112"><h2>7.112 <span>· ФИПИ 6BFAAA · стр. 144</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_6BFAAA.png" alt="Задача 7.112, ФИПИ 6BFAAA"></div></div>
+<div class="t" id="t113"><h2>7.113 <span>· ФИПИ F81BCF · стр. 147</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_F81BCF.png" alt="Задача 7.113, ФИПИ F81BCF"></div></div>
+<div class="t" id="t114"><h2>7.114 <span>· ФИПИ F35DCA · стр. 148</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_F35DCA.png" alt="Задача 7.114, ФИПИ F35DCA"></div></div>
+<div class="t" id="t115"><h2>7.115 <span>· ФИПИ F742C9 · стр. 148</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_F742C9.png" alt="Задача 7.115, ФИПИ F742C9"></div></div>
+<div class="t" id="t116"><h2>7.116 <span>· ФИПИ 1D51CF · стр. 152</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_1D51CF.png" alt="Задача 7.116, ФИПИ 1D51CF"></div></div>
+<div class="t" id="t117"><h2>7.117 <span>· ФИПИ 1897C0 · стр. 152</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_1897C0.png" alt="Задача 7.117, ФИПИ 1897C0"></div></div>
+<div class="t" id="t118"><h2>7.118 <span>· ФИПИ 2B21CA · стр. 153</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_2B21CA.png" alt="Задача 7.118, ФИПИ 2B21CA"></div></div>
+<div class="t" id="t119"><h2>7.119 <span>· ФИПИ DBE8C2 · стр. 153</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_DBE8C2.png" alt="Задача 7.119, ФИПИ DBE8C2"></div></div>
+<div class="t" id="t120"><h2>7.120 <span>· ФИПИ A9D8C0 · стр. 154</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_A9D8C0.png" alt="Задача 7.120, ФИПИ A9D8C0"></div></div>
+<div class="t" id="t121"><h2>7.121 <span>· ФИПИ A830C2 · стр. 155</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_A830C2.png" alt="Задача 7.121, ФИПИ A830C2"></div></div>
+<div class="t" id="t122"><h2>7.122 <span>· ФИПИ 9C31C3 · стр. 157</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_9C31C3.png" alt="Задача 7.122, ФИПИ 9C31C3"></div></div>
+<div class="t" id="t123"><h2>7.123 <span>· ФИПИ E53CC3 · стр. 158</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_E53CC3.png" alt="Задача 7.123, ФИПИ E53CC3"></div></div>
+<div class="t" id="t124"><h2>7.124 <span>· ФИПИ 6985CA · стр. 158</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_6985CA.png" alt="Задача 7.124, ФИПИ 6985CA"></div></div>
+<div class="t" id="t125"><h2>7.125 <span>· ФИПИ 6D8DC8 · стр. 159</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_6D8DC8.png" alt="Задача 7.125, ФИПИ 6D8DC8"></div></div>
+<div class="t" id="t126"><h2>7.126 <span>· ФИПИ 3C8CC9 · стр. 159</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_3C8CC9.png" alt="Задача 7.126, ФИПИ 3C8CC9"></div></div>
+<div class="t" id="t127"><h2>7.127 <span>· ФИПИ 3069CE · стр. 159</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_3069CE.png" alt="Задача 7.127, ФИПИ 3069CE"></div></div>
+<div class="t" id="t128"><h2>7.128 <span>· ФИПИ 363DC3 · стр. 159</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_363DC3.png" alt="Задача 7.128, ФИПИ 363DC3"></div></div>
+<div class="t" id="t129"><h2>7.129 <span>· ФИПИ 89DAC4 · стр. 159</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_89DAC4.png" alt="Задача 7.129, ФИПИ 89DAC4"></div></div>
+<div class="t" id="t130"><h2>7.130 <span>· ФИПИ 894EC0 · стр. 160</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_894EC0.png" alt="Задача 7.130, ФИПИ 894EC0"></div></div>
+<div class="t" id="t131"><h2>7.131 <span>· ФИПИ 8FDDC0 · стр. 160</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_8FDDC0.png" alt="Задача 7.131, ФИПИ 8FDDC0"></div></div>
+<div class="t" id="t132"><h2>7.132 <span>· ФИПИ 80BBC7 · стр. 160</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_80BBC7.png" alt="Задача 7.132, ФИПИ 80BBC7"></div></div>
+<div class="t" id="t133"><h2>7.133 <span>· ФИПИ 838DC2 · стр. 160</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_838DC2.png" alt="Задача 7.133, ФИПИ 838DC2"></div></div>
+<div class="t" id="t134"><h2>7.134 <span>· ФИПИ 8F44CC · стр. 160</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_8F44CC.png" alt="Задача 7.134, ФИПИ 8F44CC"></div></div>
+<div class="t" id="t135"><h2>7.135 <span>· ФИПИ 0A0A91 · стр. 162</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_0A0A91.png" alt="Задача 7.135, ФИПИ 0A0A91"></div></div>
+<div class="t" id="t136"><h2>7.136 <span>· ФИПИ 07E591 · стр. 162</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_07E591.png" alt="Задача 7.136, ФИПИ 07E591"></div></div>
+<div class="t" id="t137"><h2>7.137 <span>· ФИПИ 0CCA9A · стр. 163</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_0CCA9A.png" alt="Задача 7.137, ФИПИ 0CCA9A"></div></div>
+<div class="t" id="t138"><h2>7.138 <span>· ФИПИ 772894 · стр. 163</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_772894.png" alt="Задача 7.138, ФИПИ 772894"></div></div>
+<div class="t" id="t139"><h2>7.139 <span>· ФИПИ 7F3494 · стр. 163</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_7F3494.png" alt="Задача 7.139, ФИПИ 7F3494"></div></div>
+<div class="t" id="t140"><h2>7.140 <span>· ФИПИ B43399 · стр. 164</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_B43399.png" alt="Задача 7.140, ФИПИ B43399"></div></div>
+<div class="t" id="t141"><h2>7.141 <span>· ФИПИ BD5F9E · стр. 165</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_BD5F9E.png" alt="Задача 7.141, ФИПИ BD5F9E"></div></div>
+<div class="t" id="t142"><h2>7.142 <span>· ФИПИ 262697 · стр. 165</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_262697.png" alt="Задача 7.142, ФИПИ 262697"></div></div>
+<div class="t" id="t143"><h2>7.143 <span>· ФИПИ 236B9E · стр. 166</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_236B9E.png" alt="Задача 7.143, ФИПИ 236B9E"></div></div>
+<div class="t" id="t144"><h2>7.144 <span>· ФИПИ DB2197 · стр. 167</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_DB2197.png" alt="Задача 7.144, ФИПИ DB2197"></div></div>
+<div class="t" id="t145"><h2>7.145 <span>· ФИПИ 993392 · стр. 170</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_993392.png" alt="Задача 7.145, ФИПИ 993392"></div></div>
+<div class="t" id="t146"><h2>7.146 <span>· ФИПИ 97DD9C · стр. 170</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_97DD9C.png" alt="Задача 7.146, ФИПИ 97DD9C"></div></div>
+<div class="t" id="t147"><h2>7.147 <span>· ФИПИ 94BE98 · стр. 171</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_94BE98.png" alt="Задача 7.147, ФИПИ 94BE98"></div></div>
+<div class="t" id="t148"><h2>7.148 <span>· ФИПИ E2D291 · стр. 171</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_E2D291.png" alt="Задача 7.148, ФИПИ E2D291"></div></div>
+<div class="t" id="t149"><h2>7.149 <span>· ФИПИ 671B9A · стр. 173</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_671B9A.png" alt="Задача 7.149, ФИПИ 671B9A"></div></div>
+<div class="t" id="t150"><h2>7.150 <span>· ФИПИ 334690 · стр. 173</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_334690.png" alt="Задача 7.150, ФИПИ 334690"></div></div>
+<div class="t" id="t151"><h2>7.151 <span>· ФИПИ 819E97 · стр. 174</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_819E97.png" alt="Задача 7.151, ФИПИ 819E97"></div></div>
+<div class="t" id="t152"><h2>7.152 <span>· ФИПИ 42DBE1 · стр. 175</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_42DBE1.png" alt="Задача 7.152, ФИПИ 42DBE1"></div></div>
+<div class="t" id="t153"><h2>7.153 <span>· ФИПИ 0835E0 · стр. 177</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_0835E0.png" alt="Задача 7.153, ФИПИ 0835E0"></div></div>
+<div class="t" id="t154"><h2>7.154 <span>· ФИПИ BEC0E9 · стр. 178</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_BEC0E9.png" alt="Задача 7.154, ФИПИ BEC0E9"></div></div>
+<div class="t" id="t155"><h2>7.155 <span>· ФИПИ 1C1FEB · стр. 178</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_1C1FEB.png" alt="Задача 7.155, ФИПИ 1C1FEB"></div></div>
+<div class="t" id="t156"><h2>7.156 <span>· ФИПИ D05DE1 · стр. 181</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_D05DE1.png" alt="Задача 7.156, ФИПИ D05DE1"></div></div>
+<div class="t" id="t157"><h2>7.157 <span>· ФИПИ EC80EC · стр. 185</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_EC80EC.png" alt="Задача 7.157, ФИПИ EC80EC"></div></div>
+<div class="t" id="t158"><h2>7.158 <span>· ФИПИ 305AE8 · стр. 187</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_305AE8.png" alt="Задача 7.158, ФИПИ 305AE8"></div></div>
+<div class="t" id="t159"><h2>7.159 <span>· ФИПИ 315EE8 · стр. 187</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_315EE8.png" alt="Задача 7.159, ФИПИ 315EE8"></div></div>
+<div class="t" id="t160"><h2>7.160 <span>· ФИПИ 8B9AE8 · стр. 188</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_8B9AE8.png" alt="Задача 7.160, ФИПИ 8B9AE8"></div></div>
+<div class="t" id="t161"><h2>7.161 <span>· ФИПИ FBAC66 · стр. 190</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_FBAC66.png" alt="Задача 7.161, ФИПИ FBAC66"></div></div>
+<div class="t" id="t162"><h2>7.162 <span>· ФИПИ FA4263 · стр. 191</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_FA4263.png" alt="Задача 7.162, ФИПИ FA4263"></div></div>
+<div class="t" id="t163"><h2>7.163 <span>· ФИПИ 088A64 · стр. 191</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_088A64.png" alt="Задача 7.163, ФИПИ 088A64"></div></div>
+<div class="t" id="t164"><h2>7.164 <span>· ФИПИ 762769 · стр. 192</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_762769.png" alt="Задача 7.164, ФИПИ 762769"></div></div>
+<div class="t" id="t165"><h2>7.165 <span>· ФИПИ 1F8761 · стр. 194</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_1F8761.png" alt="Задача 7.165, ФИПИ 1F8761"></div></div>
+<div class="t" id="t166"><h2>7.166 <span>· ФИПИ 5A3164 · стр. 195</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_5A3164.png" alt="Задача 7.166, ФИПИ 5A3164"></div></div>
+<div class="t" id="t167"><h2>7.167 <span>· ФИПИ AEE26C · стр. 198</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_AEE26C.png" alt="Задача 7.167, ФИПИ AEE26C"></div></div>
+<div class="t" id="t168"><h2>7.168 <span>· ФИПИ 37F463 · стр. 203</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_37F463.png" alt="Задача 7.168, ФИПИ 37F463"></div></div>
+<div class="t" id="t169"><h2>7.169 <span>· ФИПИ 7A5F3E · стр. 207</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_7A5F3E.png" alt="Задача 7.169, ФИПИ 7A5F3E"></div></div>
+<div class="t" id="t170"><h2>7.170 <span>· ФИПИ 1A0438 · стр. 209</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_1A0438.png" alt="Задача 7.170, ФИПИ 1A0438"></div></div>
+<div class="t" id="t171"><h2>7.171 <span>· ФИПИ 2C9735 · стр. 209</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_2C9735.png" alt="Задача 7.171, ФИПИ 2C9735"></div></div>
+<div class="t" id="t172"><h2>7.172 <span>· ФИПИ A9B13C · стр. 212</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_A9B13C.png" alt="Задача 7.172, ФИПИ A9B13C"></div></div>
+<div class="t" id="t173"><h2>7.173 <span>· ФИПИ CE213B · стр. 212</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_CE213B.png" alt="Задача 7.173, ФИПИ CE213B"></div></div>
+<div class="t" id="t174"><h2>7.174 <span>· ФИПИ 9FB83E · стр. 214</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_9FB83E.png" alt="Задача 7.174, ФИПИ 9FB83E"></div></div>
+<div class="t" id="t175"><h2>7.175 <span>· ФИПИ EE0637 · стр. 214</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_EE0637.png" alt="Задача 7.175, ФИПИ EE0637"></div></div>
+<div class="t" id="t176"><h2>7.176 <span>· ФИПИ 89913D · стр. 217</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_89913D.png" alt="Задача 7.176, ФИПИ 89913D"></div></div>
+<div class="t" id="t177"><h2>7.177 <span>· ФИПИ FA9985 · стр. 219</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_FA9985.png" alt="Задача 7.177, ФИПИ FA9985"></div></div>
+<div class="t" id="t178"><h2>7.178 <span>· ФИПИ 7C3782 · стр. 221</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_7C3782.png" alt="Задача 7.178, ФИПИ 7C3782"></div></div>
+<div class="t" id="t179"><h2>7.179 <span>· ФИПИ B71988 · стр. 221</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_B71988.png" alt="Задача 7.179, ФИПИ B71988"></div></div>
+<div class="t" id="t180"><h2>7.180 <span>· ФИПИ 13FF81 · стр. 222</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_13FF81.png" alt="Задача 7.180, ФИПИ 13FF81"></div></div>
+<div class="t" id="t181"><h2>7.181 <span>· ФИПИ D0D985 · стр. 224</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_D0D985.png" alt="Задача 7.181, ФИПИ D0D985"></div></div>
+<div class="t" id="t182"><h2>7.182 <span>· ФИПИ 60DA89 · стр. 230</span></h2><div class="im"><img loading="lazy" src="img/07/ФИПИ_60DA89.png" alt="Задача 7.182, ФИПИ 60DA89"></div></div>
+</div></body></html>
