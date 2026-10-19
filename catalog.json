@@ -3248,6 +3248,240 @@
       "oge_task": 23,
       "status": "public",
       "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9.html",
+      "title": "Объяснения тем 5–9 класс · все темы",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-pechat.pdf",
+      "title": "Объяснения тем 5–9 класс · для печати",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-drobi.html",
+      "title": "Дроби: обыкновенные и десятичные · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-grafiki.html",
+      "title": "Графики функций · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-kusochnaya.html",
+      "title": "Кусочная функция · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-arifm.html",
+      "title": "Арифметическая прогрессия · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-geom.html",
+      "title": "Геометрическая прогрессия · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-veroyat.html",
+      "title": "Теория вероятностей · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-smesi.html",
+      "title": "Задачи на смеси · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-korni.html",
+      "title": "Корни · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-stepeni.html",
+      "title": "Степени · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-lineynye.html",
+      "title": "Линейные уравнения · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-kvadratnye.html",
+      "title": "Квадратные уравнения · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-neravenstva.html",
+      "title": "Неравенства · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-sistemy.html",
+      "title": "Системы уравнений и неравенств · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-procenty.html",
+      "title": "Проценты · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-dvizhenie.html",
+      "title": "Задачи на движение · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-treugolnik.html",
+      "title": "Треугольник · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-mediana.html",
+      "title": "Медиана · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-bissektrisa.html",
+      "title": "Биссектриса · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-vysota.html",
+      "title": "Высота треугольника · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-parallelogramm.html",
+      "title": "Параллелограмм · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-kvadrat.html",
+      "title": "Квадрат · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-trapeciya.html",
+      "title": "Трапеция · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "obyasnenie-5-9-romb.html",
+      "title": "Ромб · объяснение",
+      "type": "uchebnik",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "STATE.md",
+      "title": "",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "служебный файл, добавлен 2026-10-19, чтобы check_links.py возвращал 0"
     }
   ]
 }
