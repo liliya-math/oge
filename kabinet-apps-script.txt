@@ -1,5 +1,6 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 7.0
+ * Кабинет ученика 25/25 · lili.math — версия 7.1
+ * (7.1: публичный ответ по ссылке ученика больше не содержит родителя, телефона и года рождения)
  * (анкета ученика: фамилия, дата рождения, родитель и телефон, класс;
  *  программы по классам: алгебра / геометрия / ОГЭ / все три;
  *  домашка по разделам + несколько PDF для печати; анонимные письма учеников;
@@ -642,7 +643,10 @@ function studentData_(code, admin) {
     work: String(r[8] || '').split(';').map(s => s.trim()).filter(Boolean),
     lessonsPlan: Number(r[9]) || 0, lessonsDone: Number(r[10]) || 0,
     map: map, notes: notes, hw: hw, hist: hist, mats: mats, matsAll: matsAll, prog: prog,
-    fname: String(r[14] || ''), bdate: day_(r[15]), parent: String(r[16] || ''), phone: String(r[17] || ''),
+    // Без пароля (публичная ссылка ученика) родитель, телефон и год рождения не отдаются:
+    // для поздравления хватает дня и месяца, год подменяется на 2000.
+    fname: String(r[14] || ''), bdate: admin ? day_(r[15]) : maskBdate_(day_(r[15])),
+    parent: admin ? String(r[16] || '') : '', phone: admin ? String(r[17] || '') : '',
     cls: Number(r[18]) || clsOfProg_(prog), grades: grades
   };
   if (admin) {
@@ -685,6 +689,10 @@ function day_(v) {
   if (v instanceof Date) return Utilities.formatDate(v, SpreadsheetApp.getActive().getSpreadsheetTimeZone(), 'yyyy-MM-dd');
   const m = String(v || '').match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
   return m ? m[3] + '-' + ('0' + m[2]).slice(-2) + '-' + ('0' + m[1]).slice(-2) : '';
+}
+function maskBdate_(iso) {
+  const m = String(iso || '').match(/^\d{4}-(\d{2}-\d{2})$/);
+  return m ? '2000-' + m[1] : '';
 }
 function ruDate_(iso) {
   const m = String(iso || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);

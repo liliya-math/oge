@@ -1159,7 +1159,6 @@ function bdayCard(){return `<div class="bday enter">
  <h2>С днём рождения!</h2>
  <div class="bwho">${esc(fullName()||D.name)} — сегодня твой день</div>
  <p class="bpar">Талисманы 25/25 тоже празднуют и загадали тебе пятёрки по математике.</p>
- ${D.parent||D.phone?`<p class="bpar">Родитель: <b>${esc([D.parent,D.phone].filter(Boolean).join(' · '))}</b></p>`:''}
 </div>`}
 let bdayFired=false;
 function bdayFX(){if(bdayFired||RM)return;bdayFired=true;let i=0;const t=setInterval(()=>{burst(innerWidth*(.15+Math.random()*.7),innerHeight*(.1+Math.random()*.3),70,7);if(++i>10)clearInterval(t)},420);sfx.fin()}
