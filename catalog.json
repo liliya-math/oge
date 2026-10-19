@@ -3482,6 +3482,15 @@
       "oge_task": null,
       "status": "hidden",
       "note": "служебный файл, добавлен 2026-10-19, чтобы check_links.py возвращал 0"
+    },
+    {
+      "file": "umk-8-9-zadanie-6.html",
+      "title": "УМК: Задание №6 ОГЭ по математике (8–9 класс)",
+      "type": "uchebnik",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "добавлено 2026-10-19"
     }
   ]
 }

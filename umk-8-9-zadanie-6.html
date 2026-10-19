@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>УМК: Задание №6 ОГЭ по математике (8–9 класс)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        .frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; font-size: 0.9em; margin: 0 2px; }
+        .frac > span:first-child { border-bottom: 1.5px solid currentColor; padding: 0 3px; }
+        .frac > span:last-child { padding: 0 3px; }
+        .board-card { transition: transform 0.2s, box-shadow 0.2s; }
+        .board-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+        .tab-active { border-bottom: 3px solid #2563eb; color: #1d4ed8; font-weight: 700; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Навигационная панель (оформленная быстрыми HTML-ссылками) -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+                <span class="bg-blue-600 text-white font-bold px-3 py-1 rounded-lg text-sm">ОГЭ №6</span>
+                <h1 class="font-bold text-lg text-slate-900">Числа и вычисления • 8 класс</h1>
+            </div>
+            <nav class="flex flex-wrap gap-2 text-xs sm:text-sm font-medium">
+                <a href="#plan" class="px-2.5 py-1.5 rounded-md bg-slate-100 hover:bg-blue-50 hover:text-blue-600 transition">⏱ План (60 мин)</a>
+                <a href="#theory" class="px-2.5 py-1.5 rounded-md bg-slate-100 hover:bg-blue-50 hover:text-blue-600 transition">📚 1. Теория</a>
+                <a href="#oral" class="px-2.5 py-1.5 rounded-md bg-slate-100 hover:bg-blue-50 hover:text-blue-600 transition">🗣 2. Устный опрос</a>
+                <a href="#board" class="px-2.5 py-1.5 rounded-md bg-amber-100 text-amber-900 hover:bg-amber-200 transition">📌 Доска</a>
+                <a href="#test" class="px-2.5 py-1.5 rounded-md bg-slate-100 hover:bg-blue-50 hover:text-blue-600 transition">✅ 3. Тест</a>
+                <a href="#trainer8" class="px-2.5 py-1.5 rounded-md bg-slate-100 hover:bg-blue-50 hover:text-blue-600 transition">🎯 6. Тренажёр 8 кл</a>
+                <a href="#hard5" class="px-2.5 py-1.5 rounded-md bg-purple-100 text-purple-900 hover:bg-purple-200 transition">🔥 5. Сложные задачи</a>
+                <a href="#memo" class="px-2.5 py-1.5 rounded-md bg-emerald-100 text-emerald-900 hover:bg-emerald-200 transition">📝 7-8. Памятка и Алгоритм</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 space-y-12">
+
+        <!-- ПЛАН ИНДИВИДУАЛЬНОГО УРОКА (60 МИНУТ) -->
+        <section id="plan" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Методический гид</span>
+                    <h2 class="text-2xl font-bold text-slate-900">План индивидуального урока (60 минут)</h2>
+                </div>
+                <div class="bg-blue-50 text-blue-800 px-4 py-2 rounded-xl text-sm font-medium">
+                    Формат: 1 на 1 (онлайн или офлайн) • Уровень: 8 класс
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-6 gap-3">
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <div class="text-blue-600 font-bold text-sm">00–07 мин (7 мин)</div>
+                    <div class="font-semibold mt-1 text-sm">Разминка и опрос</div>
+                    <p class="text-xs text-slate-600 mt-1">Устный блиц (<a href="#oral" class="text-blue-600 underline">Раздел 2</a>): проверка перевода дробей, знаков и степеней 10.</p>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <div class="text-blue-600 font-bold text-sm">07–20 мин (13 мин)</div>
+                    <div class="font-semibold mt-1 text-sm">Теория + Онлайн-доска</div>
+                    <p class="text-xs text-slate-600 mt-1">Разбор 4 ловушек ОГЭ по карточкам доски (<a href="#board" class="text-blue-600 underline">Доска</a>) и алгоритма (<a href="#memo" class="text-blue-600 underline">Раздел 8</a>).</p>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <div class="text-blue-600 font-bold text-sm">20–32 мин (12 мин)</div>
+                    <div class="font-semibold mt-1 text-sm">Первичная практика</div>
+                    <p class="text-xs text-slate-600 mt-1">Прохождение <a href="#test" class="text-blue-600 underline">Теста</a> и <a href="#trainer8" class="text-blue-600 underline">Тренажёра 8 кл.</a> с комментированием вслух.</p>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <div class="text-blue-600 font-bold text-sm">32–38 мин (6 мин)</div>
+                    <div class="font-semibold mt-1 text-sm">Срез-пятиминутка</div>
+                    <p class="text-xs text-slate-600 mt-1">Самостоятельное решение Варианта 1 пятиминутки на время (из PDF-файла).</p>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <div class="text-purple-600 font-bold text-sm">38–53 мин (15 мин)</div>
+                    <div class="font-semibold mt-1 text-sm">Повышенный уровень</div>
+                    <p class="text-xs text-slate-600 mt-1">Разбор многоэтажных дробей и отрицательных степеней (<a href="#hard5" class="text-purple-600 underline">Раздел 5</a>).</p>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <div class="text-emerald-600 font-bold text-sm">53–60 мин (7 мин)</div>
+                    <div class="font-semibold mt-1 text-sm">Бланк ОГЭ и Выдача ДЗ</div>
+                    <p class="text-xs text-slate-600 mt-1">Правила записи в Бланк №1 (<a href="#memo" class="text-emerald-600 underline">Раздел 7</a>) и инструктаж по ДЗ.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 1. ТЕОРИЯ -->
+        <section id="theory" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+            <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Раздел 1</span>
+            <h2 class="text-2xl font-bold text-slate-900 mt-1 mb-6">Теоретический справочник: Всё для Задания №6 ОГЭ</h2>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Блок 1 -->
+                <div class="p-5 rounded-xl bg-slate-50 border border-slate-200">
+                    <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2">
+                        <span class="w-7 h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center text-sm">1</span>
+                        Обыкновенные дроби
+                    </h3>
+                    <ul class="mt-3 space-y-2.5 text-sm text-slate-700">
+                        <li><strong>Сложение и вычитание:</strong> приводим к наименьшему общему знаменателю (НОК). <br>
+                            <span class="frac"><span>a</span><span>b</span></span> ± <span class="frac"><span>c</span><span>d</span></span> = <span class="frac"><span>a·d ± c·b</span><span>b·d</span></span>
+                        </li>
+                        <li><strong>Умножение:</strong> числитель на числитель, знаменатель на знаменатель. <em>Сокращайте ДО умножения!</em></li>
+                        <li><strong>Деление:</strong> первую дробь оставляем, знак деления меняем на умножение, вторую дробь переворачиваем:<br>
+                            <span class="frac"><span>a</span><span>b</span></span> : <span class="frac"><span>c</span><span>d</span></span> = <span class="frac"><span>a</span><span>b</span></span> · <span class="frac"><span>d</span><span>c</span></span>
+                        </li>
+                        <li><strong>Смешанные числа:</strong> при умножении и делении <u>обязательно</u> переводим в неправильную дробь: 2<span class="frac"><span>3</span><span>5</span></span> = <span class="frac"><span>2·5 + 3</span><span>5</span></span> = <span class="frac"><span>13</span><span>5</span></span>.</li>
+                    </ul>
+                </div>
+
+                <!-- Блок 2 -->
+                <div class="p-5 rounded-xl bg-slate-50 border border-slate-200">
+                    <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2">
+                        <span class="w-7 h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center text-sm">2</span>
+                        Десятичные дроби и перевод в бланк
+                    </h3>
+                    <ul class="mt-3 space-y-2.5 text-sm text-slate-700">
+                        <li><strong>Сложение/вычитание:</strong> записываем столбиком строго <u>запятая под запятой</u>, уравнивая количество знаков нулями справа.</li>
+                        <li><strong>Умножение:</strong> умножаем не глядя на запятые, затем отделяем справа столько цифр, сколько их после запятой в <u>обоих</u> множителях вместе.</li>
+                        <li><strong>Деление на десятичную дробь:</strong> переносим запятую вправо в делимом и делителе на столько знаков, сколько их в <u>делителе</u>: 4,5 : 0,09 = 450 : 9 = 50.</li>
+                        <li><strong>Золотые палочки-выручалочки перевода в десятичную дробь:</strong><br>
+                            <span class="inline-block bg-white px-2 py-1 rounded border text-xs mt-1">1/2 = 0,5</span>
+                            <span class="inline-block bg-white px-2 py-1 rounded border text-xs mt-1">1/4 = 0,25</span>
+                            <span class="inline-block bg-white px-2 py-1 rounded border text-xs mt-1">3/4 = 0,75</span>
+                            <span class="inline-block bg-white px-2 py-1 rounded border text-xs mt-1">1/5 = 0,2</span>
+                            <span class="inline-block bg-white px-2 py-1 rounded border text-xs mt-1">1/8 = 0,125</span>
+                            <span class="inline-block bg-white px-2 py-1 rounded border text-xs mt-1">1/20 = 0,05</span>
+                            <span class="inline-block bg-white px-2 py-1 rounded border text-xs mt-1">1/25 = 0,04</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Блок 3 -->
+                <div class="p-5 rounded-xl bg-slate-50 border border-slate-200">
+                    <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2">
+                        <span class="w-7 h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center text-sm">3</span>
+                        Степени и степени числа 10 (Программа 8 класса)
+                    </h3>
+                    <ul class="mt-3 space-y-2.5 text-sm text-slate-700">
+                        <li><strong>Свойства степеней:</strong> a<sup>n</sup> · a<sup>m</sup> = a<sup>n+m</sup>; &nbsp; a<sup>n</sup> : a<sup>m</sup> = a<sup>n−m</sup>; &nbsp; (a<sup>n</sup>)<sup>m</sup> = a<sup>n·m</sup>.</li>
+                        <li><strong>Отрицательный показатель (8 класс!):</strong> a<sup>−n</sup> = <span class="frac"><span>1</span><span>a<sup>n</sup></span></span> и <span class="frac"><span>1</span><span>10<sup>−n</sup></span></span> = 10<sup>n</sup>.</li>
+                        <li><strong>Знак при возведении в степень:</strong><br>
+                            (−a)<sup>чётная</sup> = +a<sup>чётная</sup> &nbsp; <em>Пример: (−10)<sup>4</sup> = +10000</em><br>
+                            (−a)<sup>нечётная</sup> = −a<sup>нечётная</sup> &nbsp; <em>Пример: (−10)<sup>3</sup> = −1000</em><br>
+                            <span class="text-red-600 font-semibold">Внимание!</span> −10<sup>2</sup> = −100 (минус НЕ в скобках, в квадрат возводится только 10).
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Блок 4 -->
+                <div class="p-5 rounded-xl bg-slate-50 border border-slate-200">
+                    <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2">
+                        <span class="w-7 h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center text-sm">4</span>
+                        Двухэтажные дроби и рациональный счёт
+                    </h3>
+                    <ul class="mt-3 space-y-2.5 text-sm text-slate-700">
+                        <li><strong>Главная дробная черта — это знак деления (:):</strong><br>
+                            <span class="frac"><span>A</span><span>B</span></span> = A : B. Сначала считаем отдельно числитель A, отдельно знаменатель B, затем делим A на B.
+                        </li>
+                        <li><strong>Метод домножения:</strong> в выражении <span class="frac"><span>1,8</span><span>1 + <span class="frac"><span>1</span><span>8</span></span></span></span> удобно либо посчитать знаменатель (1 + 1/8 = 9/8), либо умножить и числитель, и знаменатель на 8!</li>
+                        <li><strong>Распределительный закон:</strong> a·b + a·c = a·(b + c). Позволяет считать устно без громоздких столбиков!</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- КАРТОЧКИ ДЛЯ ОНЛАЙН-ДОСКИ -->
+        <section id="board" class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-6 shadow-sm border border-amber-200">
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-amber-800">Визуальные материалы для Miro / Holst / Zoom</span>
+                    <h2 class="text-2xl font-bold text-slate-900">Карточки для онлайн-доски (Объяснение темы и ДЗ)</h2>
+                </div>
+                <span class="text-xs bg-white px-3 py-1.5 rounded-lg border border-amber-300 font-medium text-amber-900">Нажмите на карточку, чтобы выделить её на экране во время урока</span>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-4">
+                <!-- Карточка доски 1 -->
+                <div onclick="this.classList.toggle('ring-4'); this.classList.toggle('ring-blue-500')" class="board-card cursor-pointer bg-white p-5 rounded-xl border-2 border-amber-300">
+                    <div class="text-xs font-bold text-amber-700 uppercase">Стикер доски #1 • Ловушка знака</div>
+                    <h4 class="font-bold text-base mt-1">Скобки решают всё!</h4>
+                    <div class="mt-3 p-3 bg-slate-50 rounded-lg font-mono text-sm space-y-2">
+                        <div class="text-emerald-700 font-bold">(−10)<sup>2</sup> = (−10)·(−10) = +100</div>
+                        <div class="text-red-600 font-bold">−10<sup>2</sup> = −(10·10) = −100</div>
+                    </div>
+                    <p class="text-xs text-slate-600 mt-3">Чётная степень убивает минус ТОЛЬКО тогда, когда минус закрыт внутри скобок.</p>
+                </div>
+
+                <!-- Карточка доски 2 -->
+                <div onclick="this.classList.toggle('ring-4'); this.classList.toggle('ring-blue-500')" class="board-card cursor-pointer bg-white p-5 rounded-xl border-2 border-blue-300">
+                    <div class="text-xs font-bold text-blue-700 uppercase">Стикер доски #2 • Многоэтажная дробь</div>
+                    <h4 class="font-bold text-base mt-1">Замени черту на две точки!</h4>
+                    <div class="mt-3 p-3 bg-blue-50 rounded-lg text-sm text-center font-semibold">
+                        <span class="frac"><span>0,9</span><span>1 + <span class="frac"><span>1</span><span>8</span></span></span></span> = 0,9 : <span class="frac"><span>9</span><span>8</span></span> = <span class="frac"><span>9</span><span>10</span></span> · <span class="frac"><span>8</span><span>9</span></span> = <span class="frac"><span>8</span><span>10</span></span> = 0,8
+                    </div>
+                    <p class="text-xs text-slate-600 mt-3">Никогда не тащи трёхэтажную дробь через всё решение — замени главную черту на « : ».</p>
+                </div>
+
+                <!-- Карточка доски 3 -->
+                <div onclick="this.classList.toggle('ring-4'); this.classList.toggle('ring-blue-500')" class="board-card cursor-pointer bg-white p-5 rounded-xl border-2 border-purple-300">
+                    <div class="text-xs font-bold text-purple-700 uppercase">Стикер доски #3 • Степени 10</div>
+                    <h4 class="font-bold text-base mt-1">Собери числа и десятки отдельно</h4>
+                    <div class="mt-3 p-3 bg-purple-50 rounded-lg text-xs font-mono space-y-1">
+                        <div>(4·10<sup>−2</sup>) · (2,5·10<sup>5</sup>) =</div>
+                        <div>= (4 · 2,5) · 10<sup>−2+5</sup> =</div>
+                        <div class="font-bold text-purple-900">= 10 · 10<sup>3</sup> = 10000</div>
+                    </div>
+                    <p class="text-xs text-slate-600 mt-3">Не переводи степени в нули сразу! Сначала примени свойство 10<sup>n</sup> · 10<sup>m</sup> = 10<sup>n+m</sup>.</p>
+                </div>
+
+                <!-- Карточка доски 4 (Помощник по ДЗ) -->
+                <div onclick="this.classList.toggle('ring-4'); this.classList.toggle('ring-blue-500')" class="board-card cursor-pointer bg-white p-5 rounded-xl border-2 border-emerald-300 md:col-span-3">
+                    <div class="flex flex-wrap justify-between items-center gap-2">
+                        <span class="text-xs font-bold text-emerald-700 uppercase">Стикер доски #4 • Шпаргалка на экран для выполнения ДЗ</span>
+                        <span class="text-xs bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-semibold">4 шага самопроверки дома</span>
+                    </div>
+                    <div class="grid sm:grid-cols-4 gap-3 mt-3 text-xs">
+                        <div class="p-3 bg-emerald-50 rounded-lg border border-emerald-200">
+                            <strong>Задача ДЗ №1 (Разность дробей):</strong><br>
+                            Ищи общий знаменатель через разложение на множители: 12 = 4·3, 15 = 5·3 ⇒ НОК = 60.
+                        </div>
+                        <div class="p-3 bg-emerald-50 rounded-lg border border-emerald-200">
+                            <strong>Задача ДЗ №2 (Десятичная × Смешанная):</strong><br>
+                            Сначала переведи смешанное число в неправильную дробь, а десятичную — в обыкновенную.
+                        </div>
+                        <div class="p-3 bg-emerald-50 rounded-lg border border-emerald-200">
+                            <strong>Задача ДЗ №3 (Двухэтажная):</strong><br>
+                            Вычисли сумму/разность в знаменателе отдельно, затем дели числитель на результат.
+                        </div>
+                        <div class="p-3 bg-emerald-50 rounded-lg border border-emerald-200">
+                            <strong>Задача ДЗ №4 (Степени −10):</strong><br>
+                            Сначала определи знак каждой скобки: (−10)<sup>4</sup> даёт «+», (−10)<sup>3</sup> даёт «−».
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. ВОПРОСЫ ДЛЯ УСТНОГО ОПРОСА -->
+        <section id="oral" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+            <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Раздел 2</span>
+            <h2 class="text-2xl font-bold text-slate-900 mt-1 mb-2">Вопросы для устного блиц-опроса (10 вопросов)</h2>
+            <p class="text-sm text-slate-600 mb-6">Нажмите на вопрос, чтобы открыть эталонный ответ и комментарий для учителя.</p>
+
+            <div class="grid md:grid-cols-2 gap-3">
+                <details class="group bg-slate-50 rounded-xl p-4 border border-slate-200 cursor-pointer">
+                    <summary class="font-semibold text-sm flex justify-between items-center">
+                        <span>1. Можно ли записать в бланк ОГЭ ответ в виде обыкновенной дроби 3/4?</span>
+                        <span class="text-blue-600 group-open:rotate-180 transition">▼</span>
+                    </summary>
+                    <p class="text-xs text-slate-700 mt-2 pt-2 border-t border-slate-200"><strong>Ответ:</strong> Нет! В бланк ОГЭ №1 записываются только целые числа или конечные десятичные дроби. 3/4 нужно перевести в 0,75.</p>
+                </details>
+
+                <details class="group bg-slate-50 rounded-xl p-4 border border-slate-200 cursor-pointer">
+                    <summary class="font-semibold text-sm flex justify-between items-center">
+                        <span>2. Как быстро перевести дробь со знаменателем 25 или 8 в десятичную?</span>
+                        <span class="text-blue-600 group-open:rotate-180 transition">▼</span>
+                    </summary>
+                    <p class="text-xs text-slate-700 mt-2 pt-2 border-t border-slate-200"><strong>Ответ:</strong> Домножить числитель и знаменатель: для 25 — на 4 (получим 100), для 8 — на 125 (получим 1000).</p>
+                </details>
+
+                <details class="group bg-slate-50 rounded-xl p-4 border border-slate-200 cursor-pointer">
+                    <summary class="font-semibold text-sm flex justify-between items-center">
+                        <span>3. В чём разница между (−10)<sup>2</sup> и −10<sup>2</sup>?</span>
+                        <span class="text-blue-600 group-open:rotate-180 transition">▼</span>
+                    </summary>
+                    <p class="text-xs text-slate-700 mt-2 pt-2 border-t border-slate-200"><strong>Ответ:</strong> (−10)<sup>2</sup> = (−10)·(−10) = 100 (минус возводится в квадрат), а −10<sup>2</sup> = −(10·10) = −100 (минус стоит перед степенью).</p>
+                </details>
+
+                <details class="group bg-slate-50 rounded-xl p-4 border border-slate-200 cursor-pointer">
+                    <summary class="font-semibold text-sm flex justify-between items-center">
+                        <span>4. Как разделить число на 0,1; 0,01; 0,001 устно?</span>
+                        <span class="text-blue-600 group-open:rotate-180 transition">▼</span>
+                    </summary>
+                    <p class="text-xs text-slate-700 mt-2 pt-2 border-t border-slate-200"><strong>Ответ:</strong> Деление на 0,1; 0,01; 0,001 равносильно умножению на 10, 100, 1000 (переносим запятую вправо на 1, 2 или 3 знака).</p>
+                </details>
+
+                <details class="group bg-slate-50 rounded-xl p-4 border border-slate-200 cursor-pointer">
+                    <summary class="font-semibold text-sm flex justify-between items-center">
+                        <span>5. Чему равно выражение 10<sup>−3</sup> в виде десятичной дроби?</span>
+                        <span class="text-blue-600 group-open:rotate-180 transition">▼</span>
+                    </summary>
+                    <p class="text-xs text-slate-700 mt-2 pt-2 border-t border-slate-200"><strong>Ответ:</strong> 10<sup>−3</sup> = 1 / 10<sup>3</sup> = 1 / 1000 = 0,001 (после запятой ровно 3 знака, последний — единица).</p>
+                </details>
+
+                <details class="group bg-slate-50 rounded-xl p-4 border border-slate-200 cursor-pointer">
+                    <summary class="font-semibold text-sm flex justify-between items-center">
+                        <span>6. Можно ли при умножении смешанных чисел умножить целые части отдельно, а дробные отдельно?</span>
+                        <span class="text-blue-600 group-open:rotate-180 transition">▼</span>
+                    </summary>
+                    <p class="text-xs text-slate-700 mt-2 pt-2 border-t border-slate-200"><strong>Ответ:</strong> Категорически нет! Смешанные числа при умножении и делении обязательно переводятся в неправильные дроби.</p>
+                </details>
+
+                <details class="group bg-slate-50 rounded-xl p-4 border border-slate-200 cursor-pointer">
+                    <summary class="font-semibold text-sm flex justify-between items-center">
+                        <span>7. Что делать, если при переводе ответа в десятичную дробь получается бесконечная дробь (например, 2/3)?</span>
+                        <span class="text-blue-600 group-open:rotate-180 transition">▼</span>
+                    </summary>
+                    <p class="text-xs text-slate-700 mt-2 pt-2 border-t border-slate-200"><strong>Ответ:</strong> Это 100% сигнал вычислительной ошибки! В задании №6 ОГЭ ответ ВСЕГДА переводится в конечную десятичную дробь без округления.</p>
+                </details>
+
+                <details class="group bg-slate-50 rounded-xl p-4 border border-slate-200 cursor-pointer">
+                    <summary class="font-semibold text-sm flex justify-between items-center">
+                        <span>8. Как проще вычислить: <span class="frac"><span>1</span><span>1/4 − 1/5</span></span>?</span>
+                        <span class="text-blue-600 group-open:rotate-180 transition">▼</span>
+                    </summary>
+                    <p class="text-xs text-slate-700 mt-2 pt-2 border-t border-slate-200"><strong>Ответ:</strong> Сначала найти разность в знаменателе: 1/4 − 1/5 = 5/20 − 4/20 = 1/20. Затем 1 : (1/20) = 20.</p>
+                </details>
+
+                <details class="group bg-slate-50 rounded-xl p-4 border border-slate-200 cursor-pointer">
+                    <summary class="font-semibold text-sm flex justify-between items-center">
+                        <span>9. Какой знак получится при произведении трёх отрицательных чисел и двух положительных?</span>
+                        <span class="text-blue-600 group-open:rotate-180 transition">▼</span>
+                    </summary>
+                    <p class="text-xs text-slate-700 mt-2 pt-2 border-t border-slate-200"><strong>Ответ:</strong> Минус, так как количество отрицательных множителей нечётное (3).</p>
+                </details>
+
+                <details class="group bg-slate-50 rounded-xl p-4 border border-slate-200 cursor-pointer">
+                    <summary class="font-semibold text-sm flex justify-between items-center">
+                        <span>10. Как записывается знак «минус» и «запятая» в бланке ОГЭ №1?</span>
+                        <span class="text-blue-600 group-open:rotate-180 transition">▼</span>
+                    </summary>
+                    <p class="text-xs text-slate-700 mt-2 pt-2 border-t border-slate-200"><strong>Ответ:</strong> Каждый символ — и минус, и запятая — пишется в ОТДЕЛЬНОЙ клеточке начиная с первой клетки слева.</p>
+                </details>
+            </div>
+        </section>
+
+        <!-- 3. ИНТЕРАКТИВНЫЙ ТЕСТ ДЛЯ ПРОВЕРКИ ЗНАНИЙ -->
+        <section id="test" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Раздел 3</span>
+                    <h2 class="text-2xl font-bold text-slate-900 mt-1">Интерактивный тест для проверки знаний (8 вопросов)</h2>
+                </div>
+                <button onclick="checkQuiz()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition">
+                    Проверить результаты теста
+                </button>
+            </div>
+
+            <div id="quiz-result" class="hidden mb-6 p-4 rounded-xl font-semibold text-sm"></div>
+
+            <div class="grid md:grid-cols-2 gap-4" id="quiz-container">
+                <!-- Вопросы рендерятся скриптом -->
+            </div>
+        </section>
+
+        <!-- 6. ТРЕНАЖЁР ДЛЯ 8 КЛАССА -->
+        <section id="trainer8" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Раздел 6</span>
+                    <h2 class="text-2xl font-bold text-slate-900 mt-1">Интерактивный тренажёр для 8 класса (Формат бланка ОГЭ)</h2>
+                    <p class="text-sm text-slate-600 mt-1">Введите ответ в точности так, как его нужно записать в бланк ОГЭ (десятичная дробь через запятую или целое число).</p>
+                </div>
+                <div class="text-sm font-bold bg-slate-100 px-4 py-2 rounded-xl" id="trainer8-score">
+                    Решено: 0 / 8
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4" id="trainer8-container">
+                <!-- Задачи тренажера рендерятся скриптом -->
+            </div>
+        </section>
+
+        <!-- 5. 5 ЗАДАЧ ПОВЫШЕННОЙ СЛОЖНОСТИ С ПОДРОБНЫМ РАЗБОРОМ И ТРЕНАЖЁРОМ -->
+        <section id="hard5" class="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-2xl p-6 shadow-sm border border-purple-200">
+            <span class="text-xs font-bold uppercase tracking-wider text-purple-700">Раздел 5 • Углублённый практикум для 8 класса</span>
+            <h2 class="text-2xl font-bold text-slate-900 mt-1 mb-2">5 задач повышенной сложности с пошаговым тренажёром и разбором</h2>
+            <p class="text-sm text-slate-600 mb-6">Каждая задача разбита на промежуточные контрольные точки: сначала проверьте каждый шаг, затем откройте полный разбор.</p>
+
+            <div class="space-y-4" id="hard5-container">
+                <!-- Сложные задачи рендерятся скриптом -->
+            </div>
+        </section>
+
+        <!-- 7 и 8. ШАБЛОН-ПАМЯТКА ОФОРМЛЕНИЯ В БЛАНК ОГЭ + ПОШАГОВЫЙ АЛГОРИТМ -->
+        <section id="memo" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">Разделы 7 и 8</span>
+            <h2 class="text-2xl font-bold text-slate-900 mt-1 mb-6">Памятка по оформлению Бланка №1 ОГЭ и Пошаговый алгоритм</h2>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Памятка Бланка ОГЭ -->
+                <div class="p-5 rounded-xl bg-emerald-50 border border-emerald-200">
+                    <h3 class="font-bold text-lg text-emerald-950 mb-3">Как оформить ответ в Задание №6, чтобы не потерять балл</h3>
+                    <p class="text-xs text-emerald-900 mb-3">Задание №6 относится к первой части ОГЭ и проверяется <strong>компьютером (сканером)</strong> по Бланку ответов №1. Черновик эксперты не смотрят!</p>
+                    
+                    <div class="space-y-3 text-sm">
+                        <div class="bg-white p-3 rounded-lg border border-emerald-200">
+                            <div class="text-xs font-bold text-slate-500 mb-1">Пример записи отрицательной десятичной дроби: −12,05</div>
+                            <div class="flex gap-1 font-mono text-lg font-bold">
+                                <span class="w-8 h-10 border-2 border-slate-400 flex items-center justify-center bg-slate-50">−</span>
+                                <span class="w-8 h-10 border-2 border-slate-400 flex items-center justify-center bg-slate-50">1</span>
+                                <span class="w-8 h-10 border-2 border-slate-400 flex items-center justify-center bg-slate-50">2</span>
+                                <span class="w-8 h-10 border-2 border-slate-400 flex items-center justify-center bg-slate-50">,</span>
+                                <span class="w-8 h-10 border-2 border-slate-400 flex items-center justify-center bg-slate-50">0</span>
+                                <span class="w-8 h-10 border-2 border-slate-400 flex items-center justify-center bg-slate-50">5</span>
+                                <span class="w-8 h-10 border border-dashed border-slate-300 flex items-center justify-center text-slate-300"></span>
+                            </div>
+                        </div>
+
+                        <ul class="space-y-1.5 text-xs text-slate-800 list-disc pl-4">
+                            <li><strong>Запись с первой клеточки:</strong> начинайте строго с самой левой клетки поля ответа.</li>
+                            <li><strong>Отдельная клетка для каждого знака:</strong> минус «−» и запятая «,» пишутся в собственной отдельной клетке!</li>
+                            <li><strong>Точка запрещена:</strong> дробная часть отделяется только запятой «,».</li>
+                            <li><strong>Никаких незначащих нулей:</strong> если получилось <code>0,50</code> — пишем <code>0,5</code>; если <code>4,0</code> — пишем <code>4</code>.</li>
+                            <li><strong>Обыкновенные дроби запрещены:</strong> запись <code>3/5</code> или <code>1 1/2</code> компьютер распознает как ошибку (0 баллов). Пишем только <code>0,6</code> и <code>1,5</code>.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Пошаговый алгоритм -->
+                <div class="p-5 rounded-xl bg-blue-50 border border-blue-200">
+                    <h3 class="font-bold text-lg text-blue-950 mb-3">Универсальный пошаговый алгоритм решения Задания №6</h3>
+                    <ol class="space-y-2.5 text-xs text-slate-800">
+                        <li class="flex gap-2.5 items-start">
+                            <span class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center shrink-0">1</span>
+                            <div><strong>Оцени структуру выражения и расставь порядок действий:</strong> сначала степени и скобки, затем умножение/деление слева направо, в конце сложение/вычитание. Если дробь двухэтажная — замени главную черту на знак деления «:».</div>
+                        </li>
+                        <li class="flex gap-2.5 items-start">
+                            <span class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center shrink-0">2</span>
+                            <div><strong>Выбери единый формат чисел:</strong> если в примере есть 1/3, 1/6, 1/7 — переводи всё в обыкновенные дроби. Если знаменатели 2, 4, 5, 8, 10, 20, 25 — часто быстрее перейти к десятичным.</div>
+                        </li>
+                        <li class="flex gap-2.5 items-start">
+                            <span class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center shrink-0">3</span>
+                            <div><strong>Определи знак результата каждого действия ДО вычислений:</strong> отдельно зафиксируй «+» или «−», особенно при возведении отрицательных чисел в степень.</div>
+                        </li>
+                        <li class="flex gap-2.5 items-start">
+                            <span class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center shrink-0">4</span>
+                            <div><strong>Сокращай до умножения:</strong> не перемножай большие числа в числителе и знаменателе — разложи их на множители и сократи.</div>
+                        </li>
+                        <li class="flex gap-2.5 items-start">
+                            <span class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center shrink-0">5</span>
+                            <div><strong>Переведи ответ в формат бланка ОГЭ и выполни проверку:</strong> ответ должен быть целым числом или конечной десятичной дробью.</div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // ДАННЫЕ ТЕСТА (Раздел 3)
+        const quizQuestions = [
+            {
+                q: "1. Вычислите: 3/4 + 7/20",
+                options: ["0,5", "1,1", "0,55", "1,05"],
+                correct: 1,
+                exp: "3/4 = 15/20. Складываем: 15/20 + 7/20 = 22/20 = 11/10 = 1,1."
+            },
+            {
+                q: "2. Найдите значение выражения: 4,8 : 0,12",
+                options: ["0,4", "4", "40", "400"],
+                correct: 2,
+                exp: "Переносим запятую на 2 знака вправо: 480 : 12 = 40."
+            },
+            {
+                q: "3. Вычислите: −0,4 · (−10)³ + 50",
+                options: ["450", "−350", "45", "−450"],
+                correct: 0,
+                exp: "(−10)³ = −1000. Далее: −0,4 · (−1000) = +400. И 400 + 50 = 450."
+            },
+            {
+                q: "4. Найдите значение выражения: 1,5 / (1 + 1/5)",
+                options: ["1,25", "1,8", "0,8", "1,2"],
+                correct: 0,
+                exp: "1 + 1/5 = 1,2. Делим: 1,5 : 1,2 = 15 : 12 = 5/4 = 1,25."
+            },
+            {
+                q: "5. Вычислите: (2/5 − 3/4) · 20",
+                options: ["7", "−7", "−3,5", "−14"],
+                correct: 1,
+                exp: "Раскроем скобки: (2/5)·20 − (3/4)·20 = 8 − 15 = −7."
+            },
+            {
+                q: "6. Найдите значение выражения: (6 · 10⁻¹) · (1,5 · 10³)",
+                options: ["90", "900", "9000", "0,9"],
+                correct: 1,
+                exp: "6 · 1,5 = 9. Степени: 10⁻¹ · 10³ = 10². Получаем 9 · 100 = 900."
+            },
+            {
+                q: "7. Вычислите: 2 1/3 : 1 5/9",
+                options: ["1,5", "1,2", "0,6", "2,5"],
+                correct: 0,
+                exp: "7/3 : 14/9 = 7/3 · 9/14 = 3/2 = 1,5."
+            },
+            {
+                q: "8. Какая запись ответа «четыре целых одна восьмая» верна для бланка ОГЭ?",
+                options: ["4 1/8", "33/8", "4,125", "4.125"],
+                correct: 2,
+                exp: "1/8 = 0,125, значит 4 1/8 = 4,125 (с запятой!)."
+            }
+        ];
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = quizQuestions.map((item, idx) => `
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                    <div class="font-semibold text-sm mb-3">${item.q}</div>
+                    <div class="grid grid-cols-2 gap-2">
+                        ${item.options.map((opt, oIdx) => `
+                            <label class="flex items-center gap-2 p-2 rounded-lg bg-white border border-slate-200 cursor-pointer hover:bg-blue-50 text-xs">
+                                <input type="radio" name="q${idx}" value="${oIdx}" class="text-blue-600">
+                                <span>${opt}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                    <div id="q-exp-${idx}" class="hidden mt-3 text-xs p-2.5 rounded-lg"></div>
+                </div>
+            `).join('');
+        }
+
+        function checkQuiz() {
+            let score = 0;
+            quizQuestions.forEach((item, idx) => {
+                const selected = document.querySelector(`input[name="q${idx}"]:checked`);
+                const expBox = document.getElementById(`q-exp-${idx}`);
+                expBox.classList.remove('hidden');
+                if (selected && parseInt(selected.value) === item.correct) {
+                    score++;
+                    expBox.className = "mt-3 text-xs p-2.5 rounded-lg bg-emerald-100 text-emerald-900";
+                    expBox.innerHTML = `<strong>Верно!</strong> ${item.exp}`;
+                } else {
+                    expBox.className = "mt-3 text-xs p-2.5 rounded-lg bg-red-100 text-red-900";
+                    expBox.innerHTML = `<strong>Ошибка.</strong> Правильный ответ: <b>${item.options[item.correct]}</b>. ${item.exp}`;
+                }
+            });
+            const res = document.getElementById('quiz-result');
+            res.classList.remove('hidden');
+            res.className = "mb-6 p-4 rounded-xl font-semibold text-sm bg-blue-100 text-blue-900";
+            res.innerHTML = `Ваш результат: ${score} из ${quizQuestions.length} баллов (${Math.round(score/quizQuestions.length*100)}%).`;
+        }
+
+        // ДАННЫЕ ТРЕНАЖЕРА 8 КЛАССА (Раздел 6)
+        const trainerTasks = [
+            { title: "Задание 1 (Обыкновенные дроби)", expr: "11/12 − 7/15", ans: "0,45", hint: "НОК(12, 15) = 60. Домножьте первую дробь на 5, вторую на 4: (55 − 28)/60 = 27/60 = 9/20 = 0,45." },
+            { title: "Задание 2 (Умножение и деление дробей)", expr: "(14/15 : 7/5) · 1,5", ans: "1", hint: "14/15 · 5/7 = 2/3. Затем 2/3 · 3/2 = 1." },
+            { title: "Задание 3 (Десятичные дроби)", expr: "(3,2 − 5,7) : 0,25", ans: "-10", hint: "3,2 − 5,7 = −2,5. Деление на 0,25 равно умножению на 4: −2,5 · 4 = −10." },
+            { title: "Задание 4 (Двухэтажная дробь)", expr: "2,4 / (2,9 − 1,4)", ans: "1,6", hint: "2,9 − 1,4 = 1,5. Делим: 2,4 : 1,5 = 24 : 15 = 8/5 = 1,6." },
+            { title: "Задание 5 (Степени −10)", expr: "0,7 · (−10)³ + 4 · (−10)² − 60", ans: "-360", hint: "(−10)³ = −1000, (−10)² = 100. Получаем: −700 + 400 − 60 = −360." },
+            { title: "Задание 6 (Отрицательные степени 8 кл.)", expr: "(4,5 · 10⁻²) : (9 · 10⁻⁴)", ans: "50", hint: "(4,5 : 9) · 10⁻²⁻(⁻⁴) = 0,5 · 10² = 50." },
+            { title: "Задание 7 (Обратная сумма дробей)", expr: "1 / (1/12 + 1/15)", ans: "6,67", exprOverride: "1 / (1/18 + 1/36)", ansOverride: "12", hint: "1/18 + 1/36 = 3/36 = 1/12. Делим: 1 : (1/12) = 12." },
+            { title: "Задание 8 (Смешанный счёт)", expr: "3 3/4 · 1,6 − 7,2", ans: "-1,2", hint: "3 3/4 = 3,75 (или 15/4). 15/4 · 8/5 = 6. Далее 6 − 7,2 = −1,2." }
+        ];
+
+        let solvedSet = new Set();
+
+        function renderTrainer8() {
+            const container = document.getElementById('trainer8-container');
+            container.innerHTML = trainerTasks.map((t, i) => {
+                const expr = t.exprOverride || t.expr;
+                return `
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <div class="text-xs font-bold text-slate-500">${t.title}</div>
+                        <div class="text-base font-bold text-slate-900 mt-1 mb-3 font-mono bg-white p-2.5 rounded-lg border">${expr}</div>
+                    </div>
+                    <div>
+                        <div class="flex gap-2">
+                            <input id="tr-in-${i}" type="text" placeholder="Ответ в бланк (напр. -1,2)" class="flex-1 px-3 py-1.5 rounded-lg border border-slate-300 text-sm">
+                            <button onclick="checkTrainer(${i})" class="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-blue-700">Проверить</button>
+                            <button onclick="toggleHint(${i})" class="bg-slate-200 text-slate-700 px-2.5 py-1.5 rounded-lg text-xs font-semibold hover:bg-slate-300">💡</button>
+                        </div>
+                        <div id="tr-msg-${i}" class="hidden mt-2 text-xs font-medium p-2 rounded"></div>
+                        <div id="tr-hint-${i}" class="hidden mt-2 text-xs bg-amber-50 text-amber-900 p-2 rounded border border-amber-200">${t.hint}</div>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        function checkTrainer(i) {
+            const val = document.getElementById(`tr-in-${i}`).value.trim().replace('.', ',');
+            const correct = trainerTasks[i].ansOverride || trainerTasks[i].ans;
+            const msg = document.getElementById(`tr-msg-${i}`);
+            msg.classList.remove('hidden');
+            if (val === correct) {
+                solvedSet.add(i);
+                msg.className = "mt-2 text-xs font-medium p-2 rounded bg-emerald-100 text-emerald-900";
+                msg.innerHTML = `✅ Верно! В бланк: <b>${correct}</b>`;
+            } else {
+                msg.className = "mt-2 text-xs font-medium p-2 rounded bg-red-100 text-red-900";
+                msg.innerHTML = `❌ Пока неверно. Проверьте знак и запятую или нажмите 💡.`;
+            }
+            document.getElementById('trainer8-score').innerText = `Решено: ${solvedSet.size} / ${trainerTasks.length}`;
+        }
+
+        function toggleHint(i) {
+            document.getElementById(`tr-hint-${i}`).classList.toggle('hidden');
+        }
+
+        // ДАННЫЕ 5 СЛОЖНЫХ ЗАДАЧ (Раздел 5)
+        const hardTasks = [
+            {
+                num: 1,
+                title: "Многоэтажная дробь с разностью обратных величин",
+                expr: "1 / (1/36 − 1/45)",
+                step1Q: "Шаг 1: Чему равен НОК(36, 45)?",
+                step1A: "180",
+                step2Q: "Шаг 2: Чему равен числитель разности (5 − 4)/180 и итоговый ответ?",
+                finalA: "180",
+                solution: "1) Разложим знаменатели на множители: 36 = 9·4, 45 = 9·5. Тогда НОК(36, 45) = 9·4·5 = 180.<br>2) Приводим к общему знаменателю: 1/36 − 1/45 = 5/180 − 4/180 = 1/180.<br>3) Делим единицу на полученную дробь: 1 : (1/180) = 1 · 180/1 = 180.<br><b>Ответ: 180</b>"
+            },
+            {
+                num: 2,
+                title: "Отрицательные степени 10 с дробным делением",
+                expr: "(4,8 · 10⁻³) / (1,6 · 10⁻⁵)",
+                step1Q: "Шаг 1: Разделите 4,8 на 1,6:",
+                step1A: "3",
+                step2Q: "Шаг 2: Вычислите 3 · 10⁻³⁻(⁻⁵) = 3 · 10²:",
+                finalA: "300",
+                solution: "1) Разделим числовые коэффициенты: 4,8 : 1,6 = 48 : 16 = 3.<br>2) Применим свойство деления степеней с одинаковым основанием: 10⁻³ : 10⁻⁵ = 10⁻³ − (−5) = 10⁻³ + ⁵ = 10² = 100.<br>3) Перемножим результаты: 3 · 100 = 300.<br><b>Ответ: 300</b>"
+            },
+            {
+                num: 3,
+                title: "Комбинированная дробь с разными форматами чисел",
+                expr: "(2 3/4 − 1,55) : (3/8 + 0,225)",
+                step1Q: "Шаг 1: Переведите 2 3/4 в десятичную и вычислите первую скобку (2,75 − 1,55):",
+                step1A: "1,2",
+                step2Q: "Шаг 2: Переведите 3/8 = 0,375, сложите с 0,225 и разделите 1,2 на результат:",
+                finalA: "2",
+                solution: "1) Переведём обыкновенные дроби в десятичные: 3/4 = 0,75 ⇒ 2 3/4 = 2,75; 3/8 = 0,375.<br>2) Первая скобка: 2,75 − 1,55 = 1,2.<br>3) Вторая скобка: 0,375 + 0,225 = 0,6.<br>4) Деление: 1,2 : 0,6 = 12 : 6 = 2.<br><b>Ответ: 2</b>"
+            },
+            {
+                num: 4,
+                title: "Знакочередующийся полином со степенями (−10)",
+                expr: "−0,6 · (−10)⁴ + 3 · (−10)³ − 5 · (−10)² + 90",
+                step1Q: "Шаг 1: Чему равно −0,6 · (−10)⁴?",
+                step1A: "-6000",
+                step2Q: "Шаг 2: Сложите все слагаемые (−6000 − 3000 − 500 + 90):",
+                finalA: "-9410",
+                solution: "1) Вычислим степени с учётом чётности:<br>(−10)⁴ = +10000; (−10)³ = −1000; (−10)² = +100.<br>2) Подставим в выражение:<br>−0,6 · 10000 + 3 · (−1000) − 5 · 100 + 90 = −6000 − 3000 − 500 + 90.<br>3) Считаем слева направо: −9500 + 90 = −9410.<br><b>Ответ: −9410</b>"
+            },
+            {
+                num: 5,
+                title: "Цепная (стучащаяся) дробь 8 класса",
+                expr: "3 − 2 / (1 + 1 / (1 − 1/3))",
+                step1Q: "Шаг 1: Вычислите самый нижний этаж (1 − 1/3) и переверните дробь 1 : (2/3) в десятичном или обыкновенном виде (введите знаменатель 1 + 1,5):",
+                step1A: "2,5",
+                step2Q: "Шаг 2: Вычислите 3 − (2 : 2,5):",
+                finalA: "2,2",
+                solution: "1) Нижний этаж: 1 − 1/3 = 2/3.<br>2) Средний этаж: 1 : (2/3) = 3/2 = 1,5.<br>3) Знаменатель большой дроби: 1 + 1,5 = 2,5.<br>4) Деление: 2 : 2,5 = 20 : 25 = 4/5 = 0,8.<br>5) Итоговое вычитание: 3 − 0,8 = 2,2.<br><b>Ответ: 2,2</b>"
+            }
+        ];
+
+        function renderHard5() {
+            const container = document.getElementById('hard5-container');
+            container.innerHTML = hardTasks.map((h, i) => `
+                <div class="bg-white p-5 rounded-xl border border-purple-200">
+                    <div class="flex flex-wrap justify-between items-center gap-2 mb-3">
+                        <div>
+                            <span class="text-xs font-bold text-purple-700 uppercase">Задача повышенной сложности №${h.num}</span>
+                            <h4 class="font-bold text-base text-slate-900">${h.title}</h4>
+                        </div>
+                        <span class="font-mono text-base font-bold bg-purple-50 text-purple-950 px-3 py-1.5 rounded-lg border border-purple-200">${h.expr}</span>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-3 mt-3">
+                        <div class="p-3 bg-slate-50 rounded-lg border">
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">${h.step1Q}</label>
+                            <div class="flex gap-2">
+                                <input id="h-s1-${i}" type="text" class="flex-1 px-2.5 py-1 border rounded text-xs" placeholder="Промежуточный ответ">
+                                <button onclick="checkHardStep(${i}, 1)" class="bg-purple-600 text-white px-3 py-1 rounded text-xs font-semibold">Проверить шаг 1</button>
+                            </div>
+                            <div id="h-msg1-${i}" class="hidden mt-1.5 text-xs"></div>
+                        </div>
+
+                        <div class="p-3 bg-slate-50 rounded-lg border">
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">${h.step2Q}</label>
+                            <div class="flex gap-2">
+                                <input id="h-s2-${i}" type="text" class="flex-1 px-2.5 py-1 border rounded text-xs" placeholder="Итоговый ответ">
+                                <button onclick="checkHardStep(${i}, 2)" class="bg-purple-600 text-white px-3 py-1 rounded text-xs font-semibold">Проверить ответ</button>
+                            </div>
+                            <div id="h-msg2-${i}" class="hidden mt-1.5 text-xs"></div>
+                        </div>
+                    </div>
+
+                    <details class="mt-3 text-xs bg-purple-50/70 p-3 rounded-lg border border-purple-200 cursor-pointer">
+                        <summary class="font-bold text-purple-900">Показать полный эталонный разбор задачи №${h.num}</summary>
+                        <div class="mt-2 pt-2 border-t border-purple-200 text-slate-800 leading-relaxed">${h.solution}</div>
+                    </details>
+                </div>
+            `).join('');
+        }
+
+        function checkHardStep(i, step) {
+            const inputId = step === 1 ? `h-s1-${i}` : `h-s2-${i}`;
+            const msgId = step === 1 ? `h-msg1-${i}` : `h-msg2-${i}`;
+            const expected = step === 1 ? hardTasks[i].step1A : hardTasks[i].finalA;
+            const val = document.getElementById(inputId).value.trim().replace('.', ',');
+            const msg = document.getElementById(msgId);
+            msg.classList.remove('hidden');
+            if (val === expected) {
+                msg.className = "mt-1.5 text-xs font-semibold text-emerald-700";
+                msg.innerHTML = `✅ Верно (${expected})!`;
+            } else {
+                msg.className = "mt-1.5 text-xs font-semibold text-red-600";
+                msg.innerHTML = `❌ Не совпало. Попробуйте ещё раз или загляните в разбор ниже.`;
+            }
+        }
+
+        renderQuiz();
+        renderTrainer8();
+        renderHard5();
+    </script>
+</body>
+</html>
