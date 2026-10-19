@@ -1187,12 +1187,14 @@ function workCard(){const W=D.work||[];return `<div class="card"><div class="sh"
 function foot(){const note=D&&D.demo?'<span class="demo"><b>Пример</b> · данные ученика вымышленные</span>':syncedAt?`<span class="demo" id="sync">Обновлено ${new Date(syncedAt).toLocaleString('ru-RU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</span>`:'<span></span>';
  return `<footer class="foot">${note}<span class="wm">lili<i>.</i>math</span></footer>`}
 
+let firstPaint=true;
 function render(){
  if(!D)return;
  const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
- app.innerHTML=topbar()+`<div class="cab enter">`+bday+(kid
+ app.innerHTML=topbar()+`<div class="cab${firstPaint?' enter':''}">`+bday+(kid
   ? heroKid()+`<div class="two">${lessonCard()}${hwCard()}</div>`+mapCard(false)+gradesCard()+`<div class="two">${chartCard()}${stkCard()}</div>`+letterCard()+((D.mats&&D.mats.length)||!D.matsAll?matCard():'')+petCard()
   : heroPar()+mapCard(true)+`<div class="two">${chartCard()}${workCard()}</div>`+gradesCard())+foot()+`</div>`;
+ firstPaint=false;
  bind();if(bday)bdayFX();
 }
 function screen(title,text,btn){app.innerHTML=topbar()+`<div class="cab enter"><section class="khero">
@@ -1248,7 +1250,8 @@ function load(){
  fetch(API+'?t='+encodeURIComponent(CODE),{cache:'no-store'}).then(r=>r.json()).then(j=>{
   if(j.error){D=null;try{localStorage.removeItem(CKEY)}catch(e){}
    screen(j.error==='inactive'?'Кабинет на паузе':'Ссылка не найдена',j.error==='inactive'?'Напиши Лилии, если хочешь продолжить занятия.':'Проверь, что ссылка скопирована целиком, или попроси у Лилии новую.');return}
-  const first=!D;D=j;syncedAt=Date.now();cacheSave();
+  const first=!D,same=!first&&JSON.stringify(j)===JSON.stringify(D);D=j;syncedAt=Date.now();cacheSave();
+  if(same)return;
   if(first||!document.querySelector('.cab .tile'))render();else{const y=scrollY;render();scrollTo({top:y})}
  }).catch(()=>{if(D){const s=document.getElementById('sync');if(s)s.textContent='Нет связи · данные от '+new Date(syncedAt).toLocaleString('ru-RU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}
   else screen('Не получилось открыть кабинет','Похоже, пропал интернет. Попробуй ещё раз.','Ещё раз')});
