@@ -3491,6 +3491,15 @@
       "oge_task": 6,
       "status": "public",
       "note": "добавлено 2026-10-19"
+    },
+    {
+      "file": "skill.html",
+      "title": "Страница навыка: теория и домашка",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "читает skills-graph.json и skills-links.json; ссылки на неё ведут из kabinet.html"
     }
   ]
 }
