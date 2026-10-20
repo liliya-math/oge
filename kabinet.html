@@ -614,6 +614,27 @@ a.btn{display:inline-flex;align-items:center;text-decoration:none;height:48px}
 .stb:active{transform:scale(.96)}
 .stb.solid{background:var(--mint);color:#14211e}.stb.shaky{background:var(--amber);color:#14211e}.stb.gap{background:var(--miss);color:#2a1510}.stb.new{background:rgba(243,236,226,.12);color:var(--fg)}
 .stb[aria-pressed="true"]{opacity:1;box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--fg)}
+/* карта навыков */
+.skst{border:0;border-radius:12px;padding:11px 6px;font-weight:700;font-size:13.5px;opacity:.5;transition:opacity .2s,transform .15s,box-shadow .2s}
+.skst:active{transform:scale(.96)}
+.skst.solid{background:var(--mint);color:#14211e}.skst.shaky{background:var(--amber);color:#14211e}.skst.gap{background:var(--miss);color:#2a1510}.skst.new{background:rgba(243,236,226,.12);color:var(--fg)}
+.skst[aria-pressed="true"]{opacity:1;box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--fg)}
+.skgrp{margin-top:12px;border-top:1px solid var(--line);padding-top:8px}
+.skgrp>summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-weight:650;font-size:15px;padding:6px 0}
+.skgrp>summary::-webkit-details-marker{display:none}
+.skgrp>summary small{color:var(--muted);font-weight:500;font-size:13px;white-space:nowrap}
+.skl{display:grid;gap:5px;margin:8px 0 4px}
+.skr{display:grid;grid-template-columns:12px 36px minmax(0,1fr) auto;align-items:center;gap:8px;width:100%;text-align:left;padding:8px 10px;border-radius:12px;border:1px solid transparent;background:rgba(243,236,226,.04);font-size:14px;line-height:1.3;color:var(--fg)}
+.skr.ro{grid-template-columns:12px minmax(0,1fr) auto}
+button.skr:hover{background:rgba(243,236,226,.09)}
+.skr i{width:10px;height:10px;border-radius:3px;background:rgba(243,236,226,.18)}
+.skr.solid i{background:var(--mint)}.skr.shaky i{background:var(--amber)}.skr.gap i{background:var(--miss)}
+.skr b{font:600 11.5px var(--mono);color:var(--faint)}
+.skr small{color:var(--faint);font-size:12px;white-space:nowrap}
+.skr[aria-pressed="true"]{border-color:var(--fg)}
+.skchips{display:flex;flex-wrap:wrap;gap:6px}
+.skc{border:0;border-radius:999px;padding:5px 11px;font-size:13px;font-weight:600;background:rgba(243,236,226,.08);color:var(--fg)}
+.skc.solid{background:rgba(169,209,142,.18);color:var(--mint)}.skc.shaky{background:rgba(245,220,106,.16);color:var(--amber)}.skc.gap{background:rgba(255,143,115,.16);color:var(--miss)}
 .sched{display:grid;gap:10px;padding:14px;border-radius:16px;border:1px solid var(--line);background:rgba(0,0,0,.14)}
 .schh{display:flex;flex-wrap:wrap;gap:10px;align-items:end;justify-content:space-between}
 .schtz{flex:1 1 240px}
@@ -954,6 +975,61 @@ const fullName=()=>[D&&D.name,D&&D.fname].filter(Boolean).join(' ');
 function isBday(){if(!D||!D.bdate)return false;const m=String(D.bdate).match(/^\d{4}-(\d{2})-(\d{2})$/);if(!m)return false;const n=new Date();return n.getMonth()+1===+m[1]&&n.getDate()===+m[2]}
 const avgMark=G=>{const n=(G||[]).filter(g=>typeof g.p==='number');return n.length?n.reduce((s,g)=>s+g.p,0)/n.length:null};
 const ST={solid:'решает уверенно',shaky:'путается',gap:'пока не решает',new:'ещё не проходили'};
+/* ---------- карта навыков: граф лежит в skills-graph.json, отметки ученика в D.skills ---------- */
+const SKT={solid:'держит',shaky:'путается',gap:'пробел',new:'не проверяли'};
+const SKB=[['N','Числа и вычисления'],['A','Алгебра'],['F','Функции и графики'],['S','Практика и текстовые задачи'],['G','Геометрия']];
+let SG=null;
+function loadSkills(){fetch('skills-graph.json',{cache:'no-cache'}).then(r=>r.ok?r.json():null).then(g=>{
+  if(!g||!Array.isArray(g.nodes))return;
+  SG={nodes:g.nodes,by:Object.fromEntries(g.nodes.map(n=>[n.id,n])),tasks:g.tasks||{}};
+  if(D){const y=scrollY;TEACH?tRender():render();scrollTo({top:y})}}).catch(()=>{})}
+const skOf=id=>(D&&D.skills&&D.skills[id]&&D.skills[id].s)||'new';
+const skMarked=()=>D&&D.skills?Object.keys(D.skills).length:0;
+const skByDepth=(a,b)=>a.depth-b.depth||(a.id<b.id?-1:1);
+function skOpen(b,hasGap){const o=S.skO||{};return b in o?!!o[b]:(!TEACH&&hasGap)}
+function skRow(n){const s=skOf(n.id);
+ return TEACH?`<button class="skr ${s}" type="button" data-sk="${n.id}" aria-pressed="${S.sk===n.id}"><i></i><b>${n.id}</b><span>${esc(n.name)}</span><small>ур. ${n.level}</small></button>`
+ :`<div class="skr ro ${s}"><i></i><span>${esc(n.name)}</span></div>`}
+function skChip(id){const n=SG.by[id];return n?`<button class="skc ${skOf(id)}" type="button" data-skc="${id}">${id} ${esc(n.name)}</button>`:''}
+function skTaskNo(){const P=PROG();if(P.oge)return S.sel||0;return D.prog==='mix9'&&S.sel>=34?S.sel-33:0}
+function skDetail(id){const n=SG&&id&&SG.by[id];
+ if(!n)return `<p class="klead" style="margin:14px 0 0;font-size:14.5px">Нажми на навык, чтобы увидеть проверку и поставить отметку.</p>`;
+ const s=skOf(id),d=(D.skills&&D.skills[id]||{}).d;
+ return `<div class="tdet enter" style="margin-top:14px"><div class="tn"><b>${n.id}</b><div><div class="tt">${esc(n.name)}</div><span class="kchip ${s}">${SKT[s]}</span> <span style="font-size:12.5px;color:var(--faint)">уровень ${n.level}${d?' · проверено '+shortDate(d):''}</span></div></div>
+ <div class="stbtns">${['solid','shaky','gap','new'].map(x=>`<button class="skst ${x}" data-sks="${x}" aria-pressed="${s===x}" type="button">${SKT[x]}</button>`).join('')}</div>
+ <p><b>Проверка:</b> ${esc(n.check)}</p><p><b>Ответ:</b> ${esc(n.answer)}</p><p><b>Типичная ошибка:</b> ${esc(n.error)}</p>
+ ${n.prereq.length?`<div class="plab" style="margin:6px 0 0">Если ученик не справился, спуск на</div><div class="skchips">${n.prereq.map(skChip).join('')}</div>`:'<p style="color:var(--muted)">Дно графа: объясняем с нуля, ниже не спускаемся.</p>'}</div>`}
+function skillsCard(ro){
+ if(!SG||!D||(!TEACH&&!skMarked()))return '';
+ const N=SG.nodes,c={solid:0,shaky:0,gap:0,new:0};N.forEach(n=>c[skOf(n.id)]++);
+ const weak=N.filter(n=>skOf(n.id)==='gap'||skOf(n.id)==='shaky').sort((a,b)=>(skOf(a.id)==='gap'?0:1)-(skOf(b.id)==='gap'?0:1)||skByDepth(a,b));
+ const tn=TEACH?skTaskNo():0,tl=tn&&SG.tasks[tn]?SG.tasks[tn].map(id=>SG.by[id]).filter(Boolean).sort((a,b)=>skByDepth(b,a)):[];
+ return `<div class="card" id="skills">
+ <div class="sh"><h2>Карта навыков</h2><span class="sub">проверено ${N.length-c.new} из ${N.length}</span></div>
+ <p class="mapnote">${TEACH?'Под каждым заданием стоят базовые навыки. Нажми на навык: увидишь проверку и поставишь отметку.':ro?'Под каждым заданием стоят базовые навыки. Красным отмечено то, что сейчас тянет результат вниз.':'Под каждым заданием стоят навыки, на которых оно держится. Зелёные ты уже держишь, жёлтые и красные подтягиваем.'}</p>
+ <div class="mlegend"><span><i style="background:var(--mint)"></i>${SKT.solid} · ${c.solid}</span><span><i style="background:var(--amber)"></i>${SKT.shaky} · ${c.shaky}</span><span><i style="background:var(--miss)"></i>${SKT.gap} · ${c.gap}</span><span><i style="background:rgba(243,236,226,.18)"></i>${SKT.new} · ${c.new}</span></div>
+ ${tl.length?`<div style="margin-top:14px"><div class="plab">Задание ${tn}: навыки, сверху вниз</div><div class="skchips">${tl.map(n=>skChip(n.id)).join('')}</div></div>`:''}
+ ${weak.length?`<div style="margin-top:14px"><div class="plab">Подтянуть в первую очередь</div><div class="skl">${weak.slice(0,6).map(skRow).join('')}</div></div>`:''}
+ ${SKB.map(([b,t])=>{const L=N.filter(n=>n.block===b).sort(skByDepth),k=L.filter(n=>skOf(n.id)!=='new').length,g=L.some(n=>skOf(n.id)==='gap');
+  return `<details class="skgrp" data-b="${b}" ${skOpen(b,g)?'open':''}><summary><span>${t}</span><small>${k} из ${L.length}</small></summary><div class="skl">${L.map(skRow).join('')}</div></details>`}).join('')}
+ ${TEACH?`<div id="skdet">${skDetail(S.sk)}</div>`:''}</div>`}
+function skSel(id,reveal){S.sk=id;const n=SG.by[id];
+ if(reveal&&n){const g=document.querySelector(`.skgrp[data-b="${n.block}"]`);if(g)g.open=true;(S.skO=S.skO||{})[n.block]=true}
+ save();
+ document.querySelectorAll('.skr').forEach(x=>x.setAttribute('aria-pressed',x.dataset.sk===id));
+ const p=document.getElementById('skdet');
+ if(p){p.innerHTML=skDetail(id);bindSkChips();bindSkStatus();if(reveal)p.scrollIntoView({block:'nearest',behavior:'smooth'})}}
+function bindSkChips(){document.querySelectorAll('.skc').forEach(b=>b.onclick=()=>skSel(b.dataset.skc,true))}
+function bindSkStatus(){const id=S.sk;if(!id)return;
+ document.querySelectorAll('.skst').forEach(b=>b.onclick=()=>{const s=b.dataset.sks,old=skOf(id);if(s===old)return;
+  D.skills=D.skills||{};const prev=D.skills[id];
+  if(s==='new')delete D.skills[id];else D.skills[id]={s,d:isoIn(0)};
+  tRender();
+  adm('skill',{n:id,s}).then(j=>apply(j)).catch(err=>{if(prev)D.skills[id]=prev;else delete D.skills[id];tRender();toast(errText(err))})})}
+function bindSkills(){
+ document.querySelectorAll('button.skr').forEach(b=>b.onclick=()=>skSel(b.dataset.sk,false));
+ document.querySelectorAll('.skgrp').forEach(g=>g.ontoggle=()=>{(S.skO=S.skO||{})[g.dataset.b]=g.open;save()});
+ bindSkChips();bindSkStatus()}
 const MATS=[['z15-pifagor.html','Теорема Пифагора','задание 15'],['z15-sin-cos-tg-storona.html','Синус, косинус, тангенс: найти сторону','задание 15'],['bissektrisy-parallelogramma.html','Биссектрисы параллелограмма','задание 17'],['razbor-probnik-oge-2.html','Разбор пробника №2','все задания']];
 const WD={'вс':0,'пн':1,'вт':2,'ср':3,'чт':4,'пт':5,'сб':6};
 const pts=n=>PROG().pts(n);
@@ -962,8 +1038,9 @@ const href=u=>!u?'':/^https?:\/\//.test(u)?u:BASE+u.replace(/^\/+/,'');
 
 /* ---------- демо-ученица ---------- */
 function isoIn(k){const t=new Date(Date.now()+k*864e5);return t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0')}
+const DEMO_SK=()=>{const o={};[['N01','solid',-40],['N02','solid',-40],['N03','solid',-38],['N04','solid',-38],['N05','solid',-35],['N06','solid',-35],['N07','solid',-33],['N08','solid',-30],['N09','solid',-30],['N10','solid',-28],['N11','solid',-28],['N12','solid',-25],['N13','solid',-25],['N14','solid',-22],['N15','solid',-22],['N16','solid',-20],['N17','shaky',-9],['S02','solid',-14],['S03','gap',-9],['S05','solid',-14],['A01','solid',-12],['A02','shaky',-6],['A03','gap',-6],['G02','solid',-18],['G03','solid',-18],['G04','solid',-16],['G05','solid',-16],['G06','solid',-12],['G07','solid',-10],['G11','solid',-8],['G12','shaky',-3]].forEach(([id,s,k])=>o[id]={s,d:isoIn(k)});return o};
 function demoData(){const st='ssspp'+'s'.repeat(11)+'pssp'+'ggp'+'nn';const map={};for(let n=1;n<=25;n++)map[n]={s:'solid',p:'shaky',g:'gap',n:'new'}[st[n-1]];
- return {demo:true,name:'Маша',fname:'Петрова',dat:'Маше',bdate:'2011-04-22',parent:'Мама — Ольга',phone:'+7 900 123-45-67',cls:9,goal:22,days:'ср, сб',time:'18:00',board:'https://learnboard.ru',
+ return {demo:true,skills:DEMO_SK(),name:'Маша',fname:'Петрова',dat:'Маше',bdate:'2011-04-22',parent:'Мама — Ольга',phone:'+7 900 123-45-67',cls:9,goal:22,days:'ср, сб',time:'18:00',board:'https://learnboard.ru',
   topic:'Задания 4–5: тарифы и выгодный выбор',lessonsPlan:8,lessonsDone:4,
   work:['Задания 4, 5 и 17: довести до уверенного решения. Это +3 балла к прогнозу.','Задание 20: убрать ошибки в знаках. Ход решения уже верный.','Задание 21: начали задачи на движение, к концу месяца — первые решения без подсказки.'],
   map,notes:{
@@ -1192,8 +1269,8 @@ function render(){
  if(!D)return;
  const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
  app.innerHTML=topbar()+`<div class="cab${firstPaint?' enter':''}">`+bday+(kid
-  ? heroKid()+`<div class="two">${lessonCard()}${hwCard()}</div>`+mapCard(false)+gradesCard()+`<div class="two">${chartCard()}${stkCard()}</div>`+letterCard()+((D.mats&&D.mats.length)||!D.matsAll?matCard():'')+petCard()
-  : heroPar()+mapCard(true)+`<div class="two">${chartCard()}${workCard()}</div>`+gradesCard())+foot()+`</div>`;
+  ? heroKid()+`<div class="two">${lessonCard()}${hwCard()}</div>`+mapCard(false)+skillsCard(false)+gradesCard()+`<div class="two">${chartCard()}${stkCard()}</div>`+letterCard()+((D.mats&&D.mats.length)||!D.matsAll?matCard():'')+petCard()
+  : heroPar()+mapCard(true)+skillsCard(true)+`<div class="two">${chartCard()}${workCard()}</div>`+gradesCard())+foot()+`</div>`;
  firstPaint=false;
  bind();if(bday)bdayFX();
 }
@@ -1257,6 +1334,7 @@ function load(){
   else screen('Не получилось открыть кабинет','Похоже, пропал интернет. Попробуй ещё раз.','Ещё раз')});
 }
 function start(){
+ loadSkills();
  if(TEACH){tRoute();return}
  if(!LIVE){D=demoData();HWdemoInit();render();return}
  const c=cacheLoad();if(c){D=c.d;syncedAt=c.at;render()}else screen('Открываю кабинет…','Секунду, забираю данные у Лилии.','load');
@@ -1349,8 +1427,8 @@ function drafts(){const o={};app.querySelectorAll('input[id]:not([type=file]),te
 function tRender(keep){const y=scrollY,dr=keep===false?{}:drafts(),foc=document.activeElement&&document.activeElement.id;
  const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
  app.innerHTML=tTop()+`<div class="cab enter">`+adminCard()+bday+(kid
-  ? heroKid()+`<div class="two">${lessonCard(true)}${tHwCard()}</div>`+tMatCard()+mapCard(false)+`<div class="two">${chartCard()}${probCard()}</div>`+tGradesCard()+tLettersCard()
-  : heroPar()+mapCard(true)+`<div class="two">${chartCard()}${workCard()}</div>`+tGradesCard()+tLettersCard())+foot()+`</div>`;
+  ? heroKid()+`<div class="two">${lessonCard(true)}${tHwCard()}</div>`+tMatCard()+mapCard(false)+skillsCard(false)+`<div class="two">${chartCard()}${probCard()}</div>`+tGradesCard()+tLettersCard()
+  : heroPar()+mapCard(true)+skillsCard(true)+`<div class="two">${chartCard()}${workCard()}</div>`+tGradesCard()+tLettersCard())+foot()+`</div>`;
  Object.keys(dr).forEach(id=>{const i=document.getElementById(id);if(!i)return;if(i.type==='checkbox')i.checked=dr[id];else i.value=dr[id]});
  tBind();scrollTo({top:y});if(foc){const f=document.getElementById(foc);if(f&&f.focus)f.focus({preventScroll:true})}if(bday)bdayFX()}
 
@@ -1494,8 +1572,9 @@ function tBind(){
   adm('student',{fields:{name:v('f-name'),fname:v('f-fname'),dat:v('f-dat'),bdate:v('f-bdate'),parent:v('f-parent'),phone:v('f-phone'),cls:v('f-cls'),prog:document.getElementById('f-prog').value,goal:v('f-goal'),days:serSched(SL,STZ),time:SL.length?hhmm(sortSlots(SL.slice())[0].h,sortSlots(SL.slice())[0].m):'',board:v('f-board'),topic:v('f-topic'),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),active:document.getElementById('f-act').checked}})
    .then(j=>{apply(j,false);toast('Настройки сохранены')}).catch(err=>{b.disabled=false;const e2=document.getElementById('f-err');if(e2)e2.textContent=errText(err)})};
  const hp=document.getElementById('hpet');if(hp)hp.onclick=()=>react('neu','',pick(sayList()));
- document.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{const n=+b.dataset.t;S.sel=n;save();document.querySelectorAll('.tile').forEach(x=>x.setAttribute('aria-pressed',x===b));document.getElementById('tdet').innerHTML=tDetail(n);bindDetail()});
- bindDetail();
+ document.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{const n=+b.dataset.t;S.sel=n;save();document.querySelectorAll('.tile').forEach(x=>x.setAttribute('aria-pressed',x===b));document.getElementById('tdet').innerHTML=tDetail(n);bindDetail();
+  const sk=document.getElementById('skills');if(sk){sk.outerHTML=skillsCard(true);bindSkills()}});
+ bindDetail();bindSkills();
  document.querySelectorAll('#hwcard .chk').forEach(b=>b.onclick=()=>{const h=D.hw.find(x=>String(x.id)===b.dataset.hw);if(!h)return;h.done=!h.done;tRender();
   adm('hwDone',{id:h.id,text:h.t,done:h.done}).then(j=>apply(j)).catch(err=>{h.done=!h.done;tRender();toast(errText(err));if(String(err.message)==='changed')tStudent()})});
  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(!b.classList.contains('arm')){b.classList.add('arm');b.textContent='Удалить?';setTimeout(()=>{if(b.isConnected){b.classList.remove('arm');b.textContent='×'}},3000);return}
