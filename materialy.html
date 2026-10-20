@@ -1,0 +1,1095 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Разборы ОГЭ по математике</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=PT+Serif:ital@0;1&display=swap">
+<style>
+/* Layout: одна колонка — шапка, группы заданий по номерам ОГЭ, подвал */
+:root{
+  --paper:#f7f8fb; --sheet:#ffffff; --grid:#e6eaf3; --ink:#1f2a44; --muted:#5d6782;
+  --pen:#2346a8; --red:#c8402c; --line:#cfd6e4;
+  --f-body:"Golos Text",system-ui,sans-serif; --f-math:"PT Serif",Georgia,serif;
+}
+@media (prefers-color-scheme: dark){:root{
+  --paper:#13161d; --sheet:#1b1f29; --grid:#20252f; --ink:#e6e9f2; --muted:#9aa3bb;
+  --pen:#8aa6ff; --red:#ff8a73; --line:#323a4c; color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:32px 48px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:20px 20px}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:32px}
+header{display:flex;flex-direction:column;gap:8px}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500}
+h1{font-family:var(--f-math);font-weight:400;font-size:clamp(30px,6vw,42px);line-height:1.15;margin:0;text-wrap:balance}
+h1 em{color:var(--pen)}
+.lead{margin:0;max-width:60ch;color:var(--muted)}
+section{display:flex;flex-direction:column;gap:12px}
+h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin:0;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.list{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+.item a{display:grid;grid-template-columns:64px 1fr;gap:16px;align-items:center;background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:14px 18px;color:inherit;text-decoration:none;transition:border-color .2s}
+.item a.masc{grid-template-columns:56px 56px 1fr;gap:12px}
+.mimg{width:56px;height:56px;border-radius:50%;object-fit:cover;border:1px solid var(--line);box-shadow:0 8px 18px -10px rgba(0,0,0,.7);flex:none}
+@media (max-width:520px){.item a.masc{grid-template-columns:44px 1fr}.mimg{display:none}}
+.item a:hover{border-color:var(--pen)}
+.item a:focus-visible{outline:2px solid var(--pen);outline-offset:2px}
+.num{font-family:var(--f-math);font-size:38px;line-height:1;color:var(--red);text-align:center;font-variant-numeric:tabular-nums}
+.num small{display:block;font-family:var(--f-body);font-size:11px;color:var(--muted);letter-spacing:.06em;margin-top:4px}
+.txt{min-width:0;display:flex;flex-direction:column;gap:4px}
+.t{font-weight:600;font-size:17px}
+.d{color:var(--muted);font-size:15px}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
+.tag{font-size:12px;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
+.empty{color:var(--muted);font-size:15px;margin:0}
+footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);padding-top:16px}
+@media (prefers-reduced-motion:reduce){.item a{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">ОГЭ · математика · 9 класс</div>
+    <h1>Разборы заданий <em>по шагам</em></h1>
+    <p class="lead">Чертёж открывается постепенно: на каждом шаге сначала подумай сам, что будет дальше, потом нажимай «Далее».</p>
+  </header>
+
+  <section>
+    <h2>Проверь себя · пробники</h2>
+    <ul class="list">
+      <li class="item"><a class="masc" href="probnik-oge-1.html">
+        <img class=mimg src="img/lab-desk-wide.jpg" alt="" loading="lazy">
+        <div class="num">25<small>заданий</small></div>
+        <div class="txt">
+          <span class="t">Пробник ОГЭ №1 · полный вариант</span>
+          <span class="d">Все 25 заданий, баллы по шкале ФИПИ 2026, диплом и разбор ошибок у репетитора.</span>
+          <span class="tags"><span class="tag">около 60 минут</span><span class="tag">с подсказками</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a class="masc" href="probnik-oge-2.html">
+        <img class=mimg src="img/capy-desk-wide.jpg" alt="" loading="lazy">
+        <div class="num">25<small>заданий</small></div>
+        <div class="txt">
+          <span class="t">Пробник ОГЭ №2 · полный вариант</span>
+          <span class="d">План квартиры и все 25 заданий, баллы по шкале ФИПИ 2026, диплом и разбор ошибок у репетитора.</span>
+          <span class="tags"><span class="tag">около 60 минут</span><span class="tag">с подсказками</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a class="masc" href="razbor-probnik-oge-2.html">
+        <img class=mimg src="img/rac-desk-wide.jpg" alt="" loading="lazy">
+        <div class="num">12<small>заданий</small></div>
+        <div class="txt">
+          <span class="t">Пробник ОГЭ №2 · разбор по шагам</span>
+          <span class="d">Задания с чертежами и графиками: по кнопке «Дальше» появляется следующий шаг, чертёж дорисовывается.</span>
+          <span class="tags"><span class="tag">после пробника</span><span class="tag">пошагово</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="probnik-oge-3.html">
+        <div class="num">25<small>заданий</small></div>
+        <div class="txt">
+          <span class="t">Пробник ОГЭ №3 · полный вариант</span>
+          <span class="d">Маршрут между деревнями и все 25 заданий, баллы по шкале ФИПИ 2026, диплом и разбор ошибок у репетитора.</span>
+          <span class="tags"><span class="tag">около 60 минут</span><span class="tag">с подсказками</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="mini-probnik-1.html">
+        <div class="num">10<small>заданий</small></div>
+        <div class="txt">
+          <span class="t">Мини-пробник №1 · часть 1</span>
+          <span class="d">Задания 6–19: вычисления, уравнения, вероятность, графики, геометрия. Подсказки и разбор ошибок у репетитора.</span>
+          <span class="tags"><span class="tag">около 20 минут</span><span class="tag">с подсказками</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Домашние работы · по номерам ОГЭ</h2>
+    <ul class="list">
+      <li class="item"><a class="masc" href="dz-desyatichnye-drobi.html">
+        <img class=mimg src="img/ham-pizza.jpg" alt="" loading="lazy">
+        <div class="num">6<small>задание</small></div>
+        <div class="txt">
+          <span class="t">ДЗ · Действия с десятичными дробями</span>
+          <span class="d">11 заданий в трёх уровнях: разминка, как на ОГЭ, со звёздочкой. Подсказки и разбор, если не получилось.</span>
+          <span class="tags"><span class="tag">25–35 минут</span><span class="tag">3 уровня</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="dz-desyatichnye-drobi.pdf">
+        <div class="num">PDF<small>печать</small></div>
+        <div class="txt">
+          <span class="t">ДЗ · Десятичные дроби · для печати</span>
+          <span class="d">Те же 11 заданий на листах А4: мини-теория, поле в клетку под решение и строка для ответа.</span>
+          <span class="tags"><span class="tag">6 страниц</span><span class="tag">без ответов</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="dz-desyatichnye-drobi-otvety.pdf">
+        <div class="num">PDF<small>печать</small></div>
+        <div class="txt">
+          <span class="t">ДЗ · Десятичные дроби · ответы</span>
+          <span class="d">Ответы и краткие решения всех заданий — для самопроверки или быстрой проверки родителем.</span>
+          <span class="tags"><span class="tag">с ответами</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a class="masc" href="dz-chisla-s-raznymi-znakami.html">
+        <img class=mimg src="img/ham-thermo.jpg" alt="" loading="lazy">
+        <div class="num">6<small>задание</small></div>
+        <div class="txt">
+          <span class="t">ДЗ · Действия с числами с разными знаками</span>
+          <span class="d">15 заданий в трёх уровнях: разминка, как на ОГЭ, со звёздочкой. Подсказки и разбор, если не получилось.</span>
+          <span class="tags"><span class="tag">30–40 минут</span><span class="tag">3 уровня</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="dz-chisla-s-raznymi-znakami.pdf">
+        <div class="num">PDF<small>печать</small></div>
+        <div class="txt">
+          <span class="t">ДЗ · Числа с разными знаками · для печати</span>
+          <span class="d">Те же 15 заданий на листах А4: мини-теория, поле в клетку под решение и строка для ответа.</span>
+          <span class="tags"><span class="tag">7 страниц</span><span class="tag">без ответов</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="dz-procenty.pdf">
+        <div class="num">PDF<small>печать</small></div>
+        <div class="txt">
+          <span class="t">ДЗ · Задачи на проценты · для печати</span>
+          <span class="d">Три типа задач на проценты, каждый — в трёх уровнях сложности. Сверху напоминалка с теорией и правилами.</span>
+          <span class="tags"><span class="tag">3 типа задач</span><span class="tag">3 уровня</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="dz-procenty-otvety.pdf">
+        <div class="num">PDF<small>печать</small></div>
+        <div class="txt">
+          <span class="t">ДЗ · Задачи на проценты · ответы</span>
+          <span class="d">Ответы и краткие решения всех заданий — для самопроверки или быстрой проверки родителем.</span>
+          <span class="tags"><span class="tag">с ответами</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Тренажёр и инструменты</h2>
+    <ul class="list">
+      <li class="item"><a class="masc" href="trainer.html">
+        <img class=mimg src="img/shiba-board.jpg" alt="" loading="lazy">
+        <div class="num">6<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Тренажёр · задание 6: обыкновенные дроби</span>
+          <span class="d">Новый пример на каждой попытке: деление дробей с сокращением. Две подсказки и мгновенная проверка.</span>
+          <span class="tags"><span class="tag">бесконечные примеры</span><span class="tag">с подсказками</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a class="masc" href="trenazher-ustnyj-schet.html">
+        <img class=mimg src="img/ham-board.jpg" alt="" loading="lazy">
+        <div class="num">7×8<small>устный счёт</small></div>
+        <div class="txt">
+          <span class="t">Тренажёр устного счёта</span>
+          <span class="d">Таблица умножения, квадраты, корни, степени, дроби и проценты. Чаще даёт то, что пока не получается.</span>
+          <span class="tags"><span class="tag">раунд и спринт</span><span class="tag">карта пробелов</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a class="masc" href="formulas.html">
+        <img class=mimg src="img/panda-cup.jpg" alt="" loading="lazy">
+        <div class="num">a²<small>формулы</small></div>
+        <div class="txt">
+          <span class="t">Справочник формул ОГЭ</span>
+          <span class="d">Уравнения, степени и корни, треугольники, окружность: нажми на раздел — раскроются формулы.</span>
+          <span class="tags"><span class="tag">алгебра и геометрия</span><span class="tag">перед пробником</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a class="masc" href="achievements.html">
+        <img class=mimg src="img/rac-win.jpg" alt="" loading="lazy">
+        <div class="num">★<small>награды</small></div>
+        <div class="txt">
+          <span class="t">Мои достижения</span>
+          <span class="d">Питомец, коллекция стикеров за серии занятий и сертификат за упорство. Прогресс хранится на устройстве.</span>
+          <span class="tags"><span class="tag">игровая</span><span class="tag">для учеников</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>5 класс · диагностика</h2>
+    <ul class="list">
+      <li class="item"><a class="masc" href="diagnostika-1-4-klass.html">
+        <img class=mimg src="img/lab-pizza.jpg" alt="" loading="lazy">
+        <div class="num">14<small>заданий</small></div>
+        <div class="txt">
+          <span class="t">Диагностика по математике за 1–4 класс</span>
+          <span class="d">Формат ВПР: вычисления, задачи, фигуры, диаграммы и логика. Оценка по шкале ВПР и диплом.</span>
+          <span class="tags"><span class="tag">около 45 минут</span><span class="tag">в игровой форме</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a class="masc" href="diagnostika-5-geom.html">
+        <img class=mimg src="img/mer-lupa.jpg" alt="" loading="lazy">
+        <div class="num">25<small>заданий</small></div>
+        <div class="txt">
+          <span class="t">Диагностика по геометрии · 5 класс</span>
+          <span class="d">Фигуры, периметр и площадь: разминка, испытание и вызов. Три уровня, подсказки и маскоты, итог по каждому уровню.</span>
+          <span class="tags"><span class="tag">около 60 минут</span><span class="tag">в игровой форме</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="razbor-diag-5-geom.txt">
+        <div class="num">25<small>разборов</small></div>
+        <div class="txt">
+          <span class="t">Разбор диагностики · 5 класс · геометрия (текст)</span>
+          <span class="d">Разбор всех 25 заданий в формате диалога «ученик — учитель» с подробным объяснением каждого шага. Файл для печати.</span>
+          <span class="tags"><span class="tag">для печати</span><span class="tag">по каждому заданию</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>6 класс · диагностика</h2>
+    <ul class="list">
+      <li class="item"><a class="masc" href="diagnostika-6-klass.html">
+        <img class=mimg src="img/mer-lupa.jpg" alt="" loading="lazy">
+        <div class="num">25<small>заданий</small></div>
+        <div class="txt">
+          <span class="t">Диагностика по математике · 6 класс</span>
+          <span class="d">Дроби, проценты, уравнения и пропорции: разминка, испытание и вызов. Подсказки и маскоты, итог по каждому уровню.</span>
+          <span class="tags"><span class="tag">около 70 минут</span><span class="tag">в игровой форме</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a class="masc" href="diagnostika-6-geom.html">
+        <img class=mimg src="img/rac-pizza.jpg" alt="" loading="lazy">
+        <div class="num">25<small>заданий</small></div>
+        <div class="txt">
+          <span class="t">Диагностика по геометрии · 6 класс</span>
+          <span class="d">Углы, треугольники, координаты и масштаб: разминка, испытание и вызов. Три уровня, подсказки и маскоты.</span>
+          <span class="tags"><span class="tag">около 60 минут</span><span class="tag">в игровой форме</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="razbor-diag-6-klass.txt">
+        <div class="num">25<small>разборов</small></div>
+        <div class="txt">
+          <span class="t">Разбор диагностики · 6 класс (текст)</span>
+          <span class="d">Разбор всех 25 заданий в формате диалога «ученик — учитель» с подробным объяснением каждого шага. Файл для печати.</span>
+          <span class="tags"><span class="tag">для печати</span><span class="tag">по каждому заданию</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="razbor-diag-6-geom.txt">
+        <div class="num">25<small>разборов</small></div>
+        <div class="txt">
+          <span class="t">Разбор диагностики · 6 класс · геометрия (текст)</span>
+          <span class="d">Разбор всех 25 заданий в формате диалога «ученик — учитель» с подробным объяснением каждого шага. Файл для печати.</span>
+          <span class="tags"><span class="tag">для печати</span><span class="tag">по каждому заданию</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Интерактивное обучение</h2>
+    <ul class="list">
+      <li class="item"><a class="masc" href="obyasnenie-5-9.html">
+        <img class=mimg src="img/cat-think.jpg" alt="" loading="lazy">
+        <div class="num">23<small>темы</small></div>
+        <div class="txt">
+          <span class="t">Объяснения тем · 5–9 класс</span>
+          <span class="d">Дроби, уравнения, функции, прогрессии, геометрия. История, картинка из жизни, три правила, интерактивный чертёж, проверки и диплом. У каждой темы своя ссылка.</span>
+          <span class="tags"><span class="tag">10–13 минут на тему</span><span class="tag">простыми словами</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="obyasnenie-5-9-pechat.pdf">
+        <div class="num">PDF<small>печать</small></div>
+        <div class="txt">
+          <span class="t">Объяснения тем · для печати</span>
+          <span class="d">Все 23 темы на листах А4: факт, аналогия, правила, ловушка и мини-тест с ответами.</span>
+          <span class="tags"><span class="tag">24 страницы</span><span class="tag">белый фон</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a class="masc" href="drob-s-nulya.html">
+        <img class=mimg src="img/rat-pizza.jpg" alt="" loading="lazy">
+        <div class="num">5<small>уроков</small></div>
+        <div class="txt">
+          <span class="t">Дроби с нуля · пироги и игры</span>
+          <span class="d">Для тех, кто совсем ничего не понимает. Настоящие рисунки пицц, кнопки «разрезать» и «взять кусочек», игры «покажи дробь» и «что больше».</span>
+          <span class="tags"><span class="tag">самый старт</span><span class="tag">всё интерактивно</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a class="masc" href="ucheba-6-klass.html#frac">
+        <img class=mimg src="img/rat-pie.jpg" alt="" loading="lazy">
+        <div class="num">6<small>уроков</small></div>
+        <div class="txt">
+          <span class="t">Дроби · полный курс</span>
+          <span class="d">От доли и числителя до умножения, деления и сравнения. Уроки с картинками, мини-проверки и 16 заданий практики.</span>
+          <span class="tags"><span class="tag">6 уроков</span><span class="tag">16 заданий</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a class="masc" href="ucheba-6-klass.html#sign">
+        <img class=mimg src="img/rat-thermo.jpg" alt="" loading="lazy">
+        <div class="num">5<small>уроков</small></div>
+        <div class="txt">
+          <span class="t">Числа с разными знаками</span>
+          <span class="d">Отрицательные числа, модуль, сложение и вычитание на числовой прямой, умножение, порядок действий.</span>
+          <span class="tags"><span class="tag">5 уроков</span><span class="tag">16 заданий</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a class="masc" href="ucheba-6-klass.html#pct">
+        <img class=mimg src="img/ham-chart.jpg" alt="" loading="lazy">
+        <div class="num">5<small>уроков</small></div>
+        <div class="txt">
+          <span class="t">Проценты</span>
+          <span class="d">Что такое процент, как считать процент от числа и число по проценту, скидки и изменения в процентах.</span>
+          <span class="tags"><span class="tag">5 уроков</span><span class="tag">16 заданий</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+  <section>
+    <h2>Классы · алгебра и геометрия · зачёты</h2>
+    <ul class="list">
+      <li class="item"><a class="masc" href="7-klass.html">
+        <img class=mimg src="img/rat-joy.jpg" alt="" loading="lazy">
+        <div class="num">7<small>класс</small></div>
+        <div class="txt">
+          <span class="t">7 класс · алгебра и геометрия</span>
+          <span class="d">Десять тем по каждому разделу и зачёт в конце: 10 вопросов с мгновенной проверкой и объяснениями. Можно перепроходить.</span>
+          <span class="tags"><span class="tag">уравнения</span><span class="tag">треугольники</span><span class="tag">зачёт</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a class="masc" href="8-klass.html">
+        <img class=mimg src="img/ham-joy.jpg" alt="" loading="lazy">
+        <div class="num">8<small>класс</small></div>
+        <div class="txt">
+          <span class="t">8 класс · алгебра и геометрия</span>
+          <span class="d">Корни, квадратные уравнения и Виета; четырёхугольники, площади, подобие. В конце каждого раздела — зачёт.</span>
+          <span class="tags"><span class="tag">дискриминант</span><span class="tag">площади</span><span class="tag">зачёт</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a class="masc" href="9-klass.html">
+        <img class=mimg src="img/lab-joy.jpg" alt="" loading="lazy">
+        <div class="num">9<small>класс</small></div>
+        <div class="txt">
+          <span class="t">9 класс · алгебра, геометрия и ОГЭ</span>
+          <span class="d">Прогрессии, вероятность, парабола; вся геометрия курса. Плюс раздел по номерам заданий ОГЭ — пробники, тренажёр, разборы.</span>
+          <span class="tags"><span class="tag">прогрессии</span><span class="tag">ОГЭ по номерам</span><span class="tag">зачёт</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+    <h2>7 класс · диагностика</h2>
+    <ul class="list">
+      <li class="item"><a class="masc" href="diagnostika-7-klass.html">
+        <img class=mimg src="img/cat-pizza.jpg" alt="" loading="lazy">
+        <div class="num">25<small>заданий</small></div>
+        <div class="txt">
+          <span class="t">Диагностика по математике · 7 класс</span>
+          <span class="d">Разминка, испытание и вызов: степени, формулы сокращённого умножения, уравнения и функции. Итог по каждому уровню.</span>
+          <span class="tags"><span class="tag">около 70 минут</span><span class="tag">в игровой форме</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="razbor-diag-7-klass.txt">
+        <div class="num">25<small>разборов</small></div>
+        <div class="txt">
+          <span class="t">Разбор диагностики · 7 класс · алгебра (текст)</span>
+          <span class="d">Разбор всех 25 заданий в формате диалога «ученик — учитель» с подробным объяснением каждого шага. Файл для печати.</span>
+          <span class="tags"><span class="tag">для печати</span><span class="tag">по каждому заданию</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>8 класс · диагностика</h2>
+    <ul class="list">
+      <li class="item"><a class="masc" href="diagnostika-8-klass.html">
+        <img class=mimg src="img/capy-coin.jpg" alt="" loading="lazy">
+        <div class="num">25<small>заданий</small></div>
+        <div class="txt">
+          <span class="t">Диагностика по математике · 8 класс</span>
+          <span class="d">Разминка, испытание и вызов: корни, квадратные уравнения и формулы сокращённого умножения. Итог по каждому уровню.</span>
+          <span class="tags"><span class="tag">около 70 минут</span><span class="tag">в игровой форме</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="razbor-diag-8-klass.txt">
+        <div class="num">25<small>разборов</small></div>
+        <div class="txt">
+          <span class="t">Разбор диагностики · 8 класс · алгебра (текст)</span>
+          <span class="d">Разбор всех 25 заданий в формате диалога «ученик — учитель» с подробным объяснением каждого шага. Файл для печати.</span>
+          <span class="tags"><span class="tag">для печати</span><span class="tag">по каждому заданию</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Часть 1 · алгебра · задание 6 · десятичные дроби</h2>
+    <ul class="list">
+      <li class="item"><a href="z6-drobi.html">
+        <div class="num">6<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Десятичные дроби: все материалы по порядку</span>
+          <span class="d">Теория, устный опрос, тест, пятиминутки, разбор 5 задач, два тренажёра, памятка, зачётный лист, домашняя карточка, диалог ученик-учитель с планом урока.</span>
+          <span class="tags"><span class="tag">11 материалов</span><span class="tag">для печати</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z6-drobi-test.html">
+        <div class="num">6<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Десятичные дроби: тест</span>
+          <span class="d">Сложение, вычитание, умножение, деление, сравнение, порядок действий, знаки. После каждого ответа разбор.</span>
+          <span class="tags"><span class="tag">10 вопросов</span><span class="tag">с разбором</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z6-drobi-trenazhor.html">
+        <div class="num">6<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Десятичные дроби: тренажёр, повышенный уровень</span>
+          <span class="d">Пять выражений по шагам: порядок действий, смешанные числа, знаки, дробная черта, рациональный счёт.</span>
+          <span class="tags"><span class="tag">5 задач</span><span class="tag">по шагам</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z6-drobi-trenazhor-gen.html">
+        <div class="num">6<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Десятичные дроби: тренажёр с новыми числами</span>
+          <span class="d">Семь типов заданий 6, числа меняются каждый раз, есть подсказка и решение.</span>
+          <span class="tags"><span class="tag">7 типов</span><span class="tag">бесконечно</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Часть 1 · алгебра · задание 6 · обыкновенные дроби</h2>
+    <ul class="list">
+      <li class="item"><a href="z6-obyknovennye.html">
+        <div class="num">6<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Обыкновенные дроби и смешанные числа: все материалы по порядку</span>
+          <span class="d">Теория, устный опрос, тест, пятиминутки, разбор 5 задач, два тренажёра, памятка, зачётный лист, домашняя карточка, диалог ученик-учитель с планом урока.</span>
+          <span class="tags"><span class="tag">11 материалов</span><span class="tag">для печати</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z6-obyknovennye-test.html">
+        <div class="num">6<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Обыкновенные дроби: тест</span>
+          <span class="d">Сложение, вычитание, умножение, деление, сравнение, смешанные числа, порядок действий. После каждого ответа разбор.</span>
+          <span class="tags"><span class="tag">10 вопросов</span><span class="tag">с разбором</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z6-obyknovennye-trenazhor.html">
+        <div class="num">6<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Обыкновенные дроби: тренажёр, повышенный уровень</span>
+          <span class="d">Пять выражений по шагам: разные знаменатели, знаки, дробная черта, рациональный счёт.</span>
+          <span class="tags"><span class="tag">5 задач</span><span class="tag">по шагам</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z6-obyknovennye-trenazhor-gen.html">
+        <div class="num">6<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Обыкновенные дроби: тренажёр с новыми числами</span>
+          <span class="d">Семь типов заданий 6, числа меняются каждый раз, есть подсказка и решение.</span>
+          <span class="tags"><span class="tag">7 типов</span><span class="tag">бесконечно</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Часть 1 · алгебра · задание 8 · степени</h2>
+    <ul class="list">
+      <li class="item"><a href="z8-stepeni.html">
+        <div class="num">8<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Степени: все материалы по порядку</span>
+          <span class="d">Теория, устный опрос, тест, пятиминутки, разбор 5 задач, два тренажёра, памятка, зачётный лист, домашняя карточка, диалог ученик-учитель с планом урока на 60 минут.</span>
+          <span class="tags"><span class="tag">11 материалов</span><span class="tag">для печати</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z8-stepeni-test.html">
+        <div class="num">8<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Степени: тест</span>
+          <span class="d">Свойства степени, отрицательный показатель, знаки, корни, стандартный вид. После каждого ответа разбор.</span>
+          <span class="tags"><span class="tag">10 вопросов</span><span class="tag">с разбором</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z8-stepeni-trenazhor.html">
+        <div class="num">8<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Степени: тренажёр, повышенный уровень</span>
+          <span class="d">Пять выражений по шагам: одно основание, составные основания, знаки, корни, стандартный вид.</span>
+          <span class="tags"><span class="tag">5 задач</span><span class="tag">по шагам</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z8-stepeni-trenazhor-gen.html">
+        <div class="num">8<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Степени: тренажёр с новыми числами</span>
+          <span class="d">Восемь типов заданий 8, числа меняются каждый раз, есть подсказка и решение.</span>
+          <span class="tags"><span class="tag">8 типов</span><span class="tag">бесконечно</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Часть 1 · алгебра · задание 8 · корни</h2>
+    <ul class="list">
+      <li class="item"><a href="z8-korni.html">
+        <div class="num">8<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Корни: все материалы по порядку</span>
+          <span class="d">Теория, устный опрос, тест, пятиминутки, разбор 5 задач, два тренажёра, памятка, зачётный лист, домашняя карточка, диалог ученик-учитель с планом урока на 60 минут. Квадратные корни: свойства, вынесение множителя, формулы сокращённого умножения.</span>
+          <span class="tags"><span class="tag">11 материалов</span><span class="tag">для печати</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z8-korni-test.html">
+        <div class="num">8<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Корни: тест</span>
+          <span class="d">Свойства корня, вынесение множителя, разность квадратов, квадрат разности. После каждого ответа разбор.</span>
+          <span class="tags"><span class="tag">10 вопросов</span><span class="tag">с разбором</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z8-korni-trenazhor.html">
+        <div class="num">8<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Корни: тренажёр, повышенный уровень</span>
+          <span class="d">Пять выражений по шагам: вынесение множителя, разность квадратов, квадрат разности, корень из степеней, десятичные дроби.</span>
+          <span class="tags"><span class="tag">5 задач</span><span class="tag">по шагам</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z8-korni-trenazhor-gen.html">
+        <div class="num">8<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Корни: тренажёр с новыми числами</span>
+          <span class="d">Восемь типов заданий 8, числа меняются каждый раз, есть подсказка и решение.</span>
+          <span class="tags"><span class="tag">8 типов</span><span class="tag">бесконечно</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Часть 1 · алгебра · задание 14 · прогрессии</h2>
+    <ul class="list">
+      <li class="item"><a href="z14-progressii.html">
+        <div class="num">14<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Прогрессии: все материалы по порядку</span>
+          <span class="d">Теория, устный опрос, тест, пятиминутки, разбор 5 задач, два тренажёра, памятка, зачётный лист, домашняя карточка, диалог ученик-учитель с планом урока на 60 минут. Арифметическая и геометрическая прогрессии: n-й член, сумма, практические задачи.</span>
+          <span class="tags"><span class="tag">11 материалов</span><span class="tag">для печати</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z14-progressii-test.html">
+        <div class="num">14<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Прогрессии: тест</span>
+          <span class="d">Формулы n-го члена и суммы, разность по двум членам, свойство членов, практическая задача. После каждого ответа разбор.</span>
+          <span class="tags"><span class="tag">10 вопросов</span><span class="tag">с разбором</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z14-progressii-trenazhor.html">
+        <div class="num">14<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Прогрессии: тренажёр, повышенный уровень</span>
+          <span class="d">Пять задач по шагам: два члена и далёкий член, сумма без первого члена, сколько отрицательных, сумма геометрической прогрессии, места в зале.</span>
+          <span class="tags"><span class="tag">5 задач</span><span class="tag">по шагам</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z14-progressii-trenazhor-gen.html">
+        <div class="num">14<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Прогрессии: тренажёр с новыми числами</span>
+          <span class="d">Восемь типов заданий 14, числа меняются каждый раз, есть подсказка и решение.</span>
+          <span class="tags"><span class="tag">8 типов</span><span class="tag">бесконечно</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Часть 1 · алгебра · задание 10 · вероятность</h2>
+    <ul class="list">
+      <li class="item"><a href="z10-veroyatnost.html">
+        <div class="num">10<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Вероятность: все материалы по порядку</span>
+          <span class="d">Теория, устный опрос, тест, пятиминутки, разбор 5 задач, два тренажёра, памятка, зачётный лист, домашняя карточка, диалог ученик-учитель с планом урока на 60 минут. Классическая вероятность, противоположное событие, два кубика, «или» с общими числами.</span>
+          <span class="tags"><span class="tag">11 материалов</span><span class="tag">для печати</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z10-veroyatnost-test.html">
+        <div class="num">10<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Вероятность: тест</span>
+          <span class="d">Формула P = m : n, противоположное событие, два кубика, кратные числа. После каждого ответа разбор.</span>
+          <span class="tags"><span class="tag">10 вопросов</span><span class="tag">с разбором</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z10-veroyatnost-trenazhor.html">
+        <div class="num">10<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Вероятность: тренажёр, повышенный уровень</span>
+          <span class="d">Пять задач по шагам: «ни… ни…», друзья в группах, два кубика, лишние данные, «или» с общими числами.</span>
+          <span class="tags"><span class="tag">5 задач</span><span class="tag">по шагам</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z10-veroyatnost-trenazhor-gen.html">
+        <div class="num">10<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Вероятность: новые числа каждый раз</span>
+          <span class="d">Семь типов задания 10, числа меняются, подсказки и решение.</span>
+          <span class="tags"><span class="tag">7 типов</span><span class="tag">с подсказками</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Часть 1 · геометрия · задание 15 · треугольники</h2>
+    <ul class="list">
+      <li class="item"><a href="z15-sin-cos-tg-znachenie.html">
+        <div class="num">15<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Синус, косинус и тангенс: найти значение</span>
+          <span class="d">sin, cos, tg угла по двум сторонам прямоугольного треугольника.</span>
+          <span class="tags"><span class="tag">5 шагов</span><span class="tag">30 задач в банке</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z15-sin-cos-tg-storona.html">
+        <div class="num">15<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Синус, косинус и тангенс: найти сторону</span>
+          <span class="d">Сторона по гипотенузе или катету и значению sin, cos, tg.</span>
+          <span class="tags"><span class="tag">5 шагов</span><span class="tag">30 задач в банке</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z15-pifagor.html">
+        <div class="num">15<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Теорема Пифагора</span>
+          <span class="d">Гипотенуза по двум катетам или катет по катету и гипотенузе.</span>
+          <span class="tags"><span class="tag">5 шагов</span><span class="tag">24 задач в банке</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z15-ravnostoronniy.html">
+        <div class="num">15<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Равносторонний треугольник</span>
+          <span class="d">Сторона, высота, медиана и биссектриса: числа с √3.</span>
+          <span class="tags"><span class="tag">5 шагов</span><span class="tag">24 задач в банке</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z15-summa-uglov.html">
+        <div class="num">15<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Сумма углов и внешний угол</span>
+          <span class="d">Третий угол треугольника, второй острый угол, внешний угол.</span>
+          <span class="tags"><span class="tag">5 шагов</span><span class="tag">34 задач в банке</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z15-ploshchad.html">
+        <div class="num">15<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Площадь треугольника</span>
+          <span class="d">Три формулы площади: по катетам, по высоте, через синус.</span>
+          <span class="tags"><span class="tag">4 шага</span><span class="tag">32 задач в банке</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z15-mediana-bissektrisa-srednyaya-liniya.html">
+        <div class="num">15<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Медиана, биссектриса, средняя линия</span>
+          <span class="d">Задачи на определение: лишние данные и половина отрезка или угла.</span>
+          <span class="tags"><span class="tag">4 шага</span><span class="tag">36 задач в банке</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z15-ravnobedrennyy.html">
+        <div class="num">15<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Равнобедренный треугольник</span>
+          <span class="d">AB = BC, угол при вершине дан, найти угол при основании.</span>
+          <span class="tags"><span class="tag">5 шагов</span><span class="tag">12 задач в банке</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z15-vysota-ugol.html">
+        <div class="num">15<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Высота и угол ABH</span>
+          <span class="d">BH — высота, угол BAC дан, найти угол ABH.</span>
+          <span class="tags"><span class="tag">5 шагов</span><span class="tag">10 задач в банке</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z15-mediana-polovina-storony.html">
+        <div class="num">15<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Медиана равна половине стороны</span>
+          <span class="d">BM = AM = MC: угол B прямой, угол A ищем через 90°.</span>
+          <span class="tags"><span class="tag">5 шагов</span><span class="tag">10 задач в банке</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z15-bissektrisa-ravnye-otrezki.html">
+        <div class="num">15<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Биссектриса и равные отрезки</span>
+          <span class="d">AK — биссектриса, AK = CK: угол B = 180° − 3∠C.</span>
+          <span class="tags"><span class="tag">4 шага</span><span class="tag">10 задач в банке</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Часть 2 · геометрия</h2>
+    <ul class="list">
+      <li class="item"><a href="bissektrisy-parallelogramma.html">
+        <div class="num">25<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Биссектрисы в параллелограмме</span>
+          <span class="d">Свойство биссектрисы угла, высота из двух отрезков, площадь параллелограмма.</span>
+          <span class="tags"><span class="tag">6 шагов</span><span class="tag">с ответом</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Часть 2 · алгебра · задание 21 · задачи на движение</h2>
+    <ul class="list">
+      <li class="item"><a href="z21-dvizhenie.html">
+        <div class="num">21<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Задачи на движение: все материалы по порядку</span>
+          <span class="d">Теория, устный опрос, пятиминутки, разбор, тренажёры, памятка, зачётный лист, домашняя карточка, диалог ученик-учитель.</span>
+          <span class="tags"><span class="tag">10 материалов</span><span class="tag">для печати</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z21-dvizhenie-test.html">
+        <div class="num">21<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Задачи на движение: тест</span>
+          <span class="d">Единицы измерения, сближение, река, средняя скорость, поезд и мост, круговая трасса. После каждого ответа разбор.</span>
+          <span class="tags"><span class="tag">10 вопросов</span><span class="tag">с разбором</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z21-dvizhenie-trenazhor.html">
+        <div class="num">21<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Задачи на движение: тренажёр, повышенный уровень</span>
+          <span class="d">Пять задач с пошаговым разбором: переменная, уравнение, решение, отбор корня.</span>
+          <span class="tags"><span class="tag">5 задач</span><span class="tag">по шагам</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Часть 2 · алгебра · задание 21 · проценты</h2>
+    <ul class="list">
+      <li class="item"><a href="z21-procenty.html">
+        <div class="num">21<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Проценты: все материалы по порядку</span>
+          <span class="d">Теория, устный опрос, тест, пятиминутки, разбор 5 задач, два тренажёра, памятка, зачётный лист, домашняя карточка, диалог ученик-учитель, план урока.</span>
+          <span class="tags"><span class="tag">11 материалов</span><span class="tag">для печати</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z21-procenty-test.html">
+        <div class="num">21<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Проценты: тест</span>
+          <span class="d">Доли и проценты, коэффициенты, последовательные изменения, вклад, концентрация, сплавы. После каждого ответа разбор.</span>
+          <span class="tags"><span class="tag">10 вопросов</span><span class="tag">с разбором</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z21-procenty-trenazhor.html">
+        <div class="num">21<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Проценты: тренажёр, повышенный уровень</span>
+          <span class="d">Пять задач по шагам: цена, вклад, смесь с двумя условиями, сплавы, сушка.</span>
+          <span class="tags"><span class="tag">5 задач</span><span class="tag">по шагам</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z21-procenty-trenazhor-gen.html">
+        <div class="num">21<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Проценты: тренажёр с новыми числами</span>
+          <span class="d">Восемь типов задач, числа меняются каждый раз, есть подсказка и решение.</span>
+          <span class="tags"><span class="tag">8 типов</span><span class="tag">бесконечно</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Часть 2 · алгебра · задание 21 · смеси и сплавы</h2>
+    <ul class="list">
+      <li class="item"><a href="z21-smesi.html">
+        <div class="num">21<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Смеси: все материалы по порядку</span>
+          <span class="d">Теория, устный опрос, тест, пятиминутки, разбор 5 задач, два тренажёра, памятка, зачётный лист, домашняя карточка, диалог ученик-учитель, план урока.</span>
+          <span class="tags"><span class="tag">11 материалов</span><span class="tag">для печати</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z21-smesi-test.html">
+        <div class="num">21<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Смеси: тест</span>
+          <span class="d">Концентрация, масса вещества, вода и выпаривание, смесь двух растворов, правило креста, сплавы, переливание. После каждого ответа разбор.</span>
+          <span class="tags"><span class="tag">10 вопросов</span><span class="tag">с разбором</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z21-smesi-trenazhor.html">
+        <div class="num">21<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Смеси: тренажёр, повышенный уровень</span>
+          <span class="d">Пять задач по шагам: выпаривание, смесь двух растворов, переливание, система из двух условий, сплавы.</span>
+          <span class="tags"><span class="tag">5 задач</span><span class="tag">по шагам</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z21-smesi-trenazhor-gen.html">
+        <div class="num">21<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Смеси: тренажёр с новыми числами</span>
+          <span class="d">Семь типов задач, числа меняются каждый раз, есть подсказка и решение.</span>
+          <span class="tags"><span class="tag">7 типов</span><span class="tag">бесконечно</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Часть 1 и часть 2 · алгебра · №9 и №20 · квадратные уравнения</h2>
+    <ul class="list">
+      <li class="item"><a href="z20-kvadratnye.html">
+        <div class="num">20<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Квадратные уравнения: все материалы по порядку</span>
+          <span class="d">Теория, устный опрос, тест, пятиминутки, разбор 5 задач №20, два тренажёра, памятка, зачётный лист, домашняя карточка, диалог-разбор, план урока.</span>
+          <span class="tags"><span class="tag">11 материалов</span><span class="tag">для печати</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z20-kvadratnye-test.html">
+        <div class="num">9<small>и 20</small></div>
+        <div class="txt">
+          <span class="t">Квадратные уравнения: тест</span>
+          <span class="d">Коэффициенты, неполные уравнения, дискриминант, Виета, биквадратное, дробь с посторонним корнем. После каждого ответа разбор.</span>
+          <span class="tags"><span class="tag">10 вопросов</span><span class="tag">с разбором</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z20-kvadratnye-trenazhor.html">
+        <div class="num">20<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Квадратные уравнения: тренажёр, повышенный уровень</span>
+          <span class="d">Пять задач по шагам: замена, дробь, группировка, посторонний корень, система.</span>
+          <span class="tags"><span class="tag">5 задач</span><span class="tag">по шагам</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z20-kvadratnye-trenazhor-gen.html">
+        <div class="num">9<small>и 20</small></div>
+        <div class="txt">
+          <span class="t">Квадратные уравнения: тренажёр с новыми числами</span>
+          <span class="d">Восемь типов задач, числа меняются каждый раз, есть подсказка и решение.</span>
+          <span class="tags"><span class="tag">8 типов</span><span class="tag">бесконечно</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Часть 2 · алгебра · №20 · системы уравнений</h2>
+    <ul class="list">
+      <li class="item"><a href="z20-sistemy.html">
+        <div class="num">20<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Системы уравнений: все материалы по порядку</span>
+          <span class="d">Теория, устный опрос, тест, пятиминутки, разбор 5 задач №20, два тренажёра, памятка, зачётный лист, домашняя карточка, диалог-разбор, план урока.</span>
+          <span class="tags"><span class="tag">11 материалов</span><span class="tag">для печати</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z20-sistemy-test.html">
+        <div class="num">20<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Системы уравнений: тест</span>
+          <span class="d">Десять вопросов: подстановка, сложение, симметричные системы, однородные, дроби с ОДЗ. После каждого ответа разбор.</span>
+          <span class="tags"><span class="tag">10 вопросов</span><span class="tag">с разбором</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z20-sistemy-trenazhor.html">
+        <div class="num">20<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Системы уравнений: тренажёр, повышенный уровень</span>
+          <span class="d">Пять задач по шагам с выбором метода и проверкой.</span>
+          <span class="tags"><span class="tag">5 задач</span><span class="tag">по шагам</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z20-sistemy-trenazhor-gen.html">
+        <div class="num">20<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Системы уравнений: тренажёр с новыми числами</span>
+          <span class="d">Шесть типов систем, числа меняются каждый раз, есть подсказка и решение.</span>
+          <span class="tags"><span class="tag">6 типов</span><span class="tag">бесконечно</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Часть 1 и 2 · алгебра · №13, №20 · неравенства</h2>
+    <ul class="list">
+      <li class="item"><a href="z20-neravenstva.html">
+        <div class="num">20<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Неравенства: все материалы по порядку</span>
+          <span class="d">Теория, устный опрос, тест, пятиминутки, разбор 5 задач, два тренажёра, памятка, зачётный лист, домашняя карточка, диалог-разбор, план урока.</span>
+          <span class="tags"><span class="tag">11 материалов</span><span class="tag">для печати</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z20-neravenstva-test.html">
+        <div class="num">20<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Неравенства: тест</span>
+          <span class="d">Десять вопросов: линейные, квадратные, системы, дробные, метод интервалов. Часть вариантов с числовой прямой.</span>
+          <span class="tags"><span class="tag">10 вопросов</span><span class="tag">с разбором</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z20-neravenstva-trenazhor.html">
+        <div class="num">20<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Неравенства: тренажёр, повышенный уровень</span>
+          <span class="d">Пять задач по шагам с выбором преобразования и проверкой.</span>
+          <span class="tags"><span class="tag">5 задач</span><span class="tag">по шагам</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z20-neravenstva-trenazhor-gen.html">
+        <div class="num">20<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Неравенства: тренажёр с новыми числами</span>
+          <span class="d">Шесть типов неравенств, числа меняются каждый раз, ответ выбирается по рисунку или промежутку.</span>
+          <span class="tags"><span class="tag">6 типов</span><span class="tag">бесконечно</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Часть 2 · геометрия · №23–25 · трапеция</h2>
+    <ul class="list">
+      <li class="item"><a href="z23-trapeciya.html">
+        <div class="num">23<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Трапеция: все материалы по порядку</span>
+          <span class="d">Теория, устный опрос, тест, пятиминутки, разбор 5 задач (№23, №24), два тренажёра, памятка по оформлению, зачётный лист, домашняя карточка, диалог-разбор, план урока.</span>
+          <span class="tags"><span class="tag">11 материалов</span><span class="tag">для печати</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z23-trapeciya-test.html">
+        <div class="num">23<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Трапеция: тест</span>
+          <span class="d">Определение, средняя линия, площадь, углы, равнобедренная трапеция, окружности, диагонали. После каждого ответа разбор.</span>
+          <span class="tags"><span class="tag">10 вопросов</span><span class="tag">с разбором</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z23-trapeciya-trenazhor.html">
+        <div class="num">23<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Трапеция: тренажёр, повышенный уровень</span>
+          <span class="d">Пять задач по шагам: диагонали и площади, диагональ перпендикулярна боковой стороне, боковые стороны, вписанная окружность, доказательство.</span>
+          <span class="tags"><span class="tag">5 задач</span><span class="tag">по шагам</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z23-trapeciya-trenazhor-gen.html">
+        <div class="num">23<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Трапеция: тренажёр с новыми числами</span>
+          <span class="d">Восемь типов задач, числа меняются каждый раз, чертёж, подсказка и решение.</span>
+          <span class="tags"><span class="tag">8 типов</span><span class="tag">бесконечно</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Часть 2 · алгебра · задание 22 · графики функций</h2>
+    <ul class="list">
+      <li class="item"><a href="z22-grafiki.html">
+        <div class="num">22<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Графики кусочных функций: все материалы по порядку</span>
+          <span class="d">Теория, устный опрос, тест, пятиминутки, разбор 5 задач, два тренажёра, памятка, зачётный лист, домашняя карточка, диалог ученик-учитель, план урока.</span>
+          <span class="tags"><span class="tag">11 материалов</span><span class="tag">для печати</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z22-grafiki-test.html">
+        <div class="num">22<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Графики функций: тест</span>
+          <span class="d">Область определения, кусочная функция, вершина параболы, выколотая точка, модуль, число общих точек с прямой y = m. После каждого ответа разбор.</span>
+          <span class="tags"><span class="tag">10 вопросов</span><span class="tag">с разбором</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z22-grafiki-trenazhor.html">
+        <div class="num">22<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Графики функций: тренажёр, повышенный уровень</span>
+          <span class="d">Пять задач по шагам: дробь с выколотыми точками, кусочная с гиперболой, модуль, прямая y = kx, дробь с модулем.</span>
+          <span class="tags"><span class="tag">5 задач</span><span class="tag">по шагам</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z22-grafiki-trenazhor-gen.html">
+        <div class="num">22<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Графики функций: тренажёр с новыми числами</span>
+          <span class="d">Четыре типа задания 22, числа меняются каждый раз, есть подсказка и решение.</span>
+          <span class="tags"><span class="tag">4 типа</span><span class="tag">бесконечно</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Часть 2 · алгебра · №22 · графики функций с параметром (модуль, дробь, прямая y = m и y = kx)</h2>
+    <ul class="list">
+      <li class="item"><a href="z22-funkcij.html">
+        <div class="num">22<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Графики функций с параметром: все материалы по порядку</span>
+          <span class="d">Теория, устный опрос, тест, пятиминутки, разбор 5 задач №22, два тренажёра, памятка, зачётный лист, домашняя карточка, диалог-разбор, план урока. Основа №11.</span>
+          <span class="tags"><span class="tag">11 материалов</span><span class="tag">для печати</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z22-funkcij-test.html">
+        <div class="num">22<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Графики функций с параметром: тест</span>
+          <span class="d">Десять вопросов с рисунками: модуль, выколотые точки, кусочные функции, №11. После каждого ответа разбор.</span>
+          <span class="tags"><span class="tag">10 вопросов</span><span class="tag">с разбором</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z22-funkcij-trenazhor.html">
+        <div class="num">22<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Графики функций с параметром: тренажёр, повышенный уровень</span>
+          <span class="d">Пять задач №22 по шагам, в конце прямая, которую можно двигать.</span>
+          <span class="tags"><span class="tag">5 задач</span><span class="tag">по шагам</span></span>
+        </div>
+      </a></li>
+      <li class="item"><a href="z22-funkcij-trenazhor-gen.html">
+        <div class="num">22<small>задание</small></div>
+        <div class="txt">
+          <span class="t">Графики функций с параметром: тренажёр с новыми числами</span>
+          <span class="d">Пять типов №22 и три типа №11, числа меняются каждый раз.</span>
+          <span class="tags"><span class="tag">8 типов</span><span class="tag">бесконечно</span></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <footer>Лилия Кузнецова · репетитор по математике, подготовка к ОГЭ</footer>
+</div>
+</body>
+</html>

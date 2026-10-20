@@ -640,13 +640,13 @@
       "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
     },
     {
-      "file": "preview-landing.html",
-      "title": "Предпросмотр новой главной",
+      "file": "materialy.html",
+      "title": "Каталог материалов для учеников (бывшая главная)",
       "type": "sistema",
       "class": null,
       "oge_task": null,
-      "status": "hidden",
-      "note": "временный; удалить после вливания ветки landing-page"
+      "status": "public",
+      "note": "главная — index.html (страница для родителей); сюда ведут ссылки «к материалам» и кабинет"
     },
     {
       "file": "z21-dvizhenie.html",
