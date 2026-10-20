@@ -51,7 +51,7 @@ em{font-style:normal;color:var(--apricot)}
 .top a.link{color:var(--muted);text-decoration:none;font-size:15px}
 .top a.link:hover{color:var(--fg)}
 .hero{padding-top:28px;display:grid;gap:32px;grid-template-columns:1.15fr .85fr;align-items:center}
-.hero img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:28px;border:1px solid var(--line);box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
+.hero img{width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:28px;border:1px solid var(--line);box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
 .facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;padding:0;list-style:none}
 .facts li{font-size:14px;padding:6px 12px;border-radius:99px;background:var(--bg2);border:1px solid var(--line);color:var(--muted)}
 @media(max-width:700px){.hero{grid-template-columns:1fr}.hero img{order:-1;aspect-ratio:4/3;object-position:center 30%}}
@@ -101,6 +101,35 @@ em{font-style:normal;color:var(--apricot)}
 .final .btn.ghost{background:transparent;border-color:rgba(255,255,255,.4)}
 footer{padding:32px 0 48px;color:var(--muted);font-size:14px;display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
 footer a{color:var(--muted)}
+
+/* математика: мел-декор */
+section,.hero,.final{position:relative}
+.doodle{position:absolute;pointer-events:none;color:var(--fg);opacity:.2;z-index:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.doodle text{fill:currentColor;stroke:none;font:italic 20px Georgia,"Times New Roman",serif}
+.hero>*:not(.doodle),section>*:not(.doodle),.final>*:not(.doodle){position:relative;z-index:1}
+.d1{width:150px;right:0;bottom:-98px}
+.d2{width:190px;right:-10px;top:30px}
+.d3{width:170px;right:0;top:34px}
+.d4{width:100%;max-width:560px;left:0;top:92px;opacity:.28}
+.doodle.inline{position:static;display:block;margin-top:20px}
+.d5{width:220px;right:10px;bottom:-30px;opacity:.28;color:#fff}
+@media(max-width:760px){.d1,.d2,.d3,.d5{display:none}}
+.glyphs{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 22px;margin-top:34px;padding:14px 0;border-top:1px dashed var(--line);border-bottom:1px dashed var(--line);font:italic 28px Georgia,"Times New Roman",serif;color:var(--muted);opacity:.7}
+.glyphs span:nth-child(3n){color:var(--butter)}.glyphs span:nth-child(3n+1){color:var(--apricot)}
+/* формулы-темы */
+.fms{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));margin-top:24px}
+a.fm{display:flex;flex-direction:column;gap:4px;text-decoration:none;background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:18px 20px;transition:border-color .15s,transform .15s}
+a.fm:hover{border-color:var(--apricot);transform:translateY(-2px)}
+a.fm .f{white-space:nowrap;font:italic 21px/1.2 Georgia,"Times New Roman",serif;color:var(--butter);min-height:2.4em;display:flex;align-items:center}
+a.fm b{font-size:17px}
+a.fm small{color:var(--muted);font-size:14px}
+/* герои */
+.cast{display:grid;gap:14px;grid-template-columns:repeat(3,1fr);margin-top:24px}
+@media(max-width:560px){.cast{grid-template-columns:repeat(2,1fr)}}
+.hero-card{background:var(--bg2);border:1px solid var(--line);border-radius:20px;padding:10px 10px 14px;text-align:center}
+.hero-card img{width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:14px;display:block}
+.hero-card b{display:block;margin-top:10px;font-size:16px;letter-spacing:-.01em}
+.hero-card span{display:block;color:var(--muted);font-size:13.5px;line-height:1.35;margin-top:2px}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -113,6 +142,7 @@ footer a{color:var(--muted)}
   </div>
 
   <header class="hero">
+    <svg class="doodle d1" viewBox="0 0 190 150" aria-hidden="true"><path d="M20 120H160V36Z"/><path d="M145 120V105H160"/><text x="168" y="84">a</text><text x="86" y="142">b</text><text x="70" y="64">c</text><text x="20" y="22">a²+b²=c²</text></svg>
     <div>
       <div class="eyebrow">Репетитор по математике · онлайн · 5–9 класс</div>
       <h1>Математика и ОГЭ: сначала <em>разберёмся, что не так</em>, потом будем учить</h1>
@@ -130,7 +160,10 @@ footer a{color:var(--muted)}
     <img src="img/capy-idle.jpg" alt="Капибара в пиджаке с кофе: один из героев наших материалов" width="640" height="640">
   </header>
 
+  <div class="glyphs" aria-hidden="true"><span>π</span><span>√</span><span>∑</span><span>∠</span><span>△</span><span>≠</span><span>∞</span><span>%</span><span>⊥</span><span>∥</span><span>≈</span><span>x²</span></div>
+
   <section id="kak">
+    <svg class="doodle d2" viewBox="0 0 200 140" aria-hidden="true"><path d="M10 110H190M100 10V125"/><path d="M38 22Q100 198 162 22"/><text x="172" y="104">x</text><text x="108" y="22">y</text><text x="112" y="132">y=x²</text></svg>
     <h2>Как мы начнём</h2>
     <p class="sub">Платить до того, как станет понятно, нужен ли вам такой формат, не придётся.</p>
     <ol class="steps">
@@ -141,12 +174,44 @@ footer a{color:var(--muted)}
     </ol>
   </section>
 
+  <section id="temy">
+    <h2>Что разбираем</h2>
+    <p class="sub">Все 25 заданий ОГЭ и школьная программа 5–8 классов. Выберите тему и посмотрите, как выглядит разбор по шагам.</p>
+    <div class="fms">
+      <a class="fm" href="obyasnenie-5-9-drobi.html"><span class="f">½ + ⅓</span><b>Дроби</b><small>разбор по шагам</small></a>
+      <a class="fm" href="obyasnenie-5-9-stepeni.html"><span class="f">2⁵ · 2³</span><b>Степени</b><small>разбор по шагам</small></a>
+      <a class="fm" href="obyasnenie-5-9-korni.html"><span class="f">√49 − √16</span><b>Корни</b><small>разбор по шагам</small></a>
+      <a class="fm" href="obyasnenie-5-9-kvadratnye.html"><span class="f">x² − 5x + 6 = 0</span><b>Квадратные уравнения</b><small>разбор по шагам</small></a>
+      <a class="fm" href="obyasnenie-5-9-lineynye.html"><span class="f">y = kx + b</span><b>Линейные функции</b><small>разбор по шагам</small></a>
+      <a class="fm" href="obyasnenie-5-9-procenty.html"><span class="f">30% <span style="font-style:normal;font-size:.8em">от</span> 250</span><b>Проценты</b><small>разбор по шагам</small></a>
+      <a class="fm" href="obyasnenie-5-9-treugolnik.html"><span class="f">a² + b² = c²</span><b>Треугольники</b><small>разбор по шагам</small></a>
+      <a class="fm" href="obyasnenie-5-9-veroyat.html"><span class="f">P = m / n</span><b>Вероятность</b><small>разбор по шагам</small></a>
+    </div>
+  </section>
+
   <section id="vnutri">
     <h2>Что вы получаете</h2>
     <div class="cards">
       <div class="card"><h3>Личный кабинет ученика</h3><p>Карта тем с отметками, домашние задания, результаты пробников. У родителей свой режим просмотра.</p><a class="more" href="kabinet.html#demo">Посмотреть демо →</a></div>
       <div class="card"><h3>Разборы по шагам</h3><p>Чертёж открывается постепенно: сначала подумай сам, потом жми «Далее». Так ребёнок учится решать, а не списывать.</p><a class="more" href="materialy.html">Открыть материалы →</a></div>
       <div class="card"><h3>Пробники ОГЭ</h3><p>Полные варианты на 25 заданий с баллами по шкале ФИПИ 2026, подсказками и разбором ошибок.</p><a class="more" href="probnik-oge-1.html">Попробовать №1 →</a></div>
+    </div>
+  </section>
+
+  <section id="geroi">
+    <svg class="doodle d3" viewBox="0 0 190 140" aria-hidden="true"><circle cx="95" cy="70" r="55"/><path d="M95 70H150"/><path d="M55 31L135 109"/><text x="116" y="62">r</text><text x="40" y="26">A</text><text x="138" y="124">B</text></svg>
+    <h2>Знакомьтесь: герои</h2>
+    <p class="sub">В пробниках и диагностиках ученик выбирает себе героя, и тот реагирует на ответы: радуется верным и переживает за ошибки.</p>
+    <div class="cast">
+      <div class="hero-card"><img src="img/forest/cat-idle.jpg" alt="Кот Сигма" width="400" height="400" loading="lazy"><b>Кот Сигма</b><span>решает молча</span></div>
+      <div class="hero-card"><img src="img/forest/mer-idle.jpg" alt="Сурик Тильт" width="400" height="400" loading="lazy"><b>Сурик Тильт</b><span>тильтует, но дорешивает</span></div>
+      <div class="hero-card"><img src="img/forest/rac-idle.jpg" alt="Енот Вайб" width="400" height="400" loading="lazy"><b>Енот Вайб</b><span>на чиле, но решает</span></div>
+      <div class="hero-card"><img src="img/forest/capy-idle.jpg" alt="Капи Дзен" width="400" height="400" loading="lazy"><b>Капи Дзен</b><span>ничего не боится</span></div>
+      <div class="hero-card"><img src="img/forest/ham-idle.jpg" alt="Хомяк Стресс" width="400" height="400" loading="lazy"><b>Хомяк Стресс</b><span>переживает за всех</span></div>
+      <div class="hero-card"><img src="img/forest/bis-idle.jpg" alt="Крыса Биссектриса" width="400" height="400" loading="lazy"><b>Крыса Биссектриса</b><span>делит угол и сердце пополам</span></div>
+      <div class="hero-card"><img src="img/forest/otr-idle.jpg" alt="Выдра Модуль" width="400" height="400" loading="lazy"><b>Выдра Модуль</b><span>из любой ситуации выходит положительной</span></div>
+      <div class="hero-card"><img src="img/forest/axo-idle.jpg" alt="Акси Рофлик" width="400" height="400" loading="lazy"><b>Акси Рофлик</b><span>рофлит, что поделит на ноль</span></div>
+      <div class="hero-card"><img src="img/forest/qk-idle.jpg" alt="Квокка Краш" width="400" height="400" loading="lazy"><b>Квокка Краш</b><span>краш всей параллели</span></div>
     </div>
   </section>
 
@@ -160,6 +225,7 @@ footer a{color:var(--muted)}
   </section>
 
   <section id="diagnostika">
+    <svg class="doodle d4 inline" viewBox="0 0 600 44" aria-hidden="true"><path d="M10 14H590"/><path d="M30 8V20M110 8V20M190 8V20M270 8V20M350 8V20M430 8V20M510 8V20M590 8V20"/><text x="22" y="40">−2</text><text x="102" y="40">−1</text><text x="187" y="40">0</text><text x="267" y="40">1</text><text x="347" y="40">2</text><text x="427" y="40">3</text><text x="507" y="40">4</text><circle cx="350" cy="14" r="5" fill="currentColor"/></svg>
     <h2>Диагностика онлайн</h2>
     <p class="sub">Выберите класс и пройдите сами, без регистрации. Результат пришлите мне в Telegram, и я сделаю письменный разбор.</p>
     <div class="diag">
@@ -195,6 +261,7 @@ footer a{color:var(--muted)}
   </section>
 
   <div class="final">
+    <svg class="doodle d5" viewBox="0 0 220 120" aria-hidden="true"><path d="M8 60H212M20 8V112"/><path d="M20 60C50 4 80 4 110 60S170 116 200 60"/><text x="196" y="52">x</text><text x="28" y="20">y</text></svg>
     <h2>Начнём с диагностики?</h2>
     <p>Напишите класс ребёнка и что беспокоит. Я отвечу и пришлю ссылку.</p>
     <div class="btns">
