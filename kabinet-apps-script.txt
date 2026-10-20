@@ -1,5 +1,6 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 7.1
+ * Кабинет ученика 25/25 · lili.math — версия 7.2
+ * (7.2: письма ученика приходят на почту владельца скрипта — после замены кода выполни setup и разреши отправку почты)
  * (7.1: публичный ответ по ссылке ученика больше не содержит родителя, телефона и года рождения)
  * (анкета ученика: фамилия, дата рождения, родитель и телефон, класс;
  *  программы по классам: алгебра / геометрия / ОГЭ / все три;
@@ -362,7 +363,24 @@ function saveLetter_(code, text) {
   let sh = SpreadsheetApp.getActive().getSheetByName('Письма');
   if (!sh) { sh = SpreadsheetApp.getActive().insertSheet('Письма', 99); sh.getRange(1, 1, 1, 4).setValues([SHEETS['Письма']]); sh.setFrozenRows(1); }
   sh.appendRow([code, new Date(), t, false]);
+  notifyLetter_(code, t);
   return {ok: true};
+}
+
+// Письмо на почту владельца скрипта. Сбой отправки не мешает сохранению письма.
+function notifyLetter_(code, text) {
+  try {
+    const st = findStudentRow_(code);
+    const who = st ? String(st.row[1] || '').trim() : '';
+    const to = Session.getEffectiveUser().getEmail();
+    if (!to) return;
+    MailApp.sendEmail({
+      to: to,
+      subject: 'Кабинет 25/25: новое письмо' + (who ? ' · ' + who : ''),
+      body: 'Новое письмо от ученика' + (who ? ' ' + who : '') + ' (код ' + code + '):\n\n' + text +
+            '\n\nОткрыть кабинет в режиме учителя: ' + PAGE + '#lilia-' + code
+    });
+  } catch (e) { console.error('notifyLetter_: ' + e); }
 }
 
 function setHwDone_(code, id, text, done) {
