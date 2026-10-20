@@ -924,7 +924,7 @@ function logoFull(size){return `<span class="lockup">${logoMark(size)}<span clas
 const PROB_NO=0;
 const TG_USER='ohh_my_lily';
 /* ---------- link: name and task set ---------- */
-const BASE_DEFAULT='https://liliya-math.github.io/oge/obyasnenie-5-9-lineynye.html';
+const BASE_DEFAULT='https://lilimath.ru/obyasnenie-5-9-lineynye.html';
 function enc(s){const b=new TextEncoder().encode(s);let x='';b.forEach(c=>x+=String.fromCharCode(c));return btoa(x).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
 function dec(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return new TextDecoder().decode(Uint8Array.from(atob(s),c=>c.charCodeAt(0)))}
 function makeToken(name,mask,dt,lead){return 'u'+enc(name+(dt?'|'+dt:''))+(mask?'.x'+mask.toString(36):'')+(lead?'.p':'')}

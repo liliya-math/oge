@@ -21,7 +21,7 @@
  * и обновляется в таблице кнопкой меню «Кабинет → Обновить список материалов».
  */
 
-const PAGE = 'https://liliya-math.github.io/oge/kabinet.html';
+const PAGE = 'https://lilimath.ru/kabinet.html';
 
 const SHEETS = {
   'Ученики': ['Код', 'Имя', 'Кому (дательный)', 'Цель, баллов', 'Дни занятий', 'Время (по Самаре)',
