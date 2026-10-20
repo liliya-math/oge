@@ -626,6 +626,8 @@ a.btn{display:inline-flex;align-items:center;text-decoration:none;height:48px}
 .skl{display:grid;gap:5px;margin:8px 0 4px}
 .skr{display:grid;grid-template-columns:12px 36px minmax(0,1fr) auto;align-items:center;gap:8px;width:100%;text-align:left;padding:8px 10px;border-radius:12px;border:1px solid transparent;background:rgba(243,236,226,.04);font-size:14px;line-height:1.3;color:var(--fg)}
 .skr.ro{grid-template-columns:12px minmax(0,1fr) auto}
+a.skr{text-decoration:none}
+a.skr:hover,a.skr:focus-visible{background:rgba(243,236,226,.09)}
 button.skr:hover{background:rgba(243,236,226,.09)}
 .skr i{width:10px;height:10px;border-radius:3px;background:rgba(243,236,226,.18)}
 .skr.solid i{background:var(--mint)}.skr.shaky i{background:var(--amber)}.skr.gap i{background:var(--miss)}
@@ -978,6 +980,7 @@ const ST={solid:'решает уверенно',shaky:'путается',gap:'п
 /* ---------- карта навыков: граф лежит в skills-graph.json, отметки ученика в D.skills ---------- */
 const SKT={solid:'держит',shaky:'путается',gap:'пробел',new:'не проверяли'};
 const SKB=[['N','Числа и вычисления'],['A','Алгебра'],['F','Функции и графики'],['S','Практика и текстовые задачи'],['G','Геометрия']];
+const SKP='skill.html';
 let SG=null;
 function loadSkills(){fetch('skills-graph.json',{cache:'no-cache'}).then(r=>r.ok?r.json():null).then(g=>{
   if(!g||!Array.isArray(g.nodes))return;
@@ -997,6 +1000,7 @@ function skDetail(id){const n=SG&&id&&SG.by[id];
  const s=skOf(id),d=(D.skills&&D.skills[id]||{}).d;
  return `<div class="tdet enter" style="margin-top:14px"><div class="tn"><b>${n.id}</b><div><div class="tt">${esc(n.name)}</div><span class="kchip ${s}">${SKT[s]}</span> <span style="font-size:12.5px;color:var(--faint)">уровень ${n.level}${d?' · проверено '+shortDate(d):''}</span></div></div>
  <div class="stbtns">${['solid','shaky','gap','new'].map(x=>`<button class="skst ${x}" data-sks="${x}" aria-pressed="${s===x}" type="button">${SKT[x]}</button>`).join('')}</div>
+ <a href="${SKP}#${n.id}" target="_blank" rel="noopener">Страница навыка: теория и домашка →</a>
  <p><b>Проверка:</b> ${esc(n.check)}</p><p><b>Ответ:</b> ${esc(n.answer)}</p><p><b>Типичная ошибка:</b> ${esc(n.error)}</p>
  ${n.prereq.length?`<div class="plab" style="margin:6px 0 0">Если ученик не справился, спуск на</div><div class="skchips">${n.prereq.map(skChip).join('')}</div>`:'<p style="color:var(--muted)">Дно графа: объясняем с нуля, ниже не спускаемся.</p>'}</div>`}
 function skillsCard(ro){
