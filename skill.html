@@ -54,7 +54,8 @@ const app=document.getElementById('app');
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const getId=()=>(location.hash.slice(1)||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
 const BLOCK={N:'Числа и вычисления',A:'Алгебра',F:'Функции и графики',S:'Практика и текстовые задачи',G:'Геометрия'};
-let TEACH=false;try{TEACH=!!localStorage.getItem('cab-admin')}catch(e){}
+const API='https://script.google.com/macros/s/AKfycbwg68-wqapNubGW4BuTEB_ri38yu41uV8hoQPOhluE84y4ZSRfZ9-sFl--uwv7T7AA_xA/exec';
+let PASS='';try{PASS=localStorage.getItem('cab-admin')||''}catch(e){}
 const canBack=history.length>1&&!!document.referrer;
 const bar=()=>`<div class="bar">${canBack?'<button class="back" id="bk" type="button">← Назад</button>':'<span></span>'}<span class="brand">lili<b>.</b>math</span></div>`;
 function fail(t,x){app.innerHTML=bar()+`<h1>${esc(t)}</h1><p class="lead">${esc(x)}</p>`;bind()}
@@ -72,7 +73,7 @@ function draw(G,L){
   app.innerHTML=bar()
    +`<div class="id">${n.id} · ${esc(BLOCK[n.block]||'')}</div><h1>${esc(n.name)}</h1>`
    +`<div class="chips"><span class="chip l${n.level}">уровень ${n.level}${n.level===3?' · база':n.level===4?' · для четвёрки':' · для пятёрки'}</span>${tasks.length?`<span class="chip">задания: ${tasks.join(', ')}</span>`:''}</div>`
-   +(TEACH?`<div class="card teach"><h2>Для учителя: как проверить</h2><p><span class="k">Проверка</span>${esc(n.check)}</p><p><span class="k">Ответ</span>${esc(n.answer)}</p><p><span class="k">Типичная ошибка</span>${esc(n.error)}</p></div>`:'')
+   +(`<div class="card teach"><h2>Для учителя: как проверить</h2><p><span class="k">Проверка</span>${esc(n.check)}</p><p><span class="k">Ответ</span>${esc(n.answer)}</p><p><span class="k">Типичная ошибка</span>${esc(n.error)}</p></div>`)
    +`<div class="card"><h2>Теория</h2>${th.length?list(th):(nr.length?'<p class="empty">Точной теории по этому навыку пока нет. Смотри блок «Рядом по теме» ниже.</p>':none)}</div>`
    +`<div class="card"><h2>Домашка и тренировка</h2>${hw.length?list(hw):(nr.length?'<p class="empty">Точной домашки по этому навыку пока нет. Смотри блок «Рядом по теме» ниже.</p>':none)}</div>`
    +(nr.length?`<div class="card"><h2>Рядом по теме</h2><p class="lead" style="margin-bottom:12px">Не про этот навык точь-в-точь, но соседняя тема.</p>${list(nr)}</div>`:'')
@@ -80,7 +81,16 @@ function draw(G,L){
    +(after.length?`<div class="card"><h2>Что дальше по цепочке</h2><ul class="list pre">${after.map(step).join('')}</ul></div>`:'');
   bind();scrollTo(0,0);
 }
+const DENY=['Страница только для учителя','Открой кабинет в режиме учителя на этом устройстве и войди с паролем, потом вернись сюда.'];
+function gate(){
+  if(!PASS)return Promise.reject('deny');
+  return fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({admin:PASS,op:'ping'})})
+    .then(r=>r.json(),()=>{throw 'net'}).then(j=>{if(!j||j.ok!==true)throw 'deny'});
+}
 function load(){
+  gate().then(go).catch(e=>{if(e==='net')fail('Нет связи','Не получилось проверить доступ. Проверь интернет и обнови страницу.');else fail(DENY[0],DENY[1])});
+}
+function go(){
   if(!getId()){fail('Навык не выбран','Открой кабинет и нажми на навык в карточке «Карта навыков».');return}
   Promise.all([
     fetch('skills-graph.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}),

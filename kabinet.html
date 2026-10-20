@@ -992,7 +992,7 @@ const skByDepth=(a,b)=>a.depth-b.depth||(a.id<b.id?-1:1);
 function skOpen(b,hasGap){const o=S.skO||{};return b in o?!!o[b]:(!TEACH&&hasGap)}
 function skRow(n){const s=skOf(n.id);
  return TEACH?`<button class="skr ${s}" type="button" data-sk="${n.id}" aria-pressed="${S.sk===n.id}"><i></i><b>${n.id}</b><span>${esc(n.name)}</span><small>ур. ${n.level}</small></button>`
- :`<a class="skr ro ${s}" href="${SKP}#${n.id}"><i></i><span>${esc(n.name)}</span><small>теория и ДЗ ›</small></a>`}
+ :`<div class="skr ro ${s}"><i></i><span>${esc(n.name)}</span></div>`}
 function skChip(id){const n=SG.by[id];return n?`<button class="skc ${skOf(id)}" type="button" data-skc="${id}">${id} ${esc(n.name)}</button>`:''}
 function skTaskNo(){const P=PROG();if(P.oge)return S.sel||0;return D.prog==='mix9'&&S.sel>=34?S.sel-33:0}
 function skDetail(id){const n=SG&&id&&SG.by[id];
