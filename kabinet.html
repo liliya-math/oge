@@ -24,10 +24,10 @@ button{cursor:pointer}
 
 /* ambient glow */
 .amb{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.amb i{position:absolute;width:60vmax;height:60vmax;border-radius:50%;opacity:.28;will-change:transform;animation:drift 26s ease-in-out infinite alternate}
+.amb i{position:absolute;width:60vmax;height:60vmax;border-radius:50%;opacity:.28}
 .amb i:nth-child(1){background:radial-gradient(closest-side,#1747c9,transparent);left:-20vmax;top:-25vmax}
-.amb i:nth-child(2){background:radial-gradient(closest-side,#5d7a4f,transparent);right:-25vmax;top:10vmax;opacity:.16;animation-duration:32s}
-.amb i:nth-child(3){background:radial-gradient(closest-side,#2c4f6b,transparent);left:10vmax;bottom:-35vmax;opacity:.16;animation-duration:38s}
+.amb i:nth-child(2){background:radial-gradient(closest-side,#5d7a4f,transparent);right:-25vmax;top:10vmax;opacity:.16}
+.amb i:nth-child(3){background:radial-gradient(closest-side,#2c4f6b,transparent);left:10vmax;bottom:-35vmax;opacity:.16}
 @keyframes drift{to{transform:translate(8vmax,6vmax) scale(1.12)}}
 .amb::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,230,210,.05) 1px,transparent 1px);background-size:22px 22px;mask-image:linear-gradient(#000,transparent 70%)}
 #fx{position:fixed;inset:0;z-index:50;pointer-events:none;width:100%;height:100%}
