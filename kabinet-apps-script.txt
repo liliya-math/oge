@@ -1,5 +1,7 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 7.2
+ * Кабинет ученика 25/25 · lili.math — версия 7.3
+ * (7.3: карта навыков ОГЭ — новый лист «Навыки» (код, узел, статус, дата), отметки ставятся в режиме учителя;
+ *  после замены кода выполни setup — он создаст лист; затем «Новая версия» развёртывания)
  * (7.2: письма ученика приходят на почту владельца скрипта — после замены кода выполни setup и разреши отправку почты)
  * (7.1: публичный ответ по ссылке ученика больше не содержит родителя, телефона и года рождения)
  * (анкета ученика: фамилия, дата рождения, родитель и телефон, класс;
@@ -36,8 +38,11 @@ const SHEETS = {
   'Файлы': ['Код', 'Строка ДЗ', 'Название', 'Ссылка'],
   'Пробники': ['Код', 'Дата', 'Название', 'Баллы'],
   'Оценки': ['Код', 'Дата', 'Предмет', 'Оценка', 'Примечание'],
-  'Письма': ['Код', 'Дата', 'Текст', 'Прочитано']
+  'Письма': ['Код', 'Дата', 'Текст', 'Прочитано'],
+  'Навыки': ['Код', 'Узел', 'Статус', 'Дата проверки']
 };
+// Идентификатор узла графа навыков: буква блока и две цифры (N08, A11, G05). Список узлов лежит на сайте в skills-graph.json.
+const SKILL_RE = /^[NAFSG]\d{2}$/;
 const STATUSES = ['решает', 'путается', 'не решает', 'не проходили'];
 const STATUS_KEY = {'решает': 'solid', 'путается': 'shaky', 'не решает': 'gap', 'не проходили': 'new'};
 const STATUS_RU = {solid: 'решает', shaky: 'путается', gap: 'не решает', 'new': 'не проходили'};
@@ -181,6 +186,9 @@ function setup() {
   const letters = ss.getSheetByName('Письма');
   letters.getRange(2, 4, 1000, 1).insertCheckboxes();
   letters.getRange(2, 2, 1000, 1).setNumberFormat('dd.MM.yyyy HH:mm');
+  const sk = ss.getSheetByName('Навыки');
+  sk.getRange(2, 3, 3000, 1).setDataValidation(rule);
+  sk.getRange(2, 4, 3000, 1).setNumberFormat('dd.MM.yyyy');
   const us = ss.getSheetByName('Ученики');
   us.getRange(2, 12, 300, 1).insertCheckboxes();
   us.getRange(2, 6, 300, 1).setNumberFormat('@');
@@ -232,9 +240,10 @@ function styleSheets() {
     'Файлы': [110, 110, 260, 340],
     'Пробники': [110, 110, 220, 90],
     'Оценки': [110, 110, 140, 90, 300],
-    'Письма': [110, 150, 520, 100]
+    'Письма': [110, 150, 520, 100],
+    'Навыки': [110, 90, 130, 120]
   };
-  const tabs = {'Ученики': C.cobalt, 'Карта': C.sage, 'Комментарии': C.amber, 'Разборы': C.miss, 'Материалы': '#9db8ff', 'Домашка': C.apricot, 'Файлы': '#9db8ff', 'Пробники': '#9db8ff', 'Оценки': C.sage, 'Письма': C.amber};
+  const tabs = {'Ученики': C.cobalt, 'Карта': C.sage, 'Комментарии': C.amber, 'Разборы': C.miss, 'Материалы': '#9db8ff', 'Домашка': C.apricot, 'Файлы': '#9db8ff', 'Пробники': '#9db8ff', 'Оценки': C.sage, 'Письма': C.amber, 'Навыки': C.sage};
   Object.keys(SHEETS).forEach(name => {
     const sh = ss.getSheetByName(name);
     if (!sh) return;
@@ -442,6 +451,17 @@ function admin_(b) {
         sh.getRange(row, n + 2).setValue(s);
         return fresh();
       }
+      case 'skill': {
+        need();
+        const id = String(b.n || '').trim().toUpperCase(), s = STATUS_RU[b.s];
+        if (!SKILL_RE.test(id) || !s) return {error: 'bad_value'};
+        const sh = sheet_(ss, 'Навыки');
+        const row = findRow_('Навыки', r => String(r[0]).trim() === code && String(r[1]).trim().toUpperCase() === id);
+        if (b.s === 'new') { if (row) sh.deleteRow(row); }   // «не проверяли» = строки в таблице нет
+        else if (row) sh.getRange(row, 3, 1, 2).setValues([[s, new Date()]]);
+        else sh.appendRow([code, id, s, new Date()]);
+        return fresh();
+      }
       case 'note': {
         const st = need();
         const n = Number(b.n);
@@ -631,6 +651,11 @@ function studentData_(code, admin) {
     const n = parseInt(x.v[1], 10);
     if (n >= 1 && n <= 58) notes[n] = {t: String(x.v[2] || ''), url: String(x.v[3] || ''), label: String(x.v[4] || '')};
   });
+  const skills = {};
+  rows('Навыки').forEach(x => {
+    const id = String(x.v[1]).trim().toUpperCase(), k = STATUS_KEY[String(x.v[2]).trim().toLowerCase()];
+    if (SKILL_RE.test(id) && k && k !== 'new') skills[id] = {s: k, d: day_(x.v[3])};
+  });
   const hwFiles = {};
   rows('Файлы').forEach(x => {
     const k = Number(x.v[1]);
@@ -660,7 +685,7 @@ function studentData_(code, admin) {
     days: String(r[4] || ''), time: st.time, topic: String(r[6] || ''), board: String(r[7] || ''),
     work: String(r[8] || '').split(';').map(s => s.trim()).filter(Boolean),
     lessonsPlan: Number(r[9]) || 0, lessonsDone: Number(r[10]) || 0,
-    map: map, notes: notes, hw: hw, hist: hist, mats: mats, matsAll: matsAll, prog: prog,
+    map: map, notes: notes, skills: skills, hw: hw, hist: hist, mats: mats, matsAll: matsAll, prog: prog,
     // Без пароля (публичная ссылка ученика) родитель, телефон и год рождения не отдаются:
     // для поздравления хватает дня и месяца, год подменяется на 2000.
     fname: String(r[14] || ''), bdate: admin ? day_(r[15]) : maskBdate_(day_(r[15])),
