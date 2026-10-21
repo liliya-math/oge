@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Интерактивная геометрия: Трапеция</title>
+  <style>
+    :root {
+      --bg-dark: #132426;
+      --panel-bg: #1C3134;
+      --panel-inner: #16292b;
+      --accent-blue: #0038A8;
+      --accent-peach: #F08A5D;
+      --accent-yellow: #F7D060;
+      --status-green: #5C7457;
+      --text-white: #F4ECE1;
+      --text-muted: #C8D6DF;
+      --error-red: #E65C5C;
+      --border-color: #284448;
+      --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-white);
+      font-family: var(--font-family);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Header Nav */
+    header {
+      background-color: var(--panel-bg);
+      border-bottom: 2px solid var(--border-color);
+      padding: 12px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .app-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent-yellow);
+      letter-spacing: 0.5px;
+    }
+
+    .app-title svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--accent-peach);
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .tabs {
+      display: flex;
+      background: var(--bg-dark);
+      border-radius: 8px;
+      padding: 4px;
+      gap: 4px;
+      border: 1px solid var(--border-color);
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-white);
+      background: rgba(247, 208, 96, 0.08);
+    }
+
+    .tab-btn.active {
+      background: var(--accent-blue);
+      color: var(--text-white);
+      box-shadow: 0 2px 8px rgba(0, 56, 168, 0.4);
+    }
+
+    /* Container Layout */
+    main {
+      flex: 1;
+      padding: 16px 20px;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .view-section {
+      display: none;
+    }
+
+    .view-section.active {
+      display: block;
+    }
+
+    /* Explorer View Grid */
+    .explorer-grid {
+      display: grid;
+      grid-template-columns: 1fr 390px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .explorer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Canvas Card */
+    .canvas-card {
+      background-color: var(--panel-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .canvas-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .mode-group, .toggle-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .sub-label {
+      font-size: 0.8rem;
+      color: var(--accent-yellow);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-right: 4px;
+    }
+
+    .pill-btn {
+      background: var(--bg-dark);
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .pill-btn:hover {
+      border-color: var(--accent-peach);
+      color: var(--text-white);
+    }
+
+    .pill-btn.active {
+      background: var(--accent-peach);
+      color: #132426;
+      border-color: var(--accent-peach);
+      font-weight: 700;
+    }
+
+    .checkbox-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      color: var(--text-white);
+    }
+
+    .checkbox-btn input {
+      accent-color: var(--accent-peach);
+      cursor: pointer;
+    }
+
+    .svg-container {
+      background-color: var(--bg-dark);
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      height: 480px;
+      touch-action: none;
+    }
+
+    svg#geomCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Draggable Handles */
+    .drag-handle {
+      cursor: grab;
+      fill: var(--accent-peach);
+      stroke: var(--text-white);
+      stroke-width: 2.5;
+      transition: r 0.15s ease, fill 0.15s ease;
+    }
+
+    .drag-handle:hover, .drag-handle.active {
+      cursor: grabbing;
+      r: 9;
+      fill: var(--accent-yellow);
+    }
+
+    /* Sliders bar below canvas */
+    .controls-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      background: var(--panel-inner);
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .slider-box {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .slider-header span.val {
+      color: var(--accent-yellow);
+      font-weight: 700;
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      background: var(--bg-dark);
+      border-radius: 3px;
+      outline: none;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--accent-peach);
+      cursor: pointer;
+      border: 2px solid var(--text-white);
+      transition: transform 0.1s ease;
+    }
+
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+      background: var(--accent-yellow);
+    }
+
+    /* Stats Panel */
+    .stats-card {
+      background-color: var(--panel-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .panel-header {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent-yellow);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 8px;
+    }
+
+    .badge-kind {
+      font-size: 0.75rem;
+      background: var(--accent-blue);
+      color: var(--text-white);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .stat-row-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .metric-badge {
+      background: var(--panel-inner);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .metric-badge.full-width {
+      grid-column: span 2;
+    }
+
+    .metric-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .metric-value {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-white);
+      font-family: monospace;
+    }
+
+    .metric-value.highlight {
+      color: var(--accent-yellow);
+    }
+
+    .metric-value.peach {
+      color: var(--accent-peach);
+    }
+
+    .metric-value.green {
+      color: #92b88b;
+    }
+
+    .card-subblock {
+      background: var(--panel-inner);
+      border-left: 4px solid var(--accent-blue);
+      border-radius: 4px 8px 8px 4px;
+      padding: 10px 12px;
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    .card-subblock strong {
+      color: var(--accent-yellow);
+    }
+
+    /* Trainer View */
+    .trainer-container {
+      max-width: 840px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .trainer-header-card {
+      background: var(--panel-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .score-stats {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .score-chip {
+      background: var(--bg-dark);
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .score-chip span {
+      color: var(--accent-yellow);
+      font-weight: 800;
+    }
+
+    .task-card {
+      background: var(--panel-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+    }
+
+    .task-badge-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .task-type {
+      background: var(--accent-blue);
+      color: var(--text-white);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .task-question {
+      font-size: 1.15rem;
+      line-height: 1.5;
+      color: var(--text-white);
+    }
+
+    .task-question em {
+      color: var(--accent-peach);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .task-svg-holder {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      height: 220px;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .task-svg-holder svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .answer-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .answer-input {
+      background: var(--bg-dark);
+      border: 2px solid var(--border-color);
+      color: var(--text-white);
+      font-size: 1.1rem;
+      font-weight: bold;
+      padding: 10px 14px;
+      border-radius: 8px;
+      width: 180px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .answer-input:focus {
+      border-color: var(--accent-peach);
+    }
+
+    .btn {
+      background: var(--accent-blue);
+      color: var(--text-white);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      background: #0047d4;
+      transform: translateY(-1px);
+    }
+
+    .btn.next-btn {
+      background: var(--status-green);
+    }
+    .btn.next-btn:hover {
+      background: #6e8a68;
+    }
+
+    .feedback-box {
+      border-radius: 8px;
+      padding: 14px;
+      line-height: 1.45;
+      font-size: 0.95rem;
+      display: none;
+      border-left: 5px solid transparent;
+    }
+
+    .feedback-box.correct {
+      display: block;
+      background: rgba(92, 116, 87, 0.25);
+      border-left-color: var(--status-green);
+      color: #b7e3b0;
+    }
+
+    .feedback-box.incorrect {
+      display: block;
+      background: rgba(230, 92, 92, 0.2);
+      border-left-color: var(--error-red);
+      color: #ffb4b4;
+    }
+
+    .feedback-box strong {
+      color: var(--accent-yellow);
+    }
+
+    /* Cheat Sheet View */
+    .cheatsheet-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 16px;
+    }
+
+    .cheat-card {
+      background: var(--panel-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color 0.2s ease;
+    }
+
+    .cheat-card:hover {
+      border-color: var(--accent-peach);
+    }
+
+    .cheat-card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent-yellow);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 6px;
+    }
+
+    .formula-tag {
+      background: var(--bg-dark);
+      border: 1px solid var(--accent-blue);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-family: "Courier New", Courier, monospace;
+      font-weight: bold;
+      color: var(--text-white);
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cheat-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .cheat-desc b {
+      color: var(--accent-peach);
+    }
+
+    /* Safe Labels on Canvas */
+    .point-badge {
+      font-size: 13px;
+      font-weight: 700;
+      font-family: var(--font-family);
+      fill: var(--text-white);
+      text-anchor: middle;
+      dominant-baseline: central;
+      pointer-events: none;
+    }
+
+    .side-badge-rect {
+      fill: var(--panel-bg);
+      stroke: var(--border-color);
+      stroke-width: 1.5;
+      rx: 4;
+    }
+
+    .side-badge-text {
+      font-size: 11.5px;
+      font-weight: 600;
+      font-family: monospace;
+      fill: var(--accent-yellow);
+      text-anchor: middle;
+      dominant-baseline: central;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Navigation -->
+  <header>
+    <div class="app-title">
+      <svg viewBox="0 0 24 24">
+        <polygon points="4,18 20,18 16,6 8,6" />
+      </svg>
+      <span>Планиметрия: Трапеция</span>
+    </div>
+
+    <nav class="tabs">
+      <button class="tab-btn active" onclick="switchTab('explorer')">Геометрическая лаборатория</button>
+      <button class="tab-btn" onclick="switchTab('trainer')">Тренажёр задач</button>
+      <button class="tab-btn" onclick="switchTab('cheatsheet')">Справочник формул</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- TAB 1: EXPLORER -->
+    <section id="view-explorer" class="view-section active">
+      <div class="explorer-grid">
+        
+        <!-- Left Column: Canvas & Direct Controls -->
+        <div class="canvas-card">
+          <!-- Toolbar -->
+          <div class="canvas-toolbar">
+            <div class="mode-group">
+              <span class="sub-label">Тип:</span>
+              <button class="pill-btn active" id="btnModeArbitrary" onclick="setMode('arbitrary')">Произвольная</button>
+              <button class="pill-btn" id="btnModeIsosceles" onclick="setMode('isosceles')">Равнобедренная</button>
+              <button class="pill-btn" id="btnModeRight" onclick="setMode('right')">Прямоугольная</button>
+            </div>
+
+            <div class="toggle-group">
+              <label class="checkbox-btn">
+                <input type="checkbox" id="chkAltitudes" checked onchange="redraw()"> Высоты
+              </label>
+              <label class="checkbox-btn">
+                <input type="checkbox" id="chkMidline" checked onchange="redraw()"> Средняя линия
+              </label>
+              <label class="checkbox-btn">
+                <input type="checkbox" id="chkDiagonals" checked onchange="redraw()"> Диагонали ($S_i$)
+              </label>
+            </div>
+          </div>
+
+          <!-- SVG Visualizer -->
+          <div class="svg-container" id="svgWrap">
+            <svg id="geomCanvas" viewBox="0 0 760 480">
+              <!-- Grid background pattern -->
+              <defs>
+                <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1C3134" stroke-width="1.2"/>
+                  <path d="M 20 0 L 20 40 M 0 20 L 40 20" fill="none" stroke="#16292b" stroke-width="0.8"/>
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#gridPattern)" />
+
+              <!-- Geometry Layers -->
+              <g id="layerTriangles"></g>
+              <g id="layerHelpers"></g>
+              <g id="layerTrapezoid"></g>
+              <g id="layerMidline"></g>
+              <g id="layerLabels"></g>
+              <g id="layerHandles"></g>
+            </svg>
+          </div>
+
+          <!-- Quick Fine Sliders -->
+          <div class="controls-bar">
+            <div class="slider-box">
+              <div class="slider-header">
+                <span>Нижнее основание (a)</span>
+                <span class="val" id="valA">14.0</span>
+              </div>
+              <input type="range" id="sliderA" min="8" max="22" step="0.5" value="14" oninput="onSliderChange()">
+            </div>
+
+            <div class="slider-box">
+              <div class="slider-header">
+                <span>Верхнее основание (b)</span>
+                <span class="val" id="valB">6.0</span>
+              </div>
+              <input type="range" id="sliderB" min="3" max="16" step="0.5" value="6" oninput="onSliderChange()">
+            </div>
+
+            <div class="slider-box">
+              <div class="slider-header">
+                <span>Высота (h)</span>
+                <span class="val" id="valH">8.0</span>
+              </div>
+              <input type="range" id="sliderH" min="4" max="13" step="0.5" value="8" oninput="onSliderChange()">
+            </div>
+
+            <div class="slider-box" id="skewSliderBox">
+              <div class="slider-header">
+                <span>Сдвиг вершины B (dx)</span>
+                <span class="val" id="valSkew">3.0</span>
+              </div>
+              <input type="range" id="sliderSkew" min="-2" max="10" step="0.5" value="4" oninput="onSliderChange()">
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Live Recalculations & Properties -->
+        <div class="stats-card">
+          <div class="panel-header">
+            <span>Параметры фигуры</span>
+            <span class="badge-kind" id="badgeKind">Произвольная</span>
+          </div>
+
+          <div class="stat-row-group">
+            <div class="metric-badge">
+              <span class="metric-label">Нижнее основание AD (a)</span>
+              <span class="metric-value highlight" id="statA">14.00</span>
+            </div>
+            <div class="metric-badge">
+              <span class="metric-label">Верхнее основание BC (b)</span>
+              <span class="metric-value highlight" id="statB">6.00</span>
+            </div>
+            <div class="metric-badge">
+              <span class="metric-label">Высота BH (h)</span>
+              <span class="metric-value" id="statH">8.00</span>
+            </div>
+            <div class="metric-badge">
+              <span class="metric-label">Средняя линия MN</span>
+              <span class="metric-value peach" id="statM">10.00</span>
+            </div>
+          </div>
+
+          <div class="stat-row-group">
+            <div class="metric-badge full-width">
+              <span class="metric-label">Площадь трапеции: S = ((a + b) / 2) · h</span>
+              <span class="metric-value highlight" style="font-size:1.35rem;" id="statArea">80.00</span>
+            </div>
+            <div class="metric-badge">
+              <span class="metric-label">Боковая сторона AB (c)</span>
+              <span class="metric-value" id="statAB">8.94</span>
+            </div>
+            <div class="metric-badge">
+              <span class="metric-label">Боковая сторона CD (d)</span>
+              <span class="metric-value" id="statCD">8.94</span>
+            </div>
+            <div class="metric-badge">
+              <span class="metric-label">Отрезок на MN (между диагоналями)</span>
+              <span class="metric-value green" id="statMidSeg">4.00</span>
+            </div>
+            <div class="metric-badge">
+              <span class="metric-label">Периметр P</span>
+              <span class="metric-value" id="statPerimeter">37.88</span>
+            </div>
+          </div>
+
+          <!-- Diagonal Triangles Breakdown -->
+          <div class="card-subblock" id="trianglesSubblock">
+            <strong>Площади при пересечении диагоналей:</strong>
+            <div style="margin-top:6px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 0.8rem;">
+              <div>S(BOC) верх: <span style="color:var(--accent-yellow); font-weight:bold;" id="statS1">7.20</span></div>
+              <div>S(AOD) низ: <span style="color:var(--accent-yellow); font-weight:bold;" id="statS2">39.20</span></div>
+              <div>S(AOB) лев: <span style="color:var(--accent-peach); font-weight:bold;" id="statS3">16.80</span></div>
+              <div>S(COD) прав: <span style="color:var(--accent-peach); font-weight:bold;" id="statS4">16.80</span></div>
+            </div>
+            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:5px;">
+              * Боковые треугольники всегда равновелики: S₁ · S₂ = S₃ · S₄ = S₃²
+            </div>
+          </div>
+
+          <!-- Key Insight -->
+          <div class="card-subblock" style="border-left-color: var(--status-green);">
+            <div id="insightText">
+              💡 <b>Опорный факт:</b> Средняя линия делит любую трапецию на две меньшие трапеции с равными высотами h/2.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TAB 2: TRAINER -->
+    <section id="view-trainer" class="view-section">
+      <div class="trainer-container">
+        
+        <div class="trainer-header-card">
+          <div>
+            <h2 style="color:var(--accent-yellow); font-size: 1.2rem;">Тренажёр решения геометрических задач</h2>
+            <p style="color:var(--text-muted); font-size: 0.85rem; margin-top: 2px;">
+              ОГЭ / ЕГЭ Планиметрия: отработайте вычисление всех базовых величин
+            </p>
+          </div>
+          <div class="score-stats">
+            <div class="score-chip">Верно: <span id="trainerCorrect">0</span></div>
+            <div class="score-chip">Серия: <span id="trainerStreak">0 🔥</span></div>
+            <button class="pill-btn" onclick="generateTrainerTask()">Новая задача</button>
+          </div>
+        </div>
+
+        <div class="task-card">
+          <div class="task-badge-row">
+            <span class="task-type" id="taskTypeBadge">Основания и средняя линия</span>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Задача #<span id="taskNumber">1</span></span>
+          </div>
+
+          <div class="task-question" id="taskQuestionText">
+            Загрузка задачи...
+          </div>
+
+          <!-- Dynamic SVG diagram for the question -->
+          <div class="task-svg-holder">
+            <svg id="taskDiagram" viewBox="0 0 600 220"></svg>
+          </div>
+
+          <!-- Answer submission -->
+          <div class="answer-form" id="answerFormArea">
+            <label style="font-size: 0.95rem; font-weight:600; color:var(--text-muted);">Ваш ответ:</label>
+            <input type="number" step="any" class="answer-input" id="trainerInput" placeholder="Число..." onkeydown="if(event.key==='Enter') checkTrainerAnswer()">
+            <button class="btn" onclick="checkTrainerAnswer()">Проверить</button>
+            <button class="btn next-btn" id="btnNextTask" style="display:none;" onclick="generateTrainerTask()">Следующая задача →</button>
+          </div>
+
+          <div class="feedback-box" id="trainerFeedback"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TAB 3: FORMULA CHEAT SHEET -->
+    <section id="view-cheatsheet" class="view-section">
+      <div class="cheatsheet-grid">
+        
+        <div class="cheat-card">
+          <div class="cheat-card-title">
+            <span>Средняя линия трапеции</span>
+          </div>
+          <div class="formula-tag">m = (a + b) / 2</div>
+          <div class="cheat-desc">
+            Соединяет середины боковых сторон. <b>Параллельна</b> обоим основаниям. Отрезок средней линии, заключённый между диагоналями, равен <b>|a - b| / 2</b>.
+          </div>
+        </div>
+
+        <div class="cheat-card">
+          <div class="cheat-card-title">
+            <span>Площадь через основания и высоту</span>
+          </div>
+          <div class="formula-tag">S = ((a + b) / 2) · h = m · h</div>
+          <div class="cheat-desc">
+            Площадь равна произведению полусуммы оснований (средней линии) на высоту, опущенную на основание.
+          </div>
+        </div>
+
+        <div class="cheat-card">
+          <div class="cheat-card-title">
+            <span>Площадь через диагонали</span>
+          </div>
+          <div class="formula-tag">S = (1/2) · d₁ · d₂ · sin(φ)</div>
+          <div class="cheat-desc">
+            Где <b>φ</b> — острый угол между пересекающимися диагоналями. Если диагонали взаимно перпендикулярны (<b>φ = 90°</b>), то <b>S = (d₁ · d₂) / 2</b>.
+          </div>
+        </div>
+
+        <div class="cheat-card">
+          <div class="cheat-card-title">
+            <span>Равнобедренная трапеция: проекции</span>
+          </div>
+          <div class="formula-tag">AH = (a - b) / 2, &nbsp; HD = (a + b) / 2</div>
+          <div class="cheat-desc">
+            Высота из вершины тупого угла делит большее основание на полуразность и полусумму оснований. Высота также равна средней линии, если диагонали перпендикулярны!
+          </div>
+        </div>
+
+        <div class="cheat-card">
+          <div class="cheat-card-title">
+            <span>Треугольники при диагоналях</span>
+          </div>
+          <div class="formula-tag">S₁ · S₂ = S₃², &nbsp; √S = √S₁ + √S₂</div>
+          <div class="cheat-desc">
+            При пересечении диагоналей треугольники при основаниях подобны (коэффициент <b>k = a / b</b>), а боковые треугольники <b>всегда равновелики</b> (S₃ = S₄).
+          </div>
+        </div>
+
+        <div class="cheat-card">
+          <div class="cheat-card-title">
+            <span>Вписанная и описанная окружности</span>
+          </div>
+          <div class="formula-tag">Вписанная: a + b = c + d</div>
+          <div class="cheat-desc">
+            Окружность можно <b>вписать</b> тогда и только тогда, когда суммы противоположных сторон равны. Описать окружность можно <b>только около равнобедренной трапеции</b>.
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <script>
+    /* Global Application State */
+    const state = {
+      mode: 'arbitrary', // 'arbitrary' | 'isosceles' | 'right'
+      a: 14.0,           // bottom base
+      b: 6.0,            // top base
+      h: 8.0,            // height
+      skew: 4.0,         // offset of vertex B relative to A
+      scale: 24,         // pixels per unit
+      originX: 110,      // canvas origin
+      originY: 380,      // canvas bottom baseline
+      draggingPoint: null
+    };
+
+    /* Trainer State */
+    let trainerState = {
+      currentTask: null,
+      correctCount: 0,
+      streakCount: 0,
+      taskNum: 1
+    };
+
+    // Tab switching
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+      
+      if (tabId === 'explorer') {
+        document.querySelectorAll('.tab-btn')[0].classList.add('active');
+        document.getElementById('view-explorer').classList.add('active');
+        redraw();
+      } else if (tabId === 'trainer') {
+        document.querySelectorAll('.tab-btn')[1].classList.add('active');
+        document.getElementById('view-trainer').classList.add('active');
+        if (!trainerState.currentTask) generateTrainerTask();
+      } else {
+        document.querySelectorAll('.tab-btn')[2].classList.add('active');
+        document.getElementById('view-cheatsheet').classList.add('active');
+      }
+    }
+
+    /* Trapezoid Geometry Calculation */
+    function getTrapezoidCoords() {
+      // Points in units:
+      // A = (0, 0)
+      // D = (a, 0)
+      // B = (skew, h)
+      // C = (skew + b, h)
+      let skew = state.skew;
+      if (state.mode === 'isosceles') {
+        skew = (state.a - state.b) / 2;
+      } else if (state.mode === 'right') {
+        skew = 0;
+      }
+
+      const A = { x: 0, y: 0 };
+      const D = { x: state.a, y: 0 };
+      const B = { x: skew, y: state.h };
+      const C = { x: skew + state.b, y: state.h };
+
+      // Midpoints
+      const M = { x: (A.x + B.x) / 2, y: (A.y + B.y) / 2 };
+      const N = { x: (D.x + C.x) / 2, y: (D.y + C.y) / 2 };
+
+      // Diagonal intersection O:
+      // Line AC: from (0,0) to (C.x, h) -> y = (h / C.x) * x
+      // Line BD: from (skew, h) to (D.x, 0) -> y - h = - (h / (D.x - skew)) * (x - skew)
+      // Intersection height:
+      const yO = (state.h * state.a) / (state.a + state.b);
+      const xO = (C.x * yO) / state.h;
+      const O = { x: xO, y: yO };
+
+      // Diagonal midpoints (points on midline)
+      const K = { x: C.x / 2, y: state.h / 2 }; // midpoint of AC
+      const L = { x: (B.x + D.x) / 2, y: state.h / 2 }; // midpoint of BD
+
+      // Altitudes from B and C to bottom base
+      const H1 = { x: B.x, y: 0 };
+      const H2 = { x: C.x, y: 0 };
+
+      return { A, B, C, D, M, N, O, K, L, H1, H2, skew };
+    }
+
+    // Convert geometry units to SVG pixels (inverted Y)
+    function toCanvas(pt) {
+      return {
+        x: state.originX + pt.x * state.scale,
+        y: state.originY - pt.y * state.scale
+      };
+    }
+
+    function fromCanvas(x, y) {
+      return {
+        x: (x - state.originX) / state.scale,
+        y: (state.originY - y) / state.scale
+      };
+    }
+
+    /* Redraw Function */
+    function redraw() {
+      const gTriangles = document.getElementById('layerTriangles');
+      const gHelpers = document.getElementById('layerHelpers');
+      const gTrapezoid = document.getElementById('layerTrapezoid');
+      const gMidline = document.getElementById('layerMidline');
+      const gLabels = document.getElementById('layerLabels');
+      const gHandles = document.getElementById('layerHandles');
+
+      gTriangles.innerHTML = '';
+      gHelpers.innerHTML = '';
+      gTrapezoid.innerHTML = '';
+      gMidline.innerHTML = '';
+      gLabels.innerHTML = '';
+      gHandles.innerHTML = '';
+
+      const { A, B, C, D, M, N, O, K, L, H1, H2, skew } = getTrapezoidCoords();
+      const pA = toCanvas(A);
+      const pB = toCanvas(B);
+      const pC = toCanvas(C);
+      const pD = toCanvas(D);
+      const pM = toCanvas(M);
+      const pN = toCanvas(N);
+      const pO = toCanvas(O);
+      const pK = toCanvas(K);
+      const pL = toCanvas(L);
+      const pH1 = toCanvas(H1);
+      const pH2 = toCanvas(H2);
+
+      const showAltitudes = document.getElementById('chkAltitudes').checked;
+      const showMidline = document.getElementById('chkMidline').checked;
+      const showDiagonals = document.getElementById('chkDiagonals').checked;
+
+      // 1. Diagonal Triangles Color Fills
+      if (showDiagonals) {
+        // Top triangle BOC (yellowish soft tint)
+        gTriangles.appendChild(createPolygon([pB, pC, pO], 'rgba(247, 208, 96, 0.2)', 'rgba(247, 208, 96, 0.4)'));
+        // Bottom triangle AOD (blue tint)
+        gTriangles.appendChild(createPolygon([pA, pD, pO], 'rgba(0, 56, 168, 0.28)', 'rgba(0, 56, 168, 0.5)'));
+        // Left triangle AOB (peach tint)
+        gTriangles.appendChild(createPolygon([pA, pB, pO], 'rgba(240, 138, 93, 0.25)', 'rgba(240, 138, 93, 0.45)'));
+        // Right triangle COD (peach tint - equal area!)
+        gTriangles.appendChild(createPolygon([pC, pD, pO], 'rgba(240, 138, 93, 0.25)', 'rgba(240, 138, 93, 0.45)'));
+      }
+
+      // 2. Altitudes Layer
+      if (showAltitudes) {
+        // Altitude 1: B -> H1
+        gHelpers.appendChild(createLine(pB, pH1, '#5C7457', 2, '4,4'));
+        gHelpers.appendChild(createSquareMarker(pH1, 10, '#5C7457'));
+        addSafeBadge(gLabels, (pB.x + pH1.x)/2 - 16, (pB.y + pH1.y)/2, 'h=' + state.h.toFixed(1));
+
+        // Altitude 2: C -> H2 (if not overlapping)
+        if (Math.abs(H2.x - D.x) > 0.8 && Math.abs(H1.x - H2.x) > 1.2) {
+          gHelpers.appendChild(createLine(pC, pH2, '#5C7457', 1.8, '4,4'));
+          gHelpers.appendChild(createSquareMarker(pH2, 10, '#5C7457'));
+        }
+      }
+
+      // 3. Main Trapezoid Polygon & Edges
+      gTrapezoid.appendChild(createPolygon([pA, pB, pC, pD], 'rgba(0, 56, 168, 0.08)', '#0038A8', 3));
+
+      // 4. Diagonals
+      if (showDiagonals) {
+        gHelpers.appendChild(createLine(pA, pC, '#F7D060', 2, '5,3'));
+        gHelpers.appendChild(createLine(pB, pD, '#F7D060', 2, '5,3'));
+        
+        // Point O badge
+        gHelpers.appendChild(createCircle(pO, 4.5, '#F7D060', '#1C3134'));
+        addVertexLabel(gLabels, pO.x, pO.y - 12, 'O');
+      }
+
+      // 5. Midline Layer
+      if (showMidline) {
+        gMidline.appendChild(createLine(pM, pN, '#F08A5D', 2.8));
+        // Segment between diagonals (K to L)
+        if (showDiagonals && Math.abs(pK.x - pL.x) > 4) {
+          gMidline.appendChild(createLine(pK, pL, '#F7D060', 4.5));
+          gMidline.appendChild(createCircle(pK, 4, '#F7D060', '#1C3134'));
+          gMidline.appendChild(createCircle(pL, 4, '#F7D060', '#1C3134'));
+          addSafeBadge(gLabels, (pK.x + pL.x)/2, pK.y - 14, 'k=' + (Math.abs(state.a - state.b)/2).toFixed(1));
+        }
+
+        gMidline.appendChild(createCircle(pM, 4.5, '#F08A5D', '#1C3134'));
+        gMidline.appendChild(createCircle(pN, 4.5, '#F08A5D', '#1C3134'));
+        addVertexLabel(gLabels, pM.x - 14, pM.y, 'M');
+        addVertexLabel(gLabels, pN.x + 14, pN.y, 'N');
+
+        const mid = (state.a + state.b) / 2;
+        addSafeBadge(gLabels, (pM.x + pN.x) / 2, pM.y + 14, 'm=' + mid.toFixed(1));
+      }
+
+      // 6. Base & Side Dimension Badges
+      // Base 'a' (bottom)
+      addSafeBadge(gLabels, (pA.x + pD.x) / 2, pA.y + 20, 'a = ' + state.a.toFixed(1));
+      // Base 'b' (top)
+      addSafeBadge(gLabels, (pB.x + pC.x) / 2, pB.y - 18, 'b = ' + state.b.toFixed(1));
+
+      // Side AB
+      const lenAB = Math.hypot(B.x - A.x, B.y - A.y);
+      addSafeBadge(gLabels, (pA.x + pB.x) / 2 - 20, (pA.y + pB.y) / 2, 'c=' + lenAB.toFixed(1));
+
+      // Side CD
+      const lenCD = Math.hypot(D.x - C.x, D.y - C.y);
+      addSafeBadge(gLabels, (pD.x + pC.x) / 2 + 20, (pD.y + pC.y) / 2, 'd=' + lenCD.toFixed(1));
+
+      // 7. Vertex Badges
+      addVertexLabel(gLabels, pA.x - 12, pA.y + 12, 'A');
+      addVertexLabel(gLabels, pD.x + 12, pD.y + 12, 'D');
+      addVertexLabel(gLabels, pB.x - 10, pB.y - 12, 'B');
+      addVertexLabel(gLabels, pC.x + 12, pC.y - 12, 'C');
+
+      // 8. Interactive Draggable Handles
+      gHandles.appendChild(createHandle(pB, 'B'));
+      gHandles.appendChild(createHandle(pC, 'C'));
+      gHandles.appendChild(createHandle(pD, 'D'));
+
+      // 9. Update Real-Time Numerical Stats
+      updateStats(lenAB, lenCD);
+    }
+
+    /* Helper SVG Creators */
+    function createLine(p1, p2, stroke, width, dash = '') {
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', p1.x);
+      line.setAttribute('y1', p1.y);
+      line.setAttribute('x2', p2.x);
+      line.setAttribute('y2', p2.y);
+      line.setAttribute('stroke', stroke);
+      line.setAttribute('stroke-width', width);
+      if (dash) line.setAttribute('stroke-dasharray', dash);
+      return line;
+    }
+
+    function createCircle(p, r, fill, stroke) {
+      const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      c.setAttribute('cx', p.x);
+      c.setAttribute('cy', p.y);
+      c.setAttribute('r', r);
+      c.setAttribute('fill', fill);
+      c.setAttribute('stroke', stroke);
+      c.setAttribute('stroke-width', '1.5');
+      return c;
+    }
+
+    function createPolygon(points, fill, stroke, strokeWidth = 1) {
+      const poly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+      poly.setAttribute('points', points.map(p => `${p.x},${p.y}`).join(' '));
+      poly.setAttribute('fill', fill);
+      poly.setAttribute('stroke', stroke);
+      poly.setAttribute('stroke-width', strokeWidth);
+      poly.setAttribute('stroke-linejoin', 'round');
+      return poly;
+    }
+
+    function createSquareMarker(pt, size, color) {
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', `M ${pt.x} ${pt.y - size} L ${pt.x + size} ${pt.y - size} L ${pt.x + size} ${pt.y}`);
+      path.setAttribute('stroke', color);
+      path.setAttribute('fill', 'none');
+      path.setAttribute('stroke-width', '1.5');
+      return path;
+    }
+
+    function createHandle(p, id) {
+      const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circle.setAttribute('cx', p.x);
+      circle.setAttribute('cy', p.y);
+      circle.setAttribute('r', '7.5');
+      circle.setAttribute('class', 'drag-handle');
+      circle.setAttribute('data-point', id);
+      circle.addEventListener('mousedown', startDrag);
+      circle.addEventListener('touchstart', startDragTouch, { passive: false });
+      return circle;
+    }
+
+    function addVertexLabel(group, x, y, text) {
+      const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      rect.setAttribute('x', x - 9);
+      rect.setAttribute('y', y - 9);
+      rect.setAttribute('width', 18);
+      rect.setAttribute('height', 18);
+      rect.setAttribute('rx', 4);
+      rect.setAttribute('fill', '#1C3134');
+      rect.setAttribute('stroke', '#0038A8');
+      rect.setAttribute('stroke-width', '1.2');
+
+      const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      t.setAttribute('x', x);
+      t.setAttribute('y', y);
+      t.setAttribute('class', 'point-badge');
+      t.textContent = text;
+
+      g.appendChild(rect);
+      g.appendChild(t);
+      group.appendChild(g);
+    }
+
+    function addSafeBadge(group, x, y, text) {
+      const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      const w = text.length * 7.5 + 10;
+      const h = 18;
+      const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      rect.setAttribute('x', x - w / 2);
+      rect.setAttribute('y', y - h / 2);
+      rect.setAttribute('width', w);
+      rect.setAttribute('height', h);
+      rect.setAttribute('class', 'side-badge-rect');
+
+      const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      t.setAttribute('x', x);
+      t.setAttribute('y', y);
+      t.setAttribute('class', 'side-badge-text');
+      t.textContent = text;
+
+      g.appendChild(rect);
+      g.appendChild(t);
+      group.appendChild(g);
+    }
+
+    /* Update Math Stats and Explanations */
+    function updateStats(c, d) {
+      const a = state.a;
+      const b = state.b;
+      const h = state.h;
+      const m = (a + b) / 2;
+      const area = m * h;
+      const midSeg = Math.abs(a - b) / 2;
+      const p = a + b + c + d;
+
+      document.getElementById('statA').textContent = a.toFixed(2);
+      document.getElementById('statB').textContent = b.toFixed(2);
+      document.getElementById('statH').textContent = h.toFixed(2);
+      document.getElementById('statM').textContent = m.toFixed(2);
+      document.getElementById('statArea').textContent = area.toFixed(2);
+      document.getElementById('statAB').textContent = c.toFixed(2);
+      document.getElementById('statCD').textContent = d.toFixed(2);
+      document.getElementById('statMidSeg').textContent = midSeg.toFixed(2);
+      document.getElementById('statPerimeter').textContent = p.toFixed(2);
+
+      // Areas of 4 triangles
+      // S_top = 0.5 * b * (h * b / (a + b)) = (b^2 * h) / (2 * (a + b))
+      const sTop = (b * b * h) / (2 * (a + b));
+      const sBot = (a * a * h) / (2 * (a + b));
+      const sSide = (a * b * h) / (2 * (a + b));
+
+      document.getElementById('statS1').textContent = sTop.toFixed(2);
+      document.getElementById('statS2').textContent = sBot.toFixed(2);
+      document.getElementById('statS3').textContent = sSide.toFixed(2);
+      document.getElementById('statS4').textContent = sSide.toFixed(2);
+
+      // Insight text
+      const badgeKind = document.getElementById('badgeKind');
+      const insight = document.getElementById('insightText');
+      if (state.mode === 'isosceles') {
+        badgeKind.textContent = 'Равнобедренная';
+        insight.innerHTML = `💡 <b>Свойство:</b> Диагонали равны (AC = BD). Около равнобедренной трапеции <b>всегда можно описать окружность</b>.`;
+      } else if (state.mode === 'right') {
+        badgeKind.textContent = 'Прямоугольная';
+        insight.innerHTML = `💡 <b>Свойство:</b> Меньшая боковая сторона перпендикулярна основаниям и в точности равна высоте (c = h = ${h.toFixed(1)}).`;
+      } else {
+        badgeKind.textContent = 'Произвольная';
+        insight.innerHTML = `💡 <b>Опорный факт:</b> Площади боковых треугольников равны: S(AOB) = S(COD) = <b>${sSide.toFixed(2)}</b> независимо от формы!`;
+      }
+
+      // Sync sliders
+      document.getElementById('sliderA').value = a;
+      document.getElementById('sliderB').value = b;
+      document.getElementById('sliderH').value = h;
+      document.getElementById('valA').textContent = a.toFixed(1);
+      document.getElementById('valB').textContent = b.toFixed(1);
+      document.getElementById('valH').textContent = h.toFixed(1);
+      document.getElementById('valSkew').textContent = state.skew.toFixed(1);
+    }
+
+    /* Mode switching */
+    function setMode(mode) {
+      state.mode = mode;
+      document.querySelectorAll('.mode-group .pill-btn').forEach(btn => btn.classList.remove('active'));
+      const skewBox = document.getElementById('skewSliderBox');
+
+      if (mode === 'arbitrary') {
+        document.getElementById('btnModeArbitrary').classList.add('active');
+        skewBox.style.opacity = '1';
+        skewBox.style.pointerEvents = 'auto';
+      } else if (mode === 'isosceles') {
+        document.getElementById('btnModeIsosceles').classList.add('active');
+        state.skew = (state.a - state.b) / 2;
+        skewBox.style.opacity = '0.35';
+        skewBox.style.pointerEvents = 'none';
+      } else if (mode === 'right') {
+        document.getElementById('btnModeRight').classList.add('active');
+        state.skew = 0;
+        skewBox.style.opacity = '0.35';
+        skewBox.style.pointerEvents = 'none';
+      }
+      redraw();
+    }
+
+    /* Slider Changes */
+    function onSliderChange() {
+      state.a = parseFloat(document.getElementById('sliderA').value);
+      state.b = parseFloat(document.getElementById('sliderB').value);
+      state.h = parseFloat(document.getElementById('sliderH').value);
+      
+      if (state.mode === 'arbitrary') {
+        state.skew = parseFloat(document.getElementById('sliderSkew').value);
+      } else if (state.mode === 'isosceles') {
+        state.skew = (state.a - state.b) / 2;
+      } else {
+        state.skew = 0;
+      }
+
+      // Safeguard: top base should not strictly exceed bottom base for normal view
+      if (state.b > state.a - 1) {
+        state.b = state.a - 1;
+        document.getElementById('sliderB').value = state.b;
+      }
+
+      redraw();
+    }
+
+    /* Dragging interaction on Canvas */
+    let currentDrag = null;
+
+    function startDrag(e) {
+      currentDrag = e.target.getAttribute('data-point');
+      window.addEventListener('mousemove', onDrag);
+      window.addEventListener('mouseup', endDrag);
+    }
+
+    function startDragTouch(e) {
+      if (e.touches.length === 1) {
+        currentDrag = e.target.getAttribute('data-point');
+        window.addEventListener('touchmove', onDragTouch, { passive: false });
+        window.addEventListener('touchend', endDragTouch);
+        e.preventDefault();
+      }
+    }
+
+    function onDrag(e) {
+      if (!currentDrag) return;
+      const rect = document.getElementById('geomCanvas').getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      processDragMove(x, y);
+    }
+
+    function onDragTouch(e) {
+      if (!currentDrag || e.touches.length !== 1) return;
+      const rect = document.getElementById('geomCanvas').getBoundingClientRect();
+      const x = e.touches[0].clientX - rect.left;
+      const y = e.touches[0].clientY - rect.top;
+      processDragMove(x, y);
+      e.preventDefault();
+    }
+
+    function processDragMove(px, py) {
+      const pt = fromCanvas(px, py);
+
+      if (currentDrag === 'D') {
+        // Drag bottom right base point D -> changes 'a'
+        state.a = Math.min(22, Math.max(state.b + 1, Math.round(pt.x * 2) / 2));
+      } else if (currentDrag === 'C') {
+        // Drag top right point C -> changes 'b' and height 'h'
+        state.h = Math.min(13, Math.max(4, Math.round(pt.y * 2) / 2));
+        const newB = pt.x - state.skew;
+        state.b = Math.min(state.a - 1, Math.max(3, Math.round(newB * 2) / 2));
+      } else if (currentDrag === 'B') {
+        // Drag top left point B -> changes skew and height 'h'
+        state.h = Math.min(13, Math.max(4, Math.round(pt.y * 2) / 2));
+        if (state.mode === 'arbitrary') {
+          state.skew = Math.min(state.a - state.b, Math.max(-2, Math.round(pt.x * 2) / 2));
+        }
+      }
+
+      if (state.mode === 'isosceles') {
+        state.skew = (state.a - state.b) / 2;
+      } else if (state.mode === 'right') {
+        state.skew = 0;
+      }
+
+      redraw();
+    }
+
+    function endDrag() {
+      currentDrag = null;
+      window.removeEventListener('mousemove', onDrag);
+      window.removeEventListener('mouseup', endDrag);
+    }
+
+    function endDragTouch() {
+      currentDrag = null;
+      window.removeEventListener('touchmove', onDragTouch);
+      window.removeEventListener('touchend', endDragTouch);
+    }
+
+    /* TRAINER MODULE (TASK GENERATOR) */
+    const taskTypes = [
+      {
+        id: 'midline_from_bases',
+        badge: 'Средняя линия',
+        generate: () => {
+          const a = 2 * Math.floor(Math.random() * 6 + 6); // 12 to 22
+          const b = 2 * Math.floor(Math.random() * 4 + 2); // 4 to 10
+          const ans = (a + b) / 2;
+          return {
+            text: `Основания трапеции равны <em>${a}</em> и <em>${b}</em>. Найдите длину её средней линии.`,
+            answer: ans,
+            explanation: `Средняя линия равна полусумме оснований: m = (a + b) / 2 = (${a} + ${b}) / 2 = <strong>${ans}</strong>.`,
+            drawData: { a, b, showM: true }
+          };
+        }
+      },
+      {
+        id: 'base_from_midline',
+        badge: 'Поиск основания',
+        generate: () => {
+          const m = Math.floor(Math.random() * 8 + 10); // 10 to 17
+          const b = Math.floor(Math.random() * 4 + 4);  // 4 to 7
+          const a = 2 * m - b;
+          return {
+            text: `Средняя линия трапеции равна <em>${m}</em>, а одно из её оснований равно <em>${b}</em>. Найдите большее основание.`,
+            answer: a,
+            explanation: `Так как m = (a + b) / 2, то a + b = 2 · m. Отсюда большее основание a = 2 · ${m} - ${b} = <strong>${a}</strong>.`,
+            drawData: { a, b, showM: true }
+          };
+        }
+      },
+      {
+        id: 'midline_diag_segment',
+        badge: 'Отрезок между диагоналями',
+        generate: () => {
+          const a = Math.floor(Math.random() * 6 + 12); // 12 to 17
+          const b = Math.floor(Math.random() * 4 + 4);  // 4 to 7
+          const ans = (a - b) / 2;
+          return {
+            text: `В трапеции с основаниями <em>${a}</em> и <em>${b}</em> проведены диагонали. Найдите длину отрезка средней линии, заключённого между её диагоналями.`,
+            answer: ans,
+            explanation: `Отрезок средней линии между диагоналями равен полуразности оснований: k = (a - b) / 2 = (${a} - ${b}) / 2 = <strong>${ans}</strong>.`,
+            drawData: { a, b, showDiags: true }
+          };
+        }
+      },
+      {
+        id: 'area_from_midline_h',
+        badge: 'Площадь трапеции',
+        generate: () => {
+          const m = Math.floor(Math.random() * 6 + 8); // 8 to 13
+          const h = Math.floor(Math.random() * 5 + 4); // 4 to 8
+          const ans = m * h;
+          return {
+            text: `Высота трапеции равна <em>${h}</em>, а её средняя линия равна <em>${m}</em>. Найдите площадь трапеции.`,
+            answer: ans,
+            explanation: `Площадь трапеции равна произведению средней линии на высоту: S = m · h = ${m} · ${h} = <strong>${ans}</strong>.`,
+            drawData: { a: m + 3, b: m - 3, h, showM: true, showH: true }
+          };
+        }
+      },
+      {
+        id: 'triangle_diagonals_area',
+        badge: 'Свойства диагоналей',
+        generate: () => {
+          // perfect squares for simplicity: 4 and 9 -> total (2+3)^2 = 25
+          const root1 = Math.floor(Math.random() * 3 + 2); // 2, 3, 4
+          const root2 = root1 + Math.floor(Math.random() * 2 + 1); // root1 + 1 or 2
+          const s1 = root1 * root1;
+          const s2 = root2 * root2;
+          const sTotal = (root1 + root2) ** 2;
+          return {
+            text: `Диагонали трапеции делят её на 4 треугольника. Площади треугольников, прилежащих к основаниям, равны <em>${s1}</em> и <em>${s2}</em>. Найдите общую площадь всей трапеции.`,
+            answer: sTotal,
+            explanation: `Площадь трапеции через площади треугольников при основаниях: √S = √S₁ + √S₂ = √${s1} + √${s2} = ${root1} + ${root2} = ${root1 + root2}. Следовательно, S = (${root1 + root2})² = <strong>${sTotal}</strong>.`,
+            drawData: { a: root2 * 3, b: root1 * 3, showDiags: true }
+          };
+        }
+      }
+    ];
+
+    function generateTrainerTask() {
+      const type = taskTypes[Math.floor(Math.random() * taskTypes.length)];
+      const task = type.generate();
+      task.badge = type.badge;
+
+      trainerState.currentTask = task;
+      trainerState.taskNum++;
+
+      document.getElementById('taskTypeBadge').textContent = task.badge;
+      document.getElementById('taskNumber').textContent = trainerState.taskNum;
+      document.getElementById('taskQuestionText').innerHTML = task.text;
+      
+      const input = document.getElementById('trainerInput');
+      input.value = '';
+      input.disabled = false;
+      input.focus();
+
+      const fb = document.getElementById('trainerFeedback');
+      fb.className = 'feedback-box';
+      fb.style.display = 'none';
+
+      document.getElementById('btnNextTask').style.display = 'none';
+
+      drawTaskDiagram(task.drawData);
+    }
+
+    function checkTrainerAnswer() {
+      const input = document.getElementById('trainerInput');
+      const val = parseFloat(input.value.trim().replace(',', '.'));
+      if (isNaN(val)) return;
+
+      const fb = document.getElementById('trainerFeedback');
+      const expected = trainerState.currentTask.answer;
+      const isCorrect = Math.abs(val - expected) < 0.05;
+
+      if (isCorrect) {
+        trainerState.correctCount++;
+        trainerState.streakCount++;
+        fb.className = 'feedback-box correct';
+        fb.innerHTML = `✓ <b>Верно!</b> ` + trainerState.currentTask.explanation;
+      } else {
+        trainerState.streakCount = 0;
+        fb.className = 'feedback-box incorrect';
+        fb.innerHTML = `✕ <b>Неверно.</b> Ваш ответ: ${val}. Правильный ответ: <b>${expected}</b>.<br>` + trainerState.currentTask.explanation;
+      }
+
+      document.getElementById('trainerCorrect').textContent = trainerState.correctCount;
+      document.getElementById('trainerStreak').textContent = `${trainerState.streakCount} 🔥`;
+
+      input.disabled = true;
+      document.getElementById('btnNextTask').style.display = 'inline-flex';
+    }
+
+    function drawTaskDiagram(data) {
+      const svg = document.getElementById('taskDiagram');
+      svg.innerHTML = '';
+
+      const w = 600;
+      const h = 220;
+
+      // Local normalized layout
+      const a = data.a || 14;
+      const b = data.b || 6;
+      const skew = (a - b) / 2;
+      const ht = data.h || 6;
+
+      const scale = 20;
+      const ox = (w - a * scale) / 2;
+      const oy = 180;
+
+      const pA = { x: ox, y: oy };
+      const pD = { x: ox + a * scale, y: oy };
+      const pB = { x: ox + skew * scale, y: oy - ht * scale };
+      const pC = { x: ox + (skew + b) * scale, y: oy - ht * scale };
+
+      // Background fill
+      svg.appendChild(createPolygon([pA, pB, pC, pD], 'rgba(0, 56, 168, 0.15)', '#0038A8', 2.5));
+
+      // Altitudes
+      if (data.showH) {
+        const pH = { x: pB.x, y: pA.y };
+        svg.appendChild(createLine(pB, pH, '#5C7457', 2, '4,4'));
+        svg.appendChild(createSquareMarker(pH, 8, '#5C7457'));
+      }
+
+      // Midline
+      if (data.showM) {
+        const pM = { x: (pA.x + pB.x) / 2, y: (pA.y + pB.y) / 2 };
+        const pN = { x: (pD.x + pC.x) / 2, y: (pD.y + pC.y) / 2 };
+        svg.appendChild(createLine(pM, pN, '#F08A5D', 2.5));
+      }
+
+      // Diagonals
+      if (data.showDiags) {
+        svg.appendChild(createLine(pA, pC, '#F7D060', 1.8, '5,3'));
+        svg.appendChild(createLine(pB, pD, '#F7D060', 1.8, '5,3'));
+      }
+
+      // Corner tags
+      addVertexLabel(svg, pA.x - 12, pA.y + 10, 'A');
+      addVertexLabel(svg, pD.x + 12, pD.y + 10, 'D');
+      addVertexLabel(svg, pB.x - 10, pB.y - 12, 'B');
+      addVertexLabel(svg, pC.x + 12, pC.y - 12, 'C');
+    }
+
+    /* Window load bootstrap */
+    window.onload = function() {
+      // Fit origin to canvas container if needed
+      const wrap = document.getElementById('svgWrap');
+      if (wrap) {
+        state.originX = Math.max(70, (wrap.clientWidth - state.a * state.scale) / 2);
+      }
+      redraw();
+      generateTrainerTask();
+    };
+
+    window.onresize = function() {
+      const wrap = document.getElementById('svgWrap');
+      if (wrap) {
+        state.originX = Math.max(60, (wrap.clientWidth - state.a * state.scale) / 2);
+      }
+      redraw();
+    };
+  </script>
+</body>
+</html>
