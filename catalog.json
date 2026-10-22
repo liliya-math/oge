@@ -3509,6 +3509,60 @@
       "oge_task": null,
       "status": "public",
       "note": "читает skills-graph.json и skills-links.json; ссылки на неё ведут из kabinet.html"
+    },
+    {
+      "file": "diagnostika-5-kr1-v1.html",
+      "title": "Диагностика · 5 класс · Контрольная № 1 · Вариант 1",
+      "type": "diagnostika",
+      "class": 5,
+      "oge_task": null,
+      "status": "public",
+      "note": "Уравнения, буквенные выражения и геометрия"
+    },
+    {
+      "file": "diagnostika-5-kr1-v2.html",
+      "title": "Диагностика · 5 класс · Контрольная № 1 · Вариант 2",
+      "type": "diagnostika",
+      "class": 5,
+      "oge_task": null,
+      "status": "public",
+      "note": "Уравнения, буквенные выражения и геометрия"
+    },
+    {
+      "file": "diagnostika-5-kr2-v1.html",
+      "title": "Диагностика · 5 класс · Контрольная № 2 · Вариант 1",
+      "type": "diagnostika",
+      "class": 5,
+      "oge_task": null,
+      "status": "public",
+      "note": "Умножение, деление и деление с остатком"
+    },
+    {
+      "file": "diagnostika-5-kr2-v2.html",
+      "title": "Диагностика · 5 класс · Контрольная № 2 · Вариант 2",
+      "type": "diagnostika",
+      "class": 5,
+      "oge_task": null,
+      "status": "public",
+      "note": "Умножение, деление и деление с остатком"
+    },
+    {
+      "file": "diagnostiki-5-klass.html",
+      "title": "Диагностики к контрольным · 5 класс",
+      "type": "diagnostika",
+      "class": 5,
+      "oge_task": null,
+      "status": "public",
+      "note": "Две контрольные, по два варианта"
+    },
+    {
+      "file": "razbor-5-klass.pdf",
+      "title": "Разбор контрольных · 5 класс · Диалог учитель — ученик",
+      "type": "razbor",
+      "class": 5,
+      "oge_task": null,
+      "status": "public",
+      "note": "26 страниц, все 54 пункта, схемы отрезков, исправления исходника"
     }
   ]
 }
