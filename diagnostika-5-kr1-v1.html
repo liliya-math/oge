@@ -801,7 +801,7 @@ function renderStart(){
       <div class="way"><i>02</i><b>Есть идея, но дальше никак</b><span>Напиши, что пробовал. Так видно, где именно застряло решение.</span></div>
       <div class="way"><i>03</i><b>Не знаю, как решать</b><span>Тоже честный ответ. Угадывать не нужно.</span></div>
     </div>
-    <div class="facts"><span class="pill">около 40–50 минут</span><span class="pill">можно в два захода, прогресс сохранится</span><span class="pill">по 2 подсказки на задание · разбор после ответа</span><span class="pill">со звёздочкой — дополнительные баллы</span><span class="pill">стикеры за каждые 4 задания и за серии</span></div>
+    <div class="facts"><span class="pill">около 40–50 минут</span><span class="pill">можно в два захода, прогресс сохранится</span><span class="pill">по 2 подсказки на задание</span><span class="pill">со звёздочкой — дополнительные баллы</span><span class="pill">стикеры за каждые 4 задания и за серии</span></div>
     ${resume?`<div class="startrow"><button class="btn" id="go">Продолжить с задания ${LB(L[Math.min(S.i,L.length-1)])}</button><button class="btn ghost" id="reset">Начать заново</button></div>`
     :`<div class="stack"><div><span class="lab">Кто будет болеть за тебя?</span>
       <div class="tals">${TALS.map(t=>`<button class="tal${S.tal===t.id?' sel':''}" data-id="${t.id}">${pet(t.id,S.tal===t.id?'joy':'idle',96)}<span>${t.n}</span><small class="ttag">${t.tag}</small></button>`).join('')}</div></div>
@@ -864,7 +864,6 @@ function drawAns(fb){
     </div>`;
   }else{
     if(fb)h+=fb;
-    h+=`<details class="solbox"><summary>Разбор после ответа</summary>${t.steps.map(x=>`<p>${esc(x)}</p>`).join('')}${t.verification?`<p>Проверка: ${esc(t.verification)}</p>`:''}</details>`;
     h+=`<button class="btn next" id="nx">${S.i===L.length-1?'Смотреть результат':'Дальше'}</button>`;
   }
   box.innerHTML=h;
