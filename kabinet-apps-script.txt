@@ -1,5 +1,6 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 7.3
+ * Кабинет ученика 25/25 · lili.math — версия 7.4
+ * (7.4: Telegram-уведомления; настройка бота через меню таблицы, затем новая версия развёртывания)
  * (7.3: карта навыков ОГЭ — новый лист «Навыки» (код, узел, статус, дата), отметки ставятся в режиме учителя;
  *  после замены кода выполни setup — он создаст лист; затем «Новая версия» развёртывания)
  * (7.2: письма ученика приходят на почту владельца скрипта — после замены кода выполни setup и разреши отправку почты)
@@ -39,7 +40,10 @@ const SHEETS = {
   'Пробники': ['Код', 'Дата', 'Название', 'Баллы'],
   'Оценки': ['Код', 'Дата', 'Предмет', 'Оценка', 'Примечание'],
   'Письма': ['Код', 'Дата', 'Текст', 'Прочитано'],
-  'Навыки': ['Код', 'Узел', 'Статус', 'Дата проверки']
+  'Навыки': ['Код', 'Узел', 'Статус', 'Дата проверки'],
+  'Telegram': ['Код', 'Chat ID', 'Подключён', 'Пауза', 'Дата', 'Ошибка'],
+  'Telegram-ссылки': ['Хеш', 'Код', 'Действует до'],
+  'Telegram-файлы': ['Ключ', 'Код', 'Ссылка', 'Хеш', 'Проверено', 'Ошибка']
 };
 // Идентификатор узла графа навыков: буква блока и две цифры (N08, A11, G05). Список узлов лежит на сайте в skills-graph.json.
 const SKILL_RE = /^[NAFSG]\d{2}$/;
@@ -153,6 +157,7 @@ function onOpen() {
     .addItem('Пароль для режима учителя', 'setPassword')
     .addItem('Обновить список материалов', 'syncMaterials')
     .addItem('Оформить в стиле 25/25', 'styleSheets')
+    .addItem('Подключить Telegram-бота', 'configureTelegram')
     .addItem('Подготовить таблицу', 'setup')
     .addToUi();
 }
@@ -262,7 +267,7 @@ function styleSheets() {
     sh.getRange(2, 1, Math.max(rows - 1, 1), 1).setFontColor(C.muted).setFontFamily('Roboto Mono').setFontSize(10);
     (widths[name] || []).forEach((w, i) => sh.setColumnWidth(i + 1, w));
     sh.setHiddenGridlines(true);
-    sh.setTabColor(tabs[name]);
+    sh.setTabColor(tabs[name] || C.sage);
     sh.setFrozenRows(1);
     if (name === 'Ученики' || name === 'Карта') {
       sh.setFrozenColumns(2);
@@ -361,6 +366,7 @@ function doPost(e) {
     const st = findStudentRow_(body.t);
     if (!st || st.row[11] === false) return json_({error: 'not_found'});
     const code = String(body.t).trim();
+    if (body.telegram === 'connect') return json_(telegramConnect_(code));
     if (body.letter !== undefined) return json_(saveLetter_(code, body.letter));
     return json_(setHwDone_(code, body.id, body.text, body.done));
   } finally { lock.releaseLock(); }
@@ -474,6 +480,17 @@ function admin_(b) {
         else sh.appendRow([code, n, t, u, l]);
         return fresh();
       }
+      case 'telegramPause':
+      case 'telegramReset': {
+        need(); const result = telegramAdmin_(code, b.op, b); return result.error ? result : fresh();
+      }
+      case 'hwNotify': {
+        need(); const sh = ss.getSheetByName('Домашка'), row = Number(b.id);
+        if (!Number.isInteger(row) || row < 2 || row > sh.getLastRow()) return {error: 'no_task'};
+        const v = sh.getRange(row, 1, 1, 5).getValues()[0];
+        if (String(v[0]).trim() !== code || String(v[1]).trim() !== String(b.text || '').trim()) return {error: 'changed'};
+        return Object.assign(fresh(), {notification: telegramHomeworkNotice_(code, v[1], v[4])});
+      }
       case 'hwAdd': {
         need();
         const t = String(b.text || '').trim();
@@ -486,7 +503,7 @@ function admin_(b) {
           const u = String(f && f.url || '').trim();
           if (u) sheet_(ss, 'Файлы').appendRow([code, rowNo, String(f.name || 'PDF для печати').trim().slice(0, 120), u]);
         });
-        return fresh();
+        return Object.assign(fresh(), {notification: b.notify === true ? telegramHomeworkNotice_(code, t, b.url) : null});
       }
       case 'fileAdd': {
         need();
@@ -690,7 +707,7 @@ function studentData_(code, admin) {
     // для поздравления хватает дня и месяца, год подменяется на 2000.
     fname: String(r[14] || ''), bdate: admin ? day_(r[15]) : maskBdate_(day_(r[15])),
     parent: admin ? String(r[16] || '') : '', phone: admin ? String(r[17] || '') : '',
-    cls: Number(r[18]) || clsOfProg_(prog), grades: grades
+    cls: Number(r[18]) || clsOfProg_(prog), grades: grades, telegram: telegramState_(code)
   };
   if (admin) {
     out.active = r[11] !== false; out.code = code;
@@ -742,3 +759,259 @@ function ruDate_(iso) {
   return m ? m[3] + '.' + m[2] + '.' + m[1] : '';
 }
 function json_(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
+
+/* ================= Telegram: личные уведомления о домашке =================
+ * Токен вводится ТОЛЬКО в меню таблицы и хранится в Script Properties.
+ * Два триггера: команды боту раз в минуту, опубликованные файлы раз в 5 минут.
+ * Первое чтение файла создаёт эталон; старые задания не рассылаются.
+ */
+function telegramSS_() {
+  const id = PropertiesService.getScriptProperties().getProperty('TG_SPREADSHEET_ID');
+  return id ? SpreadsheetApp.openById(id) : SpreadsheetApp.getActive();
+}
+function telegramRows_(name) {
+  const sh = sheet_(telegramSS_(), name);
+  return sh.getLastRow() < 2 ? [] : sh.getRange(2, 1, sh.getLastRow() - 1, SHEETS[name].length)
+    .getValues().map((v, i) => ({v: v, row: i + 2}));
+}
+function telegramStudent_(code) {
+  const sh = telegramSS_().getSheetByName('Ученики');
+  if (!sh || sh.getLastRow() < 2) return null;
+  const row = sh.getRange(2, 1, sh.getLastRow() - 1, 19).getValues()
+    .find(r => String(r[0]).trim() === String(code));
+  return row && row[11] !== false ? row : null;
+}
+function telegramBinding_(code) {
+  return telegramRows_('Telegram').find(r => String(r.v[0]) === code) || null;
+}
+function telegramAvailable_() {
+  const p = PropertiesService.getScriptProperties();
+  return !!p.getProperty('TG_BOT_TOKEN') && /^[a-zA-Z0-9_]{5,32}$/.test(p.getProperty('TG_BOT_USERNAME') || '');
+}
+function telegramState_(code) {
+  if (!telegramAvailable_()) return {available: false, connected: false, paused: false};
+  const row = telegramBinding_(code);
+  // Ни Chat ID, ни токен, ни одноразовые ссылки не входят в ответ кабинета.
+  return {available: true, connected: !!(row && row.v[2] === true), paused: !!(row && row.v[3] === true)};
+}
+function telegramHash_(bytes) {
+  return Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, bytes)
+    .map(b => ('0' + ((b + 256) % 256).toString(16)).slice(-2)).join('');
+}
+function telegramApi_(method, body, token) {
+  token = token || PropertiesService.getScriptProperties().getProperty('TG_BOT_TOKEN');
+  if (!token) return {ok: false, error: 'telegram_not_configured'};
+  try {
+    const res = UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/' + method, {
+      method: 'post', contentType: 'application/json', payload: JSON.stringify(body || {}),
+      muteHttpExceptions: true, followRedirects: false
+    });
+    const data = JSON.parse(res.getContentText());
+    if (res.getResponseCode() === 200 && data.ok === true) return {ok: true, result: data.result};
+    return {ok: false, error: data.error_code === 403 ? 'telegram_blocked' : 'telegram_api_error'};
+  } catch (err) {
+    // Ошибки UrlFetch могут содержать URL с токеном. Не возвращаем и не логируем их.
+    return {ok: false, error: 'telegram_network_error'};
+  }
+}
+function configureTelegram() {
+  const ui = SpreadsheetApp.getUi();
+  const a = ui.prompt('Подключить Telegram-бота', 'Вставь токен от @BotFather. Он сохранится только в настройках скрипта, не на сайте.', ui.ButtonSet.OK_CANCEL);
+  if (a.getSelectedButton() !== ui.Button.OK) return;
+  const token = a.getResponseText().trim();
+  if (!/^\d+:[A-Za-z0-9_-]{20,}$/.test(token)) { ui.alert('Не похоже на токен Telegram-бота.'); return; }
+  const me = telegramApi_('getMe', {}, token), hook = telegramApi_('getWebhookInfo', {}, token);
+  if (!me.ok || !me.result.is_bot || !/^[a-zA-Z0-9_]{5,32}$/.test(me.result.username || '') || !hook.ok) {
+    ui.alert('Не получилось проверить бота. Проверь токен и повтори.'); return;
+  }
+  if (hook.result.url) {
+    ui.alert('Этот бот уже подключён к другому сервису через webhook. Создай отдельного бота для кабинета, чтобы не нарушить прежнее подключение.'); return;
+  }
+  const props = PropertiesService.getScriptProperties(), previous = props.getProperty('TG_BOT_TOKEN');
+  props.setProperties({TG_BOT_TOKEN: token, TG_BOT_USERNAME: me.result.username, TG_SPREADSHEET_ID: SpreadsheetApp.getActive().getId()});
+  ['Telegram', 'Telegram-ссылки', 'Telegram-файлы'].forEach(n => sheet_(telegramSS_(), n));
+  if (previous && previous !== token) {
+    telegramRows_('Telegram').forEach(r => telegramSS_().getSheetByName('Telegram').getRange(r.row, 2, 1, 5).setValues([['', false, false, '', '']]));
+    const links = sheet_(telegramSS_(), 'Telegram-ссылки');
+    if (links.getLastRow() >= 2) links.getRange(2, 1, links.getLastRow() - 1, 3).clearContent();
+  }
+  if (previous !== token) props.deleteProperty('TG_OFFSET');
+  ScriptApp.getProjectTriggers().filter(t => ['pollTelegramUpdates', 'scanTelegramHomework'].includes(t.getHandlerFunction()))
+    .forEach(t => ScriptApp.deleteTrigger(t));
+  ScriptApp.newTrigger('pollTelegramUpdates').timeBased().everyMinutes(1).create();
+  ScriptApp.newTrigger('scanTelegramHomework').timeBased().everyMinutes(5).create();
+  ui.alert('Бот @' + me.result.username + ' подключён. Теперь сделай новую версию развёртывания Apps Script. Ученики подключают уведомления кнопкой в своём кабинете.');
+}
+function telegramConnect_(code) {
+  if (!telegramAvailable_()) return {error: 'telegram_not_configured'};
+  const sh = sheet_(telegramSS_(), 'Telegram-ссылки'), now = Date.now();
+  telegramRows_('Telegram-ссылки').filter(r => String(r.v[1]) === code || !(new Date(r.v[2]).getTime() > now))
+    .sort((a, b) => b.row - a.row).forEach(r => sh.deleteRow(r.row));
+  const token = Utilities.getUuid().replace(/-/g, '') + Utilities.getUuid().replace(/-/g, '').slice(0, 16);
+  sh.appendRow([telegramHash_(token), code, new Date(now + 10 * 60 * 1000)]);
+  return {ok: true, url: 'https://t.me/' + PropertiesService.getScriptProperties().getProperty('TG_BOT_USERNAME') + '?start=' + token};
+}
+function telegramSeedAgain_(code) {
+  const sh = sheet_(telegramSS_(), 'Telegram-файлы');
+  telegramRows_('Telegram-файлы').filter(r => String(r.v[1]) === code)
+    .sort((a, b) => b.row - a.row).forEach(r => sh.deleteRow(r.row));
+}
+function telegramAdmin_(code, op, b) {
+  const row = telegramBinding_(code);
+  if (!row) return {error: 'telegram_not_connected'};
+  const sh = sheet_(telegramSS_(), 'Telegram');
+  if (op === 'telegramReset') {
+    sh.getRange(row.row, 2, 1, 5).setValues([['', false, false, '', '']]);
+    const links = sheet_(telegramSS_(), 'Telegram-ссылки');
+    telegramRows_('Telegram-ссылки').filter(r => String(r.v[1]) === code).sort((a, b) => b.row - a.row).forEach(r => links.deleteRow(r.row));
+    telegramSeedAgain_(code);
+  } else {
+    sh.getRange(row.row, 4).setValue(b.paused === true);
+    // После тихого редактирования новое содержимое станет исходным эталоном.
+    if (b.paused !== true) telegramSeedAgain_(code);
+  }
+  return {ok: true};
+}
+function telegramSend_(code, text, fileUrl) {
+  if (!telegramAvailable_()) return {ok: false, error: 'telegram_not_configured'};
+  const row = telegramBinding_(code);
+  if (!telegramStudent_(code) || !row || row.v[2] !== true) return {ok: false, error: 'telegram_not_connected'};
+  if (row.v[3] === true) return {ok: false, error: 'telegram_paused'};
+  const buttons = [[{text: 'Открыть кабинет', url: PAGE + '#' + code}]];
+  const url = telegramSiteUrl_(fileUrl);
+  if (url) buttons.unshift([{text: 'Открыть задание', url: url}]);
+  const result = telegramApi_('sendMessage', {
+    chat_id: String(row.v[1]), text: String(text).slice(0, 3500),
+    link_preview_options: {is_disabled: true}, reply_markup: {inline_keyboard: buttons}
+  });
+  const sh = sheet_(telegramSS_(), 'Telegram');
+  sh.getRange(row.row, 6).setValue(result.ok ? '' : result.error);
+  if (result.error === 'telegram_blocked') sh.getRange(row.row, 3).setValue(false);
+  return {ok: result.ok, error: result.error || ''};
+}
+function telegramHomeworkNotice_(code, title, url) {
+  return telegramSend_(code, 'Домашнее задание от lili.math\n\n' + String(title || '').slice(0, 500), url);
+}
+function telegramHandleUpdate_(update) {
+  const m = update && update.message;
+  if (!m || !m.chat || m.chat.type !== 'private' || !m.from || m.from.is_bot || !/^\d+$/.test(String(m.chat.id))) return;
+  const text = String(m.text || '').trim(), chat = String(m.chat.id);
+  if (/^\/stop(?:@\w+)?(?:\s|$)/i.test(text)) {
+    const sh = sheet_(telegramSS_(), 'Telegram');
+    telegramRows_('Telegram').filter(r => String(r.v[1]) === chat).forEach(r => sh.getRange(r.row, 2, 1, 5).setValues([['', false, false, '', '']]));
+    telegramApi_('sendMessage', {chat_id: chat, text: 'Уведомления отключены. Подключить их заново можно из своего кабинета.'});
+    return;
+  }
+  const start = /^\/start(?:@\w+)?\s+([A-Za-z0-9_-]{32,64})$/.exec(text);
+  if (!start) {
+    if (/^\/start(?:@\w+)?$/i.test(text)) telegramApi_('sendMessage', {chat_id: chat, text: 'Открой свой кабинет на lilimath.ru и нажми «Подключить Telegram». Затем вернись сюда по полученной ссылке и нажми «Старт».'});
+    return;
+  }
+  const hash = telegramHash_(start[1]);
+  const link = telegramRows_('Telegram-ссылки').find(r => String(r.v[0]) === hash && new Date(r.v[2]).getTime() > Date.now());
+  if (!link || !telegramStudent_(String(link.v[1]))) {
+    telegramApi_('sendMessage', {chat_id: chat, text: 'Ссылка недействительна или истекла. Получи новую в своём кабинете.'}); return;
+  }
+  const code = String(link.v[1]), row = telegramBinding_(code);
+  if (row && row.v[2] === true && String(row.v[1]) !== chat) {
+    telegramApi_('sendMessage', {chat_id: chat, text: 'Уведомления уже подключены. Если нужно сменить аккаунт, попроси учителя отключить прежнюю привязку.'}); return;
+  }
+  const sh = sheet_(telegramSS_(), 'Telegram'), data = [code, chat, true, false, new Date(), ''];
+  if (row) sh.getRange(row.row, 1, 1, 6).setValues([data]); else sh.appendRow(data);
+  sheet_(telegramSS_(), 'Telegram-ссылки').deleteRow(link.row);
+  telegramSeedAgain_(code);
+  telegramApi_('sendMessage', {chat_id: chat, text: 'Готово! Сюда будут приходить обновления твоих домашних заданий. Отключить уведомления: /stop.'});
+}
+function pollTelegramUpdates() {
+  if (!telegramAvailable_()) return;
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(1000)) return;
+  try {
+    const props = PropertiesService.getScriptProperties();
+    const res = telegramApi_('getUpdates', {offset: Number(props.getProperty('TG_OFFSET') || 0), timeout: 0, limit: 30, allowed_updates: ['message']});
+    if (!res.ok || !Array.isArray(res.result)) return;
+    for (const update of res.result) {
+      if (!Number.isSafeInteger(update.update_id)) continue;
+      telegramHandleUpdate_(update);
+      props.setProperty('TG_OFFSET', String(update.update_id + 1));
+    }
+  } finally { lock.releaseLock(); }
+}
+function telegramSiteUrl_(value) {
+  let url = String(value || '').trim();
+  if (!url) return '';
+  if (!/^[a-z]+:/i.test(url) && !url.startsWith('//')) url = 'https://lilimath.ru/' + url.replace(/^\/+/, '');
+  const m = /^https:\/\/lilimath\.ru\/([^?#]*)(?:[?#].*)?$/i.exec(url);
+  if (!m || /(?:^|\/)\.{1,2}(?:\/|$)|\\|%2e|%2f|%5c/i.test(m[1]) || !/\.(?:html?|pdf)$/i.test(m[1])) return '';
+  return 'https://lilimath.ru/' + m[1];
+}
+function telegramWatchList_() {
+  const linked = {};
+  telegramRows_('Telegram').forEach(r => { const code = String(r.v[0]); if (r.v[2] === true && telegramStudent_(code)) linked[code] = true; });
+  const list = {}, hw = {}, add = (code, value, title) => {
+    const url = telegramSiteUrl_(value);
+    if (!linked[code] || !url) return;
+    const key = telegramHash_(code + '\n' + url);
+    list[key] = {key: key, code: code, url: url, title: String(title || 'Домашнее задание').slice(0, 140)};
+  };
+  telegramRows_('Домашка').forEach(r => {
+    const v = r.v, code = String(v[0]).trim();
+    if (!String(v[1] || '').trim() || v[6] === true || !linked[code]) return;
+    hw[r.row] = {code: code, title: v[1]};
+    add(code, v[4], v[1]); add(code, v[8], v[1]);
+  });
+  telegramRows_('Файлы').forEach(r => {
+    const h = hw[Number(r.v[1])];
+    if (h && h.code === String(r.v[0]).trim()) add(h.code, r.v[3], h.title);
+  });
+  return Object.values(list);
+}
+function telegramFetchFile_(url) {
+  try {
+    const r = UrlFetchApp.fetch(url, {muteHttpExceptions: true, followRedirects: false});
+    const status = r.getResponseCode();
+    if (status !== 200) return {error: 'http_' + status};
+    const bytes = r.getContent();
+    if (!bytes.length || bytes.length > 8 * 1024 * 1024) return {error: 'file_size'};
+    return {hash: telegramHash_(bytes)};
+  } catch (err) { return {error: 'fetch_failed'}; }
+}
+function scanTelegramHomework() {
+  if (!telegramAvailable_()) return;
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(1000)) return;
+  try {
+    const props = PropertiesService.getScriptProperties(), sh = sheet_(telegramSS_(), 'Telegram-файлы');
+    const list = telegramWatchList_(), wanted = {};
+    list.forEach(x => { wanted[x.key] = true; });
+    // Снятые или выполненные назначения не должны оставлять старый эталон навсегда.
+    telegramRows_('Telegram-файлы').filter(r => !wanted[String(r.v[0])]).sort((a, b) => b.row - a.row).forEach(r => sh.deleteRow(r.row));
+    const saved = {};
+    telegramRows_('Telegram-файлы').forEach(r => { saved[String(r.v[0])] = r; });
+    const urls = Array.from(new Set(list.map(x => x.url))).sort();
+    if (!urls.length) return;
+    // Не более 40 разных файлов за проход; курсор не даёт большому списку застрять на первых.
+    const start = Number(props.getProperty('TG_SCAN_CURSOR') || 0) % urls.length;
+    const selected = new Set(Array.from({length: Math.min(40, urls.length)}, (_, i) => urls[(start + i) % urls.length]));
+    const fetched = {}, changes = {};
+    const put = (item, hash, error) => {
+      const values = [item.key, item.code, item.url, hash, new Date(), error || ''];
+      if (saved[item.key]) sh.getRange(saved[item.key].row, 1, 1, 6).setValues([values]);
+      else { sh.appendRow(values); saved[item.key] = {row: sh.getLastRow(), v: values}; }
+    };
+    list.filter(x => selected.has(x.url)).forEach(item => {
+      const file = fetched[item.url] || (fetched[item.url] = telegramFetchFile_(item.url));
+      const prev = saved[item.key], old = prev ? String(prev.v[3] || '') : '';
+      if (file.error) { put(item, old, file.error); return; }
+      const binding = telegramBinding_(item.code);
+      if (!old || old === file.hash || (binding && binding.v[3] === true)) { put(item, file.hash, ''); return; }
+      (changes[item.code] = changes[item.code] || []).push({item: item, hash: file.hash});
+    });
+    Object.keys(changes).forEach(code => {
+      const batch = changes[code], titles = Array.from(new Set(batch.map(x => x.item.title)));
+      const sent = telegramSend_(code, 'Обновилось домашнее задание\n\n' + titles.join('\n').slice(0, 2400), batch.length === 1 ? batch[0].item.url : '');
+      batch.forEach(x => put(x.item, sent.ok ? x.hash : String(saved[x.item.key].v[3] || ''), sent.error));
+    });
+    props.setProperty('TG_SCAN_CURSOR', String((start + selected.size) % urls.length));
+  } finally { lock.releaseLock(); }
+}
