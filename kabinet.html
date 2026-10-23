@@ -659,6 +659,12 @@ button.skr:hover{background:rgba(243,236,226,.09)}
 .xbtn:hover{color:var(--miss);border-color:var(--miss)}
 .xbtn.arm{background:var(--miss);color:#2a1510;border-color:var(--miss);font-size:13px;font-weight:700}
 .hwi.t{grid-template-columns:auto 1fr auto}
+.hwedit-dialog{width:min(620px,calc(100% - 24px));max-height:90dvh;overflow:auto;padding:24px;border:1px solid var(--line);border-radius:24px;background:var(--bg2);color:var(--fg);box-shadow:0 25px 100px #0009}
+.hwedit-dialog::backdrop{background:#0009;backdrop-filter:blur(5px)}
+.hwedit-dialog form{display:grid;gap:14px}.hwedit-dialog h2{margin:0}
+.hwedit-dialog .fld{margin:0}.hwedit-dialog .edit-actions{display:flex;gap:10px;flex-wrap:wrap}
+.hwedit-dialog .edit-file{display:flex;align-items:center;gap:10px;overflow-wrap:anywhere}
+.hwedit-dialog .edit-file input{flex:none}.hwedit-dialog textarea{min-height:100px}
 .prl{list-style:none;margin:0;padding:0;display:grid;gap:6px}
 .prl li{display:grid;grid-template-columns:auto 1fr auto auto;gap:10px;align-items:center;padding:6px 8px 6px 12px;border-radius:14px;background:rgba(0,0,0,.18);border:1px solid var(--line);font-size:14.5px}
 .prl .pd{color:var(--muted);font-variant-numeric:tabular-nums;font-size:13px}
@@ -1545,10 +1551,52 @@ function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).
 
 function tHwRow(h){const d=!!h.done,k=daysTo(h.due);return `<li class="hwi t ${d?'done':''}">
   <button class="chk" data-hw="${h.id}" aria-pressed="${d}" aria-label="Сделано: ${esc(h.t)}">${I.ok}</button>
-  <div style="min-width:0"><div class="hwt">${esc(h.t)}</div><div class="hwm">${h.n?`<span class="tagn">${esc(h.n)}</span>`:''}${h.sec&&HWSEC[h.sec]?`<span class="kchip new">${HWSEC[h.sec]}</span>`:''}<span class="due ${!d&&k!==null&&k<=1?'soon':''}">${d?'сделано':dueText(h.due)}</span>${hwLinks(h)}${D.telegram&&D.telegram.connected&&!D.telegram.paused?`<button class="chip" type="button" data-hnotify="${h.id}">Уведомить</button>`:''}<label class="chip pdfchip" title="Прикрепить PDF для печати — можно несколько">+ PDF<input type="file" class="hwfi" data-hw="${h.id}" accept="application/pdf,image/*" multiple></label></div></div>
+  <div style="min-width:0"><div class="hwt">${esc(h.t)}</div><div class="hwm">${h.n?`<span class="tagn">${esc(h.n)}</span>`:''}${h.sec&&HWSEC[h.sec]?`<span class="kchip new">${HWSEC[h.sec]}</span>`:''}<span class="due ${!d&&k!==null&&k<=1?'soon':''}">${d?'сделано':dueText(h.due)}</span>${hwLinks(h)}<button class="chip" type="button" data-hedit="${h.id}">Редактировать</button>${D.telegram&&D.telegram.connected&&!D.telegram.paused?`<button class="chip" type="button" data-hnotify="${h.id}">Уведомить</button>`:''}<label class="chip pdfchip" title="Прикрепить PDF для печати — можно несколько">+ PDF<input type="file" class="hwfi" data-hw="${h.id}" accept="application/pdf,image/*" multiple></label></div></div>
   <button class="xbtn" data-del="${h.id}" aria-label="Удалить задание">×</button></li>`}
+function hwEditSnapshot(h){return {t:h.t,n:h.n||'',due:h.due||'',url:h.url||'',label:h.label||'',file:h.file||'',sec:h.sec||'',files:(h.files||[]).map(f=>{const x={name:f.name,url:f.url};if(f.id!==undefined)x.id=f.id;return x})}}
+function openHwEditor(h){
+ const expected=hwEditSnapshot(h),code=CODE;
+ const files=(h.files||[]).map(f=>({name:f.name,url:f.url}));
+ if(h.file&&!files.some(f=>f.url===h.file))files.unshift({name:'PDF с заданиями',url:h.file});
+ const dlg=document.createElement('dialog');dlg.className='hwedit-dialog';dlg.setAttribute('aria-labelledby','he-title');
+ dlg.innerHTML=`<form id="he-form"><h2 id="he-title">Редактировать ДЗ</h2>
+ <label class="fld"><span>Что сделать</span><textarea id="he-t" required>${esc(h.t)}</textarea></label>
+ <div class="fgrid"><label class="fld"><span>Разделы карты / задания ОГЭ</span><input id="he-n" value="${esc(h.n||'')}"></label>
+ <label class="fld"><span>Срок</span><input id="he-d" type="date" value="${esc(h.due||'')}"></label>
+ <label class="fld"><span>Раздел домашки</span><select id="he-s">${hwSecOptions(h.sec||'')}</select></label></div>
+ <label class="fld"><span>Интерактив с сайта или ссылка</span><input id="he-u" list="sitepages" value="${esc(h.url||'')}" placeholder="Страница с сайта или https://…"></label>
+ <label class="fld"><span>Подпись ссылки</span><input id="he-l" value="${esc(h.label||'')}"></label>
+ ${files.length?`<fieldset style="border:1px solid var(--line);border-radius:14px"><legend>Вложения</legend><p class="note">Оставь галочки у файлов, которые нужно сохранить.</p>${files.map((f,i)=>`<label class="edit-file"><input type="checkbox" data-keep="${i}" checked><span>${esc(f.name)}</span></label>`).join('')}</fieldset>`:''}
+ <label class="fld"><span>Добавить PDF или фото</span><input id="he-f" type="file" accept="application/pdf,image/*" multiple></label>
+ <p class="note">Отметка о выполнении сохранится. Правки появятся у ученика после обновления кабинета.</p>
+ <div id="he-e" class="ferr" role="alert"></div><div class="edit-actions"><button class="btn" id="he-save" type="submit">${D.telegram&&D.telegram.available?'Сохранить без уведомления':'Сохранить изменения'}</button>${D.telegram&&D.telegram.connected&&!D.telegram.paused?'<button class="btn ghost" id="he-save-notify" type="submit">Сохранить и уведомить</button>':''}<button class="btn ghost" id="he-cancel" type="button">Отмена</button></div></form>`;
+ document.body.appendChild(dlg);dlg.showModal();let saving=false,uploaded=[];
+ const close=()=>{dlg.close();dlg.remove()};dlg.querySelector('#he-cancel').onclick=close;
+ dlg.addEventListener('cancel',e=>{e.preventDefault();if(!saving)close()});
+ dlg.querySelector('#he-f').onchange=()=>{uploaded=[]};
+ dlg.querySelector('form').onsubmit=async e=>{e.preventDefault();if(saving)return;const notify=!!(e.submitter&&e.submitter.id==='he-save-notify');
+  const v=id=>dlg.querySelector('#'+id).value.trim(),er=dlg.querySelector('#he-e'),btn=dlg.querySelector('#he-save');
+  er.textContent='';if(!v('he-t')){er.textContent='Впиши, что нужно сделать.';return}
+  const u=v('he-u');if(u&&/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(u)&&!/^https?:\/\//i.test(u)){er.textContent='Укажи страницу с сайта или ссылку, начинающуюся с https://.';return}
+  const fs=[...dlg.querySelector('#he-f').files];if(fs.some(f=>f.size>20*1024*1024)){er.textContent='Один из файлов больше 20 МБ. Сожми его или раздели на части.';return}
+  const pg=PAGES.find(p=>p[0]===u),payload={id:h.id,expected,notify,text:v('he-t'),n:v('he-n'),due:v('he-d'),sec:v('he-s'),url:u,label:v('he-l')||(pg?pg[1]:''),files:files.filter((f,i)=>dlg.querySelector('[data-keep="'+i+'"]').checked)};
+  saving=true;dlg.querySelectorAll('button,input,textarea,select').forEach(x=>x.disabled=true);btn.textContent='Сохраняю…';
+  try{
+   const caps=await adm('ping');if(!caps.hwEdit)throw new Error('hw_edit_update');
+   if(CODE!==code)throw new Error('changed');
+   for(let i=uploaded.length;i<fs.length;i++){btn.textContent='Загружаю файлы…';const data=await readB64(fs[i]);const j=await adm('upload',{fname:fs[i].name,mime:fs[i].type||'application/pdf',data});uploaded.push({name:fs[i].name,url:j.url})}
+   if(CODE!==code)throw new Error('changed');
+   const j=await adm('hwEdit',Object.assign(payload,{files:payload.files.concat(uploaded)}));close();apply(j);toast(j.notification?notificationText(j.notification):'Домашнее задание обновлено');
+  }catch(err){if(String(err.message)==='hw_edit_update'){
+    er.textContent='Чтобы сохранять правки, один раз обнови скрипт Google Таблицы: расширения → Apps Script → замени код → сохрани → Развернуть → Управление развертываниями → Изменить → Новая версия → Развернуть. Адрес развёртывания оставь прежним. ';
+    const a=document.createElement('a');a.href='https://github.com/liliya-math/oge/blob/main/kabinet-apps-script.txt';a.target='_blank';a.rel='noopener';a.textContent='Открыть готовый код';er.appendChild(a);
+   }else if(String(err.message)==='changed'){er.textContent='Задание изменилось в таблице. Скопируй свои правки, закрой редактор и заново открой кабинет ученика.'}
+   else er.textContent=errText(err);
+  }finally{saving=false;if(dlg.isConnected){dlg.querySelectorAll('button,input,textarea,select').forEach(x=>x.disabled=false);btn.textContent=D.telegram&&D.telegram.available?'Сохранить без уведомления':'Сохранить изменения'}}
+ };
+}
 function hwSecOptions(sel){const oge=clsOf()>=8||PROG().oge;const L=[['','Обычное задание'],['raz','Разборы'],['theor','Теория'],['oral','Вопросы к устному опросу']];if(oge)L.push(['oge','ОГЭ']);return L.map(o=>`<option value="${o[0]}" ${sel===o[0]?'selected':''}>${o[1]}</option>`).join('')}
-function tHwCard(){const open=D.hw.filter(h=>!h.done),done=D.hw.filter(h=>h.done).slice(-6).reverse();const L=open.concat(done);
+function tHwCard(){const open=D.hw.filter(h=>!h.done),done=D.hw.filter(h=>h.done).slice().reverse();const L=open.concat(done);
  return `<div class="card" id="hwcard"><div class="sh"><h2>Домашка</h2><span class="sub">${open.length} не сделано</span></div>
  ${L.length?`<ul class="hw">${L.map(tHwRow).join('')}</ul>`:'<p class="klead" style="margin:0">Пока ничего не задано.</p>'}
  <div class="formbox"><span class="eyebrow">Новое задание</span>
@@ -1622,6 +1670,7 @@ function tBind(){
  document.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{const n=+b.dataset.t;S.sel=n;save();document.querySelectorAll('.tile').forEach(x=>x.setAttribute('aria-pressed',x===b));document.getElementById('tdet').innerHTML=tDetail(n);bindDetail();
   const sk=document.getElementById('skills');if(sk){sk.outerHTML=skillsCard(true);bindSkills()}});
  bindDetail();bindSkills();
+ document.querySelectorAll('[data-hedit]').forEach(b=>b.onclick=()=>{const h=D.hw.find(x=>String(x.id)===b.dataset.hedit);if(h)openHwEditor(h)});
  document.querySelectorAll('#hwcard .chk').forEach(b=>b.onclick=()=>{const h=D.hw.find(x=>String(x.id)===b.dataset.hw);if(!h)return;h.done=!h.done;tRender();
   adm('hwDone',{id:h.id,text:h.t,done:h.done}).then(j=>apply(j)).catch(err=>{h.done=!h.done;tRender();toast(errText(err));if(String(err.message)==='changed')tStudent()})});
  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(!b.classList.contains('arm')){b.classList.add('arm');b.textContent='Удалить?';setTimeout(()=>{if(b.isConnected){b.classList.remove('arm');b.textContent='×'}},3000);return}

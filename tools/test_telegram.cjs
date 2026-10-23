@@ -135,3 +135,12 @@ test('scan budget rotates beyond the first 40 URLs without starving later assign
 test('network exceptions cannot expose token-bearing URLs through return values',()=>{
  const e=env();e.c.UrlFetchApp.fetch=url=>{throw new Error(url);};const r=e.c.telegramApi_('sendMessage',{});same(r,{ok:false,error:'telegram_network_error'});assert(!JSON.stringify(r).includes('123456:'));
 });
+test('homework editor retains completion and supports optional notification; stale edits never send',()=>{
+ const e=env();e.student('alpha');e.link('alpha',123);e.hw('alpha','one.html','Before',true);
+ let expected=JSON.parse(JSON.stringify(e.c.studentData_('alpha',true).hw[0]));delete expected.id;delete expected.done;
+ const body={admin:'test-admin',op:'hwEdit',t:'alpha',id:2,expected,text:'After',n:'',due:'',url:'two.html',label:'',sec:'',files:[],notify:false};
+ const first=e.c.admin_(body);assert(first.ok);assert.equal(e.tables['Домашка'].rows[1][6],true);assert.equal(e.messages.length,0);
+ const stale=e.c.admin_({...body,notify:true});assert.equal(stale.error,'changed');assert.equal(e.messages.length,0);
+ expected=JSON.parse(JSON.stringify(e.c.studentData_('alpha',true).hw[0]));delete expected.id;delete expected.done;
+ const second=e.c.admin_({...body,expected,text:'Final',notify:true});assert(second.ok);assert(second.notification.ok);assert.equal(e.messages.length,1);assert.equal(e.tables['Домашка'].rows[1][6],true);
+});
