@@ -707,6 +707,27 @@ button.skr:hover{background:rgba(243,236,226,.09)}
 
 .pets{grid-template-columns:repeat(3,1fr)!important}
 @media (min-width:600px){.pets{grid-template-columns:repeat(9,1fr)!important}}
+/* Student workspace · October 2026 */
+.cabnav{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;padding:7px;border:1px solid var(--line);border-radius:20px;background:#1b2b28;position:sticky;top:68px;z-index:15}
+.cabnav button{min-height:46px;border:0;border-radius:14px;background:transparent;color:var(--muted);font-size:14px;font-weight:600;padding:8px}
+.cabnav button[aria-pressed=true]{background:var(--cobalt);color:var(--fg)}
+.cabpanel{display:grid;gap:18px;min-width:0}.cabpanel h2{margin-top:0}.cabpanel[hidden]{display:none}
+.welcome{display:flex;gap:18px;align-items:center;padding:12px 0}.welcome .hpet{width:90px;height:90px;flex:none}.welcome .big1{font-size:clamp(28px,6vw,42px)}
+.focuswork{border-color:rgba(242,144,94,.45);background:linear-gradient(125deg,rgba(242,144,94,.1),rgba(23,71,201,.12));display:grid;gap:14px}
+.focuswork h2{font-size:clamp(22px,4vw,30px);line-height:1.25;margin:0}.focuswork p{margin:0}.focus-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.focus-actions a.btn{display:inline-flex;align-items:center;text-decoration:none}
+.hwfilters{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.hwfilters button{padding:9px 13px;min-height:42px;border-radius:12px;background:var(--glass);border:1px solid var(--line);color:var(--muted)}
+.hwfilters button[aria-pressed=true]{background:rgba(242,144,94,.14);border-color:var(--apricot);color:var(--fg)}
+.hwsearch{width:100%;min-height:46px;border:1px solid var(--line);background:rgba(0,0,0,.18);border-radius:13px;padding:10px 14px;color:var(--fg)}
+.hwstate{display:inline-flex;font-size:12px;padding:4px 8px;border-radius:8px;border:1px solid var(--line);color:var(--muted)}
+.hwstate.submitted,.hwstate.solving{color:var(--amber)}.hwstate.checked{color:var(--mint)}.hwstate.revise,.hwstate.help{color:var(--apricot)}
+.hwextra{display:grid;gap:8px;margin-top:10px}.hwextra p{margin:0;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}.hwextra .feedback{padding:12px;border-radius:12px;background:rgba(169,209,142,.07);border:1px solid var(--line)}
+.hwextra .chip{font-size:13px;padding:8px 12px}.hwextra a{color:var(--sky)}.hwi.done .hwextra{opacity:1}.hwi.done .hwt{text-decoration:none}
+.hwempty{padding:20px 0;color:var(--muted)}.folder{border:1px solid var(--line);border-radius:16px;padding:0 15px}.folder summary{padding:16px 0;cursor:pointer;font-weight:600}.folder .hw{margin:0 0 14px}.folder .hwi{padding:12px 0}
+.progress-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.progress-summary>div{padding:16px;border-radius:16px;background:var(--glass);border:1px solid var(--line)}.progress-summary b{display:block;font-size:26px;color:var(--fg)}.progress-summary span{font-size:13px;color:var(--muted)}
+.workflow-dialog{background:#1b2b28;color:var(--fg);border:1px solid var(--line);border-radius:24px;padding:24px;width:min(540px,calc(100vw - 24px));max-height:90dvh;overflow:auto}.workflow-dialog::backdrop{background:rgba(0,0,0,.7)}.workflow-dialog form{display:grid;gap:14px}.workflow-dialog h2,.workflow-dialog p{margin:0}.workflow-dialog select{width:100%;padding:10px;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:12px}.workflow-dialog input[type=file]{max-width:100%}.workflow-dialog .ferr{white-space:pre-wrap}.workflow-dialog .focus-actions{justify-content:flex-end}.workflow-dialog label{display:grid;gap:6px}.workflow-dialog textarea{min-height:100px}
+.cabpanel .two{align-items:start}.cabpanel .card{min-width:0}.focuswork .eyebrow{color:var(--apricot)}
+@media(max-width:640px){.cabnav{grid-template-columns:repeat(3,minmax(0,1fr));top:64px;border-radius:16px}.cabnav button{min-height:42px;font-size:12px}.welcome .hpet{width:66px;height:66px}.progress-summary{gap:6px}.progress-summary>div{padding:12px 9px}.progress-summary b{font-size:22px}.focus-actions .btn{height:auto;min-height:48px;padding:12px 16px}.hwfilters{gap:6px}.hwfilters button{font-size:13px}.hwextra .focus-actions{gap:6px}}
+
 </style>
 <div class="amb" aria-hidden="true"><i></i><i></i><i></i></div>
 <canvas id="fx" aria-hidden="true"></canvas>
@@ -1051,7 +1072,7 @@ const href=u=>!u?'':/^https?:\/\//.test(u)?u:BASE+u.replace(/^\/+/,'');
 function isoIn(k){const t=new Date(Date.now()+k*864e5);return t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0')}
 const DEMO_SK=()=>{const o={};[['N01','solid',-40],['N02','solid',-40],['N03','solid',-38],['N04','solid',-38],['N05','solid',-35],['N06','solid',-35],['N07','solid',-33],['N08','solid',-30],['N09','solid',-30],['N10','solid',-28],['N11','solid',-28],['N12','solid',-25],['N13','solid',-25],['N14','solid',-22],['N15','solid',-22],['N16','solid',-20],['N17','shaky',-9],['S02','solid',-14],['S03','gap',-9],['S05','solid',-14],['A01','solid',-12],['A02','shaky',-6],['A03','gap',-6],['G02','solid',-18],['G03','solid',-18],['G04','solid',-16],['G05','solid',-16],['G06','solid',-12],['G07','solid',-10],['G11','solid',-8],['G12','shaky',-3]].forEach(([id,s,k])=>o[id]={s,d:isoIn(k)});return o};
 function demoData(){const st='ssspp'+'s'.repeat(11)+'pssp'+'ggp'+'nn';const map={};for(let n=1;n<=25;n++)map[n]={s:'solid',p:'shaky',g:'gap',n:'new'}[st[n-1]];
- return {demo:true,skills:DEMO_SK(),name:'Маша',fname:'Петрова',dat:'Маше',bdate:'2011-04-22',parent:'Мама — Ольга',phone:'+7 900 123-45-67',cls:9,goal:22,days:'ср, сб',time:'18:00',board:'https://learnboard.ru',
+ return {demo:true,workflow:1,skills:DEMO_SK(),name:'Маша',fname:'Петрова',dat:'Маше',bdate:'2011-04-22',parent:'Мама — Ольга',phone:'+7 900 123-45-67',cls:9,goal:22,days:'ср, сб',time:'18:00',board:'https://learnboard.ru',
   topic:'Задания 4–5: тарифы и выгодный выбор',lessonsPlan:8,lessonsDone:4,
   work:['Задания 4, 5 и 17: довести до уверенного решения. Это +3 балла к прогнозу.','Задание 20: убрать ошибки в знаках. Ход решения уже верный.','Задание 21: начали задачи на движение, к концу месяца — первые решения без подсказки.'],
   map,notes:{
@@ -1064,10 +1085,10 @@ function demoData(){const st='ssspp'+'s'.repeat(11)+'pssp'+'ggp'+'nn';const map=
    23:{t:'Решает с подсказкой. Нужно, чтобы чертёж строила сама.'},
    24:{t:'Доказательства начнём в ноябре.'},25:{t:'Начнём в ноябре, после доказательств.'}},
   hw:[{id:'h1',t:'Тренажёр: проценты и округление',n:'4',due:isoIn(1),sec:'theor'},
-   {id:'h2',t:'Задание 15: теорема Пифагора, 6 задач',n:'15',due:isoIn(1),url:'z15-pifagor.html',label:'Открыть разбор',sec:'raz'},
-   {id:'h3',t:'Трапеция: выучить карточку с формулами',n:'17',due:isoIn(3),sec:'oral'},
-   {id:'h5',t:'ОГЭ: задания 12–13 из пробника, записать решения',n:'12, 13',due:isoIn(4),sec:'oge'},
-   {id:'h4',t:'Пробник №3: исправить ошибки в 4 и 20',n:'4, 20',due:isoIn(-1),done:true},
+   {id:'h2',status:'solving',t:'Задание 15: теорема Пифагора, 6 задач',n:'15',due:isoIn(1),url:'z15-pifagor.html',label:'Открыть разбор',sec:'raz'},
+   {id:'h3',status:'submitted',studentNote:'Записала формулы средней линии и площади.',done:true,t:'Трапеция: выучить карточку с формулами',n:'17',due:isoIn(3),sec:'oral'},
+   {id:'h5',status:'revise',feedback:'В задании 13 проверь знак неравенства при делении на отрицательное число.',t:'ОГЭ: задания 12–13 из пробника, записать решения',n:'12, 13',due:isoIn(4),sec:'oge'},
+   {id:'h4',status:'checked',feedback:'Исправления верные. Хорошая работа!',t:'Пробник №3: исправить ошибки в 4 и 20',n:'4, 20',due:isoIn(-1),done:true},
    ...Array.from({length:10},(_,i)=>({id:'o'+i,t:'Домашка '+(i+1),n:'',due:isoIn(-30+i*3),done:i!==6,old:true}))],
   grades:[{id:1,d:isoIn(-40),subj:'алгебра',p:4},{id:2,d:isoIn(-25),subj:'алгебра',p:5},{id:3,d:isoIn(-10),subj:'геометрия',p:4},{id:4,d:isoIn(-3),subj:'алгебра',p:5}],
   hist:[{d:isoIn(-30),t:'Диагностика',p:9},{d:isoIn(-16),t:'Пробник №1',p:12},{d:isoIn(-7),t:'Пробник №2',p:14},{d:isoIn(-1),t:'Пробник №3',p:16}]};
@@ -1081,7 +1102,7 @@ const gradeP=p=>p>=22?5:p>=15?4:p>=8?3:2;
 function geoPts(){return [15,16,17,18,19,23,24,25].reduce((s,n)=>s+(stOf(n)==='solid'?pts(n):0),0)}
 const geoNote=()=>PROG().oge&&geoPts()<2?`<p class="klead" style="margin:8px 0 0;color:var(--amber)">Пока нет двух баллов за геометрию (задания 15–19, 23–25). Без них ставят «2», даже если остальных баллов хватает.</p>`:'';
 function grade(p){const geo=[15,16,17,18,19,23,24,25].reduce((s,n)=>s+(stOf(n)==='solid'?pts(n):0),0);return geo<2?2:p>=22?5:p>=15?4:p>=8?3:2}
-const isDone=h=>D.demo&&h.id in S.hw?S.hw[h.id]:!!h.done;
+const isDone=h=>D.demo&&!wfEnabled()&&h.id in S.hw?S.hw[h.id]:!!h.done;
 function daysTo(iso){if(!iso)return null;const [y,m,d]=iso.split('-').map(Number);const a=new Date(y,m-1,d),n=new Date();n.setHours(0,0,0,0);return Math.round((a-n)/864e5)}
 function dueText(iso){const k=daysTo(iso);if(k===null)return 'без срока';if(k<0)return 'срок прошёл';if(k===0)return 'до сегодня';if(k===1)return 'до завтра';const [y,m,d]=iso.split('-').map(Number);return 'до '+new Date(y,m-1,d).toLocaleDateString('ru-RU',{weekday:'short',day:'numeric',month:'short'})}
 function shortDate(iso){if(!iso)return '';const [y,m,d]=iso.split('-').map(Number);return new Date(y,m-1,d).toLocaleDateString('ru-RU',{day:'numeric',month:'short'}).replace('.','')}
@@ -1091,7 +1112,7 @@ function sayList(){const a=[],left=visibleHW().filter(h=>!isDone(h)).length,pot=
  if(pot)a.push(`Жёлтая зона — это ещё ${pot} ${plural(pot,'балл','балла','баллов')}, которые уже почти твои.`);
  if(H.length>1&&H[H.length-1].p>H[0].p)a.push(`С первой диагностики +${H[H.length-1].p-H[0].p}. Это система, а не везение.`);
  if(D.topic)a.push('На следующем занятии: '+D.topic.charAt(0).toLowerCase()+D.topic.slice(1)+'.');
- if(!S.picked&&!TEACH)a.push('Выбери талисмана внизу страницы. Я не обижусь. Почти.');
+ if(!S.picked&&!TEACH)a.push('Выбери талисмана в разделе «Коллекция». Я не обижусь. Почти.');
  return a}
 
 /* ---------- расписание ----------
@@ -1199,7 +1220,6 @@ function hwGroups(){const g={};visibleHW().forEach(h=>{let s=(h.sec&&HWSEC[h.sec
 function hwCard(){const L=visibleHW(),d=L.filter(isDone).length,G=hwGroups();
  return `<div class="card" id="hwcard">
  <div class="sh"><h2>Домашка</h2><span class="sub" id="hwc">${L.length?d+' из '+L.length:''}</span></div>
- <ul class="mats"><li><a href="${href('domashnee-zadanie-trapeciya.html')}" target="_blank" rel="noopener">${logoMark(26)}<span>Домашнее задание · Трапеция</span><small>16 заданий</small></a></li></ul>
  ${L.length?Object.keys(G).map(k=>`${k?`<div class="plab" style="margin:14px 0 8px">${HWSEC[k]}</div>`:''}<ul class="hw">${G[k].map(hwRow).join('')}</ul>`).join('')+'<div class="hwbar"><i id="hwb" style="width:'+(d/L.length*100)+'%"></i></div>':'<p class="klead" style="margin:0">Пока ничего не задано. Отдыхай.</p>'}</div>`}
 function mapCard(ro){const P=PROG(),pot=potential(),c={solid:0,shaky:0,gap:0,new:0};for(let n=1;n<=P.nmax;n++)c[stOf(n)]++;
  return `<div class="card" id="map">
@@ -1239,10 +1259,10 @@ function gradesCard(){const G=(D.grades||[]).slice().reverse(),avg=avgMark(D.gra
  const head=`<div class="sh"><h2>Школьные оценки</h2><span class="sub">${avg!==null?'средний балл '+avg.toFixed(2):''}</span></div>`;
  if(!G.length)return `<div class="card">${head}<p class="klead" style="margin:0">Оценок пока нет. Здесь будет школьная успеваемость и график среднего балла.</p></div>`;
  return `<div class="card">${head}${gradesChart(D.grades)}<ul class="prl" style="margin-top:14px">${G.slice(0,12).map(g=>`<li><span class="pd">${shortDate(g.d)||'—'}</span><span class="pt">${esc(g.subj||'математика')}${g.note?` · <span style="color:var(--muted)">${esc(g.note)}</span>`:''}</span><span class="gm g${g.p}">${g.p}</span></li>`).join('')}</ul></div>`}
-function letterCard(){return `<div class="card" id="letcard"><div class="sh"><h2>Анонимно Лилии</h2><span class="sub">без имени, честно</span></div>
- <p class="klead" style="margin:-4px 0 12px;font-size:14.5px">Пожелание, отзыв или вопрос, который стесняешься задать лично. Имя не прикрепляется — я не узнаю, от кого письмо.</p>
+function letterCard(){return `<div class="card" id="letcard"><div class="sh"><h2>Личное письмо Лилии</h2><span class="sub">видит только Лилия</span></div>
+ <p class="klead" style="margin:-4px 0 12px;font-size:14.5px">Пожелание, отзыв или вопрос, который стесняешься задать лично. Сообщение увидит только Лилия.</p>
  <label class="fld"><span>Сообщение</span><textarea id="lt-t" rows="3" placeholder="Мне стеснительно, но я хочу спросить…"></textarea></label>
- <div class="ferr" id="lt-e"></div><button class="btn ghost" id="lt-b" type="button">Отправить анонимно</button></div>`}
+ <div class="ferr" id="lt-e"></div><button class="btn ghost" id="lt-b" type="button">Отправить письмо</button></div>`}
 function bdayCard(){return `<div class="bday enter">
  <img src="${BASE}img/bday-capy.jpg" alt="Капи Дзен в колпаке с тортом" width="230" height="230">
  <h2>С днём рождения!</h2>
@@ -1258,7 +1278,7 @@ function sendLetter(){
  er.textContent='';b.disabled=true;
  if(D.demo){ta.value='';b.disabled=false;toast('Демо: письма здесь не отправляются. В живом кабинете Лилия его получит.')}
  else fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({t:CODE,letter:txt.slice(0,2000)})})
-  .then(r=>r.json()).then(j=>{if(!j.ok)throw new Error(j.error||'fail');ta.value='';toast('Отправлено анонимно. Спасибо, что написал(а).')})
+  .then(r=>r.json()).then(j=>{if(!j.ok)throw new Error(j.error||'fail');ta.value='';toast('Письмо отправлено. Спасибо, что написал(а).')})
   .catch(err=>{er.textContent=errText(err)})
   .finally(()=>{b.disabled=false})
 }
@@ -1319,11 +1339,11 @@ function tBindTelegram(){
 function render(){
  if(!D)return;
  const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
- app.innerHTML=topbar()+`<div class="cab${firstPaint?' enter':''}">`+bday+(kid
-  ? heroKid()+`<div class="two">${lessonCard()}${hwCard()}</div>`+mapCard(false)+skillsCard(false)+gradesCard()+`<div class="two">${chartCard()}${stkCard()}</div>`+telegramCard()+letterCard()+((D.mats&&D.mats.length)||!D.matsAll?matCard():'')+petCard()
-  : heroPar()+mapCard(true)+skillsCard(true)+`<div class="two">${chartCard()}${workCard()}</div>`+gradesCard())+foot()+`</div>`;
+ app.innerHTML=topbar()+`<div class="cab${firstPaint?' enter':''}">`+(kid
+  ? kidWorkspace(bday)
+  : bday+heroPar()+mapCard(true)+skillsCard(true)+`<div class="two">${chartCard()}${workCard()}</div>`+gradesCard())+foot()+`</div>`;
  firstPaint=false;
- bind();if(bday)bdayFX();
+ bind();if(kid)bindWorkspace();if(bday)bdayFX();
 }
 function screen(title,text,btn){app.innerHTML=topbar()+`<div class="cab enter"><section class="khero">
  <div class="hpet">${petSVG(tal().id,btn==='load'?'idle':'sad')}</div>
@@ -1345,8 +1365,8 @@ function bind(){
  const cp=document.getElementById('cpy');if(cp)cp.onclick=()=>{const done=()=>{cp.textContent='Скопировано'};const fail=()=>{const r=document.createRange();r.selectNodeContents(document.getElementById('tgv'));const s=getSelection();s.removeAllRanges();s.addRange(r);cp.textContent='Выделено'};try{navigator.clipboard.writeText('@ohh_my_lily').then(done,fail)}catch(e){fail()}};
  const lb=document.getElementById('lt-b');if(lb)lb.onclick=sendLetter;
 }
-function paintHW(h){const li=document.getElementById('hw-'+h.id);if(!li)return;li.outerHTML=hwRow(h);const b=document.querySelector(`.chk[data-hw="${h.id}"]`);if(b)b.onclick=()=>toggleHW(h.id,b);
- const L=visibleHW(),d=L.filter(isDone).length;const c=document.getElementById('hwc');if(c)c.textContent=d+' из '+L.length;const bar=document.getElementById('hwb');if(bar)bar.style.width=(d/L.length*100)+'%';return d===L.length}
+function paintHW(h){const y=scrollY;render();scrollTo({top:y});const L=visibleHW();return L.length>0&&L.every(isDone)}
+
 function toggleHW(id,btn){
  const h=D.hw.find(x=>String(x.id)===String(id));if(!h||btn.disabled)return;
  const now=!isDone(h);
@@ -1369,6 +1389,37 @@ function toast(t){const el=document.createElement('div');el.className='toast';el
 function grantSticker(){const own=new Set(S.stk);let pool=STK.filter(s=>!own.has(s.id)&&(s.r==='r'||s.r==='e'));if(!pool.length)pool=STK.filter(s=>!own.has(s.id));const s=pool.length?pick(pool):null;if(!s)return;S.stk.push(s.id);save();
  const el=document.createElement('div');el.className='toast';el.innerHTML=`${stkHTML(s,'pop')}<span>Вся домашка сделана</span>`;document.body.appendChild(el);setTimeout(()=>{el.classList.add('out');setTimeout(()=>el.remove(),500)},3200);
  const c=document.getElementById('stkcard');if(c)c.outerHTML=stkCard()}
+
+/* Uses the current cabinet data and feature-detects Apps Script 7.6. */
+const WF_LABEL={new:'Не начато',solving:'Решаю',submitted:'На проверке',checked:'Проверено',revise:'Нужно исправить',help:'Нужна помощь',done:'Выполнено'};
+const CAB_TABS=[['today','Сегодня'],['homework','Домашка'],['materials','Материалы'],['progress','Мой прогресс'],['rewards','Коллекция'],['contact','Связь']];
+function wfEnabled(){return !!(D&&(D.workflow===1||D.demo))}
+function wfStatus(h){return wfEnabled()?(WF_LABEL[h.status]?h.status:h.done?'done':'new'):(isDone(h)?'done':'new')}
+function wfGroup(h){const s=wfStatus(h);return s==='submitted'?'review':s==='checked'||s==='done'?'done':'todo'}
+function hwSorted(list){return list.slice().sort((a,b)=>{const ap=['revise','help'].includes(wfStatus(a))?0:1,bp=['revise','help'].includes(wfStatus(b))?0:1;return ap-bp||(a.due||'9999').localeCompare(b.due||'9999')||String(a.id).localeCompare(String(b.id))})}
+function cabTab(){return CAB_TABS.some(x=>x[0]===S.cabTab)?S.cabTab:'today'}
+function cabNav(){return `<nav class="cabnav" aria-label="Разделы кабинета">${CAB_TABS.map(([id,label])=>`<button type="button" data-cabtab="${id}" aria-controls="cab-${id}" aria-pressed="${cabTab()===id}">${label}${id==='homework'&&D.hw.filter(h=>!h.old&&wfGroup(h)==='todo').length?' · '+D.hw.filter(h=>!h.old&&wfGroup(h)==='todo').length:''}</button>`).join('')}</nav>`}
+function cabPanel(id,html){return `<section class="cabpanel" id="cab-${id}" aria-label="${CAB_TABS.find(x=>x[0]===id)[1]}" ${cabTab()===id?'':'hidden'}>${html}</section>`}
+function switchCabTab(id){if(!CAB_TABS.some(x=>x[0]===id))return;S.cabTab=id;save();document.querySelectorAll('.cabpanel').forEach(p=>p.hidden=p.id!=='cab-'+id);document.querySelectorAll('[data-cabtab]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.cabtab===id));document.querySelector('.cabnav')?.scrollIntoView({block:'start',behavior:'smooth'})}
+function welcomeKid(){return `<section class="welcome"><div class="hpet" id="hpet" role="button" tabindex="0" aria-label="Твой талисман ${esc(tal().n)}">${petSVG(tal().id,'idle')}</div><div><span class="eyebrow">Твой кабинет · lili.math</span><h1 class="big1">${esc(D.name)}, <em>привет!</em></h1><div class="say" id="say">Здесь твои задания, материалы и успехи.</div></div></section>`}
+function focusWork(){const list=hwSorted(D.hw.filter(h=>!h.old&&wfGroup(h)==='todo')),h=list[0],waiting=D.hw.filter(h=>!h.old&&wfGroup(h)==='review').length;
+ if(!h)return `<div class="card focuswork"><span class="eyebrow">На сегодня</span><h2>${waiting?'Работа отправлена на проверку':'Все назначенные задания выполнены'}</h2><p class="klead">${waiting?'Пока Лилия проверяет, можно повторить материал по теме.':'Можно повторить трудную тему или отдохнуть до следующего занятия.'}</p><div class="focus-actions"><button class="btn" data-go="materials">Открыть материалы</button><button class="btn ghost" data-go="homework">Мои работы</button></div></div>`;
+ const started=['solving','revise','help'].includes(wfStatus(h)),url=href(h.url||h.file||(h.files||[])[0]?.url);
+ return `<div class="card focuswork"><span class="eyebrow">${wfStatus(h)==='revise'?'Вернись к исправлениям':'Сейчас делаем'}</span><h2>${esc(h.t)}</h2><p class="klead">${esc(dueText(h.due))}${h.sec&&HWSEC[h.sec]?' · '+HWSEC[h.sec]:''}</p>${h.feedback?`<p class="feedback">Лилия: ${esc(h.feedback)}</p>`:''}<div class="focus-actions">${url?`<a class="btn" href="${esc(url)}" target="_blank" rel="noopener" data-hwopen="${esc(h.id)}">${started?'Продолжить':'Открыть задание'}</a>`:'<button class="btn" data-go="homework">Посмотреть задание</button>'}<button class="btn ghost" data-go="homework">Вся домашка · ${list.length}</button></div><p class="note">Решай в тетради или на интерактивной доске.${wfEnabled()?' После решения отправь работу на проверку в разделе «Домашка».':' Когда закончишь, отметь выполнение в разделе «Домашка».'}</p></div>`}
+function wfExtra(h,teacher){const s=wfStatus(h);return `<div class="hwextra"><div><span class="hwstate ${s}">${WF_LABEL[s]}</span></div>${h.studentNote?`<p><b>Ученик:</b> ${esc(h.studentNote)}</p>`:''}${h.solutionUrl?`<a href="${esc(href(h.solutionUrl))}" target="_blank" rel="noopener">Фото решения / файл →</a>`:''}${h.feedback?`<p class="feedback"><b>Комментарий Лилии:</b> ${esc(h.feedback)}</p>`:''}${wfEnabled()?`<div class="focus-actions">${teacher?`<button class="chip" type="button" data-wfreview="${h.id}">Проверить / написать комментарий</button>`:`${!['checked','submitted'].includes(s)?`<button class="chip" type="button" data-wfsubmit="${h.id}">${s==='revise'?'Отправить исправления':'Отправить на проверку'}</button><button class="chip" type="button" data-wfhelp="${h.id}">Нужна помощь</button>`:''}`}</div>`:!teacher?`<a href="https://t.me/ohh_my_lily" target="_blank" rel="noopener">Нужна помощь? Напиши Лилии в Telegram →</a>`:''}</div>`}
+function newHwRow(h){const d=isDone(h);return `<li class="hwi ${d?'done':''}" id="hw-${h.id}" data-hwrow="${h.id}">${wfEnabled()?'':`<button class="chk" data-hw="${h.id}" aria-pressed="${d}" aria-label="Отметить: ${esc(h.t)}">${I.ok}</button>`}<div style="min-width:0;width:100%"><div class="hwt">${esc(h.t)}</div><div class="hwm">${h.n?`<span class="tagn">${esc(h.n)}</span>`:''}<span class="due ${!d&&daysTo(h.due)!==null&&daysTo(h.due)<=1?'soon':''}">${esc(dueText(h.due))}</span>${hwLinks(h)}</div>${wfExtra(h,false)}</div></li>`}
+function newHwCard(){const L=D.hw||[],active=L.filter(h=>!h.old),counts={todo:0,review:0,done:0};L.forEach(h=>{if(!h.old||wfGroup(h)==='done')counts[wfGroup(h)]++});const filter=['todo','review','done'].includes(S.hwFilter)&&!(S.hwFilter==='review'&&!wfEnabled())?S.hwFilter:'todo';
+ return `<div class="card" id="hwcard"><div class="sh"><h2>Домашка</h2><span class="sub" id="hwc">${active.filter(isDone).length} из ${active.length} выполнено</span></div><div class="hwfilters" role="group" aria-label="Статус работы">${[['todo','Нужно сделать'],...(wfEnabled()?[['review','На проверке']]:[]),['done','Архив']].map(([k,t])=>`<button type="button" data-hwfilter="${k}" aria-pressed="${filter===k}">${t} · ${counts[k]}</button>`).join('')}</div><label><span class="note">Найти задание</span><input type="search" class="hwsearch" id="hw-search" placeholder="Название или тема" value="${esc(S.hwQuery||'')}"></label><div id="hw-results" aria-live="polite"></div></div>`}
+function paintHwList(){const el=document.getElementById('hw-results');if(!el)return;const f=S.hwFilter==='review'&&!wfEnabled()?'todo':S.hwFilter||'todo',q=(S.hwQuery||'').toLowerCase().trim();const list=hwSorted(D.hw.filter(h=>(!h.old||wfGroup(h)==='done')&&wfGroup(h)===f&&(!q||(h.t+' '+(h.n||'')+' '+(HWSEC[h.sec]||'')).toLowerCase().includes(q))));el.innerHTML=list.length?`<ul class="hw">${list.map(newHwRow).join('')}</ul>`:`<p class="hwempty">${q?'По этому запросу заданий нет.':f==='done'?'Здесь появятся выполненные работы.':f==='review'?'Пока нет работ на проверке.':'Все текущие задания выполнены.'}</p>`;bindHomeworkRows()}
+function materialsFolders(){const groups=new Map(),P=PROG();(D.hw||[]).filter(h=>!h.old).forEach(h=>{const nums=String(h.n||'').match(/\d+/g)||[],names=nums.map(n=>P.topic[+n]).filter(Boolean),title=names.length?[...new Set(names)].join(' · '):h.t.split(':')[0].trim()||'Другие материалы',key=nums.length?nums.join(','):title;if(!groups.has(key))groups.set(key,{title,items:[]});groups.get(key).items.push(h)});return `<div class="card"><div class="sh"><h2>Твои папки по темам</h2></div><p class="note">Теория, домашка, разборы и вопросы к устному опросу собраны рядом. Здесь только назначенные тебе материалы.</p>${[...groups.values()].map(g=>`<details class="folder"><summary>${esc(g.title)} · ${g.items.length}</summary><ul class="hw">${g.items.map(h=>`<li class="hwi"><div><span class="note">${esc(HWSEC[h.sec]||'Домашнее задание')}</span><div><b>${esc(h.t)}</b></div><div class="hwm">${hwLinks(h)||'<span class="note">Материал указан в тексте задания.</span>'}</div>${h.feedback?`<p class="note">Лилия: ${esc(h.feedback)}</p>`:''}</div></li>`).join('')}</ul></details>`).join('')||'<p class="hwempty">Когда Лилия назначит материалы, здесь появятся папки по темам.</p>'}</div>`}
+
+function progressSummary(){const P=PROG(),counts={solid:0,shaky:0,gap:0,new:0};for(let n=1;n<=P.nmax;n++)counts[stOf(n)]++;const numeric=(D.hist||[]).filter(h=>typeof h.p==='number'),delta=numeric.length>1?numeric.at(-1).p-numeric[0].p:null;return `<div class="card"><div class="sh"><h2>Что уже получается</h2></div><div class="progress-summary"><div><b>${counts.solid}</b><span>тем решаешь уверенно</span></div><div><b>${counts.shaky}</b><span>тем ещё закрепляем</span></div><div><b>${delta===null?'—':(delta>=0?'+':'')+delta}</b><span>${delta===null?'сравним после двух работ':P.oge?'баллов с первой работы':'к результату первой работы'}</span></div></div><p class="note">${P.oge?'Оценка по карте тем — ориентир. Результаты реальных пробников показаны ниже.':'Статусы тем отмечает Лилия по результатам занятий.'}</p>${meter()}${geoNote()}</div>`}
+function kidWorkspace(bday){return welcomeKid()+cabNav()+cabPanel('today',bday+`<div class="two">${focusWork()}${lessonCard()}</div>`+workCard())+cabPanel('homework',newHwCard())+cabPanel('materials',materialsFolders()+((D.mats&&D.mats.length)||!D.matsAll?matCard():''))+cabPanel('progress',progressSummary()+mapCard(false)+skillsCard(false)+chartCard()+gradesCard())+cabPanel('rewards',stkCard()+petCard())+cabPanel('contact',`<div class="card"><div class="sh"><h2>Написать Лилии</h2></div><p class="klead">Если запутался в задании, пришли название работы, номер задачи и фото своего решения.</p><a class="btn" href="https://t.me/ohh_my_lily" target="_blank" rel="noopener">Открыть Telegram</a></div>`+telegramCard()+letterCard())}
+function bindHomeworkRows(){document.querySelectorAll('[data-hwrow] .hwm a').forEach(a=>a.dataset.hwopen=a.closest('[data-hwrow]').dataset.hwrow);document.querySelectorAll('#hw-results .chk').forEach(b=>b.onclick=()=>toggleHW(b.dataset.hw,b));bindWorkflowButtons()}
+function bindWorkspace(){document.querySelectorAll('[data-cabtab]').forEach(b=>b.onclick=()=>switchCabTab(b.dataset.cabtab));document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>switchCabTab(b.dataset.go));document.querySelectorAll('[data-hwfilter]').forEach(b=>b.onclick=()=>{S.hwFilter=b.dataset.hwfilter;save();document.querySelectorAll('[data-hwfilter]').forEach(x=>x.setAttribute('aria-pressed',x===b));paintHwList()});const search=document.getElementById('hw-search');if(search)search.oninput=()=>{S.hwQuery=search.value;save();paintHwList()};paintHwList();bindWorkflowButtons()}
+function bindWorkflowButtons(){document.querySelectorAll('[data-wfsubmit],[data-wfhelp],[data-wfreview]').forEach(b=>b.onclick=()=>{const id=b.dataset.wfsubmit||b.dataset.wfhelp||b.dataset.wfreview;const h=D.hw.find(h=>String(h.id)===String(id));if(h)openWorkflow(h,b.dataset.wfreview?'review':b.dataset.wfhelp?'help':'submit')});document.querySelectorAll('[data-hwopen]').forEach(a=>a.onclick=()=>{const h=D.hw.find(h=>String(h.id)===String(a.dataset.hwopen));if(h&&wfEnabled()&&wfStatus(h)==='new')workflowSave(h,{status:'solving'}).then(()=>{const y=scrollY;render();scrollTo({top:y})}).catch(()=>toast('Задание открыто. Отметка «Решаю» не сохранилась — проверь связь.'))})}
+async function workflowSave(h,fields){if(D.demo){Object.assign(h,fields,{studentNote:fields.note===undefined?h.studentNote:fields.note,revision:Date.now()});h.done=['submitted','checked','done'].includes(h.status);return}const body={t:CODE,id:h.id,text:h.t,revision:h.revision||'',...fields};let j;if(TEACH)j=await adm('hwReview',body);else{const response=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({...body,workflow:true})});j=await response.json();if(j.error||!j.ok)throw new Error(j.error||'net')}if(TEACH)D=j.d;else if(j.hw){Object.assign(h,j.hw);cacheSave()}else throw new Error('net')}
+function openWorkflow(h,mode){const review=mode==='review',help=mode==='help',dlg=document.createElement('dialog');dlg.className='workflow-dialog';dlg.setAttribute('aria-labelledby','wf-title');const current=wfStatus(h);dlg.innerHTML=`<form><h2 id="wf-title">${review?'Проверка работы':help?'Нужна помощь':'Отправить на проверку'}</h2><p class="note">${esc(h.t)}</p>${review?`<label>Результат проверки<select name="status"><option value="checked" ${current==='checked'?'selected':''}>Проверено</option><option value="revise" ${current==='revise'?'selected':''}>Нужно исправить</option></select></label>`:help?`<label>Где возникла трудность<select name="reason"><option>Не понимаю условие</option><option>Не знаю, с чего начать</option><option>Ответ не сходится</option></select></label>`:''}<label>${review?'Комментарий ученику':help?'Что уже попробовал сделать':'Ход мысли или вопрос (необязательно)'}<textarea name="note" maxlength="2000">${esc(review?h.feedback||'':h.studentNote||'')}</textarea></label>${review?(h.solutionUrl?`<a href="${esc(href(h.solutionUrl))}" target="_blank" rel="noopener">Открыть решение ученика →</a>`:''):`<label>Фото решения или PDF (до 5 МБ)<input name="photo" type="file" accept="image/jpeg,image/png,image/webp,application/pdf"></label><p class="note">Можно прикрепить фото тетради или написать ход решения выше.</p>`}<p class="ferr" role="alert"></p><div class="focus-actions"><button type="button" class="btn ghost" data-close>Отмена</button><button type="submit" class="btn">${review?'Сохранить':help?'Отправить вопрос':'Отправить работу'}</button></div></form>`;document.body.appendChild(dlg);dlg.onclose=()=>dlg.remove();dlg.querySelector('[data-close]').onclick=()=>dlg.close();dlg.addEventListener('cancel',e=>{if(dlg.dataset.busy)e.preventDefault()});dlg.querySelector('form').onsubmit=async e=>{e.preventDefault();const f=e.currentTarget,error=dlg.querySelector('.ferr'),submit=f.querySelector('[type=submit]');error.textContent='';const note=f.elements.note.value.trim(),photo=f.elements.photo?.files[0];if(photo&&photo.size>5*1024*1024){error.textContent='Файл больше 5 МБ. Пришли фото меньшего размера.';return}if(!review&&!help&&!note&&!photo&&!h.solutionUrl){error.textContent='Добавь фото решения или напиши ход решения.';return}if(review&&f.elements.status.value==='revise'&&!note){error.textContent='Напиши, что нужно исправить.';return}submit.disabled=true;dlg.dataset.busy='1';f.querySelector('[data-close]').disabled=true;try{const fields=review?{status:f.elements.status.value,feedback:note}:{status:help?'help':'submitted',note:help?f.elements.reason.value+(note?'\n'+note:''):note};if(photo)fields.photo={name:photo.name,mime:photo.type,data:await readB64(photo)};await workflowSave(h,fields);dlg.close();if(TEACH)tRender();else render();toast(D.demo?'Демо: изменение показано только в этом примере.':review?'Проверка сохранена':help?'Вопрос сохранён — Лилия увидит его в кабинете':'Работа отправлена на проверку')}catch(err){error.textContent=errText(err);submit.disabled=false;delete dlg.dataset.busy;f.querySelector('[data-close]').disabled=false}};dlg.showModal()}
 
 /* ---------- загрузка ---------- */
 const CKEY='cab-data-'+CODE;
@@ -1550,8 +1601,8 @@ function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).
  <button class="btn" id="f-save" type="button">Сохранить настройки</button></div></details>`}
 
 function tHwRow(h){const d=!!h.done,k=daysTo(h.due);return `<li class="hwi t ${d?'done':''}">
-  <button class="chk" data-hw="${h.id}" aria-pressed="${d}" aria-label="Сделано: ${esc(h.t)}">${I.ok}</button>
-  <div style="min-width:0"><div class="hwt">${esc(h.t)}</div><div class="hwm">${h.n?`<span class="tagn">${esc(h.n)}</span>`:''}${h.sec&&HWSEC[h.sec]?`<span class="kchip new">${HWSEC[h.sec]}</span>`:''}<span class="due ${!d&&k!==null&&k<=1?'soon':''}">${d?'сделано':dueText(h.due)}</span>${hwLinks(h)}<button class="chip" type="button" data-hedit="${h.id}">Редактировать</button>${D.telegram&&D.telegram.connected&&!D.telegram.paused?`<button class="chip" type="button" data-hnotify="${h.id}">Уведомить</button>`:''}<label class="chip pdfchip" title="Прикрепить PDF для печати — можно несколько">+ PDF<input type="file" class="hwfi" data-hw="${h.id}" accept="application/pdf,image/*" multiple></label></div></div>
+  ${wfEnabled()?'':`<button class="chk" data-hw="${h.id}" aria-pressed="${d}" aria-label="Сделано: ${esc(h.t)}">${I.ok}</button>`}
+  <div style="min-width:0"><div class="hwt">${esc(h.t)}</div><div class="hwm">${h.n?`<span class="tagn">${esc(h.n)}</span>`:''}${h.sec&&HWSEC[h.sec]?`<span class="kchip new">${HWSEC[h.sec]}</span>`:''}<span class="due ${!d&&k!==null&&k<=1?'soon':''}">${d?'сделано':dueText(h.due)}</span>${hwLinks(h)}<button class="chip" type="button" data-hedit="${h.id}">Редактировать</button>${D.telegram&&D.telegram.connected&&!D.telegram.paused?`<button class="chip" type="button" data-hnotify="${h.id}">Уведомить</button>`:''}<label class="chip pdfchip" title="Прикрепить PDF для печати — можно несколько">+ PDF<input type="file" class="hwfi" data-hw="${h.id}" accept="application/pdf,image/*" multiple></label></div>${wfEnabled()?wfExtra(h,true):''}</div>
   <button class="xbtn" data-del="${h.id}" aria-label="Удалить задание">×</button></li>`}
 function hwEditSnapshot(h){return {t:h.t,n:h.n||'',due:h.due||'',url:h.url||'',label:h.label||'',file:h.file||'',sec:h.sec||'',files:(h.files||[]).map(f=>{const x={name:f.name,url:f.url};if(f.id!==undefined)x.id=f.id;return x})}}
 function openHwEditor(h){
@@ -1596,7 +1647,7 @@ function openHwEditor(h){
  };
 }
 function hwSecOptions(sel){const oge=clsOf()>=8||PROG().oge;const L=[['','Обычное задание'],['raz','Разборы'],['theor','Теория'],['oral','Вопросы к устному опросу']];if(oge)L.push(['oge','ОГЭ']);return L.map(o=>`<option value="${o[0]}" ${sel===o[0]?'selected':''}>${o[1]}</option>`).join('')}
-function tHwCard(){const open=D.hw.filter(h=>!h.done),done=D.hw.filter(h=>h.done).slice().reverse();const L=open.concat(done);
+function tHwCard(){const open=D.hw.filter(h=>!h.done),done=D.hw.filter(h=>h.done).slice().reverse();const L=open.concat(done).sort((a,b)=>{const priority=h=>({submitted:0,help:1,revise:2,new:3,solving:3,done:4,checked:4}[wfStatus(h)]??3);return priority(a)-priority(b)});
  return `<div class="card" id="hwcard"><div class="sh"><h2>Домашка</h2><span class="sub">${open.length} не сделано</span></div>
  ${L.length?`<ul class="hw">${L.map(tHwRow).join('')}</ul>`:'<p class="klead" style="margin:0">Пока ничего не задано.</p>'}
  <div class="formbox"><span class="eyebrow">Новое задание</span>
@@ -1626,7 +1677,7 @@ function tGradesCard(){const G=(D.grades||[]).slice().reverse(),avg=avgMark(D.gr
 
 function tLettersCard(){const L=(D.letters||[]).slice().reverse();if(!L.length)return '';
  const un=L.filter(l=>!l.read).length;
- return `<div class="card"><div class="sh"><h2>Анонимные письма</h2><span class="sub">${un?un+' не прочитано':'все прочитаны'}</span></div>
+ return `<div class="card"><div class="sh"><h2>Личные письма</h2><span class="sub">${un?un+' не прочитано':'все прочитаны'}</span></div>
  <div class="letrow">${L.map(l=>`<div class="letitem ${l.read?'':'unread'}"><div>${esc(l.text)}</div>
   <div class="lm"><span>${esc(l.d||'')}${l.time?' · '+esc(l.time):''} · ${l.read?'прочитано':'новое'}</span>
   <span class="acts">${l.read?'':`<button class="btn ghost tsm" data-lread="${l.id}" type="button">Прочитано</button>`}<button class="xbtn" data-ldel="${l.id}" type="button" aria-label="Удалить письмо">×</button></span></div></div>`).join('')}</div></div>`}
@@ -1656,6 +1707,7 @@ function tDetail(n){if(!n)return `<p class="klead" style="margin:14px 0 0;font-s
  <div class="ferr" id="nt-e"></div><button class="btn" id="nt-save" type="button">Сохранить комментарий</button></div>`}
 
 function tBind(){
+ bindWorkflowButtons();
  tBindTelegram();
  bindTopT();
  document.getElementById('mKid').onclick=()=>{if(S.mode!=='kid'){S.mode='kid';save();tRender()}};
@@ -1731,3 +1783,7 @@ start();
 
 })();
 </script>
+
+
+</body>
+</html>

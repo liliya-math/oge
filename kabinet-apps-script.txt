@@ -1,5 +1,6 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 7.5
+ * Кабинет ученика 25/25 · lili.math — версия 7.6
+ * (7.6: проверка ДЗ, вопросы, фото решения и комментарии; setup + новая версия развёртывания)
  * (7.5: Telegram-уведомления; настройка бота через меню таблицы, затем новая версия развёртывания)
  * (7.4: редактирование выданной домашки с сохранением выполнения; после замены кода
  *  выбери «Развернуть → Управление развертываниями → Изменить → Новая версия»)
@@ -37,7 +38,7 @@ const SHEETS = {
   'Комментарии': ['Код', 'Задание ОГЭ', 'Комментарий', 'Ссылка на разбор', 'Подпись ссылки'],
   'Разборы': ['Код', 'Ссылка', 'Название', 'Подпись'],
   'Материалы': ['Ссылка', 'Название'],
-  'Домашка': ['Код', 'Что сделать', 'Задания ОГЭ', 'Срок', 'Ссылка', 'Подпись ссылки', 'Сделано', 'Отмечено', 'Файл (PDF)', 'Раздел'],
+  'Домашка': ['Код', 'Что сделать', 'Задания ОГЭ', 'Срок', 'Ссылка', 'Подпись ссылки', 'Сделано', 'Отмечено', 'Файл (PDF)', 'Раздел', 'Статус работы', 'Сообщение ученика', 'Комментарий учителя', 'Решение ученика', 'Обновлено', 'Версия работы'],
   'Файлы': ['Код', 'Строка ДЗ', 'Название', 'Ссылка'],
   'Пробники': ['Код', 'Дата', 'Название', 'Баллы'],
   'Оценки': ['Код', 'Дата', 'Предмет', 'Оценка', 'Примечание'],
@@ -369,6 +370,7 @@ function doPost(e) {
     if (!st || st.row[11] === false) return json_({error: 'not_found'});
     const code = String(body.t).trim();
     if (body.telegram === 'connect') return json_(telegramConnect_(code));
+    if (body.workflow === true) return json_(workflowHw_(code, body, false));
     if (body.letter !== undefined) return json_(saveLetter_(code, body.letter));
     return json_(setHwDone_(code, body.id, body.text, body.done));
   } finally { lock.releaseLock(); }
@@ -407,6 +409,7 @@ function setHwDone_(code, id, text, done) {
   const v = sh.getRange(row, 1, 1, 2).getValues()[0];
   if (String(v[0]).trim() !== code || String(v[1]).trim() !== String(text || '').trim()) return {error: 'changed'};
   sh.getRange(row, 7, 1, 2).setValues([[!!done, done ? new Date() : '']]);
+  if (sh.getMaxColumns() >= 16) { sh.getRange(row, 11).setValue(done ? 'submitted' : 'new'); sh.getRange(row, 16).setValue(Utilities.getUuid()); }
   return {ok: true};
 }
 
@@ -423,7 +426,8 @@ function admin_(b) {
     const need = () => { const st = findStudentRow_(code); if (!st) throw new Error('not_found'); return st; };
     const fresh = () => ({ok: true, d: studentData_(code, true)});
     switch (b.op) {
-      case 'ping': return {ok: true, hwEdit: true};
+      case 'ping': return {ok: true, hwEdit: true, workflow: 1};
+      case 'hwReview': { need(); const result = workflowHw_(code, b, true); return result.ok ? fresh() : result; }
       case 'list': return {ok: true, students: listStudents_()};
       case 'get': { need(); return fresh(); }
       case 'addStudent': {
@@ -536,6 +540,7 @@ function admin_(b) {
         // Колонки G/H (выполнение и дата) остаются без изменений, ID задания тот же.
         const section = String(b.sec || '').trim().toLowerCase();
         sh.getRange(row, 9, 1, 2).setValues([['', HW_SECS.find(s => HW_SEC_KEY[s] === section) || '']]);
+        if (sh.getMaxColumns() >= 16) sh.getRange(row, 16).setValue(Utilities.getUuid());
         attached.slice().reverse().forEach(f => fs.deleteRow(f.id));
         files.forEach(f => fs.appendRow([code, row, f.name, f.url]));
         return Object.assign(fresh(), {notification: b.notify === true ? telegramHomeworkNotice_(code, text, url) : null});
@@ -714,6 +719,7 @@ function studentData_(code, admin) {
     if (k >= 2) (hwFiles[k] = hwFiles[k] || []).push({name: String(x.v[2] || 'PDF для печати'), url: String(x.v[3] || ''), id: x.row});
   });
   const hw = rows('Домашка').filter(x => String(x.v[1]).trim()).map(x => ({
+    status: String(x.v[10] || ''), studentNote: String(x.v[11] || ''), feedback: String(x.v[12] || ''), solutionUrl: String(x.v[13] || ''), revision: String(x.v[15] || ''),
     id: x.row, t: String(x.v[1]).trim(), n: String(x.v[2] || ''), due: day_(x.v[3]),
     url: String(x.v[4] || ''), label: String(x.v[5] || ''), done: x.v[6] === true, file: String(x.v[8] || ''),
     sec: HW_SEC_KEY[String(x.v[9] || '').trim().toLowerCase()] || '',
@@ -733,7 +739,7 @@ function studentData_(code, admin) {
   const matsAll = (matsSh && matsSh.getLastRow() >= 2) ? matsSh.getLastRow() - 1 : 0;
   const prog = progOf_(r);
   const out = {
-    name: String(r[1]), dat: String(r[2] || r[1]), goal: Number(r[3]) || Math.round(goalMax_(prog) * 0.8),
+    workflow: 1, name: String(r[1]), dat: String(r[2] || r[1]), goal: Number(r[3]) || Math.round(goalMax_(prog) * 0.8),
     days: String(r[4] || ''), time: st.time, topic: String(r[6] || ''), board: String(r[7] || ''),
     work: String(r[8] || '').split(';').map(s => s.trim()).filter(Boolean),
     lessonsPlan: Number(r[9]) || 0, lessonsDone: Number(r[10]) || 0,
@@ -1049,4 +1055,44 @@ function scanTelegramHomework() {
     });
     props.setProperty('TG_SCAN_CURSOR', String((start + selected.size) % urls.length));
   } finally { lock.releaseLock(); }
+}
+
+
+/* Homework workflow v7.6. All writes run under the existing script lock. */
+function workflowHw_(code, b, teacher) {
+  const sh = SpreadsheetApp.getActive().getSheetByName('Домашка');
+  const row = Number(b.id);
+  if (!sh || !Number.isInteger(row) || row < 2 || row > sh.getLastRow()) return {error: 'changed'};
+  if (sh.getMaxColumns() < 16) sh.insertColumnsAfter(sh.getMaxColumns(), 16 - sh.getMaxColumns());
+  const v = sh.getRange(row, 1, 1, 16).getValues()[0];
+  if (String(v[0]).trim() !== code || String(v[1]).trim() !== String(b.text || '').trim()) return {error: 'changed'};
+  if (String(v[15] || '') !== String(b.revision || '')) return {error: 'changed'};
+  const allowed = teacher ? ['checked', 'revise'] : ['solving', 'submitted', 'help'];
+  const status = String(b.status || '');
+  if (!allowed.includes(status)) return {error: 'bad_value'};
+  const previous = String(v[10] || '');
+  if (!teacher && ['checked', 'submitted'].includes(previous)) return {error: 'changed'};
+  let note = String(b.note === undefined ? v[11] || '' : b.note).trim().slice(0, 2000);
+  const feedback = teacher ? String(b.feedback || '').trim().slice(0, 2000) : String(v[12] || '');
+  if (teacher && status === 'revise' && !feedback) return {error: 'bad_value'};
+  let solutionUrl = String(v[13] || '');
+  if (!teacher && b.photo) {
+    const p = b.photo;
+    if (!['image/jpeg', 'image/png', 'image/webp', 'application/pdf'].includes(String(p.mime)) || typeof p.data !== 'string' || p.data.length > 6990520 || !/^[A-Za-z0-9+/]*={0,2}$/.test(p.data)) return {error: 'bad_value'};
+    const bytes = Utilities.base64Decode(p.data);
+    if (!bytes.length || bytes.length > 5 * 1024 * 1024) return {error: 'bad_value'};
+    const folders = DriveApp.getFoldersByName('Кабинет 25-25 · решения учеников');
+    const folder = folders.hasNext() ? folders.next() : DriveApp.createFolder('Кабинет 25-25 · решения учеников');
+    const name = String(p.name || 'решение').replace(/[\\/:*?"<>|]/g, '_').slice(0, 100);
+    const file = folder.createFile(Utilities.newBlob(bytes, p.mime, code + ' — ' + name));
+    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    solutionUrl = file.getUrl();
+  }
+  if (!teacher && status === 'submitted' && !note && !solutionUrl) return {error: 'bad_value'};
+  const now = new Date(), revision = Utilities.getUuid();
+  sh.getRange(1, 11, 1, 6).setValues([SHEETS['Домашка'].slice(10)]);
+  sh.getRange(row, 11, 1, 6).setValues([[status, note, feedback, solutionUrl, now, revision]]);
+  const done = status === 'submitted' || status === 'checked';
+  sh.getRange(row, 7, 1, 2).setValues([[done, done ? now : '']]);
+  return {ok: true, hw: {status: status, studentNote: note, feedback: feedback, solutionUrl: solutionUrl, revision: revision, done: done}};
 }
