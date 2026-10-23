@@ -20,6 +20,7 @@ html,body{background:var(--bg);color:var(--fg)}
 body{font-family:var(--sans);font-size:16px;line-height:1.5;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 button,input,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
+[hidden]{display:none!important}
 :focus-visible{outline:2px solid var(--apricot);outline-offset:3px;border-radius:10px}
 
 /* ambient glow */
@@ -1276,11 +1277,50 @@ function foot(){const note=D&&D.demo?'<span class="demo"><b>Пример</b> · 
  return `<footer class="foot">${note}<span class="wm">lili<i>.</i>math</span></footer>`}
 
 let firstPaint=true;
+/* Telegram uses the existing cabinet API; bot credentials never reach the browser. */
+function telegramCard(){
+ if(!LIVE||!D.telegram||!D.telegram.available)return '';
+ const t=D.telegram;
+ return `<section class="card" id="telegram-card"><div class="sh"><h2>Домашка в Telegram</h2></div>
+ <p class="klead">${t.connected?(t.paused?'Уведомления временно на паузе.':'Telegram подключён. Обновления назначенных домашних заданий будут приходить сообщением.'):'Подключи бота, чтобы узнавать об обновлениях твоих домашних заданий.'}</p>
+ ${t.connected?'<p class="sub">Отключить сообщения можно командой /stop в боте.</p>':'<button class="btn" type="button" id="tg-connect">Подключить Telegram</button><a class="btn" id="tg-open" target="_blank" rel="noopener noreferrer" hidden>Открыть бота и нажать «Старт»</a>'}
+ <p class="sub" id="tg-status" role="status" aria-live="polite"></p></section>`;
+}
+function bindTelegram(){
+ const button=document.getElementById('tg-connect');if(!button)return;
+ button.onclick=async()=>{const status=document.getElementById('tg-status');button.disabled=true;status.textContent='Готовлю ссылку…';
+  try{const response=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({t:CODE,telegram:'connect'})});
+   const data=await response.json();if(data.error)throw new Error(data.error);
+   if(!/^https:\/\/t\.me\/[A-Za-z0-9_]{5,32}\?start=[A-Za-z0-9_-]{32,64}$/.test(data.url||''))throw new Error('net');
+   const link=document.getElementById('tg-open');link.href=data.url;link.hidden=false;button.hidden=true;
+   status.textContent='Ссылка действует 10 минут. Открой бота и нажми «Старт». Подключение займёт около минуты.';
+  }catch(error){button.disabled=false;status.textContent=errText(error);}
+ };
+}
+function tTelegramCard(){
+ const t=D.telegram;
+ if(!t||!t.available)return '';
+ return `<section class="card"><div class="sh"><h2>Telegram ученика</h2><span class="sub">${t.connected?(t.paused?'на паузе':'подключён'):'не подключён'}</span></div>
+ <p class="klead">${t.connected?'Опубликованные HTML и PDF на сайте проверяются примерно раз в 5 минут. Сообщения приходят только по назначенным и ещё не выполненным заданиям.':'Ученик подключает бота кнопкой в своём кабинете.'}</p>
+ ${t.connected?`<p class="sub">Для тихого обновления сначала поставь уведомления на паузу. После редактирования включи их: текущие версии файлов станут исходными.</p><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn ghost" type="button" id="tg-pause">${t.paused?'Включить уведомления':'Пауза для тихого обновления'}</button><button class="btn ghost" type="button" id="tg-reset">Отключить Telegram</button></div>`:''}</section>`;
+}
+function notificationText(result){
+ if(!result)return '';
+ if(result.ok)return 'Уведомление отправлено в Telegram';
+ return 'Задание сохранено. '+(ERR[result.error]||'Уведомление не отправлено; попробуй ещё раз кнопкой «Уведомить».');
+}
+function tBindTelegram(){
+ const pause=document.getElementById('tg-pause');if(pause)pause.onclick=()=>{pause.disabled=true;adm('telegramPause',{paused:!D.telegram.paused}).then(j=>{apply(j);toast(D.telegram.paused?'Уведомления на паузе':'Уведомления включены')}).catch(e=>{pause.disabled=false;toast(errText(e))});};
+ const reset=document.getElementById('tg-reset');if(reset)reset.onclick=()=>{if(!confirm('Отключить Telegram этого ученика? Для подключения понадобится снова нажать «Старт» по ссылке из кабинета.'))return;reset.disabled=true;adm('telegramReset').then(j=>{apply(j);toast('Telegram отключён')}).catch(e=>{reset.disabled=false;toast(errText(e))});};
+ document.querySelectorAll('[data-hnotify]').forEach(button=>button.onclick=()=>{const h=D.hw.find(x=>String(x.id)===button.dataset.hnotify);if(!h)return;button.disabled=true;adm('hwNotify',{id:h.id,text:h.t}).then(j=>{apply(j);toast(notificationText(j.notification))}).catch(e=>{button.disabled=false;toast(errText(e))});});
+ const send=document.getElementById('h-add-notify');if(send)send.onclick=()=>document.getElementById('h-add').onclick({notify:true});
+}
+
 function render(){
  if(!D)return;
  const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
  app.innerHTML=topbar()+`<div class="cab${firstPaint?' enter':''}">`+bday+(kid
-  ? heroKid()+`<div class="two">${lessonCard()}${hwCard()}</div>`+mapCard(false)+skillsCard(false)+gradesCard()+`<div class="two">${chartCard()}${stkCard()}</div>`+letterCard()+((D.mats&&D.mats.length)||!D.matsAll?matCard():'')+petCard()
+  ? heroKid()+`<div class="two">${lessonCard()}${hwCard()}</div>`+mapCard(false)+skillsCard(false)+gradesCard()+`<div class="two">${chartCard()}${stkCard()}</div>`+telegramCard()+letterCard()+((D.mats&&D.mats.length)||!D.matsAll?matCard():'')+petCard()
   : heroPar()+mapCard(true)+skillsCard(true)+`<div class="two">${chartCard()}${workCard()}</div>`+gradesCard())+foot()+`</div>`;
  firstPaint=false;
  bind();if(bday)bdayFX();
@@ -1292,6 +1332,7 @@ function screen(title,text,btn){app.innerHTML=topbar()+`<div class="cab enter"><
  const s=document.getElementById('snd');if(s)s.onclick=()=>{S.sound=!S.sound;save();s.innerHTML=S.sound?I.snd:I.mute};
  const r=document.getElementById('retry');if(r)r.onclick=()=>{screen('Открываю кабинет…','Секунду, забираю данные у Лилии.','load');load()}}
 function bind(){
+ bindTelegram();
  document.getElementById('snd').onclick=e=>{S.sound=!S.sound;save();e.currentTarget.innerHTML=S.sound?I.snd:I.mute;sfx.tap()};
  document.getElementById('mKid').onclick=()=>{if(S.mode!=='kid'){S.mode='kid';save();sfx.tap();render();scrollTo({top:0})}};
  document.getElementById('mPar').onclick=()=>{if(S.mode!=='par'){S.mode='par';save();sfx.tap();render();scrollTo({top:0})}};
@@ -1358,7 +1399,7 @@ setInterval(()=>{const e=document.getElementById('cd');if(!e||!D)return;const t=
 /* ===== Режим учителя: kabinet.html#lilia ===== */
 let PASS='';try{PASS=localStorage.getItem('cab-admin')||''}catch(e){}
 let busy=0,LIST=null;
-const ERR={no_password:'Сначала задай пароль в таблице: меню «Кабинет → Пароль для режима учителя».',
+const ERR={telegram_not_configured:'Сначала подключи Telegram-бота через меню Google-таблицы.',telegram_not_connected:'Ученик ещё не подключил Telegram-бота.',telegram_paused:'Уведомления на паузе.',telegram_blocked:'Ученик отключил бота. Нужно подключить его заново.',telegram_api_error:'Telegram временно недоступен. Попробуй уведомить позже.',telegram_network_error:'Не удалось связаться с Telegram. Попробуй уведомить позже.',no_password:'Сначала задай пароль в таблице: меню «Кабинет → Пароль для режима учителя».',
  old:'В таблице старая версия скрипта. Вставь новый код и сделай новую версию развёртывания.',
  not_found:'Такого ученика нет в таблице.',changed:'В таблице что-то поменялось. Данные обновлены, попробуй ещё раз.',
  bad_value:'Проверь, что всё заполнено правильно.',no_name:'Впиши имя ученика.',net:'Нет связи с таблицей. Проверь интернет.',
@@ -1437,7 +1478,7 @@ function apply(j,keep){D=j.d;tRender(keep)}
 function drafts(){const o={};app.querySelectorAll('input[id]:not([type=file]),textarea[id]').forEach(i=>{o[i.id]=i.type==='checkbox'?i.checked:i.value});return o}
 function tRender(keep){const y=scrollY,dr=keep===false?{}:drafts(),foc=document.activeElement&&document.activeElement.id;
  const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
- app.innerHTML=tTop()+`<div class="cab enter">`+adminCard()+bday+(kid
+ app.innerHTML=tTop()+`<div class="cab enter">`+adminCard()+tTelegramCard()+bday+(kid
   ? heroKid()+`<div class="two">${lessonCard(true)}${tHwCard()}</div>`+tMatCard()+mapCard(false)+skillsCard(false)+`<div class="two">${chartCard()}${probCard()}</div>`+tGradesCard()+tLettersCard()
   : heroPar()+mapCard(true)+skillsCard(true)+`<div class="two">${chartCard()}${workCard()}</div>`+tGradesCard()+tLettersCard())+foot()+`</div>`;
  Object.keys(dr).forEach(id=>{const i=document.getElementById(id);if(!i)return;if(i.type==='checkbox')i.checked=dr[id];else i.value=dr[id]});
@@ -1510,7 +1551,7 @@ function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).
 
 function tHwRow(h){const d=!!h.done,k=daysTo(h.due);return `<li class="hwi t ${d?'done':''}">
   <button class="chk" data-hw="${h.id}" aria-pressed="${d}" aria-label="Сделано: ${esc(h.t)}">${I.ok}</button>
-  <div style="min-width:0"><div class="hwt">${esc(h.t)}</div><div class="hwm">${h.n?`<span class="tagn">${esc(h.n)}</span>`:''}${h.sec&&HWSEC[h.sec]?`<span class="kchip new">${HWSEC[h.sec]}</span>`:''}<span class="due ${!d&&k!==null&&k<=1?'soon':''}">${d?'сделано':dueText(h.due)}</span>${hwLinks(h)}<button class="chip" type="button" data-hedit="${h.id}">Редактировать</button><label class="chip pdfchip" title="Прикрепить PDF для печати — можно несколько">+ PDF<input type="file" class="hwfi" data-hw="${h.id}" accept="application/pdf,image/*" multiple></label></div></div>
+  <div style="min-width:0"><div class="hwt">${esc(h.t)}</div><div class="hwm">${h.n?`<span class="tagn">${esc(h.n)}</span>`:''}${h.sec&&HWSEC[h.sec]?`<span class="kchip new">${HWSEC[h.sec]}</span>`:''}<span class="due ${!d&&k!==null&&k<=1?'soon':''}">${d?'сделано':dueText(h.due)}</span>${hwLinks(h)}<button class="chip" type="button" data-hedit="${h.id}">Редактировать</button>${D.telegram&&D.telegram.connected&&!D.telegram.paused?`<button class="chip" type="button" data-hnotify="${h.id}">Уведомить</button>`:''}<label class="chip pdfchip" title="Прикрепить PDF для печати — можно несколько">+ PDF<input type="file" class="hwfi" data-hw="${h.id}" accept="application/pdf,image/*" multiple></label></div></div>
   <button class="xbtn" data-del="${h.id}" aria-label="Удалить задание">×</button></li>`}
 function hwEditSnapshot(h){return {t:h.t,n:h.n||'',due:h.due||'',url:h.url||'',label:h.label||'',file:h.file||'',sec:h.sec||'',files:(h.files||[]).map(f=>{const x={name:f.name,url:f.url};if(f.id!==undefined)x.id=f.id;return x})}}
 function openHwEditor(h){
@@ -1528,30 +1569,30 @@ function openHwEditor(h){
  ${files.length?`<fieldset style="border:1px solid var(--line);border-radius:14px"><legend>Вложения</legend><p class="note">Оставь галочки у файлов, которые нужно сохранить.</p>${files.map((f,i)=>`<label class="edit-file"><input type="checkbox" data-keep="${i}" checked><span>${esc(f.name)}</span></label>`).join('')}</fieldset>`:''}
  <label class="fld"><span>Добавить PDF или фото</span><input id="he-f" type="file" accept="application/pdf,image/*" multiple></label>
  <p class="note">Отметка о выполнении сохранится. Правки появятся у ученика после обновления кабинета.</p>
- <div id="he-e" class="ferr" role="alert"></div><div class="edit-actions"><button class="btn" id="he-save" type="submit">Сохранить изменения</button><button class="btn ghost" id="he-cancel" type="button">Отмена</button></div></form>`;
+ <div id="he-e" class="ferr" role="alert"></div><div class="edit-actions"><button class="btn" id="he-save" type="submit">${D.telegram&&D.telegram.available?'Сохранить без уведомления':'Сохранить изменения'}</button>${D.telegram&&D.telegram.connected&&!D.telegram.paused?'<button class="btn ghost" id="he-save-notify" type="submit">Сохранить и уведомить</button>':''}<button class="btn ghost" id="he-cancel" type="button">Отмена</button></div></form>`;
  document.body.appendChild(dlg);dlg.showModal();let saving=false,uploaded=[];
  const close=()=>{dlg.close();dlg.remove()};dlg.querySelector('#he-cancel').onclick=close;
  dlg.addEventListener('cancel',e=>{e.preventDefault();if(!saving)close()});
  dlg.querySelector('#he-f').onchange=()=>{uploaded=[]};
- dlg.querySelector('form').onsubmit=async e=>{e.preventDefault();if(saving)return;
+ dlg.querySelector('form').onsubmit=async e=>{e.preventDefault();if(saving)return;const notify=!!(e.submitter&&e.submitter.id==='he-save-notify');
   const v=id=>dlg.querySelector('#'+id).value.trim(),er=dlg.querySelector('#he-e'),btn=dlg.querySelector('#he-save');
   er.textContent='';if(!v('he-t')){er.textContent='Впиши, что нужно сделать.';return}
   const u=v('he-u');if(u&&/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(u)&&!/^https?:\/\//i.test(u)){er.textContent='Укажи страницу с сайта или ссылку, начинающуюся с https://.';return}
   const fs=[...dlg.querySelector('#he-f').files];if(fs.some(f=>f.size>20*1024*1024)){er.textContent='Один из файлов больше 20 МБ. Сожми его или раздели на части.';return}
-  const pg=PAGES.find(p=>p[0]===u),payload={id:h.id,expected,text:v('he-t'),n:v('he-n'),due:v('he-d'),sec:v('he-s'),url:u,label:v('he-l')||(pg?pg[1]:''),files:files.filter((f,i)=>dlg.querySelector('[data-keep="'+i+'"]').checked)};
+  const pg=PAGES.find(p=>p[0]===u),payload={id:h.id,expected,notify,text:v('he-t'),n:v('he-n'),due:v('he-d'),sec:v('he-s'),url:u,label:v('he-l')||(pg?pg[1]:''),files:files.filter((f,i)=>dlg.querySelector('[data-keep="'+i+'"]').checked)};
   saving=true;dlg.querySelectorAll('button,input,textarea,select').forEach(x=>x.disabled=true);btn.textContent='Сохраняю…';
   try{
    const caps=await adm('ping');if(!caps.hwEdit)throw new Error('hw_edit_update');
    if(CODE!==code)throw new Error('changed');
    for(let i=uploaded.length;i<fs.length;i++){btn.textContent='Загружаю файлы…';const data=await readB64(fs[i]);const j=await adm('upload',{fname:fs[i].name,mime:fs[i].type||'application/pdf',data});uploaded.push({name:fs[i].name,url:j.url})}
    if(CODE!==code)throw new Error('changed');
-   const j=await adm('hwEdit',Object.assign(payload,{files:payload.files.concat(uploaded)}));close();apply(j);toast('Домашнее задание обновлено');
+   const j=await adm('hwEdit',Object.assign(payload,{files:payload.files.concat(uploaded)}));close();apply(j);toast(j.notification?notificationText(j.notification):'Домашнее задание обновлено');
   }catch(err){if(String(err.message)==='hw_edit_update'){
     er.textContent='Чтобы сохранять правки, один раз обнови скрипт Google Таблицы: расширения → Apps Script → замени код → сохрани → Развернуть → Управление развертываниями → Изменить → Новая версия → Развернуть. Адрес развёртывания оставь прежним. ';
     const a=document.createElement('a');a.href='https://github.com/liliya-math/oge/blob/main/kabinet-apps-script.txt';a.target='_blank';a.rel='noopener';a.textContent='Открыть готовый код';er.appendChild(a);
    }else if(String(err.message)==='changed'){er.textContent='Задание изменилось в таблице. Скопируй свои правки, закрой редактор и заново открой кабинет ученика.'}
    else er.textContent=errText(err);
-  }finally{saving=false;if(dlg.isConnected){dlg.querySelectorAll('button,input,textarea,select').forEach(x=>x.disabled=false);btn.textContent='Сохранить изменения'}}
+  }finally{saving=false;if(dlg.isConnected){dlg.querySelectorAll('button,input,textarea,select').forEach(x=>x.disabled=false);btn.textContent=D.telegram&&D.telegram.available?'Сохранить без уведомления':'Сохранить изменения'}}
  };
 }
 function hwSecOptions(sel){const oge=clsOf()>=8||PROG().oge;const L=[['','Обычное задание'],['raz','Разборы'],['theor','Теория'],['oral','Вопросы к устному опросу']];if(oge)L.push(['oge','ОГЭ']);return L.map(o=>`<option value="${o[0]}" ${sel===o[0]?'selected':''}>${o[1]}</option>`).join('')}
@@ -1567,7 +1608,7 @@ function tHwCard(){const open=D.hw.filter(h=>!h.done),done=D.hw.filter(h=>h.done
   <datalist id="sitepages">${PAGES.map(p=>`<option value="${esc(p[0])}">${esc(p[1])}</option>`).join('')}</datalist>
   <label class="fld"><span>Подпись ссылки (необязательно)</span><input id="h-l" placeholder="подставится название страницы"></label>
   <label class="fld"><span>PDF или фото для печати — можно несколько файлов сразу</span><input id="h-f" type="file" accept="application/pdf,image/*" multiple></label>
-  <div class="ferr" id="h-e"></div><button class="btn" id="h-add" type="button">Задать</button></div></div>`}
+  <div class="ferr" id="h-e"></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="h-add" type="button">${D.telegram&&D.telegram.available?'Задать без уведомления':'Задать'}</button>${D.telegram&&D.telegram.connected&&!D.telegram.paused?'<button class="btn ghost" id="h-add-notify" type="button">Задать и уведомить</button>':''}</div></div></div>`}
 
 function tGradesCard(){const G=(D.grades||[]).slice().reverse(),avg=avgMark(D.grades);
  return `<div class="card"><div class="sh"><h2>Школьные оценки</h2><span class="sub">${G.length?'средний балл '+(avg||0).toFixed(2):'пусто'}</span></div>
@@ -1615,6 +1656,7 @@ function tDetail(n){if(!n)return `<p class="klead" style="margin:14px 0 0;font-s
  <div class="ferr" id="nt-e"></div><button class="btn" id="nt-save" type="button">Сохранить комментарий</button></div>`}
 
 function tBind(){
+ tBindTelegram();
  bindTopT();
  document.getElementById('mKid').onclick=()=>{if(S.mode!=='kid'){S.mode='kid';save();tRender()}};
  document.getElementById('mPar').onclick=()=>{if(S.mode!=='par'){S.mode='par';save();tRender()}};
@@ -1635,15 +1677,15 @@ function tBind(){
   const h=D.hw.find(x=>String(x.id)===b.dataset.del);b.disabled=true;adm('hwDel',{id:h.id,text:h.t}).then(j=>{apply(j);toast('Задание удалено')}).catch(err=>{toast(errText(err));tStudent()})});
  document.querySelectorAll('[data-pdel]').forEach(b=>b.onclick=()=>{if(!b.classList.contains('arm')){b.classList.add('arm');b.textContent='Удалить?';setTimeout(()=>{if(b.isConnected){b.classList.remove('arm');b.textContent='×'}},3000);return}
   b.disabled=true;adm('probDel',{id:+b.dataset.pdel}).then(j=>{apply(j);toast('Результат удалён')}).catch(err=>{toast(errText(err));tStudent()})});
- const ha=document.getElementById('h-add');if(ha)ha.onclick=()=>{const v=id=>document.getElementById(id).value.trim(),er=document.getElementById('h-e');if(!v('h-t')){er.textContent='Впиши, что нужно сделать.';return}
+ const ha=document.getElementById('h-add');if(ha)ha.onclick=event=>{const notify=!!(event&&event.notify),hn=document.getElementById('h-add-notify');if(ha.disabled)return;const v=id=>document.getElementById(id).value.trim(),er=document.getElementById('h-e');if(!v('h-t')){er.textContent='Впиши, что нужно сделать.';return}
   const fi=document.getElementById('h-f'),fs=fi?[...fi.files]:[];
   if(fs.some(f=>f.size>20*1024*1024)){er.textContent='Один из файлов больше 20 МБ. Сожми PDF или раздели на части.';return}
   const u=v('h-u'),pg=PAGES.find(p=>p[0]===u),lab=v('h-l')||(pg?pg[1]:'');
-  ha.disabled=true;er.textContent='';
+  ha.disabled=true;if(hn)hn.disabled=true;er.textContent='';
   const up=fs.length?(ha.textContent='Загружаю файлы…',fs.reduce((p,f)=>p.then(a=>readB64(f).then(data=>adm('upload',{fname:f.name,mime:f.type||'application/pdf',data})).then(j=>{a.push({name:f.name,url:j.url});return a})),Promise.resolve([]))):Promise.resolve([]);
-  up.then(files=>adm('hwAdd',{text:v('h-t'),n:v('h-n'),due:v('h-d'),url:u,label:lab,file:'',sec:v('h-s'),files}))
-   .then(j=>{['h-t','h-n','h-d','h-u','h-l'].forEach(id=>{const i=document.getElementById(id);if(i)i.value=''});if(fi)fi.value='';apply(j,true);toast('Задание добавлено')})
-   .catch(err=>{ha.disabled=false;ha.textContent='Задать';er.textContent=errText(err)})};
+  up.then(files=>adm('hwAdd',{text:v('h-t'),n:v('h-n'),due:v('h-d'),url:u,label:lab,file:'',sec:v('h-s'),files,notify}))
+   .then(j=>{['h-t','h-n','h-d','h-u','h-l'].forEach(id=>{const i=document.getElementById(id);if(i)i.value=''});if(fi)fi.value='';apply(j,true);toast(j.notification?notificationText(j.notification):'Задание добавлено')})
+   .catch(err=>{ha.disabled=false;if(hn)hn.disabled=false;ha.textContent='Задать без уведомления';er.textContent=errText(err)})};
  document.querySelectorAll('.hwfi').forEach(inp=>inp.onchange=()=>{const fs=[...inp.files];if(!fs.length)return;const h=D.hw.find(x=>String(x.id)===inp.dataset.hw);if(!h)return;
   fs.reduce((p,f)=>p.then(()=>readB64(f).then(data=>adm('upload',{fname:f.name,mime:f.type||'application/pdf',data})).then(j=>adm('fileAdd',{hw:h.id,name:f.name,url:j.url})).then(j=>apply(j))),Promise.resolve())
    .then(()=>toast('Файл(ы) прикреплены')).catch(err=>{toast(errText(err));tStudent()});inp.value=''});

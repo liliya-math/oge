@@ -3572,6 +3572,78 @@
       "oge_task": null,
       "status": "public",
       "note": "26 страниц, все 54 пункта, схемы отрезков, исправления исходника"
+    },
+    {
+      "file": "G12 трапеция.html",
+      "title": "Интерактивная геометрия: Трапеция",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена."
+    },
+    {
+      "file": "G12.html",
+      "title": "Арифметический квадратный корень и тождество √(x²) = |x|",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена."
+    },
+    {
+      "file": "N20 -N21 Арифметический_квадратный_корень.pdf",
+      "title": "N20 -N21 Арифметический_квадратный_корень",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена."
+    },
+    {
+      "file": "N20 -N21 теория.pdf",
+      "title": "N20 -N21 теория",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена."
+    },
+    {
+      "file": "N20-N21 ДЗ.pdf",
+      "title": "N20-N21 ДЗ",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена."
+    },
+    {
+      "file": "diagnostika-algebraicheskie-vyrazheniya.html",
+      "title": "Диагностика · Алгебраические выражения",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена."
+    },
+    {
+      "file": "diagnostika-koordinatnaya-pryamaya.html",
+      "title": "Диагностика · Координатная прямая",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена."
+    },
+    {
+      "file": "domashnee-zadanie-chisla-vyrazheniya.html",
+      "title": "ДЗ Числа и выражения · 8–9 класс · lili.math",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена."
     }
   ]
 }
