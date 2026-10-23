@@ -1192,6 +1192,7 @@ function hwGroups(){const g={};visibleHW().forEach(h=>{let s=(h.sec&&HWSEC[h.sec
 function hwCard(){const L=visibleHW(),d=L.filter(isDone).length,G=hwGroups();
  return `<div class="card" id="hwcard">
  <div class="sh"><h2>Домашка</h2><span class="sub" id="hwc">${L.length?d+' из '+L.length:''}</span></div>
+ <ul class="mats"><li><a href="${href('domashnee-zadanie-trapeciya.html')}" target="_blank" rel="noopener">${logoMark(26)}<span>Домашнее задание · Трапеция</span><small>16 заданий</small></a></li></ul>
  ${L.length?Object.keys(G).map(k=>`${k?`<div class="plab" style="margin:14px 0 8px">${HWSEC[k]}</div>`:''}<ul class="hw">${G[k].map(hwRow).join('')}</ul>`).join('')+'<div class="hwbar"><i id="hwb" style="width:'+(d/L.length*100)+'%"></i></div>':'<p class="klead" style="margin:0">Пока ничего не задано. Отдыхай.</p>'}</div>`}
 function mapCard(ro){const P=PROG(),pot=potential(),c={solid:0,shaky:0,gap:0,new:0};for(let n=1;n<=P.nmax;n++)c[stOf(n)]++;
  return `<div class="card" id="map">
