@@ -1,5 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>ДЗ №2 · Числа с разными знаками</title>
+<title>ДЗ Числа с разными знаками · 9 класс · lili.math</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
@@ -783,9 +783,10 @@ function react(kind,title,sub){
 function renderStart(){
   const resume=S.name&&S.started&&!S.done&&Object.keys(S.r).length;
   app.innerHTML=`<section class="hero enter">
-    <div class="kick"><b class="mark">25/25</b> · Домашняя работа №2 · Числа с разными знаками · ОГЭ №6</div>
-    <h1>${S.name?esc(S.name)+', ч':'Ч'}исла с разными знаками: <span>три уровня</span></h1>
-    <p class="lead">15 заданий на действия с положительными и отрицательными числами, как в №6 ОГЭ. Сначала разминка, потом уровень экзамена, в конце задачи со звёздочкой. На ответ две попытки. Не вышло — откроется разбор, и мы спокойно доберём это на занятии.</p>
+    <div class="kick"><b class="mark">25/25</b> · Домашнее задание</div>
+    <h1>ДЗ <span>Числа с разными знаками</span> · 9 класс</h1>
+    <p class="lead">Выполни 15 заданий на сложение, вычитание, умножение и деление положительных и отрицательных чисел. Начни с разминки, затем переходи к выражениям со скобками и степенями.</p>
+    <p class="lead">Решай в тетради или на интерактивной доске, вводи ответы здесь. Если не получается, можно взять подсказку или записать ход мысли, также всегда можно написать в <a href="https://t.me/ohh_my_lily" target="_blank" rel="noopener">ТГ</a>.</p>
     <div class="lvls">${[1,2,3].map(k=>`<div class="lvc l${k}"><i>${LV[k][0]}</i><b>${LV[k][1]}</b><span>${LV[k][2]}</span></div>`).join('')}</div>
     <div class="ways">
       <div class="way"><i>01</i><b>Знаю ответ</b><span>Вписываешь число. Есть две попытки.</span></div>
