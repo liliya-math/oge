@@ -1,5 +1,7 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 7.3
+ * Кабинет ученика 25/25 · lili.math — версия 7.4
+ * (7.4: редактирование выданной домашки с сохранением выполнения; после замены кода
+ *  выбери «Развернуть → Управление развертываниями → Изменить → Новая версия»)
  * (7.3: карта навыков ОГЭ — новый лист «Навыки» (код, узел, статус, дата), отметки ставятся в режиме учителя;
  *  после замены кода выполни setup — он создаст лист; затем «Новая версия» развёртывания)
  * (7.2: письма ученика приходят на почту владельца скрипта — после замены кода выполни setup и разреши отправку почты)
@@ -415,7 +417,7 @@ function admin_(b) {
     const need = () => { const st = findStudentRow_(code); if (!st) throw new Error('not_found'); return st; };
     const fresh = () => ({ok: true, d: studentData_(code, true)});
     switch (b.op) {
-      case 'ping': return {ok: true};
+      case 'ping': return {ok: true, hwEdit: true};
       case 'list': return {ok: true, students: listStudents_()};
       case 'get': { need(); return fresh(); }
       case 'addStudent': {
@@ -486,6 +488,39 @@ function admin_(b) {
           const u = String(f && f.url || '').trim();
           if (u) sheet_(ss, 'Файлы').appendRow([code, rowNo, String(f.name || 'PDF для печати').trim().slice(0, 120), u]);
         });
+        return fresh();
+      }
+      case 'hwEdit': {
+        need();
+        const sh = ss.getSheetByName('Домашка'), row = Number(b.id);
+        if (!Number.isInteger(row) || row < 2 || row > sh.getLastRow()) return {error: 'changed'};
+        const v = sh.getRange(row, 1, 1, 10).getValues()[0];
+        if (String(v[0]).trim() !== code) return {error: 'changed'};
+        const fs = sheet_(ss, 'Файлы'), attached = [];
+        if (fs.getLastRow() >= 2) fs.getRange(2, 1, fs.getLastRow() - 1, 4).getValues().forEach((f, i) => {
+          if (String(f[0]).trim() === code && Number(f[1]) === row)
+            attached.push({name: String(f[2] || 'PDF для печати'), url: String(f[3] || ''), id: i + 2});
+        });
+        const current = {t: String(v[1]).trim(), n: String(v[2] || ''), due: day_(v[3]),
+          url: String(v[4] || ''), label: String(v[5] || ''), file: String(v[8] || ''),
+          sec: HW_SEC_KEY[String(v[9] || '').trim().toLowerCase()] || '',
+          files: attached.length ? attached : (String(v[8] || '').trim() ? [{name: 'PDF с заданиями', url: String(v[8]).trim()}] : [])};
+        // Строки таблицы сдвигаются при удалении. Сверяем исходные данные до любых записей.
+        const expected = b.expected || {};
+        if (Object.keys(current).some(k => JSON.stringify(current[k]) !== JSON.stringify(expected[k]))) return {error: 'changed'};
+        const text = String(b.text || '').trim();
+        if (!text || !Array.isArray(b.files)) return {error: 'bad_value'};
+        const files = b.files.map(f => ({name: String(f && f.name || 'PDF для печати').trim().slice(0, 120), url: String(f && f.url || '').trim()}));
+        if (files.some(f => !/^https?:\/\//i.test(f.url))) return {error: 'bad_value'};
+        const url = String(b.url || '').trim();
+        if (url && /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(url) && !/^https?:\/\//i.test(url)) return {error: 'bad_value'};
+        if (b.due && !/^\d{4}-\d{2}-\d{2}$/.test(String(b.due))) return {error: 'bad_value'};
+        sh.getRange(row, 2, 1, 5).setValues([[text, String(b.n || '').trim(), ruDate_(b.due), url, String(b.label || '').trim()]]);
+        // Колонки G/H (выполнение и дата) остаются без изменений, ID задания тот же.
+        const section = String(b.sec || '').trim().toLowerCase();
+        sh.getRange(row, 9, 1, 2).setValues([['', HW_SECS.find(s => HW_SEC_KEY[s] === section) || '']]);
+        attached.slice().reverse().forEach(f => fs.deleteRow(f.id));
+        files.forEach(f => fs.appendRow([code, row, f.name, f.url]));
         return fresh();
       }
       case 'fileAdd': {
