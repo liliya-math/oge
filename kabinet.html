@@ -1091,7 +1091,7 @@ const DEMO_SK=()=>{const o={};[['N01','solid',-40],['N02','solid',-40],['N03','s
 function demoData(){const st='ssspp'+'s'.repeat(11)+'pssp'+'ggp'+'nn';const map={};for(let n=1;n<=25;n++)map[n]={s:'solid',p:'shaky',g:'gap',n:'new'}[st[n-1]];
  return {demo:true,workflow:1,skills:DEMO_SK(),name:'Маша',fname:'Петрова',dat:'Маше',bdate:'2011-04-22',parent:'Мама — Ольга',phone:'+7 900 123-45-67',cls:9,goal:22,days:'ср, сб',time:'18:00',board:'https://learnboard.ru',
   topic:'Задания 4–5: тарифы и выгодный выбор',lessonsPlan:8,lessonsDone:4,
-  work:['Задания 4, 5 и 17: довести до уверенного решения. Это +3 балла к прогнозу.','Задание 20: убрать ошибки в знаках. Ход решения уже верный.','Задание 21: начали задачи на движение, к концу месяца — первые решения без подсказки.'],
+  work:['Задания 4, 5 и 17: довести до уверенного решения.','Задание 20: убрать ошибки в знаках. Ход решения уже верный.','Задание 21: начали задачи на движение, к концу месяца — первые решения без подсказки.'],
   map,notes:{
    4:{t:'Теряет баллы на округлении: путает «не меньше» и «не больше». Разбираем на ближайшем занятии.'},
    5:{t:'Решает, если таблица короткая. На длинной сбивается в подсчёте.'},
@@ -1113,20 +1113,13 @@ function demoData(){const st='ssspp'+'s'.repeat(11)+'pssp'+'ggp'+'nn';const map=
 
 /* ---------- подсчёты ---------- */
 const stOf=n=>(D.map&&D.map[n])||'new';
-function forecast(){let p=0;const m=PROG().nmax;for(let n=1;n<=m;n++)if(stOf(n)==='solid')p+=pts(n);return p}
-function potential(){let p=0;const m=PROG().nmax;for(let n=1;n<=m;n++)if(stOf(n)==='shaky')p+=pts(n);return p}
-const gradeP=p=>p>=22?5:p>=15?4:p>=8?3:2;
-function geoPts(){return [15,16,17,18,19,23,24,25].reduce((s,n)=>s+(stOf(n)==='solid'?pts(n):0),0)}
-const geoNote=()=>PROG().oge&&geoPts()<2?`<p class="klead" style="margin:8px 0 0;color:var(--amber)">Пока нет двух баллов за геометрию (задания 15–19, 23–25). Без них ставят «2», даже если остальных баллов хватает.</p>`:'';
-function grade(p){const geo=[15,16,17,18,19,23,24,25].reduce((s,n)=>s+(stOf(n)==='solid'?pts(n):0),0);return geo<2?2:p>=22?5:p>=15?4:p>=8?3:2}
 const isDone=h=>D.demo&&!wfEnabled()&&h.id in S.hw?S.hw[h.id]:!!h.done;
 function daysTo(iso){if(!iso)return null;const [y,m,d]=iso.split('-').map(Number);const a=new Date(y,m-1,d),n=new Date();n.setHours(0,0,0,0);return Math.round((a-n)/864e5)}
 function dueText(iso){const k=daysTo(iso);if(k===null)return 'без срока';if(k<0)return 'срок прошёл';if(k===0)return 'до сегодня';if(k===1)return 'до завтра';const [y,m,d]=iso.split('-').map(Number);return 'до '+new Date(y,m-1,d).toLocaleDateString('ru-RU',{weekday:'short',day:'numeric',month:'short'})}
 function shortDate(iso){if(!iso)return '';const [y,m,d]=iso.split('-').map(Number);return new Date(y,m-1,d).toLocaleDateString('ru-RU',{day:'numeric',month:'short'}).replace('.','')}
 function visibleHW(){return D.hw.filter(h=>!h.old&&(!isDone(h)||(daysTo(h.due)??0)>=-7))}
-function sayList(){const a=[],left=visibleHW().filter(h=>!isDone(h)).length,pot=potential(),H=D.hist||[];
+function sayList(){const a=[],left=visibleHW().filter(h=>!isDone(h)).length,H=D.hist||[];
  if(left)a.push(`Домашка ждёт: ${left} ${plural(left,'задание','задания','заданий')}. Сделаешь — получишь стикер.`);else a.push('Вся домашка закрыта. Красота.');
- if(pot)a.push(`Жёлтая зона — это ещё ${pot} ${plural(pot,'балл','балла','баллов')}, которые уже почти твои.`);
  if(H.length>1&&H[H.length-1].p>H[0].p)a.push(`С первой диагностики +${H[H.length-1].p-H[0].p}. Это система, а не везение.`);
  if(D.topic)a.push('На следующем занятии: '+D.topic.charAt(0).toLowerCase()+D.topic.slice(1)+'.');
  if(!S.picked&&!TEACH)a.push('Выбери талисмана в разделе «Коллекция». Я не обижусь. Почти.');
@@ -1177,40 +1170,10 @@ function topbar(){return `<header class="top"><div class="toprow">
  <button class="icon-btn" id="snd" aria-label="Звук">${S.sound?I.snd:I.mute}</button>
  <span class="talmini" id="talb" title="${tal().n}">${petSVG(tal().id,'idle')}</span>
 </div></header>`}
-function meter(){const P=PROG(),p=forecast(),g=D.goal||P.goalDef;
- if(!P.oge){const f=Math.min(100,p/P.max*100).toFixed(1);
-  return `<div class="meter" role="img" aria-label="Баллы по карте ${p} из ${P.max}, цель ${g}">
- <div class="mbar" style="grid-template-columns:1fr"><span style="${f!=='0.0'?`background:linear-gradient(90deg,#f5dc6a 0%,#f2905e ${f}%,rgba(243,236,226,.07) ${f}%)`:''}"></span></div>
- <div class="mfill"><i class="mgoal" style="left:${(Math.min(g,P.max)/P.max*100).toFixed(2)}%" title="Цель"></i><i class="mpin" style="left:${(Math.min(p+1,P.max)/P.max*100).toFixed(2)}%"></i></div></div>`}
- const pct=x=>(Math.min(x,32)/32*100).toFixed(2)+'%';
- const zones=[[0,7],[8,14],[15,21],[22,31]];
- return `<div class="meter" role="img" aria-label="Прогноз ${p} из 31, цель ${g}">
- <div class="mbar">${zones.map(z=>{const f=p>z[1]?100:p>=z[0]?(p-z[0]+1)/(z[1]-z[0]+1)*100:0;return `<span style="${f?`background:linear-gradient(90deg,#f5dc6a 0%,#f2905e ${f.toFixed(1)}%,rgba(243,236,226,.07) ${f.toFixed(1)}%)`:''}"></span>`}).join('')}
- <div class="mfill"><i class="mgoal" style="left:${pct(g)}" title="Цель"></i><i class="mpin" style="left:${pct(p+1)}"></i></div></div>
- <div class="mlab"><span><b>«2»</b>0–7</span><span><b>«3»</b>8–14</span><span><b>«4»</b>15–21</span><span><b>«5»</b>22–31</span></div>
- </div>`}
-function heroKid(){const P=PROG(),p=forecast(),g=D.goal||P.goalDef,need=Math.max(0,g-p);
- const head=P.oge?(need?`${esc(D.name)}, до «${gradeP(g)}» ${need===1?'остался':'осталось'} <em>${need} ${plural(need,'балл','балла','баллов')}</em>`:`${esc(D.name)}, цель <em>уже в кармане</em>`)
-  :(need?`${esc(D.name)}, до цели ${need===1?'остался':'осталось'} <em>${need} ${plural(need,'балл','балла','баллов')}</em>`:`${esc(D.name)}, цель <em>уже в кармане</em>`);
- const sub=P.oge?`Прогноз сейчас: <strong>${p} из 31</strong>, это «${grade(p)}». Цель — ${g}.`:`По карте тем: <strong>${p} из ${P.max}</strong>. Цель — ${g} баллов.`;
- return `<section class="khero">
- <div class="hpet" id="hpet" role="button" tabindex="0" aria-label="${tal().n}">${petSVG(tal().id,'idle')}</div>
- <div style="min-width:0"><div class="say" id="say"><b>${tal().n}:</b> ${esc(pick(sayList()))}</div>
- <h1 class="big1">${head}</h1>
- <p class="klead">${sub}</p>${geoNote()}</div></section>
- <div class="card">${meter()}</div>`}
-function heroPar(){const P=PROG(),p=forecast(),g=D.goal||P.goalDef,H=D.hist||[],grow=H.length>1&&typeof H[H.length-1].p==='number'&&typeof H[0].p==='number'?H[H.length-1].p-H[0].p:null;
+function heroKid(){return `<section class="khero"><div class="hpet" id="hpet" role="button" tabindex="0" aria-label="${tal().n}">${petSVG(tal().id,'idle')}</div><div style="min-width:0"><div class="say" id="say"><b>${tal().n}:</b> ${esc(pick(sayList()))}</div><h1 class="big1">${esc(D.name)}, <em>привет!</em></h1><p class="klead">Здесь твои задания, материалы и результаты работ.</p></div></section>`}
+function heroPar(){const P=PROG(),H=(D.hist||[]).filter(h=>typeof h.p==='number'),last=H.at(-1),grow=H.length>1?last.p-H[0].p:null;
  const all=D.hw.filter(h=>(daysTo(h.due)??-1)<0||isDone(h)),done=all.filter(isDone).length;
- return `<section style="display:grid;gap:10px;padding-block:6px 4px">
- <span class="eyebrow">Для родителей · ${esc(D.name)}</span>
- <h1 class="big1">${P.oge?`Прогноз на ОГЭ сейчас — <em>«${grade(p)}»</em>`:`Баллы по карте тем — <em>${p} из ${P.max}</em>`}</h1>
- <p class="klead" style="margin:0"><strong>${p} ${plural(p,'балл','балла','баллов')} из ${P.max}.</strong>${P.oge?` Цель — ${g}, это «${gradeP(g)}».`:` Цель — ${g} баллов.`}${grow!==null?` С первого пробника ${grow>=0?'+':''}${grow} ${plural(grow,'балл','балла','баллов')}.`:''}</p>${geoNote()}</section>
- <div class="card">${meter()}
- <div class="stats" style="margin-top:20px">
-  <div class="stat"><b>${D.lessonsDone||0} <em>/ ${D.lessonsPlan||0}</em></b><span>занятий в этом месяце</span></div>
-  <div class="stat"><b>${done} <em>/ ${all.length}</em></b><span>домашних заданий сдано</span></div>
-  <div class="stat"><b><em>${grow===null?'—':(grow>=0?'+':'')+grow}</em></b><span>${grow===null?'рост появится после второго пробника':plural(grow,'балл','балла','баллов')+' с первого пробника'}</span></div>
- </div></div>`}
+ return `<section style="display:grid;gap:10px;padding-block:6px 4px"><span class="eyebrow">Для родителей · ${esc(D.name)}</span><h1 class="big1">Занятия и <em>результаты</em></h1><p class="klead" style="margin:0">${last?`Последняя работа: ${esc(last.t||'Работа')} — <strong>${last.p}${P.oge?' из 31':''}</strong>.`:'Результаты появятся после первой проверенной работы.'}</p></section><div class="card"><div class="stats"><div class="stat"><b>${D.lessonsDone||0} <em>/ ${D.lessonsPlan||0}</em></b><span>занятий в этом месяце</span></div><div class="stat"><b>${done} <em>/ ${all.length}</em></b><span>домашних заданий сдано</span></div><div class="stat"><b><em>${grow===null?'—':(grow>=0?'+':'')+grow}</em></b><span>${grow===null?'сравним после двух работ':P.oge?'баллов с первой работы':'к результату первой работы'}</span></div></div></div>`}
 function lessonCard(teach){const t=nextLesson();if(!t)return `<div class="card"><span class="eyebrow">Следующее занятие</span><div class="when">Расписание уточняется</div><p class="ltopic">${esc(D.topic||'')}</p></div>`;
  const c=countdown(t),P=SCH(),tz=stuTz(),dev=devTz(),diff=!teach&&P.tz&&dev&&tzOff(dev,t)!==tzOff(P.tz,t);
  const wk=teach?weekLine('Europe/Samara'):weekLine(tz),wkS=teach&&P.tz&&tzOff(P.tz,t)!==SAMARA_OFF?weekLine(P.tz):'';
@@ -1238,10 +1201,9 @@ function hwCard(){const L=visibleHW(),d=L.filter(isDone).length,G=hwGroups();
  return `<div class="card" id="hwcard">
  <div class="sh"><h2>Домашка</h2><span class="sub" id="hwc">${L.length?d+' из '+L.length:''}</span></div>
  ${L.length?Object.keys(G).map(k=>`${k?`<div class="plab" style="margin:14px 0 8px">${HWSEC[k]}</div>`:''}<ul class="hw">${G[k].map(hwRow).join('')}</ul>`).join('')+'<div class="hwbar"><i id="hwb" style="width:'+(d/L.length*100)+'%"></i></div>':'<p class="klead" style="margin:0">Пока ничего не задано. Отдыхай.</p>'}</div>`}
-function mapCard(ro){const P=PROG(),pot=potential(),c={solid:0,shaky:0,gap:0,new:0};for(let n=1;n<=P.nmax;n++)c[stOf(n)]++;
+function mapCard(ro){const P=PROG(),c={solid:0,shaky:0,gap:0,new:0};for(let n=1;n<=P.nmax;n++)c[stOf(n)]++;
  return `<div class="card" id="map">
  <div class="sh"><h2>${P.oge?'Карта 25 заданий':'Карта тем'}</h2><span class="sub">${P.oge?'нажми на номер':'нажми на тему'}</span></div>
- ${pot?`<p class="mapnote">${ro?'Жёлтые задания уже почти получаются.':'Жёлтые задания ты уже почти решаешь.'} Если их дожать, это <b>+${pot} ${plural(pot,'балл','балла','баллов')}</b> к прогнозу.</p>`:''}
  <div class="parts">${P.parts.map(Q=>`<div><div class="plab">${Q.t}</div><div class="tiles">${Array.from({length:Q.b-Q.a+1},(_,i)=>Q.a+i).map(n=>`<button class="tile ${stOf(n)} ${P.oge&&n>=20?'two':''}" data-t="${n}" aria-pressed="${S.sel===n}" aria-label="${P.oge?'Задание':'Тема'} ${n}: ${ST[stOf(n)]}">${n}</button>`).join('')}</div></div>`).join('')}</div>
  <div class="mlegend"><span><i style="background:var(--mint)"></i>${ST.solid} · ${c.solid}</span><span><i style="background:var(--amber)"></i>${ST.shaky} · ${c.shaky}</span><span><i style="background:var(--miss)"></i>${ST.gap} · ${c.gap}</span><span><i style="background:rgba(243,236,226,.18)"></i>${ST.new} · ${c.new}</span></div>
  <div id="tdet">${TEACH?tDetail(S.sel):detail(S.sel)}</div></div>`}
@@ -1306,7 +1268,8 @@ function petCard(){return `<div class="card"><div class="sh"><h2>Твой тал
  <div class="pets">${TALS.map(t=>`<button class="pbtn" data-pet="${t.id}" aria-pressed="${tal().id===t.id}">${petSVG(t.id,'idle')}<span>${t.short||t.n.split(' ')[0]}</span></button>`).join('')}</div></div>`}
 function matCard(){const M=(D.mats&&D.mats.length)?D.mats:(D.matsAll?[]:MATS);return `<div class="card"><div class="sh"><h2>Разборы</h2><span class="sub">с сайта lili.math</span></div>
  <ul class="mats">${M.map(m=>`<li><a href="${href(m[0])}" target="_blank" rel="noopener">${logoMark(26)}<span>${esc(m[1])}</span><small>${esc(m[2])}</small></a></li>`).join('')}</ul></div>`}
-function workCard(){const W=D.work||[];return `<div class="card"><div class="sh"><h2>Над чем работаем</h2></div>
+function workText(text){return String(text||'').split(/(?<=[.!?])\s+|\n+/).filter(part=>!/прогноз/i.test(part)).join(' ').trim()}
+function workCard(){const W=(D.work||[]).map(workText).filter(Boolean);return `<div class="card"><div class="sh"><h2>Над чем работаем</h2></div>
  ${W.length?`<ul class="work">${W.map(w=>`<li>${esc(w)}</li>`).join('')}</ul>`:''}
  <p class="tzn" style="margin-top:14px">Подробный отчёт преподаватель присылает раз в две недели. Вопросы — в Telegram:</p>
  <div class="tgrow"><code id="tgv">@ohh_my_lily</code><button class="btn ghost" id="cpy" style="height:44px">Скопировать</button></div></div>`}
@@ -1431,7 +1394,7 @@ function newHwCard(){const L=D.hw||[],active=L.filter(h=>!h.old),counts={todo:0,
 function paintHwList(){const el=document.getElementById('hw-results');if(!el)return;const f=S.hwFilter==='review'&&!wfEnabled()?'todo':S.hwFilter||'todo',q=(S.hwQuery||'').toLowerCase().trim();const list=hwSorted(D.hw.filter(h=>(!h.old||wfGroup(h)==='done')&&wfGroup(h)===f&&(!q||(h.t+' '+(h.n||'')+' '+(HWSEC[h.sec]||'')).toLowerCase().includes(q))));el.innerHTML=list.length?`<ul class="hw">${list.map(newHwRow).join('')}</ul>`:`<p class="hwempty">${q?'По этому запросу заданий нет.':f==='done'?'Здесь появятся выполненные работы.':f==='review'?'Пока нет работ на проверке.':'Все текущие задания выполнены.'}</p>`;bindHomeworkRows()}
 function materialsFolders(){const groups=new Map(),P=PROG();(D.hw||[]).filter(h=>!h.old).forEach(h=>{const nums=String(h.n||'').match(/\d+/g)||[],names=nums.map(n=>P.topic[+n]).filter(Boolean),title=names.length?[...new Set(names)].join(' · '):h.t.split(':')[0].trim()||'Другие материалы',key=nums.length?nums.join(','):title;if(!groups.has(key))groups.set(key,{title,items:[]});groups.get(key).items.push(h)});return `<div class="card"><div class="sh"><h2>Твои папки по темам</h2></div><p class="note">Теория, домашка, разборы и вопросы к устному опросу собраны рядом. Здесь только назначенные тебе материалы.</p>${[...groups.values()].map(g=>`<details class="folder"><summary>${esc(g.title)} · ${g.items.length}</summary><ul class="hw">${g.items.map(h=>`<li class="hwi"><div><span class="note">${esc(HWSEC[h.sec]||'Домашнее задание')}</span><div><b>${esc(h.t)}</b></div><div class="hwm">${hwLinks(h)||'<span class="note">Материал указан в тексте задания.</span>'}</div>${h.feedback?`<p class="note">Комментарий: ${esc(h.feedback)}</p>`:''}</div></li>`).join('')}</ul></details>`).join('')||'<p class="hwempty">Когда преподаватель назначит материалы, здесь появятся папки по темам.</p>'}</div>`}
 
-function progressSummary(){const P=PROG(),counts={solid:0,shaky:0,gap:0,new:0};for(let n=1;n<=P.nmax;n++)counts[stOf(n)]++;const numeric=(D.hist||[]).filter(h=>typeof h.p==='number'),delta=numeric.length>1?numeric.at(-1).p-numeric[0].p:null;return `<div class="card"><div class="sh"><h2>Что уже получается</h2></div><div class="progress-summary"><div><b>${counts.solid}</b><span>тем решаешь уверенно</span></div><div><b>${counts.shaky}</b><span>тем ещё закрепляем</span></div><div><b>${delta===null?'—':(delta>=0?'+':'')+delta}</b><span>${delta===null?'сравним после двух работ':P.oge?'баллов с первой работы':'к результату первой работы'}</span></div></div><p class="note">${P.oge?'Оценка по карте тем — ориентир. Результаты реальных пробников показаны ниже.':'Статусы тем отмечает преподаватель по результатам занятий.'}</p>${meter()}${geoNote()}</div>`}
+function progressSummary(){const P=PROG(),counts={solid:0,shaky:0,gap:0,new:0};for(let n=1;n<=P.nmax;n++)counts[stOf(n)]++;const numeric=(D.hist||[]).filter(h=>typeof h.p==='number'),delta=numeric.length>1?numeric.at(-1).p-numeric[0].p:null;return `<div class="card"><div class="sh"><h2>Что уже получается</h2></div><div class="progress-summary"><div><b>${counts.solid}</b><span>тем решаешь уверенно</span></div><div><b>${counts.shaky}</b><span>тем ещё закрепляем</span></div><div><b>${delta===null?'—':(delta>=0?'+':'')+delta}</b><span>${delta===null?'сравним после двух работ':P.oge?'баллов с первой работы':'к результату первой работы'}</span></div></div><p class="note">Статусы тем отмечает преподаватель по результатам занятий. Результаты проверенных работ показаны ниже.</p></div>`}
 function kidWorkspace(bday){return welcomeKid()+cabNav()+cabPanel('today',bday+`<div class="two">${focusWork()}${lessonCard()}</div>`+workCard())+cabPanel('homework',newHwCard()+notebookCard())+cabPanel('materials',materialsFolders()+((D.mats&&D.mats.length)||!D.matsAll?matCard():''))+cabPanel('progress',progressSummary()+mapCard(false)+skillsCard(false)+chartCard()+gradesCard())+cabPanel('rewards',stkCard()+petCard())+cabPanel('contact',`<div class="card"><div class="sh"><h2>Написать преподавателю</h2></div><p class="klead">Если запутался в задании, пришли название работы, номер задачи и фото своего решения.</p><a class="btn" href="https://t.me/ohh_my_lily" target="_blank" rel="noopener">Открыть Telegram</a></div>`+telegramCard()+letterCard())}
 function bindHomeworkRows(){document.querySelectorAll('[data-hwrow] .hwm a').forEach(a=>a.dataset.hwopen=a.closest('[data-hwrow]').dataset.hwrow);document.querySelectorAll('#hw-results .chk').forEach(b=>b.onclick=()=>toggleHW(b.dataset.hw,b));bindWorkflowButtons()}
 function bindWorkspace(){bindNotebook();document.querySelectorAll('[data-cabtab]').forEach(b=>b.onclick=()=>switchCabTab(b.dataset.cabtab));document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>switchCabTab(b.dataset.go));document.querySelectorAll('[data-hwfilter]').forEach(b=>b.onclick=()=>{S.hwFilter=b.dataset.hwfilter;save();document.querySelectorAll('[data-hwfilter]').forEach(x=>x.setAttribute('aria-pressed',x===b));paintHwList()});const search=document.getElementById('hw-search');if(search)search.oninput=()=>{S.hwQuery=search.value;save();paintHwList()};paintHwList();bindWorkflowButtons()}
@@ -1514,10 +1477,9 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
  <section style="display:grid;gap:8px;padding-block:6px 4px"><span class="eyebrow">Режим учителя</span>
  <h1 class="big1">Ученики · <em>${act.length}</em></h1>
  <p class="klead" style="margin:0">Нажми на ученика, чтобы открыть и редактировать его кабинет.</p></section>
- ${L.length?`<div class="stus">${L.map(s=>{const PG=PROGS[s.prog]||PROGS.oge9,pm=PG.max,pct=Math.min(100,s.pts/pm*100);return `<a class="stu ${s.active?'':'off'}" href="#lilia-${esc(s.code)}">
+ ${L.length?`<div class="stus">${L.map(s=>{const PG=PROGS[s.prog]||PROGS.oge9;return `<a class="stu ${s.active?'':'off'}" href="#lilia-${esc(s.code)}">
   <div class="stuh"><b>${esc(s.name)}${s.fname?' '+esc(s.fname):''}</b>${PG.oge?'':`<span class="kchip new">${esc(PG.name)}</span>`}${s.active?'':'<span class="kchip new">на паузе</span>'}</div>
-  <div class="mini"><i style="width:${pct}%"></i></div>
-  <div class="stum"><span>${PG.oge?'прогноз':'карта'} <strong>${s.pts} из ${pm}</strong> · цель ${s.goal}</span><span>${esc(schedShort(s.days,s.time))}</span>
+  <div class="stum"><span>${esc(PG.name)}</span><span>${esc(schedShort(s.days,s.time))}</span>
   <span class="${s.hwLeft?'soon':''}">${s.hwLeft?'домашка: '+s.hwLeft+' не сделано':'домашка закрыта'}</span>
   ${s.letters?`<span class="kchip shaky">анонимные письма: ${s.letters}</span>`:''}
   <span class="kchip bbrd" data-b="${esc(s.name)}" title="Открыть доску ученика">доска</span></div></a>`}).join('')}</div>`:'<p class="klead">Пока нет ни одного ученика.</p>'}
