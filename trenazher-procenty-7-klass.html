@@ -24,7 +24,7 @@
 @media(max-width:950px){.mascot-hero{flex-basis:112px;width:112px;margin-left:12px}.mascot-hero img{width:112px;height:112px;border-radius:21px}}
 @media(max-width:650px){.page-heading{gap:12px}.mascot-hero{flex-basis:88px;width:88px;margin-left:0;align-self:center}.mascot-hero img{width:88px;height:88px;border-radius:19px}.mascot-hero figcaption{font-size:8px;margin-top:7px}.page-heading h1{font-size:clamp(25px,7vw,34px)}.page-heading p{max-width:245px}}
 </style>
-</head>
+<script src="tools/study-resume.js?v=1"></script></head>
 <body>
   <div class="app-shell">
     <aside class="sidebar" aria-label="Маршрут обучения">
@@ -128,7 +128,7 @@
 </script>
   <script>(function(){
   'use strict';
-  const C=window.PercentCourse,KEY='lili-percent-sense-v1',TOTAL=C.total;
+  const C=window.PercentCourse,KEY='lili-percent-sense-v1'+(window.LiliStudy?.suffix||''),TOTAL=C.total;
   let storageOK=true,view='lesson',hints=new Set(),feedback=null,labWhole=100,labPercent=10;
   const blank=()=>({stage:0,task:0,solved:[],attempts:{},answers:{}});
   function readState(){try{const s=JSON.parse(localStorage.getItem(KEY));if(!s||!Number.isInteger(s.stage)||s.stage<0||s.stage>=C.stages.length)return blank();return {stage:s.stage,task:Number.isInteger(s.task)&&s.task>=0&&s.task<C.stages[s.stage].tasks.length?s.task:0,solved:Array.isArray(s.solved)?s.solved.filter(k=>validKey(k)):[],attempts:s.attempts&&typeof s.attempts==='object'?s.attempts:{},answers:s.answers&&typeof s.answers==='object'?s.answers:{}};}catch(e){storageOK=false;return blank();}}
@@ -136,7 +136,7 @@
   let state=readState();state.solved=[...new Set(state.solved)];
   const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const key=()=>`${state.stage}-${state.task}`,task=()=>C.stages[state.stage].tasks[state.task],done=()=>state.solved.includes(key());
-  function save(){try{localStorage.setItem(KEY,JSON.stringify(state));storageOK=true;}catch(e){storageOK=false;}updateStorage();}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(state));storageOK=true;}catch(e){storageOK=false;}window.LiliStudy?.report({current:state.solved.length,total:TOTAL,label:'Этап '+(state.stage+1)+' · задание '+(state.task+1),done:state.solved.length===TOTAL});updateStorage();}
   function updateStorage(){ $('#save-status').innerHTML=storageOK?'Прогресс сохраняется<br>в этом браузере':'Прогресс доступен<br>пока открыта страница';}
   function nav(){
     $('#stage-nav').innerHTML=C.stages.map((s,i)=>{const n=s.tasks.filter((_,j)=>state.solved.includes(`${i}-${j}`)).length;return `<button class="stage-link ${i===state.stage&&view==='lesson'?'active':''} ${n===s.tasks.length?'done':''}" data-stage="${i}" ${i===state.stage&&view==='lesson'?'aria-current="step"':''}><span class="stage-index">${n===s.tasks.length?'✓':String(i+1).padStart(2,'0')}</span><span class="stage-name">${esc(s.name)}<small>${n} / ${s.tasks.length} · ${esc(s.subtitle)}</small></span></button>`;}).join('');
@@ -156,8 +156,9 @@
     return `<div class="visual-panel" role="img" aria-label="Сетка из 100 равных квадратиков. Закрашено ${p}, это ${p} процентов целого ${w}.">${header}<div class="visual-body">${grid(p)}<div class="visual-description"><div class="visual-number">${p}%</div><p>${detail}</p>${lab?`<p>Закрашенная часть:<br><strong>${C.fmt(C.part(w,p))} из ${C.fmt(w)}</strong></p>`:''}</div></div><div class="visual-foot">${isMeaning?(w===100?`${p} из 100 равных квадратиков закрашено.`:'Число предметов в целом может быть любым. Все они вместе — 100%.'):`${p} из 100 равных частей.${t.remaining?' Закрашено то, что убираем.':''}`}</div></div>`;
   }
   function hintsHtml(t){return ['Что видим','Как решаем подобное','Алгоритм'].map((title,i)=>`<div class="hint-row"><button class="hint-trigger" data-hint="${i}" aria-expanded="${hints.has(i)}" aria-controls="hint-${i}"><span class="hint-number">${i+1}</span><span>${title}</span><span class="hint-arrow">${hints.has(i)?'−':'+'}</span></button><p class="hint-text" id="hint-${i}" ${hints.has(i)?'':'hidden'}>${esc([t.see,t.similar,t.algorithm][i])}</p></div>`).join('');}
-  function render(){nav();if(view==='lab')return renderLab();if(view==='complete')return renderComplete();renderLesson();}
+  function render(){nav();if(view==='lab')return renderLab();if(view==='complete')return renderComplete();renderLesson();window.LiliStudy?.task(state.stage+'-'+state.task);}
   function renderLesson(){
+    window.LiliStudy?.task(state.stage+'-'+state.task,{current:state.solved.length,total:TOTAL,label:'Этап '+(state.stage+1)+' · задание '+(state.task+1),done:state.solved.length===TOTAL});
     const s=C.stages[state.stage],t=task(),solved=done();
     if(solved&&!feedback)feedback={type:'good',title:'Это задание уже получилось.',text:'Можно посмотреть разбор или перейти дальше.'};
     $('#workspace').innerHTML=`<div class="exercise-layout"><section class="lesson-card" aria-labelledby="lesson-title"><div class="lesson-top"><span class="lesson-label">ШАГ ${String(state.stage+1).padStart(2,'0')} / 06</span><span class="exercise-count">Задание ${state.task+1} из ${s.tasks.length}</span></div><div class="lesson-intro"><h2 id="lesson-title">${esc(s.title)}</h2><p>${s.intro}</p><div class="question-dots" aria-label="Задания этого шага">${s.tasks.map((_,i)=>`<button class="question-dot ${i===state.task?'current':''} ${state.solved.includes(`${state.stage}-${i}`)?'solved':''}" data-task="${i}" aria-label="Задание ${i+1}${state.solved.includes(`${state.stage}-${i}`)?', решено':''}" ${i===state.task?'aria-current="true"':''}>${i+1}</button>`).join('')}</div></div>${visual(t)}<div class="answer-area"><div class="task-kicker">ТЕПЕРЬ ПОПРОБУЙ</div><h3 class="question" id="question-text">${esc(t.q)}</h3>${t.kind==='choice'?`<div class="choices" role="group" aria-labelledby="question-text">${t.options.map((o,i)=>`<button class="choice ${state.answers[key()]===String(o)?(solved?'selected':'wrong'):''}" data-option="${i}" ${solved?'disabled':''}>${esc(o)}${t.unit==='%'?'%':''}</button>`).join('')}</div>`:`<form class="answer-form" novalidate><div class="input-wrap"><label class="sr-only" for="answer">Твой ответ${t.unit?', '+t.unit:''}</label><input id="answer" type="text" inputmode="decimal" autocomplete="off" placeholder="Твой ответ" aria-describedby="feedback" value="${esc(state.answers[key()]||'')}" ${solved?'readonly':''}><span class="answer-unit">${esc(t.unit)}</span></div><button class="primary" type="submit" ${solved?'disabled':''}>Проверить</button></form>`}<div id="feedback" role="status" aria-live="polite" aria-atomic="true">${feedbackHtml()}</div><div class="next-row"><small>${solved?'Можно двигаться дальше.':'Ответ можно пробовать снова.'}</small><button class="primary" id="next-task" ${solved?'':'hidden'}>${nextLabel()} <span aria-hidden="true">→</span></button></div><details class="solution"><summary>Показать подробный разбор</summary><ol>${t.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></details></div></section><aside class="right-column" aria-label="Помощь"><section class="support-card"><h3>Если нужен ориентир</h3><p class="support-caption">Открывай по одному шагу.</p><div id="hint-list">${hintsHtml(t)}</div></section><section class="support-card anchor-card"><div class="anchor-label">ОДНА МЫСЛЬ С СОБОЙ</div><p>${esc(s.anchor)}</p><small>${esc(s.anchorNote)}</small></section></aside></div>`;

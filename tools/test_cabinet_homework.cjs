@@ -1,0 +1,18 @@
+const vm=require('node:vm'),fs=require('node:fs'),assert=require('node:assert/strict');
+const html=fs.readFileSync('kabinet.html','utf8');
+const source=html.slice(html.indexOf('const STUDENT_KEY='),html.lastIndexOf('\nstart();'));
+const memory=new Map(),ctx={LIVE:true,CODE:'pupil-a',BASE:'https://lilimath.ru/',URL,Date,Math,localStorage:{getItem:k=>memory.get(k)||null,setItem:(k,v)=>memory.set(k,v)},S:{},D:{hw:[]},TEACH:false,addEventListener:()=>{},save:()=>{},href:u=>/^https?:/.test(u)?u:'https://lilimath.ru/'+u,wfEnabled:()=>true,wfStatus:h=>h.status||'new',esc:s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))};
+vm.createContext(ctx);vm.runInContext(source,ctx);
+const h={id:8,t:'Неравенства',url:'dz.html#part',status:'revise',feedback:'Проверь знак'};ctx.D.hw=[h];
+ctx.syncNotebook();assert.equal(ctx.S.notebook['hw:8'].feedback,'Проверь знак');
+ctx.S.notebook['hw:8'].correction='x < −3';h.status='submitted';assert.equal(ctx.notebookState(ctx.S.notebook['hw:8'])[0],'waiting');
+h.status='checked';h.feedback='Теперь верно';ctx.syncNotebook();assert.equal(ctx.S.notebook['hw:8'].feedback,'Проверь знак');assert.equal(ctx.notebookState(ctx.S.notebook['hw:8'])[0],'fixed');
+const counts=ctx.homeworkCounts([{status:'submitted'},{status:'checked'},{status:'revise'},{status:'done'}]);assert.equal(counts,'1 на проверке · 1 проверено · 1 исправить · 1 отмечено выполненными');
+const url=new URL(ctx.homeworkURL(h));assert.equal(url.searchParams.get('lili_student'),'pupil-a');assert.equal(url.searchParams.get('lili_hw'),'8');assert.equal(url.hash,'#part');
+assert.equal(ctx.homeworkURL({url:'https://example.org/task.html'}),'https://example.org/task.html');
+assert.equal(ctx.homeworkURL({url:'https://example.org/file.pdf'}),'https://example.org/file.pdf');
+memory.set('lili-resume-v1:pupil-a',JSON.stringify({'8':{path:'/other.html',label:'Wrong'}}));assert.equal(ctx.resumeFor(h),null);
+memory.set('lili-resume-v1:pupil-a',JSON.stringify({'8':{path:'/dz.html',label:'Задание 3',done:false}}));assert.equal(ctx.checkpointText(h),'Задание 3');
+ctx.S.notebook['own:1']={id:'own:1',title:'<img onerror=alert(1)>',feedback:'<script>',at:1};const markup=ctx.notebookCard();assert(!markup.includes('<img onerror'));assert(markup.includes('&lt;img'));
+ctx.D.hw=[];assert.equal(ctx.notebookState(ctx.S.notebook['hw:8'])[0],'open');
+console.log('Cabinet checks passed: submission/review counts, correction lifecycle, original feedback, safe links, checkpoint matching and escaped notebook content.');

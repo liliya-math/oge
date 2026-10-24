@@ -37,7 +37,7 @@
 .wbox .f-acc{fill:var(--apricot)}.wbox .f-soft{fill:var(--soft)}.wbox .f-ink{fill:var(--fg)}.wbox .f-bg{fill:var(--bg2)}.wbox .f-ok{fill:var(--mint)}.wbox .f-bad{fill:var(--miss)}
 .wbox .s-acc{stroke:var(--apricot)}.wbox .s-acc2{stroke:var(--lilac)}.wbox .s-ink{stroke:var(--fg)}.wbox .s-line{stroke:var(--wline)}.wbox .nf{fill:none}
 .wbox .t{fill:var(--fg);font-family:var(--sans);font-weight:700}.wbox .t-mute{fill:var(--muted);font-family:var(--sans)}.wbox .t-on{fill:#2a1510;font-family:var(--sans);font-weight:700}
-</style></head><body>
+</style><script src="tools/study-resume.js?v=1"></script></head><body>
 <title>Задачи на движение: объяснение</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
@@ -946,14 +946,14 @@ const L=T.filter(t=>!(LINK.mask&(1<<(t.n-1))));
 const FULL=true;
 
 /* ---------- state ---------- */
-const KEY='oge-ob-dvizhenie-v1-'+(LINK.name?HASH:'free');const KEY_BASE='oge-ob-base';
+const KEY='oge-ob-dvizhenie-v1-'+(LINK.name?HASH:'free')+(window.LiliStudy?.suffix||'');const KEY_BASE='oge-ob-base';
 let S = load() || fresh();
 if(!S.sid)S.sid=newSid();
 if(LINK.name)S.name=LINK.name;
 function fresh(){return {sid:newSid(),name:LINK.name||'',tal:'',i:0,started:0,done:false,sound:true,streak:0,best:0,r:{},cp:{},stk:[]}}
 function newSid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
 function load(){try{const v=JSON.parse(localStorage.getItem(KEY));return v&&v.r?Object.assign({cp:{},stk:[],tal:''},v):null}catch(e){return null}}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}window.LiliStudy?.report({current:S.i+1,total:L.length,label:S.done?'Работа завершена':'Задание '+Math.min(S.i+1,L.length)+' из '+L.length,done:!!S.done})}
 function rec(n){return S.r[n]||(S.r[n]={st:'',tries:0,hints:0,ans:[],th:'',t:0})}
 const app=document.getElementById('app');
 let taskStart=0, tick=null;
@@ -1099,7 +1099,7 @@ function renderStart(){
   document.querySelectorAll('.tal').forEach(b=>b.onclick=()=>{ac();document.querySelectorAll('.tal').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');S.tal=b.dataset.id;save();document.querySelectorAll('.tal').forEach(x=>{x.querySelector('.pet').innerHTML=petSVG(x.dataset.id,x===b?'joy':'idle')});petSound(S.tal);burstAt(b.querySelector('.pet'),40,6);go.disabled=false;go.textContent='Поехали'});
   if(nm)nm.onkeydown=e=>{if(e.key==='Enter')go.click()};
   go.onclick=()=>{ac();if(!resume){if(nm){const v=nm.value.trim();if(!v){nm.focus();nm.classList.remove('shake');void nm.offsetWidth;nm.classList.add('shake');return}S.name=v}S.started=Date.now()}sfx.soft();save();goNext()};
-  const rs=document.getElementById('reset');if(rs)rs.onclick=()=>{const keep=S.sound;S=fresh();S.sound=keep;save();renderStart()};
+  const rs=document.getElementById('reset');if(rs)rs.onclick=()=>{const keep=S.sound;S=fresh();window.LiliStudy?.clear();S.sound=keep;save();renderStart()};
 }
 function goNext(){
   pushResult();
@@ -1150,7 +1150,7 @@ function renderInfo(t){
 function renderTask(){
   const t=cur();if(!t){finish();return}
   if(t.kind!=='q'){renderInfo(t);return}
-  const r=rec(t.n);mode='ans';choice=null;matchSel=[0,0,0];shownHints=r.hints;resolved=!!r.st;taskStart=Date.now();
+  const r=rec(t.n);mode=window.LiliStudy?.view(S.i)||'ans';choice=null;matchSel=[0,0,0];shownHints=r.hints;resolved=!!r.st;taskStart=Date.now();
   app.innerHTML=topbar()+`<article class="card enter" id="card">
     <div class="thead"><div class="num">${S.i+1}</div><div class="meta"><div class="part">${t.fin?'Итоговая проверка':'Мини-проверка'} · ${S.i+1} из ${L.length}</div><div class="topic">${esc(TOPIC.t)}</div></div></div>
     <div class="stmt">${t.q}</div>
@@ -1189,7 +1189,7 @@ function drawAns(fb){
     h+=`<button class="btn next" id="nx">${S.i===L.length-1?'Смотреть результат':'Дальше'}</button>`;
   }
   box.innerHTML=h;
-  bindAns(t,r);
+  bindAns(t,r);window.LiliStudy?.task(S.i+':'+mode,{current:S.i+1,total:L.length,label:'Задание '+(S.i+1)+' из '+L.length,done:!!S.done});
 }
 function bindAns(t,r){
   const $=id=>document.getElementById(id);
@@ -1383,7 +1383,7 @@ function finish(){
   const cp=document.getElementById('cp'),ta=document.getElementById('rep'),m=document.getElementById('cpm'),tg=document.getElementById('tg');
   tg.addEventListener('click',()=>{copyText(ta.value,()=>{},()=>{});sfx.tap();setTimeout(()=>{m.textContent='Не открылся Telegram? Напиши мне вручную: @'+TG_USER+'. Текст уже скопирован, просто вставь его.'},1500)});
   cp.onclick=()=>copyText(ta.value,()=>{cp.textContent='Скопировано';m.textContent='Теперь вставь в чат со мной (@'+TG_USER+') и отправь.';sfx.tap()},()=>{ta.hidden=false;ta.focus();ta.select();m.textContent='Не получилось скопировать автоматически. Текст выделен ниже: скопируй его вручную.'});
-  document.getElementById('again').onclick=()=>{const keep=S.sound;S=fresh();S.sound=keep;save();renderStart()};
+  document.getElementById('again').onclick=()=>{const keep=S.sound;S=fresh();window.LiliStudy?.clear();S.sound=keep;save();renderStart()};
   sfx.fin();if(!RM&&sc.pct>=50){[0,300,650,1000,1400].forEach(d=>setTimeout(firework,d));setTimeout(()=>burst(innerWidth/2,innerHeight*.35,140,12),200)}
 }
 
@@ -1535,6 +1535,7 @@ function renderPetPick(next){
 if(HASH==='lilia')renderTeacher();
 else if(S.name&&S.started&&!tal()){renderPetPick(()=>S.done?finish():renderStart())}
 else if(S.done&&S.name){finish()}
+else if(window.LiliStudy?.resume&&S.started&&S.name&&tal()){goNext()}
 else renderStart();
 })();
 </script>

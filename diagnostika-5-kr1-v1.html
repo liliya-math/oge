@@ -1,4 +1,4 @@
-<!doctype html><html lang="ru"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html lang="ru"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script src="tools/study-resume.js?v=1"></script></head><body>
 <title>Диагностика · 5 класс · КР 1 · Вариант 1</title><style>.solbox{margin:12px 0 0;padding:14px 16px;border-radius:16px;background:rgba(23,71,201,.16);border:1px solid rgba(169,193,255,.32)}.solbox small{display:block;color:var(--lilac);font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em;font-size:12px}.solbox p{margin:0;color:var(--fg);line-height:1.55}</style><style>.opts{display:flex;flex-wrap:wrap;gap:10px}.opts .opt{flex:1 1 auto;min-width:0;width:auto;white-space:nowrap;justify-content:center}@media(max-width:560px){.opts .opt{flex:1 1 calc(50% - 10px)}}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
@@ -658,14 +658,14 @@ const L=T.filter(t=>!(LINK.mask&(1<<(t.n-1))));
 const FULL=L.length===T.length;
 
 /* ---------- state ---------- */
-const KEY='diag5-kr1-v1-'+(LINK.name?HASH:'free');
+const KEY='diag5-kr1-v1-'+(LINK.name?HASH:'free')+(window.LiliStudy?.suffix||'');
 let S = load() || fresh();
 if(!S.sid)S.sid=newSid();
 if(LINK.name)S.name=LINK.name;
 function fresh(){return {sid:newSid(),name:LINK.name||'',tal:'',i:0,started:0,done:false,sound:true,streak:0,best:0,r:{},cp:{},stk:[]}}
 function newSid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
 function load(){try{const v=JSON.parse(localStorage.getItem(KEY));return v&&v.r?Object.assign({cp:{},stk:[],tal:''},v):null}catch(e){return null}}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}window.LiliStudy?.report({current:S.i+1,total:L.length,label:S.done?'Работа завершена':'Задание '+Math.min(S.i+1,L.length)+' из '+L.length,done:!!S.done})}
 function rec(n){return S.r[n]||(S.r[n]={st:'',tries:0,hints:0,ans:[],th:'',t:0})}
 const app=document.getElementById('app');
 let taskStart=0, tick=null;
@@ -812,7 +812,7 @@ function renderStart(){
   document.querySelectorAll('.tal').forEach(b=>b.onclick=()=>{ac();document.querySelectorAll('.tal').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');S.tal=b.dataset.id;save();document.querySelectorAll('.tal').forEach(x=>{x.querySelector('.pet').innerHTML=petSVG(x.dataset.id,x===b?'joy':'idle')});petSound(S.tal);burstAt(b.querySelector('.pet'),40,6);go.disabled=false;go.textContent='Поехали'});
   if(nm)nm.onkeydown=e=>{if(e.key==='Enter')go.click()};
   go.onclick=()=>{ac();if(!resume){if(nm){const v=nm.value.trim();if(!v){nm.focus();nm.classList.remove('shake');void nm.offsetWidth;nm.classList.add('shake');return}S.name=v}S.started=Date.now()}sfx.soft();save();goNext()};
-  const rs=document.getElementById('reset');if(rs)rs.onclick=()=>{const keep=S.sound;S=fresh();S.sound=keep;save();renderStart()};
+  const rs=document.getElementById('reset');if(rs)rs.onclick=()=>{const keep=S.sound;S=fresh();window.LiliStudy?.clear();S.sound=keep;save();renderStart()};
 }
 function goNext(){
   pushResult();
@@ -826,7 +826,7 @@ let mode='ans', choice=null, matchSel=[0,0,0], shownHints=0, resolved=false;
 const cur=()=>L[S.i];
 function renderTask(){
   const t=cur();if(!t){finish();return}
-  const r=rec(t.n);mode='ans';choice=null;matchSel=[0,0,0];shownHints=r.hints;resolved=!!r.st;taskStart=Date.now();
+  const r=rec(t.n);mode=window.LiliStudy?.view(S.i)||'ans';choice=null;matchSel=[0,0,0];shownHints=r.hints;resolved=!!r.st;taskStart=Date.now();
   app.innerHTML=topbar()+`<article class="card enter" id="card">
     <div class="thead"><div class="num">${LB(t)}</div><div class="meta"><div class="part">${BLK[t.blk]} · ${S.i+1} из ${L.length}</div><div class="topic">${t.topic}</div></div></div>
     ${t.ctx?`<details class="ctx"${t.n===L.find(x=>x.ctx)?.n?' open':''}><summary>${CTX_LABEL}</summary><div class="in">${PLAN}</div></details>`:''}
@@ -867,7 +867,7 @@ function drawAns(fb){
     h+=`<button class="btn next" id="nx">${S.i===L.length-1?'Смотреть результат':'Дальше'}</button>`;
   }
   box.innerHTML=h;
-  bindAns(t,r);
+  bindAns(t,r);window.LiliStudy?.task(S.i+':'+mode,{current:S.i+1,total:L.length,label:'Задание '+(S.i+1)+' из '+L.length,done:!!S.done});
 }
 function bindAns(t,r){
   const $=id=>document.getElementById(id);
@@ -1078,7 +1078,7 @@ function finish(){
   const cp=document.getElementById('cp'),ta=document.getElementById('rep'),m=document.getElementById('cpm'),tg=document.getElementById('tg');
   tg.addEventListener('click',()=>{copyText(ta.value,()=>{},()=>{});sfx.tap();setTimeout(()=>{m.textContent='Не открылся Telegram? Напиши мне вручную: @'+TG_USER+'. Текст уже скопирован, просто вставь его.'},1500)});
   cp.onclick=()=>copyText(ta.value,()=>{cp.textContent='Скопировано';m.textContent='Теперь вставь в чат со мной (@'+TG_USER+') и отправь.';sfx.tap()},()=>{ta.hidden=false;ta.focus();ta.select();m.textContent='Не получилось скопировать автоматически. Текст выделен ниже: скопируй его вручную.'});
-  document.getElementById('again').onclick=()=>{const keep=S.sound;S=fresh();S.sound=keep;save();renderStart()};
+  document.getElementById('again').onclick=()=>{const keep=S.sound;S=fresh();window.LiliStudy?.clear();S.sound=keep;save();renderStart()};
   sfx.fin();if(!RM){[0,300,650,1000,1400].forEach(d=>setTimeout(firework,d));setTimeout(()=>burst(innerWidth/2,innerHeight*.35,140,12),200)}
 }
 
@@ -1239,6 +1239,7 @@ window.addEventListener('hashchange',()=>location.reload());
 if(HASH==='lilia')renderTeacher();
 else if(S.name&&S.started&&!tal()){renderPetPick(()=>S.done?finish():renderStart())}
 else if(S.done&&S.name){finish()}
+else if(window.LiliStudy?.resume&&S.started&&S.name&&tal()){goNext()}
 else renderStart();
 })();
 </script>
