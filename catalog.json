@@ -3734,6 +3734,24 @@
       "oge_task": 6,
       "status": "public",
       "note": ""
+    },
+    {
+      "file": "z20-drobno-ratsionalnye-dz.html",
+      "title": "ДЗ №2 · Дробно-рациональные уравнения",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "11 заданий в 3 уровнях (4+4+3), мини-теория, 2 подсказки, разбор после 2 ошибок"
+    },
+    {
+      "file": "z20-drobno-ratsionalnye-dz.pdf",
+      "title": "",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": ""
     }
   ]
 }
