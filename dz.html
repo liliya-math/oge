@@ -16,7 +16,7 @@ h1{font-size:clamp(24px,6vw,32px);line-height:1.15;margin:4px 0 18px;letter-spac
 .muted{color:var(--muted)}
 .t{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 16px 14px;margin:0 0 12px}
 .n{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--muted);font-size:14px;margin-bottom:6px}
-.star{color:var(--amber);border:1px solid rgba(245,220,106,.4);border-radius:999px;padding:1px 9px;font-size:12px;font-weight:600}
+.lvh{font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:26px 0 10px;font-weight:700}.lvh.star{color:var(--amber)}
 .q{font-size:17px;overflow-wrap:anywhere}
 .q p{margin:0 0 8px}.q img{max-width:100%;height:auto;border-radius:10px;display:block;margin:8px 0}
 .q table{border-collapse:collapse}.q td,.q th{border:1px solid var(--line);padding:4px 8px}
@@ -63,6 +63,8 @@ function result(r,again){
   document.querySelector('.bar')?.remove();
   window.scrollTo(0,0);
 }
+const lvl=v=>{v=String(v||'').trim();return v==='5'||v==='★'?'5 ★':v};
+const lab=n=>/^\d+$/.test(n)?'№'+n:String(n).replace(/\)$/,'')+')';
 function filled(){return T.filter(t=>String(S.a[t.n]||'').trim()).length}
 function upd(){const c=document.getElementById('cnt');if(c)c.textContent='Заполнено '+filled()+' из '+T.length}
 
@@ -70,7 +72,8 @@ function show(j){
   T=j.tasks;
   document.title=j.title;
   app.innerHTML=`<h1>${esc(j.title)}</h1><p class="muted" style="margin:-8px 0 16px">Реши задания в тетради и впиши ответы. Дробь пиши через запятую: 2,5.</p>`
-   +T.map(t=>`<section class="t"><div class="n">№${esc(t.n)}${t.lv==='★'?'<span class="star">★ сложное</span>':''}</div><div class="q">${clean(t.q)}</div><input type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="next" data-n="${esc(t.n)}" placeholder="Ответ" value="${esc(S.a[t.n]||'')}"></section>`).join('')
+   +T.map((t,i)=>{const L=lvl(t.lv),head=L&&(i===0||lvl(T[i-1].lv)!==L)?`<h2 class="lvh${/5|★/.test(L)?' star':''}">Уровень ${esc(L)}</h2>`:'';
+     return head+`<section class="t"><div class="n">${esc(lab(t.n))}</div><div class="q">${clean(t.q)}</div><input type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="next" data-n="${esc(t.n)}" placeholder="Ответ" value="${esc(S.a[t.n]||'')}"></section>`}).join('')
    +`<p class="err" id="err"></p><div class="bar"><div><span id="cnt"></span><button id="go">Отправить</button></div></div>`;
   upd();
   const ins=[...app.querySelectorAll('input')];
