@@ -1,5 +1,8 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 7.6
+ * Кабинет ученика 25/25 · lili.math — версия 7.7
+ * (7.7: учитель выбирает, что видит ученик и родитель (колонка «Показывать», скрытое вообще не уходит на страницу);
+ *  талисман ученика хранится в таблице; блокировка подбора пароля; ограничение писем; список материалов берётся
+ *  из catalog.json сайта; общая полка разборов (код * в листе «Разборы»). После замены кода: setup, затем «Новая версия».)
  * (7.6: проверка ДЗ, вопросы, фото решения и комментарии; setup + новая версия развёртывания)
  * (7.5: Telegram-уведомления; настройка бота через меню таблицы, затем новая версия развёртывания)
  * (7.4: редактирование выданной домашки с сохранением выполнения; после замены кода
@@ -33,7 +36,7 @@ const SHEETS = {
   'Ученики': ['Код', 'Имя', 'Кому (дательный)', 'Цель, баллов', 'Дни занятий', 'Время (по Самаре)',
               'Тема следующего занятия', 'Ссылка на доску', 'Над чем работаем (через ;)',
               'Занятий в месяце по плану', 'Проведено в этом месяце', 'Активен', 'Ссылка на кабинет',
-              'Программа', 'Фамилия', 'Дата рождения', 'Родитель', 'Телефон родителя', 'Класс'],
+              'Программа', 'Фамилия', 'Дата рождения', 'Родитель', 'Телефон родителя', 'Класс', 'Показывать', 'Талисман'],
   'Карта': ['Код', 'Имя'].concat(Array.from({length: 58}, (_, i) => String(i + 1))),
   'Комментарии': ['Код', 'Задание ОГЭ', 'Комментарий', 'Ссылка на разбор', 'Подпись ссылки'],
   'Разборы': ['Код', 'Ссылка', 'Название', 'Подпись'],
@@ -100,7 +103,11 @@ const MATERIALS = [
 const C = {bg: '#14211e', bg2: '#1b2b28', fg: '#f3ece2', muted: '#a9b6ad', cobalt: '#1747c9', apricot: '#f2905e',
            amber: '#f5dc6a', sage: '#a9d18e', miss: '#ff8f73', none: '#2a3a36'};
 const STUDENT_COLS = {name: 2, dat: 3, goal: 4, days: 5, time: 6, topic: 7, board: 8, work: 9, lessonsPlan: 10, lessonsDone: 11, active: 12, prog: 14,
-                      fname: 15, bdate: 16, parent: 17, phone: 18, cls: 19};
+                      fname: 15, bdate: 16, parent: 17, phone: 18, cls: 19, show: 20, pet: 21};
+const STUDENT_NCOL = 21;
+const SHOW_KEYS = ['work', 'grades', 'exams', 'map', 'skills', 'notebook', 'rewards', 'letter'];
+const PETS = ['cat', 'meer', 'rac', 'lab', 'capy', 'ham'];
+const CATALOG_URL = 'https://lilimath.ru/catalog.json';
 const HW_SECS = ['разборы', 'теория', 'устный опрос', 'огэ'];
 const HW_SEC_KEY = {'разборы': 'raz', 'теория': 'theor', 'устный опрос': 'oral', 'огэ': 'oge'};
 function normProg_(p) {
@@ -213,6 +220,21 @@ function setup() {
 }
 
 /* ================= материалы сайта ================= */
+// Список для выпадающего меню берётся из catalog.json на сайте; если сайт недоступен, используется MATERIALS.
+function materialsFromCatalog_() {
+  try {
+    const res = UrlFetchApp.fetch(CATALOG_URL, {muteHttpExceptions: true});
+    if (res.getResponseCode() !== 200) return null;
+    const items = (JSON.parse(res.getContentText()).items || []);
+    const order = ['razbor', 'dz', 'trenazher', 'uchebnik', 'diagnostika', 'probnik', 'zadanie', 'sluzhebnoe', 'klass'];
+    const rank = t => { const i = order.indexOf(t); return i < 0 ? order.length : i; };
+    const out = items
+      .filter(it => it && it.status === 'public' && String(it.title || '').trim() && /\.(html|pdf)$/i.test(String(it.file || '')) && it.type !== 'sistema')
+      .sort((a, b) => rank(a.type) - rank(b.type))
+      .map(it => [String(it.file), String(it.title).trim()]);
+    return out.length > 20 ? out : null;
+  } catch (e) { console.error('materialsFromCatalog_: ' + e); return null; }
+}
 function syncMaterials() {
   const ss = SpreadsheetApp.getActive();
   let sh = ss.getSheetByName('Материалы');
@@ -227,10 +249,11 @@ function syncMaterials() {
     rz.getRange(1, 1, 1, 4).setValues([SHEETS['Разборы']]);
     rz.setFrozenRows(1);
   }
+  const list = materialsFromCatalog_() || MATERIALS;
   sh.getRange(2, 1, Math.max(sh.getMaxRows() - 1, 1), 2).clearContent();
-  sh.getRange(2, 1, MATERIALS.length, 2).setValues(MATERIALS);
+  sh.getRange(2, 1, list.length, 2).setValues(list);
   const rule = SpreadsheetApp.newDataValidation()
-    .requireValueInRange(sh.getRange(2, 1, MATERIALS.length, 1), true)
+    .requireValueInRange(sh.getRange(2, 1, list.length, 1), true)
     .setAllowInvalid(false).build();
   rz.getRange(2, 2, 1000, 1).setDataValidation(rule);
 }
@@ -239,7 +262,7 @@ function syncMaterials() {
 function styleSheets() {
   const ss = SpreadsheetApp.getActive();
   const widths = {
-    'Ученики': [110, 120, 130, 90, 110, 110, 260, 200, 320, 110, 110, 80, 380, 130, 130, 120, 160, 160, 70],
+    'Ученики': [110, 120, 130, 90, 110, 110, 260, 200, 320, 110, 110, 80, 380, 130, 130, 120, 160, 160, 70, 220, 90],
     'Карта': [110, 120].concat(Array(58).fill(54)),
     'Комментарии': [110, 90, 420, 260, 200],
     'Разборы': [110, 300, 320, 160],
@@ -320,7 +343,7 @@ function createStudent_(name, dat, prog, cls) {
   const p = normProg_(prog);
   const goal = p === 'oge9' ? 22 : Math.round(goalMax_(p) * 0.8);
   ss.getSheetByName('Ученики').appendRow([code, name, dat || name, goal, 'ср, сб', '18:00',
-    '', 'https://learnboard.ru', '', 8, 0, true, PAGE + '#' + code, p, '', '', '', '', cls || clsOfProg_(p)]);
+    '', 'https://learnboard.ru', '', 8, 0, true, PAGE + '#' + code, p, '', '', '', '', cls || clsOfProg_(p), 'work', '']);
   ss.getSheetByName('Карта').appendRow([code, name].concat(Array(58).fill('не проходили')));
   return code;
 }
@@ -345,10 +368,10 @@ function showLinkFor_(name, code) {
 
 function setPassword() {
   const ui = SpreadsheetApp.getUi();
-  const a = ui.prompt('Пароль для режима учителя', 'Не меньше 6 символов. Его будешь вводить на странице kabinet.html#lilia', ui.ButtonSet.OK_CANCEL);
+  const a = ui.prompt('Пароль для режима учителя', 'Не меньше 12 символов. Его будешь вводить на странице kabinet.html#lilia', ui.ButtonSet.OK_CANCEL);
   if (a.getSelectedButton() !== ui.Button.OK) return;
   const p = a.getResponseText().trim();
-  if (p.length < 6) { ui.alert('Слишком короткий пароль. Нужно хотя бы 6 символов.'); return; }
+  if (p.length < 12) { ui.alert('Слишком короткий пароль. Нужно хотя бы 12 символов: пароль можно подбирать из интернета.'); return; }
   PropertiesService.getScriptProperties().setProperty('ADMIN', p);
   ui.alert('Пароль сохранён. Режим учителя: ' + PAGE + '#lilia');
 }
@@ -371,6 +394,12 @@ function doPost(e) {
     const code = String(body.t).trim();
     if (body.telegram === 'connect') return json_(telegramConnect_(code));
     if (body.workflow === true) return json_(workflowHw_(code, body, false));
+    if (body.pet !== undefined) {
+      const pet = String(body.pet);
+      if (PETS.indexOf(pet) < 0) return json_({error: 'bad_value'});
+      SpreadsheetApp.getActive().getSheetByName('Ученики').getRange(st.index, STUDENT_COLS.pet).setValue(pet);
+      return json_({ok: true});
+    }
     if (body.letter !== undefined) return json_(saveLetter_(code, body.letter));
     return json_(setHwDone_(code, body.id, body.text, body.done));
   } finally { lock.releaseLock(); }
@@ -379,6 +408,9 @@ function doPost(e) {
 function saveLetter_(code, text) {
   const t = String(text || '').trim().slice(0, 2000);
   if (t.length < 2) return {error: 'bad_value'};
+  const cache = CacheService.getScriptCache(), key = 'letters_' + code, cnt = Number(cache.get(key) || 0);
+  if (cnt >= 5) return {error: 'too_many'};
+  cache.put(key, String(cnt + 1), 3600);
   let sh = SpreadsheetApp.getActive().getSheetByName('Письма');
   if (!sh) { sh = SpreadsheetApp.getActive().insertSheet('Письма', 99); sh.getRange(1, 1, 1, 4).setValues([SHEETS['Письма']]); sh.setFrozenRows(1); }
   sh.appendRow([code, new Date(), t, false]);
@@ -417,7 +449,21 @@ function setHwDone_(code, id, text, done) {
 function admin_(b) {
   const pass = PropertiesService.getScriptProperties().getProperty('ADMIN');
   if (!pass) return {error: 'no_password'};
-  if (String(b.admin || '') !== pass) { Utilities.sleep(700); return {error: 'bad_password'}; }
+  const props = PropertiesService.getScriptProperties();
+  const guard = LockService.getScriptLock();
+  guard.waitLock(10000);
+  let denied = null;
+  try {
+    const now = Date.now(), until = Number(props.getProperty('ADM_LOCK_UNTIL') || 0);
+    if (until > now) denied = {error: 'locked', minutes: Math.ceil((until - now) / 60000)};
+    else if (String(b.admin || '') !== pass) {
+      const fails = Number(props.getProperty('ADM_FAILS') || 0) + 1;
+      if (fails >= 5) { props.setProperty('ADM_LOCK_UNTIL', String(now + 15 * 60000)); props.setProperty('ADM_FAILS', '0'); }
+      else props.setProperty('ADM_FAILS', String(fails));
+      denied = {error: 'bad_password'};
+    } else if (props.getProperty('ADM_FAILS') !== '0') props.setProperty('ADM_FAILS', '0');
+  } finally { guard.releaseLock(); }
+  if (denied) { Utilities.sleep(700); return denied; }
   const lock = LockService.getScriptLock();
   lock.waitLock(15000);
   try {
@@ -447,6 +493,8 @@ function admin_(b) {
           else if (k === 'active') v = !!v;
           else if (k === 'bdate') v = /^\d{4}-\d{2}-\d{2}$/.test(String(v || '')) ? new Date(String(v) + 'T00:00:00') : '';
           else if (k === 'cls') v = Math.max(0, Math.min(11, Number(v) || 0));
+          else if (k === 'show') v = (Array.isArray(v) ? v : String(v).split(',')).map(x => String(x).trim()).filter(x => SHOW_KEYS.indexOf(x) >= 0).join(',');
+          else if (k === 'pet') v = PETS.indexOf(String(v)) >= 0 ? String(v) : '';
           else v = String(v).trim();
           sh.getRange(st.index, STUDENT_COLS[k]).setValue(v);
         });
@@ -459,7 +507,7 @@ function admin_(b) {
         if (!(n >= 1 && n <= nMax_(progOf_(st.row))) || !s) return {error: 'bad_value'};
         const sh = ss.getSheetByName('Карта');
         let row = findRow_('Карта', r => String(r[0]).trim() === code);
-        if (!row) { sh.appendRow([code, st.row[1]].concat(Array(25).fill('не проходили'))); row = sh.getLastRow(); }
+        if (!row) { sh.appendRow([code, st.row[1]].concat(Array(58).fill('не проходили'))); row = sh.getLastRow(); }
         sh.getRange(row, n + 2).setValue(s);
         return fresh();
       }
@@ -664,7 +712,7 @@ function admin_(b) {
 function listStudents_() {
   const ss = SpreadsheetApp.getActive(), sh = ss.getSheetByName('Ученики');
   if (!sh || sh.getLastRow() < 2) return [];
-  const rows = sh.getRange(2, 1, sh.getLastRow() - 1, 19).getValues();
+  const rows = sh.getRange(2, 1, sh.getLastRow() - 1, Math.min(STUDENT_NCOL, sh.getMaxColumns())).getValues();
   const times = sh.getRange(2, 6, sh.getLastRow() - 1, 1).getDisplayValues();
   const mapSh = ss.getSheetByName('Карта'), maps = {};
   if (mapSh && mapSh.getLastRow() >= 2) mapSh.getRange(2, 1, mapSh.getLastRow() - 1, Math.max(mapSh.getLastColumn(), 2)).getValues().forEach(r => { maps[String(r[0]).trim()] = r; });
@@ -732,23 +780,29 @@ function studentData_(code, admin) {
   const hist = rows('Пробники').filter(x => String(x.v[3]).trim() !== '' && (!isNaN(Number(x.v[3])) || /зач/i.test(String(x.v[3]))))
     .map(x => ({id: x.row, d: day_(x.v[1]), t: String(x.v[2] || ''), p: isNaN(Number(x.v[3])) ? (/^\s*не/i.test(String(x.v[3])) ? 'незачёт' : 'зачёт') : Number(x.v[3])}))
     .sort((a, b) => String(a.d).localeCompare(String(b.d)));
-  const mats = rows('Разборы')
+  const shelf = (() => { const sh = ss.getSheetByName('Разборы'); if (!sh || sh.getLastRow() < 2) return []; return sh.getRange(2, 1, sh.getLastRow() - 1, sh.getLastColumn()).getValues().map((v, i) => ({v: v, row: i + 2})).filter(x => String(x.v[0]).trim() === '*'); })();
+  const mats = rows('Разборы').concat(shelf)
     .filter(x => String(x.v[1]).trim() && String(x.v[2]).trim())
     .map(x => [String(x.v[1]).trim(), String(x.v[2]).trim(), String(x.v[3] || '').trim(), x.row]);
   const matsSh = ss.getSheetByName('Разборы');
   const matsAll = (matsSh && matsSh.getLastRow() >= 2) ? matsSh.getLastRow() - 1 : 0;
   const prog = progOf_(r);
+  const showRaw = String(r[19] || '').trim();
+  const show = showRaw ? showRaw.split(',').map(x => x.trim()).filter(x => SHOW_KEYS.indexOf(x) >= 0) : ['work'];
+  const has = k => admin || show.indexOf(k) >= 0;
+  const pet = PETS.indexOf(String(r[20] || '').trim()) >= 0 ? String(r[20]).trim() : '';
   const out = {
     workflow: 1, name: String(r[1]), dat: String(r[2] || r[1]), goal: Number(r[3]) || Math.round(goalMax_(prog) * 0.8),
     days: String(r[4] || ''), time: st.time, topic: String(r[6] || ''), board: String(r[7] || ''),
     work: String(r[8] || '').split(';').map(s => s.trim()).filter(Boolean),
     lessonsPlan: Number(r[9]) || 0, lessonsDone: Number(r[10]) || 0,
-    map: map, notes: notes, skills: skills, hw: hw, hist: hist, mats: mats, matsAll: matsAll, prog: prog,
+    map: has('map') ? map : {}, notes: has('map') ? notes : {}, skills: has('skills') ? skills : {}, hw: hw,
+    hist: has('exams') ? hist : hist.slice(-2), mats: mats, matsAll: matsAll, prog: prog, show: show, pet: pet,
     // Без пароля (публичная ссылка ученика) родитель, телефон и год рождения не отдаются:
     // для поздравления хватает дня и месяца, год подменяется на 2000.
     fname: String(r[14] || ''), bdate: admin ? day_(r[15]) : maskBdate_(day_(r[15])),
     parent: admin ? String(r[16] || '') : '', phone: admin ? String(r[17] || '') : '',
-    cls: Number(r[18]) || clsOfProg_(prog), grades: grades, telegram: telegramState_(code)
+    cls: Number(r[18]) || clsOfProg_(prog), grades: has('grades') ? grades : [], telegram: telegramState_(code)
   };
   if (admin) {
     out.active = r[11] !== false; out.code = code;
@@ -768,7 +822,7 @@ function findStudentRow_(code) {
   if (!code) return null;
   const sh = SpreadsheetApp.getActive().getSheetByName('Ученики');
   if (!sh || sh.getLastRow() < 2) return null;
-  const v = sh.getRange(2, 1, sh.getLastRow() - 1, 19).getValues();
+  const v = sh.getRange(2, 1, sh.getLastRow() - 1, Math.min(STUDENT_NCOL, sh.getMaxColumns())).getValues();
   for (let i = 0; i < v.length; i++) if (String(v[i][0]).trim() === code)
     return {row: v[i], index: i + 2, time: String(sh.getRange(i + 2, 6).getDisplayValue()).trim()};
   return null;
