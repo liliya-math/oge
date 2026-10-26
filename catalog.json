@@ -3698,6 +3698,24 @@
       "oge_task": null,
       "status": "public",
       "note": "Углы, теорема Пифагора, площади, средние линии. Задания 15–19 ОГЭ."
+    },
+    {
+      "file": "z7-koord-pryamaya-dz.html",
+      "title": "ДЗ №1 · №7 ОГЭ · Числа на координатной прямой (11 заданий, 3 уровня)",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 7,
+      "status": "public",
+      "note": "интерактив 4+4+3, добавлено 2026-10-26"
+    },
+    {
+      "file": "z7-koord-pryamaya-dz.pdf",
+      "title": "",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 7,
+      "status": "public",
+      "note": "печатный листок ученика, без ответов"
     }
   ]
 }
