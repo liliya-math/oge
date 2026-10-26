@@ -36,7 +36,7 @@ button{cursor:pointer}
 .wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding-inline:16px;padding-block:20px 80px}
 
 /* top bar */
-.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;margin:0 -16px 18px;padding:12px 16px 10px;background:linear-gradient(var(--bg) 70%,transparent);display:grid;gap:10px}
+.top{position:relative;z-index:20;margin:0 -16px 6px;padding:12px 16px 4px;display:grid;gap:10px}
 .toprow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .brand{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.02em}
 .brand b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -557,7 +557,8 @@ a.btn{display:inline-flex;align-items:center;text-decoration:none;height:48px}
 
 /* stats for parents */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-@media (max-width:520px){.stats{grid-template-columns:1fr}}
+@media (max-width:520px){.stats{gap:8px}.stat{padding:12px 10px}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.stat{min-width:0}.stat b{font-size:20px;white-space:nowrap}.stat b em{font-size:.7em}.stat span{font-size:12px}}
+.stat small{display:block;margin-top:2px;font-size:12px;color:var(--faint)}
 .stat{padding:14px 16px;border-radius:18px;background:rgba(0,0,0,.2);border:1px solid var(--line)}
 .stat b{display:block;font-family:var(--display);font-weight:800;font-size:28px;letter-spacing:-.03em;line-height:1.1;font-variant-numeric:tabular-nums}
 .stat b em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -708,7 +709,11 @@ button.skr:hover{background:rgba(243,236,226,.09)}
 .pets{grid-template-columns:repeat(3,1fr)!important}
 @media (min-width:600px){.pets{grid-template-columns:repeat(9,1fr)!important}}
 /* Student workspace · October 2026 */
-.cabnav{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;padding:7px;border:1px solid var(--line);border-radius:20px;background:#1b2b28;position:sticky;top:68px;z-index:15}
+.lessonstrip{margin:4px 0 14px}.lessonstrip .card{padding:16px 18px;border-radius:22px}.lessonstrip .when{font-size:22px;margin:4px 0 2px}.lessonstrip .ltopic{margin:8px 0 12px;font-size:14px}.lessonstrip .wk{margin-top:8px;font-size:13.5px}.lessonstrip .tzn{margin-top:8px}
+.contactline{margin:6px 2px 0;font-size:13.5px;color:var(--muted)}.contactline a{color:var(--sky)}
+.petlink{border:0;background:transparent;color:var(--muted);font-size:13px;padding:4px 0;text-decoration:underline;text-underline-offset:3px}
+.petdlg h2{font-size:22px;margin:0 0 4px}.petdlg .pets{margin-top:10px;grid-template-columns:repeat(3,1fr)!important}.showgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;margin-top:6px}.petdlg .focus-actions{margin-top:16px;justify-content:flex-end}
+.cabnav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:6px;border:1px solid var(--line);border-radius:18px;background:#1b2b28;position:sticky;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:15;box-shadow:0 14px 26px -16px rgba(0,0,0,.85)}
 .cabnav button{min-height:46px;border:0;border-radius:14px;background:transparent;color:var(--muted);font-size:14px;font-weight:600;padding:8px}
 .cabnav button[aria-pressed=true]{background:var(--cobalt);color:var(--fg)}
 .cabpanel{display:grid;gap:18px;min-width:0}.cabpanel h2{margin-top:0}.cabpanel[hidden]{display:none}
@@ -726,14 +731,14 @@ button.skr:hover{background:rgba(243,236,226,.09)}
 .progress-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.progress-summary>div{padding:16px;border-radius:16px;background:var(--glass);border:1px solid var(--line)}.progress-summary b{display:block;font-size:26px;color:var(--fg)}.progress-summary span{font-size:13px;color:var(--muted)}
 .workflow-dialog{background:#1b2b28;color:var(--fg);border:1px solid var(--line);border-radius:24px;padding:24px;width:min(540px,calc(100vw - 24px));max-height:90dvh;overflow:auto}.workflow-dialog::backdrop{background:rgba(0,0,0,.7)}.workflow-dialog form{display:grid;gap:14px}.workflow-dialog h2,.workflow-dialog p{margin:0}.workflow-dialog select{width:100%;padding:10px;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:12px}.workflow-dialog input[type=file]{max-width:100%}.workflow-dialog .ferr{white-space:pre-wrap}.workflow-dialog .focus-actions{justify-content:flex-end}.workflow-dialog label{display:grid;gap:6px}.workflow-dialog textarea{min-height:100px}
 .cabpanel .two{align-items:start}.cabpanel .card{min-width:0}.focuswork .eyebrow{color:var(--apricot)}
-@media(max-width:640px){.cabnav{grid-template-columns:repeat(3,minmax(0,1fr));top:64px;border-radius:16px}.cabnav button{min-height:42px;font-size:12px}.welcome .hpet{width:66px;height:66px}.progress-summary{gap:6px}.progress-summary>div{padding:12px 9px}.progress-summary b{font-size:22px}.focus-actions .btn{height:auto;min-height:48px;padding:12px 16px}.hwfilters{gap:6px}.hwfilters button{font-size:13px}.hwextra .focus-actions{gap:6px}}
+@media(max-width:640px){.cabnav{border-radius:16px}.cabnav button{min-height:42px;font-size:13px}.welcome .hpet{width:66px;height:66px}.progress-summary{gap:6px}.progress-summary>div{padding:12px 9px}.progress-summary b{font-size:22px}.focus-actions .btn{height:auto;min-height:48px;padding:12px 16px}.hwfilters{gap:6px}.hwfilters button{font-size:13px}.hwextra .focus-actions{gap:6px}}
 
 
 /* Homework cards: one primary action and readable correction notes. */
 .assignment-card{padding:20px!important;margin:14px 0;border:1px solid var(--line);border-radius:20px;background:#1b2b28;align-items:flex-start!important}
 .assignment-card.done{opacity:1}.assignment-card .hwt{font-size:18px;font-weight:650;line-height:1.4}
-.assignment-meta{display:flex;gap:6px 14px;flex-wrap:wrap;margin:9px 0 16px;font-size:13px;color:#bdc9c0}
-.assignment-meta span+span:before{content:'·';margin-right:10px;color:var(--faint)}
+.assignment-meta{display:flex;gap:6px 8px;flex-wrap:wrap;margin:9px 0 16px;font-size:13px;color:#bdc9c0}
+.assignment-meta span{padding:3px 10px;border-radius:999px;background:rgba(243,236,226,.07);border:1px solid var(--line)}
 .assignment-card .btn{height:auto;min-height:46px;padding:12px 18px;line-height:1.35;text-decoration:none;display:inline-flex;align-items:center}
 .resume-note{font-size:13px;color:var(--amber);margin:8px 0 12px}
 .error-notebook{margin-top:20px}.error-list{display:grid;gap:12px;margin-top:20px}
@@ -1108,10 +1113,11 @@ function demoData(){const st='ssspp'+'s'.repeat(11)+'pssp'+'ggp'+'nn';const map=
    {id:'h4',status:'checked',feedback:'Исправления верные. Хорошая работа!',t:'Пробник №3: исправить ошибки в 4 и 20',n:'4, 20',due:isoIn(-1),done:true},
    ...Array.from({length:10},(_,i)=>({id:'o'+i,t:'Домашка '+(i+1),n:'',due:isoIn(-30+i*3),done:i!==6,old:true}))],
   grades:[{id:1,d:isoIn(-40),subj:'алгебра',p:4},{id:2,d:isoIn(-25),subj:'алгебра',p:5},{id:3,d:isoIn(-10),subj:'геометрия',p:4},{id:4,d:isoIn(-3),subj:'алгебра',p:5}],
-  hist:[{d:isoIn(-30),t:'Диагностика',p:9},{d:isoIn(-16),t:'Пробник №1',p:12},{d:isoIn(-7),t:'Пробник №2',p:14},{d:isoIn(-1),t:'Пробник №3',p:16}]};
+  hist:[{d:isoIn(-30),t:'Диагностика',p:9},{d:isoIn(-16),t:'Пробник №1',p:12},{d:isoIn(-7),t:'Пробник №2',p:14},{d:isoIn(-1),t:'Пробник №3',p:16}],show:['work']};
 }
 
 /* ---------- подсчёты ---------- */
+const SHOW=k=>TEACH||!D||!Array.isArray(D.show)||D.show.includes(k);
 const stOf=n=>(D.map&&D.map[n])||'new';
 const isDone=h=>D.demo&&!wfEnabled()&&h.id in S.hw?S.hw[h.id]:!!h.done;
 function daysTo(iso){if(!iso)return null;const [y,m,d]=iso.split('-').map(Number);const a=new Date(y,m-1,d),n=new Date();n.setHours(0,0,0,0);return Math.round((a-n)/864e5)}
@@ -1120,9 +1126,9 @@ function shortDate(iso){if(!iso)return '';const [y,m,d]=iso.split('-').map(Numbe
 function visibleHW(){return D.hw.filter(h=>!h.old&&(!isDone(h)||(daysTo(h.due)??0)>=-7))}
 function sayList(){const a=[],left=visibleHW().filter(h=>!isDone(h)).length,H=D.hist||[];
  if(left)a.push(`Домашка ждёт: ${left} ${plural(left,'задание','задания','заданий')}. Сделаешь — получишь стикер.`);else a.push('Вся домашка закрыта. Красота.');
- if(H.length>1&&H[H.length-1].p>H[0].p)a.push(`С первой диагностики +${H[H.length-1].p-H[0].p}. Это система, а не везение.`);
+ if(SHOW('exams')&&H.length>1&&H[H.length-1].p>H[0].p)a.push(`С первой диагностики +${H[H.length-1].p-H[0].p}. Это система, а не везение.`);
  if(D.topic)a.push('На следующем занятии: '+D.topic.charAt(0).toLowerCase()+D.topic.slice(1)+'.');
- if(!S.picked&&!TEACH)a.push('Выбери талисмана в разделе «Коллекция». Я не обижусь. Почти.');
+ if(!S.picked&&!TEACH)a.push('Нажми «Сменить талисмана» и выбери того, кто тебе по душе. Я не обижусь. Почти.');
  return a}
 
 /* ---------- расписание ----------
@@ -1171,9 +1177,14 @@ function topbar(){return `<header class="top"><div class="toprow">
  <span class="talmini" id="talb" title="${tal().n}">${petSVG(tal().id,'idle')}</span>
 </div></header>`}
 function heroKid(){return `<section class="khero"><div class="hpet" id="hpet" role="button" tabindex="0" aria-label="${tal().n}">${petSVG(tal().id,'idle')}</div><div style="min-width:0"><div class="say" id="say"><b>${tal().n}:</b> ${esc(pick(sayList()))}</div><h1 class="big1">${esc(D.name)}, <em>привет!</em></h1><p class="klead">Здесь твои задания, материалы и результаты работ.</p></div></section>`}
-function heroPar(){const P=PROG(),H=(D.hist||[]).filter(h=>typeof h.p==='number'),last=H.at(-1),grow=H.length>1?last.p-H[0].p:null;
+function resultWord(p){return p<=2?'незачёт':p>=5?'зачёт':'зачёт ('+p+')'}
+function heroPar(){const P=PROG(),H=(D.hist||[]).filter(h=>typeof h.p==='number'),last=H.at(-1),prev=H.length>1?H.at(-2):null;
  const all=D.hw.filter(h=>(daysTo(h.due)??-1)<0||isDone(h)),done=all.filter(isDone).length;
- return `<section style="display:grid;gap:10px;padding-block:6px 4px"><span class="eyebrow">Для родителей · ${esc(D.name)}</span><h1 class="big1">Занятия и <em>результаты</em></h1><p class="klead" style="margin:0">${last?`Последняя работа: ${esc(last.t||'Работа')} — <strong>${last.p}${P.oge?' из 31':''}</strong>.`:'Результаты появятся после первой проверенной работы.'}</p></section><div class="card"><div class="stats"><div class="stat"><b>${D.lessonsDone||0} <em>/ ${D.lessonsPlan||0}</em></b><span>занятий в этом месяце</span></div><div class="stat"><b>${done} <em>/ ${all.length}</em></b><span>домашних заданий сдано</span></div><div class="stat"><b><em>${grow===null?'—':(grow>=0?'+':'')+grow}</em></b><span>${grow===null?'сравним после двух работ':P.oge?'баллов с первой работы':'к результату первой работы'}</span></div></div></div>`}
+ const when=last?[esc(last.t||'Работа'),shortDate(last.d)].filter(Boolean).join(' · '):'';
+ const res=!last?`<div class="stat"><b><em>—</em></b><span>результат появится после первой проверенной работы</span></div>`
+  :P.oge?`<div class="stat"><b>${last.p} <em>/ 31</em></b><span>${when}</span><small>${prev?'было '+prev.p:'первая работа'}${D.goal?' · цель '+D.goal:''}</small></div>`
+  :`<div class="stat"><b><em>${resultWord(last.p)}</em></b><span>${when}</span></div>`;
+ return `<section style="display:grid;gap:10px;padding-block:6px 4px"><span class="eyebrow">Для родителей · ${esc(D.name)}</span><h1 class="big1">Занятия и <em>результаты</em></h1></section><div class="card"><div class="stats"><div class="stat"><b>${D.lessonsDone||0} <em>/ ${D.lessonsPlan||0}</em></b><span>занятий в этом месяце</span></div><div class="stat"><b>${done} <em>/ ${all.length}</em></b><span>домашних заданий сдано</span></div>${res}</div></div>`}
 function lessonCard(teach){const t=nextLesson();if(!t)return `<div class="card"><span class="eyebrow">Следующее занятие</span><div class="when">Расписание уточняется</div><p class="ltopic">${esc(D.topic||'')}</p></div>`;
  const c=countdown(t),P=SCH(),tz=stuTz(),dev=devTz(),diff=!teach&&P.tz&&dev&&tzOff(dev,t)!==tzOff(P.tz,t);
  const wk=teach?weekLine('Europe/Samara'):weekLine(tz),wkS=teach&&P.tz&&tzOff(P.tz,t)!==SAMARA_OFF?weekLine(P.tz):'';
@@ -1271,7 +1282,7 @@ function matCard(){const M=(D.mats&&D.mats.length)?D.mats:(D.matsAll?[]:MATS);re
 function workText(text){return String(text||'').split(/(?<=[.!?])\s+|\n+/).filter(part=>!/прогноз/i.test(part)).join(' ').trim()}
 function workCard(){const W=(D.work||[]).map(workText).filter(Boolean);return `<div class="card"><div class="sh"><h2>Над чем работаем</h2></div>
  ${W.length?`<ul class="work">${W.map(w=>`<li>${esc(w)}</li>`).join('')}</ul>`:''}
- <p class="tzn" style="margin-top:14px">Подробный отчёт преподаватель присылает раз в две недели. Вопросы — в Telegram:</p>
+ <p class="tzn" style="margin-top:14px">Подробный отчёт преподаватель присылает раз в месяц. Вопросы — в Telegram:</p>
  <div class="tgrow"><code id="tgv">@ohh_my_lily</code><button class="btn ghost" id="cpy" style="height:44px">Скопировать</button></div></div>`}
 function foot(){const note=D&&D.demo?'<span class="demo"><b>Пример</b> · данные ученика вымышленные</span>':syncedAt?`<span class="demo" id="sync">Обновлено ${new Date(syncedAt).toLocaleString('ru-RU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</span>`:'<span></span>';
  return `<footer class="foot">${note}<span class="wm">lili<i>.</i>math</span></footer>`}
@@ -1316,13 +1327,15 @@ function tBindTelegram(){
  const send=document.getElementById('h-add-notify');if(send)send.onclick=()=>document.getElementById('h-add').onclick({notify:true});
 }
 
+function parentBody(){const two=[SHOW('exams')?chartCard():'',SHOW('work')?workCard():''].filter(Boolean);
+ return heroPar()+(SHOW('map')?mapCard(true):'')+(SHOW('skills')?skillsCard(true):'')+(two.length>1?`<div class="two">${two.join('')}</div>`:two.join(''))+(SHOW('grades')?gradesCard():'')}
 function render(){
  if(!D)return;
  syncNotebook();
  const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
  app.innerHTML=topbar()+`<div class="cab${firstPaint?' enter':''}">`+(kid
   ? kidWorkspace(bday)
-  : bday+heroPar()+mapCard(true)+skillsCard(true)+`<div class="two">${chartCard()}${workCard()}</div>`+gradesCard())+foot()+`</div>`;
+  : bday+parentBody())+foot()+`</div>`;
  firstPaint=false;
  bind();if(kid)bindWorkspace();if(bday)bdayFX();
 }
@@ -1337,12 +1350,12 @@ function bind(){
  document.getElementById('snd').onclick=e=>{S.sound=!S.sound;save();e.currentTarget.innerHTML=S.sound?I.snd:I.mute;sfx.tap()};
  document.getElementById('mKid').onclick=()=>{if(S.mode!=='kid'){S.mode='kid';save();sfx.tap();render();scrollTo({top:0})}};
  document.getElementById('mPar').onclick=()=>{if(S.mode!=='par'){S.mode='par';save();sfx.tap();render();scrollTo({top:0})}};
- document.getElementById('talb').onclick=()=>react('neu','',pick(sayList()));
+ document.getElementById('talb').onclick=()=>openPetPicker();
  const hp=document.getElementById('hpet');if(hp){const f=()=>{const s=pick(sayList());document.getElementById('say').innerHTML=`<b>${tal().n}:</b> ${esc(s)}`;react('neu','',s)};hp.onclick=f;hp.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f()}}}
  document.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{const n=+b.dataset.t;S.sel=n;save();sfx.tap();document.querySelectorAll('.tile').forEach(x=>x.setAttribute('aria-pressed',x===b));document.getElementById('tdet').innerHTML=detail(n);
   const s=stOf(n);if(s==='solid')petMood('joy');else if(s==='gap')petMood('sad')});
  document.querySelectorAll('.chk').forEach(b=>b.onclick=()=>toggleHW(b.dataset.hw,b));
- document.querySelectorAll('.pbtn').forEach(b=>b.onclick=()=>{S.tal=b.dataset.pet;S.picked=true;save();render();react('neu','','Теперь я с тобой. Погнали.')});
+ document.querySelectorAll('.pbtn').forEach(b=>b.onclick=()=>choosePet(b.dataset.pet));
  const cp=document.getElementById('cpy');if(cp)cp.onclick=()=>{const done=()=>{cp.textContent='Скопировано'};const fail=()=>{const r=document.createRange();r.selectNodeContents(document.getElementById('tgv'));const s=getSelection();s.removeAllRanges();s.addRange(r);cp.textContent='Выделено'};try{navigator.clipboard.writeText('@ohh_my_lily').then(done,fail)}catch(e){fail()}};
  const lb=document.getElementById('lt-b');if(lb)lb.onclick=sendLetter;
 }
@@ -1355,7 +1368,7 @@ function toggleHW(id,btn){
  const all=paintHW(h);
  if(now){S.streak++;const nb=document.querySelector(`.chk[data-hw="${h.id}"]`);burstAt(nb||btn,50,6);react('ok','Сделано',pick(['Минус одна задача на завтра.','Преподаватель увидит это в таблице.','Вот так и растут баллы.','Чётко. Следующая?']));
   const sig=visibleHW().map(x=>x.id).join(',');
-  if(all&&S.allDone!==sig){S.allDone=sig;setTimeout(()=>{grantSticker();for(let i=0;i<3;i++)setTimeout(firework,i*350);sfx.win()},1400)}}
+  if(all&&S.allDone!==sig){S.allDone=sig;setTimeout(()=>{if(SHOW('rewards'))grantSticker();for(let i=0;i<3;i++)setTimeout(firework,i*350);sfx.win()},1400)}}
  else{S.streak=0;sfx.soft()}
  save();
  if(!D.demo)push(h,now);
@@ -1371,18 +1384,27 @@ function grantSticker(){const own=new Set(S.stk);let pool=STK.filter(s=>!own.has
  const el=document.createElement('div');el.className='toast';el.innerHTML=`${stkHTML(s,'pop')}<span>Вся домашка сделана</span>`;document.body.appendChild(el);setTimeout(()=>{el.classList.add('out');setTimeout(()=>el.remove(),500)},3200);
  const c=document.getElementById('stkcard');if(c)c.outerHTML=stkCard()}
 
+/* Talisman picker: opens from the header avatar or the link under the greeting; the choice is saved in the table. */
+function openPetPicker(){const d=document.createElement('dialog');d.className='workflow-dialog petdlg';
+ d.innerHTML=`<form method="dialog" class="petdlg"><h2>Твой талисман</h2><p class="note">${esc(tal().n)} · ${esc(tal().tag)}</p><div class="pets">${TALS.map(t=>`<button type="button" class="pbtn" data-pet="${t.id}" aria-pressed="${tal().id===t.id}">${petSVG(t.id,'idle')}<span>${t.short||t.n.split(' ')[0]}</span></button>`).join('')}</div><div class="focus-actions"><button class="btn ghost" value="cancel">Закрыть</button></div></form>`;
+ document.body.appendChild(d);d.querySelectorAll('.pbtn').forEach(b=>b.onclick=()=>{d.close();choosePet(b.dataset.pet)});d.addEventListener('close',()=>d.remove());d.showModal()}
+function choosePet(id){if(!TALS.some(t=>t.id===id))return;S.tal=id;S.picked=true;save();render();react('neu','','Теперь я с тобой. Погнали.');
+ if(LIVE&&API)fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({t:CODE,pet:id})}).catch(()=>{})}
 /* Uses the current cabinet data and feature-detects Apps Script 7.6. */
 const WF_LABEL={new:'Не начато',solving:'Решаю',submitted:'На проверке',checked:'Проверено',revise:'Нужно исправить',help:'Нужна помощь',done:'Выполнено'};
-const CAB_TABS=[['today','Сегодня'],['homework','Домашка'],['materials','Материалы'],['progress','Мой прогресс'],['rewards','Коллекция'],['contact','Связь']];
+function CAB_TABS(){const t=[['homework','Домашка'],['materials','Библиотека']];
+ if(SHOW('map')||SHOW('skills')||SHOW('exams')||SHOW('grades'))t.push(['progress','Прогресс']);
+ if(SHOW('rewards'))t.push(['rewards','Коллекция']);
+ return t}
 function wfEnabled(){return !!(D&&(D.workflow===1||D.demo))}
 function wfStatus(h){return wfEnabled()?(WF_LABEL[h.status]?h.status:h.done?'done':'new'):(isDone(h)?'done':'new')}
 function wfGroup(h){const s=wfStatus(h);return s==='submitted'?'review':s==='checked'||s==='done'?'done':'todo'}
 function hwSorted(list){return list.slice().sort((a,b)=>{const ap=['revise','help'].includes(wfStatus(a))?0:1,bp=['revise','help'].includes(wfStatus(b))?0:1;return ap-bp||(a.due||'9999').localeCompare(b.due||'9999')||String(a.id).localeCompare(String(b.id))})}
-function cabTab(){return CAB_TABS.some(x=>x[0]===S.cabTab)?S.cabTab:'today'}
-function cabNav(){return `<nav class="cabnav" aria-label="Разделы кабинета">${CAB_TABS.map(([id,label])=>`<button type="button" data-cabtab="${id}" aria-controls="cab-${id}" aria-pressed="${cabTab()===id}">${label}${id==='homework'&&D.hw.filter(h=>!h.old&&wfGroup(h)==='todo').length?' · '+D.hw.filter(h=>!h.old&&wfGroup(h)==='todo').length:''}</button>`).join('')}</nav>`}
-function cabPanel(id,html){return `<section class="cabpanel" id="cab-${id}" aria-label="${CAB_TABS.find(x=>x[0]===id)[1]}" ${cabTab()===id?'':'hidden'}>${html}</section>`}
-function switchCabTab(id){if(!CAB_TABS.some(x=>x[0]===id))return;S.cabTab=id;save();document.querySelectorAll('.cabpanel').forEach(p=>p.hidden=p.id!=='cab-'+id);document.querySelectorAll('[data-cabtab]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.cabtab===id));scrollTo({top:0,behavior:'smooth'})}
-function welcomeKid(){return `<section class="welcome"><div class="hpet" id="hpet" role="button" tabindex="0" aria-label="Твой талисман ${esc(tal().n)}">${petSVG(tal().id,'idle')}</div><div><span class="eyebrow">Твой кабинет · lili.math</span><h1 class="big1">${esc(D.name)}, <em>привет!</em></h1><div class="say" id="say">Здесь твои задания, материалы и успехи.</div></div></section>`}
+function cabTab(){return CAB_TABS().some(x=>x[0]===S.cabTab)?S.cabTab:'homework'}
+function cabNav(){const T=CAB_TABS();return `<nav class="cabnav" style="grid-template-columns:repeat(${T.length},minmax(0,1fr))" aria-label="Разделы кабинета">${T.map(([id,label])=>`<button type="button" data-cabtab="${id}" aria-controls="cab-${id}" aria-pressed="${cabTab()===id}">${label}${id==='homework'&&D.hw.filter(h=>!h.old&&wfGroup(h)==='todo').length?' · '+D.hw.filter(h=>!h.old&&wfGroup(h)==='todo').length:''}</button>`).join('')}</nav>`}
+function cabPanel(id,html){return `<section class="cabpanel" id="cab-${id}" aria-label="${CAB_TABS().find(x=>x[0]===id)[1]}" ${cabTab()===id?'':'hidden'}>${html}</section>`}
+function switchCabTab(id){if(!CAB_TABS().some(x=>x[0]===id))return;S.cabTab=id;save();document.querySelectorAll('.cabpanel').forEach(p=>p.hidden=p.id!=='cab-'+id);document.querySelectorAll('[data-cabtab]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.cabtab===id));scrollTo({top:0,behavior:'smooth'})}
+function welcomeKid(){return `<section class="welcome"><div class="hpet" id="hpet" role="button" tabindex="0" aria-label="Твой талисман ${esc(tal().n)}">${petSVG(tal().id,'idle')}</div><div><span class="eyebrow">Твой кабинет · lili.math</span><h1 class="big1">${esc(D.name)}, <em>привет!</em></h1><div class="say" id="say"><b>${tal().n}:</b> ${esc(sayList()[0])}</div><button class="petlink" type="button" id="petlink">Сменить талисмана</button></div></section>`}
 function focusWork(){const list=hwSorted(D.hw.filter(h=>!h.old&&wfGroup(h)==='todo')),h=list.find(h=>wfStatus(h)==='revise')||list.filter(h=>resumeFor(h)&&!resumeFor(h).done).sort((a,b)=>resumeFor(b).at-resumeFor(a).at)[0]||list[0],waiting=D.hw.filter(h=>!h.old&&wfGroup(h)==='review').length;
  if(!h)return `<div class="card focuswork"><span class="eyebrow">На сегодня</span><h2>${waiting?'Работа отправлена на проверку':'Все назначенные задания выполнены'}</h2><p class="klead">${waiting?'Пока работа на проверке, можно повторить материал по теме.':'Можно повторить трудную тему или отдохнуть до следующего занятия.'}</p><div class="focus-actions"><button class="btn" data-go="materials">Открыть материалы</button><button class="btn ghost" data-go="homework">Мои работы</button></div></div>`;
  const started=['solving','revise','help'].includes(wfStatus(h)),url=homeworkURL(h);
@@ -1390,14 +1412,19 @@ function focusWork(){const list=hwSorted(D.hw.filter(h=>!h.old&&wfGroup(h)==='to
 function wfExtra(h,teacher){const s=wfStatus(h);return `<div class="hwextra"><div><span class="hwstate ${s}">${WF_LABEL[s]}</span></div>${h.studentNote?`<p><b>Ученик:</b> ${esc(h.studentNote)}</p>`:''}${h.solutionUrl?`<a href="${esc(href(h.solutionUrl))}" target="_blank" rel="noopener">Фото решения / файл →</a>`:''}${h.feedback?`<p class="feedback"><b>Комментарий преподавателя:</b> ${esc(h.feedback)}</p>`:''}${wfEnabled()?`<div class="focus-actions">${teacher?`<button class="chip" type="button" data-wfreview="${h.id}">Проверить / написать комментарий</button>`:`${!['checked','submitted'].includes(s)?`<button class="chip" type="button" data-wfsubmit="${h.id}">${s==='revise'?'Отправить исправления':'Отправить на проверку'}</button><button class="chip" type="button" data-wfhelp="${h.id}">Нужна помощь</button>`:''}`}</div>`:!teacher?`<a href="https://t.me/ohh_my_lily" target="_blank" rel="noopener">Нужна помощь? Напиши преподавателю в Telegram →</a>`:''}</div>`}
 function newHwRow(h){const d=wfGroup(h)==='done',checkpoint=checkpointText(h);return `<li class="hwi assignment-card ${d?'done':''}" id="hw-${esc(h.id)}" data-hwrow="${esc(h.id)}">${wfEnabled()?'':`<button class="chk" data-hw="${esc(h.id)}" aria-pressed="${d}" aria-label="Отметить: ${esc(h.t)}">${I.ok}</button>`}<div style="min-width:0;width:100%"><div class="hwt">${esc(h.t)}</div>${assignmentMeta(h)}${checkpoint?`<p class="resume-note">Место сохранено: ${esc(checkpoint)}</p>`:''}<div class="focus-actions">${hwAction(h)}</div><div class="hwm">${secondaryFiles(h)}</div>${wfExtra(h,false)}</div></li>`}
 function newHwCard(){const L=D.hw||[],active=L.filter(h=>!h.old),counts={todo:0,review:0,done:0};L.forEach(h=>{if(!h.old||wfGroup(h)==='done')counts[wfGroup(h)]++});const filter=['todo','review','done'].includes(S.hwFilter)&&!(S.hwFilter==='review'&&!wfEnabled())?S.hwFilter:'todo';
- return `<div class="card" id="hwcard"><div class="sh"><h2>Домашка</h2><span class="sub" id="hwc">${homeworkCounts(active)}</span></div><div class="hwfilters" role="group" aria-label="Статус работы">${[['todo','Нужно сделать'],...(wfEnabled()?[['review','На проверке']]:[]),['done','Архив']].map(([k,t])=>`<button type="button" data-hwfilter="${k}" aria-pressed="${filter===k}">${t} · ${counts[k]}</button>`).join('')}</div><label><span class="note">Найти задание</span><input type="search" class="hwsearch" id="hw-search" placeholder="Название или тема" value="${esc(S.hwQuery||'')}"></label><div id="hw-results" aria-live="polite"></div></div>`}
+ return `<div class="card" id="hwcard"><div class="sh"><h2>Домашка</h2><span class="sub" id="hwc"></span></div><div class="hwfilters" role="group" aria-label="Статус работы">${[['todo','Нужно сделать'],...(wfEnabled()?[['review','На проверке']]:[]),['done','Архив']].map(([k,t])=>`<button type="button" data-hwfilter="${k}" aria-pressed="${filter===k}">${t} · ${counts[k]}</button>`).join('')}</div>${(D.hw||[]).length>15?`<label><span class="note">Найти задание</span><input type="search" class="hwsearch" id="hw-search" placeholder="Название или тема" value="${esc(S.hwQuery||'')}"></label>`:''}<div id="hw-results" aria-live="polite"></div></div>`}
 function paintHwList(){const el=document.getElementById('hw-results');if(!el)return;const f=S.hwFilter==='review'&&!wfEnabled()?'todo':S.hwFilter||'todo',q=(S.hwQuery||'').toLowerCase().trim();const list=hwSorted(D.hw.filter(h=>(!h.old||wfGroup(h)==='done')&&wfGroup(h)===f&&(!q||(h.t+' '+(h.n||'')+' '+(HWSEC[h.sec]||'')).toLowerCase().includes(q))));el.innerHTML=list.length?`<ul class="hw">${list.map(newHwRow).join('')}</ul>`:`<p class="hwempty">${q?'По этому запросу заданий нет.':f==='done'?'Здесь появятся выполненные работы.':f==='review'?'Пока нет работ на проверке.':'Все текущие задания выполнены.'}</p>`;bindHomeworkRows()}
 function materialsFolders(){const groups=new Map(),P=PROG();(D.hw||[]).filter(h=>!h.old).forEach(h=>{const nums=String(h.n||'').match(/\d+/g)||[],names=nums.map(n=>P.topic[+n]).filter(Boolean),title=names.length?[...new Set(names)].join(' · '):h.t.split(':')[0].trim()||'Другие материалы',key=nums.length?nums.join(','):title;if(!groups.has(key))groups.set(key,{title,items:[]});groups.get(key).items.push(h)});return `<div class="card"><div class="sh"><h2>Твои папки по темам</h2></div><p class="note">Теория, домашка, разборы и вопросы к устному опросу собраны рядом. Здесь только назначенные тебе материалы.</p>${[...groups.values()].map(g=>`<details class="folder"><summary>${esc(g.title)} · ${g.items.length}</summary><ul class="hw">${g.items.map(h=>`<li class="hwi"><div><span class="note">${esc(HWSEC[h.sec]||'Домашнее задание')}</span><div><b>${esc(h.t)}</b></div><div class="hwm">${hwLinks(h)||'<span class="note">Материал указан в тексте задания.</span>'}</div>${h.feedback?`<p class="note">Комментарий: ${esc(h.feedback)}</p>`:''}</div></li>`).join('')}</ul></details>`).join('')||'<p class="hwempty">Когда преподаватель назначит материалы, здесь появятся папки по темам.</p>'}</div>`}
 
 function progressSummary(){const P=PROG(),counts={solid:0,shaky:0,gap:0,new:0};for(let n=1;n<=P.nmax;n++)counts[stOf(n)]++;const numeric=(D.hist||[]).filter(h=>typeof h.p==='number'),delta=numeric.length>1?numeric.at(-1).p-numeric[0].p:null;return `<div class="card"><div class="sh"><h2>Что уже получается</h2></div><div class="progress-summary"><div><b>${counts.solid}</b><span>тем решаешь уверенно</span></div><div><b>${counts.shaky}</b><span>тем ещё закрепляем</span></div><div><b>${delta===null?'—':(delta>=0?'+':'')+delta}</b><span>${delta===null?'сравним после двух работ':P.oge?'баллов с первой работы':'к результату первой работы'}</span></div></div><p class="note">Статусы тем отмечает преподаватель по результатам занятий. Результаты проверенных работ показаны ниже.</p></div>`}
-function kidWorkspace(bday){return welcomeKid()+cabNav()+cabPanel('today',bday+`<div class="two">${focusWork()}${lessonCard()}</div>`+workCard())+cabPanel('homework',newHwCard()+notebookCard())+cabPanel('materials',materialsFolders()+((D.mats&&D.mats.length)||!D.matsAll?matCard():''))+cabPanel('progress',progressSummary()+mapCard(false)+skillsCard(false)+chartCard()+gradesCard())+cabPanel('rewards',stkCard()+petCard())+cabPanel('contact',`<div class="card"><div class="sh"><h2>Написать преподавателю</h2></div><p class="klead">Если запутался в задании, пришли название работы, номер задачи и фото своего решения.</p><a class="btn" href="https://t.me/ohh_my_lily" target="_blank" rel="noopener">Открыть Telegram</a></div>`+telegramCard()+letterCard())}
+function contactLine(){return `<p class="contactline">Вопросы по заданиям: <a href="https://t.me/ohh_my_lily" target="_blank" rel="noopener">@ohh_my_lily</a> в Telegram.</p>`}
+function kidWorkspace(bday){const prog=(SHOW('map')?progressSummary()+mapCard(false):'')+(SHOW('skills')?skillsCard(false):'')+(SHOW('exams')?chartCard():'')+(SHOW('grades')?gradesCard():'');
+ return welcomeKid()+bday+`<div class="lessonstrip">${lessonCard()}</div>`+cabNav()
+  +cabPanel('homework',newHwCard()+(SHOW('notebook')?notebookCard():'')+telegramCard()+(SHOW('letter')?letterCard():'')+contactLine())
+  +cabPanel('materials',materialsFolders()+((D.mats&&D.mats.length)||!D.matsAll?matCard():''))
+  +(prog?cabPanel('progress',prog):'')+(SHOW('rewards')?cabPanel('rewards',stkCard()):'')}
 function bindHomeworkRows(){document.querySelectorAll('[data-hwrow] .hwm a').forEach(a=>a.dataset.hwopen=a.closest('[data-hwrow]').dataset.hwrow);document.querySelectorAll('#hw-results .chk').forEach(b=>b.onclick=()=>toggleHW(b.dataset.hw,b));bindWorkflowButtons()}
-function bindWorkspace(){bindNotebook();document.querySelectorAll('[data-cabtab]').forEach(b=>b.onclick=()=>switchCabTab(b.dataset.cabtab));document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>switchCabTab(b.dataset.go));document.querySelectorAll('[data-hwfilter]').forEach(b=>b.onclick=()=>{S.hwFilter=b.dataset.hwfilter;save();document.querySelectorAll('[data-hwfilter]').forEach(x=>x.setAttribute('aria-pressed',x===b));paintHwList()});const search=document.getElementById('hw-search');if(search)search.oninput=()=>{S.hwQuery=search.value;save();paintHwList()};paintHwList();bindWorkflowButtons()}
+function bindWorkspace(){const pl=document.getElementById('petlink');if(pl)pl.onclick=openPetPicker;bindNotebook();document.querySelectorAll('[data-cabtab]').forEach(b=>b.onclick=()=>switchCabTab(b.dataset.cabtab));document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>switchCabTab(b.dataset.go));document.querySelectorAll('[data-hwfilter]').forEach(b=>b.onclick=()=>{S.hwFilter=b.dataset.hwfilter;save();document.querySelectorAll('[data-hwfilter]').forEach(x=>x.setAttribute('aria-pressed',x===b));paintHwList()});const search=document.getElementById('hw-search');if(search)search.oninput=()=>{S.hwQuery=search.value;save();paintHwList()};paintHwList();bindWorkflowButtons()}
 function bindWorkflowButtons(){document.querySelectorAll('[data-hwopen]').forEach(a=>{const h=D.hw.find(h=>String(h.id)===String(a.dataset.hwopen));if(h){const original=new URL(a.href,BASE);if(original.origin===new URL(BASE).origin&&original.pathname.endsWith('.html')){original.searchParams.set('lili_student',STUDENT_KEY);original.searchParams.set('lili_hw',String(h.id));original.searchParams.set('lili_resume','1');a.href=original.href}}});document.querySelectorAll('[data-wfsubmit],[data-wfhelp],[data-wfreview]').forEach(b=>b.onclick=()=>{const id=b.dataset.wfsubmit||b.dataset.wfhelp||b.dataset.wfreview;const h=D.hw.find(h=>String(h.id)===String(id));if(h)openWorkflow(h,b.dataset.wfreview?'review':b.dataset.wfhelp?'help':'submit')});document.querySelectorAll('[data-hwopen]').forEach(a=>a.onclick=()=>{const h=D.hw.find(h=>String(h.id)===String(a.dataset.hwopen));if(h&&wfEnabled()&&wfStatus(h)==='new')workflowSave(h,{status:'solving'}).then(()=>{const y=scrollY;render();scrollTo({top:y})}).catch(()=>toast('Задание открыто. Отметка «Решаю» не сохранилась — проверь связь.'))})}
 async function workflowSave(h,fields){syncNotebook();if(D.demo){Object.assign(h,fields,{studentNote:fields.note===undefined?h.studentNote:fields.note,revision:Date.now()});h.done=['submitted','checked','done'].includes(h.status);return}const body={t:CODE,id:h.id,text:h.t,revision:h.revision||'',...fields};let j;if(TEACH)j=await adm('hwReview',body);else{const response=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({...body,workflow:true})});j=await response.json();if(j.error||!j.ok)throw new Error(j.error||'net')}if(TEACH)D=j.d;else if(j.hw){Object.assign(h,j.hw);cacheSave()}else throw new Error('net')}
 function openWorkflow(h,mode){const review=mode==='review',help=mode==='help',dlg=document.createElement('dialog');dlg.className='workflow-dialog';dlg.setAttribute('aria-labelledby','wf-title');const current=wfStatus(h);dlg.innerHTML=`<form><h2 id="wf-title">${review?'Проверка работы':help?'Нужна помощь':'Отправить на проверку'}</h2><p class="note">${esc(h.t)}</p>${review?`<label>Результат проверки<select name="status"><option value="checked" ${current==='checked'?'selected':''}>Проверено</option><option value="revise" ${current==='revise'?'selected':''}>Нужно исправить</option></select></label>`:help?`<label>Где возникла трудность<select name="reason"><option>Не понимаю условие</option><option>Не знаю, с чего начать</option><option>Ответ не сходится</option></select></label>`:''}<label>${review?'Комментарий ученику':help?'Что уже попробовал сделать':'Ход мысли или вопрос (необязательно)'}<textarea name="note" maxlength="2000">${esc(review?h.feedback||'':h.studentNote||'')}</textarea></label>${review?(h.solutionUrl?`<a href="${esc(href(h.solutionUrl))}" target="_blank" rel="noopener">Открыть решение ученика →</a>`:''):`<label>Фото решения или PDF (до 5 МБ)<input name="photo" type="file" accept="image/jpeg,image/png,image/webp,application/pdf"></label><p class="note">Можно прикрепить фото тетради или написать ход решения выше.</p>`}<p class="ferr" role="alert"></p><div class="focus-actions"><button type="button" class="btn ghost" data-close>Отмена</button><button type="submit" class="btn">${review?'Сохранить':help?'Отправить вопрос':'Отправить работу'}</button></div></form>`;document.body.appendChild(dlg);dlg.onclose=()=>dlg.remove();dlg.querySelector('[data-close]').onclick=()=>dlg.close();dlg.addEventListener('cancel',e=>{if(dlg.dataset.busy)e.preventDefault()});dlg.querySelector('form').onsubmit=async e=>{e.preventDefault();const f=e.currentTarget,error=dlg.querySelector('.ferr'),submit=f.querySelector('[type=submit]');error.textContent='';const note=f.elements.note.value.trim(),photo=f.elements.photo?.files[0];if(photo&&photo.size>5*1024*1024){error.textContent='Файл больше 5 МБ. Пришли фото меньшего размера.';return}if(!review&&!help&&!note&&!photo&&!h.solutionUrl){error.textContent='Добавь фото решения или напиши ход решения.';return}if(review&&f.elements.status.value==='revise'&&!note){error.textContent='Напиши, что нужно исправить.';return}submit.disabled=true;dlg.dataset.busy='1';f.querySelector('[data-close]').disabled=true;try{const fields=review?{status:f.elements.status.value,feedback:note}:{status:help?'help':'submitted',note:help?f.elements.reason.value+(note?'\n'+note:''):note};if(photo)fields.photo={name:photo.name,mime:photo.type,data:await readB64(photo)};await workflowSave(h,fields);dlg.close();if(TEACH)tRender();else render();toast(D.demo?'Демо: изменение показано только в этом примере.':review?'Проверка сохранена':help?'Вопрос сохранён — Преподаватель увидит его в кабинете':'Работа отправлена на проверку')}catch(err){error.textContent=errText(err);submit.disabled=false;delete dlg.dataset.busy;f.querySelector('[data-close]').disabled=false}};dlg.showModal()}
@@ -1411,6 +1438,7 @@ function load(){
  fetch(API+'?t='+encodeURIComponent(CODE),{cache:'no-store'}).then(r=>r.json()).then(j=>{
   if(j.error){D=null;try{localStorage.removeItem(CKEY)}catch(e){}
    screen(j.error==='inactive'?'Кабинет на паузе':'Ссылка не найдена',j.error==='inactive'?'Напиши преподавателю, если хочешь продолжить занятия.':'Проверь, что ссылка скопирована целиком, или попроси у преподавателя новую.');return}
+  if(j.pet&&TALS.some(t=>t.id===j.pet)){if(S.tal!==j.pet||!S.picked){S.tal=j.pet;S.picked=true;save()}}else if(S.picked&&TALS.some(t=>t.id===S.tal)){fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({t:CODE,pet:S.tal})}).catch(()=>{})}
   const first=!D,same=!first&&JSON.stringify(j)===JSON.stringify(D);D=j;syncedAt=Date.now();cacheSave();
   if(same)return;
   if(first||!document.querySelector('.cab .tile'))render();else{const y=scrollY;render();scrollTo({top:y})}
@@ -1420,6 +1448,7 @@ function load(){
 function start(){
  loadSkills();
  if(TEACH){tRoute();return}
+ if(!LIVE&&!CODE){screen('Нужна личная ссылка','Открой кабинет по ссылке, которую прислала Лилия. Если ссылки нет или она не открывается, напиши ей в Telegram: <a href="https://t.me/ohh_my_lily" target="_blank" rel="noopener" style="color:var(--apricot)">@ohh_my_lily</a>.<br><br><a href="#demo" style="color:var(--muted)">Посмотреть пример кабинета</a>');return}
  if(!LIVE){D=demoData();HWdemoInit();render();return}
  const c=cacheLoad();if(c){D=c.d;syncedAt=c.at;render()}else screen('Открываю кабинет…','Секунду, забираю данные у преподавателя.','load');
  load();
@@ -1431,7 +1460,7 @@ setInterval(()=>{const e=document.getElementById('cd');if(!e||!D)return;const t=
 /* ===== Режим учителя: kabinet.html#lilia ===== */
 let PASS='';try{PASS=localStorage.getItem('cab-admin')||''}catch(e){}
 let busy=0,LIST=null;
-const ERR={telegram_not_configured:'Сначала подключи Telegram-бота через меню Google-таблицы.',telegram_not_connected:'Ученик ещё не подключил Telegram-бота.',telegram_paused:'Уведомления на паузе.',telegram_blocked:'Ученик отключил бота. Нужно подключить его заново.',telegram_api_error:'Telegram временно недоступен. Попробуй уведомить позже.',telegram_network_error:'Не удалось связаться с Telegram. Попробуй уведомить позже.',no_password:'Сначала задай пароль в таблице: меню «Кабинет → Пароль для режима учителя».',
+const ERR={locked:'Слишком много неверных паролей. Подожди 15 минут.',too_many:'Слишком много сообщений за час. Попробуй позже.',telegram_not_configured:'Сначала подключи Telegram-бота через меню Google-таблицы.',telegram_not_connected:'Ученик ещё не подключил Telegram-бота.',telegram_paused:'Уведомления на паузе.',telegram_blocked:'Ученик отключил бота. Нужно подключить его заново.',telegram_api_error:'Telegram временно недоступен. Попробуй уведомить позже.',telegram_network_error:'Не удалось связаться с Telegram. Попробуй уведомить позже.',no_password:'Сначала задай пароль в таблице: меню «Кабинет → Пароль для режима учителя».',
  old:'В таблице старая версия скрипта. Вставь новый код и сделай новую версию развёртывания.',
  not_found:'Такого ученика нет в таблице.',changed:'В таблице что-то поменялось. Данные обновлены, попробуй ещё раз.',
  bad_value:'Проверь, что всё заполнено правильно.',no_name:'Впиши имя ученика.',net:'Нет связи с таблицей. Проверь интернет.',
@@ -1549,6 +1578,7 @@ function bindSched(){const z=document.getElementById('f-tz');if(!z)return;z.onch
  bindSlots()}
 
 function progOptions(cls,cur){const L=CLASS_PROGS[cls]||CLASS_PROGS[9];if(!L.includes(cur))cur=L[0];return L.map(p=>`<option value="${p}" ${cur===p?'selected':''}>${PROGS[p].name}</option>`).join('')}
+const SHOW_KEYS=[['work','Над чем работаем (родителям)'],['grades','Школьные оценки'],['exams','Пробники: график и вся история'],['map','Карта заданий'],['skills','Карта навыков'],['notebook','Тетрадь ошибок'],['rewards','Стикеры и коллекция'],['letter','Личное сообщение преподавателю']];
 function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).join('\n');
  return `<details class="card adm" id="admc" ${S.admOpen?'open':''}><summary><span class="sh" style="margin:0"><h2>${esc(fullName()||D.name)} · настройки</h2><span class="sub">${D.active?'кабинет открыт':'на паузе'}</span></span></summary>
  <div class="formbox" style="border-top:0;margin-top:10px;padding-top:0">
@@ -1576,6 +1606,7 @@ function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).
   <label class="fld"><span>Занятий в месяце по плану</span><input id="f-lp" type="number" min="0" inputmode="numeric" value="${D.lessonsPlan}" data-fresh="1"></label>
   <label class="fld"><span>Проведено в этом месяце</span><input id="f-ld" type="number" min="0" inputmode="numeric" value="${D.lessonsDone}" data-fresh="1"></label>
  </div>
+ <div class="fld"><span>Что видит ученик и родитель. Выключенное не уходит на страницу вообще.</span><div class="showgrid">${SHOW_KEYS.map(([k,t])=>`<label class="chkrow"><input type="checkbox" class="f-show" data-k="${k}" ${(Array.isArray(D.show)?D.show:['work']).includes(k)?'checked':''}> ${t}</label>`).join('')}</div></div>
  <label class="chkrow"><input id="f-act" type="checkbox" ${D.active?'checked':''} data-fresh="1"> Кабинет открыт для ученика</label>
  <div class="ferr" id="f-err"></div>
  <button class="btn" id="f-save" type="button">Сохранить настройки</button></div></details>`}
@@ -1696,7 +1727,7 @@ function tBind(){
  document.getElementById('lnkc').onclick=e=>copy(BASE+'kabinet.html#'+D.code,e.currentTarget);
  const fc=document.getElementById('f-cls');if(fc)fc.onchange=()=>{const pr=document.getElementById('f-prog');pr.innerHTML=progOptions(+fc.value,pr.value)};
  document.getElementById('f-save').onclick=e=>{const b=e.currentTarget,v=id=>{const el=document.getElementById(id);return el?el.value:''};b.disabled=true;
-  adm('student',{fields:{name:v('f-name'),fname:v('f-fname'),dat:v('f-dat'),bdate:v('f-bdate'),parent:v('f-parent'),phone:v('f-phone'),cls:v('f-cls'),prog:document.getElementById('f-prog').value,goal:v('f-goal'),days:serSched(SL,STZ),time:SL.length?hhmm(sortSlots(SL.slice())[0].h,sortSlots(SL.slice())[0].m):'',board:v('f-board'),topic:v('f-topic'),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),active:document.getElementById('f-act').checked}})
+  adm('student',{fields:{name:v('f-name'),fname:v('f-fname'),dat:v('f-dat'),bdate:v('f-bdate'),parent:v('f-parent'),phone:v('f-phone'),cls:v('f-cls'),prog:document.getElementById('f-prog').value,goal:v('f-goal'),days:serSched(SL,STZ),time:SL.length?hhmm(sortSlots(SL.slice())[0].h,sortSlots(SL.slice())[0].m):'',board:v('f-board'),topic:v('f-topic'),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),active:document.getElementById('f-act').checked,show:[...document.querySelectorAll('.f-show:checked')].map(e=>e.dataset.k)}})
    .then(j=>{apply(j,false);toast('Настройки сохранены')}).catch(err=>{b.disabled=false;const e2=document.getElementById('f-err');if(e2)e2.textContent=errText(err)})};
  const hp=document.getElementById('hpet');if(hp)hp.onclick=()=>react('neu','',pick(sayList()));
  document.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{const n=+b.dataset.t;S.sel=n;save();document.querySelectorAll('.tile').forEach(x=>x.setAttribute('aria-pressed',x===b));document.getElementById('tdet').innerHTML=tDetail(n);bindDetail();
