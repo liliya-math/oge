@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Листок для печати</title>
+<style>
+body{margin:0;font:15px/1.4 -apple-system,Segoe UI,Roboto,sans-serif;color:#111;background:#f4f1ea}
+#ui{max-width:760px;margin:0 auto;padding:16px}
+textarea{width:100%;height:240px;padding:10px;font:14px/1.4 ui-monospace,Consolas,monospace;border:1px solid #bbb;border-radius:8px}
+.row{display:flex;gap:14px;align-items:center;margin:10px 0;flex-wrap:wrap}
+button{font:inherit;font-weight:700;border:0;border-radius:10px;background:#1747c9;color:#fff;padding:11px 20px;cursor:pointer}
+#sheet{background:#fff;max-width:760px;margin:0 auto 24px;padding:14px 18px}
+#sheet h1{font-size:15pt;margin:0 0 6px}
+#sheet h2{font-size:10pt;text-transform:uppercase;letter-spacing:.06em;margin:8px 0 3px;border-bottom:1px solid #999;column-span:all}
+.c{column-count:2;column-gap:7mm;font-size:9pt;line-height:1.3}
+.t{break-inside:avoid;margin:0 0 5px}
+.t b{margin-right:3px}
+.t ol{margin:1px 0 0;padding-left:16px}
+.t li{margin:0}
+.a{font-weight:700}
+.blank{display:inline-block;border-bottom:1px solid #000;width:22mm}
+@page{size:A4;margin:9mm}
+@media print{body{background:#fff}#ui{display:none}#sheet{margin:0;padding:0;max-width:none}}
+</style>
+</head>
+<body>
+<div id="ui">
+<p><b>Листок для печати.</b> Вставь блок, который выдал навык, нажми «Собрать», затем «Печать».</p>
+<textarea id="src" placeholder="# Название&#10;## Уровень 1&#10;а) 3,4 + 2,5&#10;- 3,4 + 2,5: складываем столбиком&#10;= 5,9"></textarea>
+<div class="row"><label><input type="checkbox" id="sol" checked> с решениями</label><button id="mk">Собрать</button><button id="pr">Печать</button></div>
+</div>
+<div id="sheet"></div>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function build(){
+  const sol=$('sol').checked,L=$('src').value.split('\n').map(x=>x.trim()).filter(Boolean);
+  let steps=[],ans='',head=null;
+  const emit=()=>{if(!head)return;
+    let x='<div class="t"><b>'+esc(head.lab)+'</b>'+esc(head.txt);
+    if(sol){if(steps.length)x+='<ol>'+steps.map(s=>'<li>'+esc(s)+'</li>').join('')+'</ol>';if(ans)x+='<div class="a">Ответ: '+esc(ans)+'</div>'}
+    else x+=' <span class="blank"></span>';
+    x+='</div>';body+=x;head=null;steps=[];ans=''};
+  let body='',out='',title='';
+  const endCol=()=>{emit();if(body){out+='<div class="c">'+body+'</div>';body=''}};
+  L.forEach(l=>{
+    if(/^##\s/.test(l)){endCol();out+='<h2>'+esc(l.replace(/^##\s*/,''))+'</h2>'}
+    else if(/^#\s/.test(l)){title=l.replace(/^#\s*/,'');out+='<h1>'+esc(title)+'</h1>'}
+    else if(/^-\s/.test(l))steps.push(l.replace(/^-\s*/,''));
+    else if(/^=\s*/.test(l))ans=l.replace(/^=\s*/,'');
+    else{emit();const m=l.match(/^(\S+?\)|№?\d+[.)]?)\s+(.*)$/);head=m?{lab:m[1],txt:m[2]}:{lab:'',txt:l}}
+  });
+  endCol();
+  $('sheet').innerHTML=out;
+}
+$('mk').onclick=build;$('sol').onchange=build;
+$('pr').onclick=()=>{build();window.print()};
+</script>
+</body>
+</html>
