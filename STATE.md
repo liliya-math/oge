@@ -81,3 +81,8 @@
 - trenazher-ustnyj-schet.html: у каждой темы своя ссылка через якорь (#mul #sq #rt #pw #bw #fr #pc), страница открывает тему сразу.
 
 - Пять тренажёров на общем движке `tren/` (core.js/core.css): trenazher-5-klass, -znaki-6-klass, -fsu-7-klass, -linejnaya-funkciya-7-klass, -geometriya-osnovy. Прогресс в localStorage, у тем якоря. Проверка генераторов: `node tools/test_tren.cjs`.
+
+
+## 2026-10-26 · ДЗ №1: умножение и деление дробей
+
+`dz-9-umnozhenie-delenie-drobey-1.html` — 11 заданий ежедневной домашки, исходный шаблон lili-daily-homework без изменения движка и SHEET_URL. Добавлена ссылка в materialy.html и запись catalog.json. PDF ученика и учителя сохранены отдельно, учительский файл на публичный сайт не загружен. Математика проверена точной рациональной арифметикой. Проверка реальной доставки выполняется по тестовой строке в таблице «Результаты 25/25».

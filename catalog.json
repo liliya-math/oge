@@ -3752,6 +3752,15 @@
       "oge_task": 20,
       "status": "public",
       "note": ""
+    },
+    {
+      "file": "dz-9-umnozhenie-delenie-drobey-1.html",
+      "title": "ДЗ №1 · Умножение и деление дробей",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "11 заданий, одна подсказка, две попытки; результаты в таблицу. Без решений на странице."
     }
   ]
 }
