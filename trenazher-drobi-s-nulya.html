@@ -1,0 +1,956 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#14211e"><title>Дроби</title><style>
+:root { --bg: #14211e; --glass: rgba(243,236,226,.05); --glass2: rgba(243,236,226,.085); --line: rgba(226,234,228,.14); --fg: #f3ece2; --muted: #a9b6ad; --faint: #6e7f77; --cobalt: #1747c9; --apricot: #f2905e; --mint: #a9d18e; --amber: #f5dc6a; --miss: #ff8f73; color-scheme: dark; }
+* { box-sizing: border-box; }
+html, body { background: var(--bg); color: var(--fg); margin: 0; }
+body { font: 19px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+.wrap { max-width: 660px; margin: 0 auto; padding: 20px 16px 80px; }
+h1 { font-size: 28px; line-height: 1.2; margin: 0; font-weight: 800; }
+h2 { font-size: 24px; line-height: 1.25; margin: 6px 0 14px; font-weight: 800; }
+h3 { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 28px 0 8px; }
+p { margin: 0 0 12px; }
+b { font-weight: 700; }
+.small { font-size: 15px; color: var(--muted); }
+.top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; gap: 10px; min-height: 36px; }
+.who { color: var(--muted); font-size: 15px; display: flex; align-items: center; }
+.lnk { background: none; border: 0; color: var(--muted); font: inherit; font-size: 16px; cursor: pointer; padding: 6px 8px; margin-left: -8px; border-radius: 10px; }
+.lnk:hover { color: var(--fg); }
+table .lnk { margin: 0; padding: 2px 4px; text-decoration: underline; font-size: 14px; }
+.btn { font: inherit; font-weight: 700; font-size: 17px; background: var(--cobalt); color: var(--fg); border: 0; border-radius: 16px; padding: 0 26px; height: 54px; cursor: pointer; margin: 4px 8px 4px 0; transition: .15s; }
+.btn:hover { filter: brightness(1.1); } .btn:active { transform: scale(.97); }
+.btn.sec { background: var(--glass2); border: 1px solid var(--line); }
+.btn:disabled { opacity: .5; }
+.btn:focus-visible, .row:focus-visible, .opt:focus-visible, .lnk:focus-visible, input:focus-visible { outline: 2px solid var(--apricot); outline-offset: 2px; }
+.txt { font: inherit; font-size: 20px; width: 100%; height: 56px; padding: 0 18px; border-radius: 16px; border: 1px solid var(--line); background: rgba(0,0,0,.25); color: var(--fg); }
+.list { display: flex; flex-direction: column; gap: 10px; }
+.row { display: flex; align-items: center; gap: 14px; text-align: left; font: inherit; background: var(--glass); border: 1px solid var(--line); border-radius: 20px; padding: 14px 16px; cursor: pointer; color: var(--fg); transition: .15s; width: 100%; }
+.row:hover:not(:disabled) { background: var(--glass2); border-color: rgba(242,144,94,.45); }
+.row .num { width: 34px; height: 34px; border-radius: 50%; background: var(--cobalt); color: var(--fg); display: grid; place-items: center; font-weight: 700; font-size: 15px; flex: none; }
+.row .tt { flex: 1; display: flex; flex-direction: column; line-height: 1.25; }
+.row small { color: var(--muted); font-size: 14px; }
+.row .stt { font-size: 14px; color: var(--muted); text-align: right; }
+.row.ok .num { background: var(--mint); color: #14211e; } .row.ok .stt { color: var(--mint); font-weight: 600; }
+.row.lock { opacity: .45; cursor: default; }
+.row.help { border-color: var(--miss); } .row.help .stt { color: var(--miss); font-weight: 600; }
+.row.run .stt { color: var(--apricot); font-weight: 600; }
+.card { background: var(--glass); border: 1px solid var(--line); border-radius: 24px; padding: 22px; margin-bottom: 14px; animation: enter .4s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes enter { from { opacity: 0; transform: translateY(10px); } }
+.vis { margin-top: 8px; }
+.nav { display: flex; justify-content: space-between; align-items: center; }
+.dots { display: inline-flex; gap: 6px; vertical-align: middle; margin-left: 10px; }
+.dots i { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--mint); display: inline-block; }
+.dots i.on { background: var(--mint); }
+svg.bar { max-width: 100%; height: auto; display: block; margin: 10px 0; }
+svg.bar.click .pc { cursor: pointer; }
+.barrow { margin: 8px 0; } .barrow .lab { font-size: 16px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+.cap { font-size: 20px; margin: 4px 0 8px; }
+.fr { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; margin: 0 .12em; line-height: 1.1; font-weight: 700; }
+.fr .t { border-bottom: 2px solid currentColor; padding: 0 .3em .05em; }
+.fr .b { padding: .05em .3em 0; }
+.mx { font-weight: 700; margin-right: .1em; }
+.expr { font-size: 28px; margin: 10px 0; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-variant-numeric: tabular-nums; }
+.expr .q { font-weight: 800; color: var(--apricot); }
+.anno { display: flex; gap: 16px; align-items: stretch; font-size: 36px; margin: 8px 0; }
+.anno .al { display: flex; flex-direction: column; justify-content: space-between; font-size: 16px; color: var(--muted); padding: 2px 0; }
+.opts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.opt { font: inherit; background: var(--glass); border: 1px solid var(--line); border-radius: 16px; padding: 10px 18px; cursor: pointer; min-height: 54px; color: var(--fg); text-align: left; transition: .15s; }
+.opt:hover:not(:disabled) { background: var(--glass2); }
+.opt.sel { border-color: var(--apricot); background: rgba(242,144,94,.16); }
+.opt:disabled { opacity: .75; cursor: default; }
+.rows { margin-top: 12px; display: flex; flex-direction: column; gap: 14px; }
+.irow { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.irow .lb { min-width: 100px; }
+.num, .fin input { font: inherit; font-size: 24px; width: 3.3em; height: 56px; text-align: center; border-radius: 16px; border: 1px solid var(--line); background: rgba(0,0,0,.25); color: var(--fg); font-variant-numeric: tabular-nums; }
+.fin { display: inline-flex; flex-direction: column; align-items: center; gap: 4px; }
+.fin .line { width: 3.4em; border-top: 3px solid var(--fg); }
+.hint { border-left: 4px solid var(--amber); background: rgba(245,220,106,.1); padding: 10px 14px; margin-bottom: 10px; border-radius: 10px; }
+.msg { min-height: 30px; font-weight: 600; margin-bottom: 8px; }
+.msg.good { color: var(--mint); } .msg.bad { color: var(--miss); }
+table.rep { width: 100%; border-collapse: collapse; font-size: 14px; margin: 8px 0; }
+table.rep th, table.rep td { border-bottom: 1px solid var(--line); padding: 7px 4px; text-align: left; vertical-align: top; }
+table.rep th { color: var(--muted); font-weight: 600; }
+@media (max-width: 520px) { body { font-size: 18px; } .row .stt { display: none; } .card { padding: 18px; } }
+</style></head><body><div class="wrap" id="app"></div><script>
+(function (root) {
+'use strict';
+
+/* ---------- утилиты ---------- */
+function rnd(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
+function pick(a) { return a[rnd(0, a.length - 1)]; }
+function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = rnd(0, i); const t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+function gcd(a, b) { a = Math.abs(a); b = Math.abs(b); while (b) { const t = a % b; a = b; b = t; } return a; }
+function lcm(a, b) { return a / gcd(a, b) * b; }
+
+function fr(n, d) { return '<span class="fr"><span class="t">' + n + '</span><span class="b">' + d + '</span></span>'; }
+function mx(w, n, d) { return '<span class="mx">' + w + '</span>' + fr(n, d); }
+
+const NUMW = { 1: 'одна', 2: 'две', 3: 'три', 4: 'четыре', 5: 'пять', 6: 'шесть', 7: 'семь', 8: 'восемь', 9: 'девять', 10: 'десять', 11: 'одиннадцать', 12: 'двенадцать' };
+const GEN = { 2: 'вторых', 3: 'третьих', 4: 'четвёртых', 5: 'пятых', 6: 'шестых', 7: 'седьмых', 8: 'восьмых', 9: 'девятых', 10: 'десятых', 11: 'одиннадцатых', 12: 'двенадцатых' };
+const SING = { 2: 'вторая', 3: 'третья', 4: 'четвёртая', 5: 'пятая', 6: 'шестая', 7: 'седьмая', 8: 'восьмая', 9: 'девятая', 10: 'десятая', 11: 'одиннадцатая', 12: 'двенадцатая' };
+function word(k, n) {
+  if (k === 1) return n === 2 ? 'одна вторая (половина)' : 'одна ' + SING[n];
+  return NUMW[k] + ' ' + GEN[n];
+}
+
+/* ---------- картинки ---------- */
+// полоска шоколада: n кусочков, taken — число тёмных (первые) или массив индексов
+function bar(n, taken, o) {
+  o = o || {};
+  const H = o.h || 52, W = o.w || Math.min(480, n * 56);
+  const widths = o.widths || Array(n).fill(1);
+  const tot = widths.reduce(function (a, b) { return a + b; }, 0);
+  const set = Array.isArray(taken) ? new Set(taken) : new Set(Array.from({ length: taken || 0 }, function (_, i) { return i; }));
+  const gap = 2;
+  let x = 2;
+  let s = '<svg class="bar' + (o.click ? ' click' : '') + '" viewBox="0 0 ' + (W + 4) + ' ' + (H + 4) + '" width="' + (W + 4) + '" role="img">';
+  for (let i = 0; i < n; i++) {
+    const w = W * widths[i] / tot;
+    const dark = set.has(i);
+    s += '<g class="pc" data-i="' + i + '"><rect x="' + (x + gap / 2) + '" y="2" width="' + (w - gap) + '" height="' + H + '" rx="5" fill="' + (dark ? '#5b3a29' : '#f3ece2') + '" stroke="#e8e1d2" stroke-width="2"/>';
+    if (dark) s += '<rect x="' + (x + gap / 2 + 6) + '" y="8" width="' + Math.max(w - gap - 12, 2) + '" height="' + (H - 12) + '" rx="3" fill="#7a5240"/>';
+    s += '</g>';
+    x += w;
+  }
+  return s + '</svg>';
+}
+function lab(name, svg) { return '<div class="barrow"><div class="lab">' + name + '</div>' + svg + '</div>'; }
+function cap(h) { return '<div class="cap">' + h + '</div>'; }
+function anno(n, d, a, b) { return '<div class="anno">' + fr(n, d) + '<div class="al"><div>' + a + '</div><div>' + b + '</div></div></div>'; }
+
+// N кусочков, разбитых на den групп; закрашено k групп
+function groups(N, den, k) {
+  const m = N / den, sz = Math.min(28, Math.floor(440 / (N + den))), gap = 10;
+  const W = N * sz + (den - 1) * gap + 4, H = sz + 4;
+  let x = 2, s = '<svg class="bar" viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" role="img">';
+  for (let g = 0; g < den; g++) {
+    for (let i = 0; i < m; i++) {
+      s += '<rect x="' + x + '" y="2" width="' + (sz - 2) + '" height="' + (sz - 2) + '" rx="3" fill="' + (g < k ? '#5b3a29' : '#f3ece2') + '" stroke="#e8e1d2" stroke-width="1.5"/>';
+      x += sz;
+    }
+    x += gap;
+  }
+  return s + '</svg>';
+}
+
+// площадь: q столбцов, s строк; p столбцов и r строк закрашены
+function area(q, s, p, r) {
+  const cw = Math.min(60, Math.floor(300 / q)), ch = Math.min(48, Math.floor(200 / s));
+  const W = q * cw, H = s * ch;
+  let out = '<svg class="bar" viewBox="0 0 ' + (W + 4) + ' ' + (H + 4) + '" width="' + (W + 4) + '" role="img">';
+  for (let i = 0; i < q; i++) for (let j = 0; j < s; j++) {
+    const c = i < p, rr = j < r;
+    const f = (c && rr) ? '#5b3a29' : c ? '#f2905e' : rr ? '#a9d18e' : '#f3ece2';
+    out += '<rect x="' + (2 + i * cw) + '" y="' + (2 + j * ch) + '" width="' + cw + '" height="' + ch + '" fill="' + f + '" stroke="#14211e" stroke-width="1.5"/>';
+  }
+  return out + '</svg>';
+}
+
+/* ---------- проверки ---------- */
+function eqv(v, n, d) { return v.d > 0 && v.n * d === v.d * n; }
+function ex(v, n, d) { return v.n === n && v.d === d; }
+function redEq(v, n, d) { return eqv(v, n, d) && v.d > 0 && gcd(v.n, v.d) === 1; }
+function okSum(v, N, D) { return ex(v, N, D) || redEq(v, N, D); }
+
+function choice(list, shuf) {
+  const o = list.map(function (a) { return { v: String(a[0]), html: a[1], tag: a[2] || '' }; });
+  return { type: 'choice', options: shuf === false ? o : shuffle(o) };
+}
+function fracChoice(correct, wrongs) {
+  const seen = {}, list = [];
+  [correct].concat(wrongs).forEach(function (a) {
+    const key = a[0] + '/' + a[1];
+    if (seen[key]) return;
+    seen[key] = 1;
+    list.push([key, fr(a[0], a[1]), a[2] || '']);
+  });
+  return { input: choice(list.slice(0, 4)), ans: correct[0] + '/' + correct[1] };
+}
+function rows() { return { type: 'rows', rows: Array.prototype.slice.call(arguments) }; }
+const R = {
+  int: function (label, key) { return { label: label, kind: 'int', key: key }; },
+  frac: function (label, key) { return { label: label, kind: 'frac', key: key }; },
+  mixed: function (label, key) { return { label: label, kind: 'mixed', key: key }; }
+};
+function unequalWidths(n) {
+  const ws = Array(n).fill(1);
+  const idx = shuffle(Array.from({ length: n }, function (_, i) { return i; }));
+  const k = rnd(1, n - 1);
+  for (let i = 0; i < k; i++) ws[idx[i]] = pick([2, 3]);
+  return ws;
+}
+
+/* ---------- генераторы заданий ---------- */
+// каждый возвращает {q, input, ans|sol, check?, hint, tag?}
+
+function gen1(s) {
+  const t = rnd(0, 2);
+  if (t === 0) {
+    const n = rnd(2, 8), eq = Math.random() < 0.5;
+    return { q: '<p>Шоколадку разломили на части. Все части одинаковые?</p>' + bar(n, 0, { widths: eq ? null : unequalWidths(n) }),
+      input: choice([['yes', 'Да, поровну'], ['no', 'Нет, не поровну']], false), ans: eq ? 'yes' : 'no',
+      hint: 'Посмотри на кусочки: все ли они одной ширины? Если хоть один больше или меньше других, это не поровну.' };
+  }
+  if (t === 1) {
+    const n = rnd(2, 9);
+    return { q: '<p>Сколько кусочков в этой шоколадке?</p>' + bar(n, 0), input: rows(R.int('Кусочков', 'x')), sol: { x: n },
+      check: function (v) { return v.x === n ? 'ok' : 'wrong'; },
+      hint: 'Считай кусочки по одному, показывая пальцем. Ни один не пропусти.' };
+  }
+  const n1 = rnd(3, 6);
+  const o = [['eq', lab('А', bar(n1, 0, { w: 300 }))], ['u1', lab('Б', bar(rnd(3, 6), 0, { w: 300, widths: null }))]];
+  const a = rnd(3, 6), b = rnd(3, 6), c = rnd(3, 6);
+  return { q: '<p>Выбери шоколадку, которую разделили поровну.</p>',
+    input: choice([['A', lab('А', bar(a, 0, { w: 300 }))], ['B', lab('Б', bar(b, 0, { w: 300, widths: unequalWidths(b) }))], ['C', lab('В', bar(c, 0, { w: 300, widths: unequalWidths(c) }))]].map(function (x, i) { return x; })),
+    ans: 'A', hint: 'Ищи шоколадку, где все кусочки одинаковые. В остальных есть большие и маленькие.' };
+}
+
+function gen2(s) {
+  const t = rnd(0, 3), n = rnd(2, 8);
+  if (t === 0) {
+    const fc = fracChoice([1, n], [[n, 1, 'swap'], [1, n > 2 ? n - 1 : n + 2, 'count-light'], [1, n + 1], [2, n]]);
+    return { q: '<p>Какая дробь показывает тёмный кусочек?</p>' + bar(n, 1), input: fc.input, ans: fc.ans,
+      hint: 'Внизу пиши, сколько всего кусочков в шоколадке (и тёмные, и светлые). Вверху — сколько кусочков тёмные.' };
+  }
+  if (t === 1 || t === 2) {
+    const pic = s < 2 || t === 1;
+    return { q: t === 1 ? '<p>Напиши дробь для тёмного кусочка.</p>' + bar(n, 1) : '<p>Шоколадку разломили на ' + n + ' равных частей. Взяли одну часть. Напиши дробь.</p>' + (s < 2 ? bar(n, 1) : ''),
+      input: rows(R.frac('Дробь', 'x')), sol: { x: { n: 1, d: n } },
+      check: function (v) { return ex(v.x, 1, n) ? 'ok' : 'wrong'; },
+      tag: function (v) { return (v.x.n === n && v.x.d === 1) ? 'swap' : ''; },
+      hint: 'Внизу пиши, на сколько частей разломили. Вверху пиши, сколько частей взяли: взяли одну.' };
+  }
+  const dens = shuffle([2, 3, 4, 5, 6, 7, 8].filter(function (x) { return x !== n; })).slice(0, 2).concat([n]);
+  return { q: '<p>Найди шоколадку, где тёмный кусочек — это ' + fr(1, n) + ' (' + word(1, n) + ').</p>',
+    input: choice(dens.map(function (d, i) { return [d, bar(d, 1, { w: Math.min(300, d * 50) })]; })), ans: String(n),
+    hint: 'Одна ' + (SING[n] || 'вторая') + ' — это когда всего ' + n + ' равных частей. Посчитай кусочки в каждой шоколадке.' };
+}
+
+function gen3(s) {
+  const t = rnd(0, 4), n = rnd(4, 9), k = rnd(2, n - 1);
+  if (t === 0) {
+    return { q: '<p>Посмотри на шоколадку.</p>' + bar(n, k), input: rows(R.int('Сколько всего кусочков?', 'tot'), R.int('Сколько тёмных кусочков?', 'dark')),
+      sol: { tot: n, dark: k },
+      check: function (v) { return (v.tot === n && v.dark === k) ? 'ok' : 'wrong'; },
+      tag: function (v) { return (v.tot === k && v.dark === n) ? 'swap' : ''; },
+      hint: 'Сначала посчитай ВСЕ кусочки: и тёмные, и светлые. Потом только тёмные.' };
+  }
+  if (t === 1 || t === 4) {
+    const pic = t === 1 || s < 2;
+    return { q: pic ? '<p>Какая дробь показана? Тёмные кусочки — это взятые.</p>' + bar(n, k)
+                    : '<p>Шоколадку разделили на ' + n + ' равных частей и взяли ' + k + '. Напиши дробь.</p>',
+      input: rows(R.frac('Дробь', 'x')), sol: { x: { n: k, d: n } },
+      check: function (v) { return ex(v.x, k, n) ? 'ok' : 'wrong'; },
+      tag: function (v) { if (v.x.n === n && v.x.d === k) return 'swap'; if (v.x.n === k && v.x.d === n - k) return 'denominator-is-rest'; return ''; },
+      hint: 'Внизу — сколько всего частей (' + (pic ? 'считай все кусочки' : 'это ' + n) + '). Вверху — сколько взяли.' };
+  }
+  if (t === 2) {
+    const fc = fracChoice([k, n], [[n, k, 'swap'], [k, n - k, 'denominator-is-rest'], [n - k, n, 'light-part']]);
+    return { q: '<p>Какая дробь показывает тёмную часть шоколадки?</p>' + bar(n, k), input: fc.input, ans: fc.ans,
+      hint: 'Внизу все кусочки, вверху только тёмные.' };
+  }
+  const qs = [['знаменатель', n], ['числитель', k], ['показывает, на сколько равных частей разделили шоколадку', n], ['показывает, сколько частей взяли', k]];
+  const w = pick(qs);
+  return { q: '<p>В дроби ' + fr(k, n) + ' какое число ' + (w[0].length > 12 ? w[0] : '— ' + w[0]) + '?</p>',
+    input: choice([[k, String(k)], [n, String(n)]], false), ans: String(w[1]),
+    hint: 'Число внизу — знаменатель, оно показывает, на сколько частей разделили. Число вверху — числитель, оно показывает, сколько частей взяли.' };
+}
+
+function gen4(s) {
+  const n = rnd(3, 9), k = rnd(1, n - 1), words = Math.random() < 0.4;
+  return { q: '<p>Закрась ' + (words ? word(k, n) : fr(k, n)) + ' шоколадки. Нажимай на кусочки.</p>',
+    input: { type: 'shade', n: n }, sol: k,
+    check: function (set) { return set.length === k ? 'ok' : 'wrong'; },
+    tag: function (set) { return set.length === n - k ? 'swap-rest' : ''; },
+    hint: 'Шоколадка уже разделена на ' + n + ' частей. Число вверху показывает, сколько кусочков надо закрасить.' };
+}
+
+function gen5(s) {
+  const t = rnd(0, 3), n = rnd(2, 9);
+  if (t === 0) {
+    const k = pick([0, n, n, rnd(1, n - 1), rnd(1, n - 1)]);
+    const ans = k === 0 ? 'zero' : k === n ? 'whole' : 'less';
+    return { q: '<p>Что показывает тёмная часть?</p>' + bar(n, k),
+      input: choice([['whole', 'Целую шоколадку (взяли все кусочки)'], ['less', 'Меньше целой шоколадки'], ['zero', 'Ничего (не взяли ни одного кусочка)']], false), ans: ans,
+      hint: 'Сравни: тёмных кусочков столько же, сколько всего? Или меньше? Или нет ни одного?' };
+  }
+  if (t === 1) {
+    const z = Math.random() < 0.5;
+    return { q: '<p>Допиши: ' + (z ? fr(0, n) : fr(n, n)) + ' = ?</p>', input: rows(R.int('Чему равна дробь', 'x')),
+      sol: { x: z ? 0 : 1 }, check: function (v) { return v.x === (z ? 0 : 1) ? 'ok' : 'wrong'; },
+      hint: z ? 'Взяли 0 кусочков. Шоколадки нет. Это 0.' : 'Взяли все кусочки: сколько их всего, столько и взяли. Это одна целая шоколадка.' };
+  }
+  if (t === 2) {
+    const fc = fracChoice([n, n], [[1, n], [n, 1, 'swap'], [0, n]]);
+    return { q: '<p>Какая дробь равна одной целой шоколадке?</p>', input: fc.input, ans: fc.ans,
+      hint: 'Целая шоколадка — это когда взяли все кусочки. Верх и низ тогда одинаковые.' };
+  }
+  const k = rnd(1, n);
+  return { q: '<p>Сравни с целой шоколадкой: дробь ' + fr(k, n) + ' ...</p>' + (s < 2 ? bar(n, k) : ''),
+    input: choice([['less', 'меньше целой шоколадки'], ['eq', 'равна целой шоколадке']], false), ans: k === n ? 'eq' : 'less',
+    hint: 'Если взяли все кусочки — это целая. Если не все — меньше целой.' };
+}
+
+function gen6(s) {
+  const t = rnd(0, 2), n = rnd(4, 9);
+  let a = rnd(1, n), b = rnd(1, n);
+  if (t < 2) while (a === b) b = rnd(1, n);
+  if (t === 0) {
+    return { q: '<p>Две одинаковые шоколадки, кусочки в них одинаковые. У кого шоколада больше?</p>' + lab('Маша', bar(n, a)) + lab('Миша', bar(n, b)),
+      input: choice([['m', 'У Маши'], ['s', 'У Миши']], false), ans: a > b ? 'm' : 's',
+      hint: 'Кусочки одинаковые. Значит, больше шоколада там, где больше тёмных кусочков.' };
+  }
+  if (t === 1) {
+    return { q: '<p>Что больше: ' + fr(a, n) + ' или ' + fr(b, n) + '?</p>' + (s < 2 ? lab(fr(a, n), bar(n, a)) + lab(fr(b, n), bar(n, b)) : ''),
+      input: choice([[a, fr(a, n)], [b, fr(b, n)]], false), ans: String(Math.max(a, b)),
+      hint: 'Знаменатели одинаковые, значит кусочки одинаковые. Больше та дробь, где больше числитель.' };
+  }
+  return { q: '<p>Поставь знак между дробями.</p><div class="expr">' + fr(a, n) + ' <span class="q">?</span> ' + fr(b, n) + '</div>',
+    input: choice([['<', '&lt; (меньше)'], ['=', '= (равно)'], ['>', '&gt; (больше)']], false), ans: a < b ? '<' : a > b ? '>' : '=',
+    hint: 'Знаменатели одинаковые. Сравни числители: у какой дроби числитель больше, та дробь больше.' };
+}
+
+function gen7(s) {
+  const t = rnd(0, 3);
+  let a = rnd(3, 9), b = rnd(3, 9);
+  while (a === b) b = rnd(3, 9);
+  const W = 420;
+  if (t === 0) {
+    return { q: '<p>Две одинаковые по размеру шоколадки. Маша взяла один кусочек, Миша тоже один. У кого кусочек больше?</p>' + lab('Маша', bar(a, 1, { w: W })) + lab('Миша', bar(b, 1, { w: W })),
+      input: choice([['m', 'У Маши'], ['s', 'У Миши']], false), ans: a < b ? 'm' : 's',
+      hint: 'Посмотри на размер тёмных кусочков. Чем на больше частей разломили, тем кусочки мельче.' };
+  }
+  if (t === 1) {
+    return { q: '<p>Что больше: ' + fr(1, a) + ' или ' + fr(1, b) + '?</p>' + (s < 2 ? lab(fr(1, a), bar(a, 1, { w: W })) + lab(fr(1, b), bar(b, 1, { w: W })) : ''),
+      input: choice([[a, fr(1, a)], [b, fr(1, b)]], false), ans: String(Math.min(a, b)),
+      hint: 'Чем на меньшее число частей разломили шоколадку, тем кусочки крупнее. Значит, дробь с меньшим знаменателем больше.' };
+  }
+  const k = rnd(2, Math.min(a, b) - 1);
+  if (t === 2) {
+    return { q: '<p>Что больше: ' + fr(k, a) + ' или ' + fr(k, b) + '?</p>' + (s < 2 ? lab(fr(k, a), bar(a, k, { w: W })) + lab(fr(k, b), bar(b, k, { w: W })) : ''),
+      input: choice([[a, fr(k, a)], [b, fr(k, b)]], false), ans: String(Math.min(a, b)),
+      hint: 'Кусочков взяли поровну. Значит, смотри, где кусочки крупнее: там, где шоколадку делили на меньшее число частей.' };
+  }
+  return { q: '<p>Поставь знак между дробями.</p><div class="expr">' + fr(k, a) + ' <span class="q">?</span> ' + fr(k, b) + '</div>',
+    input: choice([['<', '&lt; (меньше)'], ['>', '&gt; (больше)']], false), ans: a < b ? '>' : '<',
+    hint: 'Числители одинаковые. Где знаменатель меньше, там кусочки крупнее, и дробь больше.' };
+}
+
+function gen8(s) {
+  const t = rnd(0, 3), n = rnd(2, 5), m = rnd(2, 4), k = rnd(1, n - 1);
+  if (t === 0) {
+    const same = Math.random() < 0.5;
+    let alt = k * m + pick([-1, 1]);
+    if (alt < 1 || alt > n * m - 1) alt = k * m + (alt < 1 ? 1 : -1);
+    return { q: '<p>Шоколадки одинаковые. Шоколада тёмного столько же в обеих?</p>' + lab(fr(k, n), bar(n, k, { w: 420 })) + lab(same ? fr(k * m, n * m) : fr(alt, n * m), bar(n * m, same ? k * m : alt, { w: 420 })),
+      input: choice([['yes', 'Да, поровну'], ['no', 'Нет, не поровну']], false), ans: same ? 'yes' : 'no',
+      hint: 'Посмотри, где заканчивается тёмная часть: в одном и том же месте или нет?' };
+  }
+  if (t === 1) {
+    return { q: '<p>Допиши: ' + fr(k, n) + ' = ' + fr('?', n * m) + '</p>' + (s < 2 ? lab(fr(k, n), bar(n, k, { w: 420 })) + lab(fr('?', n * m), bar(n * m, k * m, { w: 420 })) : ''),
+      input: rows(R.int('Чему равно «?»', 'x')), sol: { x: k * m },
+      check: function (v) { return v.x === k * m ? 'ok' : 'wrong'; },
+      tag: function (v) { return v.x === k + (n * m - n) ? 'add-not-multiply' : ''; },
+      hint: 'Знаменатель умножили на ' + m + ' (было ' + n + ', стало ' + n * m + '). Во столько же раз умножь числитель.' };
+  }
+  if (t === 2) {
+    return { q: '<p>Допиши: ' + fr(k, n) + ' = ' + fr(k * m, '?') + '</p>', input: rows(R.int('Чему равно «?»', 'x')), sol: { x: n * m },
+      check: function (v) { return v.x === n * m ? 'ok' : 'wrong'; },
+      tag: function (v) { return v.x === n + (k * m - k) ? 'add-not-multiply' : ''; },
+      hint: 'Числитель умножили на ' + m + ' (было ' + k + ', стало ' + k * m + '). Во столько же раз умножь знаменатель.' };
+  }
+  const n2 = rnd(3, 6), m2 = rnd(2, 5), k2 = rnd(1, n2 - 1);
+  return { q: '<p>Допиши: ' + fr(k2, n2) + ' = ' + fr('?', n2 * m2) + '</p>', input: rows(R.int('Чему равно «?»', 'x')), sol: { x: k2 * m2 },
+    check: function (v) { return v.x === k2 * m2 ? 'ok' : 'wrong'; },
+    tag: function (v) { return v.x === k2 + (n2 * m2 - n2) ? 'add-not-multiply' : ''; },
+    hint: 'Узнай, во сколько раз знаменатель стал больше: ' + n2 * m2 + ' : ' + n2 + '. Во столько же раз умножь числитель.' };
+}
+
+function coprimePair(maxD) {
+  for (;;) {
+    const n = rnd(2, maxD), k = rnd(1, n - 1);
+    if (gcd(k, n) === 1) return [k, n];
+  }
+}
+function gen9(s) {
+  const t = rnd(0, 2);
+  if (t === 0) {
+    const p = coprimePair(6), g = rnd(2, 4), k = p[0], n = p[1];
+    return { q: '<p>Сократи дробь ' + fr(k * g, n * g) + ' на ' + g + '.</p>', input: rows(R.frac('Получилось', 'x')), sol: { x: { n: k, d: n } },
+      check: function (v) { return ex(v.x, k, n) ? 'ok' : 'wrong'; },
+      tag: function (v) { if (v.x.n === k && v.x.d === n * g) return 'only-top'; if (v.x.n === k * g && v.x.d === n) return 'only-bottom'; return ''; },
+      hint: 'Раздели на ' + g + ' и числитель, и знаменатель. Оба числа.' };
+  }
+  if (t === 1) {
+    const p = coprimePair(7), g = rnd(2, s >= 2 ? 6 : 4), k = p[0], n = p[1];
+    return { q: '<p>Сократи дробь ' + fr(k * g, n * g) + ' до конца.</p>', input: rows(R.frac('Получилось', 'x')), sol: { x: { n: k, d: n } },
+      check: function (v) { if (ex(v.x, k, n)) return 'ok'; if (eqv(v.x, k, n)) return { partial: 'Верно, но дробь можно сократить ещё. Раздели ещё раз.' }; return 'wrong'; },
+      tag: function (v) { return (v.x.n === k && v.x.d === n * g) ? 'only-top' : ''; },
+      hint: 'Найди число, на которое делятся и верх, и низ. Раздели оба. Если ещё можно — дели дальше.' };
+  }
+  const can = Math.random() < 0.5;
+  let a, b;
+  if (can) { for (;;) { b = rnd(4, 12); a = rnd(2, b - 1); if (gcd(a, b) > 1) break; } }
+  else { for (;;) { b = rnd(5, 12); a = rnd(2, b - 1); if (gcd(a, b) === 1) break; } }
+  return { q: '<p>Можно ли сократить дробь ' + fr(a, b) + '?</p>', input: choice([['yes', 'Можно'], ['no', 'Нельзя']], false), ans: can ? 'yes' : 'no',
+    hint: 'Попробуй найти число (больше 1), на которое делятся и ' + a + ', и ' + b + '. Если такого нет, сократить нельзя.' };
+}
+
+function gen10(s) {
+  const t = rnd(0, 2), n = rnd(4, 10), a = rnd(1, n - 2), b = rnd(1, n - 1 - a);
+  if (t === 2) {
+    return { q: '<p>Допиши, чему равно «?»</p><div class="expr">' + fr(a, n) + ' + ' + fr('?', n) + ' = ' + fr(a + b, n) + '</div>',
+      input: rows(R.int('«?» равно', 'x')), sol: { x: b }, check: function (v) { return v.x === b ? 'ok' : 'wrong'; },
+      hint: 'Сколько кусочков надо добавить к ' + a + ', чтобы стало ' + (a + b) + '?' };
+  }
+  return { q: '<p>' + (t === 0 ? 'Маша съела ' + fr(a, n) + ' шоколадки, Миша съел ' + fr(b, n) + '. Сколько съели вместе?' : 'Посчитай.') + '</p>' +
+      (t === 0 && s < 2 ? lab('Маша', bar(n, a)) + lab('Миша', bar(n, b)) : '') + '<div class="expr">' + fr(a, n) + ' + ' + fr(b, n) + ' = ?</div>',
+    input: rows(R.frac('Ответ', 'x')), sol: { x: { n: a + b, d: n } },
+    check: function (v) { return okSum(v.x, a + b, n) ? 'ok' : 'wrong'; },
+    tag: function (v) { return (v.x.n === a + b && v.x.d === 2 * n) ? 'denominators-added' : ''; },
+    hint: 'Кусочки одинаковые, поэтому просто считай кусочки: ' + a + ' и ' + b + '. Внизу ничего не меняется: остаются ' + n + '.' };
+}
+
+function gen11(s) {
+  const t = rnd(0, 2), n = rnd(4, 10), a = rnd(2, n - 1), b = rnd(1, a - 1);
+  if (t === 2) {
+    return { q: '<p>Допиши, чему равно «?»</p><div class="expr">' + fr(a, n) + ' − ' + fr('?', n) + ' = ' + fr(a - b, n) + '</div>',
+      input: rows(R.int('«?» равно', 'x')), sol: { x: b }, check: function (v) { return v.x === b ? 'ok' : 'wrong'; },
+      hint: 'Сколько кусочков надо убрать из ' + a + ', чтобы осталось ' + (a - b) + '?' };
+  }
+  return { q: '<p>' + (t === 0 ? 'Было ' + fr(a, n) + ' шоколадки. Съели ' + fr(b, n) + '. Сколько осталось?' : 'Посчитай.') + '</p>' +
+      (t === 0 && s < 2 ? bar(n, a) : '') + '<div class="expr">' + fr(a, n) + ' − ' + fr(b, n) + ' = ?</div>',
+    input: rows(R.frac('Ответ', 'x')), sol: { x: { n: a - b, d: n } },
+    check: function (v) { return okSum(v.x, a - b, n) ? 'ok' : 'wrong'; },
+    tag: function (v) { return (v.x.n === a - b && v.x.d !== n) ? 'denominator-changed' : ''; },
+    hint: 'Кусочки одинаковые. Из ' + a + ' кусочков убрали ' + b + '. Внизу ничего не меняется: остаются ' + n + '.' };
+}
+
+function gen12(s) {
+  const t = rnd(0, 4), n = rnd(2, 8), w = rnd(1, 3), r = rnd(1, n - 1), a = w * n + r;
+  function bars() { let h = ''; for (let i = 0; i < w; i++) h += bar(n, n, { w: Math.min(300, n * 50) }); return h + bar(n, r, { w: Math.min(300, n * 50) }); }
+  if (t === 0) {
+    return { q: '<p>В каждой шоколадке ' + n + ' кусочков. Сколько всего тёмных кусочков?</p>' + bars(), input: rows(R.int('Тёмных кусочков', 'x')), sol: { x: a },
+      check: function (v) { return v.x === a ? 'ok' : 'wrong'; }, hint: 'Считай тёмные кусочки во всех шоколадках, не только в последней.' };
+  }
+  if (t === 1) {
+    return { q: '<p>Какая дробь показана? В каждой шоколадке ' + n + ' кусочков.</p>' + bars(), input: rows(R.frac('Дробь', 'x')), sol: { x: { n: a, d: n } },
+      check: function (v) { return ex(v.x, a, n) ? 'ok' : 'wrong'; }, tag: function (v) { return (v.x.n === r && v.x.d === n) ? 'last-bar-only' : ''; },
+      hint: 'Внизу — сколько кусочков в одной шоколадке (' + n + '). Вверху — сколько всего тёмных кусочков во всех шоколадках.' };
+  }
+  if (t === 2) {
+    return { q: '<p>Выдели целые: ' + fr(a, n) + ' = ?</p>', input: rows(R.mixed('Получилось', 'x')), sol: { x: { w: w, n: r, d: n } },
+      check: function (v) { return (v.x.w === w && v.x.n === r && v.x.d === n) ? 'ok' : 'wrong'; },
+      hint: 'Сколько раз по ' + n + ' помещается в ' + a + '? Это целые. То, что осталось, — числитель. Знаменатель остаётся ' + n + '.' };
+  }
+  if (t === 3) {
+    return { q: '<p>Запиши смешанное число дробью: ' + mx(w, r, n) + ' = ?</p>', input: rows(R.frac('Получилось', 'x')), sol: { x: { n: a, d: n } },
+      check: function (v) { return ex(v.x, a, n) ? 'ok' : 'wrong'; }, tag: function (v) { return v.x.n === w + r ? 'forgot-multiply' : ''; },
+      hint: 'Одна целая — это ' + n + ' кусочков. Умножь ' + w + ' на ' + n + ' и прибавь ' + r + '. Знаменатель остаётся ' + n + '.' };
+  }
+  const k = rnd(1, 2 * n);
+  return { q: '<p>Дробь ' + fr(k, n) + ' ... целой шоколадки.</p>', input: choice([['less', 'меньше'], ['eq', 'равна'], ['more', 'больше']], false), ans: k < n ? 'less' : k === n ? 'eq' : 'more',
+    hint: 'Сравни числитель и знаменатель. Если числитель меньше — дробь меньше целой. Если равен — равна. Если больше — больше целой.' };
+}
+
+function gen13(s) {
+  const t = rnd(0, 2), d1 = rnd(2, 5), m = rnd(2, 3), d2 = d1 * m;
+  if (t === 0) {
+    const p = rnd(1, d1 - 1);
+    return { q: '<p>Приведи дробь ' + fr(p, d1) + ' к знаменателю ' + d2 + '.</p><div class="expr">' + fr(p, d1) + ' = ' + fr('?', d2) + '</div>',
+      input: rows(R.frac('Получилось', 'x')), sol: { x: { n: p * m, d: d2 } },
+      check: function (v) { return ex(v.x, p * m, d2) ? 'ok' : 'wrong'; },
+      hint: 'Знаменатель умножили на ' + m + '. Умножь на ' + m + ' и числитель.' };
+  }
+  const add = t === 1, small = Math.random() < 0.5;
+  let p, q, N;
+  for (let i = 0; i < 80; i++) {
+    p = rnd(1, d1 - 1); q = rnd(1, d2 - 1);
+    if (add) { N = p * m + q; if (N < d2) break; }
+    else if (small) { N = p * m - q; if (N > 0) break; }
+    else { N = q - p * m; if (N > 0) break; }
+  }
+  if (!(N > 0 && (!add || N < d2))) { p = 1; q = 1; N = add ? m + 1 : (small ? m - 1 : 0); if (!add && N <= 0) { p = 2 > d1 - 1 ? 1 : 2; q = 1; N = small ? p * m - 1 : 1; } }
+  const sym = add ? ' + ' : ' − ';
+  const expr = small ? fr(p, d1) + sym + fr(q, d2) : fr(q, d2) + sym + fr(p, d1);
+  const finalN = N;
+  return { q: '<p>Посчитай. Сначала приведи ' + fr(p, d1) + ' к знаменателю ' + d2 + '.</p><div class="expr">' + expr + ' = ?</div>',
+    input: rows(R.frac(fr(p, d1) + ' =', 'c'), R.frac('Ответ', 'r')), sol: { c: { n: p * m, d: d2 }, r: { n: finalN, d: d2 } },
+    check: function (v) { return (ex(v.c, p * m, d2) && okSum(v.r, finalN, d2)) ? 'ok' : 'wrong'; },
+    tag: function (v) { if (!ex(v.c, p * m, d2)) return 'bad-conversion'; return v.r.d === d1 + d2 ? 'denominators-added' : ''; },
+    hint: 'Умножь верх и низ дроби ' + p + '/' + d1 + ' на ' + m + ', получится дробь со знаменателем ' + d2 + '. Потом действуй как с одинаковыми знаменателями.' };
+}
+
+function gen14(s) {
+  let d1, d2;
+  for (;;) { d1 = rnd(2, 6); d2 = rnd(2, 6); if (d1 !== d2 && d1 % d2 !== 0 && d2 % d1 !== 0) break; }
+  const L = lcm(d1, d2), m1 = L / d1, m2 = L / d2;
+  if (Math.random() < 0.2) {
+    return { q: '<p>Найди наименьшее число, на которое делятся и ' + d1 + ', и ' + d2 + '.</p>', input: rows(R.int('Это число', 'x')), sol: { x: L },
+      check: function (v) { return v.x === L ? 'ok' : 'wrong'; },
+      hint: 'Выпиши числа, которые делятся на ' + Math.max(d1, d2) + ': ' + [1, 2, 3, 4].map(function (i) { return i * Math.max(d1, d2); }).join(', ') + '. Какое из них делится ещё и на ' + Math.min(d1, d2) + '?' };
+  }
+  const add = Math.random() < 0.5;
+  let a, b, N;
+  for (let i = 0; i < 200; i++) {
+    a = rnd(1, d1 - 1); b = rnd(1, d2 - 1);
+    if (add) { N = a * m1 + b * m2; if (N < L) break; }
+    else { N = a * m1 - b * m2; if (N > 0) break; }
+  }
+  if (!(N > 0)) { // запасной вариант: сложение 1/d1 + 1/d2
+    a = 1; b = 1; N = m1 + m2; if (N >= L) { N = 0; }
+  }
+  const useAdd = N > 0 && (add || a * m1 + b * m2 === N);
+  const sym = (add || !(a * m1 - b * m2 === N)) ? ' + ' : ' − ';
+  const rowsList = [];
+  const showL = s < 2, showConv = s < 4;
+  if (showL) rowsList.push(R.int('Общий знаменатель', 'L'));
+  if (showConv) { rowsList.push(R.frac(fr(a, d1) + ' =', 'c1')); rowsList.push(R.frac(fr(b, d2) + ' =', 'c2')); }
+  rowsList.push(R.frac('Ответ', 'r'));
+  const sol = { r: { n: N, d: L } };
+  if (showL) sol.L = L;
+  if (showConv) { sol.c1 = { n: a * m1, d: L }; sol.c2 = { n: b * m2, d: L }; }
+  return { q: '<p>Посчитай.</p><div class="expr">' + fr(a, d1) + sym + fr(b, d2) + ' = ?</div>',
+    input: { type: 'rows', rows: rowsList }, sol: sol,
+    check: function (v) {
+      if (showL && v.L !== L) return 'wrong';
+      if (showConv && !(ex(v.c1, a * m1, L) && ex(v.c2, b * m2, L))) return 'wrong';
+      if (ex(v.r, N, L) || redEq(v.r, N, L)) return 'ok';
+      if (eqv(v.r, N, L)) return { partial: 'Дробь верная, но знаменатель можно взять меньше. Приведи к общему знаменателю ' + L + ' или сократи.' };
+      return 'wrong';
+    },
+    tag: function (v) { return (v.r.d === d1 + d2) ? 'denominators-added' : ''; },
+    hint: 'Общий знаменатель — наименьшее число, которое делится и на ' + d1 + ', и на ' + d2 + ': ' + L + '. Умножь верх и низ первой дроби на ' + m1 + ', второй на ' + m2 + '.' };
+}
+
+function gen15(s) {
+  const t = rnd(0, 3);
+  if (t === 0 || (s < 2 && t === 1)) {
+    const den = rnd(2, 5), m = rnd(2, 4), k = rnd(1, den - 1), N = den * m;
+    return { q: '<p>Кусочки разложили на ' + den + ' равные кучки. Тёмные кучки — это ' + fr(k, den) + ' от всех кусочков. Сколько тёмных кусочков?</p>' + groups(N, den, k),
+      input: rows(R.int('Тёмных кусочков', 'x')), sol: { x: k * m }, check: function (v) { return v.x === k * m ? 'ok' : 'wrong'; },
+      tag: function (v) { return v.x === m ? 'forgot-k' : ''; },
+      hint: 'В каждой кучке по ' + m + ' кусочков. Тёмных кучек ' + k + '. Умножь.' };
+  }
+  const n = rnd(2, 9), m = rnd(2, 6), N = n * m;
+  if (t === 1) {
+    return { q: '<p>Найди ' + fr(1, n) + ' от числа ' + N + '.</p>', input: rows(R.int('Ответ', 'x')), sol: { x: m }, check: function (v) { return v.x === m ? 'ok' : 'wrong'; },
+      hint: 'Раздели ' + N + ' на ' + n + ' равных частей. Одна часть — это и есть ' + word(1, n) + '.' };
+  }
+  const k = rnd(2, n - 1 < 2 ? 2 : n - 1);
+  if (t === 2) {
+    return { q: '<p>Найди ' + fr(k, n) + ' от числа ' + N + '.</p>', input: rows(R.int('Ответ', 'x')), sol: { x: k * m }, check: function (v) { return v.x === k * m ? 'ok' : 'wrong'; },
+      tag: function (v) { return v.x === m ? 'forgot-k' : ''; },
+      hint: 'Сначала найди одну ' + SING[n] + ': ' + N + ' : ' + n + '. Потом умножь на ' + k + '.' };
+  }
+  const left = Math.random() < 0.4;
+  return { q: '<p>В коробке ' + N + ' конфет. Маша съела ' + fr(k, n) + ' всех конфет. ' + (left ? 'Сколько конфет осталось?' : 'Сколько конфет съела Маша?') + '</p>',
+    input: rows(R.int('Конфет', 'x')), sol: { x: left ? N - k * m : k * m }, check: function (v) { return v.x === (left ? N - k * m : k * m) ? 'ok' : 'wrong'; },
+    tag: function (v) { return v.x === m ? 'forgot-k' : ''; },
+    hint: 'Раздели ' + N + ' на ' + n + ' равных частей, получится по ' + m + '. ' + (left ? 'Найди, сколько съела Маша, и вычти из ' + N + '.' : 'Маша съела ' + k + ' таких части.') };
+}
+
+function gen16(s) {
+  const q = rnd(2, 5), s2 = rnd(2, 5), p = rnd(1, q - 1), r = rnd(1, s2 - 1);
+  const t = (s < 2) ? rnd(0, 1) : (Math.random() < 0.2 ? 0 : 1);
+  const legend = '<p class="small">Оранжевая полоска — ' + fr(p, q) + '. Зелёная полоска — ' + fr(r, s2) + '. Тёмные клетки — там, где полоски пересекаются.</p>';
+  if (t === 0) {
+    return { q: '<p>Посмотри на картинку.</p>' + area(q, s2, p, r) + legend, input: rows(R.int('Сколько клеток тёмных?', 'dark'), R.int('Сколько всего клеток?', 'tot')),
+      sol: { dark: p * r, tot: q * s2 }, check: function (v) { return (v.dark === p * r && v.tot === q * s2) ? 'ok' : 'wrong'; },
+      tag: function (v) { return (v.dark === q * s2 && v.tot === p * r) ? 'swap' : ''; },
+      hint: 'Тёмных клеток: ' + p + ' столбца(ов) по ' + r + ' клеток. Всего клеток: ' + q + ' умножить на ' + s2 + '.' };
+  }
+  const N = p * r, D = q * s2;
+  return { q: '<p>Умножь дроби.</p>' + (s < 2 ? area(q, s2, p, r) + legend : '') + '<div class="expr">' + fr(p, q) + ' × ' + fr(r, s2) + ' = ?</div><p class="small">Если можно сократить, сократи.</p>',
+    input: rows(R.frac('Ответ', 'x')), sol: { x: { n: N / gcd(N, D), d: D / gcd(N, D) } },
+    check: function (v) { if (redEq(v.x, N, D)) return 'ok'; if (eqv(v.x, N, D)) return { partial: 'Верно, но дробь можно сократить. Сократи её.' }; return 'wrong'; },
+    tag: function (v) { return (v.x.d === q && v.x.n === N) ? 'denominator-kept' : ''; },
+    hint: 'Числитель умножь на числитель: ' + p + ' × ' + r + '. Знаменатель умножь на знаменатель: ' + q + ' × ' + s2 + '.' };
+}
+
+function gen17(s) {
+  const t = rnd(0, 3);
+  if (t === 0) {
+    const N = rnd(1, 3), n = rnd(2, 4);
+    let b = ''; for (let i = 0; i < N; i++) b += bar(n, 0, { w: Math.min(300, n * 60) });
+    return { q: '<p>Сколько кусочков по ' + fr(1, n) + ' получится из ' + N + ' ' + (N === 1 ? 'шоколадки' : 'шоколадок') + '?</p>' + b + '<div class="expr">' + N + ' : ' + fr(1, n) + ' = ?</div>',
+      input: rows(R.int('Кусочков', 'x')), sol: { x: N * n }, check: function (v) { return v.x === N * n ? 'ok' : 'wrong'; },
+      hint: 'В одной шоколадке ' + n + ' кусочков по ' + fr(1, n) + '. Шоколадок ' + N + '. Сколько всего кусочков?' };
+  }
+  if (t === 1) {
+    const b = rnd(1, 3), m = rnd(2, 4), a = b * m, n = rnd(Math.max(a, 4), 12);
+    return { q: '<p>Посчитай. Сколько раз ' + b + ' кусочк' + (b === 1 ? 'а' : 'а') + ' помещается в ' + a + ' кусочках?</p><div class="expr">' + fr(a, n) + ' : ' + fr(b, n) + ' = ?</div>',
+      input: rows(R.int('Ответ', 'x')), sol: { x: m }, check: function (v) { return v.x === m ? 'ok' : 'wrong'; },
+      hint: 'Кусочки одинаковые, значит делим числители: ' + a + ' : ' + b + '.' };
+  }
+  const a = rnd(1, 4), b = rnd(a + 1, 5), c = rnd(1, 4), d = rnd(c + 1, 5);
+  const N = a * d, D = b * c, g = gcd(N, D), rn = N / g, rd = D / g;
+  const full = s < 2 || Math.random() < 0.4;
+  const rowsList = [];
+  if (full) rowsList.push(R.frac('Переверни вторую дробь', 'f'));
+  rowsList.push(R.frac('Ответ', 'x'));
+  const sol = { x: { n: rn, d: rd } }; if (full) sol.f = { n: d, d: c };
+  return { q: '<p>Раздели. Переверни вторую дробь и умножь.</p><div class="expr">' + fr(a, b) + ' : ' + fr(c, d) + ' = ?</div><p class="small">Если можно сократить, сократи. Целое число пиши так: число сверху и 1 снизу.</p>',
+    input: { type: 'rows', rows: rowsList }, sol: sol,
+    check: function (v) {
+      if (full && !ex(v.f, d, c)) return 'wrong';
+      if (redEq(v.x, rn, rd)) return 'ok';
+      if (eqv(v.x, rn, rd)) return { partial: 'Верно, но дробь можно сократить. Сократи её.' };
+      return 'wrong';
+    },
+    tag: function (v) { return (v.x.n === b * d && v.x.d === a * c) || eqv(v.x, a * c, b * d) ? 'did-not-flip' : ''; },
+    hint: 'Вторую дробь ' + fr(c, d) + ' переверни: ' + fr(d, c) + '. Потом умножь: верх на верх, низ на низ.' };
+}
+
+/* ---------- ступени ---------- */
+const STEPS = [
+  { id: 1, title: 'Поровну', sub: 'Что значит «разделить поровну»', gen: gen1, teach: [
+    { t: '<p>Вот шоколадка. Она разломана на 4 кусочка.</p>', v: bar(4, 0) },
+    { t: '<p>Маша и Миша делят шоколадку. Чтобы было честно, все кусочки должны быть <b>одинаковые</b>.</p><p>Когда все кусочки одинаковые, говорят: разделили <b>поровну</b>.</p>', v: bar(4, 0) },
+    { t: '<p>А здесь кусочки разные: есть большие и маленькие. Это <b>не поровну</b>.</p>', v: bar(4, 0, { widths: [1, 3, 1, 2] }) },
+    { t: '<p>Запомни главное: <b>в дробях всегда делят поровну</b>. Все кусочки одинаковые.</p><p>Сначала научимся замечать, поровну разделили или нет, и считать кусочки.</p>', v: bar(5, 0) }
+  ] },
+  { id: 2, title: 'Одна часть', sub: 'Половина, треть, четвёртая часть', gen: gen2, teach: [
+    { t: '<p>Шоколадку разломили на <b>2</b> равные части. Одна часть — это <b>половинка</b>. Записывают так:</p>', v: bar(2, 1) + cap(fr(1, 2) + ' — одна вторая (половинка)') },
+    { t: '<p>Шоколадку разломили на <b>3</b> равные части. Одна часть — это <b>одна третья</b>.</p>', v: bar(3, 1) + cap(fr(1, 3) + ' — одна третья') },
+    { t: '<p>Шоколадку разломили на <b>4</b> равные части. Одна часть — это <b>одна четвёртая</b>.</p>', v: bar(4, 1) + cap(fr(1, 4) + ' — одна четвёртая') },
+    { t: '<p>Внизу пишем, <b>на сколько равных частей</b> разломили шоколадку.</p><p>Вверху пишем, <b>сколько частей взяли</b>. Взяли одну часть, поэтому вверху 1.</p>', v: bar(5, 1) + anno(1, 5, 'взяли 1 часть', 'всего 5 частей') }
+  ] },
+  { id: 3, title: 'Несколько частей', sub: 'Числитель и знаменатель', gen: gen3, teach: [
+    { t: '<p>Теперь возьмём несколько кусочков. Шоколадка разломана на <b>5</b> равных частей. Взяли <b>3</b> кусочка, они тёмные.</p>', v: bar(5, 3) + anno(3, 5, 'взяли 3 части', 'всего 5 частей') },
+    { t: '<p>Число <b>внизу</b> называется <b>знаменатель</b>. Оно показывает, на сколько равных частей разделили шоколадку (сколько их всего).</p><p>Число <b>вверху</b> называется <b>числитель</b>. Оно показывает, сколько частей взяли.</p>', v: anno(3, 5, 'числитель: сколько взяли', 'знаменатель: сколько всего') },
+    { t: '<p>Ещё пример. Всего 8 частей, взяли 5. Пишем дробь и читаем: «пять восьмых».</p>', v: bar(8, 5) + cap(fr(5, 8) + ' — пять восьмых') },
+    { t: '<p>Так читают дроби:</p><p>' + fr(3, 5) + ' — три пятых<br>' + fr(2, 7) + ' — две седьмых<br>' + fr(1, 4) + ' — одна четвёртая</p>', v: '' },
+    { t: '<p><b>Частая ошибка.</b> Внизу пишут не тёмные кусочки и не светлые, а <b>все</b>. Здесь тёмных 3, светлых 2, а внизу пишем 5.</p>', v: bar(5, 3) + cap(fr(3, 5) + ', а не ' + fr(3, 2)) }
+  ] },
+  { id: 4, title: 'Закрась сама', sub: 'От дроби к картинке', gen: gen4, teach: [
+    { t: '<p>Дробь ' + fr(2, 5) + ' говорит: шоколадка разломана на 5 частей, надо взять 2 из них.</p>', v: bar(5, 2) },
+    { t: '<p>Теперь закрашивать будешь ты. Нажми на кусочек: он станет тёмным. Нажмёшь ещё раз: снова станет светлым.</p><p>Внизу в дроби смотри, на сколько частей разделена шоколадка, а вверху — сколько кусочков нужно закрасить.</p>', v: bar(6, 0) }
+  ] },
+  { id: 5, title: 'Целая шоколадка и ноль', sub: 'Когда взяли все или ничего', gen: gen5, teach: [
+    { t: '<p>Если взять <b>все</b> кусочки, получится <b>целая</b> шоколадка. Сколько частей в шоколадке, столько и берём.</p>', v: bar(4, 4) + cap(fr(4, 4) + ' = 1') },
+    { t: '<p>Если не взяли <b>ни одного</b> кусочка, шоколадки нет. Это ноль.</p>', v: bar(4, 0) + cap(fr(0, 4) + ' = 0') },
+    { t: '<p>Если взяли <b>не все</b> кусочки, получится <b>меньше целой</b> шоколадки.</p>', v: bar(4, 3) + cap(fr(3, 4) + ' — меньше целой') },
+    { t: '<p>Запомни: когда верх и низ <b>одинаковые</b>, дробь равна <b>1</b>. Например, ' + fr(7, 7) + ' = 1.</p>', v: '' }
+  ] },
+  { id: 6, title: 'Сравниваем: одинаковые кусочки', sub: 'Одинаковые знаменатели', gen: gen6, teach: [
+    { t: '<p>Две одинаковые шоколадки, в каждой по 5 кусочков. У Маши 2 кусочка, у Миши 4. У кого шоколада больше?</p>', v: lab('Маша ' + fr(2, 5), bar(5, 2)) + lab('Миша ' + fr(4, 5), bar(5, 4)) },
+    { t: '<p>Кусочки одинаковые, значит, больше шоколада там, где <b>больше кусочков</b>. У Миши больше.</p><p>' + fr(4, 5) + ' больше, чем ' + fr(2, 5) + '.</p>', v: '' },
+    { t: '<p><b>Правило.</b> Если знаменатели одинаковые, смотри на числители. Чей числитель больше, та дробь и больше.</p>', v: cap(fr(3, 7) + ' &lt; ' + fr(5, 7)) }
+  ] },
+  { id: 7, title: 'Сравниваем: разные кусочки', sub: 'Одинаковые числители', gen: gen7, teach: [
+    { t: '<p>Одну и ту же шоколадку можно разломить на разное число частей. Возьмём по одному кусочку.</p>', v: lab(fr(1, 2), bar(2, 1, { w: 420 })) + lab(fr(1, 4), bar(4, 1, { w: 420 })) + lab(fr(1, 8), bar(8, 1, { w: 420 })) },
+    { t: '<p>Чем <b>на большее число частей</b> разломили шоколадку, тем кусочки <b>мельче</b>.</p><p>Поэтому ' + fr(1, 2) + ' больше, чем ' + fr(1, 4) + ', а ' + fr(1, 4) + ' больше, чем ' + fr(1, 8) + '.</p>', v: '' },
+    { t: '<p><b>Правило.</b> Если числители одинаковые, то больше та дробь, у которой <b>знаменатель меньше</b>.</p>', v: cap(fr(3, 5) + ' &gt; ' + fr(3, 8)) }
+  ] },
+  { id: 8, title: 'Равные дроби', sub: 'Одно и то же по-разному', gen: gen8, teach: [
+    { t: '<p>Возьмём шоколадку из 2 частей и возьмём одну часть. А теперь каждую часть разломим пополам: получится 4 части, и взяли 2.</p>', v: lab(fr(1, 2), bar(2, 1, { w: 420 })) + lab(fr(2, 4), bar(4, 2, { w: 420 })) },
+    { t: '<p>Шоколада столько же! Значит, ' + fr(1, 2) + ' = ' + fr(2, 4) + '. Это <b>равные дроби</b>: записаны по-разному, а шоколада поровну.</p>', v: lab(fr(2, 4), bar(4, 2, { w: 420 })) + lab(fr(4, 8), bar(8, 4, { w: 420 })) },
+    { t: '<p>Как получить равную дробь: числитель и знаменатель <b>умножаем на одно и то же число</b>.</p>', v: '<div class="expr">' + fr(1, 2) + ' = ' + fr('1 × 2', '2 × 2') + ' = ' + fr(2, 4) + '</div><div class="expr">' + fr(2, 3) + ' = ' + fr('2 × 3', '3 × 3') + ' = ' + fr(6, 9) + '</div>' },
+    { t: '<p><b>Важно:</b> умножаем, а не прибавляем. И верх, и низ — на одно и то же число.</p>', v: '' }
+  ] },
+  { id: 9, title: 'Сокращение', sub: 'Равные дроби наоборот', gen: gen9, teach: [
+    { t: '<p>Теперь наоборот. Вот ' + fr(4, 8) + '. Кусочки мелкие. Объединим их по два: получится ' + fr(2, 4) + '. Ещё раз: ' + fr(1, 2) + '.</p>', v: lab(fr(4, 8), bar(8, 4, { w: 420 })) + lab(fr(2, 4), bar(4, 2, { w: 420 })) + lab(fr(1, 2), bar(2, 1, { w: 420 })) },
+    { t: '<p>Числитель и знаменатель <b>делим на одно и то же число</b>. Это называется <b>сократить дробь</b>.</p>', v: '<div class="expr">' + fr(4, 8) + ' = ' + fr('4 : 4', '8 : 4') + ' = ' + fr(1, 2) + '</div>' },
+    { t: '<p>Сокращай, пока можно. Когда верх и низ уже не делятся на одно и то же число (больше 1), дробь сократить нельзя.</p>', v: '<div class="expr">' + fr(6, 9) + ' = ' + fr('6 : 3', '9 : 3') + ' = ' + fr(2, 3) + '</div><p class="small">2 и 3 вместе не делятся ни на что, кроме 1. Дробь ' + fr(2, 3) + ' дальше не сократить.</p>' }
+  ] },
+  { id: 10, title: 'Складываем', sub: 'Одинаковые знаменатели', gen: gen10, teach: [
+    { t: '<p>У Маши 2 кусочка из шоколадки, у Миши 1 такой же кусочек. Сколько кусочков вместе?</p>', v: lab('Маша ' + fr(2, 5), bar(5, 2)) + lab('Миша ' + fr(1, 5), bar(5, 1)) },
+    { t: '<p>Кусочки одинаковые, просто считаем: 2 и ещё 1 будет 3 кусочка.</p>', v: lab('Вместе ' + fr(3, 5), bar(5, 3)) + '<div class="expr">' + fr(2, 5) + ' + ' + fr(1, 5) + ' = ' + fr(3, 5) + '</div>' },
+    { t: '<p><b>Правило.</b> Числители складываем, а знаменатель <b>не меняем</b>: кусочки всё так же пятые.</p>', v: '<div class="expr">' + fr(2, 7) + ' + ' + fr(3, 7) + ' = ' + fr('2 + 3', 7) + ' = ' + fr(5, 7) + '</div>' },
+    { t: '<p><b>Частая ошибка.</b> Знаменатели не складывают! ' + fr(2, 5) + ' + ' + fr(1, 5) + ' не равно ' + fr(3, 10) + ': кусочки как были пятыми, так и остались.</p>', v: '' }
+  ] },
+  { id: 11, title: 'Вычитаем', sub: 'Одинаковые знаменатели', gen: gen11, teach: [
+    { t: '<p>Было 5 кусочков из 7. Съели 2 кусочка. Сколько осталось?</p>', v: lab('Было ' + fr(5, 7), bar(7, 5)) + lab('Осталось ' + fr(3, 7), bar(7, 3)) },
+    { t: '<p>Из 5 кусочков убрали 2, осталось 3 кусочка.</p><div class="expr">' + fr(5, 7) + ' − ' + fr(2, 7) + ' = ' + fr(3, 7) + '</div>' , v: '' },
+    { t: '<p><b>Правило.</b> Числители вычитаем, а знаменатель <b>не меняем</b>.</p>', v: '<div class="expr">' + fr(6, 8) + ' − ' + fr(1, 8) + ' = ' + fr('6 − 1', 8) + ' = ' + fr(5, 8) + '</div>' }
+  ] },
+  { id: 12, title: 'Больше целой шоколадки', sub: 'Неправильные дроби и смешанные числа', gen: gen12, teach: [
+    { t: '<p>В шоколадке бывает 4 кусочка, а Маша взяла 7. Значит, у неё целая шоколадка и ещё 3 кусочка.</p>', v: bar(4, 4, { w: 240 }) + bar(4, 3, { w: 240 }) + cap(fr(7, 4)) },
+    { t: '<p>Если числитель <b>больше</b> знаменателя или равен ему, дробь больше целой шоколадки (или равна ей). Такие дроби называют <b>неправильными</b>. Ошибки в них нет, просто их много.</p>', v: '' },
+    { t: '<p>Эту же дробь можно записать так: <b>1 целая и ещё ' + fr(3, 4) + '</b>. Это смешанное число.</p>', v: cap(fr(7, 4) + ' = ' + mx(1, 3, 4)) },
+    { t: '<p><b>Как выделить целые:</b> сколько раз 4 помещается в 7? Один раз, это целые. Остаток 3 — это числитель. Внизу снова 4.</p>', v: '<div class="expr">' + fr(7, 4) + ' = ' + mx(1, 3, 4) + '</div>' },
+    { t: '<p><b>Как обратно:</b> ' + mx(2, 1, 3) + '. Умножь целые на знаменатель: 2 × 3 = 6. Прибавь числитель: 6 + 1 = 7. Внизу тот же знаменатель 3.</p>', v: '<div class="expr">' + mx(2, 1, 3) + ' = ' + fr('2 × 3 + 1', 3) + ' = ' + fr(7, 3) + '</div>' }
+  ] },
+  { id: 13, title: 'Разные знаменатели: первая встреча', sub: 'Когда один знаменатель делится на другой', gen: gen13, teach: [
+    { t: '<p>Как сложить ' + fr(1, 2) + ' и ' + fr(1, 4) + '? Половинки и четвертинки разного размера, считать их вместе нельзя.</p>', v: lab(fr(1, 2), bar(2, 1, { w: 420 })) + lab(fr(1, 4), bar(4, 1, { w: 420 })) },
+    { t: '<p>Сделаем кусочки одинаковыми: разломим половинку на 2 четвертинки. ' + fr(1, 2) + ' = ' + fr(2, 4) + '.</p>', v: lab(fr(1, 2), bar(2, 1, { w: 420 })) + lab(fr(2, 4), bar(4, 2, { w: 420 })) },
+    { t: '<p>Теперь кусочки одинаковые, складываем как раньше.</p>', v: '<div class="expr">' + fr(1, 2) + ' + ' + fr(1, 4) + ' = ' + fr(2, 4) + ' + ' + fr(1, 4) + ' = ' + fr(3, 4) + '</div>' },
+    { t: '<p><b>Правило.</b> Сначала сделай знаменатели одинаковыми (умножь верх и низ на нужное число), потом складывай или вычитай как обычно.</p>', v: '<div class="expr">' + fr(1, 3) + ' + ' + fr(1, 6) + ' = ' + fr('1 × 2', '3 × 2') + ' + ' + fr(1, 6) + ' = ' + fr(2, 6) + ' + ' + fr(1, 6) + ' = ' + fr(3, 6) + '</div><p class="small">' + fr(3, 6) + ' можно сократить: ' + fr(1, 2) + '.</p>' }
+  ] },
+  { id: 14, title: 'Общий знаменатель', sub: 'Когда знаменатели совсем разные', gen: gen14, teach: [
+    { t: '<p>Сложим ' + fr(1, 2) + ' и ' + fr(1, 3) + '. Здесь 2 не делится на 3, и 3 не делится на 2. Нужен знаменатель, на который делятся <b>оба</b> числа.</p>', v: '' },
+    { t: '<p>Выпишем числа, которые делятся на 2: 2, 4, <b>6</b>, 8...<br>Числа, которые делятся на 3: 3, <b>6</b>, 9...<br>Первое общее число — <b>6</b>. Это общий знаменатель.</p>', v: lab(fr(1, 2) + ' = ' + fr(3, 6), bar(6, 3, { w: 420 })) + lab(fr(1, 3) + ' = ' + fr(2, 6), bar(6, 2, { w: 420 })) },
+    { t: '<p>Приводим обе дроби к знаменателю 6 и складываем.</p>', v: '<div class="expr">' + fr(1, 2) + ' + ' + fr(1, 3) + ' = ' + fr(3, 6) + ' + ' + fr(2, 6) + ' = ' + fr(5, 6) + '</div>' },
+    { t: '<p>С вычитанием то же самое: приведи к общему знаменателю, потом вычти числители.</p>', v: '<div class="expr">' + fr(3, 4) + ' − ' + fr(1, 6) + ' = ' + fr(9, 12) + ' − ' + fr(2, 12) + ' = ' + fr(7, 12) + '</div>' }
+  ] },
+  { id: 15, title: 'Дробь от числа', sub: 'Половина, треть, три четверти от числа', gen: gen15, teach: [
+    { t: '<p>В коробке 8 конфет. Маша съела половину: ' + fr(1, 2) + ' всех конфет. Сколько это?</p><p>Разложим конфеты на <b>2 равные кучки</b>. Половина — это одна кучка.</p>', v: groups(8, 2, 1) + cap('8 : 2 = 4') },
+    { t: '<p>Найдём ' + fr(1, 4) + ' от 12. Раскладываем 12 на <b>4 равные кучки</b>: в каждой по 3. Одна четвёртая — это одна кучка.</p>', v: groups(12, 4, 1) + cap('12 : 4 = 3') },
+    { t: '<p>А ' + fr(3, 4) + ' от 12? Это <b>3 кучки</b> из 4. В каждой по 3, значит 3 × 3 = 9.</p>', v: groups(12, 4, 3) + cap('12 : 4 × 3 = 9') },
+    { t: '<p><b>Правило.</b> Чтобы найти дробь от числа: раздели число на знаменатель (найдёшь одну часть), потом умножь на числитель.</p>', v: '' }
+  ] },
+  { id: 16, title: 'Умножаем дроби', sub: 'Дробь от дроби', gen: gen16, teach: [
+    { t: '<p>Возьмём шоколадку. Половина шоколадки — ' + fr(1, 2) + '. А теперь возьмём ' + fr(1, 3) + ' от этой половины. Это и есть ' + fr(1, 2) + ' × ' + fr(1, 3) + '.</p>', v: '' },
+    { t: '<p>Нарисуем шоколадку прямоугольником. Разделим её на 2 части в одну сторону и на 3 в другую: получится 6 клеток.</p><p>Оранжевая полоска — ' + fr(1, 2) + '. Зелёная полоска — ' + fr(1, 3) + '. Тёмная клетка — там, где полоски пересекаются. Она одна из 6.</p>', v: area(2, 3, 1, 1) + cap(fr(1, 2) + ' × ' + fr(1, 3) + ' = ' + fr(1, 6)) },
+    { t: '<p>Посмотри ещё раз: 1 × 1 = 1 тёмная клетка, 2 × 3 = 6 клеток всего.</p><p><b>Правило.</b> Числитель умножаем на числитель, знаменатель на знаменатель.</p>', v: area(3, 4, 2, 3) + cap(fr(2, 3) + ' × ' + fr(3, 4) + ' = ' + fr('2 × 3', '3 × 4') + ' = ' + fr(6, 12)) },
+    { t: '<p>В конце смотри, нельзя ли сократить: ' + fr(6, 12) + ' = ' + fr(1, 2) + '.</p>', v: '' }
+  ] },
+  { id: 17, title: 'Делим дроби', sub: 'Сколько раз поместится', gen: gen17, teach: [
+    { t: '<p>Деление — это вопрос «<b>сколько раз поместится</b>?». Сколько половинок поместится в 2 шоколадках?</p>', v: bar(2, 0, { w: 240 }) + bar(2, 0, { w: 240 }) + cap('2 : ' + fr(1, 2) + ' = 4') },
+    { t: '<p>В одной шоколадке 2 половинки, в двух — 4. Значит, 2 : ' + fr(1, 2) + ' = 4.</p>', v: '' },
+    { t: '<p>Если знаменатели одинаковые, делим числители. Сколько раз по 1 кусочку помещается в 3 кусочках? Три раза.</p>', v: '<div class="expr">' + fr(3, 4) + ' : ' + fr(1, 4) + ' = 3 : 1 = 3</div>' },
+    { t: '<p>Когда знаменатели разные, есть <b>правило</b>: вторую дробь переверни (верх и низ меняются местами) и умножь.</p>', v: '<div class="expr">' + fr(1, 2) + ' : ' + fr(1, 4) + ' = ' + fr(1, 2) + ' × ' + fr(4, 1) + ' = ' + fr(4, 2) + ' = 2</div><p class="small">Проверка по картинке: в половинке помещается 2 четвертинки.</p>' }
+  ] }
+];
+
+const api = { STEPS: STEPS, rnd: rnd, gcd: gcd, bar: bar, fr: fr, mx: mx };
+if (typeof module !== 'undefined' && module.exports) module.exports = api;
+else root.FracContent = api;
+})(typeof window !== 'undefined' ? window : globalThis);
+</script><script>
+(function () {
+'use strict';
+var C = window.FracContent, STEPS = C.STEPS;
+// Адрес Google Apps Script (или другого приёма). Пока пусто: результаты хранятся только в этом браузере.
+var ENDPOINT = '';
+var NEED = 5, KEY = 'frac_trainer_v1';
+var app = document.getElementById('app');
+
+/* ---------- состояние ---------- */
+function fresh() { return { name: '', steps: {}, log: [], openAll: false }; }
+var S = (function () { try { return JSON.parse(localStorage.getItem(KEY)) || fresh(); } catch (e) { return fresh(); } })();
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function st(id) {
+  if (!S.steps[id]) S.steps[id] = { passed: false, streak: 0, tried: 0, ok: 0, bad: 0, hints: 0, stuck: false, reteach: 0, cw: 0, tags: {} };
+  return S.steps[id];
+}
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function isTeacher() { return location.hash === '#lilia'; }
+function isOpen(i) { return S.openAll || isTeacher() || i === 0 || st(STEPS[i - 1].id).passed || st(STEPS[i].id).passed; }
+
+function send(ev) {
+  ev.name = S.name; ev.ts = new Date().toISOString();
+  S.log.push(ev); if (S.log.length > 300) S.log.shift();
+  save();
+  if (ENDPOINT) {
+    try { fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(ev) }); } catch (e) {}
+  }
+}
+
+/* ---------- экран ---------- */
+var V = { name: S.name ? 'home' : 'start' };
+var P = null; // текущая практика
+
+function dots(n) { var h = '<span class="dots">'; for (var i = 0; i < NEED; i++) h += '<i class="' + (i < n ? 'on' : '') + '"></i>'; return h + '</span>'; }
+
+function render() {
+  if (isTeacher() && V.name !== 'task' && V.name !== 'teach') V = { name: 'teacher' };
+  if (!isTeacher() && V.name === 'teacher') V = { name: S.name ? 'home' : 'start' };
+  var f = { start: rStart, home: rHome, teach: rTeach, task: rTask, done: rDone, inter: rInter, stuck: rStuck, teacher: rTeacher }[V.name];
+  app.innerHTML = f();
+  window.scrollTo(0, 0);
+  var inp = app.querySelector('input');
+  if (inp && V.name === 'task') inp.focus();
+}
+
+function rStart() {
+  return '<h1>Дроби</h1><p>Как тебя зовут?</p><input id="nm" class="txt" maxlength="30" autocomplete="off"><p><button class="btn" data-a="start">Начать</button></p>';
+}
+
+function rHome() {
+  var h = '<div class="top"><h1>Дроби</h1><div class="who">' + esc(S.name) + '</div></div><p class="small">Проходи ступени по порядку. Следующая откроется, когда ты хорошо справишься с этой.</p><div class="list">';
+  STEPS.forEach(function (s, i) {
+    var o = st(s.id), open = isOpen(i), status, cls = '';
+    if (o.passed) { status = 'пройдена'; cls = 'ok'; }
+    else if (!open) { status = 'закрыта'; cls = 'lock'; }
+    else if (o.stuck) { status = 'нужна помощь учителя'; cls = 'help'; }
+    else if (o.tried) { status = 'идёт: ' + o.streak + ' из ' + NEED; cls = 'run'; }
+    else status = 'можно начинать';
+    h += '<button class="row ' + cls + '" ' + (open ? 'data-a="open" data-i="' + i + '"' : 'disabled') + '><span class="num">' + s.id + '</span><span class="tt"><b>' + s.title + '</b><small>' + s.sub + '</small></span><span class="stt">' + status + '</span></button>';
+  });
+  return h + '</div>';
+}
+
+function rTeach() {
+  var s = STEPS[V.i], sl = s.teach[V.k], last = V.k === s.teach.length - 1;
+  return '<div class="top"><button class="lnk" data-a="home">← Ступени</button><div class="who">Ступень ' + s.id + '</div></div><h2>' + s.title + '</h2>' +
+    '<div class="card">' + sl.t + '<div class="vis">' + sl.v + '</div></div>' +
+    '<div class="nav">' + (V.k > 0 ? '<button class="btn sec" data-a="prev">Назад</button>' : '<span></span>') +
+    '<span class="small">' + (V.k + 1) + ' из ' + s.teach.length + '</span>' +
+    (last ? '<button class="btn" data-a="practice">Задания</button>' : '<button class="btn" data-a="next">Дальше</button>') + '</div>';
+}
+
+function rTask() {
+  var s = STEPS[P.i], T = P.task, o = st(s.id);
+  var h = '<div class="top"><button class="lnk" data-a="home">← Ступени</button><div class="who">Ступень ' + s.id + ' · ' + dots(o.streak) + '</div></div>';
+  h += '<div class="card">' + T.q + '<div id="inp">' + inputHtml(T) + '</div></div>';
+  h += '<div id="hintbox" class="hint" ' + (P.hint ? '' : 'hidden') + '>' + (P.hint ? T.hint : '') + '</div>';
+  h += '<div id="msg" class="msg"></div>';
+  h += '<div class="acts" id="acts">';
+  if (!P.done) {
+    h += '<button class="btn" data-a="check">Проверить</button>';
+    if (!P.hint) h += '<button class="btn sec" data-a="hint">Подсказка</button>';
+    h += '<button class="btn sec" data-a="dk">Не знаю</button>';
+  }
+  return h + '</div>';
+}
+
+function frac3(key, kind) {
+  var f = function (c) { return '<input class="num" inputmode="numeric" maxlength="3" data-k="' + key + '" data-p="' + c + '" autocomplete="off">'; };
+  if (kind === 'int') return f('x');
+  var fr = '<span class="fin">' + f('n') + '<span class="line"></span>' + f('d') + '</span>';
+  return kind === 'mixed' ? f('w') + fr : fr;
+}
+function inputHtml(T) {
+  var I = T.input;
+  if (I.type === 'choice') {
+    return '<div class="opts">' + I.options.map(function (o) { return '<button class="opt" data-a="pick" data-v="' + esc(o.v) + '">' + o.html + '</button>'; }).join('') + '</div>';
+  }
+  if (I.type === 'shade') return '<div id="shade">' + C.bar(I.n, Array.from(P.sel), { click: true }) + '</div>';
+  return '<div class="rows">' + I.rows.map(function (r) { return '<div class="irow"><span class="lb">' + r.label + '</span>' + frac3(r.key, r.kind) + '</div>'; }).join('') + '</div>';
+}
+
+function rDone() {
+  var s = STEPS[V.i], last = V.i === STEPS.length - 1;
+  return '<h2>Ступень пройдена</h2><div class="card"><p><b>' + s.title + '</b>: ' + NEED + ' верных ответов подряд. Молодец, это настоящая работа.</p></div>' +
+    '<p>' + (last ? '<button class="btn" data-a="home">К списку ступеней</button>' : '<button class="btn" data-a="open" data-i="' + (V.i + 1) + '">Следующая ступень</button> <button class="btn sec" data-a="home">К списку</button>') + '</p>';
+}
+function rInter() {
+  return '<h2>Давай ещё раз посмотрим объяснение</h2><div class="card"><p>Несколько ответов подряд не получились. Это нормально: значит, объяснение надо посмотреть ещё раз, не торопясь.</p></div><p><button class="btn" data-a="reteach">Смотреть объяснение</button></p>';
+}
+function rStuck() {
+  return '<h2>Стоп</h2><div class="card"><p>Здесь стало трудно, и это не страшно. Эту ступень лучше разобрать вместе с учителем.</p><p>Скажи, на каком месте перестало быть понятно.</p></div><p><button class="btn" data-a="home">К списку ступеней</button> <button class="btn sec" data-a="reteach">Ещё раз объяснение</button></p>';
+}
+
+/* ---------- кабинет учителя ---------- */
+function rTeacher() {
+  var h = '<div class="top"><h1>Отчёт</h1><div class="who">' + esc(S.name || '—') + '</div></div>';
+  h += '<p class="small">Отправка результатов на сервер: ' + (ENDPOINT ? 'включена' : 'не настроена, данные видны только в этом браузере') + '.</p>';
+  h += '<table class="rep"><tr><th>№</th><th>Ступень</th><th>Статус</th><th>Верно</th><th>Неверно</th><th>Подсказок</th><th>Частые ошибки</th><th></th></tr>';
+  STEPS.forEach(function (s, i) {
+    var o = st(s.id), tags = Object.keys(o.tags).sort(function (a, b) { return o.tags[b] - o.tags[a]; }).slice(0, 3).map(function (t) { return t + ' ×' + o.tags[t]; }).join(', ');
+    var status = o.passed ? 'пройдена' : o.stuck ? 'нужна помощь' : o.tried ? 'идёт ' + o.streak + '/' + NEED : '—';
+    h += '<tr><td>' + s.id + '</td><td>' + s.title + '</td><td>' + status + '</td><td>' + o.ok + '</td><td>' + o.bad + '</td><td>' + o.hints + '</td><td>' + (tags || '') + '</td><td><button class="lnk" data-a="tpass" data-i="' + i + '">засчитать</button> <button class="lnk" data-a="treset" data-i="' + i + '">сбросить</button> <button class="lnk" data-a="topen" data-i="' + i + '">смотреть</button></td></tr>';
+  });
+  h += '</table><p><button class="btn sec" data-a="topenall">' + (S.openAll ? 'Закрыть ступени по порядку' : 'Открыть все ступени ученице') + '</button> <button class="btn sec" data-a="tclear">Сбросить всё</button> <button class="btn sec" data-a="thome">Режим ученицы</button></p>';
+  h += '<h3>Последние ответы</h3><table class="rep"><tr><th>Когда</th><th>Ступень</th><th>Итог</th><th>Попытки</th><th>Подсказка</th><th>Ошибка</th></tr>';
+  S.log.filter(function (e) { return e.t === 'task' || e.t === 'passed' || e.t === 'stuck'; }).slice(-40).reverse().forEach(function (e) {
+    var d = new Date(e.ts);
+    h += '<tr><td>' + d.toLocaleDateString('ru-RU') + ' ' + d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) + '</td><td>' + (e.step || '') + '</td><td>' + (e.t === 'passed' ? 'ступень пройдена' : e.t === 'stuck' ? 'нужна помощь' : e.ok ? 'верно' : 'неверно') + '</td><td>' + (e.attempts || '') + '</td><td>' + (e.hint ? 'да' : '') + '</td><td>' + (e.tag || '') + '</td></tr>';
+  });
+  return h + '</table>';
+}
+
+/* ---------- логика практики ---------- */
+function newTask() {
+  var s = STEPS[P.i], o = st(s.id);
+  P.task = s.gen(o.streak); P.attempt = 0; P.hint = false; P.done = false; P.choice = undefined; P.sel = new Set(); P.tags = [];
+  if (P.last && P.task.q === P.last) P.task = s.gen(o.streak);
+  P.last = P.task.q;
+}
+function startPractice(i) { P = { i: i }; newTask(); V = { name: 'task' }; render(); }
+function openStep(i) {
+  var o = st(STEPS[i].id);
+  if (o.stuck) { o.stuck = false; o.reteach = 1; save(); }
+  V = { name: 'teach', i: i, k: 0 }; render();
+}
+
+function maxAtt(T) { return T.input.type === 'choice' ? 1 : 2; }
+function msg(t, cls) { var m = document.getElementById('msg'); if (m) { m.className = 'msg ' + (cls || ''); m.innerHTML = t; } }
+
+function readVals() {
+  var T = P.task, I = T.input;
+  if (I.type === 'choice') return P.choice === undefined ? null : P.choice;
+  if (I.type === 'shade') return P.sel.size ? Array.from(P.sel) : null;
+  var vals = {}, ok = true;
+  I.rows.forEach(function (r) {
+    var get = function (p) { var el = app.querySelector('input[data-k="' + r.key + '"][data-p="' + p + '"]'); var v = el ? parseInt(el.value, 10) : NaN; if (isNaN(v)) ok = false; return v; };
+    if (r.kind === 'int') vals[r.key] = get('x');
+    else if (r.kind === 'frac') vals[r.key] = { n: get('n'), d: get('d') };
+    else vals[r.key] = { w: get('w'), n: get('n'), d: get('d') };
+  });
+  return ok ? vals : null;
+}
+
+function check() {
+  if (P.done) return;
+  var T = P.task, vals = readVals();
+  if (vals === null) { msg(T.input.type === 'choice' ? 'Сначала выбери ответ.' : T.input.type === 'shade' ? 'Сначала закрась кусочки.' : 'Заполни все окошки.'); return; }
+  var r = T.input.type === 'choice' ? (vals === String(T.ans) ? 'ok' : 'wrong') : T.check(vals);
+  if (r && r.partial) { msg(r.partial); return; }
+  P.attempt++;
+  var tag = '';
+  if (r !== 'ok') {
+    if (T.input.type === 'choice') { var op = T.input.options.filter(function (o) { return o.v === vals; })[0]; tag = op ? op.tag : ''; }
+    else if (T.tag) tag = T.tag(vals) || '';
+    if (tag) P.tags.push(tag);
+    if (P.attempt < maxAtt(T)) { msg('Не так. Попробуй ещё раз.', 'bad'); return; }
+  }
+  finish(r === 'ok', tag);
+}
+
+function finish(ok, tag) {
+  var s = STEPS[P.i], o = st(s.id), clean = ok && P.attempt === 1 && !P.hint;
+  P.done = true; o.tried++; if (ok) o.ok++; else o.bad++; if (P.hint) o.hints++;
+  P.tags.forEach(function (t) { o.tags[t] = (o.tags[t] || 0) + 1; });
+  if (clean) { o.streak++; o.cw = 0; }
+  else if (!ok) { o.streak = 0; o.cw++; }
+  var passedNow = false;
+  if (!o.passed && o.streak >= NEED) { o.passed = true; passedNow = true; }
+  send({ t: 'task', step: s.id, stepTitle: s.title, ok: ok, attempts: P.attempt, hint: P.hint, tag: P.tags.join(',') });
+  save();
+  var m;
+  if (ok) m = clean ? 'Верно.' : 'Верно, но в зачёт не пошло: ответ был не с первой попытки или с подсказкой.';
+  else m = 'Не получилось. Ничего страшного, идём дальше. Счёт верных подряд начинается заново.';
+  msg(m, ok ? 'good' : 'bad');
+  document.getElementById('acts').innerHTML = '<button class="btn" data-a="next-task" data-passed="' + (passedNow ? 1 : 0) + '">Дальше</button>';
+  var hb = document.querySelector('.dots'); if (hb) hb.outerHTML = dots(o.streak);
+  lockInputs();
+}
+function lockInputs() { app.querySelectorAll('#inp input, #inp .opt').forEach(function (e) { e.disabled = true; }); }
+
+function nextTask(passed) {
+  var s = STEPS[P.i], o = st(s.id);
+  if (passed) { send({ t: 'passed', step: s.id, stepTitle: s.title }); V = { name: 'done', i: P.i }; render(); return; }
+  if (o.cw >= 2) {
+    o.cw = 0;
+    if (o.reteach >= 2) { o.stuck = true; save(); send({ t: 'stuck', step: s.id, stepTitle: s.title }); V = { name: 'stuck', i: P.i }; render(); return; }
+    o.reteach++; save(); V = { name: 'inter', i: P.i }; render(); return;
+  }
+  newTask(); render();
+}
+
+/* ---------- события ---------- */
+app.addEventListener('click', function (e) {
+  var b = e.target.closest('[data-a]');
+  var pc = e.target.closest('#shade .pc');
+  if (pc && P && !P.done) { var i = +pc.getAttribute('data-i'); if (P.sel.has(i)) P.sel.delete(i); else P.sel.add(i); document.getElementById('shade').innerHTML = C.bar(P.task.input.n, Array.from(P.sel), { click: true }); return; }
+  if (!b || b.disabled) return;
+  var a = b.dataset.a, i2 = +b.dataset.i;
+  if (a === 'start') { var v = document.getElementById('nm').value.trim(); if (!v) return; S.name = v; save(); send({ t: 'start' }); V = { name: 'home' }; render(); }
+  else if (a === 'home' || a === 'thome') { if (a === 'thome') history.replaceState(null, '', location.pathname); V = { name: 'home' }; render(); }
+  else if (a === 'open') openStep(i2);
+  else if (a === 'next') { V.k++; render(); }
+  else if (a === 'prev') { V.k--; render(); }
+  else if (a === 'practice') startPractice(V.i);
+  else if (a === 'reteach') { V = { name: 'teach', i: V.i, k: 0 }; render(); }
+  else if (a === 'pick') { P.choice = b.dataset.v; app.querySelectorAll('.opt').forEach(function (o) { o.classList.toggle('sel', o === b); }); }
+  else if (a === 'check') check();
+  else if (a === 'hint') { P.hint = true; var hb = document.getElementById('hintbox'); hb.hidden = false; hb.innerHTML = P.task.hint; b.remove(); }
+  else if (a === 'dk') { if (!P.done) { P.attempt++; P.tags.push('dont-know'); finish(false, 'dont-know'); msg('Хорошо, что сказала честно. Эту тему разберём на занятии. Идём дальше.', 'bad'); } }
+  else if (a === 'next-task') nextTask(b.dataset.passed === '1');
+  else if (a === 'tpass') { var o1 = st(STEPS[i2].id); o1.passed = true; o1.stuck = false; save(); render(); }
+  else if (a === 'treset') { delete S.steps[STEPS[i2].id]; save(); render(); }
+  else if (a === 'topen') { history.replaceState(null, '', location.pathname); V = { name: 'teach', i: i2, k: 0 }; render(); }
+  else if (a === 'topenall') { S.openAll = !S.openAll; save(); render(); }
+  else if (a === 'tclear') { if (confirm('Стереть весь прогресс и имя?')) { S = fresh(); save(); V = { name: 'start' }; history.replaceState(null, '', location.pathname); render(); } }
+});
+app.addEventListener('keydown', function (e) {
+  if (e.key !== 'Enter') return;
+  if (V.name === 'start') { app.querySelector('[data-a="start"]').click(); }
+  else if (V.name === 'task') { var c = app.querySelector('[data-a="check"],[data-a="next-task"]'); if (c) c.click(); }
+});
+window.addEventListener('hashchange', render);
+window.__frac = { get P() { return P; }, get S() { return S; }, get V() { return V; } };
+render();
+})();
+</script></body></html>
