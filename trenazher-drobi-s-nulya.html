@@ -635,7 +635,7 @@ const STEPS = [
   ] },
   { id: 4, title: 'Закрась сама', sub: 'От дроби к картинке', gen: gen4, teach: [
     { t: '<p>Дробь ' + fr(2, 5) + ' говорит: шоколадка разломана на 5 частей, надо взять 2 из них.</p>', v: bar(5, 2) },
-    { t: '<p>Теперь закрашивать будешь ты. Нажми на кусочек: он станет тёмным. Нажмёшь ещё раз: снова станет светлым.</p><p>Внизу в дроби смотри, на сколько частей разделена шоколадка, а вверху — сколько кусочков нужно закрасить.</p>', v: '<div class="demo" data-n="6">' + bar(6, 0, { click: true }) + '</div><p class="small">Попробуй здесь: нажми на любой кусочек.</p>' }
+    { t: '<p>Теперь закрашивать будешь ты. Нажми на кусочек: он станет тёмным. Нажмёшь ещё раз: снова станет светлым.</p><p>Попробуй прямо здесь. Внизу появится дробь: вверху сколько кусочков закрашено, внизу сколько их всего.</p>', v: '<div class="demo" data-n="6"><div class="dbar">' + bar(6, 0, { click: true }) + '</div><div class="cap dfr">' + fr(0, 6) + ' &nbsp; закрашено 0 из 6</div></div>' }
   ] },
   { id: 5, title: 'Целая шоколадка и ноль', sub: 'Когда взяли все или ничего', gen: gen5, teach: [
     { t: '<p>Если взять <b>все</b> кусочки, получится <b>целая</b> шоколадка. Сколько частей в шоколадке, столько и берём.</p>', v: bar(4, 4) + cap(fr(4, 4) + ' = 1') },
@@ -978,7 +978,7 @@ app.addEventListener('click', function (e) {
   var b = e.target.closest('[data-a]');
   var pc = e.target.closest('#shade .pc');
   var dp = e.target.closest('.demo .pc');
-  if (dp) { var dm = dp.closest('.demo'), idx = +dp.getAttribute('data-i'), cur = (dm._sel = dm._sel || new Set()); if (cur.has(idx)) cur.delete(idx); else cur.add(idx); dm.innerHTML = C.bar(+dm.getAttribute('data-n'), Array.from(cur), { click: true }); return; }
+  if (dp) { var dm = dp.closest('.demo'), idx = +dp.getAttribute('data-i'), cur = (dm._sel = dm._sel || new Set()); if (cur.has(idx)) cur.delete(idx); else cur.add(idx); var dn = +dm.getAttribute('data-n'); dm.querySelector('.dbar').innerHTML = C.bar(dn, Array.from(cur), { click: true }); dm.querySelector('.dfr').innerHTML = C.fr(cur.size, dn) + ' &nbsp; закрашено ' + cur.size + ' из ' + dn; return; }
   if (pc && P && !P.done) { var i = +pc.getAttribute('data-i'); if (P.sel.has(i)) P.sel.delete(i); else P.sel.add(i); document.getElementById('shade').innerHTML = C.bar(P.task.input.n, Array.from(P.sel), { click: true }); return; }
   if (!b || b.disabled) return;
   var a = b.dataset.a, i2 = +b.dataset.i;
