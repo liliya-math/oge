@@ -228,6 +228,7 @@ var state={screen:"menu"};
 
 function showMenu(){
   clearTimers(); state.screen="menu"; curMode=null; setBack(false);
+  if(location.hash) history.replaceState(null,"",location.pathname+location.search);
   var h='<h1>Устный счёт</h1><p class="lead">Что нужно знать наизусть к ОГЭ. Тренажёр сам чаще даёт то, что у тебя пока не получается.</p><div class="modes">';
   MODES.forEach(function(m){
     var l=learned(m),pct=l.total?Math.round(l.n/l.total*100):0,best=load().best[m.id];
@@ -242,6 +243,7 @@ function showMenu(){
 
 function showMode(m){
   clearTimers(); curMode=m; state.screen="mode"; setBack(true);
+  if(location.hash!=="#"+m.id) history.replaceState(null,"","#"+m.id);
   var h='<div class="card"><h1>'+m.nm+'</h1><p class="lead" style="margin-bottom:6px">Раунд — 15 вопросов, ошибки повторяются в конце. Спринт — 60 секунд на рекорд.</p>';
   if(m.chips){
     var sel=chipsFor();
@@ -439,7 +441,12 @@ function finish(){
   document.getElementById("toMode").addEventListener("click",function(){ showMode(m); });
 }
 
-showMenu();
+function routeHash(){
+  var id=(location.hash||"").replace("#",""),m=MODES.filter(function(x){return x.id===id;})[0];
+  if(m) showMode(m); else showMenu();
+}
+window.addEventListener("hashchange",routeHash);
+routeHash();
 })();
 </script>
 </body>
