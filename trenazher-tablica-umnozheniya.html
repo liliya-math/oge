@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#14211e">
+<title>Таблица умножения</title>
+<style>
+:root{--bg:#14211e;--card:rgba(243,236,226,.07);--line:rgba(243,236,226,.16);--fg:#f3ece2;--muted:rgba(243,236,226,.62);--cobalt:#1747c9;--apricot:#f2905e;--yellow:#f5dc6a;--sage:#a9d18e;--bad:#ff8f8f}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Inter,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%;overscroll-behavior:none}
+body{min-height:100vh;min-height:100dvh;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+#wrap{max-width:480px;margin:0 auto;padding:14px 16px 28px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.mark{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;background:var(--cobalt);font-weight:800;font-size:11px;line-height:1;gap:1px}
+.mark i{display:block;width:16px;height:1.5px;background:var(--fg)}
+.brand{font-weight:700;letter-spacing:-.01em}
+.brand b{color:var(--apricot)}
+.top .sp{flex:1}
+.top button.link{background:none;border:0;color:var(--muted);font:inherit;font-size:14px;padding:8px 4px}
+h1{font-size:30px;line-height:1.1;letter-spacing:-.025em;margin:6px 0 10px;font-weight:800}
+h1 span,.grad{background:linear-gradient(90deg,var(--yellow),var(--apricot));-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font-size:19px;letter-spacing:-.015em;margin:22px 0 10px}
+p{margin:0 0 10px;line-height:1.45}
+.muted{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}
+.btn{display:block;width:100%;border:0;border-radius:14px;padding:16px;font:inherit;font-weight:700;font-size:17px;background:var(--apricot);color:#1b1410;cursor:pointer}
+.btn.sec{background:var(--card);color:var(--fg);border:1px solid var(--line)}
+.btn:disabled{opacity:.4}
+.btn+.btn{margin-top:10px}
+.field{width:100%;padding:14px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.2);color:var(--fg);font:inherit;font-size:18px}
+.bar{height:8px;border-radius:99px;background:rgba(243,236,226,.12);overflow:hidden}
+.bar>i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--yellow),var(--apricot))}
+.stage{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:14px;border:1px solid var(--line);background:var(--card);margin-bottom:8px;cursor:pointer}
+.stage.lock{opacity:.4;cursor:default}
+.stage .n{flex:none;width:38px;height:38px;border-radius:11px;background:rgba(243,236,226,.1);display:flex;align-items:center;justify-content:center;font-weight:800}
+.stage .t{flex:1;min-width:0}
+.stage .t b{display:block;font-size:16px}
+.stage .t small{color:var(--muted)}
+.stage .bar{margin-top:7px;height:6px}
+.big{font-size:56px;font-weight:800;letter-spacing:-.03em;text-align:center;margin:18px 0 10px;white-space:nowrap}
+.big.sm{font-size:44px}
+.slot{min-height:76px;border-radius:16px;border:2px solid var(--line);background:rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:800;letter-spacing:.06em;margin-bottom:12px}
+.slot.ok{border-color:var(--sage);color:var(--sage)}
+.slot.bad{border-color:var(--bad);color:var(--bad)}
+.slot.copy{border-color:var(--yellow)}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.pad button{border:0;border-radius:14px;padding:0;height:60px;font:inherit;font-size:26px;font-weight:700;background:var(--card);color:var(--fg);border:1px solid var(--line)}
+.pad button:active{background:rgba(243,236,226,.18)}
+.pad .ok{background:var(--apricot);color:#1b1410;border:0;font-size:20px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.row2 .btn{padding:12px;font-size:15px;margin:0}
+.tbar{height:5px;border-radius:99px;background:rgba(243,236,226,.12);overflow:hidden;margin:0 0 4px}
+.tbar>i{display:block;height:100%;width:100%;background:var(--yellow);transform-origin:left}
+.tbar.run>i{animation:t 4s linear forwards}
+@keyframes t{to{transform:scaleX(0)}}
+.prog{display:flex;justify-content:space-between;color:var(--muted);font-size:14px;margin-bottom:8px}
+.fb{border-radius:14px;padding:12px 14px;margin-bottom:12px;line-height:1.4}
+.fb.bad{background:rgba(255,143,143,.12);border:1px solid rgba(255,143,143,.35)}
+.fb.hint{background:rgba(245,220,106,.1);border:1px solid rgba(245,220,106,.3)}
+.fb.info{background:var(--card);border:1px solid var(--line)}
+.rows{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;font-size:18px;font-weight:600;margin:10px 0}
+.rows div{padding:6px 10px;border-radius:9px;background:rgba(243,236,226,.06)}
+.grid{display:grid;grid-template-columns:28px repeat(8,1fr);gap:4px;font-weight:700;font-size:14px}
+.grid div{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:7px;background:rgba(243,236,226,.06)}
+.grid .h{background:none;color:var(--muted)}
+.c0{background:rgba(243,236,226,.06)}
+.c1{background:rgba(242,144,94,.45)}
+.c2{background:rgba(245,220,106,.5);color:#1b1410}
+.c3{background:rgba(169,209,142,.55);color:#1b1410}
+.c4{background:var(--sage);color:#1b1410}
+.legend{display:flex;flex-wrap:wrap;gap:10px 14px;margin-top:12px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:5px}
+.stat{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line)}
+.stat:last-child{border:0}
+.shake{animation:sh .3s}
+@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.mono{font-family:ui-monospace,Menlo,monospace;font-size:13px;word-break:break-all}
+@media (prefers-reduced-motion:reduce){.tbar.run>i{animation-duration:.01s}.shake{animation:none}}
+</style>
+</head>
+<body>
+<div id="wrap"><div id="app"></div></div>
+<script>
+'use strict';
+/* ====== настройки ====== */
+const KEY='lilimath-trenazher-tablica-v1';
+const SHEET_URL='https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec';
+const TITLE='Таблица умножения и деления';
+const FAST=7000;          // ответ быстрее этого (мс) считается «на автомате»
+const SESSION_LEN=24;     // вопросов в одной тренировке
+const TEST_LEN=40;        // вопросов в проверке на автомат
+const TEST_LIMIT=6000;    // время на вопрос в проверке (мс)
+const DAY=86400000;
+const IVL={2:1,3:3,4:7,5:21};   // интервалы повторения по ящикам, дни
+const TABLES=[2,5,9,3,4,6,8,7]; // порядок изучения
+
+/* ====== состояние ====== */
+function uid(){return Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4)}
+function dateKey(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.items)return s}catch(e){}return {name:'',items:{},hist:[],unlock:false,intro:{}}}
+let st=load();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
+function dec(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return new TextDecoder().decode(Uint8Array.from(atob(s),c=>c.charCodeAt(0)))}
+function enc(s){return btoa(String.fromCharCode(...new TextEncoder().encode(s))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+const HASH=location.hash.slice(1);
+const TEACHER=HASH==='lilia';
+if(/^u/.test(HASH)&&!st.name){try{const nm=dec(HASH.slice(1).split('.')[0]).split('|')[0].trim();if(nm){st.name=nm;save()}}catch(e){}}
+
+/* ====== набор заданий ====== */
+const ITEMS=[],BY={};
+function addItem(it){it.box=0;ITEMS.push(it);BY[it.key]=it}
+const RULES=[
+ ['r1',2,9,a=>[`${a} · 1`,a]],['r2',2,9,a=>[`1 · ${a}`,a]],
+ ['r3',2,9,a=>[`${a} · 0`,0]],['r4',2,9,a=>[`0 · ${a}`,0]],
+ ['r5',2,19,a=>[`${a} · 10`,a*10]],['r6',2,19,a=>[`10 · ${a}`,a*10]],
+ ['r7',2,9,a=>[`${a} : 1`,a]],['r8',2,9,a=>[`${a} : ${a}`,1]],
+ ['r9',2,9,a=>[`0 : ${a}`,0]],['r10',2,19,a=>[`${a*10} : 10`,a]]
+];
+RULES.forEach(r=>addItem({key:r[0],type:'r',stage:0,lo:r[1],hi:r[2],gen:r[3]}));
+(function(){
+  const done={};
+  TABLES.forEach((n,i)=>{
+    const s=i+1;
+    for(let b=2;b<=9;b++){
+      const lo=Math.min(n,b),hi=Math.max(n,b),pk=lo+'x'+hi;
+      if(done[pk])continue;done[pk]=1;
+      const c=n*b;
+      addItem({key:`m:${n}*${b}`,type:'m',stage:s,a:n,b:b,c:c,tbl:n,o:b});
+      if(n!==b)addItem({key:`m:${b}*${n}`,type:'m',stage:s,a:b,b:n,c:c,tbl:n,o:b});
+      addItem({key:`d:${c}/${n}`,type:'d',stage:s,a:n,b:b,c:c,tbl:n,o:b});
+      if(n!==b)addItem({key:`d:${c}/${b}`,type:'d',stage:s,a:b,b:n,c:c,tbl:n,o:b});
+    }
+  });
+  ITEMS.forEach(it=>{const x=st.items[it.key];if(x){Object.assign(it,x)}else{it.box=0;it.seen=false;it.due=0}if(it.seen===undefined){it.seen=false;it.due=0}});
+})();
+function persistItems(){ITEMS.forEach(it=>{st.items[it.key]={box:it.box,seen:it.seen,due:it.due,advDay:it.advDay,n:it.n||0,ok:it.ok||0}});save()}
+const NST=TABLES.length+1;
+const stageItems=s=>ITEMS.filter(i=>i.stage===s);
+function frac(s,minBox){const l=stageItems(s);return l.filter(i=>i.seen&&i.box>=minBox).length/l.length}
+function unlocked(s){return st.unlock||s===0||frac(s-1,2)>=.75}
+function mixOpen(){return st.unlock||frac(NST-1,2)>=.75}
+const autoCount=()=>ITEMS.filter(i=>i.box>=4).length;
+const STAGE_NAME=s=>s===0?'Нули, единицы, десятки':`Таблица на ${TABLES[s-1]}`;
+
+/* ====== подсказки и приёмы ====== */
+function strat(n,m){
+  switch(n){
+    case 2:return `Удвой: ${m} + ${m} = ?`;
+    case 5:return `Умножь на 10 и раздели пополам: ${10*m} : 2 = ?. Или считай пятёрками: 5, 10, 15, 20…`;
+    case 9:return `9 · ${m} = 10 · ${m} − ${m} = ${10*m} − ${m} = ?`;
+    case 3:return `3 · ${m} = 2 · ${m} + ${m} = ${2*m} + ${m} = ?`;
+    case 4:return `Удвой два раза: ${m} + ${m} = ${2*m}, потом ${2*m} + ${2*m} = ?`;
+    case 6:return `6 · ${m} = 5 · ${m} + ${m} = ${5*m} + ${m} = ?`;
+    case 8:return `8 · ${m} = 10 · ${m} − 2 · ${m} = ${10*m} − ${2*m} = ?`;
+    case 7:return `7 · ${m} = 5 · ${m} + 2 · ${m} = ${5*m} + ${2*m} = ?`;
+  }
+  return '';
+}
+const TIP={
+ 2:'Умножить на 2 — значит удвоить: 2 · 7 = 7 + 7.',
+ 5:'Пятёрка — половина от десятки: 5 · 8 — это половина от 80, то есть 40. Ответ всегда оканчивается на 0 или 5.',
+ 9:'9 · n = 10 · n − n. Десятки в ответе на 1 меньше n, а сумма цифр ответа равна 9: 9 · 7 = 63, 6 + 3 = 9.',
+ 3:'3 · n = 2 · n + n. Считай тройками: 3, 6, 9, 12, 15, 18, 21, 24, 27, 30.',
+ 4:'Умножить на 4 — удвоить два раза: 4 · 7 = (7 + 7) + (7 + 7) = 28.',
+ 6:'6 · n = 5 · n + n. Пятёрки ты уже знаешь, добавь ещё одно n.',
+ 8:'8 · n = 10 · n − 2 · n. Или удвой три раза: 8 · 6 → 12 → 24 → 48.',
+ 7:'7 · n = 5 · n + 2 · n. Самое трудное осталось напоследок, но почти всё уже выучено. Запомни ряд цифр 5, 6, 7, 8: 56 = 7 · 8.'
+};
+function hintFor(it){
+  if(it.type==='r')return 'Вспомни правило этой ступени: то, что умножаем на 1, не меняется; на 0 — получается 0; на 10 — приписываем ноль.';
+  const s=strat(it.tbl,it.o);
+  if(it.type==='d')return `Спроси себя: ${it.a} · ? = ${it.c}. Ищем число, на которое надо умножить ${it.a}, чтобы получить ${it.c}. ${s}`;
+  return s;
+}
+
+/* ====== утилиты ====== */
+const $=s=>document.querySelector(s);
+const app=$('#app');
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+function hdr(extra){return `<div class="top"><span class="mark">25<i></i>25</span><span class="brand">lili<b>.</b>math</span><span class="sp"></span>${extra||''}</div>`}
+
+/* ====== тренировка ====== */
+let tSeen=false,ses=null,buf='',qStart=0,copyMode=false,hintUsed=false,locked=false,timer=null;
+
+function startSession(mode,stage){
+  ses={mode,stage:stage==null?null:stage,sid:uid(),started:Date.now(),asked:0,correct:0,fast:0,hints:0,idk:0,
+    wrongs:[],reapp:[],last:null,cur:null,pending:null,touched:{},sent:0,finished:false,limit:mode==='test'?TEST_LEN:SESSION_LEN};
+  if(mode==='test'){
+    const pool=ITEMS.filter(i=>i.stage>0);
+    ses.queue=[];while(ses.queue.length<TEST_LEN){const p=pool.slice().sort(()=>Math.random()-.5);p.forEach(x=>{if(ses.queue.length<TEST_LEN)ses.queue.push(x)})}
+  }
+  next();
+}
+function scope(){
+  if(ses.mode==='stage')return ITEMS.filter(i=>i.stage===ses.stage);
+  if(ses.mode==='mix')return ITEMS.filter(i=>i.seen&&i.stage>0);
+  return ITEMS.filter(i=>unlocked(i.stage));
+}
+function pick(){
+  if(ses.mode==='test')return ses.queue[ses.asked]||null;
+  const sc=scope(),now=Date.now();
+  const ready=ses.reapp.filter(r=>r.after<=ses.asked&&r.key!==ses.last);
+  if(ready.length)return BY[ready[0].key];
+  const fresh=ses.mode==='mix'?null:sc.find(i=>!i.seen);
+  if(fresh&&ses.reapp.length<4)return fresh;
+  const due=sc.filter(i=>i.seen&&i.due<=now&&i.key!==ses.last&&!ses.reapp.some(r=>r.key===i.key)&&!ses.touched[i.key]);
+  if(due.length){due.sort((a,b)=>a.box-b.box||a.due-b.due);return due[0]}
+  const early=ses.reapp.filter(r=>r.key!==ses.last)[0];
+  if(early)return BY[early.key];
+  if(fresh)return fresh;
+  if(ses.asked<10){
+    const rest=sc.filter(i=>i.seen&&i.key!==ses.last&&i.box<5);
+    if(rest.length)return rest[R(0,rest.length-1)];
+  }
+  if(ses.mode==='mix'||ses.mode==='stage'){
+    const rest=sc.filter(i=>i.seen&&i.key!==ses.last);
+    if(rest.length&&ses.asked<ses.limit)return rest[R(0,rest.length-1)];
+  }
+  return null;
+}
+function build(it){
+  const mixed=ses.mode==='mix'||ses.mode==='test'||it.box>=2;
+  if(it.type==='r'){const a=R(it.lo,it.hi),[q,ans]=it.gen(a);return {expr:q+' = ?',ans}}
+  if(it.type==='m'){
+    if(mixed&&Math.random()<.3)return {expr:`${it.a} · ? = ${it.c}`,ans:it.b};
+    return {expr:`${it.a} · ${it.b} = ?`,ans:it.c};
+  }
+  const r=Math.random();
+  if(mixed&&r<.2)return {expr:`${it.a} · ? = ${it.c}`,ans:it.b};
+  if(mixed&&r<.3)return {expr:`? · ${it.a} = ${it.c}`,ans:it.b};
+  return {expr:`${it.c} : ${it.a} = ?`,ans:it.b};
+}
+function full(it,q){ // полная запись для режима «повтори»
+  return q.expr.replace('?',`<span class="grad">${q.ans}</span>`);
+}
+function next(){
+  clearTimeout(timer);
+  if(ses.asked>=ses.limit){return finish()}
+  const it=pick();
+  if(!it){return finish()}
+  if(ses.mode!=='test'&&!it.seen&&!st.intro[it.stage]){st.intro[it.stage]=1;save();return renderIntro(it.stage,it)}
+  ses.cur={it,q:build(it)};
+  copyMode=ses.mode!=='test'&&!it.seen;
+  if(copyMode){it.seen=true;it.due=0;it.box=0}
+  hintUsed=false;locked=false;buf='';
+  renderQ();
+}
+function renderIntro(s,it){
+  let h=hdr();
+  if(s===0){
+    h+=`<h1>Сначала <span>простые правила</span></h1>
+    <div class="card"><p><b>Умножение.</b> Любое число, умноженное на 1, не меняется. Любое число, умноженное на 0, равно 0. Умножить на 10 — приписать справа ноль.</p>
+    <p><b>Деление.</b> Число, делённое на 1, не меняется. Число, делённое на само себя, равно 1. Ноль, делённый на число, равен 0.</p>
+    <p class="muted">На ноль делить нельзя.</p></div>`;
+  }else{
+    const n=TABLES[s-1];let rows='';
+    for(let b=1;b<=10;b++)rows+=`<div>${n} · ${b} = ${n*b}</div>`;
+    h+=`<h1>Таблица <span>на ${n}</span></h1>
+    <div class="card"><p>${TIP[n]}</p><div class="rows">${rows}</div>
+    <p class="muted">Каждое умножение даёт два деления: ${n} · ${n===2?3:2} = ${n*(n===2?3:2)}, значит ${n*(n===2?3:2)} : ${n} = ${n===2?3:2}. Их мы тренируем вместе.</p></div>`;
+  }
+  h+=`<button class="btn" id="go">Начать</button>`;
+  app.innerHTML=h;$('#go').onclick=next;
+}
+function renderQ(){
+  const {it,q}=ses.cur;
+  const total=ses.limit;
+  const test=ses.mode==='test';
+  app.innerHTML=hdr(`<button class="link" id="stop">${test?'Выйти':'Закончить'}</button>`)+
+  `<div class="prog"><span>${esc(ses.mode==='test'?'Проверка на автомат':ses.mode==='mix'?'Вперемешку':ses.mode==='stage'?STAGE_NAME(ses.stage):'Тренировка')}</span><span>${ses.asked+1} / ${total}</span></div>
+  <div class="bar" style="margin-bottom:12px"><i style="width:${ses.asked/total*100}%"></i></div>
+  ${copyMode?'':`<div class="tbar" id="tb"><i></i></div>`}
+  <div class="big${q.expr.length>11?' sm':''}">${copyMode?full(it,q):esc(q.expr)}</div>
+  <div id="fbx">${copyMode?`<div class="fb info">${ses.cur.after?'Запомни и набери верный ответ.':'Новое. Посмотри и набери ответ.'}</div>`:''}</div>
+  <div class="slot${copyMode?' copy':''}" id="slot"></div>
+  <div class="pad">${[1,2,3,4,5,6,7,8,9].map(k=>`<button data-k="${k}">${k}</button>`).join('')}<button data-k="b">⌫</button><button data-k="0">0</button><button class="ok" data-k="ok">Ответить</button></div>
+  ${(copyMode||test)?'':`<div class="row2"><button class="btn sec" id="hint">Подсказка</button><button class="btn sec" id="idk">Не знаю</button></div>`}`;
+  $('#stop').onclick=()=>{if(confirm(test?'Выйти из проверки? Результат не сохранится.':'Закончить тренировку? Результат отправится Лилии.'))test?home():finish(true)};
+  document.querySelector('.pad').onclick=e=>{const b=e.target.closest('button');if(b)key(b.dataset.k)};
+  if($('#hint'))$('#hint').onclick=useHint;
+  if($('#idk'))$('#idk').onclick=()=>submit('idk');
+  qStart=Date.now();
+  if(!copyMode){
+    const tb=$('#tb');void tb.offsetWidth;
+    tb.firstElementChild.style.animationDuration=(test?TEST_LIMIT:FAST)+'ms';
+    tb.classList.add('run');
+    if(test)timer=setTimeout(()=>submit('timeout'),TEST_LIMIT+150);
+  }
+}
+function key(k){
+  if(locked||!ses||!ses.cur)return;
+  if(k==='b')buf=buf.slice(0,-1);
+  else if(k==='ok'){if(buf)return submit('type')}
+  else if(buf.length<4)buf+=k;
+  const sl=$('#slot');if(sl)sl.textContent=buf;
+  if(k!=='b'&&k!=='ok'&&buf.length>=String(ses.cur.q.ans).length)setTimeout(()=>{if(buf&&!locked)submit('type')},140);
+}
+document.addEventListener('keydown',e=>{
+  if(!ses||!ses.cur||ses.finished||/INPUT|TEXTAREA/.test((e.target||{}).tagName))return;
+  if(/^[0-9]$/.test(e.key))key(e.key);else if(e.key==='Backspace')key('b');else if(e.key==='Enter')key('ok');
+});
+function useHint(){
+  if(hintUsed||locked)return;hintUsed=true;ses.hints++;ses.cur.hinted=true;
+  $('#fbx').innerHTML=`<div class="fb hint">${esc(hintFor(ses.cur.it))}</div>`;
+  $('#hint').disabled=true;
+}
+function schedule(it){
+  if(it.box>=2){it.due=Date.now()+IVL[it.box]*DAY-4*3600000;ses.reapp=ses.reapp.filter(r=>r.key!==it.key)}
+  else{it.due=0;ses.reapp=ses.reapp.filter(r=>r.key!==it.key);ses.reapp.push({key:it.key,after:ses.asked+(it.box===0?3:6)})}
+}
+function submit(how){
+  if(locked)return;
+  clearTimeout(timer);
+  const {it,q}=ses.cur,sl=$('#slot'),test=ses.mode==='test';
+  const ms=Date.now()-qStart;
+  if(copyMode){
+    if(how==='type'&&Number(buf)===q.ans){locked=true;sl.classList.add('ok');ses.cur.after=false;persistItems();setTimeout(()=>{ses.last=it.key;if(!ses.cur.reaskDone)schedule(it);next()},350);return}
+    buf='';sl.textContent='';sl.classList.add('bad');sl.classList.remove('shake');void sl.offsetWidth;sl.classList.add('shake');setTimeout(()=>sl.classList.remove('bad'),350);return;
+  }
+  locked=true;
+  const ok=how==='type'&&Number(buf)===q.ans;
+  const fast=ok&&ms<=(test?TEST_LIMIT:FAST)&&!ses.cur.hinted;
+  it.n=(it.n||0)+1;if(ok)it.ok=(it.ok||0)+1;
+  ses.touched[it.key]=1;
+  if(ok){
+    ses.correct++;if(fast)ses.fast++;
+    if(!test){
+      if(fast&&(it.box<2||it.advDay!==dateKey())){it.box=Math.min(5,it.box+1);it.advDay=dateKey()}
+      schedule(it);
+    }
+    sl.classList.add('ok');
+    ses.asked++;ses.last=it.key;persistItems();
+    setTimeout(()=>{ses.asked%6===0&&push(false);next()},test?250:450);
+  }else{
+    if(how==='idk')ses.idk++;
+    ses.wrongs.push({expr:q.expr.replace('?',q.ans),typed:how==='type'?buf:(how==='idk'?'не знаю':'нет ответа'),key:it.key});
+    ses.asked++;ses.last=it.key;
+    if(!test){
+      it.box=it.box<=2?0:1;schedule(it);
+      ses.reapp=ses.reapp.filter(r=>r.key!==it.key);ses.reapp.push({key:it.key,after:ses.asked+3});
+    }
+    sl.classList.add('bad');sl.textContent=buf;
+    if(test){
+      $('#fbx').innerHTML=`<div class="fb bad">${esc(q.expr.replace('?',q.ans))}</div>`;
+      setTimeout(()=>{ses.asked%6===0&&push(false);next()},1100);return;
+    }
+    persistItems();
+    // режим исправления: показать верный ответ и дать набрать его
+    ses.cur.after=true;
+    copyMode=true;locked=false;buf='';ses.cur.reaskDone=1;
+    document.querySelector('.big').innerHTML=full(it,q);
+    $('#fbx').innerHTML=`<div class="fb bad">${how==='idk'?'Ничего страшного.':'Пока не так.'} Запомни и набери верный ответ.</div>`;
+    sl.className='slot copy';sl.textContent='';
+    const tb=$('#tb');if(tb)tb.remove();
+    ['hint','idk'].forEach(i=>{const e=document.getElementById(i);if(e&&e.parentNode)e.parentNode.remove()});
+  }
+}
+
+/* ====== итог и отправка ====== */
+function stageMarks(){
+  return Array.from({length:NST},(_,s)=>{
+    const l=stageItems(s),seen=l.filter(i=>i.seen).length,ok=l.filter(i=>i.seen&&i.box>=3).length;
+    return (s===0?'0':'×'+TABLES[s-1])+':'+(ok===l.length?'✓':seen?'~':'·');
+  }).join(' ');
+}
+function modeLabel(){return ses.mode==='test'?'Проверка на автомат':ses.mode==='mix'?'Вперемешку':ses.mode==='stage'?STAGE_NAME(ses.stage):'Тренировка на сегодня'}
+function report(){
+  const min=Math.max(1,Math.round((Date.now()-ses.started)/60000));
+  const L=[`${TITLE}: ${modeLabel()}`,`Ученица: ${st.name||'—'}`,`Дата: ${new Date().toLocaleDateString('ru-RU')}, ${min} мин`,
+   `Вопросов: ${ses.asked}, верно: ${ses.correct}, быстро (до ${FAST/1000} с): ${ses.fast}, подсказок: ${ses.hints}, «не знаю»: ${ses.idk}`];
+  if(ses.wrongs.length)L.push('Ошибки: '+ses.wrongs.map(w=>`${w.expr} (ответ: ${w.typed})`).join('; '));
+  L.push(`Автомат (3+ дня подряд быстро): ${autoCount()} из ${ITEMS.length}; уверенно: ${ITEMS.filter(i=>i.box>=3).length}`);
+  L.push('Ступени: '+stageMarks());
+  const slow=ITEMS.filter(i=>i.seen&&i.box<2&&i.n>1).sort((a,b)=>(a.ok/a.n)-(b.ok/b.n)).slice(0,8);
+  if(slow.length)L.push('Хуже всего даются: '+slow.map(i=>i.type==='r'?i.key:(i.type==='m'?`${i.a}·${i.b}`:`${i.c}:${i.a}`)).join(', '));
+  return L.join('\n');
+}
+function push(final){
+  if(!SHEET_URL||!ses||!st.name)return;
+  try{
+    const d={sid:ses.sid,test:TITLE+(ses.mode==='test'?' · проверка':''),name:st.name,kind:'тренажёр',started:ses.started,
+      status:final?'завершено':'в процессе',progress:`${ses.asked}/${ses.limit}`,score:ses.correct,max:ses.asked,grade:'',
+      minutes:Math.round((Date.now()-ses.started)/60000),bonus:`автомат ${autoCount()}/${ITEMS.length}`,tasks:stageMarks(),report:report()};
+    const bd=JSON.stringify(d);
+    fetch(SHEET_URL,{method:'POST',mode:'no-cors',keepalive:bd.length<60000,headers:{'Content-Type':'text/plain;charset=utf-8'},body:bd}).catch(()=>{});
+  }catch(e){}
+}
+addEventListener('pagehide',()=>{if(ses&&!ses.finished&&ses.asked>0)push(false)});
+function finish(early){
+  clearTimeout(timer);
+  if(!ses)return home();
+  ses.finished=true;persistItems();
+  if(ses.asked===0&&!early){return home()}
+  if(ses.asked>0){
+    st.hist.push({t:ses.started,mode:ses.mode,asked:ses.asked,correct:ses.correct,fast:ses.fast,hints:ses.hints});
+    if(st.hist.length>300)st.hist=st.hist.slice(-300);save();
+    push(true);
+  }
+  const test=ses.mode==='test';
+  let verdict='';
+  if(test){
+    verdict=ses.correct>=38&&ses.fast>=36?'Автомат. Таблица выучена.':ses.correct>=33?'Почти автомат. Ещё несколько тренировок.':'Пока рано. Продолжаем тренировки.';
+  }
+  const wr=ses.wrongs.slice(0,8).map(w=>`<div class="stat"><span>${esc(w.expr)}</span><span class="muted">${esc(w.typed)}</span></div>`).join('');
+  app.innerHTML=hdr()+`<h1>${test?'Проверка':'Тренировка'} <span>завершена</span></h1>
+  ${verdict?`<p style="font-size:18px"><b>${verdict}</b></p>`:''}
+  <div class="card"><div class="stat"><span>Верно</span><b>${ses.correct} из ${ses.asked}</b></div>
+  <div class="stat"><span>Быстро (до ${(test?TEST_LIMIT:FAST)/1000} с)</span><b>${ses.fast}</b></div>
+  <div class="stat"><span>Подсказок</span><b>${ses.hints}</b></div>
+  <div class="stat"><span>Уже на автомате</span><b>${autoCount()} из ${ITEMS.length}</b></div></div>
+  ${wr?`<h2>Это повторим</h2><div class="card">${wr}</div>`:''}
+  <p class="muted">Результат отправлен Лилии.</p>
+  <button class="btn" id="h">Готово</button>`;
+  $('#h').onclick=home;
+}
+
+/* ====== экраны ====== */
+function home(){
+  ses=null;
+  if(TEACHER&&!tSeen){return teacherScreen()}
+  if(!st.name){
+    app.innerHTML=hdr()+`<h1>Таблица умножения <span>с нуля</span></h1>
+    <p class="muted">Умножение и деление. Каждый день по 5–10 минут, и через пару недель таблица будет отскакивать от зубов.</p>
+    <div class="card"><p>Как тебя зовут?</p><input class="field" id="nm" placeholder="Имя" autocomplete="off"></div>
+    <button class="btn" id="ok">Дальше</button>`;
+    $('#ok').onclick=()=>{const v=$('#nm').value.trim();if(!v){$('#nm').focus();return}st.name=v;save();home()};
+    return;
+  }
+  const now=Date.now();
+  const dueN=ITEMS.filter(i=>i.seen&&i.due<=now&&unlocked(i.stage)).length;
+  const hasNew=ITEMS.some(i=>!i.seen&&unlocked(i.stage));
+  const auto=autoCount(),pct=Math.round(auto/ITEMS.length*100);
+  let stages='';
+  for(let s=0;s<NST;s++){
+    const l=stageItems(s),op=unlocked(s),sc=l.filter(i=>i.box>=3).length,au=l.filter(i=>i.box>=4).length;
+    stages+=`<div class="stage${op?'':' lock'}" data-s="${s}"><div class="n">${s===0?'0':'×'+TABLES[s-1]}</div><div class="t"><b>${STAGE_NAME(s)}</b><small>${op?(sc===l.length?'выучено':`уверенно ${sc} из ${l.length}`):'откроется после предыдущей'}</small><div class="bar"><i style="width:${au/l.length*100}%"></i></div></div></div>`;
+  }
+  const mo=mixOpen();
+  app.innerHTML=hdr(`<button class="link" id="who">${esc(st.name)}</button>`)+
+  `<h1>Привет, <span>${esc(st.name)}</span></h1>
+  <div class="card"><div class="prog"><span>На автомате</span><span>${auto} из ${ITEMS.length}</span></div><div class="bar"><i style="width:${pct}%"></i></div>
+  <p class="muted" style="margin:10px 0 0">${hasNew||dueN?`Сегодня: ${dueN?dueN+' на повторение':''}${dueN&&hasNew?', ':''}${hasNew?'новое':''}.`:'На сегодня всё повторено. Можно потренироваться вперемешку.'}</p></div>
+  <button class="btn" id="today">Тренировка на сегодня</button>
+  <h2>Ступени</h2>${stages}
+  <button class="btn sec" id="mix" ${mo?'':'disabled'}>Вперемешку</button>
+  <button class="btn sec" id="test" ${mo?'':'disabled'}>Проверка на автомат (${TEST_LEN} вопросов)</button>
+  <button class="btn sec" id="map">Карта таблицы</button>`;
+  $('#today').onclick=()=>startSession('today');
+  $('#mix').onclick=()=>startSession('mix');
+  $('#test').onclick=()=>{if(confirm(`Проверка: ${TEST_LEN} вопросов, на каждый ${TEST_LIMIT/1000} с. Начать?`))startSession('test')};
+  $('#map').onclick=mapScreen;
+  $('#who').onclick=()=>{const v=prompt('Имя ученика',st.name);if(v&&v.trim()){st.name=v.trim();save();home()}};
+  app.querySelectorAll('.stage:not(.lock)').forEach(e=>e.onclick=()=>startSession('stage',+e.dataset.s));
+}
+function cellBox(a,b){
+  const c=a*b,L=[BY[`m:${a}*${b}`],BY[`d:${c}/${a}`],BY[`d:${c}/${b}`]].filter(Boolean);
+  if(L.some(i=>!i.seen))return L.every(i=>!i.seen)?0:1;
+  const m=Math.min(...L.map(i=>i.box));
+  return m>=4?4:m>=3?3:m>=2?2:1;
+}
+function mapScreen(){
+  let h=hdr(`<button class="link" id="back">Назад</button>`)+`<h1>Карта <span>таблицы</span></h1><div class="card"><div class="grid"><div class="h"></div>`;
+  for(let b=2;b<=9;b++)h+=`<div class="h">${b}</div>`;
+  for(let a=2;a<=9;a++){h+=`<div class="h">${a}</div>`;for(let b=2;b<=9;b++)h+=`<div class="c${cellBox(a,b)}">${a*b}</div>`}
+  h+=`</div><div class="legend"><span><i class="c0"></i>не начато</span><span><i class="c1"></i>учим</span><span><i class="c2"></i>запоминаем</span><span><i class="c3"></i>уверенно</span><span><i class="c4"></i>автомат</span></div></div>
+  <p class="muted">В клетке цвет самого слабого из трёх фактов: умножение и два деления.</p>`;
+  app.innerHTML=h;$('#back').onclick=home;
+}
+function teacherScreen(){
+  const base=location.origin+location.pathname;
+  const stat=ITEMS.filter(i=>i.seen).length;
+  app.innerHTML=hdr(`<button class="link" id="back">К ученику</button>`)+`<h1>Для <span>Лилии</span></h1>
+  <div class="card"><p>Личная ссылка с именем</p><input class="field" id="tn" placeholder="Имя ученицы"><p class="mono" id="tl" style="margin-top:10px"></p></div>
+  <div class="card"><div class="stat"><span>Начато фактов</span><b>${stat} из ${ITEMS.length}</b></div><div class="stat"><span>Автомат</span><b>${autoCount()}</b></div><div class="stat"><span>Тренировок на этом устройстве</span><b>${st.hist.length}</b></div></div>
+  <button class="btn sec" id="ul">${st.unlock?'Закрыть ступени по порядку':'Открыть все ступени'}</button>
+  <button class="btn sec" id="rs">Сбросить прогресс на этом устройстве</button>`;
+  $('#back').onclick=()=>{tSeen=true;home()};
+  $('#tn').oninput=e=>{const v=e.target.value.trim();$('#tl').textContent=v?base+'#u'+enc(v):''};
+  $('#ul').onclick=()=>{st.unlock=!st.unlock;save();teacherScreen()};
+  $('#rs').onclick=()=>{if(confirm('Стереть весь прогресс на этом устройстве?')){localStorage.removeItem(KEY);st=load();ITEMS.forEach(i=>{i.box=0;i.seen=false;i.due=0;i.n=0;i.ok=0;delete i.advDay});teacherScreen()}};
+}
+home();
+</script>
+</body>
+</html>
