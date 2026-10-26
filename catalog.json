@@ -3653,6 +3653,51 @@
       "oge_task": null,
       "status": "public",
       "note": "32 задания: смысл 1%, 10%, 50%, простые задачи, наглядная лаборатория и подсказки."
+    },
+    {
+      "file": "trenazher-5-klass.html",
+      "title": "Дроби, десятичные, порядок действий, НОД и НОК · тренажёр · lili.math",
+      "type": "trenazher",
+      "class": 5,
+      "oge_task": null,
+      "status": "public",
+      "note": "Дроби, десятичные дроби, порядок действий, НОД и НОК. 5 тем, каждая со своей ссылкой."
+    },
+    {
+      "file": "trenazher-znaki-6-klass.html",
+      "title": "Знаки и отрицательные числа · тренажёр · lili.math",
+      "type": "trenazher",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "Сложение, умножение и смешанные примеры со скобками и степенями. Ошибки возвращаются в раунд."
+    },
+    {
+      "file": "trenazher-fsu-7-klass.html",
+      "title": "Формулы сокращённого умножения · тренажёр · lili.math",
+      "type": "trenazher",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "Свернуть, раскрыть, средний член и быстрый счёт. Как в Макарычеве, числа каждый раз новые."
+    },
+    {
+      "file": "trenazher-linejnaya-funkciya-7-klass.html",
+      "title": "Линейная функция и уравнения · тренажёр · lili.math",
+      "type": "trenazher",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "Уравнения, y = kx + b и графики: выбор верного варианта."
+    },
+    {
+      "file": "trenazher-geometriya-osnovy.html",
+      "title": "Геометрия: основы · тренажёр · lili.math",
+      "type": "trenazher",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "Углы, теорема Пифагора, площади, средние линии. Задания 15–19 ОГЭ."
     }
   ]
 }

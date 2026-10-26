@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#14211e">
+<title>Тренажёр: дроби, порядок действий, НОД и НОК</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="tren/core.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="back" id="backHome" href="materialy.html" aria-label="К материалам">←</a>
+    <button class="back hide" id="backMenu" type="button" aria-label="В меню">←</button>
+    <div class="brand">5 класс · <b>lili.math</b></div>
+  </div>
+  <div id="app"></div>
+  <noscript>Для тренажёра нужен JavaScript.</noscript>
+</div>
+<script src="tren/core.js"></script>
+<script>
+(function(){
+"use strict";
+var T=TrenCore,u=T.u;
+function hint(t){ return '<span class="hint">'+t+'</span>'; }
+function F(n,d){ return u.frac(n,d); }
+
+/* ---------- обыкновенные дроби ---------- */
+function res(n,d){                                   // несократимый ответ и его записи
+  var g=u.gcd(n,d),r=[n/g,d/g],o={a:r};
+  o.ans=r[1]===1?String(r[0]):r[0]+"/"+r[1];
+  if(r[1]>1&&r[0]>r[1]) o.ans2=Math.floor(r[0]/r[1])+" "+(r[0]%r[1])+"/"+r[1];
+  o.shown=u.mixed(r[0],r[1]);
+  return o;
+}
+var SUB_FR="Несократимая дробь или целое число";
+function fq(q,n,d,steps,h){
+  var r=res(n,d),tail=" = "+F(n,d),final=(r.a[0]===n&&r.a[1]===d&&n<d);
+  if(steps.slice(-tail.length)===tail) steps=steps.slice(0,-tail.length);
+  var rev=final?steps+" = <b>"+r.shown+"</b>":steps+tail+" = <b>"+r.shown+"</b>";
+  return {q:q,sm:true,sub:SUB_FR,a:r.a,ans:r.ans,ans2:r.ans2,rev:rev+(h?hint(h):"")};
+}
+function coprimeTo(d,lo,hi){ var p=u.ri(lo,hi),i=0; while(u.gcd(p,d)!==1&&i++<50) p=u.ri(lo,hi); return u.gcd(p,d)===1?p:1; }
+
+function frAddPool(){ return [
+ {k:"as",lab:"сложение, одинаковые знаменатели",gen:function(){
+   var d=u.ri(5,15),a=u.ri(1,d-1),b=u.ri(1,d-1);
+   return fq(F(a,d)+" + "+F(b,d)+" = ?",a+b,d,F(a,d)+" + "+F(b,d)+" = "+F(a+b,d),"Знаменатель не меняем, числители складываем."); }},
+ {k:"ss",lab:"вычитание, одинаковые знаменатели",gen:function(){
+   var d=u.ri(5,15),a=u.ri(2,d-1),b=u.ri(1,a-1);
+   return fq(F(a,d)+" − "+F(b,d)+" = ?",a-b,d,F(a,d)+" − "+F(b,d)+" = "+F(a-b,d),"Знаменатель не меняем, числители вычитаем."); }},
+ {k:"am",lab:"сложение, один знаменатель кратен другому",gen:function(){
+   var d1=u.ri(2,6),m=u.ri(2,4),d2=d1*m,a=coprimeTo(d1,1,d1-1),b=coprimeTo(d2,1,d2-1);
+   var q=u.rnd(2)?F(a,d1)+" + "+F(b,d2):F(b,d2)+" + "+F(a,d1);
+   return fq(q+" = ?",a*m+b,d2,F(a,d1)+" + "+F(b,d2)+" = "+F(a*m,d2)+" + "+F(b,d2)+" = "+F(a*m+b,d2),"Приводим к большему знаменателю: "+F(a,d1)+" = "+F(a*m,d2)+"."); }},
+ {k:"sm",lab:"вычитание, один знаменатель кратен другому",gen:function(){
+   var d1=u.ri(2,6),m=u.ri(2,4),d2=d1*m,a=coprimeTo(d1,1,d1-1),b=coprimeTo(d2,1,d2-1);
+   while(a*m===b) b=coprimeTo(d2,1,d2-1);
+   if(a*m>b) return fq(F(a,d1)+" − "+F(b,d2)+" = ?",a*m-b,d2,F(a,d1)+" − "+F(b,d2)+" = "+F(a*m,d2)+" − "+F(b,d2)+" = "+F(a*m-b,d2),"Приводим к большему знаменателю: "+F(a,d1)+" = "+F(a*m,d2)+".");
+   return fq(F(b,d2)+" − "+F(a,d1)+" = ?",b-a*m,d2,F(b,d2)+" − "+F(a,d1)+" = "+F(b,d2)+" − "+F(a*m,d2)+" = "+F(b-a*m,d2),"Приводим к большему знаменателю: "+F(a,d1)+" = "+F(a*m,d2)+"."); }},
+ {k:"ac",lab:"сложение, разные знаменатели",gen:function(){
+   var p=u.pick([[2,3],[2,5],[3,4],[3,5],[4,5],[2,7],[3,7],[5,6],[4,7]]),d1=p[0],d2=p[1];
+   if(u.rnd(2)){ var t=d1; d1=d2; d2=t; }
+   var a=coprimeTo(d1,1,d1-1),b=coprimeTo(d2,1,d2-1),D=d1*d2;
+   return fq(F(a,d1)+" + "+F(b,d2)+" = ?",a*d2+b*d1,D,F(a,d1)+" + "+F(b,d2)+" = "+F(a*d2,D)+" + "+F(b*d1,D)+" = "+F(a*d2+b*d1,D),"Общий знаменатель: "+d1+" · "+d2+" = "+D+"."); }},
+ {k:"sc",lab:"вычитание, разные знаменатели",gen:function(){
+   var p=u.pick([[2,3],[2,5],[3,4],[3,5],[4,5],[2,7],[3,7],[5,6],[4,7]]),d1=p[0],d2=p[1];
+   if(u.rnd(2)){ var t=d1; d1=d2; d2=t; }
+   var a=coprimeTo(d1,1,d1-1),b=coprimeTo(d2,1,d2-1),x=a*d2,y=b*d1;
+   while(x===y){ b=coprimeTo(d2,1,d2-1); y=b*d1; }
+   if(x>y) return fq(F(a,d1)+" − "+F(b,d2)+" = ?",x-y,d1*d2,F(a,d1)+" − "+F(b,d2)+" = "+F(x,d1*d2)+" − "+F(y,d1*d2)+" = "+F(x-y,d1*d2),"Общий знаменатель: "+d1+" · "+d2+" = "+d1*d2+".");
+   return fq(F(b,d2)+" − "+F(a,d1)+" = ?",y-x,d1*d2,F(b,d2)+" − "+F(a,d1)+" = "+F(y,d1*d2)+" − "+F(x,d1*d2)+" = "+F(y-x,d1*d2),"Общий знаменатель: "+d1+" · "+d2+" = "+d1*d2+"."); }},
+ {k:"mx",lab:"смешанные числа",gen:function(){
+   var d=u.ri(3,9),p=coprimeTo(d,1,d-1),q=coprimeTo(d,1,d-1),w1=u.ri(2,5),w2=u.ri(1,w1-1);
+   var A=w1*d+p,B=w2*d+q;
+   if(u.rnd(2)){ var a2=u.ri(1,4),b2=u.ri(1,4); A=a2*d+p; B=b2*d+q;
+     return fq(u.mixed(A,d)+" + "+u.mixed(B,d)+" = ?",A+B,d,"Складываем целые части и дроби отдельно, либо переводим в неправильные дроби: "+F(A,d)+" + "+F(B,d)+" = "+F(A+B,d)); }
+   if(A<=B) { A=(w1+3)*d+p; }
+   return fq(u.mixed(A,d)+" − "+u.mixed(B,d)+" = ?",A-B,d,u.mixed(A,d)+" − "+u.mixed(B,d)+" = "+F(A,d)+" − "+F(B,d)+" = "+F(A-B,d),"Если дробь вычитаемого больше, «занимаем» единицу у целой части или переводим числа в неправильные дроби."); }}
+]; }
+
+function mixOk(n,d){                                  // ответ строго в виде «целая часть дробь»
+  return function(raw){
+    var m=/^\s*(\d+)\s+(\d+)\s*\/\s*(\d+)\s*$/.exec(String(raw));
+    return !!m && (+m[1])*(+m[3])+(+m[2])===n && +m[3]===d;
+  };
+}
+function impOk(n,d){                                  // ответ строго в виде «числитель/знаменатель»
+  return function(raw){
+    var m=/^\s*(\d+)\s*\/\s*(\d+)\s*$/.exec(String(raw));
+    return !!m && +m[1]===n && +m[2]===d;
+  };
+}
+function frMulPool(){ return [
+ {k:"red",lab:"сократить дробь",gen:function(){
+   var q=u.ri(2,12),p=coprimeTo(q,1,q+6),g=u.ri(2,9),n=p*g,d=q*g,r=res(p,q);
+   return {q:"Сократите дробь "+F(n,d),sub:SUB_FR,sm:true,a:r.a,ans:r.ans,ans2:r.ans2,
+     rev:F(n,d)+" = "+F(p+"·"+g,q+"·"+g)+" = <b>"+r.shown+"</b>"+hint("Делим числитель и знаменатель на их общий делитель "+g+".")}; }},
+ {k:"cd",lab:"привести к знаменателю",gen:function(){
+   var d=u.ri(2,9),m=u.ri(2,6),n=coprimeTo(d,1,d-1);
+   return {q:F(n,d)+" = "+F("?",d*m),sub:"Чему равен числитель?",sm:true,a:[n*m,1],ans:String(n*m),
+     rev:F(n,d)+" = "+F(n+"·"+m,d+"·"+m)+" = "+F("<b>"+n*m+"</b>",d*m)+hint("Знаменатель вырос в "+m+(m<5?" раза":" раз")+", значит, и числитель умножаем на "+m+".")}; }},
+ {k:"whole",lab:"выделить целую часть",gen:function(){
+   var d=u.ri(2,9),p=coprimeTo(d,1,d-1),w=u.ri(1,7),n=w*d+p;
+   return {q:"Выделите целую часть: "+F(n,d),sub:"Ответ: целая часть и дробь через пробел, например 2 1/3",sm:true,a:[n,d],ans:w+" "+p+"/"+d,ok:mixOk(n,d),
+     rev:F(n,d)+" = "+n+" : "+d+" = <b>"+u.mixed(n,d)+"</b>"+hint("Делим числитель на знаменатель: "+w+" и остаток "+p+".")}; }},
+ {k:"imp",lab:"неправильная дробь",gen:function(){
+   var d=u.ri(2,9),p=coprimeTo(d,1,d-1),w=u.ri(1,7),n=w*d+p;
+   return {q:"Запишите в виде неправильной дроби: "+u.mixed(n,d),sub:"Ответ: числитель/знаменатель, например 7/3",sm:true,a:[n,d],ans:n+"/"+d,ok:impOk(n,d),
+     rev:u.mixed(n,d)+" = "+F(w+"·"+d+" + "+p,d)+" = <b>"+F(n,d)+"</b>"+hint("Целую часть умножаем на знаменатель и прибавляем числитель.")}; }},
+ {k:"mul",lab:"умножение дробей",gen:function(){
+   var b=u.ri(2,9),d=u.ri(2,9),a=coprimeTo(b,1,b-1),c=coprimeTo(d,1,d-1);
+   return fq(F(a,b)+" · "+F(c,d)+" = ?",a*c,b*d,F(a,b)+" · "+F(c,d)+" = "+F(a*c,b*d),"Числитель на числитель, знаменатель на знаменатель, потом сокращаем."); }},
+ {k:"div",lab:"деление дробей",gen:function(){
+   var b=u.ri(2,9),d=u.ri(2,9),a=coprimeTo(b,1,b-1),c=coprimeTo(d,1,d-1);
+   return fq(F(a,b)+" : "+F(c,d)+" = ?",a*d,b*c,F(a,b)+" : "+F(c,d)+" = "+F(a,b)+" · "+F(d,c)+" = "+F(a*d,b*c),"Деление заменяем умножением на обратную дробь."); }},
+ {k:"part",lab:"дробь от числа",gen:function(){
+   var d=u.ri(2,9),n=u.ri(1,d-1),k=u.ri(2,12),N=d*k;
+   return {q:F(n,d)+" от "+N+" = ?",sub:"Ответ — число",a:[n*k,1],ans:String(n*k),
+     rev:N+" : "+d+" · "+n+" = "+k+" · "+n+" = <b>"+n*k+"</b>"+hint("Чтобы найти дробь от числа, делим число на знаменатель и умножаем на числитель.")}; }},
+ {k:"whole2",lab:"число по его дроби",gen:function(){
+   var d=u.ri(2,9),n=u.ri(1,d-1),k=u.ri(2,12);
+   return {q:F(n,d)+" числа равны "+n*k+". Найдите число.",sub:"Ответ — число",sm:true,a:[d*k,1],ans:String(d*k),
+     rev:n*k+" : "+n+" · "+d+" = "+k+" · "+d+" = <b>"+d*k+"</b>"+hint("Чтобы найти число по его дроби, делим на числитель и умножаем на знаменатель.")}; }}
+]; }
+
+/* ---------- десятичные дроби ---------- */
+function r4(x){ return Math.round(x*1e4)/1e4; }
+function dq(q,a,rev,h){ return {q:q,a:a,ans:u.n(a),rev:rev+" = <b>"+u.n(a)+"</b>"+(h?hint(h):"")}; }
+function fix3(n){ return (n/1000).toFixed(3).replace(".",","); }
+function decPool(){ return [
+ {k:"add",lab:"сложение",gen:function(){
+   var A=u.ri(11,99)/10,B=u.ri(101,999)/100; if(u.rnd(2)){ var t=A; A=B; B=t; }
+   return dq(u.n(A)+" + "+u.n(B)+" = ?",r4(A+B),u.n(A)+" + "+u.n(B),"Запятая под запятой: разряды складываем с разрядами."); }},
+ {k:"sub",lab:"вычитание",gen:function(){
+   var A=u.ri(300,999)/100,B=u.ri(11,29)/10;
+   return dq(u.n(A)+" − "+u.n(B)+" = ?",r4(A-B),u.n(A)+" − "+u.n(B),"Запятая под запятой, недостающие разряды дополняем нулями."); }},
+ {k:"m10",lab:"умножение на 10, 100, 1000",gen:function(){
+   var x=u.ri(1,999)/u.pick([10,100]),m=u.pick([10,100,1000]);
+   return dq(u.n(x)+" · "+m+" = ?",r4(x*m),u.n(x)+" · "+m,"Запятая переносится вправо на столько знаков, сколько нулей в множителе."); }},
+ {k:"d10",lab:"деление на 10, 100",gen:function(){
+   var x=u.pick([u.ri(11,999)/10,u.ri(1,99)]),m=u.pick([10,100]);
+   return dq(u.n(x)+" : "+m+" = ?",r4(x/m),u.n(x)+" : "+m,"Запятая переносится влево на столько знаков, сколько нулей в делителе."); }},
+ {k:"mul",lab:"умножение десятичных",gen:function(){
+   var A,B;
+   if(u.rnd(2)){ A=u.ri(2,19)/10; B=u.ri(2,9)/10; } else { A=u.ri(12,49)/10; B=u.ri(2,9); }
+   return dq(u.n(A)+" · "+u.n(B)+" = ?",r4(A*B),u.n(A)+" · "+u.n(B),"Умножаем как целые числа, потом отделяем запятой столько знаков, сколько их было в обоих множителях вместе."); }},
+ {k:"divi",lab:"деление на целое",gen:function(){
+   var d=u.ri(2,9),r=u.ri(5,99)/100,A=r4(r*d);
+   return dq(u.n(A)+" : "+d+" = ?",r,u.n(A)+" : "+d,"Делим как целые числа, запятую в частном ставим, когда доходим до запятой в делимом."); }},
+ {k:"divd",lab:"деление на десятичную",gen:function(){
+   var s=u.pick([10,100]),d=u.ri(2,9)/s,q=u.ri(2,12),A=r4(q*d);
+   return dq(u.n(A)+" : "+u.n(d)+" = ?",q,u.n(A)+" : "+u.n(d)+" = "+u.n(r4(A*s))+" : "+u.n(r4(d*s)),"Переносим запятую в делимом и делителе вправо на одно и то же число знаков, чтобы делитель стал целым."); }},
+ {k:"round",lab:"округление",gen:function(){
+   var n=u.ri(1000,99999),p=u.pick([0,1,2]),step=[1000,100,10][p],ans=Math.floor((n+step/2)/step)*step/1000;
+   var names=["до целых","до десятых","до сотых"];
+   return {q:"Округлите "+fix3(n)+" "+names[p],sm:true,sub:"Ответ — число",a:ans,ans:u.n(ans),
+     rev:fix3(n)+" ≈ <b>"+u.n(ans)+"</b>"+hint("Смотрим на следующую цифру: 5 и больше — округляем вверх, меньше 5 — оставляем.")}; }}
+]; }
+
+/* ---------- порядок действий ---------- */
+var OPS={"+":[" + ","+"],"-":[" − ","-"],"*":[" · ","*"],"/":[" : ","/"]};
+function ex(toks){
+  var d="",j="";
+  toks.forEach(function(t){
+    if(typeof t==="number"){ d+=t; j+="("+t+")"; }
+    else if(OPS[t]){ d+=OPS[t][0]; j+=OPS[t][1]; }
+    else if(t==="("||t===")"){ d+=t; j+=t; }
+    else { d+=t.d; j+=t.j; }
+  });
+  return {d:d,a:Math.round(Function("return "+j)()*1e9)/1e9};
+}
+function mk(toks,h,first){
+  var e=ex(toks);
+  return {q:e.d+" = ?",sm:true,sub:"Сначала определи, какое действие выполняется первым",a:e.a,ans:String(e.a),
+    rev:e.d+" = <b>"+e.a+"</b>"+hint(h)};
+}
+function P2(x,p){ return {d:x+u.sup(p),j:"Math.pow("+x+","+p+")"}; }
+function ordPool(){ return [
+ {k:"mp",lab:"умножение и сложение",gen:function(){
+   var a=u.ri(2,12),b=u.ri(2,9),c=u.ri(2,9);
+   return mk(u.rnd(2)?[a,"+",b,"*",c]:[b,"*",c,"+",a],"Умножение и деление выполняем раньше сложения и вычитания."); }},
+ {k:"ms",lab:"деление и вычитание",gen:function(){
+   var c=u.ri(2,6),q=u.ri(2,9),b=c*q;
+   if(u.rnd(2)) return mk([u.ri(q+1,q+30),"-",b,"/",c],"Сначала деление, потом вычитание.");
+   return mk([b,"/",c,"-",u.ri(1,q-1)],"Сначала деление, потом вычитание."); }},
+ {k:"three",lab:"три действия",gen:function(){
+   var b=u.ri(2,6),c=u.ri(2,6),a=b*c+u.ri(0,15),d=u.ri(2,15);
+   return u.rnd(2)?mk([a,"-",b,"*",c,"+",d],"Умножение — первым, дальше слева направо."):mk([d,"+",b,"*",c,"-",u.ri(1,b*c)],"Умножение — первым, дальше слева направо."); }},
+ {k:"br",lab:"со скобками",gen:function(){
+   var v=u.rnd(3);
+   if(v===0) return mk(["(",u.ri(2,15),"+",u.ri(2,15),")","*",u.ri(2,9)],"Действие в скобках выполняем первым.");
+   if(v===1){ var c=u.ri(2,9),b=u.ri(c+1,c+12); return mk([u.ri(2,9),"*","(",b,"-",c,")"],"Действие в скобках выполняем первым."); }
+   var c2=u.ri(2,7),q=u.ri(2,9),b2=u.ri(1,20);
+   return mk(["(",b2+c2*q,"-",b2,")","/",c2],"Действие в скобках выполняем первым.");
+ }},
+ {k:"pw",lab:"со степенью",gen:function(){
+   var v=u.rnd(3);
+   if(v===0) return mk([u.ri(2,20),"+",P2(u.ri(2,9),2)],"Степень вычисляем раньше сложения: n² = n · n.");
+   if(v===1) return mk([u.ri(2,5),"*",P2(u.ri(2,6),2)],"Степень вычисляем раньше умножения.");
+   var a=u.ri(1,6),b=u.ri(1,6);
+   return mk(["(",a,"+",b,")",{d:u.sup(2),j:"**2"}],"Сначала скобки, потом степень.");
+ }},
+ {k:"lr",lab:"слева направо",gen:function(){
+   var v=u.rnd(3);
+   if(v===0){ var b=u.ri(2,6),q=u.ri(2,9),c=u.ri(2,6); return mk([b*q,"/",b,"*",c],"Умножение и деление одного уровня выполняем слева направо: 48 : 6 · 2 = 8 · 2, а не 48 : 12."); }
+   if(v===1){ var a=u.ri(15,40),b2=u.ri(2,9),c2=u.ri(2,9); return mk([a,"-",b2,"+",c2],"Сложение и вычитание выполняем слева направо: 20 − 8 + 5 = 12 + 5, а не 20 − 13."); }
+   var b3=u.ri(2,4),c3=u.ri(2,4),k=u.ri(2,5);
+   return mk([b3*c3*k,"/",b3,"/",c3],"Делим по очереди слева направо.");
+ }}
+]; }
+
+/* ---------- НОД и НОК ---------- */
+function coprimePair(lo,hi){ var p=u.ri(lo,hi),q=u.ri(lo,hi),i=0; while((p===q||u.gcd(p,q)!==1)&&i++<100){ p=u.ri(lo,hi); q=u.ri(lo,hi); } return [p,q]; }
+function nn(q,a,rev,h){ return {q:q,sub:"Ответ — число",a:a,ans:String(a),rev:rev+" = <b>"+a+"</b>"+hint(h)}; }
+function divCount(n){ var c=0; for(var i=1;i<=n;i++) if(n%i===0) c++; return c; }
+function divList(n){ var l=[]; for(var i=1;i<=n;i++) if(n%i===0) l.push(i); return l.join(", "); }
+function nodPool(){ return [
+ {k:"g1",lab:"НОД небольших чисел",gen:function(){
+   var g=u.ri(2,6),pq=coprimePair(2,5),a=g*pq[0],b=g*pq[1];
+   return nn("НОД("+a+"; "+b+") = ?",g,"НОД("+a+"; "+b+")","Наибольшее число, на которое делятся оба числа."); }},
+ {k:"g2",lab:"НОД больших чисел",gen:function(){
+   var g=u.ri(4,12),pq=coprimePair(3,9),a=g*pq[0],b=g*pq[1];
+   return nn("НОД("+a+"; "+b+") = ?",g,"НОД("+a+"; "+b+")","Разложи числа на простые множители и возьми общие."); }},
+ {k:"l1",lab:"НОК небольших чисел",gen:function(){
+   var a=u.ri(2,12),b=u.ri(2,12); while(b===a) b=u.ri(2,12);
+   var l=u.lcm(a,b);
+   return nn("НОК("+a+"; "+b+") = ?",l,"НОК("+a+"; "+b+")","Наименьшее число, которое делится на оба числа."); }},
+ {k:"l2",lab:"НОК средних чисел",gen:function(){
+   var g=u.ri(2,6),pq=coprimePair(2,7),a=g*pq[0],b=g*pq[1],l=u.lcm(a,b);
+   return nn("НОК("+a+"; "+b+") = ?",l,"НОК("+a+"; "+b+") = "+a+" · "+b+" : НОД = "+a*b+" : "+g,"НОК двух чисел равен их произведению, делённому на НОД."); }},
+ {k:"dc",lab:"сколько делителей",gen:function(){
+   var n=u.pick([12,16,18,20,24,28,30,36,40,42,45,48,50,60]);
+   return {q:"Сколько делителей у числа "+n+"?",sub:"Считай и единицу, и само число",a:divCount(n),ans:String(divCount(n)),
+     rev:"Делители числа "+n+": "+divList(n)+" — всего <b>"+divCount(n)+"</b>"+hint("Делители ищем парами: 1 и "+n+", 2 и "+n/2+", ...")}; }},
+ {k:"wl",lab:"задача на НОК",gen:function(){
+   var g=u.ri(1,3),pq=coprimePair(2,6),a=g*pq[0],b=g*pq[1],l=u.lcm(a,b);
+   var t=u.pick(["Два автобуса отходят от остановки с интервалом "+a+" и "+b+" минут. Они отошли одновременно. Через сколько минут они снова отойдут одновременно?","Мигалки на двух светофорах включаются каждые "+a+" и "+b+" секунд. Сейчас они включились вместе. Через сколько секунд это произойдёт снова?"]);
+   return {q:t,sm:true,sub:"Ответ — число",a:l,ans:String(l),rev:"НОК("+a+"; "+b+") = <b>"+l+"</b>"+hint("Когда в задаче нужно найти, когда события совпадут снова, ищем НОК.")}; }},
+ {k:"wg",lab:"задача на НОД",gen:function(){
+   var g=u.ri(2,8),pq=coprimePair(2,6),a=g*pq[0],b=g*pq[1];
+   return {q:"Верёвки длиной "+a+" м и "+b+" м нужно разрезать на одинаковые куски наибольшей возможной длины, без остатка. Какова длина куска в метрах?",sm:true,sub:"Ответ — число",a:g,ans:String(g),
+     rev:"НОД("+a+"; "+b+") = <b>"+g+"</b>"+hint("Когда нужно разделить на равные части как можно крупнее, ищем НОД.")}; }}
+]; }
+
+T.start({
+  key:"lili.pyatyj.v1",
+  title:"5 класс: дроби, порядок действий, НОД и НОК",
+  lead:"Основа, на которой потом держится всё остальное. Тренажёр сам чаще даёт то, что пока не получается.",
+  note:"В дробях пиши через косую черту: 3/4 (кнопка «/» рядом с полем). Целая часть и дробь — через пробел: 2 1/3. Десятичные ответы — через запятую.",
+  modes:[
+    {id:"fr1",ex:"3/8 + 1/4",nm:"Дроби: сложение и вычитание",input:"frac",fast:15,repeat:true,pool:frAddPool},
+    {id:"fr2",ex:"18/24 = ?",nm:"Дроби: сокращение, умножение, деление",input:"frac",fast:15,repeat:true,pool:frMulPool},
+    {id:"dec",ex:"2,5 · 0,4",nm:"Десятичные дроби",fast:12,dec:true,repeat:true,pool:decPool},
+    {id:"ord",ex:"7 + 3 · 4",nm:"Порядок действий",fast:10,repeat:true,pool:ordPool},
+    {id:"nod",ex:"НОД · НОК",nm:"НОД и НОК",fast:14,repeat:true,pool:nodPool}
+  ]
+});
+})();
+</script>
+</body>
+</html>

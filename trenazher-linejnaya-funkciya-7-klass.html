@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#14211e">
+<title>Тренажёр: линейные уравнения и линейная функция</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="tren/core.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="back" id="backHome" href="materialy.html" aria-label="К материалам">←</a>
+    <button class="back hide" id="backMenu" type="button" aria-label="В меню">←</button>
+    <div class="brand">Линейная функция · <b>lili.math</b></div>
+  </div>
+  <div id="app"></div>
+  <noscript>Для тренажёра нужен JavaScript.</noscript>
+</div>
+<script src="tren/core.js"></script>
+<script>
+(function(){
+"use strict";
+var T=TrenCore,u=T.u;
+function hint(t){ return '<span class="hint">'+t+'</span>'; }
+function nz(a,b){ var x=0; while(x===0) x=u.ri(a,b); return x; }
+function sg(x){ return u.rnd(2)?x:-x; }
+var X=u.v("x"),Y=u.v("y");
+function poly(arr){                                   // [[коэффициент, часть с переменной], ...]; нулевые члены пропускаются
+  var s="",first=true;
+  arr.forEach(function(p){
+    var c=p[0],t=p[1]; if(c===0) return;
+    var a=Math.abs(c),body=(a===1&&t)?t:(a+t);
+    if(first) s+=(c<0?"−":"")+body; else s+=(c<0?" − ":" + ")+body;
+    first=false;
+  });
+  return s||"0";
+}
+function lin(k,b,order){ return order?poly([[b,""],[k,X]]):poly([[k,X],[b,""]]); }   // order=1: число идёт первым
+
+/* ---------- линейные уравнения ---------- */
+function eq(q,x,steps,h){ return {q:q,sm:true,sub:"Найдите "+X,a:x,ans:u.n(x),rev:steps+" = <b>"+u.n(x)+"</b>"+(h?hint(h):"")}; }
+function eqPool(){ return [
+ {k:"xa",lab:"x + a = b",gen:function(){
+   var x=nz(-12,12),a=nz(-12,12),b=x+a;
+   return eq(poly([[1,X],[a,""]])+" = "+u.n(b),x,X+" = "+u.n(b)+(a>0?" − ":" + ")+Math.abs(a),"Число переносим через знак равенства с противоположным знаком."); }},
+ {k:"ax",lab:"ax = b",gen:function(){
+   var a=sg(u.ri(2,9)),x=nz(-9,9),b=a*x;
+   return eq(poly([[a,X]])+" = "+u.n(b),x,X+" = "+u.n(b)+" : "+u.p(a),"Делим обе части на коэффициент при x. Минус на минус даёт плюс."); }},
+ {k:"axb",lab:"ax + b = c",gen:function(){
+   var a=sg(u.ri(2,9)),b=nz(-15,15),x=nz(-9,9),c=a*x+b;
+   return eq(poly([[a,X],[b,""]])+" = "+u.n(c),x,poly([[a,X]])+" = "+u.n(c)+(b>0?" − ":" + ")+Math.abs(b)+" = "+u.n(c-b)+", "+X+" = "+u.n(c-b)+" : "+u.p(a),"Сначала переносим число, потом делим на коэффициент."); }},
+ {k:"both",lab:"x с двух сторон",gen:function(){
+   var a=sg(u.ri(1,9)),c=sg(u.ri(1,9)),b=nz(-15,15),x=nz(-9,9),d,i=0;
+   while(a===c) c=sg(u.ri(1,9));
+   d=(a-c)*x+b;
+   while(d===0){ x=nz(-9,9); d=(a-c)*x+b; if(i++>50) break; }
+   return eq(poly([[a,X],[b,""]])+" = "+poly([[c,X],[d,""]]),x,poly([[a-c,X]])+" = "+u.n(d-b)+", "+X+" = "+u.n(d-b)+" : "+u.p(a-c),"Слагаемые с x переносим в одну сторону, числа — в другую, знаки при переносе меняем."); }},
+ {k:"par",lab:"со скобками",gen:function(){
+   var a=u.ri(2,6),b=nz(-9,9),x=nz(-9,9),c=a*(x+b);
+   return eq(a+"("+X+(b<0?" − ":" + ")+Math.abs(b)+") = "+u.n(c),x,X+(b<0?" − ":" + ")+Math.abs(b)+" = "+u.n(c)+" : "+a+" = "+u.n(x+b)+", "+X+" = "+u.n(x+b)+(b<0?" + ":" − ")+Math.abs(b),"Можно сначала разделить обе части на число перед скобкой."); }},
+ {k:"div",lab:"x делить на a",gen:function(){
+   var a=u.ri(2,9),b=nz(-9,9);
+   return eq(u.frac(X,a)+" = "+u.n(b),a*b,X+" = "+u.n(b)+" · "+a,"Чтобы убрать деление на "+a+", умножаем обе части на "+a+"."); }},
+ {k:"cx",lab:"число минус x",gen:function(){
+   var c=nz(-12,12),x=nz(-12,12),d=c-x;
+   return eq(poly([[c,""],[-1,X]])+" = "+u.n(d),x,"−"+X+" = "+u.n(d)+(c>0?" − ":" + ")+Math.abs(c)+" = "+u.n(d-c)+", "+X,"Если осталось −x, умножаем обе части на −1."); }},
+ {k:"ckx",lab:"число минус kx",gen:function(){
+   var c=nz(-12,12),k=u.ri(2,9),x=nz(-9,9),d=c-k*x;
+   return eq(poly([[c,""],[-k,X]])+" = "+u.n(d),x,poly([[-k,X]])+" = "+u.n(d-c)+", "+X+" = "+u.n(d-c)+" : "+u.p(-k),"Число переносим, потом делим на −"+k+": при делении на отрицательное знак меняется."); }}
+]; }
+
+/* ---------- формула функции ---------- */
+function fo(q,sub,a,steps,h){ return {q:q,sm:true,sub:sub,a:a,ans:u.n(a),rev:steps+" = <b>"+u.n(a)+"</b>"+(h?hint(h):"")}; }
+function F(k,b,o){ return Y+" = "+lin(k,b,o); }
+function fnPool(){ return [
+ {k:"k",lab:"угловой коэффициент",gen:function(){
+   var k=sg(u.ri(1,9)),b=u.rnd(6)?nz(-12,12):0,o=b!==0?u.rnd(2):0;
+   return fo(F(k,b,o),"Найдите угловой коэффициент k",k,"k","k — число при "+X+" вместе со своим знаком, даже если это слагаемое стоит не первым."); }},
+ {k:"b",lab:"свободный член b",gen:function(){
+   var k=sg(u.ri(1,9)),b=nz(-12,12),o=u.rnd(2);
+   if(u.rnd(2)) return fo(F(k,b,o),"Найдите b",b,"b","b — число без x, со своим знаком.");
+   return fo(F(k,b,o),"Найдите ординату точки пересечения графика с осью Oy",b,"x = 0: "+Y,"График пересекает ось Oy при x = 0, там y = b."); }},
+ {k:"val",lab:"значение y при данном x",gen:function(){
+   var k=sg(u.ri(1,6)),b=nz(-10,10),x0=nz(-6,6),y0=k*x0+b;
+   return fo(F(k,b,0),"Найдите y при x = "+u.n(x0),y0,Y+" = "+u.p(k)+" · "+u.p(x0)+(b<0?" − ":" + ")+Math.abs(b),"Подставляем x и считаем."); }},
+ {k:"arg",lab:"x по данному y",gen:function(){
+   var k=sg(u.ri(2,6)),b=nz(-10,10),x0=nz(-8,8),y0=k*x0+b;
+   return fo(F(k,b,0),"Найдите x, при котором y = "+u.n(y0),x0,poly([[k,X],[b,""]])+" = "+u.n(y0)+", "+X,"Подставляем y и решаем уравнение."); }},
+ {k:"ox",lab:"пересечение с осью Ox",gen:function(){
+   var k=sg(u.ri(2,6)),x0=nz(-8,8),b=-k*x0;
+   return fo(F(k,b,0),"Найдите абсциссу точки пересечения графика с осью Ox",x0,"y = 0: "+poly([[k,X],[b,""]])+" = 0, "+X,"На оси Ox всегда y = 0."); }},
+ {k:"two",lab:"k по двум точкам",gen:function(){
+   var k=sg(u.ri(1,6)),x1=u.ri(-5,3),dx=u.ri(1,4),x2=x1+dx,y1=u.ri(-8,8),y2=y1+k*dx;
+   return fo("A("+u.n(x1)+"; "+u.n(y1)+"), B("+u.n(x2)+"; "+u.n(y2)+")","Прямая проходит через точки A и B. Найдите угловой коэффициент k",k,
+     "k = ("+u.n(y2)+" − "+u.p(y1)+") : ("+u.n(x2)+" − "+u.p(x1)+")","k = (y₂ − y₁) : (x₂ − x₁)"); }},
+ {k:"bpt",lab:"b по точке графика",gen:function(){
+   var k=sg(u.ri(1,6)),x0=nz(-5,5),y0=u.ri(-10,10),b=y0-k*x0;
+   return fo(Y+" = "+poly([[k,X]])+" + b","График проходит через точку ("+u.n(x0)+"; "+u.n(y0)+"). Найдите b",b,
+     "b = "+u.n(y0)+" − "+u.p(k)+" · "+u.p(x0),"Подставляем координаты точки в формулу и находим b."); }},
+ {k:"par",lab:"параллельные прямые: k",gen:function(){
+   var k=sg(u.ri(1,9)),b1=nz(-9,9),b2=nz(-9,9); while(b2===b1) b2=nz(-9,9);
+   return fo(Y+" = kx "+(b1<0?"−":"+")+" "+Math.abs(b1)+" и "+F(k,b2,0),"Графики этих функций параллельны. Найдите k",k,"k","Графики линейных функций параллельны, когда их угловые коэффициенты равны (а числа b разные)."); }}
+]; }
+
+/* ---------- выбор ---------- */
+function opts4(correct,cands){ var o=[correct]; u.shuffle(cands).forEach(function(c){ if(o.length<4&&o.indexOf(c)<0) o.push(c); }); return o; }
+function pt(x,y){ return "("+u.n(x)+"; "+u.n(y)+")"; }
+function chPool(){ return [
+ {k:"yn",lab:"принадлежит ли точка графику",gen:function(){
+   var k=sg(u.ri(1,5)),b=nz(-8,8),x0=u.ri(-4,4),on=u.rnd(2),y0=k*x0+b+(on?0:u.pick([-2,-1,1,2])),yt=k*x0+b;
+   return {q:"Принадлежит ли точка A"+pt(x0,y0)+" графику функции "+F(k,b,0)+"?",sm:true,sub:"Подставь координаты в формулу",opts:["Да","Нет"],c:on?0:1,fixed:true,
+     rev:"при x = "+u.n(x0)+" получаем y = "+u.p(k)+" · "+u.p(x0)+(b<0?" − ":" + ")+Math.abs(b)+" = "+u.n(yt)+(on?", совпадает с "+u.n(y0)+": <b>да</b>":", а у точки "+u.n(y0)+": <b>нет</b>")}; }},
+ {k:"wp",lab:"какая точка лежит на графике",gen:function(){
+   var k=sg(u.ri(1,5)),b=nz(-8,8),x0=u.ri(-4,4),y0=k*x0+b,o=[pt(x0,y0)];
+   var xs=u.shuffle([-4,-3,-2,-1,0,1,2,3,4].filter(function(v){return v!==x0;}));
+   for(var i=0;i<3;i++){ var x=xs[i]; o.push(pt(x,k*x+b+u.pick([-2,-1,1,2]))); }
+   return {q:"Какая из точек лежит на графике функции "+F(k,b,0)+"?",sm:true,sub:"Выбери точку",opts:o,c:0,
+     rev:"при x = "+u.n(x0)+": y = "+u.p(k)+" · "+u.p(x0)+(b<0?" − ":" + ")+Math.abs(b)+" = "+u.n(y0)+", значит, точка <b>"+pt(x0,y0)+"</b>"}; }},
+ {k:"mono",lab:"возрастает или убывает",gen:function(){
+   var k=sg(u.ri(1,9)),b=u.rnd(5)?nz(-12,12):0,o=b!==0?u.rnd(2):0;
+   return {q:"Функция "+F(k,b,o),sm:true,sub:"Возрастает или убывает?",opts:["возрастает","убывает"],c:k>0?0:1,fixed:true,
+     rev:"k = "+u.n(k)+(k>0?" > 0: функция <b>возрастает</b>":" < 0: функция <b>убывает</b>")+hint("Знак k определяет направление: k > 0 — график идёт вверх, k < 0 — вниз.")}; }},
+ {k:"par",lab:"какой график параллелен данному",gen:function(){
+   var k=sg(u.ri(1,6)),b=nz(-8,8),b2=nz(-8,8); while(b2===b) b2=nz(-8,8);
+   var good=F(k,b2,0),c=[F(-k,b2,0),F(k+1===0?k+2:k+1,b2,0),F(k-1===0?k+2:k-1,b,0),F(2*k,b2,0)];
+   var o=opts4(good,c);
+   return {q:"Какой график параллелен графику функции "+F(k,b,0)+"?",sm:true,sub:"Выбери формулу",opts:o,c:0,
+     rev:"параллельны графики с одинаковым k: <b>"+good+"</b>"+hint("Угловой коэффициент равен "+u.n(k)+", а числа b у параллельных прямых разные.")}; }},
+ {k:"inc",lab:"какая из функций возрастает или убывает",gen:function(){
+   var up=u.rnd(2);
+   var main=up?u.ri(1,7):-u.ri(1,7);
+   var others=[];
+   while(others.length<3){ var kk=up?-u.ri(1,7):u.ri(1,7); if(others.indexOf(kk)<0) others.push(kk); }
+   var good=F(main,nz(-9,9),0),o=[good];
+   others.forEach(function(kk){ o.push(F(kk,nz(-9,9),0)); });
+   return {q:up?"Какая из функций возрастает?":"Какая из функций убывает?",sm:true,sub:"Выбери формулу",opts:o,c:0,
+     rev:"у этой функции k "+(up?"> 0":"< 0")+": <b>"+good+"</b>"+hint("Возрастает при k > 0, убывает при k < 0.")}; }}
+]; }
+
+T.start({
+  key:"lili.linfunc.v1",
+  title:"Линейные уравнения и линейная функция",
+  lead:"7 класс. Решить линейное уравнение, прочитать формулу y = kx + b и понять, что она говорит о графике.",
+  note:"Минус вводится кнопкой слева от поля. В последней теме выбирай вариант (на компьютере — клавишами 1–4).",
+  modes:[
+    {id:"eq",ex:"3x − 7 = 11",nm:"Линейные уравнения",fast:15,neg:true,repeat:true,pool:eqPool},
+    {id:"fn",ex:"y = kx + b",nm:"Формула линейной функции",fast:15,neg:true,repeat:true,pool:fnPool},
+    {id:"gr",ex:"A(2; 5)",nm:"Точки на графике и поведение функции",input:"choice",fast:12,repeat:true,pool:chPool}
+  ]
+});
+})();
+</script>
+</body>
+</html>

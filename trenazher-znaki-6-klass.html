@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#14211e">
+<title>Тренажёр: знаки и отрицательные числа</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="tren/core.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="back" id="backHome" href="materialy.html" aria-label="К материалам">←</a>
+    <button class="back hide" id="backMenu" type="button" aria-label="В меню">←</button>
+    <div class="brand">Знаки · <b>lili.math</b></div>
+  </div>
+  <div id="app"></div>
+  <noscript>Для тренажёра нужен JavaScript.</noscript>
+</div>
+<script src="tren/core.js"></script>
+<script>
+(function(){
+"use strict";
+var T=TrenCore,u=T.u;
+
+/* Выражение собирается из частей: и для показа, и для вычисления ответа. */
+var OPS={"+":[" + ","+"],"-":[" − ","-"],"*":[" · ","*"],"/":[" : ","/"]};
+function ex(toks){
+  var d="",j="",first=true,open=false;
+  toks.forEach(function(t){
+    if(typeof t==="number"){ d+=(first||open)?u.n(t):u.p(t); j+="("+t+")"; first=false; open=false; }
+    else if(OPS[t]){ d+=OPS[t][0]; j+=OPS[t][1]; open=false; }
+    else if(t==="("){ d+="("; j+="("; open=true; first=false; }
+    else if(t===")"){ d+=")"; j+=")"; }
+    else if(t==="-("){ d+="−("; j+="-("; open=true; first=false; }
+    else { d+=t.d; j+=t.j; first=false; open=false; }
+  });
+  var a=Math.round(Function("return "+j)()*1e9)/1e9;
+  return {d:d,a:a,j:j};
+}
+function mk(toks,hint){
+  var e=ex(toks);
+  return {q:e.d+" = ?",a:e.a,ans:u.n(e.a),j:e.j,
+    rev:e.d+" = <b>"+u.n(e.a)+"</b>"+(hint?'<span class="hint">'+hint+'</span>':"")};
+}
+function nz(a,b){ var x=0; while(x===0) x=u.ri(a,b); return x; }
+function sg(x){ return u.rnd(2)?x:-x; }
+function abs(x){ return {d:"|"+u.n(x)+"|",j:"Math.abs("+x+")"}; }
+function pw(base,p,wholeBracket){
+  var neg=base<0;
+  if(wholeBracket) return {d:"("+u.n(base)+")"+u.sup(p),j:"Math.pow("+base+","+p+")"};
+  return {d:"−"+Math.abs(base)+u.sup(p),j:"-Math.pow("+Math.abs(base)+","+p+")"};
+}
+
+var H_DIFF="Знаки разные: из большего модуля вычитаем меньший, знак берём у числа с большим модулем.";
+var H_SAME="Знаки одинаковые: модули складываем, знак общий.";
+
+function addPool(){ return [
+ {k:"diff",lab:"разные знаки",gen:function(){
+   var a=u.ri(1,20),b=u.ri(1,20); while(b===a) b=u.ri(1,20);
+   return u.rnd(2)?mk([-a,"+",b],H_DIFF):mk([b,"+",-a],H_DIFF); }},
+ {k:"both",lab:"оба отрицательные",gen:function(){
+   return mk([-u.ri(1,15),"+",-u.ri(1,15)],H_SAME); }},
+ {k:"small",lab:"меньшее минус большее",gen:function(){
+   var a=u.ri(1,15),b=u.ri(a+1,a+15);
+   return mk([a,"-",b],"От меньшего отнимаем большее: считаем "+b+" − "+a+" и ставим минус."); }},
+ {k:"mm",lab:"минус на минус",gen:function(){
+   return mk([nz(-9,12),"-",-u.ri(1,12)],"Вычесть отрицательное — то же, что прибавить положительное: a − (−b) = a + b."); }},
+ {k:"subn",lab:"минус и вычитание",gen:function(){
+   return mk([-u.ri(1,15),"-",u.ri(1,15)],"Оба шага влево по числовой прямой: модули складываем, знак минус."); }},
+ {k:"chain",lab:"цепочка из трёх",gen:function(){
+   return mk([nz(-12,12),"+",nz(-12,12),"-",nz(-12,12)],"Считай слева направо по одному действию."); }},
+ {k:"dec",lab:"десятичные",gen:function(){
+   var a=u.ri(11,99)/10,b=u.ri(11,99)/10; while(b===a) b=u.ri(11,99)/10;
+   var v=u.rnd(3),t=v===0?[a,"-",b]:v===1?[-a,"+",b]:[-a,"-",b];
+   return mk(t,"Те же правила знаков, что и для целых чисел."); }},
+ {k:"abs",lab:"модуль",gen:function(){
+   return mk([abs(nz(-15,15)),u.rnd(2)?"+":"-",abs(nz(-15,15))],"Модуль — расстояние до нуля, он не бывает отрицательным: |−9| = 9."); }}
+]; }
+
+function mulPool(){ return [
+ {k:"md",lab:"умножение, знаки разные",gen:function(){
+   var a=u.ri(2,12),b=u.ri(2,12);
+   return mk(u.rnd(2)?[-a,"*",b]:[a,"*",-b],"Знаки разные — произведение отрицательное."); }},
+ {k:"mm",lab:"умножение, оба минус",gen:function(){
+   return mk([-u.ri(2,12),"*",-u.ri(2,12)],"Минус на минус даёт плюс."); }},
+ {k:"dv",lab:"деление, знаки разные",gen:function(){
+   var b=u.ri(2,12),q=u.ri(2,12),a=b*q;
+   return mk(u.rnd(2)?[-a,"/",b]:[a,"/",-b],"Знаки разные — частное отрицательное."); }},
+ {k:"dm",lab:"деление, оба минус",gen:function(){
+   var b=u.ri(2,12),q=u.ri(2,12);
+   return mk([-b*q,"/",-b],"Минус на минус даёт плюс."); }},
+ {k:"tri",lab:"три множителя",gen:function(){
+   var x,y,z;
+   do{ x=sg(u.ri(2,5)); y=sg(u.ri(2,5)); z=sg(u.ri(2,5)); }while(x>0&&y>0&&z>0);
+   return mk([x,"*",y,"*",z],"Считаем минусы: чётное число минусов — плюс, нечётное — минус."); }},
+ {k:"dec",lab:"десятичные",gen:function(){
+   var a=u.ri(2,9)/10,b=u.rnd(2)?u.ri(2,9):u.ri(2,9)/10,v=u.rnd(3);
+   var t=v===0?[-a,"*",b]:v===1?[a,"*",-b]:[-a,"*",-b];
+   return mk(t,"Умножаем как обычные числа, знак — по правилу знаков."); }}
+]; }
+
+function mixPool(){ return [
+ {k:"br",lab:"раскрыть скобки",gen:function(){
+   if(u.rnd(2)){ var a=u.ri(1,12),b=u.ri(1,12); while(b===a) b=u.ri(1,12);
+     return mk(["-(",a,"-",b,")"],"Минус перед скобкой меняет знаки внутри: −(a − b) = −a + b."); }
+   var x=u.ri(1,15),c=u.ri(1,12),d=u.ri(1,12); while(d===c) d=u.ri(1,12);
+   return mk([x,"-","(",c,"-",d,")"],"Минус перед скобкой меняет знаки внутри: x − (c − d) = x − c + d."); }},
+ {k:"ord",lab:"порядок действий",gen:function(){
+   var v=u.rnd(3),h="Сначала умножение и деление, потом сложение и вычитание.";
+   if(v===0) return mk([u.ri(2,9),"-",u.ri(2,6),"*",-u.ri(2,6)],h);
+   if(v===1) return mk([-u.ri(2,6),"*",-u.ri(2,6),"+",u.ri(1,9)],h);
+   var b=u.ri(2,6),q=u.ri(2,6);
+   return mk([-b*q,"/",b,"-",u.ri(1,9)],h); }},
+ {k:"pow",lab:"степень и минус",gen:function(){
+   var v=u.rnd(3),n,h="Степень относится только к тому, что стоит прямо перед ней: (−4)² = 16, а −4² = −16.";
+   if(v===0){ n=u.ri(2,9); return mk([pw(-n,2,true)],h); }
+   if(v===1){ n=u.ri(2,9); return mk([pw(n,2,false)],h); }
+   n=u.ri(2,4); return mk([pw(-n,3,true)],"Нечётная степень сохраняет знак: (−2)³ = −8."); }},
+ {k:"brm",lab:"скобки и умножение",gen:function(){
+   var a=nz(-9,9),b=nz(-9,9),c=nz(-5,5);
+   return mk(["(",a,"+",b,")","*",c],"Сначала действие в скобках, потом умножение."); }},
+ {k:"val",lab:"значение при x",gen:function(){
+   var x=-u.ri(1,8),v=u.rnd(3),e,q;
+   if(v===0){ var a=u.ri(2,5),b=u.ri(1,9); e=ex([a,"*",x,"+",b]); q=a+u.v("x")+" + "+b; }
+   else if(v===1){ var a2=u.ri(2,5),b2=u.ri(1,9); e=ex([b2,"-",a2,"*",x]); q=b2+" − "+a2+u.v("x"); }
+   else { e=ex([{d:"("+u.n(x)+")"+u.sup(2),j:"Math.pow("+x+",2)"},"-",x]); q=u.v("x")+u.sup(2)+" − "+u.v("x"); }
+   return {q:"При "+u.v("x")+" = "+u.n(x)+" найдите "+q,sm:true,a:e.a,ans:u.n(e.a),j:e.j,
+     rev:"Подставляем: "+e.d+" = <b>"+u.n(e.a)+"</b>"}; }},
+ {k:"eq",lab:"простое уравнение",gen:function(){
+   var v=u.rnd(3),x=nz(-12,12),X=u.v("x"),q,h;
+   if(v===0){ var a=u.ri(1,12),r=x+a; q=X+" + "+a+" = "+u.n(r); h=X+" = "+u.n(r)+" − "+a+" = <b>"+u.n(x)+"</b>"; }
+   else if(v===1){ var b=u.ri(1,12),r2=x-b; q=X+" − "+b+" = "+u.n(r2); h=X+" = "+u.n(r2)+" + "+b+" = <b>"+u.n(x)+"</b>"; }
+   else { var k=u.ri(2,9),r3=-k*x; q="−"+k+X+" = "+u.n(r3); h=X+" = "+u.n(r3)+" : (−"+k+") = <b>"+u.n(x)+"</b>"; }
+   return {q:q,sub:"Найдите "+X,a:x,ans:u.n(x),rev:h}; }}
+]; }
+
+T.start({
+  key:"lili.znaki.v1",
+  title:"Знаки и отрицательные числа",
+  lead:"6 класс. Минус — главный источник ошибок, которые потом тянутся до ОГЭ. Тренажёр сам чаще даёт то, что пока не получается.",
+  note:"Минус вводится кнопкой слева от поля или с клавиатуры. Десятичные ответы — через запятую.",
+  modes:[
+    {id:"add",ex:"−7 + 12",nm:"Сложение и вычитание",fast:7,neg:true,dec:true,repeat:true,pool:addPool},
+    {id:"mul",ex:"−6 · 7",nm:"Умножение и деление",fast:6,neg:true,dec:true,repeat:true,pool:mulPool},
+    {id:"mix",ex:"−(5 − 8)",nm:"Скобки, степень, порядок действий",fast:9,neg:true,dec:true,repeat:true,sm:true,pool:mixPool}
+  ]
+});
+})();
+</script>
+</body>
+</html>
