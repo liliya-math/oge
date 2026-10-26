@@ -92,22 +92,33 @@ function word(k, n) {
 }
 
 /* ---------- картинки ---------- */
-// полоска шоколада: n кусочков, taken — число тёмных (первые) или массив индексов
+// долька шоколада: фаски со всех сторон и плоская середина, как у настоящей плитки
+function tile(x, y, w, h, dark, r) {
+  var P = dark
+    ? { top: '#b07a56', left: '#955f41', bot: '#24120a', right: '#341c10', face: '#6a4029' }
+    : { top: '#ffffff', left: '#fcf6e8', bot: '#b8a67f', right: '#c9b996', face: '#f1e6cc' };
+  var b = Math.min(8, Math.max(3, Math.min(w, h) * 0.16)), x2 = x + w, y2 = y + h;
+  function poly(pts, fill) { return '<polygon points="' + pts.join(' ') + '" fill="' + fill + '"/>'; }
+  return poly([x + ',' + y, x2 + ',' + y, (x2 - b) + ',' + (y + b), (x + b) + ',' + (y + b)], P.top) +
+    poly([x + ',' + y, (x + b) + ',' + (y + b), (x + b) + ',' + (y2 - b), x + ',' + y2], P.left) +
+    poly([x + ',' + y2, (x + b) + ',' + (y2 - b), (x2 - b) + ',' + (y2 - b), x2 + ',' + y2], P.bot) +
+    poly([x2 + ',' + y, x2 + ',' + y2, (x2 - b) + ',' + (y2 - b), (x2 - b) + ',' + (y + b)], P.right) +
+    '<rect x="' + (x + b) + '" y="' + (y + b) + '" width="' + Math.max(w - 2 * b, 1) + '" height="' + Math.max(h - 2 * b, 1) + '" fill="' + P.face + '"/>' +
+    '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" fill="none" stroke="#14211e" stroke-opacity=".6" stroke-width="1"/>';
+}
+// плитка шоколада: n кусочков, taken — число тёмных (первые) или массив индексов
 function bar(n, taken, o) {
   o = o || {};
-  const H = o.h || 52, W = o.w || Math.min(480, n * 56);
+  const H = o.h || 56, W = o.w || Math.min(480, n * 60);
   const widths = o.widths || Array(n).fill(1);
   const tot = widths.reduce(function (a, b) { return a + b; }, 0);
   const set = Array.isArray(taken) ? new Set(taken) : new Set(Array.from({ length: taken || 0 }, function (_, i) { return i; }));
-  const gap = 2;
+  const gap = 3;
   let x = 2;
   let s = '<svg class="bar' + (o.click ? ' click' : '') + '" viewBox="0 0 ' + (W + 4) + ' ' + (H + 4) + '" width="' + (W + 4) + '" role="img">';
   for (let i = 0; i < n; i++) {
     const w = W * widths[i] / tot;
-    const dark = set.has(i);
-    s += '<g class="pc" data-i="' + i + '"><rect x="' + (x + gap / 2) + '" y="2" width="' + (w - gap) + '" height="' + H + '" rx="5" fill="' + (dark ? '#5b3a29' : '#f3ece2') + '" stroke="#e8e1d2" stroke-width="2"/>';
-    if (dark) s += '<rect x="' + (x + gap / 2 + 6) + '" y="8" width="' + Math.max(w - gap - 12, 2) + '" height="' + (H - 12) + '" rx="3" fill="#7a5240"/>';
-    s += '</g>';
+    s += '<g class="pc" data-i="' + i + '">' + tile(x + gap / 2, 2, w - gap, H, set.has(i)) + '</g>';
     x += w;
   }
   return s + '</svg>';
@@ -118,14 +129,11 @@ function anno(n, d, a, b) { return '<div class="anno">' + fr(n, d) + '<div class
 
 // N кусочков, разбитых на den групп; закрашено k групп
 function groups(N, den, k) {
-  const m = N / den, sz = Math.min(28, Math.floor(440 / (N + den))), gap = 10;
+  const m = N / den, sz = Math.min(32, Math.floor(440 / (N + den))), gap = 12;
   const W = N * sz + (den - 1) * gap + 4, H = sz + 4;
   let x = 2, s = '<svg class="bar" viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" role="img">';
   for (let g = 0; g < den; g++) {
-    for (let i = 0; i < m; i++) {
-      s += '<rect x="' + x + '" y="2" width="' + (sz - 2) + '" height="' + (sz - 2) + '" rx="3" fill="' + (g < k ? '#5b3a29' : '#f3ece2') + '" stroke="#e8e1d2" stroke-width="1.5"/>';
-      x += sz;
-    }
+    for (let i = 0; i < m; i++) { s += tile(x + 1, 2, sz - 3, sz - 3, g < k); x += sz; }
     x += gap;
   }
   return s + '</svg>';
