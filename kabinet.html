@@ -1,5 +1,6 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#14211e">
 <title>Кабинет ученика</title>
+<meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
@@ -1590,7 +1591,7 @@ const SHOW_KEYS=[['work','Над чем работаем (родителям)'],
 function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).join('\n');
  return `<details class="card adm" id="admc" ${S.admOpen?'open':''}><summary><span class="sh" style="margin:0"><h2>${esc(fullName()||D.name)} · настройки</h2><span class="sub">${D.active?'кабинет открыт':'на паузе'}</span></span></summary>
  <div class="formbox" style="border-top:0;margin-top:10px;padding-top:0">
- <div class="linkrow"><code id="lnk">${esc(url)}</code><button class="btn ghost tsm" id="lnkc" type="button">Скопировать</button><a class="btn ghost tsm" href="${esc(url)}" target="_blank" rel="noopener">Открыть как ученик</a><a class="btn ghost tsm" href="https://liliya-math.github.io/excalidraw/?student=${encodeURIComponent(D.name)}" target="_blank" rel="noopener">Доска ученика</a></div>
+ <div class="linkrow"><code id="lnk">${esc(url)}</code><button class="btn ghost tsm" id="lnkc" type="button">Скопировать</button><a class="btn ghost tsm" href="${esc(url)}" target="_blank" rel="noopener">Открыть как ученик</a><a class="btn ghost tsm" href="https://liliya-math.github.io/excalidraw/?student=${encodeURIComponent(D.name)}" target="_blank" rel="noopener">Доска ученика</a><button class="btn ghost tsm" id="lnkn" type="button">Новая ссылка</button></div>
  <div class="fgrid">
   <label class="fld"><span>Имя</span><input id="f-name" value="${esc(D.name)}" data-fresh="1"></label>
   <label class="fld"><span>Фамилия</span><input id="f-fname" value="${esc(D.fname||'')}" placeholder="Петрова" data-fresh="1"></label>
@@ -1733,6 +1734,7 @@ function tBind(){
  document.getElementById('mPar').onclick=()=>{if(S.mode!=='par'){S.mode='par';save();tRender()}};
  const ad=document.getElementById('admc');ad.ontoggle=()=>{S.admOpen=ad.open;save()};bindSched();
  document.getElementById('lnkc').onclick=e=>copy(BASE+'kabinet.html#'+D.code,e.currentTarget);
+ document.getElementById('lnkn').onclick=e=>{if(!confirm('Выдать ученику новую ссылку? Старая перестанет работать сразу. Домашка, оценки, карта и Telegram сохранятся. Новую ссылку нужно будет отправить ученику или родителю.'))return;const b=e.currentTarget;b.disabled=true;adm('rotateCode').then(j=>{location.hash='lilia-'+j.code}).catch(err=>{b.disabled=false;toast(errText(err))})};
  const fc=document.getElementById('f-cls');if(fc)fc.onchange=()=>{const pr=document.getElementById('f-prog');pr.innerHTML=progOptions(+fc.value,pr.value)};
  document.getElementById('f-save').onclick=e=>{const b=e.currentTarget,v=id=>{const el=document.getElementById(id);return el?el.value:''};b.disabled=true;
   adm('student',{fields:{name:v('f-name'),fname:v('f-fname'),dat:v('f-dat'),bdate:v('f-bdate'),parent:v('f-parent'),phone:v('f-phone'),cls:v('f-cls'),prog:document.getElementById('f-prog').value,goal:v('f-goal'),days:serSched(SL,STZ),time:SL.length?hhmm(sortSlots(SL.slice())[0].h,sortSlots(SL.slice())[0].m):'',board:v('f-board'),topic:v('f-topic'),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),active:document.getElementById('f-act').checked,show:[...document.querySelectorAll('.f-show:checked')].map(e=>e.dataset.k)}})

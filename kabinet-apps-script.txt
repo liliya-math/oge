@@ -1,5 +1,6 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 7.7
+ * Кабинет ученика 25/25 · lili.math — версия 7.8
+ * (7.8: кнопка «Новая ссылка» в режиме учителя — выдаёт ученику новый код, старый перестаёт работать; после замены кода: «Новая версия» развёртывания)
  * (7.7: учитель выбирает, что видит ученик и родитель (колонка «Показывать», скрытое вообще не уходит на страницу);
  *  талисман ученика хранится в таблице; блокировка подбора пароля; ограничение писем; список материалов берётся
  *  из catalog.json сайта; общая полка разборов (код * в листе «Разборы»). После замены кода: setup, затем «Новая версия».)
@@ -475,6 +476,7 @@ function admin_(b) {
       case 'ping': return {ok: true, hwEdit: true, workflow: 1};
       case 'hwReview': { need(); const result = workflowHw_(code, b, true); return result.ok ? fresh() : result; }
       case 'list': return {ok: true, students: listStudents_()};
+      case 'rotateCode': { need(); return {ok: true, code: rotateCode_(code)}; }
       case 'get': { need(); return fresh(); }
       case 'addStudent': {
         const name = String(b.name || '').trim();
@@ -833,6 +835,26 @@ function findRow_(name, test) {
   const v = sh.getRange(2, 1, sh.getLastRow() - 1, Math.max(2, sh.getLastColumn())).getValues();
   for (let i = 0; i < v.length; i++) if (test(v[i])) return i + 2;
   return 0;
+}
+// Меняет код (ссылку) ученика во всех листах. Старая ссылка перестаёт работать сразу.
+function rotateCode_(old) {
+  const ss = SpreadsheetApp.getActive(), next = newCode_();
+  const swap = (sh, col) => {
+    if (!sh || sh.getLastRow() < 2) return;
+    const rng = sh.getRange(2, col, sh.getLastRow() - 1, 1), v = rng.getValues();
+    let hit = false;
+    v.forEach(r => { if (String(r[0]).trim() === old) { r[0] = next; hit = true; } });
+    if (hit) rng.setValues(v);
+  };
+  ['Ученики', 'Карта', 'Домашка', 'Пробники', 'Оценки', 'Письма', 'Навыки', 'Комментарии', 'Файлы', 'Разборы']
+    .forEach(n => swap(ss.getSheetByName(n), 1));
+  const st = findStudentRow_(next);
+  if (st) ss.getSheetByName('Ученики').getRange(st.index, 13).setValue(PAGE + '#' + next);
+  const tg = telegramSS_();
+  swap(tg.getSheetByName('Telegram'), 1);
+  swap(tg.getSheetByName('Telegram-ссылки'), 2);
+  swap(tg.getSheetByName('Telegram-файлы'), 2);
+  return next;
 }
 function newCode_() {
   const abc = 'abcdefghjkmnpqrstuvwxyz23456789';
