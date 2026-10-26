@@ -69,6 +69,10 @@ table.rep { width: 100%; border-collapse: collapse; font-size: 14px; margin: 8px
 table.rep th, table.rep td { border-bottom: 1px solid var(--line); padding: 7px 4px; text-align: left; vertical-align: top; }
 table.rep th { color: var(--muted); font-weight: 600; }
 @media (max-width: 520px) { body { font-size: 18px; } .row .stt { display: none; } .card { padding: 18px; } }
+
+.why { margin-top: 12px; padding: 14px 16px; background: var(--glass2); border: 1px solid var(--line); border-radius: 16px; font-weight: 400; color: var(--fg); }
+.why p { margin: 0 0 8px; }
+.ansr { display: inline-flex; align-items: center; gap: 6px; margin-right: 14px; }
 </style></head><body><div class="wrap" id="app"></div><script>
 (function (root) {
 'use strict';
@@ -790,7 +794,7 @@ function rTeach() {
 function rTask() {
   var s = STEPS[P.i], T = P.task, o = st(s.id);
   var h = '<div class="top"><button class="lnk" data-a="home">← Ступени</button><div class="who">Ступень ' + s.id + ' · ' + dots(o.streak) + '</div></div>';
-  h += '<div class="card">' + T.q + '<div id="inp">' + inputHtml(T) + '</div></div>';
+  h += (P.twin ? '<p class="small">Похожее задание. Попробуй ещё раз, теперь с другими числами.</p>' : '') + '<div class="card">' + T.q + '<div id="inp">' + inputHtml(T) + '</div></div>';
   h += '<div id="hintbox" class="hint" ' + (P.hint ? '' : 'hidden') + '>' + (P.hint ? T.hint : '') + '</div>';
   h += '<div id="msg" class="msg"></div>';
   h += '<div class="acts" id="acts">';
@@ -833,17 +837,17 @@ function rStuck() {
 function rTeacher() {
   var h = '<div class="top"><h1>Отчёт</h1><div class="who">' + esc(S.name || '—') + '</div></div>';
   h += '<p class="small">Отправка результатов на сервер: ' + (ENDPOINT ? 'включена' : 'не настроена, данные видны только в этом браузере') + '.</p>';
-  h += '<table class="rep"><tr><th>№</th><th>Ступень</th><th>Статус</th><th>Верно</th><th>Неверно</th><th>Подсказок</th><th>Частые ошибки</th><th></th></tr>';
+  h += '<table class="rep"><tr><th>№</th><th>Ступень</th><th>Статус</th><th>Верно</th><th>Неверно</th><th>Подсказок</th><th>После разбора верно</th><th>Частые ошибки</th><th></th></tr>';
   STEPS.forEach(function (s, i) {
     var o = st(s.id), tags = Object.keys(o.tags).sort(function (a, b) { return o.tags[b] - o.tags[a]; }).slice(0, 3).map(function (t) { return t + ' ×' + o.tags[t]; }).join(', ');
     var status = o.passed ? 'пройдена' : o.stuck ? 'нужна помощь' : o.tried ? 'идёт ' + o.streak + '/' + NEED : '—';
-    h += '<tr><td>' + s.id + '</td><td>' + s.title + '</td><td>' + status + '</td><td>' + o.ok + '</td><td>' + o.bad + '</td><td>' + o.hints + '</td><td>' + (tags || '') + '</td><td><button class="lnk" data-a="tpass" data-i="' + i + '">засчитать</button> <button class="lnk" data-a="treset" data-i="' + i + '">сбросить</button> <button class="lnk" data-a="topen" data-i="' + i + '">смотреть</button></td></tr>';
+    h += '<tr><td>' + s.id + '</td><td>' + s.title + '</td><td>' + status + '</td><td>' + o.ok + '</td><td>' + o.bad + '</td><td>' + o.hints + '</td><td>' + (o.twinTried ? (o.twinOk || 0) + ' из ' + o.twinTried : '') + '</td><td>' + (tags || '') + '</td><td><button class="lnk" data-a="tpass" data-i="' + i + '">засчитать</button> <button class="lnk" data-a="treset" data-i="' + i + '">сбросить</button> <button class="lnk" data-a="topen" data-i="' + i + '">смотреть</button></td></tr>';
   });
   h += '</table><p><button class="btn sec" data-a="topenall">' + (S.openAll ? 'Закрыть ступени по порядку' : 'Открыть все ступени ученице') + '</button> <button class="btn sec" data-a="tclear">Сбросить всё</button> <button class="btn sec" data-a="thome">Режим ученицы</button></p>';
-  h += '<h3>Последние ответы</h3><table class="rep"><tr><th>Когда</th><th>Ступень</th><th>Итог</th><th>Попытки</th><th>Подсказка</th><th>Ошибка</th></tr>';
+  h += '<h3>Последние ответы</h3><table class="rep"><tr><th>Когда</th><th>Ступень</th><th>Итог</th><th>Попытки</th><th>Подсказка</th><th>Повтор после разбора</th><th>Ошибка</th></tr>';
   S.log.filter(function (e) { return e.t === 'task' || e.t === 'passed' || e.t === 'stuck'; }).slice(-40).reverse().forEach(function (e) {
     var d = new Date(e.ts);
-    h += '<tr><td>' + d.toLocaleDateString('ru-RU') + ' ' + d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) + '</td><td>' + (e.step || '') + '</td><td>' + (e.t === 'passed' ? 'ступень пройдена' : e.t === 'stuck' ? 'нужна помощь' : e.ok ? 'верно' : 'неверно') + '</td><td>' + (e.attempts || '') + '</td><td>' + (e.hint ? 'да' : '') + '</td><td>' + (e.tag || '') + '</td></tr>';
+    h += '<tr><td>' + d.toLocaleDateString('ru-RU') + ' ' + d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) + '</td><td>' + (e.step || '') + '</td><td>' + (e.t === 'passed' ? 'ступень пройдена' : e.t === 'stuck' ? 'нужна помощь' : e.ok ? 'верно' : 'неверно') + '</td><td>' + (e.attempts || '') + '</td><td>' + (e.hint ? 'да' : '') + '</td><td>' + (e.twin ? 'да' : '') + '</td><td>' + (e.tag || '') + '</td></tr>';
   });
   return h + '</table>';
 }
@@ -855,15 +859,54 @@ function newTask() {
   if (P.last && P.task.q === P.last) P.task = s.gen(o.streak);
   P.last = P.task.q;
 }
-function startPractice(i) { P = { i: i }; newTask(); V = { name: 'task' }; render(); }
+function startPractice(i) { P = { i: i, twin: false, lastWrong: false }; newTask(); V = { name: 'task' }; render(); }
 function openStep(i) {
   var o = st(STEPS[i].id);
   if (o.stuck) { o.stuck = false; o.reteach = 1; save(); }
   V = { name: 'teach', i: i, k: 0 }; render();
 }
 
+var TAGMSG = {
+  'swap': 'Ты поменяла верх и низ местами. Внизу пишем, сколько всего частей, вверху — сколько взяли.',
+  'count-light': 'Внизу надо считать все кусочки шоколадки, а не только светлые.',
+  'denominator-is-rest': 'Внизу надо писать все кусочки шоколадки, и тёмные, и светлые, а не только светлые.',
+  'light-part': 'Это дробь светлой части, а нужна дробь тёмной.',
+  'swap-rest': 'Ты закрасила не то количество: закрасить надо столько кусочков, сколько написано вверху.',
+  'add-not-multiply': 'Числитель и знаменатель надо умножать на одно и то же число, а не прибавлять.',
+  'only-top': 'Ты разделила только верх. Делить надо и числитель, и знаменатель.',
+  'only-bottom': 'Ты разделила только низ. Делить надо и числитель, и знаменатель.',
+  'denominators-added': 'Знаменатели не складывают. Кусочки остаются того же размера, поэтому внизу число не меняется.',
+  'denominator-changed': 'Внизу ничего не меняется: кусочки остались того же размера.',
+  'last-bar-only': 'Тёмные кусочки надо считать во всех шоколадках, а не только в последней.',
+  'forgot-multiply': 'Целое число надо умножить на знаменатель и прибавить числитель.',
+  'bad-conversion': 'Сначала надо правильно привести дробь к новому знаменателю: умножь и верх, и низ.',
+  'forgot-k': 'Ты нашла только одну часть, а надо взять несколько. Умножь на числитель.',
+  'denominator-kept': 'При умножении знаменатели тоже умножаются, они не остаются прежними.',
+  'did-not-flip': 'Вторую дробь надо перевернуть и умножить. Просто делить нельзя.'
+};
+function ansHtml(T) {
+  var I = T.input;
+  if (I.type === 'choice') { var o = I.options.filter(function (x) { return x.v === String(T.ans); })[0]; return o ? o.html : esc(T.ans); }
+  if (I.type === 'shade') { var a = []; for (var i = 0; i < T.sol; i++) a.push(i); return 'Закрашено должно быть кусочков: <b>' + T.sol + '</b>' + C.bar(I.n, a); }
+  return I.rows.map(function (r) {
+    var v = T.sol[r.key], h = r.kind === 'int' ? '<b>' + v + '</b>' : r.kind === 'frac' ? C.fr(v.n, v.d) : C.mx(v.w, v.n, v.d);
+    return '<span class="ansr">' + (r.label ? r.label + ' ' : '') + h + '</span>';
+  }).join(' ');
+}
+function whyHtml(tag) {
+  var T = P.task, pre = TAGMSG[tag] ? '<p>' + TAGMSG[tag] + '</p>' : '';
+  return '<div class="why"><p><b>Разберём.</b></p>' + pre + '<p>' + T.hint + '</p><p><b>Правильный ответ:</b></p><div>' + ansHtml(T) + '</div></div>';
+}
+function sig(T) {
+  return T.input.type + '|' + T.q.replace(/<svg[\s\S]*?<\/svg>/g, '').replace(/<[^>]+>/g, '').replace(/\d+/g, '#').replace(/\s+/g, ' ').trim() + '|' + (T.input.rows ? T.input.rows.map(function (r) { return r.kind + r.key; }).join(',') : '');
+}
+function twinTask() {
+  var s = STEPS[P.i], o = st(s.id), want = sig(P.task), t;
+  for (var k = 0; k < 120; k++) { t = s.gen(o.streak); if (sig(t) === want && t.q !== P.task.q) return t; }
+  return s.gen(o.streak);
+}
 function maxAtt(T) { return T.input.type === 'choice' ? 1 : 2; }
-function msg(t, cls) { var m = document.getElementById('msg'); if (m) { m.className = 'msg ' + (cls || ''); m.innerHTML = t; } }
+function msg(t, cls, extra) { var m = document.getElementById('msg'); if (m) { m.className = 'msg ' + (cls || ''); m.innerHTML = t + (extra || ''); } }
 
 function readVals() {
   var T = P.task, I = T.input;
@@ -891,7 +934,7 @@ function check() {
     if (T.input.type === 'choice') { var op = T.input.options.filter(function (o) { return o.v === vals; })[0]; tag = op ? op.tag : ''; }
     else if (T.tag) tag = T.tag(vals) || '';
     if (tag) P.tags.push(tag);
-    if (P.attempt < maxAtt(T)) { msg('Не так. Попробуй ещё раз.', 'bad'); return; }
+    if (P.attempt < maxAtt(T)) { msg('Не так. ' + (TAGMSG[tag] || 'Посмотри ещё раз и попробуй снова. Можно взять подсказку.') + ' Попробуй ещё раз.', 'bad'); return; }
   }
   finish(r === 'ok', tag);
 }
@@ -900,17 +943,19 @@ function finish(ok, tag) {
   var s = STEPS[P.i], o = st(s.id), clean = ok && P.attempt === 1 && !P.hint;
   P.done = true; o.tried++; if (ok) o.ok++; else o.bad++; if (P.hint) o.hints++;
   P.tags.forEach(function (t) { o.tags[t] = (o.tags[t] || 0) + 1; });
+  if (P.twin) { o.twinTried = (o.twinTried || 0) + 1; if (ok) o.twinOk = (o.twinOk || 0) + 1; }
   if (clean) { o.streak++; o.cw = 0; }
   else if (!ok) { o.streak = 0; o.cw++; }
   var passedNow = false;
   if (!o.passed && o.streak >= NEED) { o.passed = true; passedNow = true; }
-  send({ t: 'task', step: s.id, stepTitle: s.title, ok: ok, attempts: P.attempt, hint: P.hint, tag: P.tags.join(',') });
+  send({ t: 'task', step: s.id, stepTitle: s.title, ok: ok, attempts: P.attempt, hint: P.hint, twin: !!P.twin, tag: P.tags.join(',') });
   save();
   var m;
   if (ok) m = clean ? 'Верно.' : 'Верно, но в зачёт не пошло: ответ был не с первой попытки или с подсказкой.';
-  else m = 'Не получилось. Ничего страшного, идём дальше. Счёт верных подряд начинается заново.';
-  msg(m, ok ? 'good' : 'bad');
-  document.getElementById('acts').innerHTML = '<button class="btn" data-a="next-task" data-passed="' + (passedNow ? 1 : 0) + '">Дальше</button>';
+  else m = (tag === 'dont-know' ? 'Хорошо, что сказала честно. ' : 'Не получилось. ') + 'Давай разберём. Счёт верных подряд начинается заново.';
+  P.lastWrong = !ok;
+  msg(m, ok ? 'good' : 'bad', ok ? '' : whyHtml(tag || P.tags[P.tags.length - 1] || ''));
+  document.getElementById('acts').innerHTML = '<button class="btn" data-a="next-task" data-passed="' + (passedNow ? 1 : 0) + '">' + (ok ? 'Дальше' : 'Попробовать похожее') + '</button>';
   var hb = document.querySelector('.dots'); if (hb) hb.outerHTML = dots(o.streak);
   lockInputs();
 }
@@ -924,7 +969,8 @@ function nextTask(passed) {
     if (o.reteach >= 2) { o.stuck = true; save(); send({ t: 'stuck', step: s.id, stepTitle: s.title }); V = { name: 'stuck', i: P.i }; render(); return; }
     o.reteach++; save(); V = { name: 'inter', i: P.i }; render(); return;
   }
-  newTask(); render();
+  if (P.lastWrong) { var tw = twinTask(); P.task = tw; P.attempt = 0; P.hint = false; P.done = false; P.choice = undefined; P.sel = new Set(); P.tags = []; P.last = tw.q; P.twin = true; P.lastWrong = false; render(); return; }
+  P.twin = false; newTask(); render();
 }
 
 /* ---------- события ---------- */
@@ -944,7 +990,7 @@ app.addEventListener('click', function (e) {
   else if (a === 'pick') { P.choice = b.dataset.v; app.querySelectorAll('.opt').forEach(function (o) { o.classList.toggle('sel', o === b); }); }
   else if (a === 'check') check();
   else if (a === 'hint') { P.hint = true; var hb = document.getElementById('hintbox'); hb.hidden = false; hb.innerHTML = P.task.hint; b.remove(); }
-  else if (a === 'dk') { if (!P.done) { P.attempt++; P.tags.push('dont-know'); finish(false, 'dont-know'); msg('Хорошо, что сказала честно. Эту тему разберём на занятии. Идём дальше.', 'bad'); } }
+  else if (a === 'dk') { if (!P.done) { P.attempt++; P.tags.push('dont-know'); finish(false, 'dont-know'); } }
   else if (a === 'next-task') nextTask(b.dataset.passed === '1');
   else if (a === 'tpass') { var o1 = st(STEPS[i2].id); o1.passed = true; o1.stuck = false; save(); render(); }
   else if (a === 'treset') { delete S.steps[STEPS[i2].id]; save(); render(); }
