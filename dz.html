@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#14211e">
+<meta name="robots" content="noindex,nofollow">
+<title>Домашнее задание</title>
+<style>
+:root{--bg:#14211e;--card:#1b2b28;--fg:#f3ece2;--muted:#a9b6ad;--line:rgba(243,236,226,.14);--cobalt:#1747c9;--mint:#a9d18e;--amber:#f5dc6a;--miss:#ff8f73}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;padding-bottom:calc(92px + env(safe-area-inset-bottom))}
+main{max-width:680px;margin:0 auto;padding:20px 16px}
+h1{font-size:clamp(24px,6vw,32px);line-height:1.15;margin:4px 0 18px;letter-spacing:-.02em}
+.muted{color:var(--muted)}
+.t{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 16px 14px;margin:0 0 12px}
+.n{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--muted);font-size:14px;margin-bottom:6px}
+.star{color:var(--amber);border:1px solid rgba(245,220,106,.4);border-radius:999px;padding:1px 9px;font-size:12px;font-weight:600}
+.q{font-size:17px;overflow-wrap:anywhere}
+.q p{margin:0 0 8px}.q img{max-width:100%;height:auto;border-radius:10px;display:block;margin:8px 0}
+.q table{border-collapse:collapse}.q td,.q th{border:1px solid var(--line);padding:4px 8px}
+input[type=text]{width:100%;margin-top:10px;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.22);color:var(--fg);font:inherit;font-size:17px}
+input[type=text]:focus{outline:2px solid var(--cobalt);outline-offset:1px}
+.bar{position:fixed;left:0;right:0;bottom:0;background:rgba(20,33,30,.94);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom))}
+.bar div{max-width:680px;margin:0 auto;display:flex;align-items:center;gap:14px}
+.bar span{color:var(--muted);flex:1;font-size:15px}
+button,.btn{font:inherit;font-weight:700;border:0;border-radius:14px;background:var(--cobalt);color:var(--fg);padding:14px 22px;cursor:pointer;text-decoration:none;display:inline-block}
+button:disabled{opacity:.5;cursor:default}
+.res{text-align:center;padding:36px 8px}
+.res b{display:block;font-size:clamp(44px,14vw,72px);line-height:1;letter-spacing:-.03em;margin:10px 0}
+.res.ok b{color:var(--mint)}
+.err{color:var(--miss);margin:10px 0 0;min-height:1.4em}
+</style>
+</head>
+<body>
+<main id="app"><p class="muted">Загружаю задание…</p></main>
+<script>
+const API='https://script.google.com/macros/s/AKfycbwg68-wqapNubGW4BuTEB_ri38yu41uV8hoQPOhluE84y4ZSRfZ9-sFl--uwv7T7AA_xA/exec';
+const Q=new URLSearchParams(location.search);
+const WORK=(Q.get('w')||'').trim();
+const CODE=(Q.get('lili_student')||location.hash.slice(1)||'').replace(/[^a-z0-9]/gi,'');
+const ROW=Number(Q.get('lili_hw'))||0;
+const KEY='dz:'+CODE+':'+WORK+':'+ROW;
+const app=document.getElementById('app');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const back=()=>CODE&&CODE!=='demo'?'kabinet.html#'+CODE:'kabinet.html#demo';
+let T=[],S={a:{},t0:0};
+try{const v=JSON.parse(localStorage.getItem(KEY));if(v&&typeof v==='object')S=Object.assign(S,v)}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+
+function clean(html){
+  const d=new DOMParser().parseFromString('<div>'+html+'</div>','text/html');
+  d.querySelectorAll('script,style,iframe,object,embed,link,meta,form,input,button').forEach(n=>n.remove());
+  d.querySelectorAll('*').forEach(n=>{[...n.attributes].forEach(a=>{
+    const k=a.name.toLowerCase(),v=a.value.trim().toLowerCase();
+    if(k.startsWith('on')||((k==='href'||k==='src')&&!/^(https?:|\/|[a-z0-9_.\-\/]+$)/.test(v)))n.removeAttribute(a.name)})});
+  return d.body.firstChild.innerHTML;
+}
+function msg(title,text,link){app.innerHTML=`<h1>${esc(title)}</h1><p class="muted">${esc(text)}</p>${link?`<p><a class="btn" href="${esc(link[0])}">${esc(link[1])}</a></p>`:''}`}
+function result(r,again){
+  app.innerHTML=`<div class="res ok"><div class="muted">${again?'Ты уже сдавал(а) эту работу':'Работа отправлена'}</div><b>${r.right} из ${r.total}</b><div class="muted">верных ответов</div><p style="margin-top:28px"><a class="btn" href="${esc(back())}">Вернуться в кабинет</a></p></div>`;
+  document.querySelector('.bar')?.remove();
+  window.scrollTo(0,0);
+}
+function filled(){return T.filter(t=>String(S.a[t.n]||'').trim()).length}
+function upd(){const c=document.getElementById('cnt');if(c)c.textContent='Заполнено '+filled()+' из '+T.length}
+
+function show(j){
+  T=j.tasks;
+  document.title=j.title;
+  app.innerHTML=`<h1>${esc(j.title)}</h1><p class="muted" style="margin:-8px 0 16px">Реши задания в тетради и впиши ответы. Дробь пиши через запятую: 2,5.</p>`
+   +T.map(t=>`<section class="t"><div class="n">№${esc(t.n)}${t.lv==='★'?'<span class="star">★ сложное</span>':''}</div><div class="q">${clean(t.q)}</div><input type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="next" data-n="${esc(t.n)}" placeholder="Ответ" value="${esc(S.a[t.n]||'')}"></section>`).join('')
+   +`<p class="err" id="err"></p><div class="bar"><div><span id="cnt"></span><button id="go">Отправить</button></div></div>`;
+  upd();
+  const ins=[...app.querySelectorAll('input')];
+  ins.forEach((el,i)=>{
+    el.oninput=()=>{if(!S.t0)S.t0=Date.now();S.a[el.dataset.n]=el.value;save();upd()};
+    el.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();(ins[i+1]||document.getElementById('go')).focus()}};
+  });
+  document.getElementById('go').onclick=send;
+}
+async function send(){
+  const left=T.length-filled(),b=document.getElementById('go'),er=document.getElementById('err');
+  if(left&&!confirm('Не заполнено ответов: '+left+'. Отправить так?'))return;
+  b.disabled=true;er.textContent='';
+  try{
+    const r=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({t:CODE,dz:{work:WORK,row:ROW,answers:S.a,seconds:S.t0?Math.round((Date.now()-S.t0)/1000):0}})}).then(r=>r.json());
+    if(r.error)throw new Error(r.error);
+    try{localStorage.removeItem(KEY)}catch(e){}
+    result(r,!!r.again);
+  }catch(e){
+    b.disabled=false;
+    er.textContent=e.message==='not_found'?'Ссылка не подошла. Открой задание заново из кабинета.':'Не получилось отправить. Ответы сохранены, проверь интернет и нажми ещё раз.';
+  }
+}
+(async function(){
+  if(!WORK)return msg('Нет задания','Открой домашку из своего кабинета.',[ 'kabinet.html','Открыть кабинет']);
+  if(!CODE)return msg('Нужна личная ссылка','Открой задание из своего кабинета, чтобы результат сохранился.',['kabinet.html','Открыть кабинет']);
+  try{
+    const j=await fetch(API+'?t='+encodeURIComponent(CODE)+'&w='+encodeURIComponent(WORK)+'&row='+ROW,{cache:'no-store'}).then(r=>r.json());
+    if(j.error==='no_work')return msg('Задание не найдено','Напиши Лилии, она всё исправит.');
+    if(j.error)return msg('Ссылка не подошла','Открой задание заново из кабинета.',[back(),'В кабинет']);
+    if(j.done)return result(j.done,true);
+    show(j);
+  }catch(e){msg('Нет связи','Проверь интернет и обнови страницу.')}
+})();
+</script>
+</body>
+</html>
