@@ -3716,6 +3716,24 @@
       "oge_task": 7,
       "status": "public",
       "note": "печатный листок ученика, без ответов"
+    },
+    {
+      "file": "z6-umn-del-dvuznach-dz.html",
+      "title": "ДЗ №1 · Умножение и деление двузначных чисел",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "3 уровня, 11 заданий, ответы проверены кодом"
+    },
+    {
+      "file": "z6-umn-del-dvuznach-dz.pdf",
+      "title": "",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": ""
     }
   ]
 }
