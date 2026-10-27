@@ -1184,7 +1184,7 @@ function gradeCard(){
   const o=S.gO&&sec.id in S.gO?!!S.gO[sec.id]:(!TEACH||g||(S.gk||'').startsWith(sec.id+'.'));
   return `<details class="gkgrp" data-gb="${sec.id}" ${o?'open':''}><summary><span>${esc(sec.title)}</span><small>${k} из ${all.length}</small></summary>${inner}</details>`}).join('');
  return `<div class="card" id="gskills">
- <div class="sh"><h2>Карта по классам</h2><span class="sub">проверено ${L.length-c.new} из ${L.length}</span></div>
+ <div class="sh"><h2>Карта по классам</h2><span class="sub">проверено ${L.length-c.new} из ${L.length}${TEACH?' · <a href="karta.html" style="color:var(--apricot)">все материалы →</a>':''}</span></div>
  <p class="mapnote">${TEACH?'Школьная программа по классам. Нажми на навык: поставишь отметку, увидишь, на что спуститься, и какие материалы есть по теме.':'Школьные навыки, которые уже проверяли.'}</p>
  <div class="gtabs">${T.map(x=>`<button class="gtab" type="button" data-gt="${x}" aria-pressed="${x===t}">${GTN(x)}</button>`).join('')}</div>
  <div class="mlegend"><span><i style="background:var(--mint)"></i>${SKT.solid} · ${c.solid}</span><span><i style="background:var(--amber)"></i>${SKT.shaky} · ${c.shaky}</span><span><i style="background:var(--miss)"></i>${SKT.gap} · ${c.gap}</span><span><i style="background:rgba(243,236,226,.18)"></i>${SKT.new} · ${c.new}</span></div>

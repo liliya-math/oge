@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Карта · lili.math</title>
+<style>
+:root{--bg:#14211e;--glass:rgba(243,236,226,.05);--line:rgba(226,234,228,.13);--fg:#f3ece2;--muted:#a9b6ad;--faint:#6e7f77;--apricot:#f2905e;--mint:#a9d18e;--amber:#f5dc6a;--cobalt:#1747c9;
+--sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,"Segoe UI",Roboto,Arial,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color-scheme:dark}
+*{box-sizing:border-box}html,body{background:var(--bg);color:var(--fg)}
+body{margin:0;font-family:var(--sans);font-size:16px;line-height:1.45;min-height:100vh;-webkit-font-smoothing:antialiased}
+.wrap{max-width:820px;margin:0 auto;padding:16px 16px 90px}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.brand{font-weight:700;font-size:13px;color:var(--muted)}.brand b{color:var(--apricot)}
+.crumbs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px;font-size:13px}
+.crumbs a{color:var(--muted);text-decoration:none;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--glass)}
+.crumbs a:hover{color:var(--fg)}.crumbs span{color:var(--faint);align-self:center}
+h1{margin:4px 0 6px;font-size:clamp(24px,6vw,34px);line-height:1.15;letter-spacing:-.02em}
+.id{font:600 13px var(--mono);color:var(--faint)}
+.lead{margin:0 0 4px;color:var(--muted);font-size:14.5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:14px 0}
+.card{margin-top:14px;padding:18px;border-radius:22px;border:1px solid var(--line);background:var(--glass)}
+.card h2{margin:0 0 10px;font-size:17px;letter-spacing:-.01em}
+.tile{display:block;padding:16px 14px;border-radius:18px;border:1px solid var(--line);background:var(--glass);color:var(--fg);text-decoration:none}
+.tile:hover,.tile:focus-visible{background:rgba(243,236,226,.1);outline:none}
+.tile b{display:block;font-size:22px;letter-spacing:-.02em}.tile small{color:var(--muted);font-size:12.5px}
+.list{display:grid;gap:7px;margin:0;padding:0;list-style:none}
+.row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;padding:11px 13px;border-radius:14px;background:rgba(243,236,226,.05);color:var(--fg);text-decoration:none;font-size:15px;border:1px solid transparent}
+.row:hover,.row:focus-visible{background:rgba(243,236,226,.1);border-color:var(--line);outline:none}
+.row .n{font:600 12px var(--mono);color:var(--faint);min-width:56px}
+.row .c{font-size:12.5px;color:var(--muted);white-space:nowrap}
+.row .c.z{color:var(--apricot)}
+.row .t{display:block;color:var(--faint);font-size:12.5px;margin-top:1px}
+.m{grid-template-columns:minmax(0,1fr) auto}
+.tag{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;font-size:11.5px;font-weight:650;background:rgba(243,236,226,.1);color:var(--muted);vertical-align:1px}
+.tag.t{background:rgba(242,144,94,.18);color:var(--apricot)}.tag.h{background:rgba(245,220,106,.15);color:var(--amber)}
+.kind{margin:14px 0 6px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:650}
+.kind:first-child{margin-top:0}
+.empty{margin:0;padding:12px 14px;border-radius:14px;background:rgba(0,0,0,.2);color:var(--muted);font-size:14.5px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0 0}.chip{padding:3px 10px;border-radius:999px;font-size:12.5px;font-weight:650;background:rgba(23,71,201,.35);color:#d6e2ee}
+.pre a{display:inline-block;margin:3px 6px 3px 0;padding:4px 10px;border-radius:10px;background:rgba(243,236,226,.08);color:var(--fg);text-decoration:none;font-size:13.5px}
+:focus-visible{outline:2px solid var(--apricot);outline-offset:3px;border-radius:10px}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"><p class="lead">Открываю…</p></div>
+<script>
+(function(){
+'use strict';
+const app=document.getElementById('app');
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const API='https://script.google.com/macros/s/AKfycbwg68-wqapNubGW4BuTEB_ri38yu41uV8hoQPOhluE84y4ZSRfZ9-sFl--uwv7T7AA_xA/exec';
+let PASS='';try{PASS=localStorage.getItem('cab-admin')||''}catch(e){}
+const KORDER=['Теория','Памятка','План урока','Разбор в диалоге','Разбор 5 задач','Пятиминутки','Тренажёр','Тест','Зачётный лист','ДЗ','Ответы к ДЗ','Задание','Диагностика','Комплект'];
+const getId=()=>decodeURIComponent(location.hash.slice(1)||'').toUpperCase().replace(/[^0-9A-Z.]/g,'');
+const SUBJ={A:'Алгебра',G:'Геометрия'};
+function fail(t,x){app.innerHTML=`<div class="bar"><span></span><span class="brand">lili<b>.</b>math</span></div><h1>${esc(t)}</h1><p class="lead">${esc(x)}</p>`}
+function gate(){
+  if(!PASS)return Promise.reject('deny');
+  return fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({admin:PASS,op:'ping'})})
+   .then(r=>r.json(),()=>{throw 'net'}).then(j=>{if(!j||j.ok!==true)throw 'deny'});
+}
+let N,BY,KIDS,MAT;
+const segs=id=>id.split('.');
+const isDesc=(a,id)=>a===id||a.indexOf(id+'.')===0;
+function kindOf(m){const p=String(m.title||'').split(' · ');return p.length>2?p[1].replace(/ \((PDF|текст)\)$/,'').replace(/^ДЗ №\d+$/,'ДЗ').replace(/^ДЗ$/,'ДЗ'):'Другое'}
+function shortTitle(m){const p=String(m.title||'').split(' · ');return p.length>2?p.slice(1).join(' · '):m.title||m.file}
+function matsOf(id,roll){return MAT.filter(m=>(m.node||[]).some(n=>roll?isDesc(n,id):n===id))}
+function counts(id){const own=matsOf(id,false).length,all=matsOf(id,true).length;return{own,all}}
+function label(id){
+  const m=/^(\d)([AG])$/.exec(id);if(m)return m[1]+' класс · '+SUBJ[m[2]];
+  return BY[id]?BY[id].title:id;
+}
+function crumbs(id){
+  const out=['<a href="#">Карта</a>'];
+  if(id){const s=segs(id);let cur=s[0];out.push(`<span>›</span><a href="#${cur}">${esc(label(cur))}</a>`);for(let i=1;i<s.length;i++){cur+='.'+s[i];out.push(`<span>›</span><a href="#${cur}">${esc(BY[cur]?BY[cur].title:cur)}</a>`)}}
+  return `<div class="crumbs">${out.join('')}</div>`;
+}
+function matList(list){
+  if(!list.length)return '';
+  const g={};list.forEach(m=>{(g[kindOf(m)]=g[kindOf(m)]||[]).push(m)});
+  const ks=Object.keys(g).sort((a,b)=>{const x=KORDER.indexOf(a),y=KORDER.indexOf(b);return (x<0?99:x)-(y<0?99:y)});
+  return ks.map(k=>`<div class="kind">${esc(k)}</div><ul class="list">${g[k].map(m=>{
+    const f=m.file,pdf=/\.pdf$/i.test(f.split('?')[0]);
+    return `<li><a class="row m" href="${esc(f)}" target="_blank" rel="noopener"><span>${esc(shortTitle(m).replace(/^[^·]*· /,''))}${m.audience==='teacher'?'<span class="tag t">учитель</span>':''}${m.status==='hidden'?'<span class="tag h">скрыт</span>':''}</span><span class="c">${pdf?'PDF':'открыть'}</span></a></li>`}).join('')}</ul>`).join('');
+}
+function home(){
+  const tiles=[];
+  for(let g=5;g<=9;g++)['A','G'].forEach(s=>{const id=g+s,c=counts(id);tiles.push(`<a class="tile" href="#${id}"><b>${g} ${s==='A'?'алгебра':'геом.'}</b><small>${c.all} материалов</small></a>`)});
+  const unlinked=MAT.filter(m=>!(m.node||[]).length).length;
+  app.innerHTML=`<div class="bar"><span class="id">Карта · только для учителя</span><span class="brand">lili<b>.</b>math</span></div><h1>Карта материалов</h1><p class="lead">Класс → раздел → тема → материалы. Число: сколько материалов лежит в этой ветке.</p><div class="grid">${tiles.join('')}</div>`
+   +`<div class="card"><h2>ОГЭ-карта навыков</h2><p class="lead">Спуск от задания ОГЭ к пробелам в базе: в кабинете, карточка «Карта навыков».</p></div>`
+   +(unlinked?`<p class="lead" style="margin-top:14px">Материалов без привязки к карте: ${unlinked} (служебные страницы, пробники).</p>`:'');
+}
+function node(id){
+  const isRoot=/^\d[AG]$/.test(id),n=BY[id];
+  if(!isRoot&&!n){fail('Не нашла такой раздел','Вернись на «Карта» и выбери класс.');return}
+  const kids=isRoot?N.filter(x=>x.grade===+id[0]&&x.subject===(id[1]==='A'?'алгебра':'геометрия')&&!x.parent):KIDS[id]||[];
+  const lvl=segs(id).length,topic=lvl>=3?(lvl===3?id:segs(id).slice(0,3).join('.')):null;
+  const own=matsOf(id,false),rollAll=matsOf(id,true);
+  const title=isRoot?label(id):n.title;
+  document.title=title+' · lili.math';
+  let h=`<div class="bar"><span class="id">${esc(id)}</span><span class="brand">lili<b>.</b>math</span></div>${crumbs(id)}<h1>${esc(title)}</h1>`;
+  if(!isRoot&&n.oge)h+=`<div class="chips"><span class="chip">ОГЭ: ${esc(n.oge)}</span></div>`;
+  if(kids.length){
+    h+=`<div class="card"><h2>${isRoot?'Разделы':lvl===2?'Темы':'Навыки'}</h2><ul class="list">${kids.map(k=>{const c=counts(k.id);
+     return `<li><a class="row" href="#${k.id}"><span class="n">${esc(k.id)}</span><span>${esc(k.title)}${k.oge?`<span class="t">ОГЭ ${esc(k.oge)}</span>`:''}</span><span class="c${c.all||lvl===3?'':' z'}">${lvl===3?'':(c.all?c.all+' мат.':'пусто')}</span></a></li>`}).join('')}</ul></div>`;
+  }
+  // материалы: сначала лежащие прямо здесь (для навыка: материалы его темы), затем остальное в ветке
+  let direct=own,note='';
+  if(!direct.length&&lvl===4){direct=matsOf(topic,false);if(direct.length)note=`<p class="lead" style="margin-bottom:10px">Материалы темы «${esc(BY[topic]?BY[topic].title:topic)}».</p>`}
+  if(direct.length)h+=`<div class="card"><h2>Материалы</h2>${note}${matList(direct)}</div>`;
+  else if(lvl>=3)h+=`<div class="card"><h2>Материалы</h2><p class="empty">Материалов пока нет. Это пробел: здесь нужны теория, план урока и ДЗ.</p></div>`;
+  const ids=new Set(direct.map(m=>m.file)),rest=rollAll.filter(m=>!ids.has(m.file));
+  if(rest.length&&lvl<4)h+=`<div class="card"><h2>${direct.length?'Ещё в этой ветке':'Материалы в этой ветке'}</h2>${matList(rest)}</div>`;
+  if(!isRoot&&n.prereq&&n.prereq.length){h+=`<div class="card pre"><h2>Что нужно знать до этого</h2>${n.prereq.map(p=>BY[p]?`<a href="#${p}"><b style="font:600 11px var(--mono);color:var(--faint)">${p}</b> ${esc(BY[p].title)}</a>`:'').join('')}</div>`}
+  app.innerHTML=h;scrollTo(0,0);
+}
+function draw(){const id=getId();if(!id)home();else node(id)}
+function go(){
+  Promise.all([fetch('skills-by-grade.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}),fetch('catalog.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()})])
+  .then(([g,c])=>{N=g;BY=Object.fromEntries(g.map(x=>[x.id,x]));KIDS={};g.forEach(x=>{if(x.parent)(KIDS[x.parent]=KIDS[x.parent]||[]).push(x)});Object.values(KIDS).forEach(a=>a.sort((p,q)=>p.id.localeCompare(q.id,'en',{numeric:true})));MAT=c.items.filter(m=>m.file&&!/^(index|karta|kabinet|skill|STATE)/.test(m.file));draw()})
+  .catch(()=>fail('Не получилось открыть','Похоже, пропал интернет. Обнови страницу.'));
+}
+addEventListener('hashchange',()=>{if(N)draw()});
+gate().then(go).catch(e=>{if(e==='net')fail('Нет связи','Не получилось проверить доступ. Проверь интернет и обнови страницу.');else fail('Страница только для учителя','Открой кабинет в режиме учителя на этом устройстве и войди с паролем, потом вернись сюда.')});
+})();
+</script>
+</body>
+</html>
