@@ -12,7 +12,7 @@
     },
     {
       "file": "diagnostika-5-geom.html",
-      "title": "Диагностика · 5 класс · Геометрия",
+      "title": "5G · Диагностика · 5 класс · Геометрия",
       "type": "diagnostika",
       "class": 5,
       "oge_task": null,
@@ -25,7 +25,7 @@
     },
     {
       "file": "diagnostika-6-geom.html",
-      "title": "Диагностика · 6 класс · Геометрия",
+      "title": "6G · Диагностика · 6 класс · Геометрия",
       "type": "diagnostika",
       "class": 6,
       "oge_task": null,
@@ -38,7 +38,7 @@
     },
     {
       "file": "diagnostika-6-klass.html",
-      "title": "Диагностика · 6 класс",
+      "title": "6A · Диагностика · 6 класс",
       "type": "diagnostika",
       "class": 6,
       "oge_task": null,
@@ -51,7 +51,7 @@
     },
     {
       "file": "diagnostika-naturalnye-chisla-variant-1.html",
-      "title": "Диагностика · Натуральные числа · Вариант 1",
+      "title": "5A.1 · Диагностика · Натуральные числа · Вариант 1",
       "type": "diagnostika",
       "class": null,
       "oge_task": null,
@@ -64,7 +64,7 @@
     },
     {
       "file": "diagnostika-7-geom.html",
-      "title": "Диагностика · 7 класс · Геометрия",
+      "title": "7G · Диагностика · 7 класс · Геометрия",
       "type": "diagnostika",
       "class": 7,
       "oge_task": null,
@@ -77,7 +77,7 @@
     },
     {
       "file": "diagnostika-7-klass.html",
-      "title": "Диагностика · 7 класс · Алгебра",
+      "title": "7A · Диагностика · 7 класс · Алгебра",
       "type": "diagnostika",
       "class": 7,
       "oge_task": null,
@@ -90,7 +90,7 @@
     },
     {
       "file": "diagnostika-8-geom.html",
-      "title": "Диагностика · 8 класс · Геометрия",
+      "title": "8G · Диагностика · 8 класс · Геометрия",
       "type": "diagnostika",
       "class": 8,
       "oge_task": null,
@@ -103,7 +103,7 @@
     },
     {
       "file": "diagnostika-8-klass.html",
-      "title": "Диагностика · 8 класс · Алгебра",
+      "title": "8A · Диагностика · 8 класс · Алгебра",
       "type": "diagnostika",
       "class": 8,
       "oge_task": null,
@@ -116,7 +116,7 @@
     },
     {
       "file": "domashnee-zadanie-trapeciya.html",
-      "title": "Домашнее задание · Трапеция",
+      "title": "8G.1.3 · ДЗ · Трапеция",
       "type": "dz",
       "class": 8,
       "oge_task": null,
@@ -129,7 +129,7 @@
     },
     {
       "file": "dz-chisla-s-raznymi-znakami.html",
-      "title": "ДЗ №2 · Числа с разными знаками",
+      "title": "6A.5.3 · ДЗ №2 · Числа с разными знаками",
       "type": "dz",
       "class": null,
       "oge_task": null,
@@ -142,7 +142,7 @@
     },
     {
       "file": "dz-chisla-s-raznymi-znakami.pdf",
-      "title": "",
+      "title": "6A.5.3 · ДЗ №2 (PDF) · Числа с разными знаками",
       "type": "dz",
       "class": null,
       "oge_task": null,
@@ -154,7 +154,7 @@
     },
     {
       "file": "dz-desyatichnye-drobi-otvety.pdf",
-      "title": "",
+      "title": "5A.5 · Ответы к ДЗ (PDF) · Десятичные дроби",
       "type": "dz",
       "class": null,
       "oge_task": null,
@@ -162,11 +162,12 @@
       "note": "",
       "node": [
         "5A.5"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "dz-desyatichnye-drobi.html",
-      "title": "ДЗ №1 · Десятичные дроби",
+      "title": "5A.5 · ДЗ №1 · Десятичные дроби",
       "type": "dz",
       "class": null,
       "oge_task": null,
@@ -179,7 +180,7 @@
     },
     {
       "file": "dz-desyatichnye-drobi.pdf",
-      "title": "",
+      "title": "5A.5 · ДЗ №1 (PDF) · Десятичные дроби",
       "type": "dz",
       "class": null,
       "oge_task": null,
@@ -191,7 +192,7 @@
     },
     {
       "file": "dz-procenty-otvety.pdf",
-      "title": "",
+      "title": "6A.4 · Ответы к ДЗ (PDF) · Проценты",
       "type": "dz",
       "class": null,
       "oge_task": null,
@@ -199,11 +200,12 @@
       "note": "",
       "node": [
         "6A.4"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "dz-procenty.pdf",
-      "title": "",
+      "title": "6A.4 · ДЗ (PDF) · Проценты",
       "type": "dz",
       "class": null,
       "oge_task": null,
@@ -293,7 +295,7 @@
     },
     {
       "file": "razbor-drobi-dialog.html",
-      "title": "Разбор · Дроби · диалог",
+      "title": "6A.2 · Разбор в диалоге · Десятичные дроби",
       "type": "razbor",
       "class": null,
       "oge_task": null,
@@ -301,7 +303,8 @@
       "note": "",
       "node": [
         "6A.2"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "razbor-probnik-oge-2.html",
@@ -314,7 +317,7 @@
     },
     {
       "file": "razbor-racionalnye-dialog.md",
-      "title": "",
+      "title": "8A.1.3 · Разбор в диалоге (текст) · Действия с дробями",
       "type": "razbor",
       "class": null,
       "oge_task": null,
@@ -322,11 +325,12 @@
       "note": "скрыт 2026-10-18: ждёт привязки к программе/теме",
       "node": [
         "8A.1.3"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "razbor-racionalnye-dialog.pdf",
-      "title": "",
+      "title": "8A.1.3 · Разбор в диалоге (PDF) · Действия с дробями",
       "type": "razbor",
       "class": null,
       "oge_task": null,
@@ -334,11 +338,12 @@
       "note": "скрыт 2026-10-18: ждёт привязки к программе/теме",
       "node": [
         "8A.1.3"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "razbor-treugolniki-dialog.html",
-      "title": "Разбор · Треугольники 7–9 · диалог",
+      "title": "7G.2 · Разбор в диалоге · Разбор · Треугольники 7–9 · диалог",
       "type": "razbor",
       "class": null,
       "oge_task": null,
@@ -348,11 +353,12 @@
         "7G.2",
         "7G.4",
         "8G.3"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "razbor-znaki-dialog.html",
-      "title": "Разбор · Числа с разными знаками · диалог",
+      "title": "6A.5.3 · Разбор в диалоге · Разбор · Числа с разными знаками · диалог",
       "type": "razbor",
       "class": null,
       "oge_task": null,
@@ -360,7 +366,8 @@
       "note": "",
       "node": [
         "6A.5.3"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "razbor-diag-5-geom.txt",
@@ -517,7 +524,7 @@
     },
     {
       "file": "trainer.html",
-      "title": "Тренажёр: Задание 6",
+      "title": "5A.5.4 · Тренажёр · Задание 6",
       "type": "trenazher",
       "class": null,
       "oge_task": null,
@@ -649,7 +656,7 @@
     },
     {
       "file": "bissektrisy-parallelogramma.html",
-      "title": "Биссектрисы в параллелограмме",
+      "title": "8G.1.2 · Задание · Биссектрисы в параллелограмме",
       "type": "zadanie",
       "class": null,
       "oge_task": null,
@@ -673,7 +680,7 @@
     },
     {
       "file": "z15-bissektrisa-ravnye-otrezki.html",
-      "title": "Биссектриса и равные отрезки",
+      "title": "7G.2.3 · Задание · Биссектриса и равные отрезки",
       "type": "zadanie",
       "class": null,
       "oge_task": 15,
@@ -686,7 +693,7 @@
     },
     {
       "file": "z15-mediana-bissektrisa-srednyaya-liniya.html",
-      "title": "Медиана, биссектриса, средняя линия",
+      "title": "7G.2.3 · Задание · Медиана, биссектриса, средняя линия",
       "type": "zadanie",
       "class": null,
       "oge_task": 15,
@@ -699,7 +706,7 @@
     },
     {
       "file": "z15-mediana-polovina-storony.html",
-      "title": "Медиана равна половине стороны",
+      "title": "8G.4.4 · Задание · Медиана равна половине стороны",
       "type": "zadanie",
       "class": null,
       "oge_task": 15,
@@ -711,7 +718,7 @@
     },
     {
       "file": "z15-pifagor.html",
-      "title": "Теорема Пифагора",
+      "title": "8G.2.2 · Задание · Теорема Пифагора",
       "type": "zadanie",
       "class": null,
       "oge_task": 15,
@@ -723,7 +730,7 @@
     },
     {
       "file": "z15-ploshchad.html",
-      "title": "Площадь треугольника",
+      "title": "8G.2.1 · Задание · Площадь треугольника",
       "type": "zadanie",
       "class": null,
       "oge_task": 15,
@@ -735,7 +742,7 @@
     },
     {
       "file": "z15-ravnobedrennyy.html",
-      "title": "Равнобедренный треугольник",
+      "title": "7G.2.4 · Задание · Равнобедренный треугольник",
       "type": "zadanie",
       "class": null,
       "oge_task": 15,
@@ -747,7 +754,7 @@
     },
     {
       "file": "z15-ravnostoronniy.html",
-      "title": "Равносторонний треугольник",
+      "title": "7G.2.4 · Задание · Равносторонний треугольник",
       "type": "zadanie",
       "class": null,
       "oge_task": 15,
@@ -760,7 +767,7 @@
     },
     {
       "file": "z15-sin-cos-tg-storona.html",
-      "title": "Синус, косинус и тангенс: найти сторону",
+      "title": "8G.3.5 · Задание · Синус, косинус и тангенс: найти сторону",
       "type": "zadanie",
       "class": null,
       "oge_task": 15,
@@ -772,7 +779,7 @@
     },
     {
       "file": "z15-sin-cos-tg-znachenie.html",
-      "title": "Синус, косинус и тангенс: найти значение",
+      "title": "8G.3.5 · Задание · Синус, косинус и тангенс: найти значение",
       "type": "zadanie",
       "class": null,
       "oge_task": 15,
@@ -784,7 +791,7 @@
     },
     {
       "file": "z15-summa-uglov.html",
-      "title": "Сумма углов и внешний угол",
+      "title": "7G.4.1 · Задание · Сумма углов и внешний угол",
       "type": "zadanie",
       "class": null,
       "oge_task": 15,
@@ -796,7 +803,7 @@
     },
     {
       "file": "z15-vysota-ugol.html",
-      "title": "Высота и угол ABH",
+      "title": "7G.2.3 · Задание · Высота и угол ABH",
       "type": "zadanie",
       "class": null,
       "oge_task": 15,
@@ -809,7 +816,7 @@
     },
     {
       "file": "z21-dvizhenie-test.html",
-      "title": "Тест: задачи на движение",
+      "title": "9A.3.2 · Тест · Задачи на движение",
       "type": "zadanie",
       "class": null,
       "oge_task": 21,
@@ -821,7 +828,7 @@
     },
     {
       "file": "z21-dvizhenie-trenazhor.html",
-      "title": "Тренажёр: задачи на движение, повышенный уровень",
+      "title": "9A.3.2 · Тренажёр · Задачи на движение",
       "type": "zadanie",
       "class": null,
       "oge_task": 21,
@@ -851,7 +858,7 @@
     },
     {
       "file": "zadacha-691.html",
-      "title": "Задача 691 — деление отрезка в данном отношении",
+      "title": "9G.3.1 · Задание · Задача 691 — деление отрезка в данном отношении",
       "type": "zadanie",
       "class": null,
       "oge_task": null,
@@ -872,7 +879,7 @@
     },
     {
       "file": "z21-dvizhenie.html",
-      "title": "Задачи на движение: все материалы по порядку",
+      "title": "9A.3.2 · Комплект: все материалы · Задачи на движение",
       "type": "sistema",
       "class": null,
       "oge_task": 21,
@@ -884,7 +891,7 @@
     },
     {
       "file": "z21-dvizhenie-teoriya.html",
-      "title": "Теория и устный опрос: задачи на движение",
+      "title": "9A.3.2 · Теория · Задачи на движение",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -896,7 +903,7 @@
     },
     {
       "file": "z21-dvizhenie-pyatiminutki.html",
-      "title": "Карточки-пятиминутки: задачи на движение (2 варианта)",
+      "title": "9A.3.2 · Пятиминутки · Задачи на движение",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -908,7 +915,7 @@
     },
     {
       "file": "z21-dvizhenie-razbor-5.html",
-      "title": "Разбор 5 задач повышенной сложности: движение",
+      "title": "9A.3.2 · Разбор 5 задач · Задачи на движение",
       "type": "razbor",
       "class": 9,
       "oge_task": 21,
@@ -920,7 +927,7 @@
     },
     {
       "file": "z21-dvizhenie-trenazhor-gen.html",
-      "title": "Тренажёр: задачи на движение, новые числа каждый раз",
+      "title": "9A.3.2 · Тренажёр (новые числа) · Задачи на движение",
       "type": "trenazher",
       "class": 9,
       "oge_task": 21,
@@ -932,7 +939,7 @@
     },
     {
       "file": "z21-dvizhenie-pamyatka.html",
-      "title": "Памятка: алгоритм и оформление, задачи на движение",
+      "title": "9A.3.2 · Памятка · Задачи на движение",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -944,7 +951,7 @@
     },
     {
       "file": "z21-dvizhenie-kontrolnaya.html",
-      "title": "Зачётный лист: задачи на движение (3 уровня)",
+      "title": "9A.3.2 · Зачётный лист · Задачи на движение",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -956,7 +963,7 @@
     },
     {
       "file": "z21-dvizhenie-dz.html",
-      "title": "Домашняя карточка: задачи на движение (4 задачи)",
+      "title": "9A.3.2 · ДЗ · Задачи на движение",
       "type": "dz",
       "class": 9,
       "oge_task": 21,
@@ -968,7 +975,7 @@
     },
     {
       "file": "razbor-dvizhenie-dialog.md",
-      "title": "Диалог ученик-учитель: задачи на движение (текст)",
+      "title": "9A.3.2 · Разбор в диалоге (текст) · Задачи на движение",
       "type": "razbor",
       "class": 9,
       "oge_task": 21,
@@ -976,11 +983,12 @@
       "note": "добавлено 2026-10-18",
       "node": [
         "9A.3.2"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "razbor-dvizhenie-dialog.pdf",
-      "title": "Диалог ученик-учитель: задачи на движение (печать)",
+      "title": "9A.3.2 · Разбор в диалоге (PDF) · Задачи на движение",
       "type": "razbor",
       "class": 9,
       "oge_task": 21,
@@ -988,11 +996,12 @@
       "note": "добавлено 2026-10-18",
       "node": [
         "9A.3.2"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z21-procenty.html",
-      "title": "Проценты: все материалы по порядку",
+      "title": "6A.4 · Комплект: все материалы · Проценты",
       "type": "sistema",
       "class": 9,
       "oge_task": 21,
@@ -1005,7 +1014,7 @@
     },
     {
       "file": "z21-procenty-teoriya.html",
-      "title": "Теория и устный опрос: проценты",
+      "title": "6A.4 · Теория · Проценты",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -1018,7 +1027,7 @@
     },
     {
       "file": "z21-procenty-test.html",
-      "title": "Тест: проценты",
+      "title": "6A.4 · Тест · Проценты",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -1031,7 +1040,7 @@
     },
     {
       "file": "z21-procenty-pyatiminutki.html",
-      "title": "Карточки-пятиминутки: проценты (2 варианта)",
+      "title": "6A.4 · Пятиминутки · Проценты",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -1044,7 +1053,7 @@
     },
     {
       "file": "z21-procenty-razbor-5.html",
-      "title": "Разбор 5 задач повышенной сложности: проценты",
+      "title": "6A.4 · Разбор 5 задач · Проценты",
       "type": "razbor",
       "class": 9,
       "oge_task": 21,
@@ -1057,7 +1066,7 @@
     },
     {
       "file": "z21-procenty-trenazhor.html",
-      "title": "Тренажёр: проценты, повышенный уровень",
+      "title": "6A.4 · Тренажёр · Проценты",
       "type": "trenazher",
       "class": 9,
       "oge_task": 21,
@@ -1070,7 +1079,7 @@
     },
     {
       "file": "z21-procenty-trenazhor-gen.html",
-      "title": "Тренажёр: проценты, новые числа каждый раз",
+      "title": "6A.4 · Тренажёр (новые числа) · Проценты",
       "type": "trenazher",
       "class": 9,
       "oge_task": 21,
@@ -1083,7 +1092,7 @@
     },
     {
       "file": "z21-procenty-pamyatka.html",
-      "title": "Памятка: алгоритм и оформление, проценты",
+      "title": "6A.4 · Памятка · Проценты",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -1096,7 +1105,7 @@
     },
     {
       "file": "z21-procenty-kontrolnaya.html",
-      "title": "Зачётный лист: проценты (3 уровня)",
+      "title": "6A.4 · Зачётный лист · Проценты",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -1109,7 +1118,7 @@
     },
     {
       "file": "z21-procenty-dz.html",
-      "title": "Домашняя карточка: проценты (4 задачи)",
+      "title": "6A.4 · ДЗ · Проценты",
       "type": "dz",
       "class": 9,
       "oge_task": 21,
@@ -1122,7 +1131,7 @@
     },
     {
       "file": "z21-procenty-plan-uroka.html",
-      "title": "План урока на 60 минут и ДЗ: проценты",
+      "title": "6A.4 · План урока · Проценты",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -1131,11 +1140,12 @@
       "node": [
         "6A.4",
         "9A.3.2"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "razbor-procenty-dialog.md",
-      "title": "Диалог-разбор: проценты (исходник)",
+      "title": "6A.4 · Разбор в диалоге (текст) · Проценты",
       "type": "razbor",
       "class": 9,
       "oge_task": 21,
@@ -1144,11 +1154,12 @@
       "node": [
         "6A.4",
         "9A.3.2"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "razbor-procenty-dialog.pdf",
-      "title": "Диалог-разбор: проценты (PDF)",
+      "title": "6A.4 · Разбор в диалоге (PDF) · Проценты",
       "type": "razbor",
       "class": 9,
       "oge_task": 21,
@@ -1157,11 +1168,12 @@
       "node": [
         "6A.4",
         "9A.3.2"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z21-procenty-teoriya.pdf",
-      "title": "Проценты, печать: teoriya",
+      "title": "6A.4 · Теория (PDF) · Проценты",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -1174,7 +1186,7 @@
     },
     {
       "file": "z21-procenty-pyatiminutki.pdf",
-      "title": "Проценты, печать: pyatiminutki",
+      "title": "6A.4 · Пятиминутки (PDF) · Проценты",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -1187,7 +1199,7 @@
     },
     {
       "file": "z21-procenty-pamyatka.pdf",
-      "title": "Проценты, печать: pamyatka",
+      "title": "6A.4 · Памятка (PDF) · Проценты",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -1200,7 +1212,7 @@
     },
     {
       "file": "z21-procenty-kontrolnaya.pdf",
-      "title": "Проценты, печать: kontrolnaya",
+      "title": "6A.4 · Зачётный лист (PDF) · Проценты",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -1213,7 +1225,7 @@
     },
     {
       "file": "z21-procenty-dz.pdf",
-      "title": "Проценты, печать: dz",
+      "title": "6A.4 · ДЗ (PDF) · Проценты",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -1226,7 +1238,7 @@
     },
     {
       "file": "z21-procenty-plan-uroka.pdf",
-      "title": "Проценты, печать: plan-uroka",
+      "title": "6A.4 · План урока (PDF) · Проценты",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -1235,11 +1247,12 @@
       "node": [
         "6A.4",
         "9A.3.2"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z21-procenty-komplekt.pdf",
-      "title": "Проценты, печать: komplekt",
+      "title": "6A.4 · Комплект (PDF) · Проценты",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -1252,7 +1265,7 @@
     },
     {
       "file": "z20-kvadratnye.html",
-      "title": "Квадратные уравнения: все материалы по порядку",
+      "title": "8A.3 · Комплект: все материалы · Квадратные уравнения",
       "type": "sistema",
       "class": 9,
       "oge_task": 20,
@@ -1264,7 +1277,7 @@
     },
     {
       "file": "z20-kvadratnye-teoriya.html",
-      "title": "Теория и устный опрос: квадратные уравнения",
+      "title": "8A.3 · Теория · Квадратные уравнения",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1276,7 +1289,7 @@
     },
     {
       "file": "z20-kvadratnye-test.html",
-      "title": "Тест: квадратные уравнения",
+      "title": "8A.3 · Тест · Квадратные уравнения",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1288,7 +1301,7 @@
     },
     {
       "file": "z20-kvadratnye-pyatiminutki.html",
-      "title": "Карточки-пятиминутки: квадратные уравнения (2 варианта)",
+      "title": "8A.3 · Пятиминутки · Квадратные уравнения",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1300,7 +1313,7 @@
     },
     {
       "file": "z20-kvadratnye-razbor-5.html",
-      "title": "Разбор 5 задач повышенной сложности: квадратные уравнения",
+      "title": "8A.3 · Разбор 5 задач · Квадратные уравнения",
       "type": "razbor",
       "class": 9,
       "oge_task": 20,
@@ -1312,7 +1325,7 @@
     },
     {
       "file": "z20-kvadratnye-trenazhor.html",
-      "title": "Тренажёр: квадратные уравнения, повышенный уровень",
+      "title": "8A.3 · Тренажёр · Квадратные уравнения",
       "type": "trenazher",
       "class": 9,
       "oge_task": 20,
@@ -1324,7 +1337,7 @@
     },
     {
       "file": "z20-kvadratnye-trenazhor-gen.html",
-      "title": "Тренажёр: квадратные уравнения, новые числа каждый раз",
+      "title": "8A.3 · Тренажёр (новые числа) · Квадратные уравнения",
       "type": "trenazher",
       "class": 9,
       "oge_task": 20,
@@ -1336,7 +1349,7 @@
     },
     {
       "file": "z20-kvadratnye-pamyatka.html",
-      "title": "Памятка: алгоритм и оформление, квадратные уравнения",
+      "title": "8A.3 · Памятка · Квадратные уравнения",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1348,7 +1361,7 @@
     },
     {
       "file": "z20-kvadratnye-kontrolnaya.html",
-      "title": "Зачётный лист: квадратные уравнения (3 уровня)",
+      "title": "8A.3 · Зачётный лист · Квадратные уравнения",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1360,7 +1373,7 @@
     },
     {
       "file": "z20-kvadratnye-dz.html",
-      "title": "Домашняя карточка: квадратные уравнения (4 задачи)",
+      "title": "8A.3 · ДЗ · Квадратные уравнения",
       "type": "dz",
       "class": 9,
       "oge_task": 20,
@@ -1372,7 +1385,7 @@
     },
     {
       "file": "z20-kvadratnye-plan-uroka.html",
-      "title": "План урока на 60 минут и ДЗ: квадратные уравнения",
+      "title": "8A.3 · План урока · Квадратные уравнения",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1380,11 +1393,12 @@
       "note": "для репетитора; добавлено 2026-10-18",
       "node": [
         "8A.3"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z20-kvadratnye-teoriya.pdf",
-      "title": "Квадратные уравнения, печать: teoriya",
+      "title": "8A.3 · Теория (PDF) · Квадратные уравнения",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1396,7 +1410,7 @@
     },
     {
       "file": "z20-kvadratnye-pyatiminutki.pdf",
-      "title": "Квадратные уравнения, печать: pyatiminutki",
+      "title": "8A.3 · Пятиминутки (PDF) · Квадратные уравнения",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1408,7 +1422,7 @@
     },
     {
       "file": "z20-kvadratnye-pamyatka.pdf",
-      "title": "Квадратные уравнения, печать: pamyatka",
+      "title": "8A.3 · Памятка (PDF) · Квадратные уравнения",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1420,7 +1434,7 @@
     },
     {
       "file": "z20-kvadratnye-kontrolnaya.pdf",
-      "title": "Квадратные уравнения, печать: kontrolnaya",
+      "title": "8A.3 · Зачётный лист (PDF) · Квадратные уравнения",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1432,7 +1446,7 @@
     },
     {
       "file": "z20-kvadratnye-dz.pdf",
-      "title": "Квадратные уравнения, печать: dz",
+      "title": "8A.3 · ДЗ (PDF) · Квадратные уравнения",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1444,7 +1458,7 @@
     },
     {
       "file": "z20-kvadratnye-plan-uroka.pdf",
-      "title": "Квадратные уравнения, печать: plan-uroka",
+      "title": "8A.3 · План урока (PDF) · Квадратные уравнения",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1452,11 +1466,12 @@
       "note": "добавлено 2026-10-18",
       "node": [
         "8A.3"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z20-kvadratnye-komplekt.pdf",
-      "title": "Квадратные уравнения, печать: komplekt",
+      "title": "8A.3 · Комплект (PDF) · Квадратные уравнения",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1468,7 +1483,7 @@
     },
     {
       "file": "razbor-kvadratnye-dialog.pdf",
-      "title": "Разбор в диалоге: квадратные уравнения (печать)",
+      "title": "8A.3 · Разбор в диалоге (PDF) · Квадратные уравнения",
       "type": "razbor",
       "class": 9,
       "oge_task": 20,
@@ -1476,11 +1491,12 @@
       "note": "добавлено 2026-10-18",
       "node": [
         "8A.3"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "razbor-kvadratnye-dialog.md",
-      "title": "Разбор в диалоге: квадратные уравнения (исходный текст)",
+      "title": "8A.3 · Разбор в диалоге (текст) · Квадратные уравнения",
       "type": "razbor",
       "class": 9,
       "oge_task": 20,
@@ -1488,11 +1504,12 @@
       "note": "добавлено 2026-10-18",
       "node": [
         "8A.3"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z6-drobi.html",
-      "title": "Десятичные дроби: все материалы по порядку",
+      "title": "5A.5.3 · Комплект: все материалы · Десятичные дроби",
       "type": "sistema",
       "class": 9,
       "oge_task": 6,
@@ -1505,7 +1522,7 @@
     },
     {
       "file": "z6-drobi-teoriya.html",
-      "title": "Теория и устный опрос: действия с десятичными дробями",
+      "title": "5A.5.3 · Теория · Десятичные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -1518,7 +1535,7 @@
     },
     {
       "file": "z6-drobi-test.html",
-      "title": "Тест: действия с десятичными дробями",
+      "title": "5A.5.3 · Тест · Десятичные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -1531,7 +1548,7 @@
     },
     {
       "file": "z6-drobi-pyatiminutki.html",
-      "title": "Карточки-пятиминутки: десятичные дроби (2 варианта)",
+      "title": "5A.5.3 · Пятиминутки · Десятичные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -1544,7 +1561,7 @@
     },
     {
       "file": "z6-drobi-razbor-5.html",
-      "title": "Разбор 5 задач повышенной сложности: десятичные дроби",
+      "title": "5A.5.3 · Разбор 5 задач · Десятичные дроби",
       "type": "razbor",
       "class": 9,
       "oge_task": 6,
@@ -1557,7 +1574,7 @@
     },
     {
       "file": "z6-drobi-trenazhor.html",
-      "title": "Тренажёр: 5 задач повышенной сложности, десятичные дроби",
+      "title": "5A.5.3 · Тренажёр · Десятичные дроби",
       "type": "trenazher",
       "class": 9,
       "oge_task": 6,
@@ -1570,7 +1587,7 @@
     },
     {
       "file": "z6-drobi-trenazhor-gen.html",
-      "title": "Тренажёр: десятичные дроби, новые числа каждый раз",
+      "title": "5A.5.3 · Тренажёр (новые числа) · Десятичные дроби",
       "type": "trenazher",
       "class": 9,
       "oge_task": 6,
@@ -1583,7 +1600,7 @@
     },
     {
       "file": "z6-drobi-pamyatka.html",
-      "title": "Памятка: алгоритм и запись ответа, задание 6",
+      "title": "5A.5.3 · Памятка · Десятичные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -1596,7 +1613,7 @@
     },
     {
       "file": "z6-drobi-kontrolnaya.html",
-      "title": "Зачётный лист: десятичные дроби (3 уровня)",
+      "title": "5A.5.3 · Зачётный лист · Десятичные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -1609,7 +1626,7 @@
     },
     {
       "file": "z6-drobi-dz.html",
-      "title": "Домашняя карточка: десятичные дроби (4 задачи)",
+      "title": "5A.5.3 · ДЗ · Десятичные дроби",
       "type": "dz",
       "class": 9,
       "oge_task": 6,
@@ -1622,7 +1639,7 @@
     },
     {
       "file": "razbor-drobi-6-dialog.md",
-      "title": "Диалог ученик-учитель: десятичные дроби, план урока и ДЗ (текст)",
+      "title": "5A.5.3 · Разбор в диалоге (текст) · Десятичные дроби",
       "type": "razbor",
       "class": 9,
       "oge_task": 6,
@@ -1631,11 +1648,12 @@
       "node": [
         "5A.5.3",
         "5A.5.4"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "razbor-drobi-6-dialog.pdf",
-      "title": "Диалог ученик-учитель: десятичные дроби, план урока и ДЗ (печать)",
+      "title": "5A.5.3 · Разбор в диалоге (PDF) · Десятичные дроби",
       "type": "razbor",
       "class": 9,
       "oge_task": 6,
@@ -1644,11 +1662,12 @@
       "node": [
         "5A.5.3",
         "5A.5.4"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z6-drobi-teoriya.pdf",
-      "title": "Десятичные дроби, печать: теория",
+      "title": "5A.5.3 · Теория (PDF) · Десятичные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -1661,7 +1680,7 @@
     },
     {
       "file": "z6-drobi-pyatiminutki.pdf",
-      "title": "Десятичные дроби, печать: пятиминутки",
+      "title": "5A.5.3 · Пятиминутки (PDF) · Десятичные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -1674,7 +1693,7 @@
     },
     {
       "file": "z6-drobi-razbor-5.pdf",
-      "title": "Десятичные дроби, печать: разбор 5 задач",
+      "title": "5A.5.3 · Разбор 5 задач (PDF) · Десятичные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -1687,7 +1706,7 @@
     },
     {
       "file": "z6-drobi-pamyatka.pdf",
-      "title": "Десятичные дроби, печать: памятка",
+      "title": "5A.5.3 · Памятка (PDF) · Десятичные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -1700,7 +1719,7 @@
     },
     {
       "file": "z6-drobi-kontrolnaya.pdf",
-      "title": "Десятичные дроби, печать: зачётный лист",
+      "title": "5A.5.3 · Зачётный лист (PDF) · Десятичные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -1713,7 +1732,7 @@
     },
     {
       "file": "z6-drobi-dz.pdf",
-      "title": "Десятичные дроби, печать: домашняя карточка",
+      "title": "5A.5.3 · ДЗ (PDF) · Десятичные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -1726,7 +1745,7 @@
     },
     {
       "file": "z6-drobi-komplekt.pdf",
-      "title": "Десятичные дроби, печать: комплект",
+      "title": "5A.5.3 · Комплект (PDF) · Десятичные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -1739,7 +1758,7 @@
     },
     {
       "file": "trenazher-ustnyj-schet.html",
-      "title": "Тренажёр устного счёта: умножение, квадраты, корни, степени, дроби, проценты",
+      "title": "5A.3.1 · Тренажёр устного счёта: умножение, квадраты, корни, степени, дроби, проценты",
       "type": "trenazher",
       "class": null,
       "oge_task": null,
@@ -1754,7 +1773,7 @@
     },
     {
       "file": "z20-sistemy.html",
-      "title": "Системы уравнений: все материалы по порядку",
+      "title": "7A.6 · Комплект: все материалы · Системы уравнений",
       "type": "sistema",
       "class": 9,
       "oge_task": 20,
@@ -1767,7 +1786,7 @@
     },
     {
       "file": "z20-sistemy-teoriya.html",
-      "title": "Теория и устный опрос: системы уравнений",
+      "title": "7A.6 · Теория · Системы уравнений",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1780,7 +1799,7 @@
     },
     {
       "file": "z20-sistemy-test.html",
-      "title": "Тест: системы уравнений",
+      "title": "7A.6 · Тест · Системы уравнений",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1793,7 +1812,7 @@
     },
     {
       "file": "z20-sistemy-pyatiminutki.html",
-      "title": "Карточки-пятиминутки: системы уравнений (2 варианта)",
+      "title": "7A.6 · Пятиминутки · Системы уравнений",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1806,7 +1825,7 @@
     },
     {
       "file": "z20-sistemy-razbor-5.html",
-      "title": "Разбор 5 задач повышенной сложности: системы уравнений",
+      "title": "7A.6 · Разбор 5 задач · Системы уравнений",
       "type": "razbor",
       "class": 9,
       "oge_task": 20,
@@ -1819,7 +1838,7 @@
     },
     {
       "file": "z20-sistemy-trenazhor.html",
-      "title": "Тренажёр: системы уравнений, повышенный уровень",
+      "title": "7A.6 · Тренажёр · Системы уравнений",
       "type": "trenazher",
       "class": 9,
       "oge_task": 20,
@@ -1832,7 +1851,7 @@
     },
     {
       "file": "z20-sistemy-trenazhor-gen.html",
-      "title": "Тренажёр: системы уравнений, новые числа каждый раз",
+      "title": "7A.6 · Тренажёр (новые числа) · Системы уравнений",
       "type": "trenazher",
       "class": 9,
       "oge_task": 20,
@@ -1845,7 +1864,7 @@
     },
     {
       "file": "z20-sistemy-pamyatka.html",
-      "title": "Памятка: алгоритм и оформление, системы уравнений",
+      "title": "7A.6 · Памятка · Системы уравнений",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1858,7 +1877,7 @@
     },
     {
       "file": "z20-sistemy-kontrolnaya.html",
-      "title": "Зачётный лист: системы уравнений (3 уровня)",
+      "title": "7A.6 · Зачётный лист · Системы уравнений",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1871,7 +1890,7 @@
     },
     {
       "file": "z20-sistemy-dz.html",
-      "title": "Домашняя карточка: системы уравнений (4 задачи)",
+      "title": "7A.6 · ДЗ · Системы уравнений",
       "type": "dz",
       "class": 9,
       "oge_task": 20,
@@ -1884,7 +1903,7 @@
     },
     {
       "file": "z20-sistemy-plan-uroka.html",
-      "title": "План урока на 60 минут и ДЗ: системы уравнений",
+      "title": "7A.6 · План урока · Системы уравнений",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1893,11 +1912,12 @@
       "node": [
         "7A.6",
         "9A.3.1"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z20-sistemy-teoriya.pdf",
-      "title": "Системы уравнений, печать: teoriya",
+      "title": "7A.6 · Теория (PDF) · Системы уравнений",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1910,7 +1930,7 @@
     },
     {
       "file": "z20-sistemy-pyatiminutki.pdf",
-      "title": "Системы уравнений, печать: pyatiminutki",
+      "title": "7A.6 · Пятиминутки (PDF) · Системы уравнений",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1923,7 +1943,7 @@
     },
     {
       "file": "z20-sistemy-razbor-5.pdf",
-      "title": "Системы уравнений, печать: razbor-5",
+      "title": "7A.6 · Разбор 5 задач (PDF) · Системы уравнений",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1936,7 +1956,7 @@
     },
     {
       "file": "z20-sistemy-pamyatka.pdf",
-      "title": "Системы уравнений, печать: pamyatka",
+      "title": "7A.6 · Памятка (PDF) · Системы уравнений",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1949,7 +1969,7 @@
     },
     {
       "file": "z20-sistemy-kontrolnaya.pdf",
-      "title": "Системы уравнений, печать: kontrolnaya",
+      "title": "7A.6 · Зачётный лист (PDF) · Системы уравнений",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1962,7 +1982,7 @@
     },
     {
       "file": "z20-sistemy-dz.pdf",
-      "title": "Системы уравнений, печать: dz",
+      "title": "7A.6 · ДЗ (PDF) · Системы уравнений",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1975,7 +1995,7 @@
     },
     {
       "file": "z20-sistemy-plan-uroka.pdf",
-      "title": "Системы уравнений, печать: plan-uroka",
+      "title": "7A.6 · План урока (PDF) · Системы уравнений",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -1984,11 +2004,12 @@
       "node": [
         "7A.6",
         "9A.3.1"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z20-sistemy-komplekt.pdf",
-      "title": "Системы уравнений, печать: komplekt",
+      "title": "7A.6 · Комплект (PDF) · Системы уравнений",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -2001,7 +2022,7 @@
     },
     {
       "file": "razbor-sistemy-dialog.md",
-      "title": "Системы уравнений: разбор в диалоге (текст)",
+      "title": "7A.6 · Разбор в диалоге (текст) · Системы уравнений",
       "type": "razbor",
       "class": 9,
       "oge_task": 20,
@@ -2010,11 +2031,12 @@
       "node": [
         "7A.6",
         "9A.3.1"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "razbor-sistemy-dialog.pdf",
-      "title": "Системы уравнений: разбор в диалоге, печать",
+      "title": "7A.6 · Разбор в диалоге (PDF) · Системы уравнений",
       "type": "razbor",
       "class": 9,
       "oge_task": 20,
@@ -2023,11 +2045,12 @@
       "node": [
         "7A.6",
         "9A.3.1"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z6-obyknovennye.html",
-      "title": "Обыкновенные дроби: все материалы по порядку",
+      "title": "6A.2.3 · Комплект: все материалы · Обыкновенные дроби",
       "type": "sistema",
       "class": 9,
       "oge_task": 6,
@@ -2041,7 +2064,7 @@
     },
     {
       "file": "z6-obyknovennye-teoriya.html",
-      "title": "Теория и устный опрос: обыкновенные дроби и смешанные числа",
+      "title": "6A.2.3 · Теория · Обыкновенные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -2055,7 +2078,7 @@
     },
     {
       "file": "z6-obyknovennye-test.html",
-      "title": "Тест: обыкновенные дроби и смешанные числа",
+      "title": "6A.2.3 · Тест · Обыкновенные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -2069,7 +2092,7 @@
     },
     {
       "file": "z6-obyknovennye-pyatiminutki.html",
-      "title": "Карточки-пятиминутки: обыкновенные дроби (2 варианта)",
+      "title": "6A.2.3 · Пятиминутки · Обыкновенные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -2083,7 +2106,7 @@
     },
     {
       "file": "z6-obyknovennye-razbor-5.html",
-      "title": "Разбор 5 задач повышенной сложности: обыкновенные дроби",
+      "title": "6A.2.3 · Разбор 5 задач · Обыкновенные дроби",
       "type": "razbor",
       "class": 9,
       "oge_task": 6,
@@ -2097,7 +2120,7 @@
     },
     {
       "file": "z6-obyknovennye-trenazhor.html",
-      "title": "Тренажёр: 5 задач повышенной сложности, обыкновенные дроби",
+      "title": "6A.2.3 · Тренажёр · Обыкновенные дроби",
       "type": "trenazher",
       "class": 9,
       "oge_task": 6,
@@ -2111,7 +2134,7 @@
     },
     {
       "file": "z6-obyknovennye-trenazhor-gen.html",
-      "title": "Тренажёр: обыкновенные дроби, новые числа каждый раз",
+      "title": "6A.2.3 · Тренажёр (новые числа) · Обыкновенные дроби",
       "type": "trenazher",
       "class": 9,
       "oge_task": 6,
@@ -2125,7 +2148,7 @@
     },
     {
       "file": "z6-obyknovennye-pamyatka.html",
-      "title": "Памятка: алгоритм и запись ответа, обыкновенные дроби",
+      "title": "6A.2.3 · Памятка · Обыкновенные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -2139,7 +2162,7 @@
     },
     {
       "file": "z6-obyknovennye-kontrolnaya.html",
-      "title": "Зачётный лист: обыкновенные дроби (3 уровня)",
+      "title": "6A.2.3 · Зачётный лист · Обыкновенные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -2153,7 +2176,7 @@
     },
     {
       "file": "z6-obyknovennye-dz.html",
-      "title": "Домашняя карточка: обыкновенные дроби (4 задачи)",
+      "title": "6A.2.3 · ДЗ · Обыкновенные дроби",
       "type": "dz",
       "class": 9,
       "oge_task": 6,
@@ -2167,7 +2190,7 @@
     },
     {
       "file": "razbor-obyknovennye-dialog.md",
-      "title": "Диалог ученик-учитель: обыкновенные дроби, план урока и ДЗ (текст)",
+      "title": "6A.2.3 · Разбор в диалоге (текст) · Обыкновенные дроби",
       "type": "razbor",
       "class": 9,
       "oge_task": 6,
@@ -2176,11 +2199,12 @@
       "node": [
         "6A.2.3",
         "6A.2.4"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "razbor-obyknovennye-dialog.pdf",
-      "title": "Диалог ученик-учитель: обыкновенные дроби, план урока и ДЗ (печать)",
+      "title": "6A.2.3 · Разбор в диалоге (PDF) · Обыкновенные дроби",
       "type": "razbor",
       "class": 9,
       "oge_task": 6,
@@ -2189,11 +2213,12 @@
       "node": [
         "6A.2.3",
         "6A.2.4"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z6-obyknovennye-teoriya.pdf",
-      "title": "Обыкновенные дроби, печать: теория",
+      "title": "6A.2.3 · Теория (PDF) · Обыкновенные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -2207,7 +2232,7 @@
     },
     {
       "file": "z6-obyknovennye-pyatiminutki.pdf",
-      "title": "Обыкновенные дроби, печать: пятиминутки",
+      "title": "6A.2.3 · Пятиминутки (PDF) · Обыкновенные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -2221,7 +2246,7 @@
     },
     {
       "file": "z6-obyknovennye-razbor-5.pdf",
-      "title": "Обыкновенные дроби, печать: разбор 5 задач",
+      "title": "6A.2.3 · Разбор 5 задач (PDF) · Обыкновенные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -2235,7 +2260,7 @@
     },
     {
       "file": "z6-obyknovennye-pamyatka.pdf",
-      "title": "Обыкновенные дроби, печать: памятка",
+      "title": "6A.2.3 · Памятка (PDF) · Обыкновенные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -2249,7 +2274,7 @@
     },
     {
       "file": "z6-obyknovennye-kontrolnaya.pdf",
-      "title": "Обыкновенные дроби, печать: зачётный лист",
+      "title": "6A.2.3 · Зачётный лист (PDF) · Обыкновенные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -2263,7 +2288,7 @@
     },
     {
       "file": "z6-obyknovennye-dz.pdf",
-      "title": "Обыкновенные дроби, печать: домашняя карточка",
+      "title": "6A.2.3 · ДЗ (PDF) · Обыкновенные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -2277,7 +2302,7 @@
     },
     {
       "file": "z6-obyknovennye-komplekt.pdf",
-      "title": "Обыкновенные дроби, печать: комплект",
+      "title": "6A.2.3 · Комплект (PDF) · Обыкновенные дроби",
       "type": "zadanie",
       "class": 9,
       "oge_task": 6,
@@ -2291,7 +2316,7 @@
     },
     {
       "file": "z20-neravenstva.html",
-      "title": "Неравенства: все материалы по порядку",
+      "title": "8A.4 · Комплект: все материалы · Неравенства",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -2304,7 +2329,7 @@
     },
     {
       "file": "z20-neravenstva-teoriya.html",
-      "title": "Теория и устный опрос: неравенства",
+      "title": "8A.4 · Теория · Неравенства",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -2317,7 +2342,7 @@
     },
     {
       "file": "z20-neravenstva-test.html",
-      "title": "Тест: неравенства",
+      "title": "8A.4 · Тест · Неравенства",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -2330,7 +2355,7 @@
     },
     {
       "file": "z20-neravenstva-pyatiminutki.html",
-      "title": "Пятиминутки: неравенства",
+      "title": "8A.4 · Пятиминутки · Неравенства",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -2343,7 +2368,7 @@
     },
     {
       "file": "z20-neravenstva-razbor-5.html",
-      "title": "Разбор 5 задач: неравенства",
+      "title": "8A.4 · Разбор 5 задач · Неравенства",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -2356,7 +2381,7 @@
     },
     {
       "file": "z20-neravenstva-trenazhor.html",
-      "title": "Тренажёр по шагам: неравенства",
+      "title": "8A.4 · Тренажёр · Неравенства",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -2369,7 +2394,7 @@
     },
     {
       "file": "z20-neravenstva-trenazhor-gen.html",
-      "title": "Тренажёр с новыми числами: неравенства",
+      "title": "8A.4 · Тренажёр (новые числа) · Неравенства",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -2382,7 +2407,7 @@
     },
     {
       "file": "z20-neravenstva-pamyatka.html",
-      "title": "Памятка: алгоритм и оформление, неравенства",
+      "title": "8A.4 · Памятка · Неравенства",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -2395,7 +2420,7 @@
     },
     {
       "file": "z20-neravenstva-kontrolnaya.html",
-      "title": "Зачётный лист: неравенства",
+      "title": "8A.4 · Зачётный лист · Неравенства",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -2408,7 +2433,7 @@
     },
     {
       "file": "z20-neravenstva-dz.html",
-      "title": "Домашняя карточка: неравенства",
+      "title": "8A.4 · ДЗ · Неравенства",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -2421,7 +2446,7 @@
     },
     {
       "file": "z20-neravenstva-plan-uroka.html",
-      "title": "План урока и ДЗ: неравенства",
+      "title": "8A.4 · План урока · Неравенства",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -2430,11 +2455,12 @@
       "node": [
         "8A.4",
         "9A.2.3"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z20-neravenstva-teoriya.pdf",
-      "title": "PDF: Теория и устный опрос: неравенства",
+      "title": "8A.4 · Теория (PDF) · Неравенства",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -2447,7 +2473,7 @@
     },
     {
       "file": "z20-neravenstva-pyatiminutki.pdf",
-      "title": "PDF: Пятиминутки: неравенства",
+      "title": "8A.4 · Пятиминутки (PDF) · Неравенства",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -2460,7 +2486,7 @@
     },
     {
       "file": "z20-neravenstva-razbor-5.pdf",
-      "title": "PDF: Разбор 5 задач: неравенства",
+      "title": "8A.4 · Разбор 5 задач (PDF) · Неравенства",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -2473,7 +2499,7 @@
     },
     {
       "file": "z20-neravenstva-pamyatka.pdf",
-      "title": "PDF: Памятка: алгоритм и оформление, неравенства",
+      "title": "8A.4 · Памятка (PDF) · Неравенства",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -2486,7 +2512,7 @@
     },
     {
       "file": "z20-neravenstva-kontrolnaya.pdf",
-      "title": "PDF: Зачётный лист: неравенства",
+      "title": "8A.4 · Зачётный лист (PDF) · Неравенства",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -2499,7 +2525,7 @@
     },
     {
       "file": "z20-neravenstva-dz.pdf",
-      "title": "PDF: Домашняя карточка: неравенства",
+      "title": "8A.4 · ДЗ (PDF) · Неравенства",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -2512,7 +2538,7 @@
     },
     {
       "file": "z20-neravenstva-plan-uroka.pdf",
-      "title": "PDF: План урока и ДЗ: неравенства",
+      "title": "8A.4 · План урока (PDF) · Неравенства",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -2521,11 +2547,12 @@
       "node": [
         "8A.4",
         "9A.2.3"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z20-neravenstva-komplekt.pdf",
-      "title": "PDF: весь комплект: неравенства",
+      "title": "8A.4 · Комплект (PDF) · Неравенства",
       "type": "zadanie",
       "class": 9,
       "oge_task": 20,
@@ -2538,7 +2565,7 @@
     },
     {
       "file": "razbor-neravenstva-dialog.pdf",
-      "title": "Диалог-разбор: неравенства (PDF)",
+      "title": "8A.4 · Разбор в диалоге (PDF) · Неравенства",
       "type": "razbor",
       "class": 9,
       "oge_task": 20,
@@ -2547,11 +2574,12 @@
       "node": [
         "8A.4",
         "9A.2.3"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "razbor-neravenstva-dialog.md",
-      "title": "Диалог-разбор: неравенства (текст)",
+      "title": "8A.4 · Разбор в диалоге (текст) · Неравенства",
       "type": "razbor",
       "class": 9,
       "oge_task": 20,
@@ -2560,11 +2588,12 @@
       "node": [
         "8A.4",
         "9A.2.3"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z8-stepeni.html",
-      "title": "Степени: все материалы по порядку",
+      "title": "7A.3 · Комплект: все материалы · Степени",
       "type": "sistema",
       "class": 9,
       "oge_task": 8,
@@ -2577,7 +2606,7 @@
     },
     {
       "file": "z8-stepeni-teoriya.html",
-      "title": "Теория и устный опрос: степени",
+      "title": "7A.3 · Теория · Степени",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -2590,7 +2619,7 @@
     },
     {
       "file": "z8-stepeni-test.html",
-      "title": "Тест: степени",
+      "title": "7A.3 · Тест · Степени",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -2603,7 +2632,7 @@
     },
     {
       "file": "z8-stepeni-pyatiminutki.html",
-      "title": "Карточки-пятиминутки: степени (2 варианта)",
+      "title": "7A.3 · Пятиминутки · Степени",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -2616,7 +2645,7 @@
     },
     {
       "file": "z8-stepeni-razbor-5.html",
-      "title": "Разбор 5 задач повышенной сложности: степени",
+      "title": "7A.3 · Разбор 5 задач · Степени",
       "type": "razbor",
       "class": 9,
       "oge_task": 8,
@@ -2629,7 +2658,7 @@
     },
     {
       "file": "z8-stepeni-trenazhor.html",
-      "title": "Тренажёр: 5 задач повышенной сложности, степени",
+      "title": "7A.3 · Тренажёр · Степени",
       "type": "trenazher",
       "class": 9,
       "oge_task": 8,
@@ -2642,7 +2671,7 @@
     },
     {
       "file": "z8-stepeni-trenazhor-gen.html",
-      "title": "Тренажёр: степени, новые числа каждый раз",
+      "title": "7A.3 · Тренажёр (новые числа) · Степени",
       "type": "trenazher",
       "class": 9,
       "oge_task": 8,
@@ -2655,7 +2684,7 @@
     },
     {
       "file": "z8-stepeni-pamyatka.html",
-      "title": "Памятка: алгоритм и запись ответа, степени",
+      "title": "7A.3 · Памятка · Степени",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -2668,7 +2697,7 @@
     },
     {
       "file": "z8-stepeni-kontrolnaya.html",
-      "title": "Зачётный лист: степени (3 уровня)",
+      "title": "7A.3 · Зачётный лист · Степени",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -2681,7 +2710,7 @@
     },
     {
       "file": "z8-stepeni-dz.html",
-      "title": "Домашняя карточка: степени (4 задачи)",
+      "title": "7A.3 · ДЗ · Степени",
       "type": "dz",
       "class": 9,
       "oge_task": 8,
@@ -2694,7 +2723,7 @@
     },
     {
       "file": "razbor-stepeni-dialog.md",
-      "title": "Диалог ученик-учитель: степени, план урока и ДЗ (текст)",
+      "title": "7A.3 · Разбор в диалоге (текст) · Степени",
       "type": "razbor",
       "class": 9,
       "oge_task": 8,
@@ -2703,11 +2732,12 @@
       "node": [
         "7A.3",
         "8A.1.6"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "razbor-stepeni-dialog.pdf",
-      "title": "Диалог ученик-учитель: степени, план урока и ДЗ (печать)",
+      "title": "7A.3 · Разбор в диалоге (PDF) · Степени",
       "type": "razbor",
       "class": 9,
       "oge_task": 8,
@@ -2716,11 +2746,12 @@
       "node": [
         "7A.3",
         "8A.1.6"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z8-stepeni-teoriya.pdf",
-      "title": "Степени, печать: теория",
+      "title": "7A.3 · Теория (PDF) · Степени",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -2733,7 +2764,7 @@
     },
     {
       "file": "z8-stepeni-pyatiminutki.pdf",
-      "title": "Степени, печать: пятиминутки",
+      "title": "7A.3 · Пятиминутки (PDF) · Степени",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -2746,7 +2777,7 @@
     },
     {
       "file": "z8-stepeni-razbor-5.pdf",
-      "title": "Степени, печать: разбор 5 задач",
+      "title": "7A.3 · Разбор 5 задач (PDF) · Степени",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -2759,7 +2790,7 @@
     },
     {
       "file": "z8-stepeni-pamyatka.pdf",
-      "title": "Степени, печать: памятка",
+      "title": "7A.3 · Памятка (PDF) · Степени",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -2772,7 +2803,7 @@
     },
     {
       "file": "z8-stepeni-kontrolnaya.pdf",
-      "title": "Степени, печать: зачётный лист",
+      "title": "7A.3 · Зачётный лист (PDF) · Степени",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -2785,7 +2816,7 @@
     },
     {
       "file": "z8-stepeni-dz.pdf",
-      "title": "Степени, печать: домашняя карточка",
+      "title": "7A.3 · ДЗ (PDF) · Степени",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -2798,7 +2829,7 @@
     },
     {
       "file": "z8-stepeni-komplekt.pdf",
-      "title": "Степени, печать: комплект",
+      "title": "7A.3 · Комплект (PDF) · Степени",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -2811,7 +2842,7 @@
     },
     {
       "file": "z8-korni.html",
-      "title": "Корни: все материалы по порядку",
+      "title": "8A.2 · Комплект: все материалы · Корни",
       "type": "sistema",
       "class": 9,
       "oge_task": 8,
@@ -2823,7 +2854,7 @@
     },
     {
       "file": "z8-korni-teoriya.html",
-      "title": "Теория и устный опрос: корни",
+      "title": "8A.2 · Теория · Корни",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -2835,7 +2866,7 @@
     },
     {
       "file": "z8-korni-test.html",
-      "title": "Тест: корни",
+      "title": "8A.2 · Тест · Корни",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -2847,7 +2878,7 @@
     },
     {
       "file": "z8-korni-pyatiminutki.html",
-      "title": "Карточки-пятиминутки: корни (2 варианта)",
+      "title": "8A.2 · Пятиминутки · Корни",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -2859,7 +2890,7 @@
     },
     {
       "file": "z8-korni-razbor-5.html",
-      "title": "Разбор 5 задач повышенной сложности: корни",
+      "title": "8A.2 · Разбор 5 задач · Корни",
       "type": "razbor",
       "class": 9,
       "oge_task": 8,
@@ -2871,7 +2902,7 @@
     },
     {
       "file": "z8-korni-trenazhor.html",
-      "title": "Тренажёр: 5 задач повышенной сложности, корни",
+      "title": "8A.2 · Тренажёр · Корни",
       "type": "trenazher",
       "class": 9,
       "oge_task": 8,
@@ -2883,7 +2914,7 @@
     },
     {
       "file": "z8-korni-trenazhor-gen.html",
-      "title": "Тренажёр: корни, новые числа каждый раз",
+      "title": "8A.2 · Тренажёр (новые числа) · Корни",
       "type": "trenazher",
       "class": 9,
       "oge_task": 8,
@@ -2895,7 +2926,7 @@
     },
     {
       "file": "z8-korni-pamyatka.html",
-      "title": "Памятка: алгоритм и запись ответа, корни",
+      "title": "8A.2 · Памятка · Корни",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -2907,7 +2938,7 @@
     },
     {
       "file": "z8-korni-kontrolnaya.html",
-      "title": "Зачётный лист: корни (3 уровня)",
+      "title": "8A.2 · Зачётный лист · Корни",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -2919,7 +2950,7 @@
     },
     {
       "file": "z8-korni-dz.html",
-      "title": "Домашняя карточка: корни (4 задачи)",
+      "title": "8A.2 · ДЗ · Корни",
       "type": "dz",
       "class": 9,
       "oge_task": 8,
@@ -2931,7 +2962,7 @@
     },
     {
       "file": "razbor-korni-dialog.md",
-      "title": "Диалог ученик-учитель: корни, план урока и ДЗ (текст)",
+      "title": "8A.2 · Разбор в диалоге (текст) · Корни",
       "type": "razbor",
       "class": 9,
       "oge_task": 8,
@@ -2939,11 +2970,12 @@
       "note": "добавлено 2026-10-18",
       "node": [
         "8A.2"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "razbor-korni-dialog.pdf",
-      "title": "Диалог ученик-учитель: корни, план урока и ДЗ (печать)",
+      "title": "8A.2 · Разбор в диалоге (PDF) · Корни",
       "type": "razbor",
       "class": 9,
       "oge_task": 8,
@@ -2951,11 +2983,12 @@
       "note": "добавлено 2026-10-18",
       "node": [
         "8A.2"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z8-korni-teoriya.pdf",
-      "title": "Корни, печать: теория",
+      "title": "8A.2 · Теория (PDF) · Корни",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -2967,7 +3000,7 @@
     },
     {
       "file": "z8-korni-pyatiminutki.pdf",
-      "title": "Корни, печать: пятиминутки",
+      "title": "8A.2 · Пятиминутки (PDF) · Корни",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -2979,7 +3012,7 @@
     },
     {
       "file": "z8-korni-razbor-5.pdf",
-      "title": "Корни, печать: разбор 5 задач",
+      "title": "8A.2 · Разбор 5 задач (PDF) · Корни",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -2991,7 +3024,7 @@
     },
     {
       "file": "z8-korni-pamyatka.pdf",
-      "title": "Корни, печать: памятка",
+      "title": "8A.2 · Памятка (PDF) · Корни",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -3003,7 +3036,7 @@
     },
     {
       "file": "z8-korni-kontrolnaya.pdf",
-      "title": "Корни, печать: зачётный лист",
+      "title": "8A.2 · Зачётный лист (PDF) · Корни",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -3015,7 +3048,7 @@
     },
     {
       "file": "z8-korni-dz.pdf",
-      "title": "Корни, печать: домашняя карточка",
+      "title": "8A.2 · ДЗ (PDF) · Корни",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -3027,7 +3060,7 @@
     },
     {
       "file": "z8-korni-komplekt.pdf",
-      "title": "Корни, печать: комплект",
+      "title": "8A.2 · Комплект (PDF) · Корни",
       "type": "zadanie",
       "class": 9,
       "oge_task": 8,
@@ -3039,7 +3072,7 @@
     },
     {
       "file": "z21-smesi.html",
-      "title": "Смеси: все материалы по порядку",
+      "title": "9A.3.2 · Комплект: все материалы · Смеси и сплавы",
       "type": "sistema",
       "class": 9,
       "oge_task": 21,
@@ -3051,7 +3084,7 @@
     },
     {
       "file": "z21-smesi-teoriya.html",
-      "title": "Теория и устный опрос: смеси",
+      "title": "9A.3.2 · Теория · Смеси и сплавы",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -3063,7 +3096,7 @@
     },
     {
       "file": "z21-smesi-test.html",
-      "title": "Тест: смеси",
+      "title": "9A.3.2 · Тест · Смеси и сплавы",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -3075,7 +3108,7 @@
     },
     {
       "file": "z21-smesi-pyatiminutki.html",
-      "title": "Карточки-пятиминутки: смеси (2 варианта)",
+      "title": "9A.3.2 · Пятиминутки · Смеси и сплавы",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -3087,7 +3120,7 @@
     },
     {
       "file": "z21-smesi-razbor-5.html",
-      "title": "Разбор 5 задач повышенной сложности: смеси",
+      "title": "9A.3.2 · Разбор 5 задач · Смеси и сплавы",
       "type": "razbor",
       "class": 9,
       "oge_task": 21,
@@ -3099,7 +3132,7 @@
     },
     {
       "file": "z21-smesi-trenazhor.html",
-      "title": "Тренажёр: 5 задач повышенной сложности, смеси",
+      "title": "9A.3.2 · Тренажёр · Смеси и сплавы",
       "type": "trenazher",
       "class": 9,
       "oge_task": 21,
@@ -3111,7 +3144,7 @@
     },
     {
       "file": "z21-smesi-trenazhor-gen.html",
-      "title": "Тренажёр: смеси, новые числа каждый раз",
+      "title": "9A.3.2 · Тренажёр (новые числа) · Смеси и сплавы",
       "type": "trenazher",
       "class": 9,
       "oge_task": 21,
@@ -3123,7 +3156,7 @@
     },
     {
       "file": "z21-smesi-pamyatka.html",
-      "title": "Памятка: алгоритм и запись ответа, смеси",
+      "title": "9A.3.2 · Памятка · Смеси и сплавы",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -3135,7 +3168,7 @@
     },
     {
       "file": "z21-smesi-kontrolnaya.html",
-      "title": "Зачётный лист: смеси (3 уровня)",
+      "title": "9A.3.2 · Зачётный лист · Смеси и сплавы",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -3147,7 +3180,7 @@
     },
     {
       "file": "z21-smesi-dz.html",
-      "title": "Домашняя карточка: смеси (4 задачи)",
+      "title": "9A.3.2 · ДЗ · Смеси и сплавы",
       "type": "dz",
       "class": 9,
       "oge_task": 21,
@@ -3159,7 +3192,7 @@
     },
     {
       "file": "z21-smesi-plan-uroka.html",
-      "title": "План урока и домашнего задания: смеси",
+      "title": "9A.3.2 · План урока · Смеси и сплавы",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -3167,11 +3200,12 @@
       "note": "добавлено 2026-10-18",
       "node": [
         "9A.3.2"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "razbor-smesi-dialog.md",
-      "title": "Диалог ученик-учитель: смеси, план урока и ДЗ (текст)",
+      "title": "9A.3.2 · Разбор в диалоге (текст) · Смеси и сплавы",
       "type": "razbor",
       "class": 9,
       "oge_task": 21,
@@ -3179,11 +3213,12 @@
       "note": "добавлено 2026-10-18",
       "node": [
         "9A.3.2"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "razbor-smesi-dialog.pdf",
-      "title": "Диалог ученик-учитель: смеси, план урока и ДЗ (печать)",
+      "title": "9A.3.2 · Разбор в диалоге (PDF) · Смеси и сплавы",
       "type": "razbor",
       "class": 9,
       "oge_task": 21,
@@ -3191,11 +3226,12 @@
       "note": "добавлено 2026-10-18",
       "node": [
         "9A.3.2"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z21-smesi-teoriya.pdf",
-      "title": "Смеси, печать: теория",
+      "title": "9A.3.2 · Теория (PDF) · Смеси и сплавы",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -3207,7 +3243,7 @@
     },
     {
       "file": "z21-smesi-pyatiminutki.pdf",
-      "title": "Смеси, печать: пятиминутки",
+      "title": "9A.3.2 · Пятиминутки (PDF) · Смеси и сплавы",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -3219,7 +3255,7 @@
     },
     {
       "file": "z21-smesi-razbor-5.pdf",
-      "title": "Смеси, печать: разбор 5 задач",
+      "title": "9A.3.2 · Разбор 5 задач (PDF) · Смеси и сплавы",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -3231,7 +3267,7 @@
     },
     {
       "file": "z21-smesi-pamyatka.pdf",
-      "title": "Смеси, печать: памятка",
+      "title": "9A.3.2 · Памятка (PDF) · Смеси и сплавы",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -3243,7 +3279,7 @@
     },
     {
       "file": "z21-smesi-kontrolnaya.pdf",
-      "title": "Смеси, печать: зачётный лист",
+      "title": "9A.3.2 · Зачётный лист (PDF) · Смеси и сплавы",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -3255,7 +3291,7 @@
     },
     {
       "file": "z21-smesi-dz.pdf",
-      "title": "Смеси, печать: домашняя карточка",
+      "title": "9A.3.2 · ДЗ (PDF) · Смеси и сплавы",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -3267,7 +3303,7 @@
     },
     {
       "file": "z21-smesi-plan-uroka.pdf",
-      "title": "Смеси, печать: план урока",
+      "title": "9A.3.2 · План урока (PDF) · Смеси и сплавы",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -3275,11 +3311,12 @@
       "note": "добавлено 2026-10-18",
       "node": [
         "9A.3.2"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z21-smesi-komplekt.pdf",
-      "title": "Смеси, печать: комплект",
+      "title": "9A.3.2 · Комплект (PDF) · Смеси и сплавы",
       "type": "zadanie",
       "class": 9,
       "oge_task": 21,
@@ -3291,7 +3328,7 @@
     },
     {
       "file": "z14-progressii.html",
-      "title": "Прогрессии: все материалы по порядку",
+      "title": "9A.4 · Комплект: все материалы · Прогрессии",
       "type": "sistema",
       "class": 9,
       "oge_task": 14,
@@ -3303,7 +3340,7 @@
     },
     {
       "file": "z14-progressii-teoriya.html",
-      "title": "Теория и устный опрос: прогрессии",
+      "title": "9A.4 · Теория · Прогрессии",
       "type": "zadanie",
       "class": 9,
       "oge_task": 14,
@@ -3315,7 +3352,7 @@
     },
     {
       "file": "z14-progressii-test.html",
-      "title": "Тест: прогрессии",
+      "title": "9A.4 · Тест · Прогрессии",
       "type": "zadanie",
       "class": 9,
       "oge_task": 14,
@@ -3327,7 +3364,7 @@
     },
     {
       "file": "z14-progressii-pyatiminutki.html",
-      "title": "Карточки-пятиминутки: прогрессии (2 варианта)",
+      "title": "9A.4 · Пятиминутки · Прогрессии",
       "type": "zadanie",
       "class": 9,
       "oge_task": 14,
@@ -3339,7 +3376,7 @@
     },
     {
       "file": "z14-progressii-razbor-5.html",
-      "title": "Разбор 5 задач повышенной сложности: прогрессии",
+      "title": "9A.4 · Разбор 5 задач · Прогрессии",
       "type": "razbor",
       "class": 9,
       "oge_task": 14,
@@ -3351,7 +3388,7 @@
     },
     {
       "file": "z14-progressii-trenazhor.html",
-      "title": "Тренажёр: 5 задач повышенной сложности, прогрессии",
+      "title": "9A.4 · Тренажёр · Прогрессии",
       "type": "trenazher",
       "class": 9,
       "oge_task": 14,
@@ -3363,7 +3400,7 @@
     },
     {
       "file": "z14-progressii-trenazhor-gen.html",
-      "title": "Тренажёр: прогрессии, новые числа каждый раз",
+      "title": "9A.4 · Тренажёр (новые числа) · Прогрессии",
       "type": "trenazher",
       "class": 9,
       "oge_task": 14,
@@ -3375,7 +3412,7 @@
     },
     {
       "file": "z14-progressii-pamyatka.html",
-      "title": "Памятка: алгоритм и запись ответа, прогрессии",
+      "title": "9A.4 · Памятка · Прогрессии",
       "type": "zadanie",
       "class": 9,
       "oge_task": 14,
@@ -3387,7 +3424,7 @@
     },
     {
       "file": "z14-progressii-kontrolnaya.html",
-      "title": "Зачётный лист: прогрессии (3 уровня)",
+      "title": "9A.4 · Зачётный лист · Прогрессии",
       "type": "zadanie",
       "class": 9,
       "oge_task": 14,
@@ -3399,7 +3436,7 @@
     },
     {
       "file": "z14-progressii-dz.html",
-      "title": "Домашняя карточка: прогрессии (4 задачи)",
+      "title": "9A.4 · ДЗ · Прогрессии",
       "type": "dz",
       "class": 9,
       "oge_task": 14,
@@ -3411,7 +3448,7 @@
     },
     {
       "file": "razbor-progressii-dialog.md",
-      "title": "Диалог ученик-учитель: прогрессии, план урока и ДЗ (текст)",
+      "title": "9A.4 · Разбор в диалоге (текст) · Прогрессии",
       "type": "razbor",
       "class": 9,
       "oge_task": 14,
@@ -3419,11 +3456,12 @@
       "note": "добавлено 2026-10-18",
       "node": [
         "9A.4"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "razbor-progressii-dialog.pdf",
-      "title": "Диалог ученик-учитель: прогрессии, план урока и ДЗ (печать)",
+      "title": "9A.4 · Разбор в диалоге (PDF) · Прогрессии",
       "type": "razbor",
       "class": 9,
       "oge_task": 14,
@@ -3431,11 +3469,12 @@
       "note": "добавлено 2026-10-18",
       "node": [
         "9A.4"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z14-progressii-teoriya.pdf",
-      "title": "Прогрессии, печать: теория",
+      "title": "9A.4 · Теория (PDF) · Прогрессии",
       "type": "zadanie",
       "class": 9,
       "oge_task": 14,
@@ -3447,7 +3486,7 @@
     },
     {
       "file": "z14-progressii-pyatiminutki.pdf",
-      "title": "Прогрессии, печать: пятиминутки",
+      "title": "9A.4 · Пятиминутки (PDF) · Прогрессии",
       "type": "zadanie",
       "class": 9,
       "oge_task": 14,
@@ -3459,7 +3498,7 @@
     },
     {
       "file": "z14-progressii-razbor-5.pdf",
-      "title": "Прогрессии, печать: разбор 5 задач",
+      "title": "9A.4 · Разбор 5 задач (PDF) · Прогрессии",
       "type": "zadanie",
       "class": 9,
       "oge_task": 14,
@@ -3471,7 +3510,7 @@
     },
     {
       "file": "z14-progressii-pamyatka.pdf",
-      "title": "Прогрессии, печать: памятка",
+      "title": "9A.4 · Памятка (PDF) · Прогрессии",
       "type": "zadanie",
       "class": 9,
       "oge_task": 14,
@@ -3483,7 +3522,7 @@
     },
     {
       "file": "z14-progressii-kontrolnaya.pdf",
-      "title": "Прогрессии, печать: зачётный лист",
+      "title": "9A.4 · Зачётный лист (PDF) · Прогрессии",
       "type": "zadanie",
       "class": 9,
       "oge_task": 14,
@@ -3495,7 +3534,7 @@
     },
     {
       "file": "z14-progressii-dz.pdf",
-      "title": "Прогрессии, печать: домашняя карточка",
+      "title": "9A.4 · ДЗ (PDF) · Прогрессии",
       "type": "zadanie",
       "class": 9,
       "oge_task": 14,
@@ -3507,7 +3546,7 @@
     },
     {
       "file": "z14-progressii-komplekt.pdf",
-      "title": "Прогрессии, печать: комплект",
+      "title": "9A.4 · Комплект (PDF) · Прогрессии",
       "type": "zadanie",
       "class": 9,
       "oge_task": 14,
@@ -3519,7 +3558,7 @@
     },
     {
       "file": "z10-veroyatnost.html",
-      "title": "Вероятность: все материалы по порядку",
+      "title": "7A.7.2 · Комплект: все материалы · Вероятность",
       "type": "sistema",
       "class": 9,
       "oge_task": 10,
@@ -3532,7 +3571,7 @@
     },
     {
       "file": "z10-veroyatnost-teoriya.html",
-      "title": "Теория и устный опрос: вероятность",
+      "title": "7A.7.2 · Теория · Вероятность",
       "type": "zadanie",
       "class": 9,
       "oge_task": 10,
@@ -3545,7 +3584,7 @@
     },
     {
       "file": "z10-veroyatnost-test.html",
-      "title": "Тест: вероятность",
+      "title": "7A.7.2 · Тест · Вероятность",
       "type": "zadanie",
       "class": 9,
       "oge_task": 10,
@@ -3558,7 +3597,7 @@
     },
     {
       "file": "z10-veroyatnost-pyatiminutki.html",
-      "title": "Карточки-пятиминутки: вероятность (2 варианта)",
+      "title": "7A.7.2 · Пятиминутки · Вероятность",
       "type": "zadanie",
       "class": 9,
       "oge_task": 10,
@@ -3571,7 +3610,7 @@
     },
     {
       "file": "z10-veroyatnost-razbor-5.html",
-      "title": "Разбор 5 задач повышенной сложности: вероятность",
+      "title": "7A.7.2 · Разбор 5 задач · Вероятность",
       "type": "razbor",
       "class": 9,
       "oge_task": 10,
@@ -3584,7 +3623,7 @@
     },
     {
       "file": "z10-veroyatnost-trenazhor.html",
-      "title": "Тренажёр: 5 задач повышенной сложности, вероятность",
+      "title": "7A.7.2 · Тренажёр · Вероятность",
       "type": "trenazher",
       "class": 9,
       "oge_task": 10,
@@ -3597,7 +3636,7 @@
     },
     {
       "file": "z10-veroyatnost-trenazhor-gen.html",
-      "title": "Тренажёр: вероятность, новые числа каждый раз",
+      "title": "7A.7.2 · Тренажёр (новые числа) · Вероятность",
       "type": "trenazher",
       "class": 9,
       "oge_task": 10,
@@ -3610,7 +3649,7 @@
     },
     {
       "file": "z10-veroyatnost-pamyatka.html",
-      "title": "Памятка: алгоритм и запись ответа, вероятность",
+      "title": "7A.7.2 · Памятка · Вероятность",
       "type": "zadanie",
       "class": 9,
       "oge_task": 10,
@@ -3623,7 +3662,7 @@
     },
     {
       "file": "z10-veroyatnost-kontrolnaya.html",
-      "title": "Зачётный лист: вероятность (3 уровня)",
+      "title": "7A.7.2 · Зачётный лист · Вероятность",
       "type": "zadanie",
       "class": 9,
       "oge_task": 10,
@@ -3636,7 +3675,7 @@
     },
     {
       "file": "z10-veroyatnost-dz.html",
-      "title": "Домашняя карточка: вероятность (4 задачи)",
+      "title": "7A.7.2 · ДЗ · Вероятность",
       "type": "dz",
       "class": 9,
       "oge_task": 10,
@@ -3649,7 +3688,7 @@
     },
     {
       "file": "razbor-veroyatnost-dialog.md",
-      "title": "Диалог ученик-учитель: вероятность, план урока и ДЗ (текст)",
+      "title": "7A.7.2 · Разбор в диалоге (текст) · Вероятность",
       "type": "razbor",
       "class": 9,
       "oge_task": 10,
@@ -3658,11 +3697,12 @@
       "node": [
         "7A.7.2",
         "9A.5.2"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "razbor-veroyatnost-dialog.pdf",
-      "title": "Диалог ученик-учитель: вероятность, план урока и ДЗ (печать)",
+      "title": "7A.7.2 · Разбор в диалоге (PDF) · Вероятность",
       "type": "razbor",
       "class": 9,
       "oge_task": 10,
@@ -3671,11 +3711,12 @@
       "node": [
         "7A.7.2",
         "9A.5.2"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z10-veroyatnost-teoriya.pdf",
-      "title": "Вероятность, печать: теория",
+      "title": "7A.7.2 · Теория (PDF) · Вероятность",
       "type": "zadanie",
       "class": 9,
       "oge_task": 10,
@@ -3688,7 +3729,7 @@
     },
     {
       "file": "z10-veroyatnost-pyatiminutki.pdf",
-      "title": "Вероятность, печать: пятиминутки",
+      "title": "7A.7.2 · Пятиминутки (PDF) · Вероятность",
       "type": "zadanie",
       "class": 9,
       "oge_task": 10,
@@ -3701,7 +3742,7 @@
     },
     {
       "file": "z10-veroyatnost-razbor-5.pdf",
-      "title": "Вероятность, печать: разбор 5 задач",
+      "title": "7A.7.2 · Разбор 5 задач (PDF) · Вероятность",
       "type": "zadanie",
       "class": 9,
       "oge_task": 10,
@@ -3714,7 +3755,7 @@
     },
     {
       "file": "z10-veroyatnost-pamyatka.pdf",
-      "title": "Вероятность, печать: памятка",
+      "title": "7A.7.2 · Памятка (PDF) · Вероятность",
       "type": "zadanie",
       "class": 9,
       "oge_task": 10,
@@ -3727,7 +3768,7 @@
     },
     {
       "file": "z10-veroyatnost-kontrolnaya.pdf",
-      "title": "Вероятность, печать: зачётный лист",
+      "title": "7A.7.2 · Зачётный лист (PDF) · Вероятность",
       "type": "zadanie",
       "class": 9,
       "oge_task": 10,
@@ -3740,7 +3781,7 @@
     },
     {
       "file": "z10-veroyatnost-dz.pdf",
-      "title": "Вероятность, печать: домашняя карточка",
+      "title": "7A.7.2 · ДЗ (PDF) · Вероятность",
       "type": "zadanie",
       "class": 9,
       "oge_task": 10,
@@ -3753,7 +3794,7 @@
     },
     {
       "file": "z10-veroyatnost-komplekt.pdf",
-      "title": "Вероятность, печать: комплект",
+      "title": "7A.7.2 · Комплект (PDF) · Вероятность",
       "type": "zadanie",
       "class": 9,
       "oge_task": 10,
@@ -3766,7 +3807,7 @@
     },
     {
       "file": "z22-grafiki.html",
-      "title": "Графики кусочных функций: все материалы по порядку",
+      "title": "7A.2 · Комплект: все материалы · Кусочные функции",
       "type": "sistema",
       "class": 9,
       "oge_task": 22,
@@ -3779,7 +3820,7 @@
     },
     {
       "file": "z22-grafiki-teoriya.html",
-      "title": "Теория и устный опрос: график функции",
+      "title": "7A.2 · Теория · Кусочные функции",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -3792,7 +3833,7 @@
     },
     {
       "file": "z22-grafiki-test.html",
-      "title": "Тест: график функции",
+      "title": "7A.2 · Тест · Кусочные функции",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -3805,7 +3846,7 @@
     },
     {
       "file": "z22-grafiki-pyatiminutki.html",
-      "title": "Карточки-пятиминутки: график функции (2 варианта)",
+      "title": "7A.2 · Пятиминутки · Кусочные функции",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -3818,7 +3859,7 @@
     },
     {
       "file": "z22-grafiki-razbor-5.html",
-      "title": "Разбор 5 задач повышенной сложности: график функции",
+      "title": "7A.2 · Разбор 5 задач · Кусочные функции",
       "type": "razbor",
       "class": 9,
       "oge_task": 22,
@@ -3831,7 +3872,7 @@
     },
     {
       "file": "z22-grafiki-trenazhor.html",
-      "title": "Тренажёр: 5 задач повышенной сложности, график функции",
+      "title": "7A.2 · Тренажёр · Кусочные функции",
       "type": "trenazher",
       "class": 9,
       "oge_task": 22,
@@ -3844,7 +3885,7 @@
     },
     {
       "file": "z22-grafiki-trenazhor-gen.html",
-      "title": "Тренажёр: график функции, новые числа каждый раз",
+      "title": "7A.2 · Тренажёр (новые числа) · Кусочные функции",
       "type": "trenazher",
       "class": 9,
       "oge_task": 22,
@@ -3857,7 +3898,7 @@
     },
     {
       "file": "z22-grafiki-pamyatka.html",
-      "title": "Памятка: алгоритм и оформление задания 22",
+      "title": "7A.2 · Памятка · Кусочные функции",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -3870,7 +3911,7 @@
     },
     {
       "file": "z22-grafiki-kontrolnaya.html",
-      "title": "Зачётный лист: график функции (3 уровня)",
+      "title": "7A.2 · Зачётный лист · Кусочные функции",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -3883,7 +3924,7 @@
     },
     {
       "file": "z22-grafiki-dz.html",
-      "title": "Домашняя карточка: график функции (4 задачи)",
+      "title": "7A.2 · ДЗ · Кусочные функции",
       "type": "dz",
       "class": 9,
       "oge_task": 22,
@@ -3896,7 +3937,7 @@
     },
     {
       "file": "razbor-grafiki-dialog.md",
-      "title": "Диалог ученик-учитель: график функции, план урока и ДЗ (текст)",
+      "title": "9A.1.2 · Разбор в диалоге (текст) · Кусочные функции",
       "type": "razbor",
       "class": 9,
       "oge_task": 22,
@@ -3905,11 +3946,12 @@
       "node": [
         "9A.1.2",
         "9A.1.4"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "razbor-grafiki-dialog.pdf",
-      "title": "Диалог ученик-учитель: график функции, план урока и ДЗ (печать)",
+      "title": "9A.1.2 · Разбор в диалоге (PDF) · Кусочные функции",
       "type": "razbor",
       "class": 9,
       "oge_task": 22,
@@ -3918,11 +3960,12 @@
       "node": [
         "9A.1.2",
         "9A.1.4"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z22-grafiki-teoriya.pdf",
-      "title": "График функции, печать: теория",
+      "title": "7A.2 · Теория (PDF) · Кусочные функции",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -3935,7 +3978,7 @@
     },
     {
       "file": "z22-grafiki-pyatiminutki.pdf",
-      "title": "График функции, печать: пятиминутки",
+      "title": "7A.2 · Пятиминутки (PDF) · Кусочные функции",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -3948,7 +3991,7 @@
     },
     {
       "file": "z22-grafiki-razbor-5.pdf",
-      "title": "График функции, печать: разбор 5 задач",
+      "title": "7A.2 · Разбор 5 задач (PDF) · Кусочные функции",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -3961,7 +4004,7 @@
     },
     {
       "file": "z22-grafiki-pamyatka.pdf",
-      "title": "График функции, печать: памятка",
+      "title": "7A.2 · Памятка (PDF) · Кусочные функции",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -3974,7 +4017,7 @@
     },
     {
       "file": "z22-grafiki-kontrolnaya.pdf",
-      "title": "График функции, печать: зачётный лист",
+      "title": "7A.2 · Зачётный лист (PDF) · Кусочные функции",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -3987,7 +4030,7 @@
     },
     {
       "file": "z22-grafiki-dz.pdf",
-      "title": "График функции, печать: домашняя карточка",
+      "title": "7A.2 · ДЗ (PDF) · Кусочные функции",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -4000,7 +4043,7 @@
     },
     {
       "file": "z22-grafiki-komplekt.pdf",
-      "title": "График функции, печать: комплект",
+      "title": "7A.2 · Комплект (PDF) · Кусочные функции",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -4013,7 +4056,7 @@
     },
     {
       "file": "z22-funkcij.html",
-      "title": "Графики функций (модуль, дробь, параметр): все материалы по порядку",
+      "title": "9A.1.2 · Комплект: все материалы · Графики функций",
       "type": "sistema",
       "class": 9,
       "oge_task": 22,
@@ -4027,7 +4070,7 @@
     },
     {
       "file": "z22-funkcij-teoriya.html",
-      "title": "Теория и устный опрос: графики функций с параметром",
+      "title": "9A.1.2 · Теория · Графики функций",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -4041,7 +4084,7 @@
     },
     {
       "file": "z22-funkcij-test.html",
-      "title": "Тест: графики функций с параметром",
+      "title": "9A.1.2 · Тест · Графики функций",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -4055,7 +4098,7 @@
     },
     {
       "file": "z22-funkcij-pyatiminutki.html",
-      "title": "Карточки-пятиминутки: графики функций с параметром (2 варианта)",
+      "title": "9A.1.2 · Пятиминутки · Графики функций",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -4069,7 +4112,7 @@
     },
     {
       "file": "z22-funkcij-razbor-5.html",
-      "title": "Разбор 5 задач повышенной сложности: графики функций с параметром",
+      "title": "9A.1.2 · Разбор 5 задач · Графики функций",
       "type": "razbor",
       "class": 9,
       "oge_task": 22,
@@ -4083,7 +4126,7 @@
     },
     {
       "file": "z22-funkcij-trenazhor.html",
-      "title": "Тренажёр: графики функций с параметром, повышенный уровень",
+      "title": "9A.1.2 · Тренажёр · Графики функций",
       "type": "trenazher",
       "class": 9,
       "oge_task": 22,
@@ -4097,7 +4140,7 @@
     },
     {
       "file": "z22-funkcij-trenazhor-gen.html",
-      "title": "Тренажёр: графики функций с параметром, новые числа каждый раз",
+      "title": "9A.1.2 · Тренажёр (новые числа) · Графики функций",
       "type": "trenazher",
       "class": 9,
       "oge_task": 22,
@@ -4111,7 +4154,7 @@
     },
     {
       "file": "z22-funkcij-pamyatka.html",
-      "title": "Памятка: алгоритм и оформление, графики функций с параметром",
+      "title": "9A.1.2 · Памятка · Графики функций",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -4125,7 +4168,7 @@
     },
     {
       "file": "z22-funkcij-kontrolnaya.html",
-      "title": "Зачётный лист: графики функций с параметром (3 уровня)",
+      "title": "9A.1.2 · Зачётный лист · Графики функций",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -4139,7 +4182,7 @@
     },
     {
       "file": "z22-funkcij-dz.html",
-      "title": "Домашняя карточка: графики функций с параметром (4 задачи)",
+      "title": "9A.1.2 · ДЗ · Графики функций",
       "type": "dz",
       "class": 9,
       "oge_task": 22,
@@ -4153,7 +4196,7 @@
     },
     {
       "file": "z22-funkcij-plan-uroka.html",
-      "title": "План урока на 60 минут и ДЗ: графики функций с параметром",
+      "title": "9A.1.2 · План урока · Графики функций",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -4163,11 +4206,12 @@
         "9A.1.2",
         "9A.1.4",
         "8A.1.5"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z22-funkcij-teoriya.pdf",
-      "title": "Графики функций с параметром, печать: teoriya",
+      "title": "9A.1.2 · Теория (PDF) · Графики функций",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -4181,7 +4225,7 @@
     },
     {
       "file": "z22-funkcij-pyatiminutki.pdf",
-      "title": "Графики функций с параметром, печать: pyatiminutki",
+      "title": "9A.1.2 · Пятиминутки (PDF) · Графики функций",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -4195,7 +4239,7 @@
     },
     {
       "file": "z22-funkcij-razbor-5.pdf",
-      "title": "Графики функций с параметром, печать: razbor-5",
+      "title": "9A.1.2 · Разбор 5 задач (PDF) · Графики функций",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -4209,7 +4253,7 @@
     },
     {
       "file": "z22-funkcij-pamyatka.pdf",
-      "title": "Графики функций с параметром, печать: pamyatka",
+      "title": "9A.1.2 · Памятка (PDF) · Графики функций",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -4223,7 +4267,7 @@
     },
     {
       "file": "z22-funkcij-kontrolnaya.pdf",
-      "title": "Графики функций с параметром, печать: kontrolnaya",
+      "title": "9A.1.2 · Зачётный лист (PDF) · Графики функций",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -4237,7 +4281,7 @@
     },
     {
       "file": "z22-funkcij-dz.pdf",
-      "title": "Графики функций с параметром, печать: dz",
+      "title": "9A.1.2 · ДЗ (PDF) · Графики функций",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -4251,7 +4295,7 @@
     },
     {
       "file": "z22-funkcij-plan-uroka.pdf",
-      "title": "Графики функций с параметром, печать: plan-uroka",
+      "title": "9A.1.2 · План урока (PDF) · Графики функций",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -4261,11 +4305,12 @@
         "9A.1.2",
         "9A.1.4",
         "8A.1.5"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z22-funkcij-komplekt.pdf",
-      "title": "Графики функций с параметром, печать: komplekt",
+      "title": "9A.1.2 · Комплект (PDF) · Графики функций",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -4279,7 +4324,7 @@
     },
     {
       "file": "razbor-funkcij-dialog.pdf",
-      "title": "Графики функций с параметром, печать: диалог-разбор",
+      "title": "9A.1.2 · Разбор в диалоге (PDF) · Графики функций",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -4288,11 +4333,12 @@
       "node": [
         "9A.1.2",
         "9A.1.4"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "razbor-funkcij-dialog.md",
-      "title": "Графики функций с параметром: диалог-разбор (текст)",
+      "title": "9A.1.2 · Разбор в диалоге (текст) · Графики функций",
       "type": "zadanie",
       "class": 9,
       "oge_task": 22,
@@ -4301,11 +4347,12 @@
       "node": [
         "9A.1.2",
         "9A.1.4"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z23-trapeciya.html",
-      "title": "Трапеция: все материалы по порядку",
+      "title": "8G.1.3 · Комплект: все материалы · Трапеция",
       "type": "sistema",
       "class": 9,
       "oge_task": 23,
@@ -4317,7 +4364,7 @@
     },
     {
       "file": "z23-trapeciya-teoriya.html",
-      "title": "Теория и устный опрос: трапеция",
+      "title": "8G.1.3 · Теория · Трапеция",
       "type": "zadanie",
       "class": 9,
       "oge_task": 23,
@@ -4329,7 +4376,7 @@
     },
     {
       "file": "z23-trapeciya-test.html",
-      "title": "Тест: трапеция",
+      "title": "8G.1.3 · Тест · Трапеция",
       "type": "zadanie",
       "class": 9,
       "oge_task": 23,
@@ -4341,7 +4388,7 @@
     },
     {
       "file": "z23-trapeciya-pyatiminutki.html",
-      "title": "Карточки-пятиминутки: трапеция (2 варианта)",
+      "title": "8G.1.3 · Пятиминутки · Трапеция",
       "type": "zadanie",
       "class": 9,
       "oge_task": 23,
@@ -4353,7 +4400,7 @@
     },
     {
       "file": "z23-trapeciya-razbor-5.html",
-      "title": "Разбор 5 задач повышенной сложности: трапеция",
+      "title": "8G.1.3 · Разбор 5 задач · Трапеция",
       "type": "razbor",
       "class": 9,
       "oge_task": 23,
@@ -4365,7 +4412,7 @@
     },
     {
       "file": "z23-trapeciya-trenazhor.html",
-      "title": "Тренажёр: 5 задач повышенной сложности, трапеция",
+      "title": "8G.1.3 · Тренажёр · Трапеция",
       "type": "trenazher",
       "class": 9,
       "oge_task": 23,
@@ -4377,7 +4424,7 @@
     },
     {
       "file": "z23-trapeciya-trenazhor-gen.html",
-      "title": "Тренажёр: трапеция, новые числа каждый раз",
+      "title": "8G.1.3 · Тренажёр (новые числа) · Трапеция",
       "type": "trenazher",
       "class": 9,
       "oge_task": 23,
@@ -4389,7 +4436,7 @@
     },
     {
       "file": "z23-trapeciya-pamyatka.html",
-      "title": "Памятка: алгоритм и оформление, трапеция",
+      "title": "8G.1.3 · Памятка · Трапеция",
       "type": "zadanie",
       "class": 9,
       "oge_task": 23,
@@ -4401,7 +4448,7 @@
     },
     {
       "file": "z23-trapeciya-kontrolnaya.html",
-      "title": "Зачётный лист: трапеция (3 уровня)",
+      "title": "8G.1.3 · Зачётный лист · Трапеция",
       "type": "zadanie",
       "class": 9,
       "oge_task": 23,
@@ -4413,7 +4460,7 @@
     },
     {
       "file": "z23-trapeciya-dz.html",
-      "title": "Домашняя карточка: трапеция (4 задачи)",
+      "title": "8G.1.3 · ДЗ · Трапеция",
       "type": "dz",
       "class": 9,
       "oge_task": 23,
@@ -4425,7 +4472,7 @@
     },
     {
       "file": "z23-trapeciya-plan-uroka.html",
-      "title": "План урока на 60 минут и ДЗ: трапеция",
+      "title": "8G.1.3 · План урока · Трапеция",
       "type": "zadanie",
       "class": 9,
       "oge_task": 23,
@@ -4433,11 +4480,12 @@
       "note": "добавлено 2026-10-19; для репетитора",
       "node": [
         "8G.1.3"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z23-trapeciya-teoriya.pdf",
-      "title": "Трапеция, печать: teoriya",
+      "title": "8G.1.3 · Теория (PDF) · Трапеция",
       "type": "zadanie",
       "class": 9,
       "oge_task": 23,
@@ -4449,7 +4497,7 @@
     },
     {
       "file": "z23-trapeciya-pyatiminutki.pdf",
-      "title": "Трапеция, печать: pyatiminutki",
+      "title": "8G.1.3 · Пятиминутки (PDF) · Трапеция",
       "type": "zadanie",
       "class": 9,
       "oge_task": 23,
@@ -4461,7 +4509,7 @@
     },
     {
       "file": "z23-trapeciya-razbor-5.pdf",
-      "title": "Трапеция, печать: razbor-5",
+      "title": "8G.1.3 · Разбор 5 задач (PDF) · Трапеция",
       "type": "zadanie",
       "class": 9,
       "oge_task": 23,
@@ -4473,7 +4521,7 @@
     },
     {
       "file": "z23-trapeciya-pamyatka.pdf",
-      "title": "Трапеция, печать: pamyatka",
+      "title": "8G.1.3 · Памятка (PDF) · Трапеция",
       "type": "zadanie",
       "class": 9,
       "oge_task": 23,
@@ -4485,7 +4533,7 @@
     },
     {
       "file": "z23-trapeciya-kontrolnaya.pdf",
-      "title": "Трапеция, печать: kontrolnaya",
+      "title": "8G.1.3 · Зачётный лист (PDF) · Трапеция",
       "type": "zadanie",
       "class": 9,
       "oge_task": 23,
@@ -4497,7 +4545,7 @@
     },
     {
       "file": "z23-trapeciya-dz.pdf",
-      "title": "Трапеция, печать: dz",
+      "title": "8G.1.3 · ДЗ (PDF) · Трапеция",
       "type": "zadanie",
       "class": 9,
       "oge_task": 23,
@@ -4509,7 +4557,7 @@
     },
     {
       "file": "z23-trapeciya-plan-uroka.pdf",
-      "title": "Трапеция, печать: plan-uroka",
+      "title": "8G.1.3 · План урока (PDF) · Трапеция",
       "type": "zadanie",
       "class": 9,
       "oge_task": 23,
@@ -4517,11 +4565,12 @@
       "note": "добавлено 2026-10-19",
       "node": [
         "8G.1.3"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "z23-trapeciya-komplekt.pdf",
-      "title": "Трапеция, печать: komplekt",
+      "title": "8G.1.3 · Комплект (PDF) · Трапеция",
       "type": "zadanie",
       "class": 9,
       "oge_task": 23,
@@ -4533,7 +4582,7 @@
     },
     {
       "file": "razbor-trapeciya-dialog.md",
-      "title": "Трапеция: разбор в диалоге (текст)",
+      "title": "8G.1.3 · Разбор в диалоге (текст) · Трапеция",
       "type": "razbor",
       "class": 9,
       "oge_task": 23,
@@ -4541,11 +4590,12 @@
       "note": "добавлено 2026-10-19",
       "node": [
         "8G.1.3"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "razbor-trapeciya-dialog.pdf",
-      "title": "Трапеция: разбор в диалоге, печать",
+      "title": "8G.1.3 · Разбор в диалоге (PDF) · Трапеция",
       "type": "razbor",
       "class": 9,
       "oge_task": 23,
@@ -4553,7 +4603,8 @@
       "note": "добавлено 2026-10-19",
       "node": [
         "8G.1.3"
-      ]
+      ],
+      "audience": "teacher"
     },
     {
       "file": "obyasnenie-5-9.html",
@@ -4575,7 +4626,7 @@
     },
     {
       "file": "obyasnenie-5-9-drobi.html",
-      "title": "Дроби: обыкновенные и десятичные · объяснение",
+      "title": "5A.5 · Теория · Дроби: обыкновенные и десятичные",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4589,7 +4640,7 @@
     },
     {
       "file": "obyasnenie-5-9-grafiki.html",
-      "title": "Графики функций · объяснение",
+      "title": "7A.2 · Теория · Графики функций",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4603,7 +4654,7 @@
     },
     {
       "file": "obyasnenie-5-9-kusochnaya.html",
-      "title": "Кусочная функция · объяснение",
+      "title": "9A.1.4 · Теория · Кусочная функция",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4616,7 +4667,7 @@
     },
     {
       "file": "obyasnenie-5-9-arifm.html",
-      "title": "Арифметическая прогрессия · объяснение",
+      "title": "9A.4.2 · Теория · Арифметическая прогрессия",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4629,7 +4680,7 @@
     },
     {
       "file": "obyasnenie-5-9-geom.html",
-      "title": "Геометрическая прогрессия · объяснение",
+      "title": "9A.4.3 · Теория · Геометрическая прогрессия",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4642,7 +4693,7 @@
     },
     {
       "file": "obyasnenie-5-9-veroyat.html",
-      "title": "Теория вероятностей · объяснение",
+      "title": "9A.5.2 · Теория вероятностей",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4655,7 +4706,7 @@
     },
     {
       "file": "obyasnenie-5-9-smesi.html",
-      "title": "Задачи на смеси · объяснение",
+      "title": "9A.3.2 · Теория · Задачи на смеси",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4668,7 +4719,7 @@
     },
     {
       "file": "obyasnenie-5-9-korni.html",
-      "title": "Корни · объяснение",
+      "title": "8A.2 · Теория · Корни",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4681,7 +4732,7 @@
     },
     {
       "file": "obyasnenie-5-9-stepeni.html",
-      "title": "Степени · объяснение",
+      "title": "7A.3 · Теория · Степени",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4695,7 +4746,7 @@
     },
     {
       "file": "obyasnenie-5-9-lineynye.html",
-      "title": "Линейные уравнения · объяснение",
+      "title": "6A.6.2 · Теория · Линейные уравнения",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4709,7 +4760,7 @@
     },
     {
       "file": "obyasnenie-5-9-kvadratnye.html",
-      "title": "Квадратные уравнения · объяснение",
+      "title": "8A.3 · Теория · Квадратные уравнения",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4722,7 +4773,7 @@
     },
     {
       "file": "obyasnenie-5-9-neravenstva.html",
-      "title": "Неравенства · объяснение",
+      "title": "8A.4 · Теория · Неравенства",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4736,7 +4787,7 @@
     },
     {
       "file": "obyasnenie-5-9-sistemy.html",
-      "title": "Системы уравнений и неравенств · объяснение",
+      "title": "7A.6 · Теория · Системы уравнений и неравенств",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4750,7 +4801,7 @@
     },
     {
       "file": "obyasnenie-5-9-procenty.html",
-      "title": "Проценты · объяснение",
+      "title": "6A.4 · Теория · Проценты",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4763,7 +4814,7 @@
     },
     {
       "file": "obyasnenie-5-9-dvizhenie.html",
-      "title": "Задачи на движение · объяснение",
+      "title": "9A.3.2 · Теория · Задачи на движение",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4776,7 +4827,7 @@
     },
     {
       "file": "obyasnenie-5-9-treugolnik.html",
-      "title": "Треугольник · объяснение",
+      "title": "7G.2 · Теория · Треугольник",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4790,7 +4841,7 @@
     },
     {
       "file": "obyasnenie-5-9-mediana.html",
-      "title": "Медиана · объяснение",
+      "title": "7G.2.3 · Теория · Медиана",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4804,7 +4855,7 @@
     },
     {
       "file": "obyasnenie-5-9-bissektrisa.html",
-      "title": "Биссектриса · объяснение",
+      "title": "7G.2.3 · Теория · Биссектриса",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4818,7 +4869,7 @@
     },
     {
       "file": "obyasnenie-5-9-vysota.html",
-      "title": "Высота треугольника · объяснение",
+      "title": "7G.2.3 · Теория · Высота треугольника",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4831,7 +4882,7 @@
     },
     {
       "file": "obyasnenie-5-9-parallelogramm.html",
-      "title": "Параллелограмм · объяснение",
+      "title": "8G.1.2 · Теория · Параллелограмм",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4844,7 +4895,7 @@
     },
     {
       "file": "obyasnenie-5-9-kvadrat.html",
-      "title": "Квадрат · объяснение",
+      "title": "8G.1.4 · Теория · Квадрат",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4857,7 +4908,7 @@
     },
     {
       "file": "obyasnenie-5-9-trapeciya.html",
-      "title": "Трапеция · объяснение",
+      "title": "8G.1.3 · Теория · Трапеция",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4870,7 +4921,7 @@
     },
     {
       "file": "obyasnenie-5-9-romb.html",
-      "title": "Ромб · объяснение",
+      "title": "8G.1.4 · Теория · Ромб",
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
@@ -4914,7 +4965,7 @@
     },
     {
       "file": "diagnostika-5-kr1-v1.html",
-      "title": "Диагностика · 5 класс · Контрольная № 1 · Вариант 1",
+      "title": "5A · Диагностика · 5 класс · Контрольная № 1 · Вариант 1",
       "type": "diagnostika",
       "class": 5,
       "oge_task": null,
@@ -4927,7 +4978,7 @@
     },
     {
       "file": "diagnostika-5-kr1-v2.html",
-      "title": "Диагностика · 5 класс · Контрольная № 1 · Вариант 2",
+      "title": "5A · Диагностика · 5 класс · Контрольная № 1 · Вариант 2",
       "type": "diagnostika",
       "class": 5,
       "oge_task": null,
@@ -4940,7 +4991,7 @@
     },
     {
       "file": "diagnostika-5-kr2-v1.html",
-      "title": "Диагностика · 5 класс · Контрольная № 2 · Вариант 1",
+      "title": "5A · Диагностика · 5 класс · Контрольная № 2 · Вариант 1",
       "type": "diagnostika",
       "class": 5,
       "oge_task": null,
@@ -4953,7 +5004,7 @@
     },
     {
       "file": "diagnostika-5-kr2-v2.html",
-      "title": "Диагностика · 5 класс · Контрольная № 2 · Вариант 2",
+      "title": "5A · Диагностика · 5 класс · Контрольная № 2 · Вариант 2",
       "type": "diagnostika",
       "class": 5,
       "oge_task": null,
@@ -4966,7 +5017,7 @@
     },
     {
       "file": "diagnostiki-5-klass.html",
-      "title": "Диагностики к контрольным · 5 класс",
+      "title": "5A · Диагностика · К контрольным · 5 класс",
       "type": "diagnostika",
       "class": 5,
       "oge_task": null,
@@ -5080,7 +5131,7 @@
     },
     {
       "file": "trenazher-procenty-7-klass.html",
-      "title": "Проценты по смыслу · интерактивный тренажёр · 7 класс",
+      "title": "6A.4 · Тренажёр · Проценты по смыслу · 7 класс",
       "type": "trenazher",
       "class": 7,
       "oge_task": null,
@@ -5092,7 +5143,7 @@
     },
     {
       "file": "trenazher-5-klass.html",
-      "title": "Дроби, десятичные, порядок действий, НОД и НОК · тренажёр · lili.math",
+      "title": "5A.3.3 · Тренажёр · Дроби, десятичные, порядок действий, НОД и НОК · тренажёр · lili.math",
       "type": "trenazher",
       "class": 5,
       "oge_task": null,
@@ -5107,7 +5158,7 @@
     },
     {
       "file": "trenazher-znaki-6-klass.html",
-      "title": "Знаки и отрицательные числа · тренажёр · lili.math",
+      "title": "6A.5 · Тренажёр · Знаки и отрицательные числа · тренажёр · lili.math",
       "type": "trenazher",
       "class": 6,
       "oge_task": null,
@@ -5119,7 +5170,7 @@
     },
     {
       "file": "trenazher-fsu-7-klass.html",
-      "title": "Формулы сокращённого умножения · тренажёр · lili.math",
+      "title": "7A.5 · Тренажёр · Формулы сокращённого умножения · тренажёр · lili.math",
       "type": "trenazher",
       "class": 7,
       "oge_task": null,
@@ -5131,7 +5182,7 @@
     },
     {
       "file": "trenazher-linejnaya-funkciya-7-klass.html",
-      "title": "Линейная функция и уравнения · тренажёр · lili.math",
+      "title": "7A.1.5 · Тренажёр · Линейная функция и уравнения · тренажёр · lili.math",
       "type": "trenazher",
       "class": 7,
       "oge_task": null,
@@ -5144,7 +5195,7 @@
     },
     {
       "file": "trenazher-geometriya-osnovy.html",
-      "title": "Геометрия: основы · тренажёр · lili.math",
+      "title": "7G.1 · Тренажёр · Геометрия: основы · тренажёр · lili.math",
       "type": "trenazher",
       "class": null,
       "oge_task": null,
@@ -5156,7 +5207,7 @@
     },
     {
       "file": "z7-koord-pryamaya-dz.html",
-      "title": "ДЗ №1 · №7 ОГЭ · Числа на координатной прямой (11 заданий, 3 уровня)",
+      "title": "6A.5.2 · ДЗ №1 · Числа на координатной прямой",
       "type": "dz",
       "class": 9,
       "oge_task": 7,
@@ -5170,7 +5221,7 @@
     },
     {
       "file": "z7-koord-pryamaya-dz.pdf",
-      "title": "",
+      "title": "6A.5.2 · ДЗ №1 (PDF) · Числа на координатной прямой",
       "type": "dz",
       "class": 9,
       "oge_task": 7,
@@ -5183,7 +5234,7 @@
     },
     {
       "file": "z6-umn-del-dvuznach-dz.html",
-      "title": "ДЗ №1 · Умножение и деление двузначных чисел",
+      "title": "5A.3.1 · ДЗ №1 · Умножение и деление двузначных чисел",
       "type": "dz",
       "class": 9,
       "oge_task": 6,
@@ -5197,7 +5248,7 @@
     },
     {
       "file": "z6-umn-del-dvuznach-dz.pdf",
-      "title": "",
+      "title": "5A.3.1 · ДЗ №1 (PDF) · Умножение и деление двузначных чисел",
       "type": "dz",
       "class": 9,
       "oge_task": 6,
@@ -5210,7 +5261,7 @@
     },
     {
       "file": "z20-drobno-ratsionalnye-dz.html",
-      "title": "ДЗ №2 · Дробно-рациональные уравнения",
+      "title": "8A.1.4 · ДЗ №2 · Дробно-рациональные уравнения",
       "type": "dz",
       "class": 9,
       "oge_task": 20,
@@ -5224,7 +5275,7 @@
     },
     {
       "file": "z20-drobno-ratsionalnye-dz.pdf",
-      "title": "",
+      "title": "8A.1.4 · ДЗ №2 (PDF) · Дробно-рациональные уравнения",
       "type": "dz",
       "class": 9,
       "oge_task": 20,
@@ -5237,7 +5288,7 @@
     },
     {
       "file": "dz-9-umnozhenie-delenie-drobey-1.html",
-      "title": "ДЗ №1 · Умножение и деление дробей",
+      "title": "6A.2.4 · ДЗ №1 · Умножение и деление дробей",
       "type": "dz",
       "class": 9,
       "oge_task": 6,
@@ -5250,7 +5301,7 @@
     },
     {
       "file": "trenazher-drobi-s-nulya.html",
-      "title": "Тренажёр: дроби с нуля, 17 ступеней (шоколадка)",
+      "title": "5A.4 · Тренажёр · Дроби с нуля, 17 ступеней (шоколадка)",
       "type": "trenazher",
       "class": null,
       "oge_task": null,
@@ -5264,7 +5315,7 @@
     },
     {
       "file": "trenazher-kvadratnyj-koren.html",
-      "title": "Тренажёр: квадратный корень с нуля, 13 ступеней",
+      "title": "8A.2 · Тренажёр · Квадратный корень с нуля, 13 ступеней",
       "type": "trenazher",
       "class": 8,
       "oge_task": null,
@@ -5277,7 +5328,7 @@
     },
     {
       "file": "trenazher-sopryazhennye-vyrazheniya.html",
-      "title": "Тренажёр: сопряжённые выражения, 8 класс, 11 ступеней",
+      "title": "8A.2.5 · Тренажёр · Сопряжённые выражения, 8 класс, 11 ступеней",
       "type": "trenazher",
       "class": 8,
       "oge_task": null,
@@ -5290,7 +5341,7 @@
     },
     {
       "file": "trenazher-kvadratnye-neravenstva.html",
-      "title": "Тренажёр: квадратные неравенства, 12 ступеней",
+      "title": "9A.2.3 · Тренажёр · Квадратные неравенства, 12 ступеней",
       "type": "trenazher",
       "class": 9,
       "oge_task": 13,
@@ -5303,7 +5354,7 @@
     },
     {
       "file": "trenazher-uravneniya-oge20.html",
-      "title": "Тренажёр: уравнения и неравенства ОГЭ №20 (степени выше 2, дробные, иррациональные, модуль), 9 ступеней",
+      "title": "9A.2.1 · Тренажёр · Уравнения и неравенства ОГЭ №20 (степени выше 2, дробные, иррациональные, модуль), 9 ступеней",
       "type": "trenazher",
       "class": 9,
       "oge_task": 20,
@@ -5318,7 +5369,7 @@
     },
     {
       "file": "trenazher-formuly-oge12.html",
-      "title": "Тренажёр: расчёты по формулам, ОГЭ №12, 9 ступеней",
+      "title": "9A.8.1 · Тренажёр · Расчёты по формулам, ОГЭ №12, 9 ступеней",
       "type": "trenazher",
       "class": 9,
       "oge_task": 12,
@@ -5331,7 +5382,7 @@
     },
     {
       "file": "trenazher-vychisleniya-oge6.html",
-      "title": "Тренажёр: вычисления с дробями, ОГЭ №6, 9 ступеней",
+      "title": "9A.7.1 · Тренажёр · Вычисления с дробями, ОГЭ №6, 9 ступеней",
       "type": "trenazher",
       "class": 9,
       "oge_task": 6,
@@ -5344,7 +5395,7 @@
     },
     {
       "file": "trenazher-chisla-na-pryamoj-oge7.html",
-      "title": "Тренажёр: числа на координатной прямой, ОГЭ №7, 9 ступеней",
+      "title": "9A.7.2 · Тренажёр · Числа на координатной прямой, ОГЭ №7, 9 ступеней",
       "type": "trenazher",
       "class": 9,
       "oge_task": 7,
@@ -5357,7 +5408,7 @@
     },
     {
       "file": "trenazher-stepeni-i-korni-oge8.html",
-      "title": "Тренажёр: степени и корни, ОГЭ №8, 10 ступеней",
+      "title": "9A.7.3 · Тренажёр · Степени и корни, ОГЭ №8, 10 ступеней",
       "type": "trenazher",
       "class": 9,
       "oge_task": 8,
@@ -5370,7 +5421,7 @@
     },
     {
       "file": "trenazher-treugolniki-oge15.html",
-      "title": "Тренажёр: треугольники, ОГЭ №15, 11 ступеней",
+      "title": "9G.7.1 · Тренажёр · Треугольники, ОГЭ №15, 11 ступеней",
       "type": "trenazher",
       "class": 9,
       "oge_task": 15,
@@ -5383,7 +5434,7 @@
     },
     {
       "file": "trenazher-okruzhnost-oge16.html",
-      "title": "Тренажёр: окружность, ОГЭ №16, 10 ступеней",
+      "title": "9G.8.1 · Тренажёр · Окружность, ОГЭ №16, 10 ступеней",
       "type": "trenazher",
       "class": 9,
       "oge_task": 16,
@@ -5396,7 +5447,7 @@
     },
     {
       "file": "dz-koren-1.html",
-      "title": "ДЗ: квадратный корень, 19 заданий (числа свои у каждого ученика)",
+      "title": "8A.2 · ДЗ · Квадратный корень",
       "type": "dz",
       "class": 8,
       "oge_task": null,
@@ -5409,7 +5460,7 @@
     },
     {
       "file": "dz.html?w=5A.5.3-1",
-      "title": "Десятичные дроби · Уровень 1",
+      "title": "5A.5.3 · ДЗ · Уровень 1 · Десятичные дроби",
       "type": "dz",
       "class": 5,
       "oge_task": 6,
@@ -5423,7 +5474,7 @@
     },
     {
       "file": "dz.html?w=5A.5.3-2",
-      "title": "Десятичные дроби · Уровень 2",
+      "title": "5A.5.3 · ДЗ · Уровень 2 · Десятичные дроби",
       "type": "dz",
       "class": 5,
       "oge_task": 6,
@@ -5437,7 +5488,7 @@
     },
     {
       "file": "dz-8-kvadratny-koren.html",
-      "title": "Квадратный корень · 4 интерактивные домашние работы · 8 класс",
+      "title": "8A.2 · ДЗ · Квадратный корень · 4 интерактивные домашние работы · 8 класс",
       "type": "sistema",
       "class": 8,
       "oge_task": null,
@@ -5450,7 +5501,7 @@
     },
     {
       "file": "dz-8-kvadratny-koren-1.html",
-      "title": "ДЗ №1 · Квадратный корень · Смысл корня, вычисления, уравнения и график",
+      "title": "8A.2 · ДЗ №1 · Квадратный корень · Смысл корня, вычисления, уравнения и график",
       "type": "dz",
       "class": 8,
       "oge_task": null,
@@ -5463,7 +5514,7 @@
     },
     {
       "file": "dz-8-kvadratny-koren-2.html",
-      "title": "ДЗ №2 · Квадратный корень · Свойства корня, модуль, множители и сравнение",
+      "title": "8A.2 · ДЗ №2 · Квадратный корень · Свойства корня, модуль, множители и сравнение",
       "type": "dz",
       "class": 8,
       "oge_task": null,
@@ -5476,7 +5527,7 @@
     },
     {
       "file": "dz-8-kvadratny-koren-3.html",
-      "title": "ДЗ №3 · Квадратный корень · Преобразование выражений и формулы",
+      "title": "8A.2 · ДЗ №3 · Квадратный корень · Преобразование выражений и формулы",
       "type": "dz",
       "class": 8,
       "oge_task": null,
@@ -5489,7 +5540,7 @@
     },
     {
       "file": "dz-8-kvadratny-koren-4.html",
-      "title": "ДЗ №4 · Квадратный корень · Дроби с корнями и итоговое закрепление",
+      "title": "8A.2 · ДЗ №4 · Квадратный корень · Дроби с корнями и итоговое закрепление",
       "type": "dz",
       "class": 8,
       "oge_task": null,
