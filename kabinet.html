@@ -1733,6 +1733,7 @@ function boardRow(){const b=D.board?href(D.board):'';
  <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="bd-save" type="button">Сохранить</button><button class="btn ghost" id="bd-gen" type="button">Создать новую комнату</button><button class="btn ghost" id="bd-cancel" type="button">Отмена</button></div>
  <div class="ferr" id="bd-e"></div><p class="note">«Создать новую комнату» подставит свежую ссылку Excalidraw с именем ученика. Старая комната останется по своему адресу, но ученик получит новую только после «Сохранить».</p></div>`}
 /* ---------- тема следующего занятия: алгебра + геометрия, выбор из карты навыков ---------- */
+const TOP_PRAC=[['Чтение условия, единицы измерения, масштаб, пропорции','S01–S05'],['Статистика и вероятность, перебор','S06–S09'],['Задачи на движение','S10–S11'],['Задачи на работу, растворы и сплавы','S12–S13'],['Составление уравнения по тексту','S14']].map(([t,s])=>({t,s:'ОГЭ · практика'}));
 const TOPK=[['a','Алгебра','алгебра'],['g','Геометрия','геометрия'],['p','Практика','практика']];
 function topicParse(t){t=String(t||'').trim();const r={o:''},names=TOPK.map(k=>k[1]).join('|'),re=new RegExp('(?:^|;\\s*)('+names+'):\\s*','g');let m,last=null,any=false;
  const marks=[];while((m=re.exec(t)))marks.push({k:m[1],at:m.index,end:re.lastIndex});
@@ -1743,16 +1744,16 @@ function topicStr(v,o){const r=TOPK.filter(k=>v[k[0]]).map(k=>k[1]+': '+v[k[0]].
 function topicParts(t){const p=topicParse(t),r=TOPK.filter(k=>p[k[0]]).map(k=>[k[1],p[k[0]]]);if(p.o)r.push(['Тема',p.o]);return r}
 function topicHTML(t){return topicParts(t).map(([k,v])=>`<p class="ltopic"><span>${k}:</span> ${esc(v)}</p>`).join('')}
 function topicSay(t){const r=topicParts(t);if(!r.length)return '';return 'На следующем занятии: '+r.map(([k,v])=>(k==='Тема'?'':k.toLowerCase()+' — ')+v.charAt(0).toLowerCase()+v.slice(1)).join('; ')+'.'}
-function topicPick(subj,id,label,val){const gr=subj!=='практика';return `<div class="tpk" data-s="${subj}"><span class="tpl">${label}</span><div class="tprow">${gr?`<select class="tpg" aria-label="Класс"><option value="">все классы</option>${[5,6,7,8,9].map(c=>`<option value="${c}"${c===clsOf()?' selected':''}>${c} кл.</option>`).join('')}</select>`:''}<input id="${id}" class="tpi" autocomplete="off" placeholder="Найти навык или написать свою тему" value="${esc(val)}"></div><div class="tplist" hidden></div></div>`}
+function topicPick(subj,id,label,val){const gr=subj!=='практика';return `<div class="tpk" data-s="${subj}"><span class="tpl">${label}</span><div class="tprow">${gr?`<select class="tpg" aria-label="Класс"><option value="">все классы</option>${[5,6,7,8,9].map(c=>`<option value="${c}"${c===clsOf()?' selected':''}>${c} кл.</option>`).join('')}</select>`:''}<input id="${id}" class="tpi" autocomplete="off" placeholder="Найти тему или написать свою" value="${esc(val)}"></div><div class="tplist" hidden></div></div>`}
 function topicField(){const p=topicParse(D.topic);return `<div class="fld tpwrap"><span>Тема следующего занятия</span>${TOPK.map(k=>topicPick(k[2],'f-top-'+k[0],k[1],p[k[0]])).join('')}${p.o?`<label class="fld"><span>Прежняя тема (будет заменена, если выбрать выше)</span><input id="f-top-o" value="${esc(p.o)}"></label>`:''}</div>`}
 function topicVal(){const g=id=>{const e=document.getElementById(id);return e?e.value.trim():''},v={};TOPK.forEach(k=>v[k[0]]=g('f-top-'+k[0]));return topicStr(v,g('f-top-o'))}
 function bindTopic(){document.querySelectorAll('.tpk').forEach(box=>{const inp=box.querySelector('.tpi'),gr=box.querySelector('.tpg'),list=box.querySelector('.tplist'),subj=box.dataset.s;
  const paint=()=>{const q=inp.value.trim().toLowerCase();let r;
   if(subj==='практика'){if(!SG){list.innerHTML='<div class="tpe">Карта навыков загружается…</div>';list.hidden=false;return}
-   r=SG.nodes.filter(n=>n.block==='S'&&(!q||n.name.toLowerCase().includes(q))).map(n=>({t:n.name,s:'ОГЭ · практика'}))}
+   r=TOP_PRAC.filter(n=>!q||(n.t+' '+n.s).toLowerCase().includes(q))}
   else{if(!GG){list.innerHTML='<div class="tpe">Карта навыков загружается…</div>';list.hidden=false;return}
    const g=+gr.value||0,by=GG.by;
-   r=GG.nodes.filter(n=>n.leaf&&n.subject===subj&&(!g||n.grade===g)&&(!q||(n.title+' '+((by[n.parent]||{}).title||'')).toLowerCase().includes(q))).slice(0,40).map(n=>({t:n.title,s:n.grade+' кл.'+(n.parent&&by[n.parent]?' · '+by[n.parent].title:'')}))}
+   r=GG.nodes.filter(n=>n.level===2&&n.subject===subj&&(!g||n.grade===g)&&(!q||(n.title+' '+((by[n.parent]||{}).title||'')).toLowerCase().includes(q))).slice(0,60).map(n=>({t:n.title,s:n.grade+' кл.'+(n.parent&&by[n.parent]?' · '+by[n.parent].title:'')}))}
   list.innerHTML=r.length?r.map(n=>`<button type="button" class="tpo" data-t="${esc(n.t)}"><b>${esc(n.t)}</b><small>${esc(n.s)}</small></button>`).join(''):'<div class="tpe">Ничего не найдено. Можно оставить свой текст.</div>';
   list.hidden=false;list.querySelectorAll('.tpo').forEach(b=>b.onmousedown=e=>{e.preventDefault();inp.value=b.dataset.t;list.hidden=true})};
  inp.onfocus=inp.oninput=paint;if(gr)gr.onchange=()=>{inp.focus();paint()};inp.onblur=()=>setTimeout(()=>{list.hidden=true},120);
