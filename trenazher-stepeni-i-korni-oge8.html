@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#14211e">
+<title>Степени и корни (ОГЭ №8): тренажёр</title>
+<style>
+:root{--bg:#14211e;--card:rgba(243,236,226,.07);--line:rgba(243,236,226,.16);--fg:#f3ece2;--muted:rgba(243,236,226,.62);--cobalt:#1747c9;--apricot:#f2905e;--yellow:#f5dc6a;--mint:#8fd9b0;--miss:#ff8f7d}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-text-size-adjust:100%}
+#wrap{max-width:760px;margin:0 auto;padding:18px 16px 70px}
+h1{font-size:26px;margin:6px 0 4px;line-height:1.25}
+h2{font-size:20px;margin:16px 0 8px}
+.muted{color:var(--muted);font-size:15px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin:12px 0}
+.big{font-size:32px;margin:8px 0 14px;line-height:1.7}
+.rad{display:inline-block;white-space:nowrap;vertical-align:baseline;padding-left:.7em;line-height:1.15}
+.ov{position:relative;display:inline-block;border-top:.07em solid var(--fg);padding:.05em .1em 0 .08em}
+.rs{position:absolute;right:100%;margin-right:-.01em;top:-.07em;width:.7em;height:calc(100% - .07em);overflow:visible;fill:var(--fg);stroke:none}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;font-size:.8em;line-height:1.2;margin:0 3px}
+.fr>span:first-child{border-bottom:2px solid var(--fg);padding:0 4px}
+input.ans{font:inherit;font-size:26px;width:100%;max-width:240px;padding:10px 14px;border-radius:10px;border:1.5px solid var(--line);background:rgba(243,236,226,.08);color:var(--fg)}
+input.ans:focus,input.nm:focus{outline:2px solid var(--yellow);outline-offset:1px}
+input.nm{font:inherit;font-size:20px;width:100%;max-width:360px;padding:10px 14px;border-radius:10px;border:1.5px solid var(--line);background:rgba(243,236,226,.08);color:var(--fg)}
+.btn{font:inherit;font-weight:600;padding:12px 20px;border-radius:12px;border:0;background:var(--cobalt);color:#fff;cursor:pointer;margin:10px 8px 0 0}
+.btn.sec{background:transparent;border:1.5px solid var(--line);color:var(--fg)}
+.btn.sm{padding:6px 12px;font-size:14px;margin:2px 4px 2px 0}
+.opt{font:inherit;font-size:20px;padding:12px 18px;border-radius:12px;border:1.5px solid var(--line);background:rgba(243,236,226,.06);color:var(--fg);cursor:pointer;margin:0 10px 10px 0}
+.opt:active{background:rgba(243,236,226,.16)}
+.dots{margin:4px 0 10px}
+.dot{display:inline-block;width:15px;height:15px;border:2px solid var(--fg);border-radius:50%;margin-right:6px;vertical-align:middle}
+.dot.on{background:var(--mint);border-color:var(--mint)}
+.ok{color:var(--mint);font-weight:700}
+.bad{color:var(--miss);font-weight:700}
+.hint{border-left:4px solid var(--yellow);background:rgba(245,220,106,.1);padding:10px 14px;border-radius:10px;margin:10px 0}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;font:inherit;color:var(--fg);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:8px 0;cursor:pointer}
+.row[disabled]{opacity:.45;cursor:not-allowed}
+.row .st{font-size:14px;color:var(--muted);white-space:nowrap}
+.row.passed .st{color:var(--mint)}
+table.rep{width:100%;border-collapse:collapse;font-size:14px}
+table.rep th,table.rep td{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;vertical-align:top}
+table.rep th{color:var(--muted);font-weight:600}
+.link{font-family:ui-monospace,Menlo,monospace;font-size:13px;word-break:break-all}
+svg{display:block;margin:6px 0}
+@media(max-width:520px){body{font-size:17px}.big{font-size:28px}}
+</style>
+<script src="cabinet-report.js"></script>
+</head>
+<body>
+<div id="wrap"><div id="app"></div></div>
+<script>
+'use strict';
+//CONTENT-START
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[ri(0,a.length-1)];
+const f=n=>String(Math.round(n*1e6)/1e6).replace('.',',').replace('-','−');
+const F=(a,b)=>`<span class="fr"><span>${a}</span><span>${b}</span></span>`;
+const gcd=(a,b)=>b?gcd(b,a%b):a;
+const R=x=>`<span class="rad"><span class="ov"><svg class="rs" viewBox="0 0 12 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 66 L2.6 62 L5.6 88 L10.6 0 L12.6 0 L12.6 5 L11.6 5 L6.6 100 L4.6 100 L2.1 71 L0.5 72.5 Z"/></svg>${x}</span></span>`;
+
+const ev=js=>Math.round(Function('"use strict";return ('+js+')')()*1e6)/1e6;
+const P='Найдите значение выражения';
+const SP=(b,e)=>`${b}<sup>${f(e)}</sup>`;
+const VR=s=>`<i>${s}</i>`;
+function nm(q,js,cf,why,hint,x){const o={q,type:'num',ans:ev(js),cf,why,prompt:'Впишите правильный ответ',hint:hint||''};return Object.assign(o,x||{})}
+const AT=(A)=>A===null?'':` при ${VR('a')} = ${A}`;
+const tagE=(e)=>u=>u===e?'записал показатель вместо значения степени':'';
+
+// 1. Умножение и деление степеней с одинаковым основанием
+function g1(){const A=pick([2,3,4,5]),e=ri(0,A>=4?3:5);const k=ri(8,20),m=ri(3,14),n=e+k-m;if(n<2)return g1();
+ const vr=ri(0,1)===0,b=vr?VR('a'):A;const js=`Math.pow(${A},${m})*Math.pow(${A},${n})/Math.pow(${A},${k})`;
+ return nm(`${P} ${SP(b,m)} · ${SP(b,n)} : ${SP(b,k)}${vr?AT(A):''}.`,js,Math.pow(A,e),`При умножении степеней с одинаковым основанием показатели складывают: ${m} + ${n} = ${m+n}. При делении вычитают: ${m+n} − ${k} = ${e}. Получается ${vr?VR('a'):A}<sup>${e}</sup> = ${f(Math.pow(A,e))}.`,'Сложи показатели при умножении, вычти при делении.',{tag:u=>u===A*e?'умножил основание на показатель':u===e?'записал показатель вместо значения степени':''})}
+
+// 2. Степень в степени
+function g2(){const A=pick([2,3,4,5]),e=ri(0,A>=4?3:5);const vr=ri(0,1)===0,b=vr?VR('a'):A;
+ if(ri(0,1)===0){const m=ri(2,6),n=ri(2,5),k=m*n-e;if(k<1||k>20)return g2();
+  return nm(`${P} ${SP(b,-k)} · (${SP(b,m)})<sup>${n}</sup>${vr?AT(A):''}.`,`Math.pow(${A},-${k})*Math.pow(Math.pow(${A},${m}),${n})`,Math.pow(A,e),`Степень в степени: показатели перемножают, (${b}<sup>${m}</sup>)<sup>${n}</sup> = ${b}<sup>${m*n}</sup>. Затем при умножении складывают: ${m*n} + (−${k}) = ${e}. Результат ${f(Math.pow(A,e))}.`,'Сначала перемножь показатели в скобке.',{tag:tagE(e)})}
+ const m=ri(2,6),n=ri(2,6),k=ri(1,10),p=m*n+k-e;
+ return nm(`${P} ${F(`(${SP(b,m)})<sup>${n}</sup> · ${SP(b,k)}`,SP(b,p))}${vr?AT(A):''}.`,`Math.pow(Math.pow(${A},${m}),${n})*Math.pow(${A},${k})/Math.pow(${A},${p})`,Math.pow(A,e),`Сначала (${b}<sup>${m}</sup>)<sup>${n}</sup> = ${b}<sup>${m*n}</sup> (показатели перемножают). Числитель: ${m*n} + ${k} = ${m*n+k}. Деление: ${m*n+k} − ${p} = ${e}. Ответ ${f(Math.pow(A,e))}.`,'Перемножь показатели в скобке, потом сложи, потом вычти.',{tag:tagE(e)})}
+
+// 3. Отрицательные показатели
+function g3(){const t=ri(0,2);
+ if(t===0){const A=pick([2,5,10]),n=A===5?ri(1,3):ri(1,3);return nm(`${P} ${SP(A,-n)}.`,`Math.pow(${A},-${n})`,1/Math.pow(A,n),`Отрицательный показатель: a<sup>−n</sup> = 1 / a<sup>n</sup>. ${A}<sup>−${n}</sup> = 1 / ${Math.pow(A,n)} = ${f(1/Math.pow(A,n))}. Знак минус показателя не делает число отрицательным.`,'Перенеси степень в знаменатель.',{tag:u=>u===-Math.pow(A,n)?'сделал число отрицательным':u===Math.pow(A,n)?'проигнорировал минус в показателе':u===-A*n?'умножил основание на показатель':''})}
+ const A=pick([2,3,5]);
+ if(t===1){const e=ri(0,4),m=ri(2,5),n=ri(2,4),k=e+m*n;const vr=ri(0,1)===0,b=vr?VR('a'):A;
+  return nm(`${P} (${SP(b,m)})<sup>−${n}</sup> : ${SP(b,-k)}${vr?AT(A):''}.`,`Math.pow(Math.pow(${A},${m}),-${n})/Math.pow(${A},-${k})`,Math.pow(A,e),`Степень в степени: (${b}<sup>${m}</sup>)<sup>−${n}</sup> = ${b}<sup>${-m*n}</sup>. Деление: вычитаем показатели: ${-m*n} − (−${k}) = ${-m*n} + ${k} = ${e}. Ответ ${f(Math.pow(A,e))}.`,'Перемножь показатели и вычти с учётом знаков.',{tag:tagE(e)})}
+ const m=ri(2,6),n=ri(2,3),k=m*n-ri(0,4);if(k<1)return g3();const e=m*n-k;
+ return nm(`${P} ${SP(A,-k)} · (${SP(A,m)})<sup>${n}</sup>.`,`Math.pow(${A},-${k})*Math.pow(Math.pow(${A},${m}),${n})`,Math.pow(A,e),`(${A}<sup>${m}</sup>)<sup>${n}</sup> = ${A}<sup>${m*n}</sup>. Умножение: показатели складываем: −${k} + ${m*n} = ${e}. Ответ ${A}<sup>${e}</sup> = ${f(Math.pow(A,e))}.`,'Сначала степень в степени.',{tag:tagE(e)})}
+
+// 4. Числовая дробь со степенью
+function g4(){const b=pick([2,3,4,5,6,7,10]);const k=ri(1,Math.min(3,b===10?3:3)),n=k+ri(1,Math.min(4,b>=5?3:4));
+ const den=Math.pow(b,k);return nm(`${P} ${F(SP(b,n),den)}.`,`Math.pow(${b},${n})/${den}`,Math.pow(b,n-k),`Представь знаменатель как степень: ${den} = ${b}<sup>${k}</sup>. Тогда ${b}<sup>${n}</sup> : ${b}<sup>${k}</sup> = ${b}<sup>${n-k}</sup> = ${f(Math.pow(b,n-k))}.`,`Запиши ${den} как степень числа ${b}.`,{tag:u=>u===Math.pow(b,n)/k?'неверно сократил (делил на показатель)':u===b?'записал основание вместо ответа':''})}
+
+// 5. Корень из степени
+function g5(){const t=ri(0,2);
+ if(t===0){const b=ri(2,9),m=ri(1,3);return nm(`${P} ${R(SP(b,2*m))}.`,`Math.sqrt(Math.pow(${b},${2*m}))`,Math.pow(b,m),`Корень из степени с чётным показателем: √(${b}<sup>${2*m}</sup>) = ${b}<sup>${m}</sup> (показатель делят на 2) = ${f(Math.pow(b,m))}. Проверка: ${f(Math.pow(b,m))}² = ${f(Math.pow(b,2*m))}.`,'Раздели показатель на 2.',{tag:u=>u===Math.pow(b,2*m)/2?'разделил значение пополам, а не показатель':u===b*m?'умножил основание на показатель':''})}
+ if(t===1){const A=pick([2,3]);const a1=2*ri(1,3),a2=2*ri(1,2);return nm(`${P} ${R(`${VR('a')}<sup>${a1}</sup> · (−${VR('a')})<sup>${a2}</sup>`)} при ${VR('a')} = ${A}.`,`Math.sqrt(Math.pow(${A},${a1})*Math.pow(-${A},${a2}))`,Math.pow(A,(a1+a2)/2),`Чётная степень отрицательного числа положительна: (−${A})<sup>${a2}</sup> = ${A}<sup>${a2}</sup>. Под корнем ${A}<sup>${a1+a2}</sup>, корень даёт ${A}<sup>${(a1+a2)/2}</sup> = ${f(Math.pow(A,(a1+a2)/2))}.`,'Чётная степень убирает минус.',{tag:u=>u<0?'отрицательный ответ (корень неотрицателен)':''})}
+ for(;;){const c=pick([2,4,5,3]),x=ri(2,3),y=ri(1,5),ans=Math.pow(x,3)*y*y/c;if(Math.abs(ans*1000-Math.round(ans*1000))>1e-9)continue;
+  return nm(`${P} ${R(`${F(1,c*c)} · ${VR('x')}<sup>6</sup>${VR('y')}<sup>4</sup>`)} при ${VR('x')} = ${x} и ${VR('y')} = ${y}.`,`Math.sqrt(Math.pow(${x},6)*Math.pow(${y},4)/${c*c})`,ans,`Корень из произведения — произведение корней: √(1/${c*c}) = 1/${c}, √(x<sup>6</sup>) = x<sup>3</sup> = ${x**3}, √(y<sup>4</sup>) = y<sup>2</sup> = ${y*y}. Итого ${x**3} · ${y*y} / ${c} = ${f(ans)}.`,'Извлеки корень из каждого множителя отдельно.',{})}}
+
+// 6. Произведение и частное корней
+function g6(){const t=ri(0,1);const sel=[2,3,5,6,7,10,11,13];
+ if(t===0){const p=pick(sel),q=pick([2,3,5,6,7]),s=ri(2,4);const b=q*s*s,c=q*p;
+  return nm(`${P} ${R(`${p} · ${b}`)} · ${R(c)}.`,`Math.sqrt(${p}*${b})*Math.sqrt(${c})`,p*q*s,`Произведение корней равно корню из произведения: √(${p}·${b}·${c}). Разложи на множители: ${p}·${b}·${c} = ${p}²·${q}²·${s}², значит корень равен ${p}·${q}·${s} = ${p*q*s}. Проверка: ${p*q*s}² = ${(p*q*s)**2} = ${p}·${b}·${c}.`,'Подкоренное произведение должно быть точным квадратом: разложи на простые множители.',{})}
+ for(let i=0;i<200;i++){const tt=ri(2,9),d=pick([3,5,6,7,10,15]);const prod=tt*tt*d;const dv=[];for(let x=3;x<=60;x++)if(prod%x===0&&prod/x>=3&&prod/x<=60&&x!==d&&prod/x!==d)dv.push(x);if(!dv.length)continue;const x=pick(dv),y=prod/x;
+  return nm(`${P} ${F(R(x)+' · '+R(y),R(d))}.`,`Math.sqrt(${x})*Math.sqrt(${y})/Math.sqrt(${d})`,tt,`Корень из произведения и частного: √${x}·√${y}/√${d} = √(${x}·${y}/${d}). ${x}·${y} = ${prod}, ${prod} : ${d} = ${tt*tt}, √${tt*tt} = ${tt}.`,'Собери всё под один корень и посчитай.',{})}
+ return g6()}
+
+// 7. Корни с коэффициентами
+function g7(){const sel=[2,3,5,6,7,11,13];let p=pick(sel),q;do{q=pick(sel)}while(q===p);const k1=ri(2,5),k2=ri(2,5);
+ const arr=[`${k1===1?'':k1}${R(p)}`,`${k2}${R(q)}`,R(p*q)];const ans=k1*k2*p*q;
+ return nm(`${P} ${arr.join(' · ')}.`,`${k1}*Math.sqrt(${p})*${k2}*Math.sqrt(${q})*Math.sqrt(${p*q})`,ans,`Числа перед корнями перемножь отдельно: ${k1}·${k2} = ${k1*k2}. Корни перемножь под одним знаком: √(${p}·${q}·${p*q}) = √(${p}²·${q}²) = ${p*q}. Итого ${k1*k2} · ${p*q} = ${ans}.`,'Множители перед корнями и сами корни считай отдельно.',{tag:u=>u===k1*k2*p*q*p*q?'не извлёк корень':''})}
+
+// 8. Формулы и корни
+function g8(){const t=ri(0,3);
+ if(t===0){const b=pick([2,3,5,6,7]),m=ri(2,4);const a=b*m*m;return nm(`${P} (${R(a)} + ${R(b)}) · ${R(b)}.`,`(Math.sqrt(${a})+Math.sqrt(${b}))*Math.sqrt(${b})`,b*m+b,`Раскрой скобки: √${a}·√${b} + √${b}·√${b} = √${a*b} + ${b}. √${a*b} = ${b*m} (так как ${a}·${b} = ${b}²·${m}²), итого ${b*m} + ${b} = ${b*m+b}.`,'Раскрой скобки: каждое слагаемое умножь на последний корень.',{})}
+ if(t===1){const a=pick([5,6,7,10,11,13,17,19]),n=ri(2,5);return nm(`${P} (${R(a)} + ${n})<sup>2</sup> − ${2*n}${R(a)}.`,`Math.pow(Math.sqrt(${a})+${n},2)-${2*n}*Math.sqrt(${a})`,a+n*n,`Квадрат суммы: (√${a} + ${n})² = ${a} + ${2*n}√${a} + ${n*n}. Вычитаем ${2*n}√${a}: остаётся ${a} + ${n*n} = ${a+n*n}.`,'Раскрой квадрат суммы по формуле (a + b)² = a² + 2ab + b².',{})}
+ if(t===2){const a=ri(5,20),b=ri(2,a-1);if(Math.sqrt(a)%1===0||Math.sqrt(b)%1===0&&false)return g8();const sw=ri(0,1)===0;
+  return nm(`${P} (${R(a)} − ${R(b)})(${R(a)} + ${R(b)}).`,`(Math.sqrt(${a})-Math.sqrt(${b}))*(Math.sqrt(${a})+Math.sqrt(${b}))`,a-b,`Формула разности квадратов: (x − y)(x + y) = x² − y². (√${a})² − (√${b})² = ${a} − ${b} = ${a-b}.`,'Формула разности квадратов.',{tag:u=>u===a+b?'сложил квадраты вместо вычитания':''})}
+ const k=ri(2,5),a=pick([2,3,5,6,7]),r=ri(2,10);const N=r*k*k*a;
+ return nm(`${P} ${F(N,`(${k}${R(a)})<sup>2</sup>`)}.`,`${N}/Math.pow(${k}*Math.sqrt(${a}),2)`,r,`Квадрат произведения: (${k}√${a})² = ${k}²·(√${a})² = ${k*k}·${a} = ${k*k*a}. Деление: ${N} : ${k*k*a} = ${r}.`,'Возведи в квадрат и число, и корень.',{tag:u=>u===N/(k*a)?'не возвёл коэффициент в квадрат':''})}
+
+// 9. Корень из квадрата, модуль
+function g9(){const t=ri(0,2);
+ if(t===0){const a=ri(-9,-1);return nm(`${P} ${R(`${VR('a')}<sup>2</sup>`)} при ${VR('a')} = ${f(a)}.`,`Math.sqrt(${a*a})`,-a,`√(a²) = |a|. Корень неотрицателен: √((${f(a)})²) = √${a*a} = ${-a}, а не ${f(a)}.`,'Корень из квадрата числа равен модулю числа.',{tag:u=>u===a?'забыл, что корень неотрицателен':''})}
+ const a=ri(1,9),b=ri(1,9),k=ri(1,3);if(a===k*b)return g9();
+ if(t===1)return nm(`${P} ${R(`(${VR('a')} − ${VR('b')})<sup>2</sup>`)} при ${VR('a')} = ${a} и ${VR('b')} = ${b}.`,`Math.sqrt(Math.pow(${a}-${b},2))`,Math.abs(a-b),`√((a − b)²) = |a − b| = |${a} − ${b}| = ${Math.abs(a-b)}. Результат неотрицателен.`,'Корень из квадрата — модуль.',{tag:u=>u===a-b&&a<b?'забыл про модуль':''});
+ const kk=ri(2,4);const bb=ri(2,6),aa=ri(2,6);if(aa===kk*bb)return g9();const pl=`${VR('a')}<sup>2</sup> − ${2*kk}${VR('a')}${VR('b')} + ${kk*kk}${VR('b')}<sup>2</sup>`;
+ return nm(`${P} ${R(pl)} при ${VR('a')} = ${aa} и ${VR('b')} = ${bb}.`,`Math.sqrt(${aa*aa}-${2*kk*aa*bb}+${kk*kk*bb*bb})`,Math.abs(aa-kk*bb),`Свернём под корнем: a² − ${2*kk}ab + ${kk*kk}b² = (a − ${kk}b)². √((a − ${kk}b)²) = |a − ${kk}b| = |${aa} − ${kk*bb}| = ${Math.abs(aa-kk*bb)}. Корень неотрицателен.`,`Распознай квадрат разности: (a − ${kk}b)².`,{tag:u=>u===aa-kk*bb&&aa<kk*bb?'забыл про модуль':''})}
+
+const GS=[g1,g2,g3,g4,g5,g6,g7,g8,g9];
+function g10(){return pick(GS)()}
+
+const LEVELS=[
+ {t:'Умножение и деление степеней',g:g1,pages:[
+  '<b>При умножении степеней с одним основанием показатели складывают:</b> a<sup>m</sup> · a<sup>n</sup> = a<sup>m+n</sup>. <b>При делении вычитают:</b> a<sup>m</sup> : a<sup>n</sup> = a<sup>m−n</sup>.',
+  'Разберём пример: a<sup>8</sup> · a<sup>17</sup> : a<sup>20</sup> при a = 2. 8 + 17 − 20 = 5. a<sup>5</sup> = 2<sup>5</sup> = 32.',
+  'Основание при этом не меняется и показатели не умножаются. Самая частая ошибка: перемножить показатели вместо сложения.']},
+ {t:'Степень в степени',g:g2,pages:[
+  '<b>При возведении степени в степень показатели перемножают:</b> (a<sup>m</sup>)<sup>n</sup> = a<sup>mn</sup>.',
+  'Разберём пример: (a<sup>3</sup>)<sup>5</sup> · a<sup>6</sup> : a<sup>19</sup> при a = 5. 3 · 5 = 15, 15 + 6 − 19 = 2. a<sup>2</sup> = 25.',
+  'Порядок: сначала степень в степени, потом умножение и деление степеней с одним основанием.']},
+ {t:'Отрицательные показатели',g:g3,pages:[
+  '<b>Степень с отрицательным показателем:</b> a<sup>−n</sup> = 1 / a<sup>n</sup>. Минус в показателе не делает число отрицательным.',
+  'Разберём пример: 2<sup>−3</sup> = 1/8 = 0,125. Другой пример: (a<sup>4</sup>)<sup>−3</sup> : a<sup>−17</sup> = a<sup>−12</sup> : a<sup>−17</sup> = a<sup>−12−(−17)</sup> = a<sup>5</sup>.',
+  'Показатели с минусом складывают и вычитают как обычные числа: −12 − (−17) = −12 + 17 = 5.']},
+ {t:'Дробь со степенями',g:g4,pages:[
+  '<b>Чтобы сократить дробь со степенями, запиши числа как степени одного основания.</b>',
+  'Разберём пример: 3<sup>5</sup>/27. 27 = 3<sup>3</sup>. 3<sup>5</sup> : 3<sup>3</sup> = 3<sup>2</sup> = 9.',
+  'Если считать напрямую: 3<sup>5</sup> = 243, 243 : 27 = 9. Оба способа дают один результат, но со степенями быстрее.']},
+ {t:'Корень из степени и произведения',g:g5,pages:[
+  '<b>√(a<sup>2n</sup>) = a<sup>n</sup></b> при a ≥ 0 (показатель делят на 2). Корень из произведения равен произведению корней.',
+  'Разберём пример: √(8<sup>4</sup>) = 8<sup>2</sup> = 64. Другой пример: √(1/16 · x<sup>6</sup>y<sup>4</sup>) = (1/4) · x<sup>3</sup> · y<sup>2</sup>.',
+  'Чётная степень отрицательного числа положительна: (−a)<sup>4</sup> = a<sup>4</sup>. Поэтому √(a<sup>6</sup>·(−a)<sup>4</sup>) = a<sup>3</sup> · a<sup>2</sup> = a<sup>5</sup>.']},
+ {t:'Произведение и частное корней',g:g6,pages:[
+  '<b>√a · √b = √(ab) и √a / √b = √(a/b)</b> при a ≥ 0, b > 0.',
+  'Разберём пример: √35 · √21 / √15 = √(35·21/15) = √49 = 7.',
+  'Разложи подкоренное выражение на простые множители: 13·18·26 = 13·(2·3²)·(2·13) = 13²·2²·3², корень равен 13·2·3 = 78.']},
+ {t:'Корни с множителями',g:g7,pages:[
+  '<b>Множители перед корнями умножай отдельно,</b> корни — под одним знаком: k√a · m√b = km · √(ab).',
+  'Разберём пример: 5√11 · 4√3 · √33. 5 · 4 = 20. √(11 · 3 · 33) = √(33 · 33) = 33. Итого 20 · 33 = 660.',
+  'После перемножения под корнем должен получиться точный квадрат. Если нет — проверь, не ошибся ли в числах.']},
+ {t:'Формулы сокращённого умножения с корнями',g:g8,pages:[
+  '<b>(√a)² = a. (x − y)(x + y) = x² − y². (x + y)² = x² + 2xy + y².</b>',
+  'Разберём пример: (√17 + 2)² − 4√17 = 17 + 4√17 + 4 − 4√17 = 21. Слагаемые с корнем взаимно уничтожаются.',
+  '(√5 − √3)(√5 + √3) = 5 − 3 = 2. А (5√2)² = 25 · 2 = 50: в квадрат возводят и число перед корнем, и корень.']},
+ {t:'Корень из квадрата и модуль',g:g9,pages:[
+  '<b>√(a²) = |a|.</b> Значение корня неотрицательно, поэтому корень из квадрата числа равен модулю этого числа.',
+  'Разберём пример: √(a² − 6ab + 9b²) при a = 3, b = 6. Под корнем (a − 3b)². √((a − 3b)²) = |a − 3b| = |3 − 18| = 15.',
+  'Не забывай модуль: если a − 3b отрицательно, ответ положителен. Ответ 15, а не −15.']},
+ {t:'Всё вперемешку, как в ОГЭ',g:g10,pages:[
+  '<b>В №8 нужно упростить выражение со степенями или корнями и найти значение.</b> Ответ — целое число или десятичная дробь.',
+  'План: определи тип (степени, корни, формулы), примени нужное свойство, проверь знак ответа.',
+  'Проверка: корень неотрицателен; степень с отрицательным показателем положительна при положительном основании; показатель при делении вычитают.']}
+];
+//CONTENT-END
+
+//ENGINE-START
+/* ====== настройки ====== */
+const KEY='lilimath-trenazher-stepeni-i-korni-oge8-v1';
+const SHEET_URL='https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec';
+const TITLE='Степени и корни (ОГЭ №8)';
+const NEED=7;          // верных ответов подряд для прохождения уровня
+const RETEACH_AFTER=3; // ошибок подряд -> показать объяснение заново
+const STUCK_AFTER=3;   // сколько раз объяснение показали -> метка «нужна помощь»
+const PUSH_EVERY=10;   // отправка в таблицу каждые N ответов
+
+/* ====== состояние ====== */
+function uid(){return Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4)}
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.lv)return s}catch(e){}return{name:'',lv:{},openAll:false}}
+let st=load();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
+function dec(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return new TextDecoder().decode(Uint8Array.from(atob(s),c=>c.charCodeAt(0)))}
+function enc(s){return btoa(String.fromCharCode(...new TextEncoder().encode(s))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+const HASH=location.hash.slice(1);
+const TEACHER=HASH==='lilia';
+if(/^u/.test(HASH)&&!st.name){try{const nm=dec(HASH.slice(1).split('.')[0]).split('|')[0].trim();if(nm){st.name=nm;save()}}catch(e){}}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function L(i){return st.lv[i]||(st.lv[i]={ok:0,bad:0,hints:0,idk:0,tags:{},reteach:0,passed:false,stuck:false})}
+const isOpen=i=>i===0||st.openAll||L(i-1).passed;
+const passedCount=()=>LEVELS.filter((_,i)=>L(i).passed).length;
+let V={phase:'home',i:0,page:0,streak:0,cons:0,q:null,hint:false,fb:null,err:'',sid:uid(),started:Date.now(),ok:0,bad:0,n:0,preview:false};
+
+/* ====== отправка в таблицу ====== */
+function report(){return LEVELS.map((l,i)=>{const o=L(i);
+ const tg=Object.keys(o.tags).sort((a,b)=>o.tags[b]-o.tags[a]).slice(0,3).map(t=>`${t} ×${o.tags[t]}`).join('; ');
+ const status=o.passed?'пройден':o.stuck?'нужна помощь':(o.ok+o.bad)?'идёт':'—';
+ return `${i+1}. ${l.t}: ${status}; верно ${o.ok}, неверно ${o.bad}, подсказок ${o.hints}, «не знаю» ${o.idk}, повторов объяснения ${o.reteach}${tg?'; ошибки: '+tg:''}`}).join('\n')}
+function marks(){return LEVELS.map((_,i)=>`${i+1}${L(i).passed?'✓':L(i).stuck?'!':''}`).join(' ')}
+function push(final){
+ if(TEACHER||V.n===0)return;
+ try{
+  const done=passedCount()===LEVELS.length;
+  const d={sid:V.sid,test:TITLE,name:st.name,kind:'тренажёр',started:V.started,
+   status:final&&done?'завершено':'в процессе',progress:`${passedCount()}/${LEVELS.length}`,score:V.ok,max:V.ok+V.bad,grade:'',
+   minutes:Math.round((Date.now()-V.started)/60000),bonus:`ступень ${V.i+1}`,tasks:marks(),report:report()};
+  const bd=JSON.stringify(d);
+  fetch(SHEET_URL,{method:'POST',mode:'no-cors',keepalive:bd.length<60000,headers:{'Content-Type':'text/plain;charset=utf-8'},body:bd}).catch(()=>{});
+ }catch(e){}
+}
+addEventListener('pagehide',()=>{if(V.n>0)push(false)});
+
+/* ====== разбор ошибок ====== */
+function tagOf(q,u){
+ if(u===null)return 'не знаю';
+ if(q.type==='num'){
+  if(q.tag){const t=q.tag(u);if(t)return t}
+  if(u<0&&q.ans>=0)return 'отрицательный ответ';
+  if(q.rad!==undefined&&u===q.rad)return 'не извлёк корень';
+  if(q.rad!==undefined&&Math.abs(u-q.rad/2)<1e-9)return 'разделил пополам';
+  if(q.rad!==undefined&&Number.isInteger(q.ans)&&q.ans>0&&u===q.ans*q.ans)return 'возвёл в квадрат вместо корня';
+  return 'другая ошибка';
+ }
+ return q.etag||'другая ошибка';
+}
+function parseNum(s){s=String(s).trim().replace(/\s/g,'').replace(',','.').replace('−','-');
+ if(/^-?\d+(\.\d+)?\/\d+(\.\d+)?$/.test(s)){const p=s.split('/');return parseFloat(p[0])/parseFloat(p[1])}
+ if(/^-?\d+(\.\d+)?$/.test(s))return parseFloat(s);return NaN}
+
+/* ====== экраны ====== */
+const app=h=>{document.getElementById('app').innerHTML=h};
+const $=s=>document.querySelector(s);
+function hdr(){return `<div class="muted">${esc(st.name||'')}${TEACHER?' · режим учителя (в таблицу не отправляется)':''}</div>`}
+function render(){
+ if(TEACHER&&!V.preview)return teacherScreen();
+ if(!st.name)return nameScreen();
+ ({home:homeScreen,learn:learnScreen,q:qScreen,done:doneScreen,reteach:reteachScreen,stuck:stuckScreen}[V.phase]||homeScreen)();
+}
+function nameScreen(){
+ app(`<h1>Степени и корни (ОГЭ №8)</h1><p class="muted">Тренажёр идёт по ступеням. Дальше можно пойти только после ${NEED} верных ответов подряд.</p>
+ <p>Как тебя зовут?</p><input class="nm" id="nm" placeholder="Имя Фамилия" onkeydown="if(event.key==='Enter')setName()"><br><button class="btn" onclick="setName()">Начать</button><div class="bad" id="er"></div>`);
+ const e=$('#nm');if(e)e.focus()}
+function setName(){const v=$('#nm').value.trim();if(v.length<3){$('#er').textContent='Введи имя и фамилию.';return}st.name=v;save();home()}
+function home(){V.phase='home';render()}
+function homeScreen(){
+ let h=hdr()+`<h1>Степени и корни (ОГЭ №8)</h1><p class="muted">Пройдено ступеней: ${passedCount()} из ${LEVELS.length}. Чтобы пройти ступень, нужно ${NEED} верных ответов подряд.</p>`;
+ LEVELS.forEach((l,i)=>{const o=L(i),op=isOpen(i);
+  const s=o.passed?'пройдена':!op?'закрыта':o.stuck?'нужна помощь':(o.ok+o.bad)?'идёт':'открыта';
+  h+=`<button class="row ${o.passed?'passed':''}" ${op?'':'disabled'} onclick="openLevel(${i})"><span>${i+1}. ${l.t}</span><span class="st">${s}</span></button>`});
+ if(TEACHER)h+=`<button class="btn sec" onclick="V.preview=false;render()">Вернуться в кабинет учителя</button>`;
+ app(h)}
+function openLevel(i){if(!isOpen(i))return;V.i=i;V.page=0;V.streak=0;V.cons=0;V.fb=null;V.phase='learn';render()}
+function learnScreen(){const l=LEVELS[V.i];
+ let h=hdr()+`<h1>${V.i+1}. ${l.t}</h1><p class="muted">Прочитай по шагам. Потом ${NEED} заданий подряд без ошибок.</p>`;
+ for(let k=0;k<=V.page;k++)h+=`<div class="card">${l.pages[k]}</div>`;
+ h+=V.page<l.pages.length-1?`<button class="btn" onclick="nextPage()">Дальше</button>`:`<button class="btn" onclick="startQ()">Начать задания</button>`;
+ h+=`<button class="btn sec" onclick="home()">К списку</button>`;
+ app(h);window.scrollTo(0,document.body.scrollHeight)}
+function nextPage(){V.page++;render()}
+function startQ(){V.streak=0;V.cons=0;nextQ()}
+function nextQ(){V.q=LEVELS[V.i].g();V.hint=false;V.fb=null;V.err='';V.phase='q';render()}
+function qScreen(){const q=V.q,l=LEVELS[V.i];
+ let dots='';for(let k=0;k<NEED;k++)dots+=`<span class="dot ${k<V.streak?'on':''}"></span>`;
+ let h=hdr()+`<h2>${V.i+1}. ${l.t}</h2><div class="dots">${dots} <span class="muted">${V.streak} из ${NEED}</span></div>
+ <div class="muted">${q.prompt}</div><div class="big">${q.q}</div>${q.pic||''}`;
+ if(V.hint&&q.hint)h+=`<div class="hint"><b>Подсказка.</b> ${q.hint}</div>`;
+ if(V.fb){
+  h+=V.fb.ok?`<div class="card"><span class="ok">Верно.</span></div>`:`<div class="card"><span class="bad">${V.fb.idk?'Хорошо, что сказала честно.':'Неверно.'}</span> ${q.why}<div class="muted" style="margin-top:6px">Серия обнулена. Следующее задание будет новым.</div></div>`;
+  h+=`<button class="btn" id="nx" onclick="afterFb()">Дальше</button>`;
+ }else{
+  if(q.type==='num')h+=`<input class="ans" id="ans" autocomplete="off" inputmode="text" onkeydown="if(event.key==='Enter')submitNum()"><br><button class="btn" onclick="submitNum()">Проверить</button><div class="bad" style="margin-top:8px">${V.err}</div>`;
+  else h+=q.options.map((o,i)=>`<button class="opt" onclick="pickOpt(${i})">${o}</button>`).join('');
+  h+=`<div>`+(q.hint&&!V.hint?`<button class="btn sec" onclick="useHint()">Подсказка</button>`:'')+`<button class="btn sec" onclick="idk()">Не знаю</button><button class="btn sec" onclick="exitLevel()">К списку</button></div>`;
+ }
+ app(h);const a=$('#ans');if(a)a.focus();const n=$('#nx');if(n)n.focus()}
+function useHint(){if(!V.hint){V.hint=true;L(V.i).hints++;save()}render()}
+function exitLevel(){push(false);home()}
+function answered(ok,u){
+ const o=L(V.i);V.n++;
+ if(ok){o.ok++;V.ok++;V.streak++;V.cons=0;
+  if(V.streak>=NEED){o.passed=true;save();push(true);V.phase='done';render();return}
+  V.fb={ok:true}}
+ else{o.bad++;V.bad++;V.streak=0;V.cons++;const t=tagOf(V.q,u);o.tags[t]=(o.tags[t]||0)+1;V.fb={ok:false,idk:u===null};if(u===null)o.idk++}
+ save();if(V.n%PUSH_EVERY===0)push(false);render()}
+function submitNum(){const u=parseNum($('#ans').value);
+ if(isNaN(u)){V.err='Введи число (например 7, 0,5 или 3/4).';render();return}
+ answered(Math.abs(u-V.q.ans)<1e-9,u)}
+function pickOpt(i){answered(V.q.options[i]===V.q.correct,V.q.options[i])}
+function idk(){answered(false,null)}
+function afterFb(){
+ if(!V.fb.ok&&V.cons>=RETEACH_AFTER){const o=L(V.i);o.reteach++;V.cons=0;
+  if(o.reteach>=STUCK_AFTER){o.stuck=true;save();push(false);V.phase='stuck';render();return}
+  save();V.phase='reteach';render();return}
+ nextQ()}
+function reteachScreen(){app(hdr()+`<h2>Давай ещё раз посмотрим объяснение</h2><div class="card"><p>Несколько ответов подряд не получились. Это нормально: значит, объяснение надо прочитать ещё раз, не торопясь.</p></div><button class="btn" onclick="V.page=0;V.phase='learn';render()">Смотреть объяснение</button>`)}
+function stuckScreen(){app(hdr()+`<h2>Стоп</h2><div class="card"><p>Здесь стало трудно, и это не страшно. Эту ступень лучше разобрать вместе с учителем. Результат уже отправлен Лилии.</p><p>Скажи, на каком месте перестало быть понятно.</p></div><button class="btn" onclick="home()">К списку</button><button class="btn sec" onclick="V.page=0;V.cons=0;V.phase='learn';render()">Ещё раз объяснение</button>`)}
+function doneScreen(){const last=V.i===LEVELS.length-1;
+ app(hdr()+`<h2>Ступень пройдена</h2><div class="card"><p><b>${V.i+1}. ${LEVELS[V.i].t}</b>: ${NEED} верных ответов подряд. Это настоящая работа.</p><p class="muted">Результат отправлен Лилии.</p></div>`+
+ (last?`<p>Это была последняя ступень. Тренажёр пройден.</p><button class="btn" onclick="home()">К списку</button>`:`<button class="btn" onclick="openLevel(${V.i+1})">Следующая ступень</button><button class="btn sec" onclick="home()">К списку</button>`))}
+
+/* ====== режим учителя ====== */
+function teacherScreen(){
+ const base=location.href.split('#')[0];
+ let h=`<h1>Кабинет учителя</h1><p class="muted">Данные этого устройства. С этого экрана в таблицу ничего не отправляется.</p>
+ <h2>Ссылка для ученика</h2><input class="nm" id="tn" placeholder="Имя Фамилия"><p class="link" id="tl"></p>
+ <h2>Прогресс на этом устройстве</h2><table class="rep"><tr><th>№</th><th>Ступень</th><th>Статус</th><th>Верно</th><th>Неверно</th><th>Подск.</th><th>Не знаю</th><th></th></tr>`;
+ LEVELS.forEach((l,i)=>{const o=L(i);
+  h+=`<tr><td>${i+1}</td><td>${l.t}</td><td>${o.passed?'пройдена':o.stuck?'нужна помощь':(o.ok+o.bad)?'идёт':'—'}</td><td>${o.ok}</td><td>${o.bad}</td><td>${o.hints}</td><td>${o.idk}</td><td><button class="btn sm sec" onclick="tPass(${i})">засчитать</button><button class="btn sm sec" onclick="tReset(${i})">сбросить</button></td></tr>`});
+ h+=`</table><button class="btn sec" onclick="tOpenAll()">${st.openAll?'Закрыть ступени по порядку':'Открыть все ступени'}</button>
+ <button class="btn" onclick="V.preview=true;home()">Пройти как ученик</button>
+ <button class="btn sec" onclick="tWipe()">Стереть всё на этом устройстве</button>`;
+ app(h);
+ $('#tn').oninput=e=>{const v=e.target.value.trim();$('#tl').textContent=v?base+'#u'+enc(v):''}}
+function tPass(i){L(i).passed=true;save();render()}
+function tReset(i){st.lv[i]=undefined;delete st.lv[i];save();render()}
+function tOpenAll(){st.openAll=!st.openAll;save();render()}
+function tWipe(){if(confirm('Стереть весь прогресс на этом устройстве?')){localStorage.removeItem(KEY);st=load();render()}}
+
+render();
+//ENGINE-END
+</script>
+</body>
+</html>
