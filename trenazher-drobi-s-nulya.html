@@ -724,7 +724,8 @@ else root.FracContent = api;
 'use strict';
 var C = window.FracContent, STEPS = C.STEPS;
 // Адрес Google Apps Script (или другого приёма). Пока пусто: результаты хранятся только в этом браузере.
-var ENDPOINT = '';
+var SHEET_URL = 'https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec';
+var TITLE = 'Дроби с нуля';
 var NEED = 5, KEY = 'frac_trainer_v1';
 var app = document.getElementById('app');
 
@@ -744,10 +745,31 @@ function send(ev) {
   ev.name = S.name; ev.ts = new Date().toISOString();
   S.log.push(ev); if (S.log.length > 300) S.log.shift();
   save();
-  if (ENDPOINT) {
-    try { fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(ev) }); } catch (e) {}
-  }
 }
+function stepReport() {
+  return STEPS.map(function (s) {
+    var o = st(s.id);
+    var status = o.passed ? 'пройдена' : o.stuck ? 'нужна помощь' : o.tried ? 'идёт ' + o.streak + '/' + NEED : '—';
+    var tags = Object.keys(o.tags).filter(function (t) { return t !== 'dont-know'; }).sort(function (x, y) { return o.tags[y] - o.tags[x]; }).slice(0, 3).map(function (t) { return t + ' x' + o.tags[t]; }).join(', ');
+    return s.id + '. ' + s.title + ': ' + status + '; верно ' + o.ok + ', неверно ' + o.bad + ', подсказок ' + o.hints + ', не знаю ' + (o.tags['dont-know'] || 0) + ', повторов объяснения ' + (o.reteach || 0) + (tags ? '; ошибки: ' + tags : '');
+  }).join('\n');
+}
+function push() {
+  if (!SHEET_URL || isTeacher() || !S.name) return;
+  try {
+    if (!S.sid) { S.sid = Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4); S.started = Date.now(); save(); }
+    var asked = 0, ok = 0, hints = 0, passed = 0;
+    STEPS.forEach(function (s) { var o = st(s.id); asked += o.tried; ok += o.ok; hints += o.hints; if (o.passed) passed++; });
+    if (!asked && !passed) return;
+    var d = { sid: S.sid, test: TITLE, name: S.name, kind: 'тренажёр', started: S.started,
+      status: passed === STEPS.length ? 'завершено' : 'в процессе', progress: passed + '/' + STEPS.length, score: ok, max: asked, grade: '',
+      minutes: Math.round((Date.now() - S.started) / 60000), bonus: 'подсказок ' + hints,
+      tasks: STEPS.map(function (s) { var o = st(s.id); return s.id + (o.passed ? '+' : o.stuck ? '!' : o.tried ? '~' : '-'); }).join(' '), report: stepReport() };
+    var bd = JSON.stringify(d);
+    fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', keepalive: bd.length < 60000, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: bd }).catch(function () {});
+  } catch (e) {}
+}
+window.addEventListener('pagehide', push);
 
 /* ---------- экран ---------- */
 var V = { name: S.name ? 'home' : 'start' };
@@ -845,7 +867,7 @@ function rStuck() {
 /* ---------- кабинет учителя ---------- */
 function rTeacher() {
   var h = '<div class="top"><h1>Отчёт</h1><div class="who">' + esc(S.name || '—') + '</div></div>';
-  h += '<p class="small">Отправка результатов на сервер: ' + (ENDPOINT ? 'включена' : 'не настроена, данные видны только в этом браузере') + '.</p>';
+  h += '<p class="small">Результаты ученицы уходят в таблицу «Кабинеты учеников» (в режиме учителя ничего не отправляется). Ниже то, что хранится в этом браузере.</p>';
   h += '<table class="rep"><tr><th>№</th><th>Ступень</th><th>Статус</th><th>Верно</th><th>Неверно</th><th>Подсказок</th><th>После разбора верно</th><th>Частые ошибки</th><th></th></tr>';
   STEPS.forEach(function (s, i) {
     var o = st(s.id), tags = Object.keys(o.tags).sort(function (a, b) { return o.tags[b] - o.tags[a]; }).slice(0, 3).map(function (t) { return t + ' ×' + o.tags[t]; }).join(', ');
@@ -959,6 +981,7 @@ function finish(ok, tag) {
   if (!o.passed && o.streak >= NEED) { o.passed = true; passedNow = true; }
   send({ t: 'task', step: s.id, stepTitle: s.title, ok: ok, attempts: P.attempt, hint: P.hint, twin: !!P.twin, tag: P.tags.join(',') });
   save();
+  if (passedNow || o.tried % 10 === 0) push();
   var m;
   if (ok) m = clean ? 'Верно.' : 'Верно, но в зачёт не пошло: ответ был не с первой попытки или с подсказкой.';
   else m = (tag === 'dont-know' ? 'Хорошо, что сказала честно. ' : 'Не получилось. ') + 'Давай разберём. Счёт верных подряд начинается заново.';
@@ -975,7 +998,7 @@ function nextTask(passed) {
   if (passed) { send({ t: 'passed', step: s.id, stepTitle: s.title }); V = { name: 'done', i: P.i }; render(); return; }
   if (o.cw >= 2) {
     o.cw = 0;
-    if (o.reteach >= 2) { o.stuck = true; save(); send({ t: 'stuck', step: s.id, stepTitle: s.title }); V = { name: 'stuck', i: P.i }; render(); return; }
+    if (o.reteach >= 2) { o.stuck = true; save(); send({ t: 'stuck', step: s.id, stepTitle: s.title }); push(); V = { name: 'stuck', i: P.i }; render(); return; }
     o.reteach++; save(); V = { name: 'inter', i: P.i }; render(); return;
   }
   if (P.lastWrong) { var tw = twinTask(); P.task = tw; P.attempt = 0; P.hint = false; P.done = false; P.choice = undefined; P.sel = new Set(); P.tags = []; P.last = tw.q; P.twin = true; P.lastWrong = false; render(); return; }
@@ -992,7 +1015,7 @@ app.addEventListener('click', function (e) {
   if (!b || b.disabled) return;
   var a = b.dataset.a, i2 = +b.dataset.i;
   if (a === 'start') { var v = document.getElementById('nm').value.trim(); if (!v) return; S.name = v; save(); send({ t: 'start' }); V = { name: 'home' }; render(); }
-  else if (a === 'home' || a === 'thome') { if (a === 'thome') history.replaceState(null, '', location.pathname); V = { name: 'home' }; render(); }
+  else if (a === 'home' || a === 'thome') { if (a === 'home') push(); if (a === 'thome') history.replaceState(null, '', location.pathname); V = { name: 'home' }; render(); }
   else if (a === 'open') openStep(i2);
   else if (a === 'tpick') {
     var sl2 = STEPS[V.i].teach[V.k], good = b.dataset.v === sl2.ask.ans;
