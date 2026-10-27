@@ -4612,8 +4612,8 @@
       "type": "uchebnik",
       "class": 9,
       "oge_task": 20,
-      "status": "hidden",
-      "note": "добавлено 2026-10-27, ветка urok-20-nomer, до слова «заливай» не публиковать",
+      "status": "public",
+      "note": "добавлено 2026-10-27, ветка urok-20-nomer",
       "node": [
         "8A.3"
       ]
