@@ -8,6 +8,7 @@ ids = {n['id'] for n in json.load(open(f'{ROOT}/skills-by-grade.json', encoding=
 ids |= {'5A','6A','7A','8A','9A','5G','6G','7G','8G','9G'}
 # (регулярка по имени файла, список ID). Первое совпадение выигрывает.
 RULES = [
+ (r'^dz\.html\?w=5A\.5\.3', ['5A.5.3','5A.5.4']),
  (r'^z6-drobi', ['5A.5.3','5A.5.4']),
  (r'^z6-obyknovennye', ['6A.2.3','6A.2.4','6A.2.5']),
  (r'^z6-umn-del', ['5A.3.1','5A.3.2']),
