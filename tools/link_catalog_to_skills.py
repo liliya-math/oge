@@ -101,7 +101,7 @@ RULES = [
  (r'^trenazher-linejnaya-funkciya-7-klass', ['7A.1.5','7A.2.2']),
  (r'^trenazher-geometriya-osnovy', ['7G.1']), (r'^trenazher-procenty-7-klass', ['6A.4']),
  (r'^trenazher-drobi-s-nulya', ['5A.4','6A.2']), (r'^trenazher-kvadratnyj-koren', ['8A.2']),
- (r'^trenazher-sopryazhennye', ['8A.2.5']), (r'^trenazher-kvadratnye-neravenstva', ['9A.2.3']), (r'^trenazher-formuly-oge12', ['9A.8.1']), (r'^trenazher-uravneniya-oge20', ['9A.2.1','9A.2.2','9A.2.4']), (r'^trenazher-tablica-umnozheniya', ['5A.3.1']),
+ (r'^trenazher-sopryazhennye', ['8A.2.5']), (r'^trenazher-kvadratnye-neravenstva', ['9A.2.3']), (r'^trenazher-formuly-oge12', ['9A.8.1']), (r'^trenazher-vychisleniya-oge6', ['9A.7.1']), (r'^trenazher-uravneniya-oge20', ['9A.2.1','9A.2.2','9A.2.4']), (r'^trenazher-tablica-umnozheniya', ['5A.3.1']),
  (r'^trenazher-ustnyj-schet', ['5A.3.1','5A.3.4','7A.3.1','8A.2.1']),
  (r'^trainer\.html', ['5A.5.4','6A.2.5']),
  (r'^bissektrisy-parallelogramma', ['8G.1.2']), (r'^triangle-medians', ['8G.3.3']),
