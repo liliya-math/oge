@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#14211e">
+<title>Уравнения и неравенства ОГЭ №20: тренажёр</title>
+<style>
+:root{--bg:#14211e;--card:rgba(243,236,226,.07);--line:rgba(243,236,226,.16);--fg:#f3ece2;--muted:rgba(243,236,226,.62);--cobalt:#1747c9;--apricot:#f2905e;--yellow:#f5dc6a;--mint:#8fd9b0;--miss:#ff8f7d}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-text-size-adjust:100%}
+#wrap{max-width:760px;margin:0 auto;padding:18px 16px 70px}
+h1{font-size:26px;margin:6px 0 4px;line-height:1.25}
+h2{font-size:20px;margin:16px 0 8px}
+.muted{color:var(--muted);font-size:15px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin:12px 0}
+.big{font-size:32px;margin:8px 0 14px;line-height:1.7}
+.rad{position:relative;display:inline-block;white-space:nowrap;vertical-align:baseline;padding-left:.6em;line-height:1.2}
+.rs{position:absolute;left:0;top:0;width:.6em;height:100%;overflow:visible;fill:none;stroke:var(--fg);stroke-width:2;stroke-linejoin:miter;stroke-linecap:butt}
+.ov{display:inline-block;border-top:2px solid var(--fg);padding:.06em 4px 0 1px;margin-left:-1px}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;font-size:.8em;line-height:1.2;margin:0 3px}
+.fr>span:first-child{border-bottom:2px solid var(--fg);padding:0 4px}
+input.ans{font:inherit;font-size:26px;width:100%;max-width:240px;padding:10px 14px;border-radius:10px;border:1.5px solid var(--line);background:rgba(243,236,226,.08);color:var(--fg)}
+input.ans:focus,input.nm:focus{outline:2px solid var(--yellow);outline-offset:1px}
+input.nm{font:inherit;font-size:20px;width:100%;max-width:360px;padding:10px 14px;border-radius:10px;border:1.5px solid var(--line);background:rgba(243,236,226,.08);color:var(--fg)}
+.btn{font:inherit;font-weight:600;padding:12px 20px;border-radius:12px;border:0;background:var(--cobalt);color:#fff;cursor:pointer;margin:10px 8px 0 0}
+.btn.sec{background:transparent;border:1.5px solid var(--line);color:var(--fg)}
+.btn.sm{padding:6px 12px;font-size:14px;margin:2px 4px 2px 0}
+.opt{font:inherit;font-size:20px;padding:12px 18px;border-radius:12px;border:1.5px solid var(--line);background:rgba(243,236,226,.06);color:var(--fg);cursor:pointer;margin:0 10px 10px 0}
+.opt:active{background:rgba(243,236,226,.16)}
+.dots{margin:4px 0 10px}
+.dot{display:inline-block;width:15px;height:15px;border:2px solid var(--fg);border-radius:50%;margin-right:6px;vertical-align:middle}
+.dot.on{background:var(--mint);border-color:var(--mint)}
+.ok{color:var(--mint);font-weight:700}
+.bad{color:var(--miss);font-weight:700}
+.hint{border-left:4px solid var(--yellow);background:rgba(245,220,106,.1);padding:10px 14px;border-radius:10px;margin:10px 0}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;font:inherit;color:var(--fg);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:8px 0;cursor:pointer}
+.row[disabled]{opacity:.45;cursor:not-allowed}
+.row .st{font-size:14px;color:var(--muted);white-space:nowrap}
+.row.passed .st{color:var(--mint)}
+table.rep{width:100%;border-collapse:collapse;font-size:14px}
+table.rep th,table.rep td{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;vertical-align:top}
+table.rep th{color:var(--muted);font-weight:600}
+.link{font-family:ui-monospace,Menlo,monospace;font-size:13px;word-break:break-all}
+svg{display:block;margin:6px 0}
+@media(max-width:520px){body{font-size:17px}.big{font-size:28px}}
+</style>
+<script src="cabinet-report.js"></script>
+</head>
+<body>
+<div id="wrap"><div id="app"></div></div>
+<script>
+'use strict';
+//CONTENT-START
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[ri(0,a.length-1)];
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=ri(0,i);[a[i],a[j]]=[a[j],a[i]]}return a};
+const f=n=>String(Math.round(n*10000)/10000).replace('.',',').replace('-','−');
+function nm(q,ans,why,prompt,hint,x){return Object.assign({q,type:'num',ans,why,prompt:prompt||'Найди значение',hint:hint||''},x||{})}
+function ch(q,options,correct,why,prompt,hint,x){const o=[...new Set(options)];return Object.assign({q,type:'choice',options:shuf(o),correct,why,prompt,hint:hint||''},x||{})}
+const INF='+∞',NINF='−∞';
+function PL(t){let s='';t.forEach(([k,v])=>{if(k===0)return;const m=Math.abs(k),first=s==='';s+=(first?(k<0?'−':''):(k<0?' − ':' + '))+((m===1&&v)?'':m)+v});return s||'0'}
+const xm=(c)=>c===0?'x':c>0?`x − ${c}`:`x + ${-c}`; // (x − c)
+const between=(p,q,s)=>`${s?'(':'['}${f(p)}; ${f(q)}${s?')':']'}`;
+const outside=(p,q,s)=>`(${NINF}; ${f(p)}${s?')':']'} ∪ ${s?'(':'['}${f(q)}; ${INF})`;
+
+// 1. Вынесение за скобку
+function g1(){const k=ri(2,8),lo=ri(0,1)===0;
+ const tag=u=>u===k*k?'назвал k² вместо корня':u===-k*k?'назвал −k²':(lo?u===k:u===-k)?'перепутал наименьший и наибольший':'';
+ return nm(`x³ − ${k*k}x = 0. Найди ${lo?'наименьший':'наибольший'} корень.`,lo?-k:k,`Вынеси x: x(x² − ${k*k}) = 0, затем x² − ${k*k} = (x − ${k})(x + ${k}). Корни: ${-k}; 0; ${k}. Не теряй корень 0: на x делить нельзя.`,'Найди корень',`Вынеси x за скобку, потом разложи x² − ${k*k} на множители.`,{tag})}
+
+// 2. Группировка
+function g2(){const a=pick([-5,-4,-3,-2,-1,1,2,3,4,5]),b=ri(2,6),lo=ri(0,1)===0;
+ const r=[-a,-b,b].sort((x,y)=>x-y),ans=lo?r[0]:r[2];
+ return nm(`${PL([[1,'x³'],[a,'x²'],[-b*b,'x'],[-a*b*b,'']])} = 0. Найди ${lo?'наименьший':'наибольший'} корень.`,ans,`Сгруппируй: x²(x ${a<0?'−':'+'} ${Math.abs(a)}) − ${b*b}(x ${a<0?'−':'+'} ${Math.abs(a)}) = (x ${a<0?'−':'+'} ${Math.abs(a)})(x² − ${b*b}) = 0. Корни: ${f(-a)}; ${-b}; ${b}.`,'Найди корень','Сгруппируй первые два слагаемых и последние два, вынеси общий множитель из каждой пары.',{etag:'ошибка при группировке'})}
+
+// 3. Замена (биквадратное)
+function g3(){const [m,n]=(()=>{let a=ri(1,6),b;do{b=ri(1,6)}while(b===a);return[a,b]})();const t=ri(0,1)===0;
+ if(t)return nm(`x⁴ − ${m*m+n*n}x² + ${m*m*n*n} = 0. Найди наибольший корень.`,Math.max(m,n),`Замена t = x² (t ≥ 0): t² − ${m*m+n*n}t + ${m*m*n*n} = 0, t = ${m*m} или t = ${n*n}. Тогда x² = ${m*m} или x² = ${n*n}, корни ±${m} и ±${n}. Наибольший — ${Math.max(m,n)}.`,'Найди корень','Обозначь t = x², реши квадратное уравнение относительно t, потом вернись к x.',{tag:u=>u===m*m||u===n*n?'назвал t вместо x':''});
+ return nm(`x⁴ − ${m*m+n*n}x² + ${m*m*n*n} = 0. Сколько у уравнения корней?`,4,`Замена t = x²: t = ${m*m} и t = ${n*n} — оба положительные. Каждое даёт два корня x = ±√t. Всего 4.`,'Найди количество','Обозначь t = x², найди t, потом для каждого t посчитай корни x² = t.',{tag:u=>u===2?'посчитал только значения t':''})}
+
+// 4. Дробь = 0, ОДЗ
+function g4(){const a=ri(2,9),s=ri(0,1)===0?a:-a; // знаменатель x − s
+ const ans=-s;return nm(`(x² − ${a*a}) / (x ${s>0?'−':'+'} ${a}) = 0. Найди корень.`,ans,`Дробь равна нулю, когда числитель равен 0, а знаменатель нет. x² − ${a*a} = 0 даёт ±${a}, но x = ${s} обращает знаменатель в 0 — посторонний. Остаётся ${f(ans)}.`,'Найди корень','Числитель = 0 и знаменатель ≠ 0. Проверь каждый корень.',{tag:u=>u===s?'взял посторонний корень (знаменатель 0)':''})}
+
+// 5. Пропорция
+function g5(){let x0,m,b,k;do{x0=pick([-3,-2,-1,1,2,3]);m=ri(-4,4);k=ri(1,3);b=x0*k;}while(m===x0||m===0);const a=k*(x0-m);if(a===0||a===b)return g5();
+ return nm(`${f(a)}/(x ${m>0?'−':'+'} ${Math.abs(m)}) = ${f(b)}/x. Найди корень.`,x0,`ОДЗ: x ≠ 0, x ≠ ${m}. Перекрёстное умножение: ${a}x = ${b}(x ${m>0?'−':'+'} ${Math.abs(m)}). Раскрой скобки и реши линейное уравнение: x = ${f(x0)}. Проверь ОДЗ.`,'Найди корень','Умножь крест-накрест: числитель одной дроби на знаменатель другой.',{tag:u=>u===m?'взял число из ОДЗ':''})}
+
+// 6. Иррациональные
+function g6(){if(ri(0,1)===0){const a=ri(-6,6),b=ri(2,7),ans=b*b-a;
+  return nm(`√(x ${a<0?'−':'+'} ${Math.abs(a)||0}) = ${b}`.replace('x + 0','x'),ans,`Возведи обе части в квадрат: x ${a<0?'−':'+'} ${Math.abs(a)} = ${b*b}. Отсюда x = ${f(ans)}. Проверь подстановкой.`,'Найди корень','Возведи обе части уравнения в квадрат.',{tag:u=>u===b?'не возвёл правую часть в квадрат':''})}
+ const r=ri(3,8),a=r*(r-2);
+ return nm(`√(2x + ${a}) = x. Найди корень.`,r,`Возведём в квадрат: 2x + ${a} = x², то есть x² − 2x − ${a} = 0, корни ${r} и ${2-r}. Корень ${2-r} < 0, а √ неотрицателен, значит x = ${2-r} не подходит. Ответ: ${r}.`,'Найди корень','После возведения в квадрат обязательно проверь корни подстановкой.',{tag:u=>u===2-r?'взял посторонний корень после возведения в квадрат':''})}
+
+// 7. Уравнение с модулем
+function g7(){const c=ri(-6,6),a=ri(1,8),big=ri(0,1)===0;const t=ri(0,1);
+ const e=c===0?'|x|':`|${xm(c)}|`;
+ return nm(`${e} = ${a}. Найди ${big?'наибольший':'наименьший'} корень.`,big?c+a:c-a,`Модуль равен ${a}, значит выражение внутри равно ${a} или −${a}: ${xm(c)} = ${a} и ${xm(c)} = −${a}. Корни: ${f(c-a)} и ${f(c+a)}.`,'Найди корень','Раскрой модуль двумя способами: выражение = a и выражение = −a.',{tag:u=>u===(big?c-a:c+a)?'перепутал наибольший и наименьший':''})}
+
+// 8. |x|<a, |x|>a
+function g8(){const a=ri(1,9),lt=ri(0,1)===0,s=ri(0,1)===0;const c=lt?between(-a,a,s):outside(-a,a,s);
+ return ch(`|x| ${lt?(s?'<':'≤'):(s?'>':'≥')} ${a}`,[c,lt?outside(-a,a,s):between(-a,a,s),lt?between(-a,a,!s):outside(-a,a,!s),lt?`(${NINF}; ${a}${s?')':']'}`:`${s?'(':'['}${a}; ${INF})`],c,`|x| — расстояние от x до нуля. «Меньше ${a}» — между ${-a} и ${a}. «Больше ${a}» — снаружи: x < ${-a} или x > ${a}. Скобки по строгости знака.`,'Реши неравенство','Модуль — расстояние до нуля. Какие точки ближе (дальше) чем '+a+'?',{etag:'потерял одну из границ или перепутал скобки'})}
+
+// 9. |x − c| < a
+function g9(){const c=ri(-6,6)||2,a=ri(1,6),lt=ri(0,1)===0;const l=c-a,r=c+a;const cr=lt?between(l,r,true):outside(l,r,true);
+ return ch(`|${xm(c)}| ${lt?'<':'>'} ${a}`,[cr,lt?outside(l,r,true):between(l,r,true),lt?between(-a,a,true):outside(-a,a,true),lt?between(-r,-l,true):outside(-r,-l,true)],cr,`Расстояние от x до ${f(c)} ${lt?'меньше':'больше'} ${a}. Границы: ${f(c)} − ${a} = ${f(l)} и ${f(c)} + ${a} = ${f(r)}. ${lt?'Меньше — между границами.':'Больше — снаружи.'}`,'Реши неравенство','Центр — число, при котором выражение в модуле равно 0. Отложи '+a+' влево и вправо.',{etag:'не сдвинул центр на c'})}
+
+const LEVELS=[
+ {t:'Вынесение за скобку: x³ − k²x = 0',g:g1,pages:[
+  '<b>Произведение равно нулю, когда хотя бы один множитель равен нулю.</b> Уравнение x(x − 2)(x + 2) = 0 имеет корни 0, 2 и −2.',
+  'Разберём пример: x³ − 16x = 0. Выносим x: x(x² − 16) = 0. Разложим: x(x − 4)(x + 4) = 0. Корни: −4; 0; 4.',
+  'Делить обе части на x нельзя: потеряешь корень 0. Вынеси x за скобку.']},
+ {t:'Метод группировки',g:g2,pages:[
+  '<b>Если в многочлене четыре слагаемых,</b> сгруппируй их по два и вынеси общий множитель из каждой пары. Должна получиться одинаковая скобка.',
+  'Разберём пример: x³ + 2x² − 9x − 18 = 0. x²(x + 2) − 9(x + 2) = (x + 2)(x² − 9) = (x + 2)(x − 3)(x + 3). Корни: −2; 3; −3.',
+  'Следи за знаками: при вынесении −9 из −9x − 18 получается −9(x + 2).']},
+ {t:'Замена переменной',g:g3,pages:[
+  '<b>Биквадратное уравнение ax⁴ + bx² + c = 0</b> решают заменой t = x², где t ≥ 0.',
+  'Разберём пример: x⁴ − 5x² + 4 = 0. Замена t = x²: t² − 5t + 4 = 0, t = 1 или t = 4. Тогда x² = 1 (x = ±1) или x² = 4 (x = ±2). Корни: −2; −1; 1; 2.',
+  'Отрицательное t не даёт корней, потому что x² ≥ 0. Положительное t даёт два корня ±√t. Не забудь вернуться от t к x.']},
+ {t:'Дробь равна нулю, ОДЗ',g:g4,pages:[
+  '<b>Дробь равна нулю, когда числитель равен нулю, а знаменатель не равен нулю.</b>',
+  'Разберём пример: (x² − 9)/(x − 3) = 0. Числитель: x = 3 или x = −3. Но при x = 3 знаменатель равен 0, этот корень не подходит. Ответ: −3.',
+  'После нахождения корней числителя подставь каждый в знаменатель.']},
+ {t:'Дробное уравнение: пропорция',g:g5,pages:[
+  '<b>Уравнение a/b = c/d равносильно a·d = b·c</b> при b ≠ 0 и d ≠ 0 (перекрёстное умножение).',
+  'Разберём пример: 3/(x − 1) = 2/x. ОДЗ: x ≠ 1, x ≠ 0. 3x = 2(x − 1), 3x = 2x − 2, x = −2. Он удовлетворяет ОДЗ.',
+  'Сначала выпиши ОДЗ, потом решай. Если корень попал в ОДЗ-запрет, его отбрасывают.']},
+ {t:'Иррациональные уравнения',g:g6,pages:[
+  '<b>Чтобы убрать корень, возведи обе части в квадрат.</b> После этого обязательна проверка: возведение в квадрат может дать посторонние корни.',
+  'Разберём пример: √(2x + 3) = x. 2x + 3 = x², x² − 2x − 3 = 0, корни 3 и −1. Проверка: x = −1 даёт √1 = 1, а справа −1. Не подходит. Ответ: 3.',
+  'Значение корня неотрицательно, поэтому x справа обязан быть неотрицательным.']},
+ {t:'Уравнение с модулем',g:g7,pages:[
+  '<b>|A| = a (a > 0) означает A = a или A = −a.</b> Модуль — расстояние до нуля.',
+  'Разберём пример: |x − 3| = 5. x − 3 = 5 или x − 3 = −5. Корни: 8 и −2.',
+  'Корни расположены симметрично относительно числа c из |x − c|: на расстоянии a слева и справа.']},
+ {t:'Неравенства |x| < a и |x| > a',g:g8,pages:[
+  '<b>|x| < a</b> означает −a < x < a (между). <b>|x| > a</b> означает x < −a или x > a (снаружи).',
+  'Разберём пример: |x| < 4 — это (−4; 4). |x| ≥ 4 — это (−∞; −4] ∪ [4; +∞).',
+  'Скобки зависят от знака: строгий — круглые, нестрогий — квадратные.']},
+ {t:'Неравенства |x − c| < a и > a',g:g9,pages:[
+  '<b>|x − c| < a</b> означает: расстояние от x до c меньше a, то есть c − a < x < c + a.',
+  'Разберём пример: |x − 2| < 3. Границы 2 − 3 = −1 и 2 + 3 = 5. Ответ: (−1; 5). Для |x − 2| > 3: (−∞; −1) ∪ (5; +∞).',
+  'Центр промежутка — число c, при котором выражение в модуле равно нулю. Для |x + 4| центр −4.']}
+];
+//CONTENT-END
+
+//ENGINE-START
+/* ====== настройки ====== */
+const KEY='lilimath-trenazher-uravneniya-oge20-v1';
+const SHEET_URL='https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec';
+const TITLE='Уравнения и неравенства ОГЭ №20';
+const NEED=7;          // верных ответов подряд для прохождения уровня
+const RETEACH_AFTER=3; // ошибок подряд -> показать объяснение заново
+const STUCK_AFTER=3;   // сколько раз объяснение показали -> метка «нужна помощь»
+const PUSH_EVERY=10;   // отправка в таблицу каждые N ответов
+
+/* ====== состояние ====== */
+function uid(){return Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4)}
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.lv)return s}catch(e){}return{name:'',lv:{},openAll:false}}
+let st=load();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
+function dec(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return new TextDecoder().decode(Uint8Array.from(atob(s),c=>c.charCodeAt(0)))}
+function enc(s){return btoa(String.fromCharCode(...new TextEncoder().encode(s))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+const HASH=location.hash.slice(1);
+const TEACHER=HASH==='lilia';
+if(/^u/.test(HASH)&&!st.name){try{const nm=dec(HASH.slice(1).split('.')[0]).split('|')[0].trim();if(nm){st.name=nm;save()}}catch(e){}}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function L(i){return st.lv[i]||(st.lv[i]={ok:0,bad:0,hints:0,idk:0,tags:{},reteach:0,passed:false,stuck:false})}
+const isOpen=i=>i===0||st.openAll||L(i-1).passed;
+const passedCount=()=>LEVELS.filter((_,i)=>L(i).passed).length;
+let V={phase:'home',i:0,page:0,streak:0,cons:0,q:null,hint:false,fb:null,err:'',sid:uid(),started:Date.now(),ok:0,bad:0,n:0,preview:false};
+
+/* ====== отправка в таблицу ====== */
+function report(){return LEVELS.map((l,i)=>{const o=L(i);
+ const tg=Object.keys(o.tags).sort((a,b)=>o.tags[b]-o.tags[a]).slice(0,3).map(t=>`${t} ×${o.tags[t]}`).join('; ');
+ const status=o.passed?'пройден':o.stuck?'нужна помощь':(o.ok+o.bad)?'идёт':'—';
+ return `${i+1}. ${l.t}: ${status}; верно ${o.ok}, неверно ${o.bad}, подсказок ${o.hints}, «не знаю» ${o.idk}, повторов объяснения ${o.reteach}${tg?'; ошибки: '+tg:''}`}).join('\n')}
+function marks(){return LEVELS.map((_,i)=>`${i+1}${L(i).passed?'✓':L(i).stuck?'!':''}`).join(' ')}
+function push(final){
+ if(TEACHER||V.n===0)return;
+ try{
+  const done=passedCount()===LEVELS.length;
+  const d={sid:V.sid,test:TITLE,name:st.name,kind:'тренажёр',started:V.started,
+   status:final&&done?'завершено':'в процессе',progress:`${passedCount()}/${LEVELS.length}`,score:V.ok,max:V.ok+V.bad,grade:'',
+   minutes:Math.round((Date.now()-V.started)/60000),bonus:`ступень ${V.i+1}`,tasks:marks(),report:report()};
+  const bd=JSON.stringify(d);
+  fetch(SHEET_URL,{method:'POST',mode:'no-cors',keepalive:bd.length<60000,headers:{'Content-Type':'text/plain;charset=utf-8'},body:bd}).catch(()=>{});
+ }catch(e){}
+}
+addEventListener('pagehide',()=>{if(V.n>0)push(false)});
+
+/* ====== разбор ошибок ====== */
+function tagOf(q,u){
+ if(u===null)return 'не знаю';
+ if(q.type==='num'){
+  if(q.tag){const t=q.tag(u);if(t)return t}
+  if(u<0&&q.ans>=0)return 'отрицательный ответ';
+  if(q.rad!==undefined&&u===q.rad)return 'не извлёк корень';
+  if(q.rad!==undefined&&Math.abs(u-q.rad/2)<1e-9)return 'разделил пополам';
+  if(q.rad!==undefined&&Number.isInteger(q.ans)&&q.ans>0&&u===q.ans*q.ans)return 'возвёл в квадрат вместо корня';
+  return 'другая ошибка';
+ }
+ return q.etag||'другая ошибка';
+}
+function parseNum(s){s=String(s).trim().replace(/\s/g,'').replace(',','.').replace('−','-');
+ if(/^-?\d+(\.\d+)?\/\d+(\.\d+)?$/.test(s)){const p=s.split('/');return parseFloat(p[0])/parseFloat(p[1])}
+ if(/^-?\d+(\.\d+)?$/.test(s))return parseFloat(s);return NaN}
+
+/* ====== экраны ====== */
+const app=h=>{document.getElementById('app').innerHTML=h};
+const $=s=>document.querySelector(s);
+function hdr(){return `<div class="muted">${esc(st.name||'')}${TEACHER?' · режим учителя (в таблицу не отправляется)':''}</div>`}
+function render(){
+ if(TEACHER&&!V.preview)return teacherScreen();
+ if(!st.name)return nameScreen();
+ ({home:homeScreen,learn:learnScreen,q:qScreen,done:doneScreen,reteach:reteachScreen,stuck:stuckScreen}[V.phase]||homeScreen)();
+}
+function nameScreen(){
+ app(`<h1>Уравнения и неравенства ОГЭ №20</h1><p class="muted">Тренажёр идёт по ступеням. Дальше можно пойти только после ${NEED} верных ответов подряд.</p>
+ <p>Как тебя зовут?</p><input class="nm" id="nm" placeholder="Имя Фамилия" onkeydown="if(event.key==='Enter')setName()"><br><button class="btn" onclick="setName()">Начать</button><div class="bad" id="er"></div>`);
+ const e=$('#nm');if(e)e.focus()}
+function setName(){const v=$('#nm').value.trim();if(v.length<3){$('#er').textContent='Введи имя и фамилию.';return}st.name=v;save();home()}
+function home(){V.phase='home';render()}
+function homeScreen(){
+ let h=hdr()+`<h1>Уравнения и неравенства ОГЭ №20</h1><p class="muted">Пройдено ступеней: ${passedCount()} из ${LEVELS.length}. Чтобы пройти ступень, нужно ${NEED} верных ответов подряд.</p>`;
+ LEVELS.forEach((l,i)=>{const o=L(i),op=isOpen(i);
+  const s=o.passed?'пройдена':!op?'закрыта':o.stuck?'нужна помощь':(o.ok+o.bad)?'идёт':'открыта';
+  h+=`<button class="row ${o.passed?'passed':''}" ${op?'':'disabled'} onclick="openLevel(${i})"><span>${i+1}. ${l.t}</span><span class="st">${s}</span></button>`});
+ if(TEACHER)h+=`<button class="btn sec" onclick="V.preview=false;render()">Вернуться в кабинет учителя</button>`;
+ app(h)}
+function openLevel(i){if(!isOpen(i))return;V.i=i;V.page=0;V.streak=0;V.cons=0;V.fb=null;V.phase='learn';render()}
+function learnScreen(){const l=LEVELS[V.i];
+ let h=hdr()+`<h1>${V.i+1}. ${l.t}</h1><p class="muted">Прочитай по шагам. Потом ${NEED} заданий подряд без ошибок.</p>`;
+ for(let k=0;k<=V.page;k++)h+=`<div class="card">${l.pages[k]}</div>`;
+ h+=V.page<l.pages.length-1?`<button class="btn" onclick="nextPage()">Дальше</button>`:`<button class="btn" onclick="startQ()">Начать задания</button>`;
+ h+=`<button class="btn sec" onclick="home()">К списку</button>`;
+ app(h);window.scrollTo(0,document.body.scrollHeight)}
+function nextPage(){V.page++;render()}
+function startQ(){V.streak=0;V.cons=0;nextQ()}
+function nextQ(){V.q=LEVELS[V.i].g();V.hint=false;V.fb=null;V.err='';V.phase='q';render()}
+function qScreen(){const q=V.q,l=LEVELS[V.i];
+ let dots='';for(let k=0;k<NEED;k++)dots+=`<span class="dot ${k<V.streak?'on':''}"></span>`;
+ let h=hdr()+`<h2>${V.i+1}. ${l.t}</h2><div class="dots">${dots} <span class="muted">${V.streak} из ${NEED}</span></div>
+ <div class="muted">${q.prompt}</div><div class="big">${q.q}</div>${q.pic||''}`;
+ if(V.hint&&q.hint)h+=`<div class="hint"><b>Подсказка.</b> ${q.hint}</div>`;
+ if(V.fb){
+  h+=V.fb.ok?`<div class="card"><span class="ok">Верно.</span></div>`:`<div class="card"><span class="bad">${V.fb.idk?'Хорошо, что сказала честно.':'Неверно.'}</span> ${q.why}<div class="muted" style="margin-top:6px">Серия обнулена. Следующее задание будет новым.</div></div>`;
+  h+=`<button class="btn" id="nx" onclick="afterFb()">Дальше</button>`;
+ }else{
+  if(q.type==='num')h+=`<input class="ans" id="ans" autocomplete="off" inputmode="text" onkeydown="if(event.key==='Enter')submitNum()"><br><button class="btn" onclick="submitNum()">Проверить</button><div class="bad" style="margin-top:8px">${V.err}</div>`;
+  else h+=q.options.map((o,i)=>`<button class="opt" onclick="pickOpt(${i})">${o}</button>`).join('');
+  h+=`<div>`+(q.hint&&!V.hint?`<button class="btn sec" onclick="useHint()">Подсказка</button>`:'')+`<button class="btn sec" onclick="idk()">Не знаю</button><button class="btn sec" onclick="exitLevel()">К списку</button></div>`;
+ }
+ app(h);const a=$('#ans');if(a)a.focus();const n=$('#nx');if(n)n.focus()}
+function useHint(){if(!V.hint){V.hint=true;L(V.i).hints++;save()}render()}
+function exitLevel(){push(false);home()}
+function answered(ok,u){
+ const o=L(V.i);V.n++;
+ if(ok){o.ok++;V.ok++;V.streak++;V.cons=0;
+  if(V.streak>=NEED){o.passed=true;save();push(true);V.phase='done';render();return}
+  V.fb={ok:true}}
+ else{o.bad++;V.bad++;V.streak=0;V.cons++;const t=tagOf(V.q,u);o.tags[t]=(o.tags[t]||0)+1;V.fb={ok:false,idk:u===null};if(u===null)o.idk++}
+ save();if(V.n%PUSH_EVERY===0)push(false);render()}
+function submitNum(){const u=parseNum($('#ans').value);
+ if(isNaN(u)){V.err='Введи число (например 7, 0,5 или 3/4).';render();return}
+ answered(Math.abs(u-V.q.ans)<1e-9,u)}
+function pickOpt(i){answered(V.q.options[i]===V.q.correct,V.q.options[i])}
+function idk(){answered(false,null)}
+function afterFb(){
+ if(!V.fb.ok&&V.cons>=RETEACH_AFTER){const o=L(V.i);o.reteach++;V.cons=0;
+  if(o.reteach>=STUCK_AFTER){o.stuck=true;save();push(false);V.phase='stuck';render();return}
+  save();V.phase='reteach';render();return}
+ nextQ()}
+function reteachScreen(){app(hdr()+`<h2>Давай ещё раз посмотрим объяснение</h2><div class="card"><p>Несколько ответов подряд не получились. Это нормально: значит, объяснение надо прочитать ещё раз, не торопясь.</p></div><button class="btn" onclick="V.page=0;V.phase='learn';render()">Смотреть объяснение</button>`)}
+function stuckScreen(){app(hdr()+`<h2>Стоп</h2><div class="card"><p>Здесь стало трудно, и это не страшно. Эту ступень лучше разобрать вместе с учителем. Результат уже отправлен Лилии.</p><p>Скажи, на каком месте перестало быть понятно.</p></div><button class="btn" onclick="home()">К списку</button><button class="btn sec" onclick="V.page=0;V.cons=0;V.phase='learn';render()">Ещё раз объяснение</button>`)}
+function doneScreen(){const last=V.i===LEVELS.length-1;
+ app(hdr()+`<h2>Ступень пройдена</h2><div class="card"><p><b>${V.i+1}. ${LEVELS[V.i].t}</b>: ${NEED} верных ответов подряд. Это настоящая работа.</p><p class="muted">Результат отправлен Лилии.</p></div>`+
+ (last?`<p>Это была последняя ступень. Тренажёр пройден.</p><button class="btn" onclick="home()">К списку</button>`:`<button class="btn" onclick="openLevel(${V.i+1})">Следующая ступень</button><button class="btn sec" onclick="home()">К списку</button>`))}
+
+/* ====== режим учителя ====== */
+function teacherScreen(){
+ const base=location.href.split('#')[0];
+ let h=`<h1>Кабинет учителя</h1><p class="muted">Данные этого устройства. С этого экрана в таблицу ничего не отправляется.</p>
+ <h2>Ссылка для ученика</h2><input class="nm" id="tn" placeholder="Имя Фамилия"><p class="link" id="tl"></p>
+ <h2>Прогресс на этом устройстве</h2><table class="rep"><tr><th>№</th><th>Ступень</th><th>Статус</th><th>Верно</th><th>Неверно</th><th>Подск.</th><th>Не знаю</th><th></th></tr>`;
+ LEVELS.forEach((l,i)=>{const o=L(i);
+  h+=`<tr><td>${i+1}</td><td>${l.t}</td><td>${o.passed?'пройдена':o.stuck?'нужна помощь':(o.ok+o.bad)?'идёт':'—'}</td><td>${o.ok}</td><td>${o.bad}</td><td>${o.hints}</td><td>${o.idk}</td><td><button class="btn sm sec" onclick="tPass(${i})">засчитать</button><button class="btn sm sec" onclick="tReset(${i})">сбросить</button></td></tr>`});
+ h+=`</table><button class="btn sec" onclick="tOpenAll()">${st.openAll?'Закрыть ступени по порядку':'Открыть все ступени'}</button>
+ <button class="btn" onclick="V.preview=true;home()">Пройти как ученик</button>
+ <button class="btn sec" onclick="tWipe()">Стереть всё на этом устройстве</button>`;
+ app(h);
+ $('#tn').oninput=e=>{const v=e.target.value.trim();$('#tl').textContent=v?base+'#u'+enc(v):''}}
+function tPass(i){L(i).passed=true;save();render()}
+function tReset(i){st.lv[i]=undefined;delete st.lv[i];save();render()}
+function tOpenAll(){st.openAll=!st.openAll;save();render()}
+function tWipe(){if(confirm('Стереть весь прогресс на этом устройстве?')){localStorage.removeItem(KEY);st=load();render()}}
+
+render();
+//ENGINE-END
+</script>
+</body>
+</html>
