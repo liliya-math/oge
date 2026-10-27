@@ -2,12 +2,12 @@ import os
 ROOT=os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)),"..",".."))
 import json, sys, time, subprocess, os
 sys.path.insert(0,'.')
-import kvadratnye_20 as LV; LC=LV.LC
+import example_urok_sin_cos as LV; LC=LV.LC
 from playwright.sync_api import sync_playwright
 
 T=LC.T
-URL='http://127.0.0.1:8765/obyasnenie-9-kvadratnye-20.html'
-KEY='oge-ob-kvadratnye-20-v1-free'
+URL='http://127.0.0.1:8765/obyasnenie-9-teoremy-sinusov-kosinusov.html'
+KEY='oge-ob-teoremy-sin-cos-v1-free'
 L=len(T)
 errors=[]
 def fmt(v):

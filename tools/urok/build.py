@@ -3,11 +3,11 @@ import os
 ROOT=os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)),"..",".."))
 import json, re, sys, os
 sys.path.insert(0, os.path.dirname(__file__))
-import kvadratnye_20 as LC0
+import example_urok_sin_cos as LC0
 LC=LC0.LC
 
 SRC = ROOT+'/obyasnenie-5-9-bissektrisa.html'  # шаблон оболочки
-OUT = ROOT+'/obyasnenie-9-kvadratnye-20.html'
+OUT = ROOT+'/obyasnenie-9-teoremy-sinusov-kosinusov.html'
 WJS = os.path.join(os.path.dirname(__file__), 'widgets.js')
 
 s = open(SRC, encoding='utf8').read()
@@ -17,14 +17,14 @@ def rep_once(s, old, new):
     return s.replace(old, new)
 
 # 1. заголовок и адрес
-s = rep_once(s, '<title>Биссектриса: объяснение</title>', '<title>Квадратные уравнения в ОГЭ №20: урок</title>')
-s = rep_once(s, "https://lilimath.ru/obyasnenie-5-9-bissektrisa.html", "https://lilimath.ru/obyasnenie-9-kvadratnye-20.html")
-s = rep_once(s, "const KEY='oge-ob-bissektrisa-v1-'", "const KEY='oge-ob-kvadratnye-20-v1-'")
+s = rep_once(s, '<title>Биссектриса: объяснение</title>', '<title>Теоремы синусов и косинусов: урок</title>')
+s = rep_once(s, "https://lilimath.ru/obyasnenie-5-9-bissektrisa.html", "https://lilimath.ru/obyasnenie-9-teoremy-sinusov-kosinusov.html")
+s = rep_once(s, "const KEY='oge-ob-bissektrisa-v1-'", "const KEY='oge-ob-teoremy-sin-cos-v1-'")
 
 # 2. тема
 i = s.index('const TOPIC=')
 j = s.index(';', i)
-topic = {"id": "kvadratnye-20", "t": "Квадратные уравнения в ОГЭ №20", "w": "с квадратными уравнениями в №20", "mins": 60, "next": "", "nextT": ""}
+topic = {"id": "teoremy-sin-cos", "t": "Теоремы синусов и косинусов", "w": "с теоремами синусов и косинусов", "mins": 60, "next": "", "nextT": ""}
 s = s[:i] + 'const TOPIC=' + json.dumps(topic, ensure_ascii=False) + s[j:]
 
 # 3. экраны
@@ -45,7 +45,7 @@ s = s.replace(old, old + ",recall:['Это из прошлых тем. Вспо�
 
 # 6. стартовый экран
 s = rep_once(s, 'Простыми словами, без зубрёжки: история, картинка из жизни, три правила и несколько быстрых проверок. Ошибаться можно: подсказки есть, а если не получится, я объясню ещё раз. В конце тебя ждут шпаргалка и диплом.',
-             'Один урок на час: повторим нужное из прошлых тем, разберём неполные уравнения, дискриминант и теорему Виета, а потом порешаем задания в формате №20. Ошибаться можно: подсказки есть, а если не получится, можно вернуться к объяснению. В конце тебя ждут шпаргалка и диплом.')
+             'Один урок на час: повторим нужное из прошлых тем, разберём теорему косинусов и теорему синусов, научимся выбирать между ними и порешаем задачи. Ошибаться можно: подсказки есть, а если не получится, можно вернуться к объяснению. В конце тебя ждут шпаргалка и диплом.')
 s = rep_once(s, '<span class="pill">${L.length} коротких экранов</span>', '<span class="pill">${L.length} экранов</span>')
 s = rep_once(s, '<a class="chip" href="obyasnenie-5-9.html">Все темы</a>', '<a class="chip" href="9-klass.html">Все материалы 9 класса</a>')
 

@@ -3,9 +3,9 @@ import os
 ROOT=os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)),"..",".."))
 import sys, re, json
 sys.path.insert(0, '.')
-import kvadratnye_20 as L2, figcheck
+import example_urok_sin_cos as L2, figcheck
 from playwright.sync_api import sync_playwright
-HTML = ROOT+'/obyasnenie-9-kvadratnye-20.html'
+HTML = ROOT+'/obyasnenie-9-teoremy-sinusov-kosinusov.html'
 s = open(HTML, encoding='utf8').read()
 css = ''.join(re.findall(r'<style[^>]*>(.*?)</style>', s, re.S))
 T = L2.LC.T
