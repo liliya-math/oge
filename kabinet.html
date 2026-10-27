@@ -655,6 +655,33 @@ button.skr:hover{background:rgba(243,236,226,.09)}
 .skchips{display:flex;flex-wrap:wrap;gap:6px}
 .skc{border:0;border-radius:999px;padding:5px 11px;font-size:13px;font-weight:600;background:rgba(243,236,226,.08);color:var(--fg)}
 .skc.solid{background:rgba(169,209,142,.18);color:var(--mint)}.skc.shaky{background:rgba(245,220,106,.16);color:var(--amber)}.skc.gap{background:rgba(255,143,115,.16);color:var(--miss)}
+.gst{border:0;border-radius:12px;padding:11px 6px;font-weight:700;font-size:13.5px;opacity:.5;transition:opacity .2s,transform .15s,box-shadow .2s}
+.gst:active{transform:scale(.96)}
+.gst.solid{background:var(--mint);color:#14211e}.gst.shaky{background:var(--amber);color:#14211e}.gst.gap{background:var(--miss);color:#2a1510}.gst.new{background:rgba(243,236,226,.12);color:var(--fg)}
+.gst[aria-pressed="true"]{opacity:1;box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--fg)}
+.gkgrp{margin-top:12px;border-top:1px solid var(--line);padding-top:8px}
+.gkgrp>summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-weight:650;font-size:15px;padding:6px 0}
+.gkgrp>summary::-webkit-details-marker{display:none}
+.gkgrp>summary small{color:var(--muted);font-weight:500;font-size:13px;white-space:nowrap}
+.gkr{display:grid;grid-template-columns:12px 36px minmax(0,1fr) auto;align-items:center;gap:8px;width:100%;text-align:left;padding:8px 10px;border-radius:12px;border:1px solid transparent;background:rgba(243,236,226,.04);font-size:14px;line-height:1.3;color:var(--fg)}
+.gkr.ro{grid-template-columns:12px minmax(0,1fr) auto}
+a.gkr{text-decoration:none}
+a.gkr:hover,a.gkr:focus-visible{background:rgba(243,236,226,.09)}
+button.gkr:hover{background:rgba(243,236,226,.09)}
+.gkr i{width:10px;height:10px;border-radius:3px;background:rgba(243,236,226,.18)}
+.gkr.solid i{background:var(--mint)}.gkr.shaky i{background:var(--amber)}.gkr.gap i{background:var(--miss)}
+.gkr b{font:600 11.5px var(--mono);color:var(--faint)}
+.gkr small{color:var(--faint);font-size:12px;white-space:nowrap}
+.gkr[aria-pressed="true"]{border-color:var(--fg)}
+.skchips{display:flex;flex-wrap:wrap;gap:6px}
+.gc{border:0;border-radius:999px;padding:5px 11px;font-size:13px;font-weight:600;background:rgba(243,236,226,.08);color:var(--fg)}
+.gc.solid{background:rgba(169,209,142,.18);color:var(--mint)}.gc.shaky{background:rgba(245,220,106,.16);color:var(--amber)}.gc.gap{background:rgba(255,143,115,.16);color:var(--miss)}
+.gtabs{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 2px}
+.gtab{border:0;border-radius:999px;padding:6px 12px;font-weight:650;font-size:13.5px;background:rgba(243,236,226,.08);color:var(--fg);cursor:pointer}
+.gtab[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.gktop{font-weight:650;font-size:13.5px;color:var(--muted);margin:10px 0 0}
+.gktop b{font:600 11.5px var(--mono);color:var(--faint);margin-right:6px}
+a.gc{text-decoration:none}
 .sched{display:grid;gap:10px;padding:14px;border-radius:16px;border:1px solid var(--line);background:rgba(0,0,0,.14)}
 .schh{display:flex;flex-wrap:wrap;gap:10px;align-items:end;justify-content:space-between}
 .schtz{flex:1 1 240px}
@@ -1112,6 +1139,62 @@ function bindSkills(){
  document.querySelectorAll('button.skr').forEach(b=>b.onclick=()=>skSel(b.dataset.sk,false));
  document.querySelectorAll('.skgrp').forEach(g=>g.ontoggle=()=>{(S.skO=S.skO||{})[g.dataset.b]=g.open;save()});
  bindSkChips();bindSkStatus()}
+/* ---------- карта навыков по классам 5–9: граф в skills-by-grade.json, отметки в D.skills (общие с ОГЭ-картой), материалы из catalog.json ---------- */
+let GG=null,GCAT=[];
+function loadGrades(){Promise.all([fetch('skills-by-grade.json',{cache:'no-cache'}).then(r=>r.ok?r.json():null),fetch('catalog.json',{cache:'no-cache'}).then(r=>r.ok?r.json():null).catch(()=>null)]).then(([a,c])=>{
+  if(!Array.isArray(a))return;
+  GG={nodes:a,by:Object.fromEntries(a.map(n=>[n.id,n]))};GCAT=((c&&c.items)||[]).filter(i=>i.status==='public'&&i.node);
+  if(D){const y=scrollY;TEACH?tRender():render();scrollTo({top:y})}}).catch(()=>{})}
+const GTABS=[5,6,7,8,9].flatMap(g=>['A','G'].map(s=>g+s));
+const GTN=t=>t[0]+' класс · '+(t[1]==='A'?'алгебра':'геометрия');
+const GMT={uchebnik:'теория',trenazher:'тренажёр',dz:'ДЗ',razbor:'разбор',zadanie:'задания'};
+const gLeaves=t=>GG.nodes.filter(n=>n.leaf&&n.id.startsWith(t+'.'));
+const gMarked=t=>gLeaves(t).filter(n=>skOf(n.id)!=='new').length;
+const gTabs=()=>TEACH?GTABS:GTABS.filter(t=>gMarked(t)>0);
+function gTab(){const L=gTabs();if(S.gt&&L.includes(S.gt))return S.gt;const d=clsOf()+'A';return L.includes(d)?d:(L[0]||d)}
+function gMats(id){const t=id.split('.').slice(0,3).join('.');const rel=x=>x.includes('.')&&(x===t||t.startsWith(x+'.')||x.startsWith(t+'.'));
+ return GCAT.filter(i=>GMT[i.type]&&/\.(html|pdf)$/.test(i.file)&&i.node.some(rel)).slice(0,10)}
+function gRow(n){const s=skOf(n.id),o=n.oge?'ОГЭ '+esc(n.oge):'';
+ return TEACH?`<button class="gkr ${s}" type="button" data-gk="${n.id}" aria-pressed="${S.gk===n.id}"><i></i><b>${n.id.split('.').slice(3).join('.')}</b><span>${esc(n.title)}</span><small>${o}</small></button>`
+ :`<div class="gkr ro ${s}"><i></i><span>${esc(n.title)}</span></div>`}
+function gDetail(id){const n=GG&&GG.by[id];
+ if(!n)return `<p class="klead" style="margin:14px 0 0;font-size:14.5px">Нажми на навык, чтобы поставить отметку и увидеть, на что спуститься.</p>`;
+ const s=skOf(id),d=(D.skills&&D.skills[id]||{}).d,M=gMats(id);
+ return `<div class="tdet enter" style="margin-top:14px"><div class="tn"><b style="font-size:22px">${n.id}</b><div><div class="tt">${esc(n.title)}</div><span class="kchip ${s}">${SKT[s]}</span> <span style="font-size:12.5px;color:var(--faint)">${n.oge?'ОГЭ '+esc(n.oge)+(d?' · ':''):''}${d?'проверено '+shortDate(d):''}</span></div></div>
+ <div class="stbtns">${['solid','shaky','gap','new'].map(x=>`<button class="gst ${x}" type="button" data-gs="${x}" aria-pressed="${s===x}">${SKT[x]}</button>`).join('')}</div>
+ ${n.prereq.length?`<div class="plab" style="margin:6px 0 0">Если ученик не справился, спуск на</div><div class="skchips">${n.prereq.filter(p=>GG.by[p]).map(p=>`<button class="gc ${skOf(p)}" type="button" data-gc="${p}">${p} ${esc(GG.by[p].title)}</button>`).join('')}</div>`:'<p style="color:var(--muted)">Дно: объясняем с нуля, ниже не спускаемся.</p>'}
+ ${M.length?`<div class="plab" style="margin:6px 0 0">Материалы по теме</div><div class="skchips">${M.map(i=>`<a class="gc" href="${esc(href(i.file))}" target="_blank" rel="noopener">${GMT[i.type]}: ${esc((i.title||i.file).slice(0,44))}</a>`).join('')}</div>`:''}</div>`}
+function gradeCard(){
+ if(!GG||!D)return '';
+ const T=gTabs();if(!T.length)return '';
+ const t=gTab(),L=gLeaves(t),c={solid:0,shaky:0,gap:0,new:0};L.forEach(n=>c[skOf(n.id)]++);
+ const secs=GG.nodes.filter(n=>n.level===1&&n.id.startsWith(t+'.'));
+ const body=secs.map(sec=>{
+  const tops=GG.nodes.filter(n=>n.level===2&&n.parent===sec.id);
+  const all=L.filter(n=>n.id.startsWith(sec.id+'.')),k=all.filter(n=>skOf(n.id)!=='new').length,g=all.some(n=>skOf(n.id)==='gap');
+  const inner=tops.map(tp=>{const rows=L.filter(n=>n.id.startsWith(tp.id+'.')&&(TEACH||skOf(n.id)!=='new'));
+   return rows.length?`<div class="gktop"><b>${tp.id.split('.').slice(1).join('.')}</b>${esc(tp.title)}</div><div class="skl">${rows.map(gRow).join('')}</div>`:''}).join('');
+  if(!inner)return '';
+  const o=S.gO&&sec.id in S.gO?!!S.gO[sec.id]:(!TEACH||g||(S.gk||'').startsWith(sec.id+'.'));
+  return `<details class="gkgrp" data-gb="${sec.id}" ${o?'open':''}><summary><span>${esc(sec.title)}</span><small>${k} из ${all.length}</small></summary>${inner}</details>`}).join('');
+ return `<div class="card" id="gskills">
+ <div class="sh"><h2>Карта по классам</h2><span class="sub">проверено ${L.length-c.new} из ${L.length}</span></div>
+ <p class="mapnote">${TEACH?'Школьная программа по классам. Нажми на навык: поставишь отметку, увидишь, на что спуститься, и какие материалы есть по теме.':'Школьные навыки, которые уже проверяли.'}</p>
+ <div class="gtabs">${T.map(x=>`<button class="gtab" type="button" data-gt="${x}" aria-pressed="${x===t}">${GTN(x)}</button>`).join('')}</div>
+ <div class="mlegend"><span><i style="background:var(--mint)"></i>${SKT.solid} · ${c.solid}</span><span><i style="background:var(--amber)"></i>${SKT.shaky} · ${c.shaky}</span><span><i style="background:var(--miss)"></i>${SKT.gap} · ${c.gap}</span><span><i style="background:rgba(243,236,226,.18)"></i>${SKT.new} · ${c.new}</span></div>
+ ${body}${TEACH?`<div id="gdet">${gDetail(S.gk)}</div>`:''}</div>`}
+function gRefresh(reveal){const el=document.getElementById('gskills');if(!el)return;el.outerHTML=gradeCard();
+ if(reveal){const p=document.getElementById('gdet');if(p)p.scrollIntoView({block:'nearest',behavior:'smooth'})}}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-gt],[data-gk],[data-gc],[data-gs]');if(!b||!GG)return;
+ if(b.dataset.gt){S.gt=b.dataset.gt;save();gRefresh();return}
+ if(!TEACH)return;
+ if(b.dataset.gk||b.dataset.gc){const id=b.dataset.gk||b.dataset.gc;if(!GG.by[id])return;S.gk=id;S.gt=id.slice(0,2);(S.gO=S.gO||{})[id.split('.').slice(0,2).join('.')]=true;save();gRefresh(!!b.dataset.gc);return}
+ if(b.dataset.gs){const id=S.gk,s=b.dataset.gs,old=id&&skOf(id);if(!id||s===old)return;
+  D.skills=D.skills||{};const prev=D.skills[id];
+  if(s==='new')delete D.skills[id];else D.skills[id]={s,d:isoIn(0)};
+  tRender();
+  adm('skill',{n:id,s}).then(j=>apply(j)).catch(err=>{if(prev)D.skills[id]=prev;else delete D.skills[id];tRender();toast(errText(err))})}});
+document.addEventListener('toggle',e=>{const g=e.target;if(g&&g.classList&&g.classList.contains('gkgrp')){(S.gO=S.gO||{})[g.dataset.gb]=g.open;save()}},true);
 const MATS=[['z15-pifagor.html','Теорема Пифагора','задание 15'],['z15-sin-cos-tg-storona.html','Синус, косинус, тангенс: найти сторону','задание 15'],['bissektrisy-parallelogramma.html','Биссектрисы параллелограмма','задание 17'],['razbor-probnik-oge-2.html','Разбор пробника №2','все задания']];
 const WD={'вс':0,'пн':1,'вт':2,'ср':3,'чт':4,'пт':5,'сб':6};
 const pts=n=>PROG().pts(n);
@@ -1120,7 +1203,7 @@ const href=u=>!u?'':/^https?:\/\//.test(u)?u:BASE+u.replace(/^\/+/,'');
 
 /* ---------- демо-ученица ---------- */
 function isoIn(k){const t=new Date(Date.now()+k*864e5);return t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0')}
-const DEMO_SK=()=>{const o={};[['N01','solid',-40],['N02','solid',-40],['N03','solid',-38],['N04','solid',-38],['N05','solid',-35],['N06','solid',-35],['N07','solid',-33],['N08','solid',-30],['N09','solid',-30],['N10','solid',-28],['N11','solid',-28],['N12','solid',-25],['N13','solid',-25],['N14','solid',-22],['N15','solid',-22],['N16','solid',-20],['N17','shaky',-9],['S02','solid',-14],['S03','gap',-9],['S05','solid',-14],['A01','solid',-12],['A02','shaky',-6],['A03','gap',-6],['G02','solid',-18],['G03','solid',-18],['G04','solid',-16],['G05','solid',-16],['G06','solid',-12],['G07','solid',-10],['G11','solid',-8],['G12','shaky',-3]].forEach(([id,s,k])=>o[id]={s,d:isoIn(k)});return o};
+const DEMO_SK=()=>{const o={};[['7A.4.2.1','solid',-12],['7A.4.2.5','gap',-5],['7A.5.1.1','shaky',-6],['8A.3.2.3','shaky',-3],['N01','solid',-40],['N02','solid',-40],['N03','solid',-38],['N04','solid',-38],['N05','solid',-35],['N06','solid',-35],['N07','solid',-33],['N08','solid',-30],['N09','solid',-30],['N10','solid',-28],['N11','solid',-28],['N12','solid',-25],['N13','solid',-25],['N14','solid',-22],['N15','solid',-22],['N16','solid',-20],['N17','shaky',-9],['S02','solid',-14],['S03','gap',-9],['S05','solid',-14],['A01','solid',-12],['A02','shaky',-6],['A03','gap',-6],['G02','solid',-18],['G03','solid',-18],['G04','solid',-16],['G05','solid',-16],['G06','solid',-12],['G07','solid',-10],['G11','solid',-8],['G12','shaky',-3]].forEach(([id,s,k])=>o[id]={s,d:isoIn(k)});return o};
 function demoData(){const st='ssspp'+'s'.repeat(11)+'pssp'+'ggp'+'nn';const map={};for(let n=1;n<=25;n++)map[n]={s:'solid',p:'shaky',g:'gap',n:'new'}[st[n-1]];
  return {demo:true,workflow:1,skills:DEMO_SK(),name:'Маша',fname:'Петрова',dat:'Маше',bdate:'2011-04-22',parent:'Мама — Ольга',phone:'+7 900 123-45-67',cls:9,goal:22,days:'ср, сб',time:'18:00',board:'https://learnboard.ru',
   topic:'Задания 4–5: тарифы и выгодный выбор',lessonsPlan:8,lessonsDone:4,
@@ -1356,7 +1439,7 @@ function tBindTelegram(){
 }
 
 function parentBody(){const two=[SHOW('exams')?chartCard():'',SHOW('work')?workCard():''].filter(Boolean);
- return heroPar()+(SHOW('map')?mapCard(true):'')+(SHOW('skills')?skillsCard(true):'')+(two.length>1?`<div class="two">${two.join('')}</div>`:two.join(''))+(SHOW('grades')?gradesCard():'')}
+ return heroPar()+(SHOW('map')?mapCard(true):'')+(SHOW('skills')?skillsCard(true)+gradeCard():'')+(two.length>1?`<div class="two">${two.join('')}</div>`:two.join(''))+(SHOW('grades')?gradesCard():'')}
 function render(){
  if(!D)return;
  syncNotebook();
@@ -1448,7 +1531,7 @@ function materialsFolders(){const groups=new Map(),P=PROG();(D.hw||[]).filter(h=
 
 function progressSummary(){const P=PROG(),counts={solid:0,shaky:0,gap:0,new:0};for(let n=1;n<=P.nmax;n++)counts[stOf(n)]++;const numeric=(D.hist||[]).filter(h=>typeof h.p==='number'),delta=numeric.length>1?numeric.at(-1).p-numeric[0].p:null;return `<div class="card"><div class="sh"><h2>Что уже получается</h2></div><div class="progress-summary"><div><b>${counts.solid}</b><span>тем решаешь уверенно</span></div><div><b>${counts.shaky}</b><span>тем ещё закрепляем</span></div><div><b>${delta===null?'—':(delta>=0?'+':'')+delta}</b><span>${delta===null?'сравним после двух работ':P.oge?'баллов с первой работы':'к результату первой работы'}</span></div></div><p class="note">Статусы тем отмечает преподаватель по результатам занятий. Результаты проверенных работ показаны ниже.</p></div>`}
 function contactLine(){return `<p class="contactline">Вопросы по заданиям: <a href="https://t.me/ohh_my_lily" target="_blank" rel="noopener">@ohh_my_lily</a> в Telegram.</p>`}
-function kidWorkspace(bday){const prog=(SHOW('map')?progressSummary()+mapCard(false):'')+(SHOW('skills')?skillsCard(false):'')+(SHOW('exams')?chartCard():'')+(SHOW('grades')?gradesCard():'');
+function kidWorkspace(bday){const prog=(SHOW('map')?progressSummary()+mapCard(false):'')+(SHOW('skills')?skillsCard(false)+gradeCard():'')+(SHOW('exams')?chartCard():'')+(SHOW('grades')?gradesCard():'');
  return welcomeKid()+bday+focusWork()+`<div class="lessonstrip">${lessonCard()}</div>`+cabNav()
   +cabPanel('homework',newHwCard()+(SHOW('notebook')?notebookCard():'')+telegramCard()+(SHOW('letter')?letterCard():'')+contactLine())
   +cabPanel('materials',materialsFolders()+((D.mats&&D.mats.length)||!D.matsAll?matCard():''))
@@ -1476,7 +1559,7 @@ function load(){
   else screen('Не получилось открыть кабинет','Похоже, пропал интернет. Попробуй ещё раз.','Ещё раз')});
 }
 function start(){
- loadSkills();
+ loadSkills();loadGrades();
  if(TEACH){tRoute();return}
  if(!LIVE&&!CODE){screen('Нужна личная ссылка','Открой кабинет по ссылке, которую прислала Лилия. Если ссылки нет или она не открывается, напиши ей в Telegram: <a href="https://t.me/ohh_my_lily" target="_blank" rel="noopener" style="color:var(--apricot)">@ohh_my_lily</a>.<br><br><a href="#demo" style="color:var(--muted)">Посмотреть пример кабинета</a>');return}
  if(!LIVE){D=demoData();HWdemoInit();render();return}
@@ -1569,8 +1652,8 @@ function drafts(){const o={};app.querySelectorAll('input[id]:not([type=file]),te
 function tRender(keep){const y=scrollY,dr=keep===false?{}:drafts(),foc=document.activeElement&&document.activeElement.id;
  const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
  app.innerHTML=tTop()+`<div class="cab enter">`+adminCard()+tTelegramCard()+bday+(kid
-  ? heroKid()+`<div class="two">${lessonCard(true)}${tHwCard()}</div>`+tMatCard()+mapCard(false)+skillsCard(false)+`<div class="two">${chartCard()}${probCard()}</div>`+tGradesCard()+tLettersCard()
-  : heroPar()+mapCard(true)+skillsCard(true)+`<div class="two">${chartCard()}${workCard()}</div>`+tGradesCard()+tLettersCard())+foot()+`</div>`;
+  ? heroKid()+`<div class="two">${lessonCard(true)}${tHwCard()}</div>`+tMatCard()+mapCard(false)+skillsCard(false)+gradeCard()+`<div class="two">${chartCard()}${probCard()}</div>`+tGradesCard()+tLettersCard()
+  : heroPar()+mapCard(true)+skillsCard(true)+gradeCard()+`<div class="two">${chartCard()}${workCard()}</div>`+tGradesCard()+tLettersCard())+foot()+`</div>`;
  Object.keys(dr).forEach(id=>{const i=document.getElementById(id);if(!i)return;if(i.type==='checkbox')i.checked=dr[id];else i.value=dr[id]});
  tBind();scrollTo({top:y});if(foc){const f=document.getElementById(foc);if(f&&f.focus)f.focus({preventScroll:true})}if(bday)bdayFX()}
 
