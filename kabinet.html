@@ -1324,7 +1324,7 @@ function heroPar(){const P=PROG(),H=(D.hist||[]).filter(h=>typeof h.p==='number'
   :P.oge?`<div class="stat"><b>${last.p} <em>/ 31</em></b><span>${when}</span><small>${prev?'было '+prev.p:'первая работа'}${D.goal?' · цель '+D.goal:''}</small></div>`
   :`<div class="stat"><b><em>${resultWord(last.p)}</em></b><span>${when}</span></div>`;
  return `<section style="display:grid;gap:10px;padding-block:6px 4px"><span class="eyebrow">Для родителей · ${esc(D.name)}</span><h1 class="big1">Занятия и <em>результаты</em></h1></section><div class="card"><div class="stats"><div class="stat"><b>${D.lessonsDone||0} <em>/ ${D.lessonsPlan||0}</em></b><span>занятий в этом месяце</span></div><div class="stat"><b>${done} <em>/ ${all.length}</em></b><span>домашних заданий сдано</span></div>${res}</div></div>`}
-function lessonCard(teach){const t=nextLesson();if(!t)return `<div class="card"><span class="eyebrow">Следующее занятие</span><div class="when">Расписание уточняется</div><p class="ltopic">${esc(D.topic||'')}</p></div>`;
+function lessonCard(teach){const t=nextLesson();if(!t)return `<div class="card"><span class="eyebrow">Следующее занятие</span><div class="when">Расписание уточняется</div>${topicHTML(D.topic)}${teach?boardRow():(D.board?`<a class="btn" href="${esc(href(D.board))}" target="_blank" rel="noopener">Открыть доску</a>`:'')}</div>`;
  const c=countdown(t),P=SCH(),tz=stuTz(),dev=devTz(),diff=!teach&&P.tz&&dev&&tzOff(dev,t)!==tzOff(P.tz,t);
  const wk=teach?weekLine('Europe/Samara'):weekLine(tz),wkS=teach&&P.tz&&tzOff(P.tz,t)!==SAMARA_OFF?weekLine(P.tz):'';
  return `<div class="card">
