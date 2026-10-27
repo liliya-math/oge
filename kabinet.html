@@ -1689,7 +1689,7 @@ function tRender(keep){const y=scrollY,dr=keep===false?{}:drafts(),foc=document.
 let SL=[],STZ='',STC='';
 function schedEditor(){const P=SCH();SL=P.slots.map(x=>({...x}));STZ=P.tz;STC=P.city;
  return `<div class="sched" id="sched"><div class="schh"><span class="eyebrow">Расписание</span>
-  <label class="fld schtz"><span>Где живёт ученик</span><select id="f-tz">
+  <label class="fld schtz"><span>Где живёт ученик</span><input id="f-tzq" type="search" placeholder="Начни вводить город…" autocomplete="off"><select id="f-tz">
    <option value="">не указано — по часам его устройства</option>
    ${(()=>{const sel=(z,c)=>STC?c===STC:(z===STZ&&c===ZONE_MAIN[z]),opt=(z,c)=>`<option value="${z}|${esc(c)}" ${sel(z,c)?'selected':''}>${esc(c)}</option>`,ru=[];
     RU_Z.forEach(([z,l])=>l.split(',').forEach(c=>ru.push([tzOff(z),c,z])));
@@ -1721,7 +1721,16 @@ function bindSlots(){const tm=v=>{const m=String(v).match(/(\d{1,2}):(\d{2})/);r
  const fromStu=i=>{const row=document.querySelector(`.slot[data-i="${i}"]`);const wd=+row.querySelector('.su-d').value,t=tm(row.querySelector('.su-t').value);if(!t)return;SL[i]=shiftSlot({wd,h:t[0],m:t[1]},-stuDelta());redrawSlots()};
  document.querySelectorAll('.su-d,.su-t').forEach(e=>e.onchange=()=>fromStu(+e.dataset.i));
  document.querySelectorAll('.sl-x').forEach(e=>e.onclick=()=>{SL.splice(+e.dataset.i,1);redrawSlots()})}
-function bindSched(){const z=document.getElementById('f-tz');if(!z)return;z.onchange=()=>{const p=z.value.split('|');STZ=p[0];STC=p[1]||'';redrawSlots()};
+function bindSched(){const z=document.getElementById('f-tz');if(!z)return;const q=document.getElementById('f-tzq'),full=z.innerHTML,norm=t=>String(t).toLowerCase().replace(/ё/g,'е').trim();
+ let lastVal=z.value;const restore=v=>{z.innerHTML=full;z.size=1;if(v!=null)z.value=v;if(q)q.value=''};
+ if(q){q.oninput=()=>{const t=norm(q.value);if(!t){restore(lastVal);return}
+  const tmp=document.createElement('select');tmp.innerHTML=full;const r=[];
+  tmp.querySelectorAll('option').forEach(o=>{const n=norm(o.textContent);if(o.value&&n.includes(t))r.push({v:o.value,t:o.textContent,g:(o.parentElement.label||'').replace(/^.*· /,''),k:n.startsWith(t)?0:1})});
+  r.sort((a,b)=>a.k-b.k||a.t.localeCompare(b.t,'ru'));
+  z.innerHTML=r.length?r.map(x=>`<option value="${esc(x.v)}">${esc(x.t)} · ${esc(x.g)}</option>`).join(''):'<option value="" disabled>Ничего не найдено</option>';
+  z.size=Math.min(Math.max(r.length,2),7);if(r.length)z.selectedIndex=0};
+  q.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();if(z.size>1&&z.value){z.dispatchEvent(new Event('change'))}}else if(e.key==='Escape'){restore(lastVal)}}}
+ z.onchange=()=>{const v=z.value;if(!v&&z.size>1)return;if(z.size>1)restore(v);lastVal=v;const p=v.split('|');STZ=p[0];STC=p[1]||'';redrawSlots()};
  document.getElementById('sl-add').onclick=()=>{const l=SL[SL.length-1];SL.push(l?{wd:DORDER[(DORDER.indexOf(l.wd)+2)%7],h:l.h,m:l.m}:{wd:2,h:18,m:0});redrawSlots()};
  bindSlots()}
 
