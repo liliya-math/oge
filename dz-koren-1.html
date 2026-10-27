@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#14211e">
+<title>ДЗ: Квадратный корень</title>
+<style>
+:root{--bg:#14211e;--card:rgba(243,236,226,.07);--line:rgba(243,236,226,.16);--fg:#f3ece2;--muted:rgba(243,236,226,.62);--cobalt:#1747c9;--yellow:#f5dc6a;--mint:#8fd9b0;--miss:#ff8f7d}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-text-size-adjust:100%}
+#wrap{max-width:760px;margin:0 auto;padding:18px 16px 70px}
+h1{font-size:24px;margin:6px 0 4px;line-height:1.25}
+h2{font-size:19px;margin:16px 0 8px}
+.muted{color:var(--muted);font-size:15px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin:12px 0}
+.big{font-size:30px;margin:8px 0 14px;line-height:1.7}
+.rad{white-space:nowrap}
+.ov{border-top:2px solid var(--fg);padding:0 3px;margin-left:1px}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;font-size:.8em;line-height:1.2;margin:0 3px}
+.fr>span:first-child{border-bottom:2px solid var(--fg);padding:0 4px}
+input.ans,input.nm{font:inherit;font-size:24px;width:100%;max-width:300px;padding:10px 14px;border-radius:10px;border:1.5px solid var(--line);background:rgba(243,236,226,.08);color:var(--fg)}
+input.nm{font-size:20px;max-width:360px}
+input:focus{outline:2px solid var(--yellow);outline-offset:1px}
+.btn{font:inherit;font-weight:600;padding:12px 20px;border-radius:12px;border:0;background:var(--cobalt);color:#fff;cursor:pointer;margin:10px 8px 0 0}
+.btn.sec{background:transparent;border:1.5px solid var(--line);color:var(--fg)}
+.opt{font:inherit;font-size:20px;padding:12px 18px;border-radius:12px;border:1.5px solid var(--line);background:rgba(243,236,226,.06);color:var(--fg);cursor:pointer;margin:0 10px 10px 0}
+.chips{margin:6px 0 12px;line-height:2.2}
+.chip{display:inline-block;min-width:28px;text-align:center;padding:0 6px;margin:0 4px 4px 0;border:1.5px solid var(--line);border-radius:8px;font-size:14px}
+.chip.cur{border-color:var(--yellow);color:var(--yellow)}
+.chip.ok{background:var(--mint);border-color:var(--mint);color:#14211e}
+.chip.no{background:var(--miss);border-color:var(--miss);color:#14211e}
+.ok{color:var(--mint);font-weight:700}
+.bad{color:var(--miss);font-weight:700}
+.hint{border-left:4px solid var(--yellow);background:rgba(245,220,106,.1);padding:10px 14px;border-radius:10px;margin:10px 0}
+table.rep{width:100%;border-collapse:collapse;font-size:15px}
+table.rep th,table.rep td{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;vertical-align:top}
+.link{font-family:ui-monospace,Menlo,monospace;font-size:13px;word-break:break-all}
+svg{display:block;margin:6px 0}
+.pt{margin:14px 0;break-inside:avoid}
+@media(max-width:520px){body{font-size:17px}.big{font-size:26px}}
+@media print{
+ :root{--bg:#fff;--fg:#000;--card:#fff;--line:#999;--muted:#444}
+ body{background:#fff;color:#000;font-size:14px}
+ .noprint{display:none!important}
+ svg [stroke]{stroke:#000!important}
+ svg text{fill:#000!important}
+ .big{font-size:20px;margin:4px 0}
+ .card{border:0;padding:0}
+}
+</style>
+</head>
+<body>
+<div id="wrap"><div id="app"></div></div>
+<script>
+'use strict';
+//CONTENT-START
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[ri(0,a.length-1)];
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=ri(0,i);[a[i],a[j]]=[a[j],a[i]]}return a};
+const f=n=>String(Math.round(n*10000)/10000).replace('.',',').replace('-','−');
+const R=x=>`<span class="rad">√<span class="ov">${x}</span></span>`;
+const F=(a,b)=>`<span class="fr"><span>${a}</span><span>${b}</span></span>`;
+const gcd=(a,b)=>b?gcd(b,a%b):a;
+const SQ=(a,b)=>`<svg viewBox="0 0 150 140" width="150" height="140" aria-hidden="true"><rect x="22" y="6" width="106" height="106" fill="none" stroke="#f3ece2" stroke-width="2.5"/><text x="75" y="66" text-anchor="middle" fill="#f3ece2" font-size="17">${b}</text><text x="75" y="134" text-anchor="middle" fill="#f3ece2" font-size="14">${a}</text></svg>`;
+function nm(q,ans,why,prompt,hint,x){return Object.assign({q,type:'num',ans,why,prompt:prompt||'Найди значение',hint:hint||''},x||{})}
+function ch(q,options,correct,why,prompt,hint,x){return Object.assign({q,type:'choice',options:shuf(options),correct,why,prompt,hint:hint||''},x||{})}
+const SELF=' Проверка: возведи свой ответ в квадрат, должно получиться подкоренное число.';
+
+// 1. Квадрат числа
+function g1(){const n=pick([1,2,3,4,5,6,7,8,9,10,11,12,ri(2,10),ri(2,10)]);
+ const why='n² — это n · n: число умножают само на себя, а не на 2.';
+ const hint=`Запиши как умножение: ${n} · ${n} = ?`;
+ const tag=u=>u===2*n?'удвоил вместо n·n':u===n?'оставил число без изменений':'';
+ if(ri(0,2)===0)return nm(`Сторона квадрата ${n} см. Найди площадь (в см²).`,n*n,why+' Площадь квадрата равна стороне, умноженной на сторону.','Найди площадь',hint,{pic:SQ(`сторона ${n} см`,'S = ?'),tag});
+ return nm(`${n}² = ?`,n*n,why,'Найди значение',hint,{tag})}
+
+// 2. Обратная задача (без знака корня)
+function g2(){const k=pick([1,2,3,4,5,6,7,8,9,10,11,12,ri(2,12),ri(2,12)]);const N=k*k;const t=ri(0,2);
+ const why=`Подбери число, которое при умножении на себя даёт ${N}.`+SELF;
+ const hint=`Пробуй по порядку: 1², 2², 3², … пока не получишь ${N}.`;
+ const x={rad:N};
+ if(t===0)return nm(`Площадь квадрата ${N} см². Найди сторону (в см).`,k,why,'Найди сторону',hint,Object.assign({pic:SQ('сторона = ? см',`S = ${N} см²`)},x));
+ if(t===1)return nm(`Какое неотрицательное число в квадрате даёт ${N}?`,k,why,'Найди число',hint,x);
+ return nm(`?² = ${N}, причём ? ≥ 0`,k,why,'Найди число ?',hint,x)}
+
+// 3. Знак корня
+function g3(){
+ if(ri(0,2)===0){const n=pick([4,9,16,25,36,49,64,81,100,121,144]);const c=`число, которое в квадрате даёт ${n}`;
+  return ch(R(n),[c,`${n} : 2`,`${n} · 2`,`${n} · ${n}`],c,'Знак √ спрашивает: какое неотрицательное число в квадрате даёт число под знаком?','Что означает запись?','Вспомни: √ — это «какое число в квадрате даёт…».',{etag:'не понимает смысл знака √'})}
+ const k=ri(1,10);return nm(`${R(k*k)} = ?`,k,'Какое неотрицательное число в квадрате даёт число под знаком?'+SELF,'Найди значение',`Какое число в квадрате даёт ${k*k}?`,{rad:k*k})}
+
+// 4. Корень неотрицателен
+const S4=[
+ [`${R(16)} = 4`,1,'4 ≥ 0 и 4² = 16.'],
+ [`${R(16)} = −4`,0,'Значение корня не может быть отрицательным. Число −4 в квадрате даёт 16, но корнем не является.'],
+ [`${R(16)} = ±4`,0,'Знак ± не входит в значение арифметического корня: √16 — одно число, 4. (Уравнение x² = 16 имеет два решения, но это другая задача.)'],
+ [`${R(49)} = −7`,0,'Арифметический квадратный корень — неотрицательное число: √49 = 7.'],
+ [`${R(81)} = 9`,1,'9 ≥ 0 и 9² = 81.'],
+ [`${R(0)} = 0`,1,'Ноль неотрицателен, и 0² = 0. Корень из нуля существует.'],
+ [`${R(1)} = 1`,1,'1 ≥ 0 и 1² = 1.'],
+ ['Значение арифметического квадратного корня может быть отрицательным',0,'По определению корень — неотрицательное число.'],
+ ['Значение арифметического квадратного корня всегда неотрицательно',1,'Так и есть: по определению корень — неотрицательное число.'],
+ ['Число −5 является значением '+R(25),0,'Значение корня неотрицательно, а −5 < 0. √25 = 5.'],
+ ['Число 5 является значением '+R(25),1,'5 ≥ 0 и 5² = 25.'],
+ [`${R(36)} = 18`,0,'Корень — не деление пополам. Нужно неотрицательное число, квадрат которого равен 36.'],
+ [`Равенство ${R(9)} = 3 верно, потому что 3² = 9 и 3 ≥ 0`,1,'Оба условия определения выполнены.'],
+ [`Равенство ${R(9)} = −3 верно, потому что (−3)² = 9`,0,'(−3)² = 9, но −3 < 0, а значение корня должно быть неотрицательным.']
+];
+let last4=-1;
+function g4(){let i;do{i=ri(0,S4.length-1)}while(i===last4);last4=i;const s=S4[i];
+ return{q:s[0],type:'choice',options:['Верно','Неверно'],correct:s[1]?'Верно':'Неверно',why:s[2],prompt:'Верно ли утверждение?',hint:'Определение: корень — неотрицательное число, квадрат которого равен подкоренному числу. Проверь оба условия.',etag:'путает корень и ±'}}
+
+// 5. Когда корень существует
+function g5(){
+ const t=ri(0,7),n=ri(1,30);
+ const O=['Имеет смысл','Не имеет смысла'];
+ const base='Сначала вычисли выражение под корнем. Корень существует, если оно ≥ 0 (ноль подходит).';
+ let e,ok,extra='';
+ if(t===0){e=R('−'+n);ok=false}
+ else if(t===1){e=R(n);ok=true}
+ else if(t===2){const a=ri(1,20),b=ri(1,20);if(a===b)return g5();e=R(a+' − '+b);ok=a>b}
+ else if(t===3){const m=ri(2,9);e=R('−'+m+'²');ok=false;extra=' Внимание: −m² — это −(m · m), а не (−m) · (−m).'}
+ else if(t===4){const m=ri(2,9);e=R('(−'+m+')²');ok=true;extra=' Внимание: (−m)² = m · m, это положительное число.'}
+ else if(t===5){const a=ri(1,20);e=R(a+' − '+a);ok=true}
+ else if(t===6){e=R('−(−'+n+')');ok=true}
+ else{const a=ri(2,9),b=ri(2,9);e=R(a+' − '+b+'²');ok=(a-b*b)>=0}
+ return ch(e,O,ok?O[0]:O[1],base+extra,'Имеет ли смысл выражение?','Вычисли подкоренное выражение целиком и посмотри на знак результата.',{etag:'не вычисляет подкоренное выражение'})}
+
+// 6. Значения (целые)
+function g6(){const k=pick([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,ri(2,15),ri(2,15)]);
+ return nm(R(k*k)+' = ?',k,'Подбери неотрицательное число, квадрат которого равен подкоренному.'+SELF,'Найди значение',`Какое число в квадрате даёт ${k*k}?`,{rad:k*k})}
+
+// 7. Десятичные и дроби
+function g7(){const t=ri(0,4);
+ if(t<=1){const d=ri(1,15)/10,N=Math.round(d*d*100)/100;return nm(R(f(N))+' = ?',d,'Корень из десятичной дроби находят так же: ищут число, квадрат которого равен подкоренному.'+SELF,'Найди значение (десятичная дробь через запятую)','Подбери число с одним знаком после запятой, квадрат которого равен подкоренному.',{rad:N})}
+ if(t===2){const d=ri(1,9)/100,N=Math.round(d*d*10000)/10000;return nm(R(f(N))+' = ?',d,'Знаков после запятой в ответе вдвое меньше, чем в подкоренном числе.'+SELF,'Найди значение (десятичная дробь через запятую)','Сколько знаков после запятой в подкоренном числе? В ответе их вдвое меньше.',{rad:N})}
+ let a,b;do{a=ri(1,9);b=ri(2,13)}while(a===b||gcd(a,b)!==1);
+ return nm(R(F(a*a,b*b))+' = ?',a/b,'√(a/b) = √a / √b. Извлеки корень из числителя и из знаменателя отдельно.'+SELF,'Найди значение (обыкновенной дробью, например 3/4, или десятичной)','Извлеки корень из числителя и отдельно из знаменателя.')}
+
+// 8. Вычисления
+function g8(){const t=pick([0,1,2,5]),a=ri(1,12),b=ri(1,12);
+ const w='Сначала вычисли значение каждого корня отдельно, потом выполни действие.';
+ const h='Запиши, чему равен каждый корень, и только потом складывай, вычитай или умножай.';
+ if(t===0)return nm(`${R(a*a)} + ${R(b*b)} = ?`,a+b,w,'Найди значение',h);
+ if(t===1){const x=Math.max(a,b),y=Math.min(a,b);return nm(`${R(x*x)} − ${R(y*y)} = ?`,x-y,w,'Найди значение',h)}
+ if(t===2){const k=ri(2,9);return nm(`${k}${R(a*a)} = ?`,k*a,'Запись 3√25 означает 3 · √25: сначала значение корня, потом умножение.','Найди значение','Число перед корнем умножает значение корня.',{tag:u=>u===k+a?'сложил вместо умножения':''})}
+ const k=ri(2,6),m=ri(1,20);return nm(`${k}${R(a*a)} − ${m} = ?`,k*a-m,w+' Результат действия может быть отрицательным, а сам корень — нет.','Найди значение',h)}
+
+// 9. Корень из произведения
+function g9(){const t=ri(0,3);
+ const w='√(ab) = √a · √b при a ≥ 0, b ≥ 0. Разложи на два корня или подбери множители так, чтобы корни извлекались.';
+ const h='Корень из произведения равен произведению корней: √(ab) = √a · √b.';
+ if(t===0){const x=ri(2,9),y=ri(2,9);return nm(`${R(x*x)} · ${R(y*y)} = ?`,x*y,w,'Найди значение',h)}
+ if(t===1){const x=ri(2,9),y=ri(2,9);return nm(R(`${x*x}·${y*y}`)+' = ?',x*y,w,'Найди значение',h)}
+ const P=[[2,8],[3,12],[2,18],[5,20],[8,18],[3,27],[7,28],[12,27],[2,32],[5,45]];const p=pick(P);const v=Math.round(Math.sqrt(p[0]*p[1]));
+ if(t===2)return nm(`${R(p[0])} · ${R(p[1])} = ?`,v,w+' Сначала перемножь числа под корнями.','Найди значение','Перемножь числа под корнями: √a · √b = √(ab). Потом извлеки корень.');
+ return nm(R(`${p[0]}·${p[1]}`)+' = ?',v,w,'Найди значение','Сначала вычисли произведение под корнем.')}
+
+// 10. Между целыми
+function g10(){let n,k;do{n=ri(2,199);k=Math.floor(Math.sqrt(n))}while(k*k===n);
+ const pairs=[[k-1,k],[k,k+1],[k+1,k+2],k>=2?[k-2,k-1]:[k+2,k+3]];
+ const txt=p=>`между ${p[0]} и ${p[1]}`;
+ return ch(R(n),pairs.map(txt),txt([k,k+1]),'Найди ближайшие точные квадраты слева и справа от подкоренного числа. Если k² < a < (k+1)², то k < √a < k+1.','Между какими соседними целыми числами лежит значение?','Выпиши точные квадраты: 1, 4, 9, 16, 25, … и найди, между какими из них стоит подкоренное число.',{etag:'не находит соседние точные квадраты'})}
+
+// 11. Ловушки
+function g11(){const t=ri(0,6);
+ if(t===0){let n;do{n=ri(2,60)}while(Number.isInteger(Math.sqrt(n)));return nm(`(${R(n)})² = ?`,n,'(√a)² = a при a ≥ 0: возведение в квадрат «отменяет» корень.','Найди значение','Квадрат и корень — взаимно обратные действия.')}
+ if(t===1){const n=ri(2,30);return nm(`${R(n+'²')} = ?`,n,'√(a²) = |a|. При положительном a это просто a.','Найди значение','Сначала вычисли a², потом извлеки корень, или вспомни: корень «отменяет» квадрат.')}
+ if(t===2){const n=ri(2,30);return nm(`${R('(−'+n+')²')} = ?`,n,'Сначала возведи в квадрат: (−n)² = n². Подкоренное число положительное, и √(a²) = |a|.','Найди значение','Сначала вычисли (−n)². Квадрат отрицательного числа положителен.',{tag:u=>u===-n?'оставил минус под корнем':''})}
+ if(t===3){const a=ri(2,15);return nm(`−${R(a*a)} = ?`,-a,'Минус стоит перед корнем, а не под ним. Сначала найди значение корня (оно неотрицательно), потом поставь знак.','Найди значение','Найди √ отдельно, потом добавь минус.')}
+ if(t===4){const m=ri(2,5),n=ri(2,7);return nm(`(${m}${R(n)})² = ?`,m*m*n,'(m√n)² = m² · (√n)² = m² · n.','Найди значение','Возведи в квадрат и число перед корнем, и корень: (m√n)² = m² · (√n)².',{tag:u=>u===m*n?'не возвёл в квадрат число перед корнем':''})}
+ if(t===5){let n;do{n=ri(2,40)}while(Number.isInteger(Math.sqrt(n)));return nm(`(−${R(n)})² = ?`,n,'Квадрат любого числа неотрицателен: (−x)² = x². Здесь x = √n, и (√n)² = n.','Найди значение','(−x)² = x². Что получится, если x = √n?',{tag:u=>u===-n?'оставил минус':''})}
+ const a=ri(1,9),b=ri(a+1,a+9);return nm(`${R('('+a+' − '+b+')²')} = ?`,b-a,'Сначала вычисли a − b, возведи в квадрат, потом извлеки корень. √(c²) = |c|, а не c.','Найди значение','Сначала вычисли разность в скобках, потом её квадрат.',{tag:u=>u===a-b?'ответ со знаком минус':''})}
+
+// 12. Допустимые значения x
+function g12(){const t=ri(0,5),a=ri(2,9);
+ const P='При каких x выражение имеет смысл?';
+ const w='Подкоренное выражение должно быть ≥ 0. Реши неравенство «подкоренное выражение ≥ 0». Ноль под корнем допустим, значит знак нестрогий.';
+ const h='Запиши условие: подкоренное выражение ≥ 0, и реши это неравенство.';
+ if(t===0)return ch(R('x − '+a),[`x ≥ ${a}`,`x > ${a}`,`x ≤ ${a}`,`x < ${a}`],`x ≥ ${a}`,w,P,h,{etag:'ошибка в знаке неравенства'});
+ if(t===1)return ch(R(a+' − x'),[`x ≤ ${a}`,`x < ${a}`,`x ≥ ${a}`,`x > ${a}`],`x ≤ ${a}`,w+' При переносе x в другую часть знак неравенства меняется, если делишь на −1.',P,h,{etag:'ошибка в знаке неравенства'});
+ if(t===2)return ch(R('x + '+a),[`x ≥ −${a}`,`x > −${a}`,`x ≤ −${a}`,`x ≥ ${a}`],`x ≥ −${a}`,w,P,h,{etag:'ошибка в знаке неравенства'});
+ if(t===3)return ch(R('2x − '+2*a),[`x ≥ ${a}`,`x ≥ ${2*a}`,`x ≤ ${a}`,`x > ${a}`],`x ≥ ${a}`,w,P,h,{etag:'ошибка в знаке неравенства'});
+ if(t===4)return nm(R('x − '+a),a,w,'Найди наименьшее целое x, при котором выражение имеет смысл',h);
+ return nm(R(a+' − x'),a,w,'Найди наибольшее целое x, при котором выражение имеет смысл',h)}
+
+// 13. Сравнение
+function g13(){const t=ri(0,2);const O=['<','>','='];
+ const w='Корень и число неотрицательны, поэтому можно сравнить их квадраты. Сравни подкоренное число с квадратом второго числа.';
+ const h='Возведи число в квадрат и сравни с подкоренным числом.';
+ if(t<=1){const m=ri(2,12);let n=m*m+ri(-3,3);if(n<1)n=2;const s=n<m*m?'<':n>m*m?'>':'=';
+  return ch(`${R(n)} ? ${m}`,O,s,w,'Поставь знак вместо «?»',h,{etag:'ошибка при сравнении'})}
+ const d=ri(2,9)+pick([0,0.5]);const d2=d*d;const n=Math.max(1,Math.floor(d2)+pick([-1,0,1]));const s=n<d2?'<':n>d2?'>':'=';
+ return ch(`${R(n)} ? ${f(d)}`,O,s,w,'Поставь знак вместо «?»',h,{etag:'ошибка при сравнении'})}
+
+const LEVELS=[
+ {t:'Квадрат числа',g:g1,pages:[
+  'Квадратом числа a называется произведение a · a. Записывают a². Например, 7² = 7 · 7 = 49.',
+  'Разберём пример. Сторона квадрата 6 см. Площадь равна стороне, умноженной на сторону: 6 · 6 = 36 см². Значит, 6² = 36.'+SQ('сторона 6 см','S = 36 см²'),
+  'Частая ошибка: 6² — это не 6 · 2 = 12. Квадрат числа — это число, умноженное само на себя.',
+  'Квадраты, которые нужно знать: 1² = 1, 2² = 4, 3² = 9, 4² = 16, 5² = 25, 6² = 36, 7² = 49, 8² = 64, 9² = 81, 10² = 100, 11² = 121, 12² = 144.']},
+ {t:'Обратная задача: найти число по его квадрату',g:g2,pages:[
+  'Теперь вопрос в обратную сторону. Площадь квадрата 49 см². Чему равна его сторона? Нужно найти число, которое при умножении на себя даёт 49. Это 7, потому что 7 · 7 = 49.'+SQ('сторона = ? см','S = 49 см²'),
+  'Разберём ещё один пример: площадь 81. Пробуем: 8² = 64 (мало), 9² = 81. Сторона равна 9.',
+  'Длина стороны не бывает отрицательной, поэтому мы ищем неотрицательное число. Проверка всегда одна: ответ в квадрате должен дать исходное число.']},
+ {t:'Знак √',g:g3,pages:[
+  'Для задачи «найти неотрицательное число по его квадрату» придумали значок √. Запись √49 читается «квадратный корень из 49» и означает: неотрицательное число, квадрат которого равен 49. Значит, √49 = 7.',
+  'Разберём пример: √36. Какое неотрицательное число в квадрате даёт 36? Это 6, потому что 6² = 36. Значит, √36 = 6. Число 36 под знаком корня называют подкоренным числом.',
+  'Знак √ — это не деление на 2 и не умножение. Это вопрос: «какое неотрицательное число в квадрате даёт число под знаком?».']},
+ {t:'Корень не бывает отрицательным',g:g4,pages:[
+  '<b>Арифметическим квадратным корнем из числа a называется неотрицательное число, квадрат которого равен a.</b> Обозначение: √a.<br>Значит, √a = b, если b ≥ 0 и b² = a.',
+  'Разберём пример: √16 = 4, потому что 4 ≥ 0 и 4² = 16. Число −4 тоже в квадрате даёт 16, но корнем из 16 не является: значение корня не бывает отрицательным.',
+  'Не путай две задачи. Уравнение x² = 16 имеет два решения: 4 и −4. А √16 — это одно число, 4. Знак ± перед значением корня не ставится.']},
+ {t:'Когда корень существует',g:g5,pages:[
+  'Выражение √a имеет смысл только при a ≥ 0. Если под корнем отрицательное число, выражение не имеет смысла: нет числа, квадрат которого отрицателен.',
+  'При a = 0 корень существует: √0 = 0, потому что 0² = 0.',
+  'Разберём примеры. √(3 − 7): 3 − 7 = −4 < 0, значит выражение не имеет смысла. √(5 − 5): 5 − 5 = 0, значит √0 = 0, смысл есть.',
+  'Следи за скобками: −3² = −(3 · 3) = −9, а (−3)² = (−3) · (−3) = 9. Поэтому √(−3²) не имеет смысла, а √((−3)²) = √9 = 3.']},
+ {t:'Значения корней: целые числа',g:g6,pages:[
+  '√a = b, если b ≥ 0 и b² = a. Чтобы найти √a, подбери неотрицательное число, квадрат которого равен a.',
+  'Разберём пример: √144. Пробуем: 11² = 121 (мало), 12² = 144. Значит, √144 = 12. Проверка: 12 · 12 = 144.',
+  'Особые случаи: √0 = 0, √1 = 1, √100 = 10, √400 = 20.',
+  'Квадраты побольше: 13² = 169, 14² = 196, 15² = 225, 16² = 256, 17² = 289, 18² = 324, 19² = 361, 20² = 400.']},
+ {t:'Десятичные дроби и дроби под корнем',g:g7,pages:[
+  'Корень из десятичной дроби находят так же: ищут число, квадрат которого равен подкоренному. Например, √0,49 = 0,7, потому что 0,7² = 0,49.',
+  'Если подкоренное число — десятичная дробь с двумя знаками (0,49), то в ответе один знак (0,7). С четырьмя знаками (0,0049) — два знака в ответе (0,07).',
+  'Корень из дроби: √(a/b) = √a / √b при a ≥ 0, b > 0. Например, √(9/16) = 3/4, потому что корень из 9 равен 3, а корень из 16 равен 4.',
+  'Ответ можно вводить десятичной дробью через запятую (0,75) или обыкновенной дробью через косую черту (3/4).']},
+ {t:'Вычисления с корнями',g:g8,pages:[
+  'Запись 3√25 означает 3 · √25: число перед корнем умножается на значение корня.',
+  'Порядок действий: сначала значения корней, потом умножение, потом сложение и вычитание.',
+  'Разберём пример: 3√25 − 4. √25 = 5. 3 · 5 = 15. 15 − 4 = 11.',
+  'Результат действия может быть отрицательным, например √9 − 5 = 3 − 5 = −2. Отрицательным не бывает только значение самого корня.']},
+ {t:'Корень из произведения',g:g9,pages:[
+  'Корень из произведения неотрицательных чисел равен произведению корней: √(ab) = √a · √b при a ≥ 0, b ≥ 0.',
+  'Разберём пример: √(4 · 25) = √4 · √25 = 2 · 5 = 10.',
+  'Свойство работает и в обратную сторону: √2 · √8 = √(2 · 8) = √16 = 4. Так можно упростить вычисление, если произведение под корнем — точный квадрат.']},
+ {t:'Между какими целыми числами лежит корень',g:g10,pages:[
+  'Если число a не является точным квадратом, то √a — иррациональное число: его нельзя записать точно ни целым числом, ни конечной десятичной дробью.',
+  'Чтобы оценить √a, найди ближайшие точные квадраты. Если k² < a < (k+1)², то k < √a < k+1.',
+  'Разберём пример: √53. Точные квадраты рядом: 49 = 7² и 64 = 8². Так как 49 < 53 < 64, то 7 < √53 < 8.']},
+ {t:'Ловушки: (√a)², √(a²), знак минус',g:g11,pages:[
+  '(√a)² = a при a ≥ 0. Например, (√7)² = 7.',
+  '√(a²) = |a| при любом a. Например, √((−5)²) = √25 = 5, а не −5.',
+  'Знак минус перед корнем не входит в подкоренное выражение: −√9 = −3, а √(−9) не существует.',
+  'Разберём пример: (3√2)² = 3² · (√2)² = 9 · 2 = 18.']},
+ {t:'Допустимые значения x',g:g12,pages:[
+  'Выражение √f(x) имеет смысл при f(x) ≥ 0. Чтобы найти допустимые значения x, реши неравенство f(x) ≥ 0. Знак нестрогий: ноль под корнем допустим.',
+  'Разберём пример: √(x − 3). x − 3 ≥ 0, значит x ≥ 3. Наименьшее целое x равно 3.',
+  'Если x стоит со знаком минус, знак неравенства при делении на −1 меняется. √(5 − x): 5 − x ≥ 0, значит x ≤ 5.']},
+ {t:'Сравнение корней и чисел',g:g13,pages:[
+  'Если a ≥ 0, b ≥ 0 и a < b, то √a < √b. Чтобы сравнить √a и число m ≥ 0, сравни a и m².',
+  'Разберём пример: сравним √30 и 5. 5² = 25, а 30 > 25. Значит, √30 > 5.']}
+];
+//CONTENT-END
+//ENGINE-START
+(function(){
+const DZ={"id":"dz-koren-1","title":"Квадратный корень","groups":[{"t":"Уровень 1","items":[2,2,3,3,5,5,5]},{"t":"Уровень 2","items":[6,6,7,7,7,8,8]},{"t":"Уровень 3","items":[9,9,10,10,11]}]};
+const SHEET_URL='https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec';
+const MAXATT=2;
+const KEY='lilimath-dz-'+DZ.id;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const strip=s=>String(s).replace(/<svg[\s\S]*?<\/svg>/g,'').replace(/<\/span><span>/g,'/').replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ').replace(/\s+/g,' ').trim();
+const fmt=a=>String(Math.round(a*10000)/10000).replace('.',',').replace('-','−');
+const norm=s=>String(s).trim().toLowerCase().replace(/ё/g,'е').replace(/\s+/g,' ');
+function xfnv(str){let h=2166136261>>>0;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+function mul(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function dec(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return new TextDecoder().decode(Uint8Array.from(atob(s),c=>c.charCodeAt(0)))}
+function enc(s){return btoa(String.fromCharCode(...new TextEncoder().encode(s))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+const rid=()=>{const a=new Uint32Array(2);crypto.getRandomValues(a);return a[0].toString(36)+a[1].toString(36)};
+
+const SPEC=[];DZ.groups.forEach((g,gi)=>g.items.forEach(li=>SPEC.push({gi,li})));
+const N=SPEC.length;
+function gen(name){const orig=Math.random;const out=[];
+ try{SPEC.forEach((s,k)=>{Math.random=mul(xfnv(DZ.id+'|'+norm(name)+'|'+k));out.push(LEVELS[s.li].g())})}finally{Math.random=orig}
+ return out}
+function ansText(q){return q.type==='num'?fmt(q.ans):strip(q.correct)}
+function parseNum(s){s=String(s).trim().replace(/\s/g,'').replace(',','.').replace('−','-');
+ if(/^-?\d+(\.\d+)?\/\d+(\.\d+)?$/.test(s)){const p=s.split('/');return parseFloat(p[0])/parseFloat(p[1])}
+ if(/^-?\d+(\.\d+)?$/.test(s))return parseFloat(s);return NaN}
+function tagOf(q,u){
+ if(u===null)return 'не знаю';
+ if(q.type==='num'){
+  if(q.tag){const t=q.tag(u);if(t)return t}
+  if(u<0&&q.ans>=0)return 'отрицательный ответ';
+  if(q.rad!==undefined&&u===q.rad)return 'не извлёк корень';
+  if(q.rad!==undefined&&Math.abs(u-q.rad/2)<1e-9)return 'разделил пополам';
+  if(Number.isInteger(q.ans)&&q.ans>0&&u===q.ans*q.ans)return 'возвёл в квадрат вместо корня';
+  return 'другая ошибка'}
+ return q.etag||'другая ошибка'}
+
+/* ====== состояние ====== */
+const HASH=location.hash.slice(1);
+const TEACHER=HASH==='lilia';
+let S=null,Q=[],cur=0,t0=Date.now(),msg='',err='',view='name',TN='';
+function freshS(name){return{name,sid:rid(),started:Date.now(),t:SPEC.map(()=>({att:0,hint:false,done:false,ok:false,idk:false,u:'',sec:0,tag:''}))}}
+function loadS(name){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&norm(s.name)===norm(name)&&s.t&&s.t.length===N)return s}catch(e){}return freshS(name)}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function start(name){S=loadS(name);Q=gen(name);save();cur=S.t.findIndex(x=>!x.done);if(cur<0)cur=N;t0=Date.now();msg='';err='';view=cur>=N?'result':'task';render()}
+
+/* ====== отчёт и отправка ====== */
+const mm=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+function verdict(x){return x.idk?'не знаю':x.ok?(x.hint?'верно с подсказкой':x.att>1?'верно со 2-й попытки':'верно'):x.done?'неверно':'—'}
+function counts(){const d=S.t.filter(x=>x.done),ok=d.filter(x=>x.ok);
+ return{done:d.length,ok:ok.length,clean:ok.filter(x=>!x.hint).length,hinted:ok.filter(x=>x.hint).length,fail:d.length-ok.length,hints:S.t.filter(x=>x.hint).length,sec:S.t.reduce((a,x)=>a+x.sec,0)}}
+function report(){const c=counts(),pct=Math.round(100*c.ok/N);
+ const d=new Date(S.started),ds=`${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear()}`;
+ let r=`Домашняя работа · ${DZ.title} — ${S.name}\nДата: ${ds}, время: ${mm(c.sec)}\nВыполнено: ${c.ok} из ${N} (${pct}%) · без подсказки: ${c.clean} · верно с подсказкой: ${c.hinted} · не решено: ${c.fail} · подсказок взято всего: ${c.hints}\n`;
+ r+=DZ.groups.map((g,gi)=>{const ids=SPEC.map((s,k)=>s.gi===gi?k:-1).filter(k=>k>=0);const ok=ids.filter(k=>S.t[k].ok).length;return `${g.t}: ${ok}/${ids.length} (${Math.round(100*ok/ids.length)}%)`}).join(' · ')+'\n';
+ const wk=S.t.map((x,k)=>x.done&&!x.ok?`№${k+1} «${LEVELS[SPEC[k].li].t}» (${x.tag})`:'').filter(Boolean);
+ r+=`\nЧто подтянуть: ${wk.length?wk.join('; '):'всё решено'}\n\nПо заданиям:\n`;
+ r+=S.t.map((x,k)=>{const q=Q[k];if(!x.done)return `${k+1} (${DZ.groups[SPEC[k].gi].t}). не решено`;
+  return `${k+1} (${DZ.groups[SPEC[k].gi].t}). ${verdict(x)}, попыток: ${x.att}, подсказка: ${x.hint?'брала':'не брала'}, ${mm(x.sec)}`+(x.ok?'':(x.idk?'':`, ответ ученика: ${x.u}`)+` | верно: ${ansText(q)}`)+` · ${strip((q.prompt?q.prompt+': ':'')+q.q).slice(0,130)}`}).join('\n');
+ return r+'\n\nlili.math'}
+function marks(){return S.t.map((x,k)=>`${k+1}${!x.done?'·':x.ok?'✓':x.idk?'?':'✗'}`).join(' ')}
+function push(){
+ if(TEACHER||!S)return;const c=counts();if(!c.done&&!S.t.some(x=>x.hint))return;
+ try{const d={sid:S.sid,test:'ДЗ · '+DZ.title,name:S.name,kind:'ДЗ',started:S.started,status:c.done===N?'завершено':'в процессе',progress:`${c.done}/${N}`,score:c.ok,max:N,grade:Math.round(100*c.ok/N)+'%',minutes:Math.round(c.sec/60),bonus:'',tasks:marks(),report:report()};
+  const bd=JSON.stringify(d);
+  fetch(SHEET_URL,{method:'POST',mode:'no-cors',keepalive:bd.length<60000,headers:{'Content-Type':'text/plain;charset=utf-8'},body:bd}).catch(()=>{})}catch(e){}}
+addEventListener('pagehide',push);
+
+/* ====== экраны ====== */
+const app=h=>{$('#app').innerHTML=h};
+function render(){if(TEACHER)return teacherScreen();({name:nameScreen,task:taskScreen,result:resultScreen}[view]||nameScreen)()}
+function nameScreen(){
+ app(`<h1>${esc(DZ.title)}</h1><p class="muted">Заданий: ${N}. На каждое две попытки и одна подсказка. Если не знаешь, нажми «Не знаю»: это нормально, разберём на занятии.</p><p>Как тебя зовут?</p><input class="nm" id="nm" placeholder="Имя Фамилия"><br><button class="btn" data-a="go">Начать</button><div class="bad" id="er"></div>`);
+ const e=$('#nm');if(e)e.focus()}
+function taskScreen(){
+ const q=Q[cur],x=S.t[cur],g=DZ.groups[SPEC[cur].gi];
+ const chips=S.t.map((y,i)=>`<span class="chip ${i===cur?'cur':''} ${y.done?(y.ok?'ok':'no'):''}">${i+1}</span>`).join('');
+ let h=`<div class="muted">${esc(S.name)}</div><h1>${esc(DZ.title)}</h1><div class="chips">${chips}</div><div class="muted">${esc(g.t)} · задание ${cur+1} из ${N}</div><div class="muted" style="margin-top:8px">${q.prompt||''}</div><div class="big">${q.q}</div>${q.pic||''}`;
+ if(x.hint&&q.hint)h+=`<div class="hint"><b>Подсказка.</b> ${q.hint}</div>`;
+ if(x.done){
+  h+=`<div class="card">${x.ok?'<span class="ok">Верно.</span>':'<span class="bad">'+(x.idk?'Принято.':'Неверно.')+'</span> Это задание разберём на занятии.'}</div><button class="btn" data-a="next" id="nx">Дальше</button>`}
+ else{
+  if(x.att>0)h+=`<div class="card"><span class="bad">Неверно.</span> Есть ещё одна попытка.</div>`;
+  if(q.type==='num')h+=`<input class="ans" id="ans" autocomplete="off" inputmode="text"><br><button class="btn" data-a="sub">Проверить</button><div class="bad" style="margin-top:8px">${err}</div>`;
+  else h+=q.options.map((o,i)=>`<button class="opt" data-a="opt" data-i="${i}">${o}</button>`).join('');
+  h+=`<div>`+(q.hint&&!x.hint?`<button class="btn sec" data-a="hint">Подсказка</button>`:'')+`<button class="btn sec" data-a="idk">Не знаю</button></div>`}
+ app(h);const a=$('#ans');if(a)a.focus();const n=$('#nx');if(n)n.focus()}
+function resultScreen(){const c=counts();
+ app(`<div class="muted">${esc(S.name)}</div><h1>${esc(DZ.title)}</h1><div class="card"><p><b>Готово.</b> Верно: ${c.ok} из ${N}.</p><p class="muted">Результат отправлен Лилии. Задания, где были ошибки, разберём на занятии.</p></div>`)}
+
+/* ====== действия ====== */
+function elapsed(x){x.sec+=Math.round((Date.now()-t0)/1000);t0=Date.now()}
+function finishTask(){save();push()}
+function answer(u,shown){const q=Q[cur],x=S.t[cur];elapsed(x);
+ if(u===null){x.idk=true;x.done=true;x.tag='не знаю';x.att++;finishTask();return render()}
+ x.att++;const ok=q.type==='num'?Math.abs(u-q.ans)<1e-9:u===q.correct;
+ if(ok){x.ok=true;x.done=true}else{x.u=shown;x.tag=tagOf(q,u);if(x.att>=MAXATT)x.done=true}
+ err='';if(x.done)finishTask();else save();render()}
+function go(){const v=$('#nm').value.trim();if(v.length<3){$('#er').textContent='Введи имя и фамилию.';return}start(v)}
+function sub(){const q=Q[cur],raw=$('#ans').value,u=parseNum(raw);
+ if(isNaN(u)){err='Введи число (например 7, 0,5 или 3/4).';return render()}
+ answer(u,raw.trim())}
+function next(){cur=S.t.findIndex(x=>!x.done);t0=Date.now();err='';if(cur<0){cur=N;view='result';push()}render()}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a;
+ if(TEACHER){if(a==='print')print();return}
+ if(a==='go')go();else if(a==='sub')sub();else if(a==='opt'){const o=Q[cur].options[+b.dataset.i];answer(o,strip(o))}
+ else if(a==='idk')answer(null);else if(a==='next')next();
+ else if(a==='hint'){const x=S.t[cur];if(!x.hint){x.hint=true;save()}render()}});
+document.addEventListener('keydown',e=>{if(e.key!=='Enter')return;if(TEACHER)return;
+ if(view==='name'&&$('#nm'))go();else if(view==='task'&&$('#ans'))sub()});
+
+/* ====== кабинет учителя ====== */
+function teacherScreen(){
+ const base=location.href.split('#')[0];
+ app(`<h1 class="noprint">Кабинет учителя · ${esc(DZ.title)}</h1><p class="muted noprint">Числа у каждого ученика свои и зависят от имени. Введи имя так, как оно пришло в таблицу (регистр не важен).</p>
+ <div class="noprint"><input class="nm" id="tn" placeholder="Имя Фамилия" value="${esc(TN)}"> <label><input type="checkbox" id="ta"> с ответами</label></div><p class="link noprint" id="tl"></p><div id="tv"></div>`);
+ const upd=()=>{TN=$('#tn').value.trim();$('#tl').textContent=TN?base+'#u'+enc(TN):'';
+  if(!TN){$('#tv').innerHTML='';return}
+  const qs=gen(TN),ans=$('#ta').checked;
+  let h=`<h2>${esc(DZ.title)} — ${esc(TN)}</h2><button class="btn sec noprint" data-a="print">Печать</button>`;let gi=-1;
+  qs.forEach((q,k)=>{const s=SPEC[k];if(s.gi!==gi){gi=s.gi;h+=`<h2>${esc(DZ.groups[gi].t)}</h2>`}
+   h+=`<div class="pt"><div class="muted">${k+1}. ${q.prompt||''}</div><div class="big">${q.q}</div>${q.pic||''}${q.type==='choice'?'<div>'+q.options.map(o=>'<span class="opt" style="display:inline-block">'+o+'</span>').join('')+'</div>':''}${ans?'<div class="ok">Ответ: '+esc(ansText(q))+'</div>':''}</div>`});
+  $('#tv').innerHTML=h};
+ $('#tn').oninput=upd;$('#ta').onchange=upd;upd()}
+
+/* ====== запуск ====== */
+if(TEACHER)render();
+else{let nm='';if(/^u/.test(HASH)){try{nm=dec(HASH.slice(1).split('.')[0]).split('|')[0].trim()}catch(e){}}
+ if(nm)start(nm);else{let s=null;try{s=JSON.parse(localStorage.getItem(KEY))}catch(e){}if(s&&s.name)start(s.name);else render()}}
+})();
+//ENGINE-END
+</script>
+</body>
+</html>

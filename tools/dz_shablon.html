@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#14211e">
+<title>{{TITLE}}</title>
+<style>
+:root{--bg:#14211e;--card:rgba(243,236,226,.07);--line:rgba(243,236,226,.16);--fg:#f3ece2;--muted:rgba(243,236,226,.62);--cobalt:#1747c9;--yellow:#f5dc6a;--mint:#8fd9b0;--miss:#ff8f7d}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-text-size-adjust:100%}
+#wrap{max-width:760px;margin:0 auto;padding:18px 16px 70px}
+h1{font-size:24px;margin:6px 0 4px;line-height:1.25}
+h2{font-size:19px;margin:16px 0 8px}
+.muted{color:var(--muted);font-size:15px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin:12px 0}
+.big{font-size:30px;margin:8px 0 14px;line-height:1.7}
+.rad{white-space:nowrap}
+.ov{border-top:2px solid var(--fg);padding:0 3px;margin-left:1px}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;font-size:.8em;line-height:1.2;margin:0 3px}
+.fr>span:first-child{border-bottom:2px solid var(--fg);padding:0 4px}
+input.ans,input.nm{font:inherit;font-size:24px;width:100%;max-width:300px;padding:10px 14px;border-radius:10px;border:1.5px solid var(--line);background:rgba(243,236,226,.08);color:var(--fg)}
+input.nm{font-size:20px;max-width:360px}
+input:focus{outline:2px solid var(--yellow);outline-offset:1px}
+.btn{font:inherit;font-weight:600;padding:12px 20px;border-radius:12px;border:0;background:var(--cobalt);color:#fff;cursor:pointer;margin:10px 8px 0 0}
+.btn.sec{background:transparent;border:1.5px solid var(--line);color:var(--fg)}
+.opt{font:inherit;font-size:20px;padding:12px 18px;border-radius:12px;border:1.5px solid var(--line);background:rgba(243,236,226,.06);color:var(--fg);cursor:pointer;margin:0 10px 10px 0}
+.chips{margin:6px 0 12px;line-height:2.2}
+.chip{display:inline-block;min-width:28px;text-align:center;padding:0 6px;margin:0 4px 4px 0;border:1.5px solid var(--line);border-radius:8px;font-size:14px}
+.chip.cur{border-color:var(--yellow);color:var(--yellow)}
+.chip.ok{background:var(--mint);border-color:var(--mint);color:#14211e}
+.chip.no{background:var(--miss);border-color:var(--miss);color:#14211e}
+.ok{color:var(--mint);font-weight:700}
+.bad{color:var(--miss);font-weight:700}
+.hint{border-left:4px solid var(--yellow);background:rgba(245,220,106,.1);padding:10px 14px;border-radius:10px;margin:10px 0}
+table.rep{width:100%;border-collapse:collapse;font-size:15px}
+table.rep th,table.rep td{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;vertical-align:top}
+.link{font-family:ui-monospace,Menlo,monospace;font-size:13px;word-break:break-all}
+svg{display:block;margin:6px 0}
+.pt{margin:14px 0;break-inside:avoid}
+@media(max-width:520px){body{font-size:17px}.big{font-size:26px}}
+@media print{
+ :root{--bg:#fff;--fg:#000;--card:#fff;--line:#999;--muted:#444}
+ body{background:#fff;color:#000;font-size:14px}
+ .noprint{display:none!important}
+ svg [stroke]{stroke:#000!important}
+ svg text{fill:#000!important}
+ .big{font-size:20px;margin:4px 0}
+ .card{border:0;padding:0}
+}
+</style>
+</head>
+<body>
+<div id="wrap"><div id="app"></div></div>
+<script>
+'use strict';
+//CONTENT-START
+/*CONTENT*/
+//CONTENT-END
+//ENGINE-START
+(function(){
+const DZ=/*CONFIG*/;
+const SHEET_URL='https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec';
+const MAXATT=2;
+const KEY='lilimath-dz-'+DZ.id;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const strip=s=>String(s).replace(/<svg[\s\S]*?<\/svg>/g,'').replace(/<\/span><span>/g,'/').replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ').replace(/\s+/g,' ').trim();
+const fmt=a=>String(Math.round(a*10000)/10000).replace('.',',').replace('-','−');
+const norm=s=>String(s).trim().toLowerCase().replace(/ё/g,'е').replace(/\s+/g,' ');
+function xfnv(str){let h=2166136261>>>0;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+function mul(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function dec(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return new TextDecoder().decode(Uint8Array.from(atob(s),c=>c.charCodeAt(0)))}
+function enc(s){return btoa(String.fromCharCode(...new TextEncoder().encode(s))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+const rid=()=>{const a=new Uint32Array(2);crypto.getRandomValues(a);return a[0].toString(36)+a[1].toString(36)};
+
+const SPEC=[];DZ.groups.forEach((g,gi)=>g.items.forEach(li=>SPEC.push({gi,li})));
+const N=SPEC.length;
+function gen(name){const orig=Math.random;const out=[];
+ try{SPEC.forEach((s,k)=>{Math.random=mul(xfnv(DZ.id+'|'+norm(name)+'|'+k));out.push(LEVELS[s.li].g())})}finally{Math.random=orig}
+ return out}
+function ansText(q){return q.type==='num'?fmt(q.ans):strip(q.correct)}
+function parseNum(s){s=String(s).trim().replace(/\s/g,'').replace(',','.').replace('−','-');
+ if(/^-?\d+(\.\d+)?\/\d+(\.\d+)?$/.test(s)){const p=s.split('/');return parseFloat(p[0])/parseFloat(p[1])}
+ if(/^-?\d+(\.\d+)?$/.test(s))return parseFloat(s);return NaN}
+function tagOf(q,u){
+ if(u===null)return 'не знаю';
+ if(q.type==='num'){
+  if(q.tag){const t=q.tag(u);if(t)return t}
+  if(u<0&&q.ans>=0)return 'отрицательный ответ';
+  if(q.rad!==undefined&&u===q.rad)return 'не извлёк корень';
+  if(q.rad!==undefined&&Math.abs(u-q.rad/2)<1e-9)return 'разделил пополам';
+  if(Number.isInteger(q.ans)&&q.ans>0&&u===q.ans*q.ans)return 'возвёл в квадрат вместо корня';
+  return 'другая ошибка'}
+ return q.etag||'другая ошибка'}
+
+/* ====== состояние ====== */
+const HASH=location.hash.slice(1);
+const TEACHER=HASH==='lilia';
+let S=null,Q=[],cur=0,t0=Date.now(),msg='',err='',view='name',TN='';
+function freshS(name){return{name,sid:rid(),started:Date.now(),t:SPEC.map(()=>({att:0,hint:false,done:false,ok:false,idk:false,u:'',sec:0,tag:''}))}}
+function loadS(name){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&norm(s.name)===norm(name)&&s.t&&s.t.length===N)return s}catch(e){}return freshS(name)}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function start(name){S=loadS(name);Q=gen(name);save();cur=S.t.findIndex(x=>!x.done);if(cur<0)cur=N;t0=Date.now();msg='';err='';view=cur>=N?'result':'task';render()}
+
+/* ====== отчёт и отправка ====== */
+const mm=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+function verdict(x){return x.idk?'не знаю':x.ok?(x.hint?'верно с подсказкой':x.att>1?'верно со 2-й попытки':'верно'):x.done?'неверно':'—'}
+function counts(){const d=S.t.filter(x=>x.done),ok=d.filter(x=>x.ok);
+ return{done:d.length,ok:ok.length,clean:ok.filter(x=>!x.hint).length,hinted:ok.filter(x=>x.hint).length,fail:d.length-ok.length,hints:S.t.filter(x=>x.hint).length,sec:S.t.reduce((a,x)=>a+x.sec,0)}}
+function report(){const c=counts(),pct=Math.round(100*c.ok/N);
+ const d=new Date(S.started),ds=`${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear()}`;
+ let r=`Домашняя работа · ${DZ.title} — ${S.name}\nДата: ${ds}, время: ${mm(c.sec)}\nВыполнено: ${c.ok} из ${N} (${pct}%) · без подсказки: ${c.clean} · верно с подсказкой: ${c.hinted} · не решено: ${c.fail} · подсказок взято всего: ${c.hints}\n`;
+ r+=DZ.groups.map((g,gi)=>{const ids=SPEC.map((s,k)=>s.gi===gi?k:-1).filter(k=>k>=0);const ok=ids.filter(k=>S.t[k].ok).length;return `${g.t}: ${ok}/${ids.length} (${Math.round(100*ok/ids.length)}%)`}).join(' · ')+'\n';
+ const wk=S.t.map((x,k)=>x.done&&!x.ok?`№${k+1} «${LEVELS[SPEC[k].li].t}» (${x.tag})`:'').filter(Boolean);
+ r+=`\nЧто подтянуть: ${wk.length?wk.join('; '):'всё решено'}\n\nПо заданиям:\n`;
+ r+=S.t.map((x,k)=>{const q=Q[k];if(!x.done)return `${k+1} (${DZ.groups[SPEC[k].gi].t}). не решено`;
+  return `${k+1} (${DZ.groups[SPEC[k].gi].t}). ${verdict(x)}, попыток: ${x.att}, подсказка: ${x.hint?'брала':'не брала'}, ${mm(x.sec)}`+(x.ok?'':(x.idk?'':`, ответ ученика: ${x.u}`)+` | верно: ${ansText(q)}`)+` · ${strip((q.prompt?q.prompt+': ':'')+q.q).slice(0,130)}`}).join('\n');
+ return r+'\n\nlili.math'}
+function marks(){return S.t.map((x,k)=>`${k+1}${!x.done?'·':x.ok?'✓':x.idk?'?':'✗'}`).join(' ')}
+function push(){
+ if(TEACHER||!S)return;const c=counts();if(!c.done&&!S.t.some(x=>x.hint))return;
+ try{const d={sid:S.sid,test:'ДЗ · '+DZ.title,name:S.name,kind:'ДЗ',started:S.started,status:c.done===N?'завершено':'в процессе',progress:`${c.done}/${N}`,score:c.ok,max:N,grade:Math.round(100*c.ok/N)+'%',minutes:Math.round(c.sec/60),bonus:'',tasks:marks(),report:report()};
+  const bd=JSON.stringify(d);
+  fetch(SHEET_URL,{method:'POST',mode:'no-cors',keepalive:bd.length<60000,headers:{'Content-Type':'text/plain;charset=utf-8'},body:bd}).catch(()=>{})}catch(e){}}
+addEventListener('pagehide',push);
+
+/* ====== экраны ====== */
+const app=h=>{$('#app').innerHTML=h};
+function render(){if(TEACHER)return teacherScreen();({name:nameScreen,task:taskScreen,result:resultScreen}[view]||nameScreen)()}
+function nameScreen(){
+ app(`<h1>${esc(DZ.title)}</h1><p class="muted">Заданий: ${N}. На каждое две попытки и одна подсказка. Если не знаешь, нажми «Не знаю»: это нормально, разберём на занятии.</p><p>Как тебя зовут?</p><input class="nm" id="nm" placeholder="Имя Фамилия"><br><button class="btn" data-a="go">Начать</button><div class="bad" id="er"></div>`);
+ const e=$('#nm');if(e)e.focus()}
+function taskScreen(){
+ const q=Q[cur],x=S.t[cur],g=DZ.groups[SPEC[cur].gi];
+ const chips=S.t.map((y,i)=>`<span class="chip ${i===cur?'cur':''} ${y.done?(y.ok?'ok':'no'):''}">${i+1}</span>`).join('');
+ let h=`<div class="muted">${esc(S.name)}</div><h1>${esc(DZ.title)}</h1><div class="chips">${chips}</div><div class="muted">${esc(g.t)} · задание ${cur+1} из ${N}</div><div class="muted" style="margin-top:8px">${q.prompt||''}</div><div class="big">${q.q}</div>${q.pic||''}`;
+ if(x.hint&&q.hint)h+=`<div class="hint"><b>Подсказка.</b> ${q.hint}</div>`;
+ if(x.done){
+  h+=`<div class="card">${x.ok?'<span class="ok">Верно.</span>':'<span class="bad">'+(x.idk?'Принято.':'Неверно.')+'</span> Это задание разберём на занятии.'}</div><button class="btn" data-a="next" id="nx">Дальше</button>`}
+ else{
+  if(x.att>0)h+=`<div class="card"><span class="bad">Неверно.</span> Есть ещё одна попытка.</div>`;
+  if(q.type==='num')h+=`<input class="ans" id="ans" autocomplete="off" inputmode="text"><br><button class="btn" data-a="sub">Проверить</button><div class="bad" style="margin-top:8px">${err}</div>`;
+  else h+=q.options.map((o,i)=>`<button class="opt" data-a="opt" data-i="${i}">${o}</button>`).join('');
+  h+=`<div>`+(q.hint&&!x.hint?`<button class="btn sec" data-a="hint">Подсказка</button>`:'')+`<button class="btn sec" data-a="idk">Не знаю</button></div>`}
+ app(h);const a=$('#ans');if(a)a.focus();const n=$('#nx');if(n)n.focus()}
+function resultScreen(){const c=counts();
+ app(`<div class="muted">${esc(S.name)}</div><h1>${esc(DZ.title)}</h1><div class="card"><p><b>Готово.</b> Верно: ${c.ok} из ${N}.</p><p class="muted">Результат отправлен Лилии. Задания, где были ошибки, разберём на занятии.</p></div>`)}
+
+/* ====== действия ====== */
+function elapsed(x){x.sec+=Math.round((Date.now()-t0)/1000);t0=Date.now()}
+function finishTask(){save();push()}
+function answer(u,shown){const q=Q[cur],x=S.t[cur];elapsed(x);
+ if(u===null){x.idk=true;x.done=true;x.tag='не знаю';x.att++;finishTask();return render()}
+ x.att++;const ok=q.type==='num'?Math.abs(u-q.ans)<1e-9:u===q.correct;
+ if(ok){x.ok=true;x.done=true}else{x.u=shown;x.tag=tagOf(q,u);if(x.att>=MAXATT)x.done=true}
+ err='';if(x.done)finishTask();else save();render()}
+function go(){const v=$('#nm').value.trim();if(v.length<3){$('#er').textContent='Введи имя и фамилию.';return}start(v)}
+function sub(){const q=Q[cur],raw=$('#ans').value,u=parseNum(raw);
+ if(isNaN(u)){err='Введи число (например 7, 0,5 или 3/4).';return render()}
+ answer(u,raw.trim())}
+function next(){cur=S.t.findIndex(x=>!x.done);t0=Date.now();err='';if(cur<0){cur=N;view='result';push()}render()}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a;
+ if(TEACHER){if(a==='print')print();return}
+ if(a==='go')go();else if(a==='sub')sub();else if(a==='opt'){const o=Q[cur].options[+b.dataset.i];answer(o,strip(o))}
+ else if(a==='idk')answer(null);else if(a==='next')next();
+ else if(a==='hint'){const x=S.t[cur];if(!x.hint){x.hint=true;save()}render()}});
+document.addEventListener('keydown',e=>{if(e.key!=='Enter')return;if(TEACHER)return;
+ if(view==='name'&&$('#nm'))go();else if(view==='task'&&$('#ans'))sub()});
+
+/* ====== кабинет учителя ====== */
+function teacherScreen(){
+ const base=location.href.split('#')[0];
+ app(`<h1 class="noprint">Кабинет учителя · ${esc(DZ.title)}</h1><p class="muted noprint">Числа у каждого ученика свои и зависят от имени. Введи имя так, как оно пришло в таблицу (регистр не важен).</p>
+ <div class="noprint"><input class="nm" id="tn" placeholder="Имя Фамилия" value="${esc(TN)}"> <label><input type="checkbox" id="ta"> с ответами</label></div><p class="link noprint" id="tl"></p><div id="tv"></div>`);
+ const upd=()=>{TN=$('#tn').value.trim();$('#tl').textContent=TN?base+'#u'+enc(TN):'';
+  if(!TN){$('#tv').innerHTML='';return}
+  const qs=gen(TN),ans=$('#ta').checked;
+  let h=`<h2>${esc(DZ.title)} — ${esc(TN)}</h2><button class="btn sec noprint" data-a="print">Печать</button>`;let gi=-1;
+  qs.forEach((q,k)=>{const s=SPEC[k];if(s.gi!==gi){gi=s.gi;h+=`<h2>${esc(DZ.groups[gi].t)}</h2>`}
+   h+=`<div class="pt"><div class="muted">${k+1}. ${q.prompt||''}</div><div class="big">${q.q}</div>${q.pic||''}${q.type==='choice'?'<div>'+q.options.map(o=>'<span class="opt" style="display:inline-block">'+o+'</span>').join('')+'</div>':''}${ans?'<div class="ok">Ответ: '+esc(ansText(q))+'</div>':''}</div>`});
+  $('#tv').innerHTML=h};
+ $('#tn').oninput=upd;$('#ta').onchange=upd;upd()}
+
+/* ====== запуск ====== */
+if(TEACHER)render();
+else{let nm='';if(/^u/.test(HASH)){try{nm=dec(HASH.slice(1).split('.')[0]).split('|')[0].trim()}catch(e){}}
+ if(nm)start(nm);else{let s=null;try{s=JSON.parse(localStorage.getItem(KEY))}catch(e){}if(s&&s.name)start(s.name);else render()}}
+})();
+//ENGINE-END
+</script>
+</body>
+</html>
