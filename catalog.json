@@ -5300,6 +5300,31 @@
       ]
     },
     {
+      "file": "dz-9-chisla-na-pryamoj-2.html",
+      "title": "9A.7.2 · ДЗ №2 · Числа на координатной прямой",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 7,
+      "status": "public",
+      "note": "11 заданий (4+4+3), одна подсказка, две попытки; результаты в таблицу. Без решений на странице.",
+      "auto": true,
+      "node": [
+        "9A.7.2"
+      ]
+    },
+    {
+      "file": "dz-9-chisla-na-pryamoj-2.pdf",
+      "title": "",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 7,
+      "status": "public",
+      "note": "Листок ученика для печати, без ответов.",
+      "node": [
+        "9A.7.2"
+      ]
+    },
+    {
       "file": "trenazher-drobi-s-nulya.html",
       "title": "5A.4 · Тренажёр · Дроби с нуля, 17 ступеней (шоколадка)",
       "type": "trenazher",
