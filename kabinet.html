@@ -496,8 +496,11 @@ h1.big1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text
 .cd{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--amber);font-weight:600;font-variant-numeric:tabular-nums}
 .cd i{width:8px;height:8px;border-radius:50%;background:var(--amber);animation:pulse 1.6s ease-out infinite}
 .cd.live{color:var(--mint)}.cd.live i{background:var(--mint)}
+.tpk{position:relative;margin:6px 0 10px}.tpl{display:block;font-size:13px;color:var(--muted);margin-bottom:4px}.tprow{display:flex;gap:8px}.tprow .tpg{flex:0 0 auto;width:auto}.tprow .tpi{flex:1;min-width:0}
+.tplist{position:absolute;left:0;right:0;top:100%;z-index:30;max-height:260px;overflow:auto;background:var(--card,#1b1b22);border:1px solid var(--line,#333);border-radius:12px;box-shadow:0 8px 24px #0006;margin-top:4px}
+.tpo{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;padding:9px 12px;background:none;border:0;border-bottom:1px solid var(--line,#2a2a33);color:var(--fg);font:inherit;cursor:pointer}.tpo:hover{background:#ffffff12}.tpo small{color:var(--muted);font-size:12px}.tpe{padding:10px 12px;color:var(--muted);font-size:13px}
 .ltopic{margin:12px 0 16px;font-size:15px;color:var(--fg)}
-.ltopic span{color:var(--muted)}
+.ltopic span{color:var(--muted)}.ltopic+.ltopic{margin-top:-10px}
 .tzn{font-size:12.5px;color:var(--faint);margin-top:10px}
 a.btn{display:inline-flex;align-items:center;text-decoration:none;height:48px}
 
@@ -1241,7 +1244,7 @@ function visibleHW(){return D.hw.filter(h=>!h.old&&(!isDone(h)||(daysTo(h.due)??
 function sayList(){const a=[],left=visibleHW().filter(h=>!isDone(h)).length,H=D.hist||[];
  if(left)a.push(`Домашка ждёт: ${left} ${plural(left,'задание','задания','заданий')}. Сделаешь — получишь стикер.`);else a.push('Вся домашка закрыта. Красота.');
  if(SHOW('exams')&&H.length>1&&H[H.length-1].p>H[0].p)a.push(`С первой диагностики +${H[H.length-1].p-H[0].p}. Это система, а не везение.`);
- if(D.topic)a.push('На следующем занятии: '+D.topic.charAt(0).toLowerCase()+D.topic.slice(1)+'.');
+ if(D.topic&&topicSay(D.topic))a.push(topicSay(D.topic));
  if(!S.picked&&!TEACH)a.push('Нажми «Сменить талисмана» и выбери того, кто тебе по душе. Я не обижусь. Почти.');
  return a}
 
@@ -1329,7 +1332,7 @@ function lessonCard(teach){const t=nextLesson();if(!t)return `<div class="card">
  <div class="when">${fmtWhen(t,teach?'Europe/Samara':tz)}${teach?' <small class="tzs">по Самаре</small>':''}</div>
  ${teach&&wkS?`<div class="tzalt">у ученика: ${fmtWhen(t,P.tz)} · ${esc(P.city||tzLabel(P.tz))}</div>`:''}
  <span class="cd ${c.live?'live':''}" id="cd"><i></i>${c.s}</span>
- ${D.topic?`<p class="ltopic"><span>Тема:</span> ${esc(D.topic)}</p>`:'<div style="height:14px"></div>'}
+ ${D.topic?topicHTML(D.topic):'<div style="height:14px"></div>'}
  ${teach?boardRow():`${D.board?`<a class="btn" href="${esc(href(D.board))}" target="_blank" rel="noopener">Открыть доску</a>`:''}`}
  ${P.slots.length>1||teach?`<div class="wk"><span>${teach?'Неделя по Самаре':'Каждую неделю'}</span>${esc(wk)}</div>`:''}
  ${teach&&wkS?`<div class="wk"><span>У ученика (${esc(P.city||tzLabel(P.tz))})</span>${esc(wkS)}</div>`:''}
@@ -1729,6 +1732,24 @@ function boardRow(){const b=D.board?href(D.board):'';
  <div class="boardedit" id="bd-form" hidden><label class="fld"><span>Ссылка на доску ${esc(D.dat||D.name)}: ученик откроет её кнопкой «Открыть доску» в своём кабинете</span><input id="bd-url" value="${esc(D.board||'')}" placeholder="https://liliya-math.github.io/excalidraw/?student=Имя#room=…" autocomplete="off"></label>
  <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="bd-save" type="button">Сохранить</button><button class="btn ghost" id="bd-gen" type="button">Создать новую комнату</button><button class="btn ghost" id="bd-cancel" type="button">Отмена</button></div>
  <div class="ferr" id="bd-e"></div><p class="note">«Создать новую комнату» подставит свежую ссылку Excalidraw с именем ученика. Старая комната останется по своему адресу, но ученик получит новую только после «Сохранить».</p></div>`}
+/* ---------- тема следующего занятия: алгебра + геометрия, выбор из карты навыков ---------- */
+function topicParse(t){t=String(t||'').trim();const a=t.match(/Алгебра:\s*([\s\S]*?)(?=;\s*Геометрия:|$)/),g=t.match(/Геометрия:\s*([\s\S]*?)(?=;\s*Алгебра:|$)/);
+ if(!a&&!g)return{a:'',g:'',o:t};return{a:a?a[1].trim():'',g:g?g[1].trim():'',o:''}}
+function topicStr(a,g,o){const r=[];if(a)r.push('Алгебра: '+a.replace(/;/g,','));if(g)r.push('Геометрия: '+g.replace(/;/g,','));if(!r.length&&o)return o;return r.join('; ')}
+function topicParts(t){const p=topicParse(t),r=[];if(p.a)r.push(['Алгебра',p.a]);if(p.g)r.push(['Геометрия',p.g]);if(p.o)r.push(['Тема',p.o]);return r}
+function topicHTML(t){return topicParts(t).map(([k,v])=>`<p class="ltopic"><span>${k}:</span> ${esc(v)}</p>`).join('')}
+function topicSay(t){const r=topicParts(t);if(!r.length)return '';return 'На следующем занятии: '+r.map(([k,v])=>(k==='Тема'?'':k.toLowerCase()+' — ')+v.charAt(0).toLowerCase()+v.slice(1)).join('; ')+'.'}
+function topicPick(subj,id,label,val){return `<div class="tpk" data-s="${subj}"><span class="tpl">${label}</span><div class="tprow"><select class="tpg" aria-label="Класс"><option value="">все классы</option>${[5,6,7,8,9].map(c=>`<option value="${c}"${c===clsOf()?' selected':''}>${c} кл.</option>`).join('')}</select><input id="${id}" class="tpi" autocomplete="off" placeholder="Найти навык или написать свою тему" value="${esc(val)}"></div><div class="tplist" hidden></div></div>`}
+function topicField(){const p=topicParse(D.topic);return `<div class="fld tpwrap"><span>Тема следующего занятия</span>${topicPick('алгебра','f-top-a','Алгебра',p.a)}${topicPick('геометрия','f-top-g','Геометрия',p.g)}${p.o?`<label class="fld"><span>Прежняя тема (будет заменена, если выбрать выше)</span><input id="f-top-o" value="${esc(p.o)}"></label>`:''}</div>`}
+function topicVal(){const g=id=>{const e=document.getElementById(id);return e?e.value.trim():''};return topicStr(g('f-top-a'),g('f-top-g'),g('f-top-o'))}
+function bindTopic(){document.querySelectorAll('.tpk').forEach(box=>{const inp=box.querySelector('.tpi'),gr=box.querySelector('.tpg'),list=box.querySelector('.tplist'),subj=box.dataset.s;
+ const paint=()=>{if(!GG){list.innerHTML='<div class="tpe">Карта навыков загружается…</div>';list.hidden=false;return}
+  const q=inp.value.trim().toLowerCase(),g=+gr.value||0,by=GG.by;
+  const r=GG.nodes.filter(n=>n.leaf&&n.subject===subj&&(!g||n.grade===g)&&(!q||(n.title+' '+((by[n.parent]||{}).title||'')).toLowerCase().includes(q))).slice(0,40);
+  list.innerHTML=r.length?r.map(n=>`<button type="button" class="tpo" data-t="${esc(n.title)}"><b>${esc(n.title)}</b><small>${n.grade} кл.${n.parent&&by[n.parent]?' · '+esc(by[n.parent].title):''}</small></button>`).join(''):'<div class="tpe">Ничего не найдено. Можно оставить свой текст.</div>';
+  list.hidden=false;list.querySelectorAll('.tpo').forEach(b=>b.onmousedown=e=>{e.preventDefault();inp.value=b.dataset.t;list.hidden=true})};
+ inp.onfocus=inp.oninput=paint;gr.onchange=()=>{inp.focus();paint()};inp.onblur=()=>setTimeout(()=>{list.hidden=true},120);
+ inp.onkeydown=e=>{if(e.key==='Escape')list.hidden=true}})}
 function bindBoard(){const ed=document.getElementById('bd-edit'),f=document.getElementById('bd-form');if(!ed||!f)return;
  ed.onclick=()=>{f.hidden=!f.hidden;if(!f.hidden){const i=document.getElementById('bd-url');i.focus();i.select()}};
  document.getElementById('bd-gen').onclick=()=>{const r=n=>[...crypto.getRandomValues(new Uint8Array(n))],hex=r(10).map(b=>b.toString(16).padStart(2,'0')).join(''),key=btoa(String.fromCharCode(...r(16))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');document.getElementById('bd-url').value='https://liliya-math.github.io/excalidraw/?student='+encodeURIComponent(D.name)+'#room='+hex+','+key;document.getElementById('bd-e').textContent=''};
@@ -1759,7 +1780,7 @@ function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).
   <label class="fld"><span>Телефон родителя</span><input id="f-phone" value="${esc(D.phone||'')}" placeholder="+7 …" data-fresh="1"></label>
  </div>
  ${schedEditor()}
- <label class="fld"><span>Тема следующего занятия</span><input id="f-topic" value="${esc(D.topic)}" placeholder="Задание 17: трапеция" data-fresh="1"></label>
+ ${topicField()}
  <label class="fld"><span>Над чем работаем — для родителей, каждый пункт с новой строки</span><textarea id="f-work" rows="3" data-fresh="1">${esc(W)}</textarea></label>
  <div class="fgrid">
   <label class="fld"><span>Занятий в месяце по плану</span><input id="f-lp" type="number" min="0" inputmode="numeric" value="${D.lessonsPlan}" data-fresh="1"></label>
@@ -1911,6 +1932,7 @@ function tDetail(n){if(!n)return `<p class="klead" style="margin:14px 0 0;font-s
 
 function tBind(){
  bindWorkflowButtons();
+ bindTopic();
  bindBoard();
  tBindTelegram();
  bindTopT();
@@ -1921,7 +1943,7 @@ function tBind(){
  document.getElementById('lnkn').onclick=e=>{if(!confirm('Выдать ученику новую ссылку? Старая перестанет работать сразу. Домашка, оценки, карта и Telegram сохранятся. Новую ссылку нужно будет отправить ученику или родителю.'))return;const b=e.currentTarget;b.disabled=true;adm('rotateCode').then(j=>{location.hash='lilia-'+j.code}).catch(err=>{b.disabled=false;toast(errText(err))})};
  const fc=document.getElementById('f-cls');if(fc)fc.onchange=()=>{const pr=document.getElementById('f-prog');pr.innerHTML=progOptions(+fc.value,pr.value)};
  document.getElementById('f-save').onclick=e=>{const b=e.currentTarget,v=id=>{const el=document.getElementById(id);return el?el.value:''};b.disabled=true;
-  adm('student',{fields:{name:v('f-name'),fname:v('f-fname'),dat:v('f-dat'),bdate:v('f-bdate'),parent:v('f-parent'),phone:v('f-phone'),cls:v('f-cls'),prog:document.getElementById('f-prog').value,goal:v('f-goal'),days:serSched(SL,STZ,STC),time:SL.length?hhmm(sortSlots(SL.slice())[0].h,sortSlots(SL.slice())[0].m):'',topic:v('f-topic'),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),active:document.getElementById('f-act').checked,show:[...document.querySelectorAll('.f-show:checked')].map(e=>e.dataset.k)}})
+  adm('student',{fields:{name:v('f-name'),fname:v('f-fname'),dat:v('f-dat'),bdate:v('f-bdate'),parent:v('f-parent'),phone:v('f-phone'),cls:v('f-cls'),prog:document.getElementById('f-prog').value,goal:v('f-goal'),days:serSched(SL,STZ,STC),time:SL.length?hhmm(sortSlots(SL.slice())[0].h,sortSlots(SL.slice())[0].m):'',topic:topicVal(),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),active:document.getElementById('f-act').checked,show:[...document.querySelectorAll('.f-show:checked')].map(e=>e.dataset.k)}})
    .then(j=>{apply(j,false);toast('Настройки сохранены')}).catch(err=>{b.disabled=false;const e2=document.getElementById('f-err');if(e2)e2.textContent=errText(err)})};
  const hp=document.getElementById('hpet');if(hp)hp.onclick=()=>react('neu','',pick(sayList()));
  document.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{const n=+b.dataset.t;S.sel=n;save();document.querySelectorAll('.tile').forEach(x=>x.setAttribute('aria-pressed',x===b));document.getElementById('tdet').innerHTML=tDetail(n);bindDetail();
