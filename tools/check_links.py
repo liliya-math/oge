@@ -33,7 +33,7 @@ listed = {i['file'] for i in catalog['items']}
 public = [f for f in files if f.endswith(('.html', '.pdf', '.txt', '.md')) and f not in ('index.html',)]
 not_in_catalog = [f for f in public if f not in listed]
 orphans = [f for f in public if not inbound[f] and f != 'kabinet-apps-script.txt']
-missing_files = [i['file'] for i in catalog['items'] if i['file'] not in files]
+missing_files = [i['file'] for i in catalog['items'] if i['file'].split('?')[0] not in files]
 
 bad = False
 print('Мёртвые ссылки:')

@@ -64,6 +64,7 @@ function result(r,again){
   window.scrollTo(0,0);
 }
 const lvl=v=>{v=String(v||'').trim();return v==='5'||v==='★'?'5 ★':v};
+const lvt=L=>/^\d/.test(L)?'Уровень '+L:'Ступень '+L;
 const lab=n=>/^\d+$/.test(n)?'№'+n:String(n).replace(/\)$/,'')+')';
 function filled(){return T.filter(t=>String(S.a[t.n]||'').trim()).length}
 function upd(){const c=document.getElementById('cnt');if(c)c.textContent='Заполнено '+filled()+' из '+T.length}
@@ -72,7 +73,7 @@ function show(j){
   T=j.tasks;
   document.title=j.title;
   app.innerHTML=`<h1>${esc(j.title)}</h1><p class="muted" style="margin:-8px 0 16px">Реши задания в тетради и впиши ответы. Дробь пиши через запятую: 2,5.</p>`
-   +T.map((t,i)=>{const L=lvl(t.lv),head=L&&(i===0||lvl(T[i-1].lv)!==L)?`<h2 class="lvh${/5|★/.test(L)?' star':''}">Уровень ${esc(L)}</h2>`:'';
+   +T.map((t,i)=>{const L=lvl(t.lv),head=L&&(i===0||lvl(T[i-1].lv)!==L)?`<h2 class="lvh${/5|★/.test(L)?' star':''}">${esc(lvt(L))}</h2>`:'';
      return head+`<section class="t"><div class="n">${esc(lab(t.n))}</div><div class="q">${clean(t.q)}</div><input type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="next" data-n="${esc(t.n)}" placeholder="Ответ" value="${esc(S.a[t.n]||'')}"></section>`}).join('')
    +`<p class="err" id="err"></p><div class="bar"><div><span id="cnt"></span><button id="go">Отправить</button></div></div>`;
   upd();
