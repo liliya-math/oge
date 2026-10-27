@@ -600,6 +600,21 @@ a.btn{display:inline-flex;align-items:center;text-decoration:none;height:48px}
 .fld input::placeholder,.fld textarea::placeholder{color:var(--faint)}
 .fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
 .formbox{display:grid;gap:12px;margin-top:16px;padding-top:16px;border-top:1px dashed var(--line)}
+.hbtabs{display:flex;gap:8px;flex-wrap:wrap}
+.hbtabs .chip[aria-pressed=true]{color:var(--fg);border-color:rgba(242,144,94,.6);background:rgba(242,144,94,.12)}
+.hbtools{display:grid;grid-template-columns:minmax(0,1fr) 130px;gap:12px;align-items:end}
+.fld select{font:inherit;font-size:16px;color:var(--fg);color-scheme:dark;background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:12px;padding:10px 12px;width:100%}
+.hbmine{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted)}
+.hblist{display:grid;gap:6px;max-height:320px;overflow:auto;padding-right:2px}
+.hbrow{text-align:left;display:flex;justify-content:space-between;gap:12px;align-items:center;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--fg);font-size:14.5px;line-height:1.35}
+.hbrow small{color:var(--muted);font-size:12px;text-align:right}
+.hbrow[aria-pressed=true]{border-color:rgba(242,144,94,.6);background:rgba(242,144,94,.1)}
+.hbpicked{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.hbpick{display:inline-flex;align-items:center;gap:8px;padding:6px 6px 6px 12px;border-radius:999px;border:1px solid rgba(242,144,94,.5);background:rgba(242,144,94,.1);font-size:14px}
+.hbpick button{width:24px;height:24px;border-radius:50%;border:0;background:var(--glass2);color:var(--fg);line-height:1}
+.hbquick{display:flex;gap:8px;flex-wrap:wrap}
+.hbmore summary{cursor:pointer;color:var(--muted);font-size:14px;padding:6px 0}
+.hbmore[open]{display:grid;gap:12px}
 .ferr{color:var(--miss);font-size:14px}
 .ferr:empty{display:none}
 .formbox .btn{justify-self:start}
@@ -1673,18 +1688,51 @@ function openHwEditor(h){
  };
 }
 function hwSecOptions(sel){const oge=clsOf()>=8||PROG().oge;const L=[['','Обычное задание'],['raz','Разборы'],['theor','Теория'],['oral','Вопросы к устному опросу']];if(oge)L.push(['oge','ОГЭ']);return L.map(o=>`<option value="${o[0]}" ${sel===o[0]?'selected':''}>${o[1]}</option>`).join('')}
+/* ===== Конструктор выдачи ДЗ: тренажёры, интерактивы, тесты и разборы берутся из catalog.json ===== */
+let CAT=[];
+const HB={tab:'trenazher',q:'',mine:true,task:'',pick:[]};
+const HB_TABS=[['trenazher','Тренажёр',['trenazher']],['dz','Интерактивное ДЗ',['dz']],['test','Тест',['diagnostika','probnik']],['theory','Теория и разборы',['uchebnik','razbor']],['tasks','Задачи по теме',['zadanie']]];
+function hbLoad(){return fetch('catalog.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{if(!j||!Array.isArray(j.items))return;const types=new Set(HB_TABS.flatMap(t=>t[2]));CAT=j.items.filter(i=>i&&i.status==='public'&&i.title&&types.has(i.type)&&/\.(html|pdf)$/.test(i.file)&&i.file!=='kabinet.html'&&!/otvet/i.test(i.file));hbPaint()}).catch(()=>{})}
+function hbSec(i){return i.type==='razbor'?'raz':i.type==='uchebnik'?'theor':''}
+function hbN(i){return PROG().oge&&i.oge_task?String(i.oge_task):''}
+function hbItems(skipTask){const tab=HB_TABS.find(t=>t[0]===HB.tab)||HB_TABS[0],q=HB.q.toLowerCase().trim(),c=clsOf();return CAT.filter(i=>tab[2].includes(i.type)&&(!HB.mine||i.class==null||i.class===c)&&(skipTask||!HB.task||String(i.oge_task)===HB.task)&&(!q||(i.title+' '+i.file).toLowerCase().includes(q)))}
+function hbIso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function hbRow(i){const on=HB.pick.includes(i.file),meta=[i.class?i.class+' класс':'',i.oge_task?'№'+i.oge_task:'',/\.pdf$/.test(i.file)?'PDF':''].filter(Boolean).join(' · ');return `<button type="button" class="hbrow" data-hbadd="${esc(i.file)}" aria-pressed="${on}"><span>${esc(i.title)}</span><small>${esc(meta)}${i.auto?(meta?' · ':'')+'сдача отметится сама':''}</small></button>`}
+function hbListHTML(){const all=hbItems(),shown=all.slice(0,50);return shown.length?shown.map(hbRow).join('')+(all.length>shown.length?`<p class="note">Показано ${shown.length} из ${all.length}. Уточни поиск.</p>`:''):`<p class="note">${CAT.length?'Ничего не нашлось. Сними «только этот класс» или измени поиск.':'Каталог загружается…'}</p>`}
+function hbPickHTML(){return HB.pick.length?HB.pick.map(f=>{const i=CAT.find(x=>x.file===f);return `<span class="hbpick">${esc(i?i.title:f)}<button type="button" data-hbdel="${esc(f)}" aria-label="Убрать из задания">×</button></span>`}).join(''):'<span class="note">Пока ничего не выбрано.</span>'}
+function hbPaint(keepList){const l=document.getElementById('hb-list'),p=document.getElementById('hb-picked'),t=document.getElementById('hb-task'),s=document.getElementById('hb-sum');if(l&&!keepList){l.innerHTML=hbListHTML();l.querySelectorAll('[data-hbadd]').forEach(b=>b.onclick=()=>{const f=b.dataset.hbadd;HB.pick=HB.pick.includes(f)?HB.pick.filter(x=>x!==f):HB.pick.concat(f);b.setAttribute('aria-pressed',HB.pick.includes(f));hbPaint(true)})}
+ if(p){p.innerHTML=hbPickHTML();p.querySelectorAll('[data-hbdel]').forEach(b=>b.onclick=()=>{HB.pick=HB.pick.filter(x=>x!==b.dataset.hbdel);hbPaint()})}
+ if(t){const nums=[...new Set(hbItems(true).map(i=>i.oge_task).filter(Boolean))].sort((a,b)=>a-b);t.innerHTML='<option value="">Все номера</option>'+nums.map(n=>`<option value="${n}" ${String(n)===HB.task?'selected':''}>№${n}</option>`).join('');t.parentElement.style.display=nums.length>1?'':'none'}
+ if(s){const c=document.getElementById('h-t'),own=(document.getElementById('h-u')||{}).value||((document.getElementById('h-f')||{files:[]}).files.length),k=HB.pick.length+(own?1:0)+((c&&c.value.trim()&&!(own&&!HB.pick.length))?1:0);s.textContent=k?'Ученик увидит карточек: '+k+(HB.pick.some(f=>!(CAT.find(i=>i.file===f)||{}).auto)?'. У части материалов отметки о сдаче нет: ученик отметит сам или пришлёт фото.':''):''}}
+function hwBuilder(){const nx=nextLesson(),quick=[['Завтра',(()=>{const d=new Date();d.setDate(d.getDate()+1);return hbIso(d)})()],['Через 3 дня',(()=>{const d=new Date();d.setDate(d.getDate()+3);return hbIso(d)})()]];if(nx)quick.splice(1,0,['К занятию',hbIso(nx)]);
+ return `<div class="hbtabs" role="tablist" aria-label="Что задать">${HB_TABS.map(t=>`<button type="button" class="chip" data-hbtab="${t[0]}" aria-pressed="${HB.tab===t[0]}">${t[1]}</button>`).join('')}</div>
+  <div class="hbtools"><label class="fld"><span>Поиск по названию</span><input id="hb-q" value="${esc(HB.q)}" placeholder="проценты, дроби, трапеция…" autocomplete="off"></label><label class="fld"><span>Номер ОГЭ</span><select id="hb-task"></select></label></div>
+  <label class="hbmine"><input type="checkbox" id="hb-mine" ${HB.mine?'checked':''}> только ${clsOf()} класс и общие</label>
+  <div class="hblist" id="hb-list">${hbListHTML()}</div>
+  <div><span class="eyebrow">В задании</span><div class="hbpicked" id="hb-picked">${hbPickHTML()}</div></div>
+  <label class="fld"><span>Комментарий или задание текстом (появится отдельной карточкой)</span><textarea id="h-t" rows="2" placeholder="Например: реши в тетради №5 и пришли фото"></textarea></label>
+  <div class="fgrid"><label class="fld"><span>Срок</span><input id="h-d" type="date"></label><div class="fld"><span>Быстрый срок</span><div class="hbquick">${quick.map(q=>`<button type="button" class="chip" data-hbdue="${q[1]}">${q[0]}</button>`).join('')}</div></div></div>
+  <details class="hbmore"><summary>Дополнительно: свой файл или ссылка, темы, раздел</summary>
+   <div class="fgrid"><label class="fld"><span>${PROG().oge?'Задания ОГЭ (если не из каталога)':'Разделы карты'}</span><input id="h-n" placeholder="${PROG().oge?'4, 5':'3, 8'}"></label>
+   <label class="fld"><span>Раздел домашки</span><select id="h-s">${hwSecOptions('')}</select></label></div>
+   <label class="fld"><span>Страница с сайта или любая ссылка — начни вводить название</span><input id="h-u" list="sitepages" placeholder="z15-pifagor.html или https://…" autocomplete="off"></label>
+   <datalist id="sitepages">${PAGES.map(p=>`<option value="${esc(p[0])}">${esc(p[1])}</option>`).join('')}</datalist>
+   <label class="fld"><span>Подпись ссылки (необязательно)</span><input id="h-l" placeholder="подставится название страницы"></label>
+   <label class="fld"><span>PDF или фото для печати — можно несколько файлов сразу</span><input id="h-f" type="file" accept="application/pdf,image/*" multiple></label></details>
+  <p class="note" id="hb-sum"></p>`}
+function hbBind(){const q=document.getElementById('hb-q');if(!q)return;
+ document.querySelectorAll('[data-hbtab]').forEach(b=>b.onclick=()=>{HB.tab=b.dataset.hbtab;HB.task='';document.querySelectorAll('[data-hbtab]').forEach(x=>x.setAttribute('aria-pressed',x===b));hbPaint()});
+ q.oninput=()=>{HB.q=q.value;hbPaint()};
+ document.getElementById('hb-mine').onchange=e=>{HB.mine=e.target.checked;hbPaint()};
+ document.getElementById('hb-task').onchange=e=>{HB.task=e.target.value;hbPaint()};
+ document.querySelectorAll('[data-hbdue]').forEach(b=>b.onclick=()=>{document.getElementById('h-d').value=b.dataset.hbdue});
+ ['h-t','h-u','h-f'].forEach(id=>{const el=document.getElementById(id);if(el){el.oninput=hbPaint;el.onchange=hbPaint}});
+ if(!CAT.length)hbLoad();hbPaint()}
 function tHwCard(){const open=D.hw.filter(h=>!h.done),done=D.hw.filter(h=>h.done).slice().reverse();const L=open.concat(done).sort((a,b)=>{const priority=h=>({submitted:0,help:1,revise:2,new:3,solving:3,done:4,checked:4}[wfStatus(h)]??3);return priority(a)-priority(b)});
  return `<div class="card" id="hwcard"><div class="sh"><h2>Домашка</h2><span class="sub">${open.length} не сделано</span></div>
  ${L.length?`<ul class="hw">${L.map(tHwRow).join('')}</ul>`:'<p class="klead" style="margin:0">Пока ничего не задано.</p>'}
- <div class="formbox"><span class="eyebrow">Новое задание</span>
-  <label class="fld"><span>Что сделать</span><input id="h-t" placeholder="Тренажёр: проценты, 10 задач"></label>
-  <div class="fgrid"><label class="fld"><span>${PROG().oge?'Задания ОГЭ':'Разделы карты'}</span><input id="h-n" placeholder="${PROG().oge?'4, 5':'3, 8'}"></label>
-  <label class="fld"><span>Срок</span><input id="h-d" type="date"></label>
-  <label class="fld"><span>Раздел домашки</span><select id="h-s">${hwSecOptions('')}</select></label></div>
-  <label class="fld"><span>Интерактив с сайта или любая ссылка — начни вводить название</span><input id="h-u" list="sitepages" placeholder="z15-pifagor.html или https://…" autocomplete="off"></label>
-  <datalist id="sitepages">${PAGES.map(p=>`<option value="${esc(p[0])}">${esc(p[1])}</option>`).join('')}</datalist>
-  <label class="fld"><span>Подпись ссылки (необязательно)</span><input id="h-l" placeholder="подставится название страницы"></label>
-  <label class="fld"><span>PDF или фото для печати — можно несколько файлов сразу</span><input id="h-f" type="file" accept="application/pdf,image/*" multiple></label>
+  <div class="formbox"><span class="eyebrow">Новое задание</span>
+  ${hwBuilder()}
   <div class="ferr" id="h-e"></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="h-add" type="button">${D.telegram&&D.telegram.available?'Задать без уведомления':'Задать'}</button>${D.telegram&&D.telegram.connected&&!D.telegram.paused?'<button class="btn ghost" id="h-add-notify" type="button">Задать и уведомить</button>':''}</div></div></div>`}
 
 function tGradesCard(){const G=(D.grades||[]).slice().reverse(),avg=avgMark(D.grades);
@@ -1756,15 +1804,26 @@ function tBind(){
   const h=D.hw.find(x=>String(x.id)===b.dataset.del);b.disabled=true;adm('hwDel',{id:h.id,text:h.t}).then(j=>{apply(j);toast('Задание удалено')}).catch(err=>{toast(errText(err));tStudent()})});
  document.querySelectorAll('[data-pdel]').forEach(b=>b.onclick=()=>{if(!b.classList.contains('arm')){b.classList.add('arm');b.textContent='Удалить?';setTimeout(()=>{if(b.isConnected){b.classList.remove('arm');b.textContent='×'}},3000);return}
   b.disabled=true;adm('probDel',{id:+b.dataset.pdel}).then(j=>{apply(j);toast('Результат удалён')}).catch(err=>{toast(errText(err));tStudent()})});
- const ha=document.getElementById('h-add');if(ha)ha.onclick=event=>{const notify=!!(event&&event.notify),hn=document.getElementById('h-add-notify');if(ha.disabled)return;const v=id=>document.getElementById(id).value.trim(),er=document.getElementById('h-e');if(!v('h-t')){er.textContent='Впиши, что нужно сделать.';return}
+ hbBind();
+ const ha=document.getElementById('h-add');if(ha)ha.onclick=event=>{const notify=!!(event&&event.notify),hn=document.getElementById('h-add-notify');if(ha.disabled)return;const v=id=>{const el=document.getElementById(id);return el?el.value.trim():''},er=document.getElementById('h-e');
   const fi=document.getElementById('h-f'),fs=fi?[...fi.files]:[];
   if(fs.some(f=>f.size>20*1024*1024)){er.textContent='Один из файлов больше 20 МБ. Сожми PDF или раздели на части.';return}
-  const u=v('h-u'),pg=PAGES.find(p=>p[0]===u),lab=v('h-l')||(pg?pg[1]:'');
+  const u=v('h-u'),pg=PAGES.find(p=>p[0]===u),lab=v('h-l')||(pg?pg[1]:''),comment=v('h-t'),own=!!(u||fs.length);
+  const jobs=HB.pick.map(f=>CAT.find(i=>i.file===f)).filter(Boolean).map(i=>({pick:i.file,text:i.title,url:i.file,label:i.title,sec:hbSec(i),n:hbN(i),own:false}));
+  let merged=false;
+  if(own){const t=(!jobs.length&&comment)?comment:(lab||fs[0]&&fs[0].name||u||'Материал');merged=!jobs.length&&!!comment;jobs.push({text:t,url:u,label:lab,sec:v('h-s'),n:'',own:true})}
+  if(comment&&!merged)jobs.push({text:comment,url:'',label:'',sec:v('h-s'),n:'',own:false});
+  if(!jobs.length){er.textContent='Выбери материал из списка или впиши задание текстом.';return}
   ha.disabled=true;if(hn)hn.disabled=true;er.textContent='';
-  const up=fs.length?(ha.textContent='Загружаю файлы…',fs.reduce((p,f)=>p.then(a=>readB64(f).then(data=>adm('upload',{fname:f.name,mime:f.type||'application/pdf',data})).then(j=>{a.push({name:f.name,url:j.url});return a})),Promise.resolve([]))):Promise.resolve([]);
-  up.then(files=>adm('hwAdd',{text:v('h-t'),n:v('h-n'),due:v('h-d'),url:u,label:lab,file:'',sec:v('h-s'),files,notify}))
-   .then(j=>{['h-t','h-n','h-d','h-u','h-l'].forEach(id=>{const i=document.getElementById(id);if(i)i.value=''});if(fi)fi.value='';apply(j,true);toast(j.notification?notificationText(j.notification):'Задание добавлено')})
-   .catch(err=>{ha.disabled=false;if(hn)hn.disabled=false;ha.textContent='Задать без уведомления';er.textContent=errText(err)})};
+  const due=v('h-d'),nAll=v('h-n'),secAll=v('h-s'),idle=ha.textContent;
+  const up=(own&&fs.length)?(ha.textContent='Загружаю файлы…',fs.reduce((p,f)=>p.then(a=>readB64(f).then(data=>adm('upload',{fname:f.name,mime:f.type||'application/pdf',data})).then(j=>{a.push({name:f.name,url:j.url});return a})),Promise.resolve([]))):Promise.resolve([]);
+  up.then(async files=>{let last=null,done=0;
+   try{for(let k=0;k<jobs.length;k++){const j=jobs[k];ha.textContent='Задаю '+(k+1)+' из '+jobs.length+'…';
+     last=await adm('hwAdd',{text:j.text,n:nAll||j.n,due,url:j.url,label:j.label,file:'',sec:secAll||j.sec,files:j.own?files:[],notify:notify&&k===jobs.length-1});
+     done++;if(j.pick)HB.pick=HB.pick.filter(x=>x!==j.pick)}
+    }catch(err){if(last){D=last.d}ha.disabled=false;if(hn)hn.disabled=false;ha.textContent=idle;tRender();const e2=document.getElementById('h-e');if(e2)e2.textContent=(done?'Задано '+done+' из '+jobs.length+', остальное не сохранилось. ':'')+errText(err);return}
+   ['h-t','h-n','h-d','h-u','h-l'].forEach(id=>{const i=document.getElementById(id);if(i)i.value=''});if(fi)fi.value='';HB.q='';apply(last,true);
+   toast(last.notification?notificationText(last.notification):(jobs.length>1?'Задано карточек: '+jobs.length:'Задание добавлено'))})};
  document.querySelectorAll('.hwfi').forEach(inp=>inp.onchange=()=>{const fs=[...inp.files];if(!fs.length)return;const h=D.hw.find(x=>String(x.id)===inp.dataset.hw);if(!h)return;
   fs.reduce((p,f)=>p.then(()=>readB64(f).then(data=>adm('upload',{fname:f.name,mime:f.type||'application/pdf',data})).then(j=>adm('fileAdd',{hw:h.id,name:f.name,url:j.url})).then(j=>apply(j))),Promise.resolve())
    .then(()=>toast('Файл(ы) прикреплены')).catch(err=>{toast(errText(err));tStudent()});inp.value=''});
@@ -1804,7 +1863,7 @@ function readB64(f){return new Promise((res,rej)=>{const r=new FileReader();r.on
 function loadPages(){fetch('materialy.html',{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{if(!t)return;const d=new DOMParser().parseFromString(t,'text/html');const seen=new Set();
   PAGES=[...d.querySelectorAll('a[href$=".html"],a[href$=".pdf"]')].map(a=>{const h=a.getAttribute('href').replace(/^\.\//,'');const tt=a.querySelector('.t');return [h,(tt?tt.textContent:a.textContent).trim().replace(/\s+/g,' ')]}).filter(p=>p[0]!=='kabinet.html'&&!seen.has(p[0])&&seen.add(p[0]));
   const dl=document.getElementById('sitepages');if(dl)dl.innerHTML=PAGES.map(p=>`<option value="${esc(p[0])}">${esc(p[1])}</option>`).join('')}).catch(()=>{})}
-function tRoute(){loadPages();if(!API)return tFail(new Error('Кабинет не подключён к таблице'),tRoute);if(!PASS)return tLogin('');if(CODE)tStudent();else tList()}
+function tRoute(){loadPages();hbLoad();if(!API)return tFail(new Error('Кабинет не подключён к таблице'),tRoute);if(!PASS)return tLogin('');if(CODE)tStudent();else tList()}
 
 /* Homework workspace: readable cards, local checkpoints, correction notebook. */
 const STUDENT_KEY=LIVE?CODE:'demo';

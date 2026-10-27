@@ -7,7 +7,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": ""
+      "note": "",
+      "auto": true
     },
     {
       "file": "diagnostika-5-geom.html",
@@ -16,7 +17,8 @@
       "class": 5,
       "oge_task": null,
       "status": "public",
-      "note": ""
+      "note": "",
+      "auto": true
     },
     {
       "file": "diagnostika-6-geom.html",
@@ -25,7 +27,8 @@
       "class": 6,
       "oge_task": null,
       "status": "public",
-      "note": ""
+      "note": "",
+      "auto": true
     },
     {
       "file": "diagnostika-6-klass.html",
@@ -34,7 +37,8 @@
       "class": 6,
       "oge_task": null,
       "status": "public",
-      "note": ""
+      "note": "",
+      "auto": true
     },
     {
       "file": "diagnostika-naturalnye-chisla-variant-1.html",
@@ -43,7 +47,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "6 заданий пользователя: вычисления, задачи, перебор; №6* — последовательные числа. Копия интерфейса диагностики 6 класса."
+      "note": "6 заданий пользователя: вычисления, задачи, перебор; №6* — последовательные числа. Копия интерфейса диагностики 6 класса.",
+      "auto": true
     },
     {
       "file": "diagnostika-7-geom.html",
@@ -52,7 +57,8 @@
       "class": 7,
       "oge_task": null,
       "status": "hidden",
-      "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
+      "note": "скрыт 2026-10-18: ждёт привязки к программе/теме",
+      "auto": true
     },
     {
       "file": "diagnostika-7-klass.html",
@@ -61,7 +67,8 @@
       "class": 7,
       "oge_task": null,
       "status": "public",
-      "note": ""
+      "note": "",
+      "auto": true
     },
     {
       "file": "diagnostika-8-geom.html",
@@ -70,7 +77,8 @@
       "class": 8,
       "oge_task": null,
       "status": "hidden",
-      "note": "скрыт 2026-10-18: ждёт привязки к программе/теме"
+      "note": "скрыт 2026-10-18: ждёт привязки к программе/теме",
+      "auto": true
     },
     {
       "file": "diagnostika-8-klass.html",
@@ -79,7 +87,8 @@
       "class": 8,
       "oge_task": null,
       "status": "public",
-      "note": ""
+      "note": "",
+      "auto": true
     },
     {
       "file": "domashnee-zadanie-trapeciya.html",
@@ -88,7 +97,8 @@
       "class": 8,
       "oge_task": null,
       "status": "public",
-      "note": "16 заданий с исходными рисунками"
+      "note": "16 заданий с исходными рисунками",
+      "auto": true
     },
     {
       "file": "dz-chisla-s-raznymi-znakami.html",
@@ -97,7 +107,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": ""
+      "note": "",
+      "auto": true
     },
     {
       "file": "dz-chisla-s-raznymi-znakami.pdf",
@@ -124,7 +135,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": ""
+      "note": "",
+      "auto": true
     },
     {
       "file": "dz-desyatichnye-drobi.pdf",
@@ -196,7 +208,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": ""
+      "note": "",
+      "auto": true
     },
     {
       "file": "probnik-oge-2.html",
@@ -205,7 +218,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": ""
+      "note": "",
+      "auto": true
     },
     {
       "file": "probnik-oge-3.html",
@@ -214,7 +228,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": ""
+      "note": "",
+      "auto": true
     },
     {
       "file": "razbor-drobi-dialog.html",
@@ -3292,7 +3307,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "obyasnenie-5-9-grafiki.html",
@@ -3301,7 +3317,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "obyasnenie-5-9-kusochnaya.html",
@@ -3310,7 +3327,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "obyasnenie-5-9-arifm.html",
@@ -3319,7 +3337,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "obyasnenie-5-9-geom.html",
@@ -3328,7 +3347,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "obyasnenie-5-9-veroyat.html",
@@ -3337,7 +3357,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "obyasnenie-5-9-smesi.html",
@@ -3346,7 +3367,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "obyasnenie-5-9-korni.html",
@@ -3355,7 +3377,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "obyasnenie-5-9-stepeni.html",
@@ -3364,7 +3387,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "obyasnenie-5-9-lineynye.html",
@@ -3373,7 +3397,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "obyasnenie-5-9-kvadratnye.html",
@@ -3382,7 +3407,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "obyasnenie-5-9-neravenstva.html",
@@ -3391,7 +3417,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "obyasnenie-5-9-sistemy.html",
@@ -3400,7 +3427,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "obyasnenie-5-9-procenty.html",
@@ -3409,7 +3437,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "obyasnenie-5-9-dvizhenie.html",
@@ -3418,7 +3447,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "obyasnenie-5-9-treugolnik.html",
@@ -3427,7 +3457,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "obyasnenie-5-9-mediana.html",
@@ -3436,7 +3467,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "obyasnenie-5-9-bissektrisa.html",
@@ -3445,7 +3477,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "obyasnenie-5-9-vysota.html",
@@ -3454,7 +3487,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "obyasnenie-5-9-parallelogramm.html",
@@ -3463,7 +3497,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "obyasnenie-5-9-kvadrat.html",
@@ -3472,7 +3507,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "obyasnenie-5-9-trapeciya.html",
@@ -3481,7 +3517,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "obyasnenie-5-9-romb.html",
@@ -3490,7 +3527,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-19"
+      "note": "добавлено 2026-10-19",
+      "auto": true
     },
     {
       "file": "STATE.md",
@@ -3526,7 +3564,8 @@
       "class": 5,
       "oge_task": null,
       "status": "public",
-      "note": "Уравнения, буквенные выражения и геометрия"
+      "note": "Уравнения, буквенные выражения и геометрия",
+      "auto": true
     },
     {
       "file": "diagnostika-5-kr1-v2.html",
@@ -3535,7 +3574,8 @@
       "class": 5,
       "oge_task": null,
       "status": "public",
-      "note": "Уравнения, буквенные выражения и геометрия"
+      "note": "Уравнения, буквенные выражения и геометрия",
+      "auto": true
     },
     {
       "file": "diagnostika-5-kr2-v1.html",
@@ -3544,7 +3584,8 @@
       "class": 5,
       "oge_task": null,
       "status": "public",
-      "note": "Умножение, деление и деление с остатком"
+      "note": "Умножение, деление и деление с остатком",
+      "auto": true
     },
     {
       "file": "diagnostika-5-kr2-v2.html",
@@ -3553,7 +3594,8 @@
       "class": 5,
       "oge_task": null,
       "status": "public",
-      "note": "Умножение, деление и деление с остатком"
+      "note": "Умножение, деление и деление с остатком",
+      "auto": true
     },
     {
       "file": "diagnostiki-5-klass.html",
@@ -3625,7 +3667,8 @@
       "class": null,
       "oge_task": null,
       "status": "hidden",
-      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена."
+      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена.",
+      "auto": true
     },
     {
       "file": "diagnostika-koordinatnaya-pryamaya.html",
@@ -3634,7 +3677,8 @@
       "class": null,
       "oge_task": null,
       "status": "hidden",
-      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена."
+      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена.",
+      "auto": true
     },
     {
       "file": "domashnee-zadanie-chisla-vyrazheniya.html",
@@ -3643,7 +3687,8 @@
       "class": null,
       "oge_task": null,
       "status": "hidden",
-      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена."
+      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена.",
+      "auto": true
     },
     {
       "file": "trenazher-procenty-7-klass.html",
@@ -3706,7 +3751,8 @@
       "class": 9,
       "oge_task": 7,
       "status": "public",
-      "note": "простая ДЗ 11 заданий (4+4+3), автоотправка в таблицу, обновлено 2026-10-26"
+      "note": "простая ДЗ 11 заданий (4+4+3), автоотправка в таблицу, обновлено 2026-10-26",
+      "auto": true
     },
     {
       "file": "z7-koord-pryamaya-dz.pdf",
@@ -3724,7 +3770,8 @@
       "class": 9,
       "oge_task": 6,
       "status": "public",
-      "note": "ДЗ-1: уровень 1 (а–д) и уровень 2 (1–5), ответы проверены кодом"
+      "note": "ДЗ-1: уровень 1 (а–д) и уровень 2 (1–5), ответы проверены кодом",
+      "auto": true
     },
     {
       "file": "z6-umn-del-dvuznach-dz.pdf",
@@ -3742,7 +3789,8 @@
       "class": 9,
       "oge_task": 20,
       "status": "public",
-      "note": "11 заданий (4+4+3), одна подсказка, без разбора на странице, результат в таблицу"
+      "note": "11 заданий (4+4+3), одна подсказка, без разбора на странице, результат в таблицу",
+      "auto": true
     },
     {
       "file": "z20-drobno-ratsionalnye-dz.pdf",
@@ -3760,7 +3808,8 @@
       "class": 9,
       "oge_task": 6,
       "status": "public",
-      "note": "11 заданий, одна подсказка, две попытки; результаты в таблицу. Без решений на странице."
+      "note": "11 заданий, одна подсказка, две попытки; результаты в таблицу. Без решений на странице.",
+      "auto": true
     },
     {
       "file": "trenazher-drobi-s-nulya.html",
@@ -3769,7 +3818,8 @@
       "class": null,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-26; ступени по порядку, отчёт в таблицу «Кабинеты учеников», #lilia — режим учителя"
+      "note": "добавлено 2026-10-26; ступени по порядку, отчёт в таблицу «Кабинеты учеников», #lilia — режим учителя",
+      "auto": true
     },
     {
       "file": "trenazher-kvadratnyj-koren.html",
@@ -3778,7 +3828,8 @@
       "class": 8,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-27; серия 7 подряд, отправка в таблицу, режим учителя #lilia"
+      "note": "добавлено 2026-10-27; серия 7 подряд, отправка в таблицу, режим учителя #lilia",
+      "auto": true
     },
     {
       "file": "trenazher-sopryazhennye-vyrazheniya.html",
@@ -3787,7 +3838,8 @@
       "class": 8,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-27; от (√a)² до избавления от корня в знаменателе; серия 7 подряд, отправка в таблицу, режим учителя #lilia"
+      "note": "добавлено 2026-10-27; от (√a)² до избавления от корня в знаменателе; серия 7 подряд, отправка в таблицу, режим учителя #lilia",
+      "auto": true
     },
     {
       "file": "dz-koren-1.html",
@@ -3796,7 +3848,8 @@
       "class": 8,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-10-27; собрано из генераторов тренажёра tools/make_dz.js; режим #lilia: ответы и печать"
+      "note": "добавлено 2026-10-27; собрано из генераторов тренажёра tools/make_dz.js; режим #lilia: ответы и печать",
+      "auto": true
     }
   ]
 }
