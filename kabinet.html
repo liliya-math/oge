@@ -600,6 +600,9 @@ a.btn{display:inline-flex;align-items:center;text-decoration:none;height:48px}
 .fld input::placeholder,.fld textarea::placeholder{color:var(--faint)}
 .fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
 .formbox{display:grid;gap:12px;margin-top:16px;padding-top:16px;border-top:1px dashed var(--line)}
+.boardrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.boardedit{display:grid;gap:10px;margin-top:12px}
+.boardedit[hidden]{display:none}
 .hbtabs{display:flex;gap:8px;flex-wrap:wrap}
 .hbtabs .chip[aria-pressed=true]{color:var(--fg);border-color:rgba(242,144,94,.6);background:rgba(242,144,94,.12)}
 .hbtools{display:grid;grid-template-columns:minmax(0,1fr) 130px;gap:12px;align-items:end}
@@ -1305,7 +1308,7 @@ function lessonCard(teach){const t=nextLesson();if(!t)return `<div class="card">
  ${teach&&wkS?`<div class="tzalt">у ученика: ${fmtWhen(t,P.tz)} · ${esc(tzLabel(P.tz))}</div>`:''}
  <span class="cd ${c.live?'live':''}" id="cd"><i></i>${c.s}</span>
  ${D.topic?`<p class="ltopic"><span>Тема:</span> ${esc(D.topic)}</p>`:'<div style="height:14px"></div>'}
- <a class="btn" href="${esc(href(D.board)||'https://learnboard.ru')}" target="_blank" rel="noopener">Открыть доску</a>
+ ${teach?boardRow():`<a class="btn" href="${esc(href(D.board)||'https://learnboard.ru')}" target="_blank" rel="noopener">Открыть доску</a>`}
  ${P.slots.length>1||teach?`<div class="wk"><span>${teach?'Неделя по Самаре':'Каждую неделю'}</span>${esc(wk)}</div>`:''}
  ${teach&&wkS?`<div class="wk"><span>У ученика (${esc(tzLabel(P.tz))})</span>${esc(wkS)}</div>`:''}
  <div class="tzn">${teach?'Ученик видит время в своём поясе.':`Время по твоему часовому поясу${tz?' ('+esc(P.tz?tzLabel(tz):tz)+')':''}.`}${diff?` Сейчас твоё устройство в другом поясе: там это ${t.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}.`:''} 60 минут: алгебра, геометрия, практика.</div></div>`}
@@ -1692,10 +1695,24 @@ function bindSched(){const z=document.getElementById('f-tz');if(!z)return;z.onch
 
 function progOptions(cls,cur){const L=CLASS_PROGS[cls]||CLASS_PROGS[9];if(!L.includes(cur))cur=L[0];return L.map(p=>`<option value="${p}" ${cur===p?'selected':''}>${PROGS[p].name}</option>`).join('')}
 const SHOW_KEYS=[['work','Над чем работаем (родителям)'],['grades','Школьные оценки'],['exams','Пробники: график и вся история'],['map','Карта заданий'],['skills','Карта навыков'],['notebook','Тетрадь ошибок'],['rewards','Стикеры и коллекция'],['letter','Личное сообщение преподавателю']];
+function boardRow(){const b=D.board?href(D.board):'';
+ return `<div class="boardrow">${b?`<a class="btn" href="${esc(b)}" target="_blank" rel="noopener">Открыть доску</a><button class="btn ghost tsm" id="bd-copy" type="button">Скопировать ссылку</button><button class="btn ghost tsm" id="bd-edit" type="button">Заменить</button>`:`<span class="note">Ссылка на доску не задана.</span><button class="btn" id="bd-edit" type="button">Вставить ссылку</button>`}</div>
+ <div class="boardedit" id="bd-form" hidden><label class="fld"><span>Ссылка на доску ${esc(D.dat||D.name)}: ученик откроет её кнопкой «Открыть доску» в своём кабинете</span><input id="bd-url" value="${esc(D.board||'')}" placeholder="https://learnboard.ru/…" autocomplete="off"></label>
+ <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="bd-save" type="button">Сохранить</button><button class="btn ghost" id="bd-cancel" type="button">Отмена</button></div>
+ <div class="ferr" id="bd-e"></div><a class="note" href="https://liliya-math.github.io/excalidraw/" target="_blank" rel="noopener">Пустая доска Excalidraw</a></div>`}
+function bindBoard(){const ed=document.getElementById('bd-edit'),f=document.getElementById('bd-form');if(!ed||!f)return;
+ ed.onclick=()=>{f.hidden=!f.hidden;if(!f.hidden){const i=document.getElementById('bd-url');i.focus();i.select()}};
+ document.getElementById('bd-cancel').onclick=()=>{f.hidden=true;document.getElementById('bd-e').textContent=''};
+ const cp=document.getElementById('bd-copy');if(cp)cp.onclick=()=>{const u=href(D.board),ok=()=>{cp.textContent='Скопировано';setTimeout(()=>{if(cp.isConnected)cp.textContent='Скопировать ссылку'},1600)};try{navigator.clipboard.writeText(u).then(ok,()=>{cp.textContent='Не вышло, выдели ссылку вручную'})}catch(e){cp.textContent='Не вышло, выдели ссылку вручную'}};
+ document.getElementById('bd-save').onclick=e=>{const b=e.currentTarget,er=document.getElementById('bd-e');let u=document.getElementById('bd-url').value.trim();er.textContent='';
+  if(u&&!/^[a-z][a-z0-9+.-]*:/i.test(u))u='https://'+u;
+  if(u&&!/^https?:\/\/[^\s]+\.[^\s]+/i.test(u)){er.textContent='Нужна полная ссылка, например https://learnboard.ru/…';return}
+  if(u===(D.board||'')){f.hidden=true;return}
+  b.disabled=true;adm('student',{fields:{board:u}}).then(j=>{apply(j,false);toast(u?'Ссылка на доску сохранена, у ученика уже новая':'Ссылка на доску убрана')}).catch(err=>{b.disabled=false;er.textContent=errText(err)})}}
 function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).join('\n');
  return `<details class="card adm" id="admc" ${S.admOpen?'open':''}><summary><span class="sh" style="margin:0"><h2>${esc(fullName()||D.name)} · настройки</h2><span class="sub">${D.active?'кабинет открыт':'на паузе'}</span></span></summary>
  <div class="formbox" style="border-top:0;margin-top:10px;padding-top:0">
- <div class="linkrow"><code id="lnk">${esc(url)}</code><button class="btn ghost tsm" id="lnkc" type="button">Скопировать</button><a class="btn ghost tsm" href="${esc(url)}" target="_blank" rel="noopener">Открыть как ученик</a><a class="btn ghost tsm" href="https://liliya-math.github.io/excalidraw/?student=${encodeURIComponent(D.name)}" target="_blank" rel="noopener">Доска ученика</a><button class="btn ghost tsm" id="lnkn" type="button">Новая ссылка</button></div>
+ <div class="linkrow"><code id="lnk">${esc(url)}</code><button class="btn ghost tsm" id="lnkc" type="button">Скопировать</button><a class="btn ghost tsm" href="${esc(url)}" target="_blank" rel="noopener">Открыть как ученик</a><button class="btn ghost tsm" id="lnkn" type="button">Сменить ссылку кабинета</button></div>
  <div class="fgrid">
   <label class="fld"><span>Имя</span><input id="f-name" value="${esc(D.name)}" data-fresh="1"></label>
   <label class="fld"><span>Фамилия</span><input id="f-fname" value="${esc(D.fname||'')}" placeholder="Петрова" data-fresh="1"></label>
@@ -1710,7 +1727,6 @@ function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).
  <div class="fgrid">
   <label class="fld"><span>Родитель</span><input id="f-parent" value="${esc(D.parent||'')}" placeholder="Мама — Ольга" data-fresh="1"></label>
   <label class="fld"><span>Телефон родителя</span><input id="f-phone" value="${esc(D.phone||'')}" placeholder="+7 …" data-fresh="1"></label>
-  <label class="fld"><span>Ссылка на доску</span><input id="f-board" value="${esc(D.board)}" placeholder="https://learnboard.ru/…" data-fresh="1"></label>
  </div>
  ${schedEditor()}
  <label class="fld"><span>Тема следующего занятия</span><input id="f-topic" value="${esc(D.topic)}" placeholder="Задание 17: трапеция" data-fresh="1"></label>
@@ -1865,6 +1881,7 @@ function tDetail(n){if(!n)return `<p class="klead" style="margin:14px 0 0;font-s
 
 function tBind(){
  bindWorkflowButtons();
+ bindBoard();
  tBindTelegram();
  bindTopT();
  document.getElementById('mKid').onclick=()=>{if(S.mode!=='kid'){S.mode='kid';save();tRender()}};
@@ -1874,7 +1891,7 @@ function tBind(){
  document.getElementById('lnkn').onclick=e=>{if(!confirm('Выдать ученику новую ссылку? Старая перестанет работать сразу. Домашка, оценки, карта и Telegram сохранятся. Новую ссылку нужно будет отправить ученику или родителю.'))return;const b=e.currentTarget;b.disabled=true;adm('rotateCode').then(j=>{location.hash='lilia-'+j.code}).catch(err=>{b.disabled=false;toast(errText(err))})};
  const fc=document.getElementById('f-cls');if(fc)fc.onchange=()=>{const pr=document.getElementById('f-prog');pr.innerHTML=progOptions(+fc.value,pr.value)};
  document.getElementById('f-save').onclick=e=>{const b=e.currentTarget,v=id=>{const el=document.getElementById(id);return el?el.value:''};b.disabled=true;
-  adm('student',{fields:{name:v('f-name'),fname:v('f-fname'),dat:v('f-dat'),bdate:v('f-bdate'),parent:v('f-parent'),phone:v('f-phone'),cls:v('f-cls'),prog:document.getElementById('f-prog').value,goal:v('f-goal'),days:serSched(SL,STZ),time:SL.length?hhmm(sortSlots(SL.slice())[0].h,sortSlots(SL.slice())[0].m):'',board:v('f-board'),topic:v('f-topic'),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),active:document.getElementById('f-act').checked,show:[...document.querySelectorAll('.f-show:checked')].map(e=>e.dataset.k)}})
+  adm('student',{fields:{name:v('f-name'),fname:v('f-fname'),dat:v('f-dat'),bdate:v('f-bdate'),parent:v('f-parent'),phone:v('f-phone'),cls:v('f-cls'),prog:document.getElementById('f-prog').value,goal:v('f-goal'),days:serSched(SL,STZ),time:SL.length?hhmm(sortSlots(SL.slice())[0].h,sortSlots(SL.slice())[0].m):'',topic:v('f-topic'),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),active:document.getElementById('f-act').checked,show:[...document.querySelectorAll('.f-show:checked')].map(e=>e.dataset.k)}})
    .then(j=>{apply(j,false);toast('Настройки сохранены')}).catch(err=>{b.disabled=false;const e2=document.getElementById('f-err');if(e2)e2.textContent=errText(err)})};
  const hp=document.getElementById('hpet');if(hp)hp.onclick=()=>react('neu','',pick(sayList()));
  document.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{const n=+b.dataset.t;S.sel=n;save();document.querySelectorAll('.tile').forEach(x=>x.setAttribute('aria-pressed',x===b));document.getElementById('tdet').innerHTML=tDetail(n);bindDetail();
