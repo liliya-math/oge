@@ -5678,6 +5678,91 @@
       "node": [
         "8A.3.5.2"
       ]
+    },
+    {
+      "file": "dz-9-drobnye-uravneniya.html",
+      "title": "9A.2.2 · ДЗ · Дробные рациональные уравнения · 3 домашние работы",
+      "type": "sistema",
+      "class": 9,
+      "oge_task": null,
+      "status": "public",
+      "note": "Добавлено 2026-10-27; без программы курса.",
+      "node": [
+        "9A.2.2"
+      ]
+    },
+    {
+      "file": "dz-9-drobnye-uravneniya-3.html",
+      "title": "9A.2.2 · ДЗ №3 · Дробные рациональные уравнения · Разложение на множители, отбор корней и оформление",
+      "type": "dz",
+      "class": 9,
+      "oge_task": null,
+      "status": "public",
+      "note": "Добавлено 2026-10-27; без программы курса.",
+      "node": [
+        "9A.2.2"
+      ]
+    },
+    {
+      "file": "dz-9-drobnye-uravneniya-1.html",
+      "title": "9A.2.2 · ДЗ №1 · Дробные рациональные уравнения · ОДЗ, простейшие уравнения и нулевая дробь",
+      "type": "dz",
+      "class": 9,
+      "oge_task": null,
+      "status": "public",
+      "note": "Добавлено 2026-10-27; без программы курса.",
+      "node": [
+        "9A.2.2"
+      ]
+    },
+    {
+      "file": "dz-9-drobnye-uravneniya-2.html",
+      "title": "9A.2.2 · ДЗ №2 · Дробные рациональные уравнения · Общий знаменатель и переход к целому уравнению",
+      "type": "dz",
+      "class": 9,
+      "oge_task": null,
+      "status": "public",
+      "note": "Добавлено 2026-10-27; без программы курса.",
+      "node": [
+        "9A.2.2"
+      ]
+    },
+    {
+      "file": "dz-9-drobnye-uravneniya.pdf",
+      "title": "9A.2.2 · ДЗ (PDF) · Дробные рациональные уравнения · 33 задания",
+      "type": "dz",
+      "class": 9,
+      "oge_task": null,
+      "status": "public",
+      "note": "Добавлено 2026-10-27; без программы курса.",
+      "node": [
+        "9A.2.2"
+      ]
+    },
+    {
+      "file": "dz-9-drobnye-uravneniya-otvety.pdf",
+      "title": "9A.2.2 · Ответы к ДЗ (PDF) · Дробные рациональные уравнения · Подробные решения",
+      "type": "dz",
+      "class": 9,
+      "oge_task": null,
+      "status": "public",
+      "note": "Размещено по явному запросу «всё, кроме программы курса». Материал преподавателя; не выводить ученику и родителю.",
+      "node": [
+        "9A.2.2"
+      ],
+      "audience": "teacher"
+    },
+    {
+      "file": "dz-9-drobnye-uravneniya-interaktivy.zip",
+      "title": "9A.2.2 · ДЗ · Дробные рациональные уравнения · Архив интерактивов",
+      "type": "dz",
+      "class": 9,
+      "oge_task": null,
+      "status": "public",
+      "note": "Добавлено 2026-10-27; без программы курса.",
+      "node": [
+        "9A.2.2"
+      ]
     }
   ]
 }
