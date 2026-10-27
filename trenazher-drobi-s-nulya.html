@@ -726,13 +726,14 @@ var C = window.FracContent, STEPS = C.STEPS;
 // Адрес Google Apps Script (или другого приёма). Пока пусто: результаты хранятся только в этом браузере.
 var SHEET_URL = 'https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec';
 var TITLE = 'Дроби с нуля';
-var NEED = 7, KEY = 'frac_trainer_v1';
+var NEED_DEFAULT = 7, NEED_EARLY = 5, KEY = 'frac_trainer_v1';
 var app = document.getElementById('app');
 
 /* ---------- состояние ---------- */
 function fresh() { return { name: '', steps: {}, log: [], openAll: false }; }
 var S = (function () { try { return JSON.parse(localStorage.getItem(KEY)) || fresh(); } catch (e) { return fresh(); } })();
 function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function need(id) { return id <= 3 ? NEED_EARLY : NEED_DEFAULT; }
 function st(id) {
   if (!S.steps[id]) S.steps[id] = { passed: false, streak: 0, tried: 0, ok: 0, bad: 0, hints: 0, stuck: false, reteach: 0, cw: 0, tags: {} };
   return S.steps[id];
@@ -749,7 +750,7 @@ function send(ev) {
 function stepReport() {
   return STEPS.map(function (s) {
     var o = st(s.id);
-    var status = o.passed ? 'пройдена' : o.stuck ? 'нужна помощь' : o.tried ? 'идёт ' + o.streak + '/' + NEED : '—';
+    var status = o.passed ? 'пройдена' : o.stuck ? 'нужна помощь' : o.tried ? 'идёт ' + o.streak + '/' + need(s.id) : '—';
     var tags = Object.keys(o.tags).filter(function (t) { return t !== 'dont-know'; }).sort(function (x, y) { return o.tags[y] - o.tags[x]; }).slice(0, 3).map(function (t) { return t + ' x' + o.tags[t]; }).join(', ');
     return s.id + '. ' + s.title + ': ' + status + '; верно ' + o.ok + ', неверно ' + o.bad + ', подсказок ' + o.hints + ', не знаю ' + (o.tags['dont-know'] || 0) + ', повторов объяснения ' + (o.reteach || 0) + (tags ? '; ошибки: ' + tags : '');
   }).join('\n');
@@ -775,7 +776,7 @@ window.addEventListener('pagehide', push);
 var V = { name: S.name ? 'home' : 'start' };
 var P = null; // текущая практика
 
-function dots(n) { var h = '<span class="dots">'; for (var i = 0; i < NEED; i++) h += '<i class="' + (i < n ? 'on' : '') + '"></i>'; return h + '</span>'; }
+function dots(n, id) { var h = '<span class="dots">'; for (var i = 0; i < need(id); i++) h += '<i class="' + (i < n ? 'on' : '') + '"></i>'; return h + '</span>'; }
 
 function render() {
   if (isTeacher() && V.name !== 'task' && V.name !== 'teach') V = { name: 'teacher' };
@@ -798,7 +799,7 @@ function rHome() {
     if (o.passed) { status = 'пройдена'; cls = 'ok'; }
     else if (!open) { status = 'закрыта'; cls = 'lock'; }
     else if (o.stuck) { status = 'нужна помощь учителя'; cls = 'help'; }
-    else if (o.tried) { status = 'идёт: ' + o.streak + ' из ' + NEED; cls = 'run'; }
+    else if (o.tried) { status = 'идёт: ' + o.streak + ' из ' + need(s.id); cls = 'run'; }
     else status = 'можно начинать';
     h += '<button class="row ' + cls + '" ' + (open ? 'data-a="open" data-i="' + i + '"' : 'disabled') + '><span class="num">' + s.id + '</span><span class="tt"><b>' + s.title + '</b><small>' + s.sub + '</small></span><span class="stt">' + status + '</span></button>';
   });
@@ -824,7 +825,7 @@ function rTeach() {
 
 function rTask() {
   var s = STEPS[P.i], T = P.task, o = st(s.id);
-  var h = '<div class="top"><button class="lnk" data-a="home">← Ступени</button><div class="who">Ступень ' + s.id + ' · ' + dots(o.streak) + '</div></div>';
+  var h = '<div class="top"><button class="lnk" data-a="home">← Ступени</button><div class="who">Ступень ' + s.id + ' · ' + dots(o.streak, s.id) + '</div></div>';
   h += (P.twin ? '<p class="small">Похожее задание. Попробуй ещё раз, теперь с другими числами.</p>' : '') + '<div class="card">' + T.q + '<div id="inp">' + inputHtml(T) + '</div></div>';
   h += '<div id="hintbox" class="hint" ' + (P.hint ? '' : 'hidden') + '>' + (P.hint ? T.hint : '') + '</div>';
   h += '<div id="msg" class="msg"></div>';
@@ -854,7 +855,7 @@ function inputHtml(T) {
 
 function rDone() {
   var s = STEPS[V.i], last = V.i === STEPS.length - 1;
-  return '<h2>Ступень пройдена</h2><div class="card"><p><b>' + s.title + '</b>: ' + NEED + ' верных ответов подряд. Молодец, это настоящая работа.</p></div>' +
+  return '<h2>Ступень пройдена</h2><div class="card"><p><b>' + s.title + '</b>: ' + need(s.id) + ' верных ответов подряд. Молодец, это настоящая работа.</p></div>' +
     '<p>' + (last ? '<button class="btn" data-a="home">К списку ступеней</button>' : '<button class="btn" data-a="open" data-i="' + (V.i + 1) + '">Следующая ступень</button> <button class="btn sec" data-a="home">К списку</button>') + '</p>';
 }
 function rInter() {
@@ -871,7 +872,7 @@ function rTeacher() {
   h += '<table class="rep"><tr><th>№</th><th>Ступень</th><th>Статус</th><th>Верно</th><th>Неверно</th><th>Подсказок</th><th>После разбора верно</th><th>Частые ошибки</th><th></th></tr>';
   STEPS.forEach(function (s, i) {
     var o = st(s.id), tags = Object.keys(o.tags).sort(function (a, b) { return o.tags[b] - o.tags[a]; }).slice(0, 3).map(function (t) { return t + ' ×' + o.tags[t]; }).join(', ');
-    var status = o.passed ? 'пройдена' : o.stuck ? 'нужна помощь' : o.tried ? 'идёт ' + o.streak + '/' + NEED : '—';
+    var status = o.passed ? 'пройдена' : o.stuck ? 'нужна помощь' : o.tried ? 'идёт ' + o.streak + '/' + need(s.id) : '—';
     h += '<tr><td>' + s.id + '</td><td>' + s.title + '</td><td>' + status + '</td><td>' + o.ok + '</td><td>' + o.bad + '</td><td>' + o.hints + '</td><td>' + (o.twinTried ? (o.twinOk || 0) + ' из ' + o.twinTried : '') + '</td><td>' + (tags || '') + '</td><td><button class="lnk" data-a="tpass" data-i="' + i + '">засчитать</button> <button class="lnk" data-a="treset" data-i="' + i + '">сбросить</button> <button class="lnk" data-a="topen" data-i="' + i + '">смотреть</button></td></tr>';
   });
   h += '</table><p><button class="btn sec" data-a="topenall">' + (S.openAll ? 'Закрыть ступени по порядку' : 'Открыть все ступени ученице') + '</button> <button class="btn sec" data-a="tclear">Сбросить всё</button> <button class="btn sec" data-a="thome">Режим ученицы</button></p>';
@@ -978,7 +979,7 @@ function finish(ok, tag) {
   if (clean) { o.streak++; o.cw = 0; }
   else if (!ok) { o.streak = 0; o.cw++; }
   var passedNow = false;
-  if (!o.passed && o.streak >= NEED) { o.passed = true; passedNow = true; }
+  if (!o.passed && o.streak >= need(s.id)) { o.passed = true; passedNow = true; }
   send({ t: 'task', step: s.id, stepTitle: s.title, ok: ok, attempts: P.attempt, hint: P.hint, twin: !!P.twin, tag: P.tags.join(',') });
   save();
   if (passedNow || o.tried % 10 === 0) push();
@@ -988,7 +989,7 @@ function finish(ok, tag) {
   P.lastWrong = !ok;
   msg(m, ok ? 'good' : 'bad', ok ? '' : whyHtml(tag || P.tags[P.tags.length - 1] || ''));
   document.getElementById('acts').innerHTML = '<button class="btn" data-a="next-task" data-passed="' + (passedNow ? 1 : 0) + '">' + (ok ? 'Дальше' : 'Попробовать похожее') + '</button>';
-  var hb = document.querySelector('.dots'); if (hb) hb.outerHTML = dots(o.streak);
+  var hb = document.querySelector('.dots'); if (hb) hb.outerHTML = dots(o.streak, s.id);
   lockInputs();
 }
 function lockInputs() { app.querySelectorAll('#inp input, #inp .opt').forEach(function (e) { e.disabled = true; }); }
