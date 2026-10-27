@@ -5434,6 +5434,101 @@
         "5A.5.3",
         "5A.5.4"
       ]
+    },
+    {
+      "file": "dz-8-kvadratny-koren.html",
+      "title": "Квадратный корень · 4 интерактивные домашние работы · 8 класс",
+      "type": "sistema",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "четыре урока по 60 минут; добавлено 2026-10-27",
+      "auto": true,
+      "node": [
+        "8A.2"
+      ]
+    },
+    {
+      "file": "dz-8-kvadratny-koren-1.html",
+      "title": "ДЗ №1 · Квадратный корень · Смысл корня, вычисления, уравнения и график",
+      "type": "dz",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "11 заданий, 3 уровня; одна подсказка, две попытки; отправка в таблицу; добавлено 2026-10-27",
+      "auto": true,
+      "node": [
+        "8A.2"
+      ]
+    },
+    {
+      "file": "dz-8-kvadratny-koren-2.html",
+      "title": "ДЗ №2 · Квадратный корень · Свойства корня, модуль, множители и сравнение",
+      "type": "dz",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "11 заданий, 3 уровня; одна подсказка, две попытки; отправка в таблицу; добавлено 2026-10-27",
+      "auto": true,
+      "node": [
+        "8A.2"
+      ]
+    },
+    {
+      "file": "dz-8-kvadratny-koren-3.html",
+      "title": "ДЗ №3 · Квадратный корень · Преобразование выражений и формулы",
+      "type": "dz",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "11 заданий, 3 уровня; одна подсказка, две попытки; отправка в таблицу; добавлено 2026-10-27",
+      "auto": true,
+      "node": [
+        "8A.2"
+      ]
+    },
+    {
+      "file": "dz-8-kvadratny-koren-4.html",
+      "title": "ДЗ №4 · Квадратный корень · Дроби с корнями и итоговое закрепление",
+      "type": "dz",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "11 заданий, 3 уровня; одна подсказка, две попытки; отправка в таблицу; добавлено 2026-10-27",
+      "auto": true,
+      "node": [
+        "8A.2"
+      ]
+    },
+    {
+      "file": "dz.html",
+      "title": "Домашнее задание",
+      "type": "dz",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "существовавшая публичная страница; восстановлена запись каталога 2026-10-27",
+      "auto": true
+    },
+    {
+      "file": "print.html",
+      "title": "Листок для печати",
+      "type": "zadanie",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "существовавшая публичная страница; восстановлена запись каталога 2026-10-27",
+      "auto": true
+    },
+    {
+      "file": "trenazher-tablica-umnozheniya.html",
+      "title": "Таблица умножения",
+      "type": "trenazher",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "существовавшая публичная страница; восстановлена запись каталога 2026-10-27",
+      "auto": true
     }
   ]
 }
