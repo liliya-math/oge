@@ -14,7 +14,7 @@
 - Сайт: https://lilimath.ru, репозиторий liliya-math/oge (GitHub Pages, ветка main). Правки сначала в ветку, в main после проверки.
 - Таблица кабинета «Кабинеты учеников»: https://docs.google.com/spreadsheets/d/1EbCb3mhbs4-j62-_2um7_gchIbmDfWppqZu7jGDw8ww/edit (лист «Ученики», gid 1567244997). Листы: Ученики, Карта, Комментарии, Разборы, Материалы, Домашка, Файлы, Пробники, Оценки, Письма, Навыки, Telegram, Telegram-ссылки, Telegram-файлы, Ключи, Результаты.
 - Apps Script привязан к этой таблице: https://script.google.com/home/projects/1efBhrAonpnqWhVuY8lg1bIcIZ7YaduwINqjpKOljR5tXjP33fGfFM8KT/edit (в списке проектов называется «Проект без названия»). Код в редакторе совпадает с `kabinet-apps-script.txt` (v7.9), активное развёртывание «7.9» = версия 19 от 26.10.2026; адрес веб-приложения тот же, что в `API` в `kabinet.html`. Листы Telegram, Ключи и Результаты в таблице есть, значит `setup` после 7.9 выполнялся. Настроен ли бот (`configureTelegram`) — не проверено.
-- Результаты диагностик и ДЗ-страниц с `cabinet-report.js` идут в отдельную таблицу «Результаты 25/25» (адрес в `cabinet-report.js`, константа `RES`).
+- Результаты диагностик и ДЗ-страниц с `cabinet-report.js` идут в отдельную таблицу «Результаты 25/25»: https://docs.google.com/spreadsheets/d/1DWtjH5id383RAw4Sb6CY7ORYvRoVvNMwx0LhxEhFpF4/edit (листы «Лист1» и «Результаты»). Её скрипт приёма — константа `RES` в `cabinet-report.js`.
 - Перед вопросом владельцу сначала искать здесь, в памяти, в прошлых чатах и в самой таблице.
 
 ## Открытые задачи
