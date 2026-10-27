@@ -15,9 +15,10 @@ h2{font-size:20px;margin:16px 0 8px}
 .muted{color:var(--muted);font-size:15px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin:12px 0}
 .big{font-size:32px;margin:8px 0 14px;line-height:1.7}
-.rad{display:inline-block;white-space:nowrap;vertical-align:baseline;padding-left:.7em;line-height:1.15}
-.ov{position:relative;display:inline-block;border-top:.07em solid var(--fg);padding:.05em .1em 0 .08em}
-.rs{position:absolute;right:100%;margin-right:-.01em;top:-.07em;width:.7em;height:calc(100% - .07em);overflow:visible;fill:var(--fg);stroke:none}
+.rad{position:relative;display:inline-block;white-space:nowrap;vertical-align:baseline;padding-left:.72em;line-height:1.2}
+.ov{display:inline-block;padding:.2em .12em 0 .05em}
+.bl{display:inline-block;width:0;height:0}
+.rad>svg{position:absolute;left:0;top:0;margin:0;display:block;pointer-events:none;overflow:visible}
 .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;font-size:.8em;line-height:1.2;margin:0 3px}
 .fr>span:first-child{border-bottom:2px solid var(--fg);padding:0 4px .26em}
 .fr>span:last-child{padding-top:.16em}
@@ -58,7 +59,7 @@ const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
 const pick=a=>a[ri(0,a.length-1)];
 const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=ri(0,i);[a[i],a[j]]=[a[j],a[i]]}return a};
 const f=n=>String(Math.round(n*10000)/10000).replace('.',',').replace('-','−');
-const R=x=>`<span class="rad"><span class="ov"><svg class="rs" viewBox="0 0 12 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 66 L2.6 62 L5.6 88 L10.6 0 L12.6 0 L12.6 5 L11.6 5 L6.6 100 L4.6 100 L2.1 71 L0.5 72.5 Z"/></svg>${x}</span></span>`;
+const R=x=>`<span class="rad"><span class="ov">${x}<i class="bl"></i></span></span>`;
 const F=(a,b)=>`<span class="fr"><span>${a}</span><span>${b}</span></span>`;
 const nw=q=>String(q).replace(/\([^()]*\)²?/g,m=>`<span class="nw">${m}</span>`);
 function nm(q,ans,why,prompt,hint,x){q=nw(q);return Object.assign({q,type:'num',ans,why,prompt:prompt||'Найди значение',hint:hint||''},x||{})}
@@ -313,7 +314,24 @@ function parseNum(s){s=String(s).trim().replace(/\s/g,'').replace(',','.').repla
  if(/^-?\d+(\.\d+)?$/.test(s))return parseFloat(s);return NaN}
 
 /* ====== экраны ====== */
-const app=h=>{document.getElementById('app').innerHTML=h};
+function fixRad(){
+ const NS='http://www.w3.org/2000/svg';
+ document.querySelectorAll('.rad').forEach(r=>{
+  const o=r.querySelector('svg');if(o)o.remove();
+  const W=r.offsetWidth,H=r.offsetHeight,bl=r.querySelector('.bl');if(!W||!H||!bl)return;
+  const cs=getComputedStyle(r),fs=parseFloat(cs.fontSize)||24,sw=parseFloat(cs.paddingLeft)||fs*.72;
+  const rb=r.getBoundingClientRect(),B=bl.getBoundingClientRect().top-rb.top;
+  const t=Math.max(1.8,fs*.07),y0=Math.max(t/2,B-fs*.88),yb=B+fs*.16;
+  const x1=sw*.06,y1=B-fs*.26,x2=sw*.30,y2=B-fs*.36,x3=sw*.60,x4=sw*.99;
+  const v=document.createElementNS(NS,'svg');v.setAttribute('width',W);v.setAttribute('height',Math.max(H,yb+t));v.setAttribute('viewBox','0 0 '+W+' '+Math.max(H,yb+t));v.setAttribute('aria-hidden','true');
+  const mk=(d,w,cap)=>{const p=document.createElementNS(NS,'path');p.setAttribute('d',d);p.setAttribute('fill','none');p.setAttribute('stroke','currentColor');p.setAttribute('stroke-width',w);p.setAttribute('stroke-linejoin','miter');p.setAttribute('stroke-linecap',cap||'butt');v.appendChild(p)};
+  mk(`M${x1} ${y1} L${x2} ${y2}`,t*.8,'round');
+  mk(`M${x2} ${y2} L${x3} ${yb}`,t*1.7,'butt');
+  mk(`M${x3} ${yb} L${x4} ${y0} L${W} ${y0}`,t,'butt');
+  r.appendChild(v)})}
+const app=h=>{h=String(h).replace(/√(?:\(([^()]*)\)|([A-Za-zА-Яа-я0-9₀-₉]+))/g,(m,a,b)=>R(a||b));document.getElementById('app').innerHTML=h;fixRad()};
+addEventListener('resize',fixRad);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fixRad);
 const $=s=>document.querySelector(s);
 function hdr(){return `<div class="muted">${esc(st.name||'')}${TEACHER?' · режим учителя (в таблицу не отправляется)':''}</div>`}
 function render(){
