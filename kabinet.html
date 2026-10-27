@@ -1308,7 +1308,7 @@ function lessonCard(teach){const t=nextLesson();if(!t)return `<div class="card">
  ${teach&&wkS?`<div class="tzalt">у ученика: ${fmtWhen(t,P.tz)} · ${esc(tzLabel(P.tz))}</div>`:''}
  <span class="cd ${c.live?'live':''}" id="cd"><i></i>${c.s}</span>
  ${D.topic?`<p class="ltopic"><span>Тема:</span> ${esc(D.topic)}</p>`:'<div style="height:14px"></div>'}
- ${teach?boardRow():`<a class="btn" href="${esc(href(D.board)||'https://learnboard.ru')}" target="_blank" rel="noopener">Открыть доску</a>`}
+ ${teach?boardRow():`${D.board?`<a class="btn" href="${esc(href(D.board))}" target="_blank" rel="noopener">Открыть доску</a>`:''}`}
  ${P.slots.length>1||teach?`<div class="wk"><span>${teach?'Неделя по Самаре':'Каждую неделю'}</span>${esc(wk)}</div>`:''}
  ${teach&&wkS?`<div class="wk"><span>У ученика (${esc(tzLabel(P.tz))})</span>${esc(wkS)}</div>`:''}
  <div class="tzn">${teach?'Ученик видит время в своём поясе.':`Время по твоему часовому поясу${tz?' ('+esc(P.tz?tzLabel(tz):tz)+')':''}.`}${diff?` Сейчас твоё устройство в другом поясе: там это ${t.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}.`:''} 60 минут: алгебра, геометрия, практика.</div></div>`}
@@ -1697,11 +1697,12 @@ function progOptions(cls,cur){const L=CLASS_PROGS[cls]||CLASS_PROGS[9];if(!L.inc
 const SHOW_KEYS=[['work','Над чем работаем (родителям)'],['grades','Школьные оценки'],['exams','Пробники: график и вся история'],['map','Карта заданий'],['skills','Карта навыков'],['notebook','Тетрадь ошибок'],['rewards','Стикеры и коллекция'],['letter','Личное сообщение преподавателю']];
 function boardRow(){const b=D.board?href(D.board):'';
  return `<div class="boardrow">${b?`<a class="btn" href="${esc(b)}" target="_blank" rel="noopener">Открыть доску</a><button class="btn ghost tsm" id="bd-copy" type="button">Скопировать ссылку</button><button class="btn ghost tsm" id="bd-edit" type="button">Заменить</button>`:`<span class="note">Ссылка на доску не задана.</span><button class="btn" id="bd-edit" type="button">Вставить ссылку</button>`}</div>
- <div class="boardedit" id="bd-form" hidden><label class="fld"><span>Ссылка на доску ${esc(D.dat||D.name)}: ученик откроет её кнопкой «Открыть доску» в своём кабинете</span><input id="bd-url" value="${esc(D.board||'')}" placeholder="https://learnboard.ru/…" autocomplete="off"></label>
- <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="bd-save" type="button">Сохранить</button><button class="btn ghost" id="bd-cancel" type="button">Отмена</button></div>
- <div class="ferr" id="bd-e"></div><a class="note" href="https://liliya-math.github.io/excalidraw/" target="_blank" rel="noopener">Пустая доска Excalidraw</a></div>`}
+ <div class="boardedit" id="bd-form" hidden><label class="fld"><span>Ссылка на доску ${esc(D.dat||D.name)}: ученик откроет её кнопкой «Открыть доску» в своём кабинете</span><input id="bd-url" value="${esc(D.board||'')}" placeholder="https://liliya-math.github.io/excalidraw/?student=Имя#room=…" autocomplete="off"></label>
+ <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="bd-save" type="button">Сохранить</button><button class="btn ghost" id="bd-gen" type="button">Создать новую комнату</button><button class="btn ghost" id="bd-cancel" type="button">Отмена</button></div>
+ <div class="ferr" id="bd-e"></div><p class="note">«Создать новую комнату» подставит свежую ссылку Excalidraw с именем ученика. Старая комната останется по своему адресу, но ученик получит новую только после «Сохранить».</p></div>`}
 function bindBoard(){const ed=document.getElementById('bd-edit'),f=document.getElementById('bd-form');if(!ed||!f)return;
  ed.onclick=()=>{f.hidden=!f.hidden;if(!f.hidden){const i=document.getElementById('bd-url');i.focus();i.select()}};
+ document.getElementById('bd-gen').onclick=()=>{const r=n=>[...crypto.getRandomValues(new Uint8Array(n))],hex=r(10).map(b=>b.toString(16).padStart(2,'0')).join(''),key=btoa(String.fromCharCode(...r(16))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');document.getElementById('bd-url').value='https://liliya-math.github.io/excalidraw/?student='+encodeURIComponent(D.name)+'#room='+hex+','+key;document.getElementById('bd-e').textContent=''};
  document.getElementById('bd-cancel').onclick=()=>{f.hidden=true;document.getElementById('bd-e').textContent=''};
  const cp=document.getElementById('bd-copy');if(cp)cp.onclick=()=>{const u=href(D.board),ok=()=>{cp.textContent='Скопировано';setTimeout(()=>{if(cp.isConnected)cp.textContent='Скопировать ссылку'},1600)};try{navigator.clipboard.writeText(u).then(ok,()=>{cp.textContent='Не вышло, выдели ссылку вручную'})}catch(e){cp.textContent='Не вышло, выдели ссылку вручную'}};
  document.getElementById('bd-save').onclick=e=>{const b=e.currentTarget,er=document.getElementById('bd-e');let u=document.getElementById('bd-url').value.trim();er.textContent='';
