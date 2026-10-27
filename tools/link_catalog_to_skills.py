@@ -70,6 +70,7 @@ RULES = [
  (r'^dz-procenty', ['6A.4']),
  (r'^dz-koren-1', ['8A.2']),
  (r'^dz-9-umnozhenie-delenie-drobey', ['6A.2.4']),
+ (r'^dz-9-slozhenie-vychitanie-drobey', ['6A.2.3', '5A.5.3', '6A.2.5']),
  (r'^dz-9-chisla-na-pryamoj', ['9A.7.2']),
  (r'^7-klass', ['7A','7G']), (r'^8-klass', ['8A','8G']), (r'^9-klass', ['9A','9G']),
  (r'^drob-deistviya', ['6A.2.3','6A.2.4']), (r'^drob-s-nulya', ['5A.4']), (r'^materialy-drob', ['6A.2']),

@@ -5312,6 +5312,35 @@
       ]
     },
     {
+      "file": "dz-9-slozhenie-vychitanie-drobey-2.html",
+      "title": "6A.2.3 · ДЗ №2 · Сложение и вычитание дробей",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "11 заданий (4+4+3), одна подсказка, две попытки; результаты в таблицу. Без решений на странице.",
+      "auto": true,
+      "node": [
+        "6A.2.3",
+        "5A.5.3",
+        "6A.2.5"
+      ]
+    },
+    {
+      "file": "dz-9-slozhenie-vychitanie-drobey-2.pdf",
+      "title": "6A.2.3 · ДЗ №2 (PDF) · Сложение и вычитание дробей",
+      "type": "dz",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "Листок ученика для печати, без ответов.",
+      "node": [
+        "6A.2.3",
+        "5A.5.3",
+        "6A.2.5"
+      ]
+    },
+    {
       "file": "dz-9-chisla-na-pryamoj-2.html",
       "title": "9A.7.2 · ДЗ №2 · Числа на координатной прямой",
       "type": "dz",
