@@ -4607,6 +4607,18 @@
       "audience": "teacher"
     },
     {
+      "file": "obyasnenie-9-kvadratnye-20.html",
+      "title": "8A.3 · Теория · Урок-объяснение на 60 минут: квадратные уравнения в №20",
+      "type": "uchebnik",
+      "class": 9,
+      "oge_task": 20,
+      "status": "hidden",
+      "note": "добавлено 2026-10-27, ветка urok-20-nomer, до слова «заливай» не публиковать",
+      "node": [
+        "8A.3"
+      ]
+    },
+    {
       "file": "obyasnenie-5-9.html",
       "title": "Объяснения тем 5–9 класс · все темы",
       "type": "uchebnik",
