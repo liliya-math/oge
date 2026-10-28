@@ -16,10 +16,10 @@ def fig_area():
     cen = _cent(A, B, C)
     for nm, p in (('A', A), ('B', B), ('C', C)): f.label(p, _out(cen, p), nm, 'tx', start=12)
     f.label(Hf, (0, 1), 'H', 'tx', start=12)
-    f.label(_mid(C, Hf), (0, 1), 'a', 'tm', start=10)
+    f.label(_mid(C, B), (0, 1), 'a', 'tm', start=10)
     f.label(_mid(C, A), (-0.5, -1), 'b', 'tm', start=10)
     f.label(_mid(A, Hf), (1, 0), 'h', 'tm', start=10)
-    f.label(C, (1, -0.25), 'C', 'tm', start=34, alts=(0, 10, -10, 20))
+    f.label(C, (math.cos(math.radians(15)), -math.sin(math.radians(15))), '30°', 'tm', start=40, maxd=80, alts=(0, 5, -5, 10))
     return f.render('AH — высота. В прямоугольном треугольнике ACH: h = b · sin C')
 
 def fig_par():
