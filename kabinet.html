@@ -1275,7 +1275,7 @@ const RU_Z=[
 ['Asia/Magadan','Магадан,Южно-Сахалинск'],
 ['Asia/Kamchatka','Петропавловск-Камчатский'],
 ['Asia/Anadyr','Анадырь']];
-const KR_C=['Сеул','Пусан','Инчхон','Тэгу','Тэджон','Кванджу','Ульсан','Сувон','Чханвон','Чеджу'];
+const KR_C=['Южная Корея'];
 const CITY_ZONE={},ZONE_MAIN={};
 RU_Z.forEach(([z,l])=>l.split(',').forEach((c,i)=>{CITY_ZONE[c]=z;if(!i)ZONE_MAIN[z]=c}));
 KR_C.forEach((c,i)=>{CITY_ZONE[c]='Asia/Seoul';if(!i)ZONE_MAIN['Asia/Seoul']=c});
@@ -1709,7 +1709,7 @@ function schedEditor(){const P=SCH();SL=P.slots.map(x=>({...x}));STZ=P.tz;STC=P.
     RU_Z.forEach(([z,l])=>l.split(',').forEach(c=>ru.push([tzOff(z),c,z])));
     const byOff=[];ru.sort((a,b)=>a[0]-b[0]).forEach(r=>{let g=byOff[byOff.length-1];if(!g||g.o!==r[0]){g={o:r[0],items:[]};byOff.push(g)}g.items.push(r)});
     const ruHtml=byOff.map(g=>`<optgroup label="Россия · UTC${fmtOff(g.o)}">${g.items.map(r=>r)/* порядок: основной город пояса первым */.sort((a,b)=>(ZONE_MAIN[b[2]]===b[1])-(ZONE_MAIN[a[2]]===a[1])||a[1].localeCompare(b[1],'ru')).map(r=>opt(r[2],r[1])).join('')}</optgroup>`).join('');
-    const krHtml=`<optgroup label="Южная Корея · UTC+9">${KR_C.map(c=>opt('Asia/Seoul',c)).join('')}</optgroup>`;
+    const krHtml=`<optgroup label="Азия · UTC+9">${KR_C.map(c=>opt('Asia/Seoul',c)).join('')}</optgroup>`;
     const other=TZS.filter(z=>!RU_Z.some(r=>r[0]===z[0])&&z[0]!=='Asia/Seoul'),groups=[];let cur=null;
     other.sort((a,b)=>tzOff(a[0])-tzOff(b[0])).forEach(z=>{const o=tzOff(z[0]);if(!cur||cur.o!==o){cur={o:o,items:[]};groups.push(cur)}cur.items.push(z)});
     const otherHtml=groups.map(g=>`<optgroup label="Другие страны · UTC${fmtOff(g.o)}">${g.items.map(z=>`<option value="${z[0]}" ${!STC&&z[0]===STZ?'selected':''}${z[2]?` title="${esc(z[2])}"`:''}>${z[1]}</option>`).join('')}</optgroup>`).join('');
