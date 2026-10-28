@@ -53,5 +53,8 @@ s = rep_once(s, '<a class="chip" href="obyasnenie-5-9.html">Все темы</a>'
 # 7. оформление: красная строка и неразрывные формулы
 s = rep_once(s, '.stmt p:last-child{margin-bottom:0}', '.stmt p:last-child{margin-bottom:0}.stmt p{text-indent:1.4em}.stmt .m,.fbox .m,.opt .m{white-space:nowrap}@media (max-width:520px){.fbox{font-size:18px;padding:16px 14px}}')
 
+# 8. пузырь зверя показывает разбор как текст: убрать разметку формул и переносов
+s = rep_once(s, '<span>${esc(sub)}</span>', "<span>${esc(String(sub).replace(/<br\\s*\\/?>/g,' ').replace(/<[^>]+>/g,''))}</span>")
+
 open(OUT, 'w', encoding='utf8').write(s)
 print('written', OUT, len(s), 'screens', len(LC.T))

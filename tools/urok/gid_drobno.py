@@ -132,7 +132,16 @@ def _rng(scr):
 import re
 S = []
 for title, mins, scr, items in _S:
-    rows = [(lab, '' if lab.startswith('Ответ') and lab == 'Ответы' else txt) for lab, txt in items]
+    rows = []
+    for lab, txt in items:
+        m = re.match(r'^(.*?)\s*\((.*)\)\s*$', lab)
+        extra = ''
+        if m:
+            lab, extra = m.group(1), m.group(2)
+        lab = {'Самостоятельно': 'Задания', 'Проверка понимания': 'Проверка', 'Итоговые 5 задач': 'Итог', 'Если времени мало': 'Если мало времени'}.get(lab, lab)
+        if extra:
+            txt = extra[0].upper() + extra[1:] + '. ' + txt
+        rows.append((lab, '' if lab == 'Ответы' else txt))
     S.append(dict(t=title, m=mins, rng=_rng(scr), rows=rows))
 
 _WHY = ['Не проверяет ОДЗ и не смотрит, что запрещено.',
