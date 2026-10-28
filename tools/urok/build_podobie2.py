@@ -52,6 +52,6 @@ s = rep_once(s, '<a class="chip" href="obyasnenie-5-9.html">Все темы</a>'
 
 # реплика зверя показывает разбор как простой текст: убираем теги, переносы заменяем пробелом
 s = rep_once(s, '<span>${esc(sub)}</span></div><div class="rimg">', "<span>${esc(String(sub).replace(/<br\\s*\\/?>/g,' ').replace(/<[^>]+>/g,''))}</span></div><div class=\"rimg\">")
-s = rep_once(s, '.stmt p:last-child{margin-bottom:0}', '.stmt p:last-child{margin-bottom:0}.stmt p{text-indent:1.4em}.nb{white-space:nowrap}')
+s = rep_once(s, '.stmt p:last-child{margin-bottom:0}', '.stmt p:last-child{margin-bottom:0}.stmt p{text-indent:1.4em}.nb{white-space:nowrap}.tblw table{min-width:0}')
 open(OUT, 'w', encoding='utf8').write(s)
 print('written', OUT, len(s), 'screens', len(LC.T))
