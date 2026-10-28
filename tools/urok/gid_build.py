@@ -64,7 +64,19 @@ li{margin:0 0 1.2mm}
 """
 
 
-def build(scen_name, gid_name, outdir):
+ECO_CSS = """
+@page{size:A4;margin:8mm 9mm 9mm}
+body{font:8.6pt/1.3 'DejaVu Serif',Georgia,serif}
+h1{font-size:13pt;margin:0 0 1mm}.sub{font-size:8.2pt;margin:0 0 2mm}
+h2{font-size:10pt;margin:3mm 0 1mm;padding-bottom:.5mm}h2 small{font-size:7.8pt}
+.row{grid-template-columns:17mm 1fr;gap:2mm;margin:0 0 1mm}.row>b{font-size:7.2pt}
+.row p{margin:0 0 .6mm}
+table{font-size:7.6pt;margin:1mm 0 2mm}th,td{padding:.7mm 1.2mm}
+.note{font-size:7.8pt;margin:0 0 1.5mm}li{margin:0 0 .6mm}ul{margin:.5mm 0 1.5mm 4mm}
+"""
+
+
+def build(scen_name, gid_name, outdir, eco=False):
     sc = importlib.import_module(scen_name)
     LC = sc.LC
     LC.finalize()
@@ -96,26 +108,34 @@ def build(scen_name, gid_name, outdir):
 
     parts.append('<h2>Если не успеваешь</h2><ul>' + ''.join(f'<li>{LC.nb(html.escape(x, quote=False))}</li>' for x in G.SKIP) + '</ul>')
 
-    parts.append('<h2>Ответы на все вопросы урока</h2><table><colgroup><col style="width:9%"><col style="width:41%"><col style="width:15%"><col style="width:35%"></colgroup><tr><th>Экран</th><th>Вопрос</th><th>Ответ</th><th>Разбор</th></tr>')
-    for n in sorted(qs):
-        d = qs[n]
-        fin = ' (итоговый)' if d.get('fin') else ''
-        parts.append(f'<tr><td>{n}{fin}</td><td>{LC.nb(html.escape(plain(d["q"]), quote=False))}</td>'
-                     f'<td><b>{LC.nb(html.escape(answer_of(d), quote=False))}</b></td>'
-                     f'<td>{LC.nb(html.escape(plain(d["why"]), quote=False))}</td></tr>')
-    parts.append('</table>')
+    if eco:
+        parts.append('<h2>Ответы на все вопросы урока</h2><table><tr><th>Экран</th><th>Вопрос</th><th>Ответ</th></tr>')
+        for n in sorted(qs):
+            d = qs[n]
+            fin = '*' if d.get('fin') else ''
+            parts.append(f'<tr><td>{n}{fin}</td><td>{LC.nb(html.escape(plain(d["q"]), quote=False))}</td><td><b>{LC.nb(html.escape(answer_of(d), quote=False))}</b></td></tr>')
+        parts.append('</table><p class="note">* итоговый вопрос. Подробные разборы есть в обычной версии гида.</p>')
+    else:
+        parts.append('<h2>Ответы на все вопросы урока</h2><table><colgroup><col style="width:9%"><col style="width:41%"><col style="width:15%"><col style="width:35%"></colgroup><tr><th>Экран</th><th>Вопрос</th><th>Ответ</th><th>Разбор</th></tr>')
+        for n in sorted(qs):
+            d = qs[n]
+            fin = ' (итоговый)' if d.get('fin') else ''
+            parts.append(f'<tr><td>{n}{fin}</td><td>{LC.nb(html.escape(plain(d["q"]), quote=False))}</td>'
+                         f'<td><b>{LC.nb(html.escape(answer_of(d), quote=False))}</b></td>'
+                         f'<td>{LC.nb(html.escape(plain(d["why"]), quote=False))}</td></tr>')
+        parts.append('</table>')
 
-    doc = f'<!doctype html><html lang="ru"><head><meta charset="utf-8"><title>{html.escape(G.TITLE)}</title><style>{CSS}</style></head><body>{"".join(parts)}</body></html>'
+    doc = f'<!doctype html><html lang="ru"><head><meta charset="utf-8"><title>{html.escape(G.TITLE)}</title><style>{CSS}{ECO_CSS if eco else ''}</style></head><body>{"".join(parts)}</body></html>'
     os.makedirs(outdir, exist_ok=True)
-    hp = os.path.join(outdir, G.OUT + '.html')
-    pp = os.path.join(outdir, G.OUT + '.pdf')
+    hp = os.path.join(outdir, G.OUT + ('_eco' if eco else '') + '.html')
+    pp = os.path.join(outdir, G.OUT + ('_eco' if eco else '') + '.pdf')
     open(hp, 'w', encoding='utf8').write(doc)
     from playwright.sync_api import sync_playwright
     with sync_playwright() as p:
         br = p.chromium.launch()
         pg = br.new_page()
         pg.goto('file://' + os.path.abspath(hp))
-        pg.pdf(path=pp, format='A4', print_background=False, margin={'top': '14mm', 'bottom': '16mm', 'left': '14mm', 'right': '14mm'},
+        pg.pdf(path=pp, format='A4', print_background=False, margin=({'top': '8mm', 'bottom': '9mm', 'left': '9mm', 'right': '9mm'} if eco else {'top': '14mm', 'bottom': '16mm', 'left': '14mm', 'right': '14mm'}),
                display_header_footer=True, header_template='<span></span>',
                footer_template='<div style="font:8px sans-serif;width:100%;text-align:center"><span class="pageNumber"></span> / <span class="totalPages"></span></div>')
         br.close()
@@ -123,6 +143,7 @@ def build(scen_name, gid_name, outdir):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 4:
-        print(__doc__); sys.exit(1)
-    build(sys.argv[1], sys.argv[2], sys.argv[3])
+    a = [x for x in sys.argv[1:] if x != '--eco']
+    if len(a) != 3:
+        print(__doc__ + '\nДобавь --eco для экономии бумаги (мелкий шрифт, узкие поля, без колонки «Разбор»).'); sys.exit(1)
+    build(a[0], a[1], a[2], eco='--eco' in sys.argv)
