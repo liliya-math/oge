@@ -1,5 +1,5 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 7.9
+ * Кабинет ученика 25/25 · lili.math — версия 7.10
  * (7.9: простая автопроверка домашки — листы «Ключи» и «Результаты», страница dz.html; ответы ученика проверяются на сервере, учителю приходит письмо; один раз выполни setupDz, затем «Новая версия»)
  * (7.8: кнопка «Новая ссылка» в режиме учителя — выдаёт ученику новый код, старый перестаёт работать; после замены кода: «Новая версия» развёртывания)
  * (7.7: учитель выбирает, что видит ученик и родитель (колонка «Показывать», скрытое вообще не уходит на страницу);
@@ -39,7 +39,7 @@ const SHEETS = {
   'Ученики': ['Код', 'Имя', 'Кому (дательный)', 'Цель, баллов', 'Дни занятий', 'Время (по Самаре)',
               'Тема следующего занятия', 'Ссылка на доску', 'Над чем работаем (через ;)',
               'Занятий в месяце по плану', 'Проведено в этом месяце', 'Активен', 'Ссылка на кабинет',
-              'Программа', 'Фамилия', 'Дата рождения', 'Родитель', 'Телефон родителя', 'Класс', 'Показывать', 'Талисман'],
+              'Программа', 'Фамилия', 'Дата рождения', 'Родитель', 'Телефон родителя', 'Класс', 'Показывать', 'Талисман', 'Как обращаться (выбрал ученик)'],
   'Карта': ['Код', 'Имя'].concat(Array.from({length: 58}, (_, i) => String(i + 1))),
   'Комментарии': ['Код', 'Задание ОГЭ', 'Комментарий', 'Ссылка на разбор', 'Подпись ссылки'],
   'Разборы': ['Код', 'Ссылка', 'Название', 'Подпись'],
@@ -109,8 +109,8 @@ const MATERIALS = [
 const C = {bg: '#14211e', bg2: '#1b2b28', fg: '#f3ece2', muted: '#a9b6ad', cobalt: '#1747c9', apricot: '#f2905e',
            amber: '#f5dc6a', sage: '#a9d18e', miss: '#ff8f73', none: '#2a3a36'};
 const STUDENT_COLS = {name: 2, dat: 3, goal: 4, days: 5, time: 6, topic: 7, board: 8, work: 9, lessonsPlan: 10, lessonsDone: 11, active: 12, prog: 14,
-                      fname: 15, bdate: 16, parent: 17, phone: 18, cls: 19, show: 20, pet: 21};
-const STUDENT_NCOL = 21;
+                      fname: 15, bdate: 16, parent: 17, phone: 18, cls: 19, show: 20, pet: 21, nick: 22};
+const STUDENT_NCOL = 22;
 const SHOW_KEYS = ['work', 'grades', 'exams', 'map', 'skills', 'notebook', 'rewards', 'letter'];
 const PETS = ['cat', 'meer', 'rac', 'lab', 'capy', 'ham'];
 const CATALOG_URL = 'https://lilimath.ru/catalog.json';
@@ -268,7 +268,7 @@ function syncMaterials() {
 function styleSheets() {
   const ss = SpreadsheetApp.getActive();
   const widths = {
-    'Ученики': [110, 120, 130, 90, 110, 110, 260, 200, 320, 110, 110, 80, 380, 130, 130, 120, 160, 160, 70, 220, 90],
+    'Ученики': [110, 120, 130, 90, 110, 110, 260, 200, 320, 110, 110, 80, 380, 130, 130, 120, 160, 160, 70, 220, 90, 170],
     'Карта': [110, 120].concat(Array(58).fill(54)),
     'Комментарии': [110, 90, 420, 260, 200],
     'Разборы': [110, 300, 320, 160],
@@ -349,7 +349,7 @@ function createStudent_(name, dat, prog, cls) {
   const p = normProg_(prog);
   const goal = p === 'oge9' ? 22 : Math.round(goalMax_(p) * 0.8);
   ss.getSheetByName('Ученики').appendRow([code, name, dat || name, goal, 'ср, сб', '18:00',
-    '', 'https://learnboard.ru', '', 8, 0, true, PAGE + '#' + code, p, '', '', '', '', cls || clsOfProg_(p), 'work', '']);
+    '', 'https://learnboard.ru', '', 8, 0, true, PAGE + '#' + code, p, '', '', '', '', cls || clsOfProg_(p), 'work', '', '']);
   ss.getSheetByName('Карта').appendRow([code, name].concat(Array(58).fill('не проходили')));
   return code;
 }
@@ -410,9 +410,31 @@ function doPost(e) {
       SpreadsheetApp.getActive().getSheetByName('Ученики').getRange(st.index, STUDENT_COLS.pet).setValue(pet);
       return json_({ok: true});
     }
+    if (body.nick !== undefined) return json_(saveNick_(code, st, body.nick));
     if (body.letter !== undefined) return json_(saveLetter_(code, body.letter));
     return json_(setHwDone_(code, body.id, body.text, body.done));
   } finally { lock.releaseLock(); }
+}
+
+// Имя, по которому ученик просит к нему обращаться. Настоящие имя и фамилию видит только учитель.
+function cleanNick_(v) {
+  return String(v || '').replace(/[<>&"\\\u0000-\u001f]/g, '').replace(/\s+/g, ' ').trim().slice(0, 24);
+}
+function ensureNickCol_(sh) {
+  if (sh.getMaxColumns() < STUDENT_COLS.nick) sh.insertColumnsAfter(sh.getMaxColumns(), STUDENT_COLS.nick - sh.getMaxColumns());
+  const h = sh.getRange(1, STUDENT_COLS.nick);
+  if (!String(h.getValue()).trim()) h.setValue(SHEETS['Ученики'][STUDENT_COLS.nick - 1]);
+}
+function saveNick_(code, st, raw) {
+  const nick = cleanNick_(raw);
+  if (String(raw || '').trim() && !nick) return {error: 'bad_value'};
+  const cache = CacheService.getScriptCache(), key = 'nick_' + code, cnt = Number(cache.get(key) || 0);
+  if (cnt >= 10) return {error: 'too_many'};
+  cache.put(key, String(cnt + 1), 3600);
+  const sh = SpreadsheetApp.getActive().getSheetByName('Ученики');
+  ensureNickCol_(sh);
+  sh.getRange(st.index, STUDENT_COLS.nick).setValue(nick);
+  return {ok: true, nickSaved: true, nick: nick, name: nick || String(st.row[1])};
 }
 
 function saveLetter_(code, text) {
@@ -495,6 +517,7 @@ function admin_(b) {
       case 'student': {
         const st = need(), sh = ss.getSheetByName('Ученики'), f = b.fields || {};
         const pr = progOf_(st.row, f);
+        if (f.nick !== undefined) ensureNickCol_(sh);
         Object.keys(f).forEach(k => {
           if (!STUDENT_COLS[k]) return;
           let v = f[k];
@@ -506,6 +529,7 @@ function admin_(b) {
           else if (k === 'cls') v = Math.max(0, Math.min(11, Number(v) || 0));
           else if (k === 'show') v = (Array.isArray(v) ? v : String(v).split(',')).map(x => String(x).trim()).filter(x => SHOW_KEYS.indexOf(x) >= 0).join(',');
           else if (k === 'pet') v = PETS.indexOf(String(v)) >= 0 ? String(v) : '';
+          else if (k === 'nick') v = cleanNick_(v);
           else v = String(v).trim();
           sh.getRange(st.index, STUDENT_COLS[k]).setValue(v);
         });
@@ -741,7 +765,7 @@ function listStudents_() {
     const pr = progOf_(r), nmax = nMax_(pr);
     let p = 0;
     if (m) for (let n = 1; n <= nmax; n++) if (STATUS_KEY[String(m[n + 1]).trim().toLowerCase()] === 'solid') p += ptsOf_(pr, n);
-    return {code: c, name: String(r[1]), fname: String(r[14] || ''), goal: Number(r[3]) || Math.round(goalMax_(pr) * 0.8),
+    return {code: c, name: String(r[1]), fname: String(r[14] || ''), nick: String(r[21] || '').trim(), goal: Number(r[3]) || Math.round(goalMax_(pr) * 0.8),
             days: String(r[4] || ''), time: x.time, active: r[11] !== false, prog: pr, pts: p, hwLeft: left[c] || 0,
             letters: letters[c] || 0, cls: Number(r[18]) || clsOfProg_(pr)};
   });
@@ -802,8 +826,9 @@ function studentData_(code, admin) {
   const show = showRaw ? showRaw.split(',').map(x => x.trim()).filter(x => SHOW_KEYS.indexOf(x) >= 0) : ['work'];
   const has = k => admin || show.indexOf(k) >= 0;
   const pet = PETS.indexOf(String(r[20] || '').trim()) >= 0 ? String(r[20]).trim() : '';
+  const nick = String(r[21] || '').trim();
   const out = {
-    workflow: 1, name: String(r[1]), dat: String(r[2] || r[1]), goal: Number(r[3]) || Math.round(goalMax_(prog) * 0.8),
+    workflow: 1, nickEdit: true, name: admin ? String(r[1]) : (nick || String(r[1])), nick: nick, dat: admin ? String(r[2] || r[1]) : (nick || String(r[1])), goal: Number(r[3]) || Math.round(goalMax_(prog) * 0.8),
     days: String(r[4] || ''), time: st.time, topic: String(r[6] || ''), board: String(r[7] || ''),
     work: String(r[8] || '').split(';').map(s => s.trim()).filter(Boolean),
     lessonsPlan: Number(r[9]) || 0, lessonsDone: Number(r[10]) || 0,
@@ -811,7 +836,8 @@ function studentData_(code, admin) {
     hist: has('exams') ? hist : hist.slice(-2), mats: mats, matsAll: matsAll, prog: prog, show: show, pet: pet,
     // Без пароля (публичная ссылка ученика) родитель, телефон и год рождения не отдаются:
     // для поздравления хватает дня и месяца, год подменяется на 2000.
-    fname: String(r[14] || ''), bdate: admin ? day_(r[15]) : maskBdate_(day_(r[15])),
+    // Фамилию (и настоящее имя, если ученик выбрал своё) отдаём только учителю.
+    fname: admin ? String(r[14] || '') : '', bdate: admin ? day_(r[15]) : maskBdate_(day_(r[15])),
     parent: admin ? String(r[16] || '') : '', phone: admin ? String(r[17] || '') : '',
     cls: Number(r[18]) || clsOfProg_(prog), grades: has('grades') ? grades : [], telegram: telegramState_(code)
   };
