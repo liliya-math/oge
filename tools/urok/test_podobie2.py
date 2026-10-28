@@ -37,6 +37,8 @@ with sync_playwright() as p:
         # проверка горизонтальной прокрутки
         sw=pg.evaluate("document.documentElement.scrollWidth")
         if sw>402: errors.append(('hscroll',idx+1,sw))
+        ov=pg.evaluate("(()=>{const c=document.querySelector('#card');if(!c)return [];const R=c.getBoundingClientRect();return [...c.querySelectorAll('.nb,.fig,.fr,table')].filter(e=>e.getBoundingClientRect().right>R.right+1).map(e=>e.textContent.slice(0,40))})()")
+        if ov: errors.append(('overflow',idx+1,ov))
         if t['kind']=='q':
             if t['type']=='choice':
                 pg.click(f'.opt[data-v="{t["a"]}"]')
@@ -59,4 +61,4 @@ with sync_playwright() as p:
     txt=pg.inner_text('.big')
     print('final pct',txt,'ok answers',okcount)
     br.close()
-print('errors:',errors)
+print('errors:',[e for e in errors if e[0]!='console'])

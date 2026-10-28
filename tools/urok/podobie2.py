@@ -4,6 +4,14 @@ import lesson_content as LC
 from lesson_content import R, F, M, P, info, widget, q, cheat
 from figs import fig_prop, fig_sim_pair, fig_area4, fig_trap_o, fig_bis, fig_rt_alt, fig_chords, fig_trap_kl, fig_para_k, fig_lamp, tbl
 
+import re as _re
+_wt0 = LC._wrap_text
+def _split_wrap(s):
+    """Формулы после ". ", ", " и "; " считаем отдельными: неразрывные блоки получаются короче."""
+    parts = _re.split(r'([.,;] )', s)
+    return ''.join(_wt0(p) if i % 2 == 0 else p for i, p in enumerate(parts))
+LC._wrap_text = _split_wrap
+
 LC.T.clear()
 T = LC.T
 NB = '&nbsp;∼&nbsp;'
