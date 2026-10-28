@@ -6,6 +6,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 import example_urok_sin_cos as LC0
 LC=LC0.LC
 LC.finalize()  # формулы и примеры становятся неразрывными
+for d in LC.T: d.pop('cp', None)  # без контрольных игр
 
 SRC = ROOT+'/obyasnenie-5-9-bissektrisa.html'  # шаблон оболочки
 OUT = ROOT+'/obyasnenie-9-teoremy-sinusov-kosinusov.html'
@@ -55,6 +56,10 @@ s = rep_once(s, '.stmt p:last-child{margin-bottom:0}', '.stmt p:last-child{margi
 
 # 8. пузырь зверя показывает разбор как текст: убрать разметку формул и переносов
 s = rep_once(s, '<span>${esc(sub)}</span>', "<span>${esc(String(sub).replace(/<br\\s*\\/?>/g,' ').replace(/<[^>]+>/g,''))}</span>")
+
+# 9. без игровых элементов (по просьбе владельца): нет контрольных игр, стикеров за серию и счётчика стикеров
+s = rep_once(s, '    <span class="pill" title="Стикеры">стикеры <strong>${S.stk.length}</strong></span>\n', '')
+s = rep_once(s, 'function streakDrop(){\n', 'function streakDrop(){return;\n')
 
 open(OUT, 'w', encoding='utf8').write(s)
 print('written', OUT, len(s), 'screens', len(LC.T))
