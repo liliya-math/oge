@@ -398,3 +398,120 @@ def fig_trap_grid(bot, top, h, cell=24, cols=10, rows=6, slant=True):
     f.line(A, B, 'ln', 'style="stroke-width:2.6"'); f.line(C, D, 'ln', 'style="stroke-width:2.6"')
     for p in (A, B, C, D): f.dot(p, 3.5)
     return f.render('Сторона клетки равна 1')
+
+
+# =========================================================
+# Пропорциональные отрезки и подобные треугольники (9 класс)
+# =========================================================
+def fig_prop(t=0.4, apex='A', p='B', q='C', m='M', n='N', seg=None, hl='mn', W=330, H_=215, cap=''):
+    """Угол с вершиной apex и прямая MN параллельная PQ. seg=(apex-m, m-p, apex-n, n-q) — подписи отрезков."""
+    A = (165.0, 30.0); B = (45.0, 185.0); C = (300.0, 185.0)
+    M_ = (A[0] + t * (B[0] - A[0]), A[1] + t * (B[1] - A[1]))
+    N_ = (A[0] + t * (C[0] - A[0]), A[1] + t * (C[1] - A[1]))
+    f = Fig(W, H_)
+    f.line(A, B); f.line(A, C); f.line(B, C)
+    f.line(M_, N_, 'acc' if hl == 'mn' else 'ln', 'stroke-dasharray="6 4"' if hl == 'mn' else '')
+    f.dot(M_, 3.5); f.dot(N_, 3.5)
+    cen = _cent(A, B, C)
+    f.label(A, (0, -1), apex, 'tx', start=12)
+    f.label(B, _out(cen, B), p, 'tx', start=12)
+    f.label(C, _out(cen, C), q, 'tx', start=12)
+    f.label(M_, (-1, 0), m, 'tx', start=12)
+    f.label(N_, (1, 0), n, 'tx', start=12)
+    if seg:
+        s1, s2, s3, s4 = seg
+        if s1: f.label(_mid(A, M_), (-1, 0), s1, 'tm', start=10)
+        if s2: f.label(_mid(M_, B), (-1, 0), s2, 'tm', start=10)
+        if s3: f.label(_mid(A, N_), (1, 0), s3, 'tm', start=10)
+        if s4: f.label(_mid(N_, C), (1, 0), s4, 'tm', start=10)
+    return f.render(cap)
+
+def _tri_pts(a, b, c):
+    """Стороны a=BC, b=CA, c=AB. Вершины в единицах, A=(0,0), B=(c,0), y вверх."""
+    x = (c * c + b * b - a * a) / (2 * c); y = math.sqrt(max(b * b - x * x, 0))
+    return {'A': (0.0, 0.0), 'B': (float(c), 0.0), 'C': (x, y)}
+
+def _place(pts, ox, oy, s, rot=0.0, flip=False):
+    th = math.radians(rot); out = {}
+    for k, (x, y) in pts.items():
+        if flip: x = -x
+        xr = x * math.cos(th) - y * math.sin(th); yr = x * math.sin(th) + y * math.cos(th)
+        out[k] = (xr * s, -yr * s)
+    mx = min(p[0] for p in out.values()); my = max(p[1] for p in out.values())
+    return {k: (ox + p[0] - mx, oy + p[1] - my) for k, p in out.items()}
+
+def fig_sim_pair(sides1=(4, 5, 6), k=2, lab1=None, lab2=None, marks=(0, 0, 0), names2=('A₁', 'B₁', 'C₁'),
+                 rot2=0.0, flip2=False, s=15.0, W=400, H_=200, cap='', ang_lab=None, hl2=False):
+    """Два подобных треугольника. lab1/lab2 — подписи сторон (a=BC, b=CA, c=AB) или None. marks — число дужек в вершинах A,B,C."""
+    a, b, c = sides1
+    base = _tri_pts(a, b, c)
+    P1 = _place(base, 24, H_ - 40, s)
+    big = {kk: (v[0] * k, v[1] * k) for kk, v in base.items()}
+    P2 = _place(big, 0, H_ - 40, s, rot2, flip2)
+    w1 = max(p[0] for p in P1.values()) - min(p[0] for p in P1.values())
+    xs2 = [p[0] for p in P2.values()]
+    shift = 24 + w1 + 46 - min(xs2)
+    P2 = {kk: (v[0] + shift, v[1]) for kk, v in P2.items()}
+    f = Fig(W, H_)
+    for P, nm, lab, hl in ((P1, ('A', 'B', 'C'), lab1, False), (P2, names2, lab2, hl2)):
+        A, B, C = P['A'], P['B'], P['C']
+        col = 'acc' if hl else 'ln'
+        f.line(A, B, col); f.line(B, C, col); f.line(C, A, col)
+        cen = _cent(A, B, C)
+        for key, nm_ in zip('ABC', nm): f.label(P[key], _out(cen, P[key]), nm_, 'tx', start=12)
+        # дужки равных углов
+        for key, o1, o2, nmk in (('A', 'B', 'C', marks[0]), ('B', 'C', 'A', marks[1]), ('C', 'A', 'B', marks[2])):
+            for i in range(nmk):
+                r = (13 + 5 * i) * (1.0 if P is P1 else 1.25)
+                bis, a1, a2 = _bis(P[key], P[o1], P[o2]); f.arc(P[key], r, a1, a2)
+        if lab:
+            la, lb, lc = lab
+            if la: f.label(_mid(B, C), _out(cen, _mid(B, C)), la, 'tm', start=8)
+            if lb: f.label(_mid(C, A), _out(cen, _mid(C, A)), lb, 'tm', start=8)
+            if lc: f.label(_mid(A, B), _out(cen, _mid(A, B)), lc, 'tm', start=8)
+    return f.render(cap)
+
+def fig_shadow(lab=('?', '12 м', '2 м', '3 м'), r=2 / 3, W=340, H_=200, cap=''):
+    """Столб и палка с тенями. r = высота : тень (одинаковое у обоих, лучи параллельны)."""
+    g = 168
+    f = Fig(W, H_)
+    f.line((10, g), (W - 10, g))
+    P1 = (50, g); T1 = (50, g - 90); E1 = (50 + 90 / r, g)
+    P2 = (250, g); T2 = (250, g - 30); E2 = (250 + 30 / r, g)
+    f.line(P1, T1); f.line(T1, E1, 'acc', 'stroke-dasharray="6 4"')
+    f.line(P2, T2); f.line(T2, E2, 'acc', 'stroke-dasharray="6 4"')
+    f.right_angle(P1, (1, 0), (0, -1), 9); f.right_angle(P2, (1, 0), (0, -1), 9)
+    hp, sp, hs, ss = lab
+    f.label(_mid(P1, T1), (-1, 0), hp, 'tx', start=10)
+    f.label(_mid(P1, E1), (0, 1), sp, 'tx', start=10)
+    f.label(_mid(P2, T2), (-1, 0), hs, 'tx', start=10)
+    f.label(_mid(P2, E2), (0, 1), ss, 'tx', start=10)
+    return f.render(cap)
+
+def fig_area4(W=330, H_=215, cap=''):
+    A, B, C = (40.0, 185.0), (300.0, 185.0), (170.0, 30.0)
+    M_, N_, K_ = _mid(A, C), _mid(B, C), _mid(A, B)
+    f = Fig(W, H_)
+    f.line(A, B); f.line(B, C); f.line(C, A)
+    f.line(M_, N_, 'acc'); f.line(M_, K_, 'acc'); f.line(N_, K_, 'acc')
+    cen = _cent(A, B, C)
+    for nm, p in (('A', A), ('B', B), ('C', C)): f.label(p, _out(cen, p), nm, 'tx', start=12)
+    return f.render(cap)
+
+def fig_trap_o(lab=None, W=340, H_=215, cap=''):
+    """Трапеция ABCD с основаниями AD (нижнее) и BC (верхнее) и диагоналями, пересекающимися в точке O."""
+    A, D = (30.0, 175.0), (310.0, 175.0); B, C = (105.0, 45.0), (235.0, 45.0)
+    # точка пересечения диагоналей: делит в отношении BC : AD
+    kk = (C[0] - B[0]) / (D[0] - A[0])
+    O = (B[0] + (D[0] - B[0]) * kk / (1 + kk), B[1] + (D[1] - B[1]) * kk / (1 + kk))
+    f = Fig(W, H_)
+    f.line(A, D); f.line(B, C); f.line(A, B); f.line(C, D)
+    f.line(A, C, 'acc', 'stroke-dasharray="6 4"'); f.line(B, D, 'acc', 'stroke-dasharray="6 4"'); f.dot(O, 3.5)
+    cen = _cent(A, B, C, D)
+    for nm, p in (('A', A), ('B', B), ('C', C), ('D', D)): f.label(p, _out(cen, p), nm, 'tx', start=12)
+    f.label(O, (0, 1), 'O', 'tx', start=10, alts=(0, 40, -40, 90, -90, 140, -140, 180))
+    if lab:
+        lb, la_ = lab
+        if lb: f.label(_mid(B, C), (0, -1), lb, 'tm', start=10)
+        if la_: f.label(_mid(A, D), (0, 1), la_, 'tm', start=10)
+    return f.render(cap)
