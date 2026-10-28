@@ -353,3 +353,48 @@ def fig_trap_diag():
     f.label(A, (1, -0.2), '30°', 'tm', start=48, alts=(0, 8, -8, 16, -16))
     f.label(C, (0.1, 1), '80°', 'tm', start=34, alts=(0, 12, -12, 25, -25))
     return f.render('Равнобедренная трапеция ABCD, диагональ AC')
+
+
+# =========================================================
+# Трапеция, часть 2 (площадь)
+def fig_trap_area():
+    """Диагональ AC делит трапецию на два треугольника с высотой h."""
+    A, B, C, D = (60, 165), (130, 50), (250, 50), (320, 165)
+    K = (250, 165)
+    f = Fig(390, 215)
+    _trap_draw(f, A, B, C, D)
+    f.line(A, C, 'acc', 'stroke-dasharray="6 4"'); f.line(C, K, 'ln', 'stroke-dasharray="3 4"')
+    f.right_angle(K, (-1, 0), (0, -1))
+    f.label(K, (0, 1), 'K', 'tx', start=14)
+    f.label(_mid(C, K), (1, 0), 'h', 'tx', start=10)
+    f.label(_mid(B, C), (0, -1), 'b', 'tx', start=12); f.label(_mid(A, D), (0, 1), 'a', 'tx', start=30)
+    return f.render('Диагональ AC делит трапецию на треугольники ABC и ACD')
+
+def fig_trap_pyth():
+    """Равнобедренная трапеция: боковая сторона AB — гипотенуза треугольника ABH."""
+    A, B, C, D = (60, 165), (130, 50), (250, 50), (320, 165)
+    H, K = (130, 165), (250, 165)
+    f = Fig(390, 215)
+    _trap_draw(f, A, B, C, D)
+    f.line(B, H, 'acc', 'stroke-dasharray="6 4"'); f.line(C, K, 'acc', 'stroke-dasharray="6 4"')
+    f.right_angle(H, (-1, 0), (0, -1)); f.right_angle(K, (1, 0), (0, -1))
+    f.label(H, (0, 1), 'H', 'tx', start=14); f.label(K, (0, 1), 'K', 'tx', start=14)
+    f.label(_mid(A, B), (-1, 0), 'c', 'tx', start=10)
+    f.label(_mid(A, H), (0, 1), 'x', 'tx', start=16)
+    f.label(_mid(B, H), (1, 0), 'h', 'tx', start=10, alts=(0, 20, -20, 40))
+    return f.render('Треугольник ABH: c² = x² + h²')
+
+def fig_trap_grid(bot, top, h, cell=24, cols=10, rows=6, slant=True):
+    """Трапеция на клетчатой бумаге (без подписей). bot, top — (x0, x1) в клетках, h — высота в клетках."""
+    ox, oy = 8, 8
+    W, H = cols * cell + 2 * ox, rows * cell + 2 * oy
+    f = Fig(W, H)
+    for i in range(cols + 1): f.raw(f'<line x1="{ox + i * cell}" y1="{oy}" x2="{ox + i * cell}" y2="{oy + rows * cell}" class="gr"/>')
+    for j in range(rows + 1): f.raw(f'<line x1="{ox}" y1="{oy + j * cell}" x2="{ox + cols * cell}" y2="{oy + j * cell}" class="gr"/>')
+    yb = oy + rows * cell; yt = yb - h * cell
+    A, D = (ox + bot[0] * cell, yb), (ox + bot[1] * cell, yb)
+    B, C = (ox + top[0] * cell, yt), (ox + top[1] * cell, yt)
+    f.line(A, D, 'ln', 'style="stroke-width:2.6"'); f.line(B, C, 'ln', 'style="stroke-width:2.6"')
+    f.line(A, B, 'ln', 'style="stroke-width:2.6"'); f.line(C, D, 'ln', 'style="stroke-width:2.6"')
+    for p in (A, B, C, D): f.dot(p, 3.5)
+    return f.render('Сторона клетки равна 1')

@@ -156,3 +156,32 @@ W.trapiso=b=>{
     $(b,'#sv').innerHTML=g;
     let tail=al===45?'Угол A = 45°, значит, треугольник ABH равнобедренный и BH = AH.':al===60?'В треугольнике ABH угол ABH = 30°, значит, AH = AB : 2, то есть AB = 2 · AH.':al===30?'В треугольнике ABH катет BH лежит против угла 30°, значит, BH = AB : 2.':'Чем больше угол A, тем выше трапеция при тех же основаниях.';
     $(b,'#o').innerHTML=`<b><span class="nb">AH = KD = (AD − BC) : 2</span><br><span class="nb">= (${a} − ${bb}) : 2 = ${f(x,1)}</span></b><br>Высота BH ≈ ${f(hh,1)}, боковая сторона AB ≈ ${f(sd,1)} (по чертежу).<br><span class="mute">${tail}</span>`})};
+
+/* ---------- Трапеция, часть 2: площадь как сумма двух треугольников ---------- */
+W.traparea=b=>{
+  b.innerHTML=sl('a','Нижнее основание AD',6,20,12,1)+sl('b','Верхнее основание BC',2,20,6,1)+sl('h','Высота h',3,10,6,1)+SV('sv',380,230)+OUT;
+  bind(b,['a','b','h'],v=>{
+    const a=v.a,bb=v.b,h=v.h,k=Math.min(300/Math.max(a,bb),150/h),yb=205,ox=(380-a*k)/2;
+    const A=[ox,yb],D=[ox+a*k,yb],B=[ox+(a-bb)/2*k,yb-h*k],C=[B[0]+bb*k,B[1]];
+    const L=LAB(380,230),cen=[(A[0]+B[0]+C[0]+D[0])/4,(A[1]+B[1]+C[1]+D[1])/4];
+    let g=ln(A[0],A[1],D[0],D[1],'s-ink',3)+ln(B[0],B[1],C[0],C[1],'s-ink',3)+ln(A[0],A[1],B[0],B[1],'s-ink',3)+ln(C[0],C[1],D[0],D[1],'s-ink',3)+ln(A[0],A[1],C[0],C[1],'s-acc',3,'stroke-dasharray="6 4"');
+    L.seg(A,D,3);L.seg(B,C,3);L.seg(A,B,3);L.seg(C,D,3);L.seg(A,C,3);
+    for(const[nm,p]of[['A',A],['B',B],['C',C],['D',D]])g+=L.lab(p,out2(cen,p),nm,'t',14,{start:12}).svg;
+    g+=L.lab(cen3(A,B,C),[0,-1],'S₁','t-mute',13,{start:1,maxd:40}).svg+L.lab(cen3(A,C,D),[0,1],'S₂','t-mute',13,{start:1,maxd:40}).svg;
+    $(b,'#sv').innerHTML=g;
+    const s1=bb*h/2,s2=a*h/2;
+    $(b,'#o').innerHTML=`<b><span class="nb">S₁ = ½ · b · h = ½ · ${bb} · ${h} = ${f(s1,1)}</span></b><br><b><span class="nb">S₂ = ½ · a · h = ½ · ${a} · ${h} = ${f(s2,1)}</span></b><br><b><span class="nb">S = S₁ + S₂ = ${f(s1+s2,1)}</span></b><br><span class="mute">Проверка по формуле: ½ · (${a} + ${bb}) · ${h} = ${f((a+bb)*h/2,1)}. Результаты одинаковы при любых основаниях и высоте.</span>`})};
+
+/* ---------- Трапеция, часть 2: высота по теореме Пифагора ---------- */
+W.trappyth=b=>{
+  b.innerHTML=sl('a','Нижнее основание AD',10,26,20,1)+sl('b','Верхнее основание BC',4,10,10,1)+sl('c','Боковая сторона AB',12,18,13,1)+SV('sv',380,230)+OUT;
+  bind(b,['a','b','c'],v=>{
+    const a=v.a,bb=v.b,c=v.c,x=(a-bb)/2,h=Math.sqrt(c*c-x*x),k=Math.min(300/a,150/h),yb=205,ox=(380-a*k)/2;
+    const A=[ox,yb],D=[ox+a*k,yb],B=[ox+x*k,yb-h*k],C=[B[0]+bb*k,B[1]],H=[B[0],yb],K=[C[0],yb];
+    const L=LAB(380,230),cen=[(A[0]+B[0]+C[0]+D[0])/4,(A[1]+B[1]+C[1]+D[1])/4];
+    let g=ln(A[0],A[1],D[0],D[1],'s-ink',3)+ln(B[0],B[1],C[0],C[1],'s-ink',3)+ln(A[0],A[1],B[0],B[1],'s-ink',3)+ln(C[0],C[1],D[0],D[1],'s-ink',3)+ln(B[0],B[1],H[0],H[1],'s-acc',3,'stroke-dasharray="6 4"')+ln(C[0],C[1],K[0],K[1],'s-acc',3,'stroke-dasharray="6 4"');
+    L.seg(A,D,3);L.seg(B,C,3);L.seg(A,B,3);L.seg(C,D,3);L.seg(B,H,3);L.seg(C,K,3);
+    for(const[nm,p]of[['A',A],['B',B],['C',C],['D',D]])g+=L.lab(p,out2(cen,p),nm,'t',14,{start:12}).svg;
+    g+=L.lab(H,[0,1],'H','t',14,{start:14}).svg+L.lab(mid2(A,B),out2(cen,mid2(A,B)),'c','t-mute',13,{start:9}).svg+L.lab(mid2(A,H),[0,1],'x','t-mute',13,{start:14}).svg+L.lab(mid2(B,H),[1,0],'h','t-mute',13,{start:9,alts:[0,20,-20,40,-40]}).svg;
+    $(b,'#sv').innerHTML=g;
+    $(b,'#o').innerHTML=`<b><span class="nb">x = (AD − BC) : 2 = ${f(x,1)}</span></b><br><b><span class="nb">h² = c² − x² = ${c*c} − ${f(x*x,2)} = ${f(h*h,2)}</span></b><br><b><span class="nb">h ≈ ${f(h,2)}</span>, <span class="nb">S ≈ ${f((a+bb)*h/2,1)}</span></b><br><span class="mute">Если h получилось целым, тройка чисел x, h, c пифагорова: например, 5, 12, 13.</span>`})};
