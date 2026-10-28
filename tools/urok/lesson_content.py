@@ -509,3 +509,67 @@ if __name__ == '__main__':
     import json
     print(len(T), 'экранов')
     print(sum(1 for d in T if d['kind'] == 'q'), 'вопросов')
+
+
+# ---------- неразрывные формулы: finalize() вызывает сборщик сразу после импорта сценария ----------
+import re as _re
+_ATOM_OPEN = _re.compile(r'<span class="(?:fr|rt|m)"')
+_TOK = r'(?:&\w+;|[A-Za-z0-9α-ωΑ-Ω²³√·+−\-=<>≠≤≥().,/:%°∠△∥⟂])+'
+_RUN = _re.compile(_TOK + r'(?: ' + _TOK + r')*')
+_OPS = _re.compile(r'[=≠<>≤≥+−·:∥]|&lt;|&gt;')
+
+def _wrap_text(s):
+    def rep(m):
+        run = m.group(0)
+        lead = ''
+        trail = ''
+        while run and run[-1] in '.,:;)' and run.count('(') < run.count(')') + (1 if run[-1] != ')' else 0):
+            if run[-1] == ')' and run.count('(') >= run.count(')'): break
+            trail = run[-1] + trail; run = run[:-1]
+        while run and run[0] in '.,:; ': lead += run[0]; run = run[1:]
+        core = run.replace(' ', '')
+        if not _OPS.search(run) or len(core) < 3: return m.group(0)
+        return f'{lead}<span class="nb">{run}</span>{trail}'
+    return _RUN.sub(rep, s)
+
+def nb(html):
+    if not isinstance(html, str) or '<span class="nb">' in html: return html
+    atoms = []; out = []; buf = []
+    pos = 0; n = len(html)
+    def flush():
+        if buf:
+            seg = _wrap_text(''.join(buf))
+            seg = _re.sub('(\\d+)', lambda m: atoms[int(m.group(1))], seg)
+            out.append(seg); buf.clear()
+    while pos < n:
+        if html[pos] == '<':
+            if html.startswith('<svg', pos):
+                e = html.index('</svg>', pos) + 6
+                flush(); out.append(html[pos:e]); pos = e; continue
+            m = _ATOM_OPEN.match(html, pos)
+            if m:
+                depth = 0; i = pos
+                for t in _re.finditer(r'<span\b|</span>', html[pos:]):
+                    depth += 1 if t.group(0) == '<span' else -1
+                    if depth == 0: i = pos + t.end(); break
+                atoms.append(html[pos:i]); buf.append(f'{len(atoms) - 1}'); pos = i; continue
+            e = html.index('>', pos) + 1
+            flush(); out.append(html[pos:e]); pos = e
+        else:
+            e = html.find('<', pos); e = n if e < 0 else e
+            buf.append(html[pos:e]); pos = e
+    flush()
+    return ''.join(out)
+
+def finalize():
+    """Оборачивает формулы во всех текстах экранов в неразрывные блоки (не рвутся по строкам)."""
+    for d in T:
+        if d.get('_fin'): continue
+        for k in ('body', 'box', 'q', 'why', 'note', 'trap', 'share'):
+            if k in d: d[k] = nb(d[k])
+        if d['kind'] == 'q' and 'h' in d: d['h'] = [nb(x) for x in d['h']]
+        if d.get('opts'): d['opts'] = [nb(x) for x in d['opts']]
+        if d.get('rev'): d['rev']['html'] = nb(d['rev']['html'])
+        if d['kind'] == 'cheat':
+            d['rules'] = [nb(x) for x in d['rules']]; d['ex'] = [nb(x) for x in d['ex']]
+        d['_fin'] = 1

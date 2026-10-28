@@ -115,3 +115,44 @@ W.sindemo=b=>{
      +`a = BC = ${f(sa,2)},&nbsp; a : sin A = ${f(sa/sA,2)}<br>`
      +`b = AC = ${f(sb,2)},&nbsp; b : sin B = ${f(sb/sB,2)}<br>`
      +`c = AB = ${f(sc,2)},&nbsp; c : sin C = ${f(sc/sC,2)}<br><b>Все три отношения одинаковы и равны 2R = 10.</b>`})};
+
+/* ---------- Трапеция: средняя линия ---------- */
+W.trapmid=b=>{
+  b.innerHTML=sl('a','Нижнее основание AD',6,20,14,1)+sl('b','Верхнее основание BC',2,20,8,1)+sl('sh','Сдвиг верхнего основания',-4,4,1,1)+SV('sv',380,210)+OUT;
+  bind(b,['a','b','sh'],v=>{
+    const a=v.a,bb=v.b,s=v.sh,k=Math.min(11,300/Math.max(a,bb+Math.abs(s)+Math.abs(a-bb)/2+1));
+    const hh=100,yb=165,yt=yb-hh;
+    let A=[0,yb],D=[a*k,yb],B=[(a-bb)/2*k+s*k,yt],C=[B[0]+bb*k,yt];
+    const xs=[A[0],D[0],B[0],C[0]],mnx=Math.min(...xs),mxx=Math.max(...xs),sh=(380-(mxx-mnx))/2-mnx;
+    [A,B,C,D].forEach(p=>p[0]+=sh);
+    const M=mid2(A,B),N=mid2(C,D),L=LAB(380,210),cen=[(A[0]+B[0]+C[0]+D[0])/4,(A[1]+B[1]+C[1]+D[1])/4];
+    let g=ln(A[0],A[1],D[0],D[1],'s-ink',3)+ln(B[0],B[1],C[0],C[1],'s-ink',3)+ln(A[0],A[1],B[0],B[1],'s-ink',3)+ln(C[0],C[1],D[0],D[1],'s-ink',3)+ln(M[0],M[1],N[0],N[1],'s-acc',4,'stroke-dasharray="6 4"');
+    L.seg(A,D,3);L.seg(B,C,3);L.seg(A,B,3);L.seg(C,D,3);L.seg(M,N,3);L.dot(M,4);L.dot(N,4);
+    g+=`<circle cx="${M[0]}" cy="${M[1]}" r="4" style="fill:var(--apricot)"/><circle cx="${N[0]}" cy="${N[1]}" r="4" style="fill:var(--apricot)"/>`;
+    for(const[nm,p]of[['A',A],['B',B],['C',C],['D',D]])g+=L.lab(p,out2(cen,p),nm,'t',14,{start:12}).svg;
+    g+=L.lab(M,[-1,0],'M','t',14,{start:12}).svg+L.lab(N,[1,0],'N','t',14,{start:12}).svg;
+    g+=L.lab(mid2(B,C),[0,-1],'b = '+bb,'t-mute',12,{start:10}).svg+L.lab(mid2(A,D),[0,1],'a = '+a,'t-mute',12,{start:12}).svg;
+    const mn=Math.hypot(N[0]-M[0],N[1]-M[1])/k;
+    $(b,'#sv').innerHTML=g;
+    $(b,'#o').innerHTML=`<b><span class="nb">MN = (a + b) : 2</span><br><span class="nb">= (${a} + ${bb}) : 2 = ${f((a+bb)/2,1)}</span></b><br><span class="mute">Измеряем MN по чертежу: ${f(mn,1)}. Двигай сдвиг: форма трапеции меняется, а средняя линия по-прежнему равна полусумме оснований.</span>`})};
+
+/* ---------- Равнобедренная трапеция: высоты и отрезки на основании ---------- */
+W.trapiso=b=>{
+  b.innerHTML=sl('al','Угол A',30,70,45,1)+chips([30,45,60])+sl('a','Нижнее основание AD',14,26,20,1)+sl('b','Верхнее основание BC',4,12,8,1)+SV('sv',380,230)+OUT;
+  const mark=wireChips(b,'al');
+  bind(b,['al','a','b'],v=>{
+    const al=v.al,a=v.a,bb=v.b,x=(a-bb)/2,th=al*DEG,hh=x*Math.tan(th),sd=x/Math.cos(th);
+    $(b,'#alv').textContent=al+'°';mark(al);
+    const k=Math.min(300/a,150/hh),ox=(380-a*k)/2,yb=205;
+    const A=[ox,yb],D=[ox+a*k,yb],B=[ox+x*k,yb-hh*k],C=[ox+(x+bb)*k,yb-hh*k],H=[B[0],yb],K=[C[0],yb];
+    const L=LAB(380,230),cen=[(A[0]+B[0]+C[0]+D[0])/4,(A[1]+B[1]+C[1]+D[1])/4];
+    let g=ln(A[0],A[1],D[0],D[1],'s-ink',3)+ln(B[0],B[1],C[0],C[1],'s-ink',3)+ln(A[0],A[1],B[0],B[1],'s-ink',3)+ln(C[0],C[1],D[0],D[1],'s-ink',3)
+      +ln(B[0],B[1],H[0],H[1],'s-acc',3,'stroke-dasharray="6 4"')+ln(C[0],C[1],K[0],K[1],'s-acc',3,'stroke-dasharray="6 4"');
+    L.seg(A,D,3);L.seg(B,C,3);L.seg(A,B,3);L.seg(C,D,3);L.seg(B,H,3);L.seg(C,K,3);
+    g+=`<path d="M${A[0]+26} ${A[1]} A26 26 0 0 0 ${A[0]+26*Math.cos(th)} ${A[1]-26*Math.sin(th)}" class="nf s-acc" stroke-width="2"/>`;L.arc(A,26,0,al);
+    for(const[nm,p]of[['A',A],['B',B],['C',C],['D',D]])g+=L.lab(p,out2(cen,p),nm,'t',14,{start:12}).svg;
+    g+=L.lab(H,[0,1],'H','t',14,{start:14}).svg+L.lab(K,[0,1],'K','t',14,{start:14}).svg;
+    g+=L.lab(mid2(A,H),[0,1],'x = '+f(x,1),'t-mute',12,{start:16}).svg;
+    $(b,'#sv').innerHTML=g;
+    let tail=al===45?'Угол A = 45°, значит, треугольник ABH равнобедренный и BH = AH.':al===60?'В треугольнике ABH угол ABH = 30°, значит, AH = AB : 2, то есть AB = 2 · AH.':al===30?'В треугольнике ABH катет BH лежит против угла 30°, значит, BH = AB : 2.':'Чем больше угол A, тем выше трапеция при тех же основаниях.';
+    $(b,'#o').innerHTML=`<b><span class="nb">AH = KD = (AD − BC) : 2</span><br><span class="nb">= (${a} − ${bb}) : 2 = ${f(x,1)}</span></b><br>Высота BH ≈ ${f(hh,1)}, боковая сторона AB ≈ ${f(sd,1)} (по чертежу).<br><span class="mute">${tail}</span>`})};
