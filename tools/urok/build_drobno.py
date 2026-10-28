@@ -5,6 +5,7 @@ import json, re, sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 import drobno_ratsionalnye as LC0
 LC=LC0.LC
+LC.finalize()  # формулы и примеры становятся неразрывными
 
 SRC = ROOT+'/obyasnenie-5-9-bissektrisa.html'  # шаблон оболочки
 OUT = ROOT+'/obyasnenie-9-drobno-ratsionalnye-uravneniya.html'
@@ -48,6 +49,12 @@ s = rep_once(s, 'Простыми словами, без зубрёжки: ис�
              'Один урок на час: повторим нужное из прошлых тем, научимся находить ОДЗ, решать уравнения с дробями и отбрасывать посторонние корни. Ошибаться можно: подсказки есть, а если не получится, можно вернуться к объяснению. В конце тебя ждут шпаргалка и диплом.')
 s = rep_once(s, '<span class="pill">${L.length} коротких экранов</span>', '<span class="pill">${L.length} экранов</span>')
 s = rep_once(s, '<a class="chip" href="obyasnenie-5-9.html">Все темы</a>', '<a class="chip" href="9-klass.html">Все материалы 9 класса</a>')
+
+# 7. оформление: красная строка и неразрывные формулы
+s = rep_once(s, '.stmt p:last-child{margin-bottom:0}', '.stmt p:last-child{margin-bottom:0}.stmt p{text-indent:1.4em}.stmt .m,.fbox .m,.opt .m{white-space:nowrap}@media (max-width:520px){.fbox{font-size:18px;padding:16px 14px}}')
+
+# 8. пузырь зверя показывает разбор как текст: убрать разметку формул и переносов
+s = rep_once(s, '<span>${esc(sub)}</span>', "<span>${esc(String(sub).replace(/<br\\s*\\/?>/g,' ').replace(/<[^>]+>/g,''))}</span>")
 
 open(OUT, 'w', encoding='utf8').write(s)
 print('written', OUT, len(s), 'screens', len(LC.T))
