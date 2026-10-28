@@ -1337,7 +1337,7 @@ function lessonCard(teach){const t=nextLesson();if(!t)return `<div class="card">
  ${teach?boardRow():`${D.board?`<a class="btn" href="${esc(href(D.board))}" target="_blank" rel="noopener">Открыть доску</a>`:''}`}
  ${P.slots.length>1||teach?`<div class="wk"><span>${teach?'Неделя по Самаре':'Каждую неделю'}</span>${esc(wk)}</div>`:''}
  ${teach&&wkS?`<div class="wk"><span>У ученика (${esc(P.city||tzLabel(P.tz))})</span>${esc(wkS)}</div>`:''}
- <div class="tzn">${teach?'Ученик видит время в своём поясе.':`Время по твоему часовому поясу${tz?' ('+esc(P.tz?tzLabel(tz):tz)+')':''}.`}${diff?` Сейчас твоё устройство в другом поясе: там это ${t.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}.`:''} 60 минут: алгебра, геометрия, практика.</div></div>`}
+ <div class="tzn">${teach?'Ученик видит время в своём поясе.':`Время по твоему часовому поясу${tz?' ('+esc(P.tz?tzLabel(tz):tz)+')':''}.`}${diff?` Сейчас твоё устройство в другом поясе: там это ${t.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}.`:''}</div></div>`}
 const isSite=u=>!!u&&(!/^https?:/.test(u)||u.indexOf(BASE)===0);
 function hwLinks(h){let o='';
  if(h.url)o+=`<a href="${esc(href(h.url))}" target="_blank" rel="noopener">${esc(h.label||(isSite(h.url)?'Пройти интерактив':'Открыть'))}</a>`;
