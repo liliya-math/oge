@@ -5341,6 +5341,31 @@
       ]
     },
     {
+      "file": "dz-8-trapeciya-2.html",
+      "title": "8G.1.3 · ДЗ №2 · Трапеция",
+      "type": "dz",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "11 заданий (4+4+3), одна подсказка, две попытки; результаты в таблицу. Без решений на странице.",
+      "auto": true,
+      "node": [
+        "8G.1.3"
+      ]
+    },
+    {
+      "file": "dz-8-trapeciya-2.pdf",
+      "title": "8G.1.3 · ДЗ №2 (PDF) · Трапеция",
+      "type": "dz",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "Листок ученика для печати, без ответов.",
+      "node": [
+        "8G.1.3"
+      ]
+    },
+    {
       "file": "dz-9-chisla-na-pryamoj-2.html",
       "title": "9A.7.2 · ДЗ №2 · Числа на координатной прямой",
       "type": "dz",

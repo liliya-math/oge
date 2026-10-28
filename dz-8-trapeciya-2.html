@@ -1,0 +1,200 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>ДЗ №2 · Трапеция</title>
+<style>
+:root{--bg:#14211e;--card:#1b2b28;--line:rgba(226,234,228,.14);--fg:#f3ece2;--muted:#a9b6ad;--cobalt:#1747c9;--apricot:#f2905e;--mint:#a9d18e;--amber:#f5dc6a;--miss:#ff8f73;--sky:#9db8ff;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--fg)}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+button,input,textarea{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:2px solid var(--apricot);outline-offset:3px;border-radius:10px}
+.wrap{max-width:720px;margin:0 auto;padding-block:16px 64px}
+.top{display:grid;gap:10px;margin-bottom:16px}
+.toprow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.lockup{display:inline-flex;align-items:center;gap:8px}.lw{font-weight:700;font-size:14px;letter-spacing:-.01em}.lw i{font-style:normal;color:var(--apricot)}
+.sp{flex:1}.pill{padding:4px 11px;border-radius:999px;border:1px solid var(--line);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}.pill strong{color:var(--fg)}
+.track{display:grid;gap:4px}.track span{height:6px;border-radius:3px;background:rgba(243,236,226,.12)}
+.track .cur{background:rgba(243,236,226,.5)}.track .ok{background:var(--mint)}.track .bad{background:var(--miss)}.track .idk{background:#6f625a}.track .th{background:var(--amber)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px}
+@media(max-width:520px){.card{padding:18px 16px;border-radius:18px}}
+.lvlsep{display:flex;align-items:center;gap:12px;margin:0 0 12px;font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.lvlsep i{flex:1;height:2px;border-radius:1px;background:var(--line)}.l1 span{color:var(--mint)}.l2 span{color:var(--sky)}.l3 span{color:var(--apricot)}
+.thead{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.num{font-size:40px;font-weight:800;line-height:1;color:var(--amber);min-width:52px;font-variant-numeric:tabular-nums}
+.part{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.topic{font-weight:600}
+.stmt{font-size:18px;line-height:1.65}.stmt p{margin:0 0 10px}.stmt p:last-child{margin:0}
+@media(max-width:520px){.stmt{font-size:16.5px}}
+.m{white-space:nowrap}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:.9em;line-height:1.15;margin:0 2px}
+.fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 3px}
+.theory{margin:0 0 16px;padding:14px 16px;border-radius:16px;background:rgba(23,71,201,.16);border:1px solid rgba(157,184,255,.35);display:grid;gap:8px}
+.theory small{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--sky)}.theory b{font-size:16px}.theory p{margin:0;font-size:15px;color:#e6dbd3}
+.formula{padding:10px 14px;border:2px solid var(--apricot);border-radius:12px;text-align:center;font-size:18px;background:rgba(0,0,0,.2);overflow-x:auto}
+.ans{margin-top:20px;display:grid;gap:12px}
+.irow{display:flex;gap:10px;flex-wrap:wrap}
+.field{flex:1 1 200px;min-width:0;height:52px;padding:0 16px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.25);font-size:19px}
+.field:focus{outline:none;border-color:var(--apricot)}
+.btn{height:52px;padding:0 24px;border-radius:14px;border:0;font-weight:650;background:var(--cobalt);color:var(--fg)}
+.btn:disabled{opacity:.4}.btn.ghost{background:transparent;border:1px solid var(--line)}
+.alts{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:9px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;font-size:14.5px;color:var(--muted)}
+.chip:hover{color:var(--fg)}.chip.link{text-decoration:none;display:inline-block}
+.hint{padding:12px 15px;border-radius:14px;background:rgba(245,220,106,.08);border:1px solid rgba(245,220,106,.28);font-size:15.5px}
+.hint small,.sol small{display:block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:3px}
+.hints{display:grid;gap:8px}
+textarea{width:100%;min-height:110px;resize:vertical;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.25);line-height:1.5}
+.fb{padding:12px 16px;border-radius:14px;font-weight:600}
+.fb.ok{background:rgba(169,209,142,.12);border:1px solid rgba(169,209,142,.4)}
+.fb.bad{background:rgba(255,143,115,.1);border:1px solid rgba(255,143,115,.35)}
+.fb.neu{background:rgba(243,236,226,.06);border:1px solid var(--line)}
+.fb span{display:block;font-weight:400;font-size:14.5px;color:var(--muted)}
+.sol{padding:14px 16px;border-radius:14px;background:rgba(0,0,0,.22);border:1px solid var(--line)}
+.sol ol{margin:6px 0;padding-left:22px;display:grid;gap:6px;font-size:15.5px}.sol p{margin:0}
+.next{justify-self:end}
+.note{font-size:13.5px;color:var(--muted);margin:0}
+h1{font-size:clamp(30px,7vw,48px);line-height:1.1;margin:0 0 12px;letter-spacing:-.02em;font-weight:800;text-wrap:balance}
+h1 span{color:var(--apricot)}
+.kick{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.lead{margin:0 0 18px;color:#ddd0c7;max-width:58ch}
+.big{font-size:clamp(60px,15vw,96px);font-weight:800;line-height:1;color:var(--amber)}
+.rhead{text-align:center;display:grid;gap:6px;padding-block:6px 4px}
+.quiet{color:var(--muted);font-size:14.5px}
+.cells{display:grid;grid-template-columns:repeat(auto-fill,minmax(48px,1fr));gap:8px;margin-top:16px}
+.cell{height:44px;border-radius:12px;display:grid;place-items:center;font-weight:700;border:1px solid var(--line);color:var(--muted)}
+.cell.ok{background:rgba(169,209,142,.16);border-color:rgba(169,209,142,.45);color:var(--mint)}
+.cell.bad{background:rgba(255,143,115,.1);border-color:rgba(255,143,115,.35);color:var(--miss)}
+.cell.th{background:rgba(245,220,106,.1);border-color:rgba(245,220,106,.35);color:var(--amber)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:13px;color:var(--muted);margin-top:10px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
+.blocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:16px}
+.blk{padding:12px 14px;border-radius:14px;background:rgba(0,0,0,.2);border:1px solid var(--line);display:grid;gap:6px}
+.blk .h{display:flex;justify-content:space-between;gap:8px;font-size:14px;color:var(--muted)}.blk .h b{color:var(--fg)}
+.bar{height:6px;border-radius:3px;background:rgba(243,236,226,.12);overflow:hidden}.bar i{display:block;height:100%;background:var(--amber)}
+.weak{margin-top:16px;padding:14px 16px;border-radius:14px;background:rgba(242,144,94,.1);border:1px solid rgba(242,144,94,.35)}
+.weak ul{margin:6px 0 0;padding-left:20px;display:grid;gap:4px}.weak p{margin:4px 0 0}
+.send{margin-top:18px;display:grid;gap:10px;justify-items:center}.send .btn{width:100%}
+</style></head><body>
+<main class="wrap" id="app"></main>
+<script src="cabinet-report.js"></script>
+<script>
+(() => {
+const T = [{"n": 1, "part": 1, "topic": "Средняя линия трапеции", "a": [17], "q": "\u003cp\u003eОснования трапеции равны 14 и 20. Найдите длину средней линии трапеции.\u003c/p\u003e", "h": ["Средняя линия параллельна основаниям. Чему она равна по свойству средней линии трапеции?"], "note": "Ответ запиши числом."}, {"n": 2, "part": 1, "topic": "Основание по средней линии", "a": [20], "q": "\u003cp\u003eМеньшее основание трапеции равно 6, средняя линия равна 13. Найдите большее основание трапеции.\u003c/p\u003e", "h": ["Средняя линия равна полусумме оснований. Составь уравнение и найди неизвестное основание."], "note": "Ответ запиши числом."}, {"n": 3, "part": 1, "topic": "Углы при боковой стороне", "a": [110], "q": "\u003cp\u003eВ трапеции ABCD с основаниями AD и BC угол A равен 70°. Найдите угол B. Ответ дайте в градусах.\u003c/p\u003e", "h": ["Основания параллельны, AB — секущая. Каким углы A и B являются относительно этих параллельных прямых?"], "note": "Ответ запиши числом."}, {"n": 4, "part": 1, "topic": "Углы равнобедренной трапеции", "a": [115], "q": "\u003cp\u003eВ равнобедренной трапеции угол при большем основании равен 65°. Найдите тупой угол этой трапеции. Ответ дайте в градусах.\u003c/p\u003e", "h": ["Сумма углов трапеции, прилежащих к боковой стороне, равна 180°."], "note": "Ответ запиши числом."}, {"n": 5, "part": 2, "topic": "Площадь трапеции", "a": [55], "q": "\u003cp\u003eОснования трапеции равны 8 и 14, а высота равна 5. Найдите площадь трапеции.\u003c/p\u003e", "h": ["Площадь трапеции — произведение полусуммы оснований на высоту."], "note": "Ответ запиши числом."}, {"n": 6, "part": 2, "topic": "Высота равнобедренной трапеции", "a": [12], "q": "\u003cp\u003eОснования равнобедренной трапеции равны 6 и 16, боковая сторона равна 13. Найдите высоту трапеции.\u003c/p\u003e", "h": ["Опусти из вершины меньшего основания высоту. На сколько она отсекает большее основание? Дальше теорема Пифагора."], "note": "Ответ запиши числом."}, {"n": 7, "part": 2, "topic": "Периметр и средняя линия", "a": [13], "q": "\u003cp\u003eПериметр равнобедренной трапеции равен 58, а её средняя линия равна 16. Найдите боковую сторону трапеции.\u003c/p\u003e", "h": ["Сумма оснований вдвое больше средней линии. Что останется от периметра на две боковые стороны?"], "note": "Ответ запиши числом."}, {"n": 8, "part": 2, "topic": "Прямоугольная трапеция", "a": [15], "q": "\u003cp\u003eВ прямоугольной трапеции основания равны 7 и 19, а меньшая боковая сторона равна 9. Найдите большую боковую сторону.\u003c/p\u003e", "h": ["Проведи высоту из вершины тупого угла. Получился прямоугольный треугольник: найди его катеты."], "note": "Ответ запиши числом."}, {"n": 9, "part": 3, "topic": "Отрезок средней линии между диагоналями", "a": [7], "q": "\u003cp\u003eОснования трапеции равны 10 и 24. Найдите длину отрезка средней линии трапеции, который лежит между диагоналями.\u003c/p\u003e", "h": ["Диагонали делят среднюю линию на три части. Крайние части — средние линии треугольников. Чему равна каждая из них?"], "note": "Ответ запиши числом."}, {"n": 10, "part": 3, "topic": "Площадь равнобедренной трапеции", "a": [108], "q": "\u003cp\u003eОснования равнобедренной трапеции равны 10 и 26, а боковая сторона равна 10. Найдите площадь трапеции.\u003c/p\u003e", "h": ["Сначала найди высоту: на сколько высота отсекает большее основание, затем теорема Пифагора."], "note": "Ответ запиши числом."}, {"n": 11, "part": 3, "topic": "Вписанная окружность", "a": [4], "q": "\u003cp\u003eВ равнобедренную трапецию с основаниями 4 и 16 вписана окружность. Найдите радиус этой окружности.\u003c/p\u003e", "h": ["В описанном четырёхугольнике суммы противоположных сторон равны. Найди боковую сторону и высоту; как высота связана с диаметром окружности?"], "note": "Ответ запиши числом."}];
+const TOPIC="Трапеция", NO=2;
+const LVN={1:'Разминка',2:'Как на ОГЭ',3:'Со звёздочкой'};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const KEY='oge-dz-8-trapeciya-2';
+function newSid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
+function fresh(){return {sid:newSid(),name:'',i:0,started:0,done:false,r:{}}}
+function load(){try{const v=JSON.parse(localStorage.getItem(KEY));return v&&v.r?v:null}catch(e){return null}}
+let S=load()||fresh();if(!S.sid)S.sid=newSid();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+const rec=n=>S.r[n]||(S.r[n]={st:'',tries:0,hints:0,ans:[],th:'',t:0,sol:0});
+const app=document.getElementById('app');
+const fmtT=s=>{s=Math.max(0,Math.round(s));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+const elapsed=()=>S.started?(Date.now()-S.started)/1000:0;
+let tick=null,taskStart=0,mode='ans',shown=0,resolved=false;
+function logo(){return `<span class="lockup"><svg width="28" height="28" viewBox="0 0 64 64" role="img" aria-label="25/25"><rect x="2" y="2" width="60" height="60" rx="19" fill="#1747c9"/><text x="32" y="27" text-anchor="middle" font-family="-apple-system,Inter,sans-serif" font-weight="800" font-size="18" fill="#f3ece2">25</text><rect x="15" y="32" width="34" height="3.4" rx="1.7" fill="#f2905e"/><text x="32" y="53" text-anchor="middle" font-family="-apple-system,Inter,sans-serif" font-weight="800" font-size="18" fill="#f3ece2">25</text></svg><span class="lw">lili<i>.</i>math</span></span>`}
+function parseNums(s){return String(s).replace(/[−–—]/g,'-').split(/;|\s+и\s+|\n/).map(x=>x.trim().replace(/\s+/g,'').replace(',','.')).filter(Boolean).map(x=>/^-?\d+(\.\d+)?$/.test(x)?+x:NaN)}
+function same(a,b){if(a.length!==b.length||a.some(isNaN))return false;const x=[...a].sort((p,q)=>p-q),y=[...b].sort((p,q)=>p-q);return x.every((v,i)=>Math.abs(v-y[i])<1e-6)}
+function topbar(){return `<div class="top"><div class="toprow">${logo()}<div class="sp"></div><span class="pill">решено <strong>${T.filter(t=>S.r[t.n]&&S.r[t.n].st==='ok').length}/${T.length}</strong></span><span class="pill"><strong id="tmr">${fmtT(elapsed())}</strong></span></div>
+<div class="track" style="grid-template-columns:repeat(${T.length},1fr)" aria-hidden="true">${T.map((t,i)=>{const r=S.r[t.n];return `<span class="${r&&r.st?r.st:(i===S.i&&!S.done?'cur':'')}"></span>`}).join('')}</div></div>`}
+function startTick(){clearInterval(tick);tick=setInterval(()=>{const e=document.getElementById('tmr');if(e)e.textContent=fmtT(elapsed())},1000)}
+
+function renderStart(){
+  const resume=S.name&&S.started&&!S.done&&Object.keys(S.r).length;
+  app.innerHTML=`<section class="card"><div class="kick">25/25 · Домашняя работа №${NO}</div>
+  <h1>${TOPIC.split(' ')[0]} <span>${TOPIC.split(' ').slice(1).join(' ')}</span></h1>
+  ${resume?`<div class="irow"><button class="btn" id="go">Продолжить с задания ${T[Math.min(S.i,T.length-1)].n}</button><button class="btn ghost" id="reset">Начать заново</button></div>`
+  :`<label class="note" for="nm">Имя и фамилия</label><div class="irow"><input class="field" id="nm" placeholder="Например, Мария Иванова" autocomplete="name" value="${esc(S.name)}"><button class="btn" id="go">Начать</button></div>`}
+  </section>`;
+  const go=document.getElementById('go'),nm=document.getElementById('nm');
+  if(nm){nm.focus();nm.onkeydown=e=>{if(e.key==='Enter')go.click()}}
+  go.onclick=()=>{if(!resume){const v=nm.value.trim();if(!v){nm.focus();return}S.name=v;S.started=Date.now()}save();next(true)};
+  const rs=document.getElementById('reset');if(rs)rs.onclick=()=>{S=fresh();save();renderStart()};
+}
+function next(first){if(S.i>=T.length){finish();return}renderTask()}
+const cur=()=>T[S.i];
+
+function renderTask(){
+  const t=cur(),r=rec(t.n);mode='ans';shown=r.hints;resolved=!!r.st;taskStart=Date.now();
+  app.innerHTML=topbar()+`<article class="card"><div class="thead"><div class="num">${t.n}</div><div><div class="part">Задание ${S.i+1} из ${T.length}</div></div></div>
+  <div class="stmt">${t.q}</div><div class="ans" id="ans"></div></article>`;
+  startTick();draw();window.scrollTo(0,0);
+}
+function fbBox(k,t,s){return `<div class="fb ${k}">${t}${s?`<span>${s}</span>`:''}</div>`}
+function draw(fb){
+  const t=cur(),r=rec(t.n),box=document.getElementById('ans');let h='';
+  if(!resolved){
+    if(mode==='ans')h+=`<div class="irow"><input class="field" id="inp" inputmode="decimal" autocomplete="off" placeholder="Ответ"><button class="btn" id="chk">Проверить</button></div>${t.note?`<p class="note">${t.note}</p>`:''}`;
+    else h+=`<textarea id="th" placeholder="Напиши, что ты пробовал(а) и где застрял(а)">${esc(r.th)}</textarea><div class="irow"><button class="btn ghost" id="back">Вернуться к ответу</button><div class="sp"></div><button class="btn" id="thgo">Записать и дальше</button></div>`;
+    if(shown)h+=`<div class="hints"><div class="hint"><small>Подсказка</small>${t.h[0]}</div></div>`;
+    if(fb)h+=fb;
+    h+=`<div class="alts">${shown<1?`<button class="chip" id="hb">Подсказка</button>`:''}${mode==='ans'?`<button class="chip" id="tb">Есть идея, но дальше никак</button>`:''}<button class="chip" id="ib">Не знаю, как решать</button></div>`;
+  }else{
+    if(fb)h+=fb;
+    h+=`<button class="btn next" id="nx">${S.i===T.length-1?'Смотреть результат':'Дальше'}</button>`;
+  }
+  box.innerHTML=h;bind(t,r);
+}
+function keep(fb){const i=document.getElementById('inp'),v=i?i.value:'';draw(fb);const j=document.getElementById('inp');if(j){j.value=v;j.select()}}
+function resolve(r,st){r.st=st;r.t+=Math.round((Date.now()-taskStart)/1000);resolved=true;save();pushResult()}
+function bind(t,r){
+  const $=id=>document.getElementById(id);
+  if($('nx')){$('nx').focus({preventScroll:true});$('nx').onclick=()=>{S.i++;save();next()};return}
+  if($('inp')){$('inp').focus({preventScroll:true});$('inp').onkeydown=e=>{if(e.key==='Enter')$('chk').click()}}
+  if($('chk'))$('chk').onclick=()=>{
+    const raw=$('inp').value.trim();if(!raw){$('inp').focus();return}
+    const nums=parseNums(raw);
+    if(nums.some(isNaN)){keep(fbBox('bad','Не похоже на число','Запиши ответ цифрами. Дробную часть отделяй запятой.'));return}
+    r.tries++;r.ans.push(raw);
+    if(same(nums,t.a)){resolve(r,'ok');draw(fbBox('ok',r.tries===1?'Верно':'Верно со второй попытки'));return}
+    if(r.tries>=2){resolve(r,'bad');draw(fbBox('neu','Ответ записан','Разберём на занятии.'));return}
+    save();keep(fbBox('bad','Не сходится',shown<1?'Проверь вычисления или возьми подсказку. Осталась одна попытка.':'Проверь вычисления. Осталась одна попытка.'));
+  };
+  if($('hb'))$('hb').onclick=()=>{shown++;r.hints=shown;save();keep()};
+  if($('tb'))$('tb').onclick=()=>{mode='think';draw();$('th').focus()};
+  if($('back'))$('back').onclick=()=>{r.th=$('th').value;mode='ans';draw()};
+  if($('thgo'))$('thgo').onclick=()=>{const v=$('th').value.trim();if(!v){$('th').focus();return}r.th=v;resolve(r,'th');draw(fbBox('neu','Записано','Разберём на занятии.'))};
+  if($('ib'))$('ib').onclick=()=>{const th=$('th');if(th&&th.value.trim())r.th=th.value.trim();resolve(r,'idk');draw(fbBox('neu','Принято','Разберём на занятии.'))};
+}
+const SHEET_URL='https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec';
+function pushResult(){
+  if(!S.name||!S.started)return;
+  try{const sc=score(),mk={ok:'✓',bad:'✗',idk:'?',th:'~'};
+    const d={sid:S.sid,test:'ДЗ №'+NO+' · '+TOPIC,name:S.name,kind:'ДЗ',started:S.started,status:S.done?'завершено':'в процессе',
+      progress:T.filter(t=>S.r[t.n]&&S.r[t.n].st).length+'/'+T.length,score:sc.ok,max:T.length,grade:sc.pct+'%',minutes:Math.round(elapsed()/60),bonus:'',
+      tasks:T.map(t=>{const r=S.r[t.n];return t.n+(r&&r.st?mk[r.st]:'·')+(r&&r.hints>0?'п':'')}).join(' '),report:report(sc)};
+    fetch(SHEET_URL,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)}).catch(()=>{});
+  }catch(e){}
+}
+function lv(k){const a=T.filter(t=>t.part===k);return [a.filter(t=>S.r[t.n]&&S.r[t.n].st==='ok').length,a.length]}
+const pc=(a,b)=>b?Math.round(a/b*100):0;
+function score(){let ok=0,self=0,hint=0;for(const t of T){const r=S.r[t.n]||{};if(r.st==='ok'){ok++;r.hints>0?hint++:self++}}return {ok,self,hint,bad:T.length-ok,n:T.length,pct:pc(ok,T.length),lv:[1,2,3].map(lv)}}
+function report(sc){
+  const Lb={ok:'верно',bad:'неверно',idk:'не знаю',th:'есть идея, застрял(а)'};
+  const weak=T.filter(t=>!(S.r[t.n]&&S.r[t.n].st==='ok'));
+  const L=[`25/25 · Домашняя работа №${NO} · ${TOPIC} — ${S.name}`,`Дата: ${new Date().toLocaleDateString('ru-RU')}, время: ${fmtT(elapsed())}`,
+   `Выполнено: ${sc.ok} из ${sc.n} (${sc.pct}%) · без подсказки: ${sc.self} · верно с подсказкой: ${sc.hint} · не решено: ${sc.bad} · подсказок взято всего: ${T.filter(t=>S.r[t.n]&&S.r[t.n].hints>0).length}`,
+   `Уровень 1: ${sc.lv[0][0]}/${sc.lv[0][1]} (${pc(...sc.lv[0])}%) · Уровень 2: ${sc.lv[1][0]}/${sc.lv[1][1]} (${pc(...sc.lv[1])}%) · Уровень 3: ${sc.lv[2][0]}/${sc.lv[2][1]} (${pc(...sc.lv[2])}%)`,'','По заданиям:'];
+  for(const t of T){const r=S.r[t.n]||{};let s=`${t.n} (ур.${t.part}). ${Lb[r.st]||'—'}`;
+    if(r.st==='ok'&&r.tries>1)s+=' со 2-й попытки';
+    s+=`, попыток: ${r.tries||0}, подсказка: ${r.hints>0?'ВЗЯТА':'не брала'}`;
+    if(r.st&&r.st!=='ok'&&r.ans&&r.ans.length)s+=`, неверные ответы: ${r.ans.join(' | ')}`;
+    if(r.t)s+=`, ${fmtT(r.t)}`;L.push(s);if(r.th)L.push(`   идея: «${r.th}»`)}
+  L.push('',weak.length?'Что подтянуть: '+weak.map(t=>`№${t.n} ${t.topic}`).join('; '):'Что подтянуть: всё решено','','lili.math');return L.join('\n');
+}
+function finish(){
+  S.done=true;S.i=T.length;save();clearInterval(tick);pushResult();
+  const sc=score(),rep=report(sc),weak=T.filter(x=>!(S.r[x.n]&&S.r[x.n].st==='ok'));
+  const blk=k=>{const [a,b]=sc.lv[k-1];return `<div class="blk"><div class="h">Уровень ${k} · ${LVN[k]}<b>${pc(a,b)}%</b></div><div class="bar"><i style="width:${pc(a,b)}%"></i></div><div class="h"><span>${a} из ${b}</span></div></div>`};
+  app.innerHTML=topbar()+`<article class="card"><div class="rhead"><div class="kick">${esc(S.name)}, работа сдана</div><div class="big">${sc.pct}<span style="font-size:.4em">%</span></div>
+  <div class="quiet">верно: ${sc.ok} из ${sc.n} · время ${fmtT(elapsed())}</div></div>
+  <div class="cells">${T.map(x=>{const r=S.r[x.n]||{};return `<div class="cell ${r.st||''}" title="${x.topic}">${x.n}</div>`}).join('')}</div>
+  <div class="legend"><span><i style="background:var(--mint)"></i>верно</span><span><i style="background:var(--miss)"></i>не сошлось</span><span><i style="background:var(--amber)"></i>была идея</span><span><i style="background:#6f625a"></i>не знаю</span></div>
+  <div class="blocks">${blk(1)}${blk(2)}${blk(3)}</div>
+  <div class="weak"><div class="kick" style="margin:0">Что подтянуть</div>${weak.length?`<ul>${weak.map(x=>`<li><b>№${x.n}</b> · ${x.topic}</li>`).join('')}</ul>`:'<p>Всё решено. Подтягивать нечего.</p>'}</div>
+  <div class="send"><p class="quiet">Результат отправлен Лилии.</p></div></article>`;
+  
+}
+if(S.done&&S.name)finish();else renderStart();
+})();
+</script>
+</body></html>

@@ -65,6 +65,7 @@ RULES = [
  (r'^diagnostika-6-klass', ['6A']), (r'^diagnostika-7-klass', ['7A']), (r'^diagnostika-8-klass', ['8A']),
  (r'^diagnostika-naturalnye-chisla', ['5A.1']),
  (r'^domashnee-zadanie-trapeciya', ['8G.1.3']),
+ (r'^dz-8-trapeciya', ['8G.1.3']),
  (r'^dz-chisla-s-raznymi-znakami', ['6A.5.3']),
  (r'^dz-desyatichnye-drobi', ['5A.5']),
  (r'^dz-procenty', ['6A.4']),
