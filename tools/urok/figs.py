@@ -515,3 +515,128 @@ def fig_trap_o(lab=None, W=340, H_=215, cap=''):
         if lb: f.label(_mid(B, C), (0, -1), lb, 'tm', start=10)
         if la_: f.label(_mid(A, D), (0, 1), la_, 'tm', start=10)
     return f.render(cap)
+
+
+# =========================================================
+# Подобие, часть 2 (9 класс)
+# =========================================================
+def _unit(p, q):
+    d = math.hypot(q[0] - p[0], q[1] - p[1]); return ((q[0] - p[0]) / d, (q[1] - p[1]) / d)
+
+def fig_bis(lab=None, arcs=True, W=340, H_=215, cap=''):
+    """△ABC, биссектриса AD (D на BC). lab=(BD, DC, AB, AC) — подписи отрезков или None."""
+    A, B, C = (150.0, 30.0), (35.0, 185.0), (305.0, 185.0)
+    ab, ac = math.dist(A, B), math.dist(A, C)
+    t = ab / (ab + ac); D = (B[0] + t * (C[0] - B[0]), B[1])
+    f = Fig(W, H_)
+    f.line(A, B); f.line(A, C); f.line(B, C); f.line(A, D, 'acc', 'stroke-dasharray="6 4"'); f.dot(D, 3.5)
+    a1, a2, am = _ang(A, B), _ang(A, C), _ang(A, D)
+    if arcs: f.arc(A, 30, am, a1, 'acc', 2); f.arc(A, 38, a2, am, 'acc', 2)
+    cen = _cent(A, B, C)
+    f.label(A, (0, -1), 'A', 'tx', start=12)
+    f.label(B, _out(cen, B), 'B', 'tx', start=12); f.label(C, _out(cen, C), 'C', 'tx', start=12)
+    f.label(D, (0, 1), 'D', 'tx', start=10)
+    if lab:
+        bd, dc, lab_ab, lab_ac = lab
+        if bd: f.label(_mid(B, D), (0, 1), bd, 'tm', start=10)
+        if dc: f.label(_mid(D, C), (0, 1), dc, 'tm', start=10)
+        if lab_ab: f.label(_mid(A, B), (-1, 0), lab_ab, 'tm', start=10)
+        if lab_ac: f.label(_mid(A, C), (1, 0), lab_ac, 'tm', start=10)
+    return f.render(cap)
+
+def fig_rt_alt(lab=None, W=340, H_=215, cap=''):
+    """Прямоугольный △ABC (∠C=90°), CH — высота к гипотенузе AB. lab=(AH, HB, CH, AC, BC)."""
+    u = 280 / 25.0
+    A, B = (30.0, 185.0), (310.0, 185.0); H = (A[0] + 9 * u, 185.0); C = (H[0], 185 - 12 * u)
+    f = Fig(W, H_)
+    f.line(A, B); f.line(A, C); f.line(C, B); f.line(C, H, 'acc', 'stroke-dasharray="6 4"')
+    f.dot(H, 3.5)
+    f.right_angle(C, _unit(C, A), _unit(C, B), 10); f.right_angle(H, (1, 0), (0, -1), 9)
+    f.label(A, (-1, 0), 'A', 'tx', start=12); f.label(B, (1, 0), 'B', 'tx', start=12)
+    f.label(C, (0, -1), 'C', 'tx', start=12); f.label(H, (0, 1), 'H', 'tx', start=10)
+    if lab:
+        ah, hb, ch, ac, bc = lab
+        if ah: f.label(_mid(A, H), (0, 1), ah, 'tm', start=10)
+        if hb: f.label(_mid(H, B), (0, 1), hb, 'tm', start=10)
+        if ch: f.label(_mid(C, H), (-1, 0), ch, 'tm', start=10)
+        if ac: f.label(_mid(A, C), (-1, -1), ac, 'tm', start=10)
+        if bc: f.label(_mid(C, B), (1, -1), bc, 'tm', start=10)
+    return f.render(cap)
+
+def fig_chords(lab=None, W=340, H_=215, cap=''):
+    """Окружность, хорды AB и CD пересекаются в точке O. lab=(AO, OB, CO, OD)."""
+    c, r = (170.0, 110.0), 76.0
+    def pt(a): return (c[0] + r * math.cos(math.radians(a)), c[1] - r * math.sin(math.radians(a)))
+    A, B, C, D = pt(165), pt(20), pt(100), pt(245)
+    d1 = (B[0] - A[0], B[1] - A[1]); d2 = (D[0] - C[0], D[1] - C[1])
+    den = d1[0] * d2[1] - d1[1] * d2[0]
+    s = ((C[0] - A[0]) * d2[1] - (C[1] - A[1]) * d2[0]) / den
+    O = (A[0] + s * d1[0], A[1] + s * d1[1])
+    f = Fig(W, H_)
+    f.circle(c, r); f.line(A, B); f.line(C, D); f.dot(O, 3.5)
+    for nm, p in (('A', A), ('B', B), ('C', C), ('D', D)): f.label(p, _out(c, p), nm, 'tx', start=12)
+    f.label(O, (0, 1), 'O', 'tx', start=9, alts=(0, 40, -40, 90, -90, 140, -140, 180))
+    if lab:
+        ao, ob, co, od = lab
+        for (p, q_), s_, dv in ((((A, O)), ao, (-1, 1)), ((O, B), ob, (1, 1)), ((C, O), co, (-1, -1)), ((O, D), od, (1, 1))):
+            if s_: f.label(_mid(p, q_), dv, s_, 'tm', start=9, alts=(0, 40, -40, 90, -90, 140, -140, 180))
+    return f.render(cap)
+
+def fig_trap_kl(lab=None, W=340, H_=215, cap=''):
+    """Трапеция ABCD, диагонали пересекаются в O, KL ∥ основаниям проходит через O (K на AB, L на CD)."""
+    A, D = (30.0, 175.0), (310.0, 175.0); B, C = (105.0, 45.0), (235.0, 45.0)
+    kk = (C[0] - B[0]) / (D[0] - A[0])
+    O = (B[0] + (D[0] - B[0]) * kk / (1 + kk), B[1] + (D[1] - B[1]) * kk / (1 + kk))
+    tt = (O[1] - B[1]) / (A[1] - B[1])
+    K = (B[0] + tt * (A[0] - B[0]), O[1]); L = (C[0] + tt * (D[0] - C[0]), O[1])
+    f = Fig(W, H_)
+    f.line(A, D); f.line(B, C); f.line(A, B); f.line(C, D)
+    f.line(A, C, 'ln', 'style="stroke-width:1.6"'); f.line(B, D, 'ln', 'style="stroke-width:1.6"')
+    f.line(K, L, 'acc', 'stroke-dasharray="6 4"'); f.dot(O, 3.5); f.dot(K, 3.5); f.dot(L, 3.5)
+    cen = _cent(A, B, C, D)
+    for nm, p in (('A', A), ('B', B), ('C', C), ('D', D)): f.label(p, _out(cen, p), nm, 'tx', start=12)
+    f.label(K, (-1, 0), 'K', 'tx', start=10); f.label(L, (1, 0), 'L', 'tx', start=10)
+    f.label(O, (0, 1), 'O', 'tx', start=9, alts=(0, 40, -40, 90, -90, 140, -140, 180))
+    if lab:
+        lb, la_ = lab
+        if lb: f.label(_mid(B, C), (0, -1), lb, 'tm', start=10)
+        if la_: f.label(_mid(A, D), (0, 1), la_, 'tm', start=10)
+    return f.render(cap)
+
+def fig_para_k(e=0.4, lab=None, W=340, H_=215, cap=''):
+    """Параллелограмм ABCD, E на BC (BE = e·BC), прямая AE пересекает диагональ BD в K. lab=(BE, EC)."""
+    A, D = (25.0, 175.0), (235.0, 175.0); B, C = (90.0, 50.0), (300.0, 50.0)
+    E = (B[0] + e * (C[0] - B[0]), 50.0)
+    # K = AE ∩ BD:  BK : KD = BE : AD
+    s = (E[0] - B[0]) / (D[0] - A[0]); K = (B[0] + (D[0] - B[0]) * s / (1 + s), B[1] + (D[1] - B[1]) * s / (1 + s))
+    f = Fig(W, H_)
+    f.line(A, B); f.line(B, C); f.line(C, D); f.line(D, A)
+    f.line(B, D, 'ln', 'style="stroke-width:1.6"'); f.line(A, E, 'acc', 'stroke-dasharray="6 4"')
+    f.dot(E, 3.5); f.dot(K, 3.5)
+    cen = _cent(A, B, C, D)
+    for nm, p in (('A', A), ('B', B), ('C', C), ('D', D)): f.label(p, _out(cen, p), nm, 'tx', start=12)
+    f.label(E, (0, -1), 'E', 'tx', start=10)
+    f.label(K, (0, 1), 'K', 'tx', start=9, alts=(0, 40, -40, 90, -90, 140, -140, 180))
+    if lab:
+        be, ec = lab
+        if be: f.label(_mid(B, E), (0, -1), be, 'tm', start=16)
+        if ec: f.label(_mid(E, C), (0, -1), ec, 'tm', start=16)
+    return f.render(cap)
+
+def fig_lamp(lab=('9 м', '1,8 м', '8 м', 'x'), W=340, H_=200, cap=''):
+    """Фонарь, человек и его тень. lab=(фонарь, человек, расстояние до фонаря, тень)."""
+    g = 160.0; x1, x2 = 40.0, 190.0
+    H1, h2 = 5.0, 1.0   # условный масштаб: фонарь 5 частей, человек 1 часть
+    top1 = (x1, g - 120.0); top2 = (x2, g - 24.0)
+    # луч от верхушки фонаря через голову человека до земли
+    tt = (g - top1[1]) / (top2[1] - top1[1]); end = (top1[0] + tt * (top2[0] - top1[0]), g)
+    f = Fig(W, H_)
+    f.line((10, g), (W - 10, g)); f.line((x1, g), top1, 'ln', 'style="stroke-width:3"'); f.line((x2, g), top2, 'ln', 'style="stroke-width:3"')
+    f.line(top1, end, 'acc', 'stroke-dasharray="6 4"'); f.line((x2, g), end, 'acc', 'style="stroke-width:3.2"')
+    f.dot(top1, 3.5); f.dot(top2, 3.5); f.dot(end, 3.5)
+    hl, hm, dd, sx = lab
+    if hl: f.label(_mid((x1, g), top1), (-1, 0), hl, 'tm', start=10)
+    if hm: f.label(_mid((x2, g), top2), (-1, 0), hm, 'tm', start=10)
+    if dd: f.label(_mid((x1, g), (x2, g)), (0, 1), dd, 'tm', start=10)
+    if sx: f.label(_mid((x2, g), end), (0, 1), sx, 'tm', start=10)
+    return f.render(cap)
