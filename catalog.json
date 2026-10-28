@@ -5932,6 +5932,18 @@
       "node": [
         "9G.2.2"
       ]
+    },
+    {
+      "file": "obyasnenie-9-graficheskiy-sposob.html",
+      "title": "9A.3.1.4 · Теория · Графический способ решения систем уравнений",
+      "type": "uchebnik",
+      "class": 9,
+      "oge_task": 20,
+      "status": "hidden",
+      "note": "Урок-объяснение на 60 минут, средний уровень, добавлено 2026-10-28, ветка urok-graficheskiy-sposob-sistem. До слова «заливай» скрыт.",
+      "node": [
+        "9A.3.1.4"
+      ]
     }
   ]
 }

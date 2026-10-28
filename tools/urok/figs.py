@@ -91,6 +91,22 @@ class Fig:
                     self._put(cx, cy, s, cls); return (cx, cy)
         raise RuntimeError(f'не нашлось места для подписи «{s}» у {base}')
 
+    def label_near(self, base, dirv, s, cls='tx', start=9, maxd=70, margin=5, bound=8):
+        """Подпись как можно ближе к точке: сначала растёт расстояние, а для каждого расстояния пробуются направления от предпочтительного."""
+        w, h = self._size(s, cls)
+        n = math.hypot(*dirv) or 1; ux, uy = dirv[0] / n, dirv[1] / n
+        for d in range(int(start), int(maxd)):
+            for rot in (0, 30, -30, 60, -60, 90, -90, 120, -120, 150, -150, 180):
+                ca, sa = math.cos(math.radians(rot)), math.sin(math.radians(rot))
+                vx, vy = ux * ca - uy * sa, ux * sa + uy * ca
+                ext = abs(vx) * w / 2 + abs(vy) * h / 2
+                cx, cy = base[0] + vx * (d + ext), base[1] + vy * (d + ext)
+                box = (cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2)
+                if box[0] < bound or box[1] < bound or box[2] > self.W - bound or box[3] > self.H - bound: continue
+                if self._free(box, margin):
+                    self._put(cx, cy, s, cls); return (cx, cy)
+        raise RuntimeError(f'не нашлось места для подписи «{s}» у {base}')
+
     def render(self, cap=''):
         c = f'<div class="gcap">{cap}</div>' if cap else ''
         return f'<div class="fig"><svg viewBox="0 0 {self.W} {self.H}" width="{self.W}" role="img" aria-label="Чертёж">{"".join(self.svg)}</svg></div>{c}'
@@ -246,3 +262,150 @@ def tbl(head, rows):
     h = ''.join(f'<th>{x}</th>' for x in head)
     r = ''.join('<tr>' + ''.join(f'<td>{c}</td>' for c in row) + '</tr>' for row in rows)
     return f'<div class="tblw"><table><tr>{h}</tr>{r}</table></div>'
+
+
+# ====================== координатная плоскость: графики систем ======================
+def _plane(xr, yr, sc, pad=24):
+    (xa, xb), (ya, yb) = xr, yr
+    W = int(round((xb - xa) * sc + 2 * pad)); H = int(round((yb - ya) * sc + 2 * pad))
+    f = Fig(W, H)
+    f.sc = sc; f.xr = xr; f.yr = yr
+    f.X = lambda x: pad + (x - xa) * sc
+    f.Y = lambda y: pad + (yb - y) * sc
+    f.line((f.X(xa), f.Y(0)), (f.X(xb), f.Y(0)), 'ax')
+    f.line((f.X(0), f.Y(ya)), (f.X(0), f.Y(yb)), 'ax')
+    return f
+
+def _curve(f, fn, xa, xb, cls='ln', n=300):
+    ya, yb = f.yr
+    parts, seg = [], []
+    for k in range(n + 1):
+        x = xa + (xb - xa) * k / n; y = fn(x)
+        if ya - 1e-9 <= y <= yb + 1e-9: seg.append((f.X(x), f.Y(y)))
+        else:
+            if len(seg) > 1: parts.append(seg)
+            seg = []
+    if len(seg) > 1: parts.append(seg)
+    for s in parts:
+        d = 'M ' + ' L '.join(f'{p[0]:.1f} {p[1]:.1f}' for p in s)
+        f.raw(f'<path d="{d}" class="{cls}"/>')
+        for a, b in zip(s, s[1:]): f.segs.append((a, b, 1.5))
+
+def plane_fig(xr, yr, sc, tx, ty, curves=(), circles=(), segs=(), pts=(), names=(), cap=''):
+    """curves: (fn, xa, xb, cls); circles: (cx, cy, R, cls); segs: ((x1,y1),(x2,y2),cls);
+    pts: (x, y, подпись или None, направление); names: (x, y, текст, направление, start)."""
+    f = _plane(xr, yr, sc)
+    for xv in tx:
+        if xv: f.line((f.X(xv), f.Y(0) - 3), (f.X(xv), f.Y(0) + 3), 'ax')
+    for yv in ty:
+        if yv: f.line((f.X(0) - 3, f.Y(yv)), (f.X(0) + 3, f.Y(yv)), 'ax')
+    for fn, xa, xb, cls in curves: _curve(f, fn, xa, xb, cls)
+    for cx, cy, R, cls in circles: f.circle((f.X(cx), f.Y(cy)), R * sc, cls)
+    for p, q, cls in segs: f.line((f.X(p[0]), f.Y(p[1])), (f.X(q[0]), f.Y(q[1])), cls)
+    for x, y, lab, d in pts: f.dot((f.X(x), f.Y(y)), 4.2)
+    # сначала подписи делений: они обязаны стоять строго под/слева от своей отметки
+    for xv in tx:
+        if xv:
+            try: f.label((f.X(xv), f.Y(0)), (0, 1), str(xv).replace('-', '−'), 'tm', start=9, maxd=18, alts=(0, 20, -20))
+            except RuntimeError: pass
+    for yv in ty:
+        if yv:
+            try: f.label((f.X(0), f.Y(yv)), (-1, 0), str(yv).replace('-', '−'), 'tm', start=9, maxd=24, alts=(0, 20, -20))
+            except RuntimeError: pass
+    f.label((f.X(f.xr[1]), f.Y(0)), (0, 1), 'x', 'tx', start=12)
+    f.label((f.X(0), f.Y(f.yr[1])), (1, 0), 'y', 'tx', start=12)
+    f.label((f.X(0), f.Y(0)), (-1, 1), '0', 'tm', start=10, alts=(0, 30, -30, 60))
+    for x, y, lab, d in pts:
+        if lab: f.label_near((f.X(x), f.Y(y)), d, lab, 'tx', start=8)
+    for x, y, text, d, st in names: f.label_near((f.X(x), f.Y(y)), d, text, 'tx', start=st)
+    return f.render(cap)
+
+def fig_par_table():
+    pts = [(x, x * x, None, (1, 0)) for x in (-2, -1, 0, 1, 2)]
+    return plane_fig((-3, 3), (-1, 5), 34, (-2, -1, 1, 2), (1, 2, 3, 4),
+                     curves=[(lambda x: x * x, -2.2, 2.2, 'ln')], pts=pts,
+                     names=[(2.1, 4.4, 'y = x²', (1, 0), 14)], cap='Парабола y = x², точки взяты из таблицы')
+
+def fig_line_pts():
+    return plane_fig((-3, 4), (-3, 3), 34, (-2, -1, 1, 2, 3), (-2, -1, 1, 2),
+                     curves=[(lambda x: x - 1, -2, 4, 'ln')],
+                     pts=[(0, -1, '(0; −1)', (1, -1)), (1, 0, '(1; 0)', (1, -1))],
+                     names=[(3.2, 1.9, 'y = x − 1', (-1, 1), 10)], cap='Прямая y = x − 1 по двум точкам')
+
+def fig_circ0():
+    return plane_fig((-6, 6), (-6, 6), 24, (-4, -3, -2, -1, 1, 2, 3, 4), (-4, -3, -2, -1, 1, 2, 3, 4), circles=[(0, 0, 5, 'ln')],
+                     segs=[((0, 0), (3, 4), 'acc')], pts=[(3, 4, '(3; 4)', (1, 1))],
+                     names=[(1.5, 2, 'R = 5', (-1, 1), 8)], cap='Окружность x² + y² = 25: центр (0; 0), радиус 5')
+
+def fig_circ_shift():
+    return plane_fig((-5, 7), (-4, 8), 24, (-3, -2, -1, 1, 2, 3, 4, 5), (-3, -2, -1, 1, 2, 3, 4, 5, 6), circles=[(1, 2, 5, 'ln')],
+                     segs=[((1, 2), (4, 6), 'acc')], pts=[(1, 2, 'C(1; 2)', (-1, -1)), (4, 6, None, (1, 1))],
+                     names=[(2.4, 4.3, 'R = 5', (1, -1), 10)], cap='Окружность (x − 1)² + (y − 2)² = 25: центр (1; 2), радиус 5')
+
+def fig_pl1():
+    return plane_fig((-4, 4), (-1, 9), 26, (-3, -2, -1, 1, 2, 3), (2, 4, 6, 8),
+                     curves=[(lambda x: x * x, -3, 3, 'ln'), (lambda x: x + 2, -3, 3.5, 'acc')],
+                     pts=[(-1, 1, 'A(−1; 1)', (-1, 1)), (2, 4, 'B(2; 4)', (1, -1))],
+                     names=[(-2.5, 6.2, 'y = x²', (-1, 0), 10)],
+                     cap='Парабола y = x² (светлая) и прямая y = x + 2 (оранжевая)')
+
+def fig_pl2():
+    return plane_fig((-1, 6), (-2, 6), 34, (-1, 1, 2, 3, 4, 5), (-1, 1, 2, 3, 4, 5),
+                     curves=[(lambda x: x * x - 4 * x + 3, -1, 5, 'ln'), (lambda x: x - 1, -1, 5.5, 'acc')],
+                     pts=[(1, 0, 'A(1; 0)', (-1, -1)), (4, 3, 'B(4; 3)', (1, -1)), (2, -1, 'V(2; −1)', (1, -1))],
+                     names=[(-0.6, 5.0, 'y = x² − 4x + 3', (1, 0), 10), (5.0, 4.0, 'y = x − 1', (-1, 0), 10)],
+                     cap='Парабола y = x² − 4x + 3 и прямая y = x − 1')
+
+def fig_pl3():
+    return plane_fig((-6, 4), (-7, 5), 24, (-5, -4, -3, -2, -1, 1, 2, 3), (-6, -4, -2, 2, 4),
+                     curves=[(lambda x: x * x - 6, -3.6, 3.6, 'ln'), (lambda x: -x, -4, 4, 'acc')],
+                     pts=[(-3, 3, 'A(−3; 3)', (1, 0.1)), (2, -2, 'B(2; −2)', (1, -1))],
+                     names=[(-3.5, 5.3, 'y = −x', (1, 0), 10)] if False else [],
+                     cap='Парабола y = x² − 6 (светлая) и прямая y = −x (оранжевая)')
+
+def fig_cl1():
+    return plane_fig((-6, 6), (-6, 6), 24, (-4, -3, -2, -1, 1, 2, 3, 4), (-4, -3, -2, -1, 1, 2, 3, 4),
+                     curves=[(lambda x: x + 1, -6, 5, 'acc')], circles=[(0, 0, 5, 'ln')],
+                     pts=[(3, 4, 'A(3; 4)', (1, 1)), (-4, -3, 'B(−4; −3)', (-1, -1))],
+                     cap='Окружность x² + y² = 25 и прямая y = x + 1')
+
+def fig_cl2():
+    return plane_fig((-6, 8), (-6, 8), 22, (-4, -3, -2, -1, 1, 2, 3, 4), (-4, -3, -2, -1, 1, 2, 3, 4),
+                     curves=[(lambda x: 7 - x, -1, 8, 'acc')], circles=[(0, 0, 5, 'ln')],
+                     pts=[(3, 4, 'A(3; 4)', (-1, 1)), (4, 3, 'B(4; 3)', (1, -1))],
+                     cap='Окружность x² + y² = 25 и прямая y = −x + 7')
+
+def fig_cl3():
+    return plane_fig((-5, 7), (-4, 8), 24, (-3, -2, -1, 1, 2, 3, 4, 5), (-3, -2, -1, 1, 2, 3, 4, 5, 6),
+                     curves=[(lambda x: x + 2, -5, 6, 'acc')], circles=[(1, 2, 5, 'ln')],
+                     pts=[(-3, -1, 'A(−3; −1)', (-1, -1)), (4, 6, 'B(4; 6)', (1, 1))],
+                     cap='Окружность с центром (1; 2) и прямая y = x + 2')
+
+def fig_tangent():
+    return plane_fig((-6, 6), (-7, 6), 20, (-4, -3, -2, -1, 1, 2, 3, 4), (-4, -3, -2, -1, 1, 2, 3, 4),
+                     curves=[(lambda x: -5, -6, 6, 'acc')], circles=[(0, 0, 5, 'ln')],
+                     pts=[(0, -5, '(0; −5)', (1, 1))], cap='Прямая y = −5 касается окружности: одна общая точка')
+
+def fig_nocross():
+    return plane_fig((-6, 6), (-6, 7), 20, (-4, -3, -2, -1, 1, 2, 3, 4), (-4, -3, -2, -1, 1, 2, 3, 4),
+                     curves=[(lambda x: x + 8, -6, -1, 'acc')], circles=[(0, 0, 5, 'ln')],
+                     cap='Прямая y = x + 8 и окружность не пересекаются: общих точек нет')
+
+def fig_cp1():
+    return plane_fig((-6, 6), (-6, 6), 24, (-4, -3, -2, -1, 1, 2, 3, 4), (-4, -3, -2, -1, 1, 2, 3, 4),
+                     curves=[(lambda x: x * x - 5, -3.4, 3.4, 'acc')], circles=[(0, 0, 5, 'ln')],
+                     pts=[(-3, 4, 'A(−3; 4)', (-1, 1)), (3, 4, 'B(3; 4)', (1, 1)), (0, -5, 'C(0; −5)', (0, 1))],
+                     cap='Окружность x² + y² = 25 и парабола y = x² − 5: три общие точки')
+
+def fig_cp2():
+    return plane_fig((-12, 12), (-12, 12), 13, (-8, -6, -4, -2, 2, 4, 6, 8), (-8, -6, -4, -2, 2, 4, 6, 8),
+                     curves=[(lambda x: 0.5 * x * x - 10, -6.7, 6.7, 'acc')], circles=[(0, 0, 10, 'ln')],
+                     pts=[(-6, 8, 'A(−6; 8)', (-1, 1)), (6, 8, 'B(6; 8)', (1, 1)), (0, -10, 'C(0; −10)', (1, -1))],
+                     cap='Окружность x² + y² = 100 и парабола y = 0,5x² − 10')
+
+def fig_irr():
+    s7 = 7 ** 0.5
+    return plane_fig((-5, 5), (-5, 5), 26, (-3, -2, -1, 1, 2, 3), (-3, -2, -1, 1, 2, 3),
+                     curves=[(lambda x: -x - 2, -5, 3, 'acc')], circles=[(0, 0, 4, 'ln')],
+                     pts=[(-1 + s7, -1 - s7, 'A', (1, -1)), (-1 - s7, -1 + s7, 'B', (-1, 1))],
+                     cap='Окружность x² + y² = 16 и прямая x + y + 2 = 0: точки не попадают в узлы клеток')

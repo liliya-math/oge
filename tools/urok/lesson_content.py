@@ -509,3 +509,78 @@ if __name__ == '__main__':
     import json
     print(len(T), 'экранов')
     print(sum(1 for d in T if d['kind'] == 'q'), 'вопросов')
+
+
+# ---------- неразрывные формулы ----------
+import re as _re
+_ATOM_OPEN = _re.compile(r'<span class="(?:fr|rt|m)">')
+_TAG = _re.compile(r'<[^>]+>')
+_MATHW = _re.compile(r'^(?:&\w+;|[0-9A-Za-z₀-₉()+\-−–·:=≠≤≥±²³√,.;/<>«»%°!?|^])+$')
+
+def _split_atoms(s):
+    """Режет HTML на куски: ('tag', html), ('atom', html) для дробей и корней, ('text', строка)."""
+    out, i, n = [], 0, len(s)
+    while i < n:
+        if s[i] == '<':
+            m = _ATOM_OPEN.match(s, i)
+            if m:
+                depth, j = 0, i
+                for t in _re.finditer(r'<span\b[^>]*>|</span>', s[i:]):
+                    depth += 1 if t.group().startswith('<span') else -1
+                    if depth == 0:
+                        j = i + t.end(); break
+                out.append(('atom', s[i:j])); i = j; continue
+            j = s.index('>', i) + 1
+            out.append(('tag', s[i:j])); i = j
+        else:
+            j = s.find('<', i)
+            j = n if j < 0 else j
+            out.append(('text', s[i:j])); i = j
+    return out
+
+def nb(s):
+    """Оборачивает формулы и примеры в неразрывные блоки (white-space:nowrap), чтобы они не рвались на строки."""
+    if not isinstance(s, str) or not s: return s
+    parts = _split_atoms(s)
+    items = []   # ('w', слово) / ('a', атом) / ('sp',) / ('x', тег или слово не из математики)
+    for kind, v in parts:
+        if kind == 'atom': items.append(('a', v))
+        elif kind == 'tag': items.append(('x', v))
+        else:
+            for tok in _re.split(r'( )', v):
+                if tok == '': continue
+                if tok == ' ': items.append(('sp', ' '))
+                elif _MATHW.match(tok): items.append(('w', tok))
+                else: items.append(('x', tok))
+    res, i = [], 0
+    while i < len(items):
+        if items[i][0] in ('w', 'a'):
+            j = i; last = i
+            while j < len(items):
+                if items[j][0] in ('w', 'a'): last = j; j += 1
+                elif items[j][0] == 'sp' and j + 1 < len(items) and items[j + 1][0] in ('w', 'a'): j += 1
+                else: break
+            run = items[i:last + 1]
+            txt = ''.join(v for k, v in run)
+            plain_len = len(_TAG.sub('', txt))
+            has_sp = any(k == 'sp' for k, v in run)
+            if (has_sp or any(k == 'a' for k, v in run)) and plain_len <= 48 and not txt.startswith('<span class="m">'):
+                res.append('<span class="m">' + txt + '</span>')
+            else:
+                res.append(txt)
+            i = last + 1
+        else:
+            res.append(items[i][1]); i += 1
+    return ''.join(res)
+
+def finalize():
+    """Вызывается сборщиком: все формулы и примеры в экранах становятся неразрывными."""
+    for d in T:
+        for k in ('body', 'box', 'q', 'why', 'note', 'trap', 'share'):
+            if isinstance(d.get(k), str): d[k] = nb(d[k])
+        if isinstance(d.get('h'), list) and d['kind'] == 'q': d['h'] = [nb(x) for x in d['h']]
+        if d.get('rev'): d['rev']['html'] = nb(d['rev']['html'])
+        if d.get('opts'): d['opts'] = [nb(x) for x in d['opts']]
+        for k in ('rules',):
+            if isinstance(d.get(k), list): d[k] = [nb(x) for x in d[k]]
+        if isinstance(d.get('ex'), list): d['ex'] = [nb(x) for x in d['ex']]
