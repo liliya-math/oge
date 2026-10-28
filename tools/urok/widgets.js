@@ -185,3 +185,41 @@ W.trappyth=b=>{
     g+=L.lab(H,[0,1],'H','t',14,{start:14}).svg+L.lab(mid2(A,B),out2(cen,mid2(A,B)),'c','t-mute',13,{start:9}).svg+L.lab(mid2(A,H),[0,1],'x','t-mute',13,{start:14}).svg+L.lab(mid2(B,H),[1,0],'h','t-mute',13,{start:9,alts:[0,20,-20,40,-40]}).svg;
     $(b,'#sv').innerHTML=g;
     $(b,'#o').innerHTML=`<b><span class="nb">x = (AD − BC) : 2 = ${f(x,1)}</span></b><br><b><span class="nb">h² = c² − x² = ${c*c} − ${f(x*x,2)} = ${f(h*h,2)}</span></b><br><b><span class="nb">h ≈ ${f(h,2)}</span>, <span class="nb">S ≈ ${f((a+bb)*h/2,1)}</span></b><br><span class="mute">Если h получилось целым, тройка чисел x, h, c пифагорова: например, 5, 12, 13.</span>`})};
+
+/* ---------- Пропорциональные отрезки: двигаем прямую MN параллельно BC ---------- */
+W.propdemo=b=>{
+  b.innerHTML=sl('m','Длина AM',1,9,3,1)+SV('sv',330,215)+OUT;
+  const A=[165,25],AB=10,AC=8,u=20,B=[A[0]-0.6*AB*u,A[1]+0.8*AB*u],C=[A[0]+0.8*AC*u,A[1]+0.6*AC*u];
+  bind(b,['m'],v=>{
+    const am=v.m,s=am/AB,an=s*AC,mb=AB-am,nc=AC-an;
+    const M=[A[0]+s*(B[0]-A[0]),A[1]+s*(B[1]-A[1])],N=[A[0]+s*(C[0]-A[0]),A[1]+s*(C[1]-A[1])],L=LAB(330,215);
+    let g=ln(A[0],A[1],B[0],B[1],'s-ink',3)+ln(A[0],A[1],C[0],C[1],'s-ink',3)+ln(B[0],B[1],C[0],C[1],'s-ink',3)+ln(M[0],M[1],N[0],N[1],'s-acc',4,'stroke-dasharray="6 4"');
+    L.seg(A,B,3);L.seg(A,C,3);L.seg(B,C,3);L.seg(M,N,3);L.dot(M,4);L.dot(N,4);
+    g+=`<circle cx="${M[0]}" cy="${M[1]}" r="4" style="fill:var(--apricot)"/><circle cx="${N[0]}" cy="${N[1]}" r="4" style="fill:var(--apricot)"/>`;
+    const cen=cen3(A,B,C);
+    g+=L.lab(A,[0,-1],'A','t',14,{start:12}).svg+L.lab(B,out2(cen,B),'B','t',14,{start:12}).svg+L.lab(C,out2(cen,C),'C','t',14,{start:12}).svg;
+    g+=L.lab(M,[-1,0],'M','t',14,{start:12}).svg+L.lab(N,[1,0],'N','t',14,{start:12}).svg;
+    $(b,'#sv').innerHTML=g;
+    $(b,'#o').innerHTML=`<b><span class="nb">AM : MB = ${am} : ${mb} = ${f(am/mb,2)}</span></b><br><b><span class="nb">AN : NC = ${f(an,1)} : ${f(nc,1)} = ${f(an/nc,2)}</span></b><br><span class="mute"><span class="nb">AB = 10</span>, <span class="nb">AC = 8</span>. Отрезки разные, а отношения одинаковые. Двигай ползунок: так будет при любом положении MN.</span>`})};
+
+/* ---------- Коэффициент подобия: периметры и площади ---------- */
+W.simk=b=>{
+  b.innerHTML=sl('k','Коэффициент подобия k',0.5,3,2,0.5)+SV('sv',380,230)+OUT;
+  const s=18,y0=214;
+  bind(b,['k'],v=>{
+    const k=v.k,L=LAB(380,230);
+    const mk=(x0,kk)=>[[x0,y0],[x0+4*s*kk,y0],[x0,y0-3*s*kk]];
+    const T1=mk(22,1),x1=22+4*s+44,T2=mk(x1,k);
+    let g='';
+    for(const[T,cl]of[[T1,'s-ink'],[T2,'s-acc']]){
+      g+=ln(T[0][0],T[0][1],T[1][0],T[1][1],cl,3)+ln(T[0][0],T[0][1],T[2][0],T[2][1],cl,3)+ln(T[1][0],T[1][1],T[2][0],T[2][1],cl,3);
+      L.seg(T[0],T[1],3);L.seg(T[0],T[2],3);L.seg(T[1],T[2],3);
+      const r=Math.min(9,0.5*Math.abs(T[1][0]-T[0][0]));
+      g+=ln(T[0][0]+r,T[0][1],T[0][0]+r,T[0][1]-r,'s-ink',1.5)+ln(T[0][0],T[0][1]-r,T[0][0]+r,T[0][1]-r,'s-ink',1.5);
+      L.seg([T[0][0]+r,T[0][1]],[T[0][0]+r,T[0][1]-r],2);L.seg([T[0][0],T[0][1]-r],[T[0][0]+r,T[0][1]-r],2);
+    }
+    const lb=(T,kk)=>{const c=cen3(T[0],T[1],T[2]);
+      return L.lab(mid2(T[0],T[1]),[0,1],f(4*kk,1),'t-mute',12,{start:8}).svg+L.lab(mid2(T[0],T[2]),[-1,0],f(3*kk,1),'t-mute',12,{start:8}).svg+L.lab(mid2(T[1],T[2]),out2(c,mid2(T[1],T[2])),f(5*kk,1),'t-mute',12,{start:8}).svg};
+    g+=lb(T1,1)+lb(T2,k);
+    $(b,'#sv').innerHTML=g;
+    $(b,'#o').innerHTML=`<b><span class="nb">P₁ = 12, P₂ = ${f(12*k,1)}, P₂ : P₁ = ${f(k,1)}</span></b><br><b><span class="nb">S₁ = 6, S₂ = ${f(6*k*k,2)}, S₂ : S₁ = ${f(k*k,2)}</span></b><br><span class="mute">Периметры относятся как k. Площади относятся как k², то есть <span class="nb">${f(k,1)} · ${f(k,1)} = ${f(k*k,2)}</span>.</span>`})};
