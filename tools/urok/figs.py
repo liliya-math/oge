@@ -246,3 +246,110 @@ def tbl(head, rows):
     h = ''.join(f'<th>{x}</th>' for x in head)
     r = ''.join('<tr>' + ''.join(f'<td>{c}</td>' for c in row) + '</tr>' for row in rows)
     return f'<div class="tblw"><table><tr>{h}</tr>{r}</table></div>'
+
+
+# =========================================================
+# Трапеция (урок 8 класса). Вершины: A, D внизу (нижнее основание AD), B, C вверху (верхнее основание BC).
+def _trap_draw(f, A, B, C, D, names=True):
+    f.line(A, D); f.line(B, C); f.line(A, B); f.line(C, D)
+    cen = _cent(A, B, C, D)
+    if names:
+        for nm, p in (('A', A), ('B', B), ('C', C), ('D', D)):
+            f.label(p, _out(cen, p), nm, 'tx', start=12)
+    return cen
+
+def fig_parallel():
+    """Две параллельные прямые и секущая: односторонние углы."""
+    P, Q = (116.7, 140), (183.3, 60)
+    th = _ang(P, Q)
+    f = Fig(330, 190)
+    f.line((20, 140), (320, 140)); f.line((20, 60), (320, 60)); f.line((92, 170), (208, 30))
+    f.arc(P, 26, 0, th); f.arc(Q, 26, -(180 - th), 0)
+    f.label(P, (1, -0.25), 'α', 'tx', start=34, alts=(0, 10, -10, 20))
+    f.label(Q, (1, 0.25), 'β', 'tx', start=34, alts=(0, 10, -10, 20))
+    f.label((300, 60), (0, -1), 'a', 'tx', start=12); f.label((300, 140), (0, 1), 'b', 'tx', start=12)
+    return f.render('Прямые a и b параллельны. Углы α и β односторонние: α + β = 180°')
+
+def fig_trap_elements():
+    A, B, C, D = (70, 160), (125, 50), (255, 50), (320, 160)
+    f = Fig(390, 205)
+    cen = _trap_draw(f, A, B, C, D)
+    f.label(_mid(B, C), (0, -1), 'основание', 'tm', start=12)
+    f.label(_mid(A, D), (0, 1), 'основание', 'tm', start=14)
+    f.label(_mid(A, B), (-1, 0), 'боковая', 'tm', start=10)
+    f.label(_mid(C, D), (1, 0), 'боковая', 'tm', start=10)
+    return f.render('Трапеция ABCD: BC ∥ AD')
+
+def fig_trap_angles():
+    A, B, C, D = (70, 160), (125, 50), (255, 50), (320, 160)
+    f = Fig(390, 205)
+    _trap_draw(f, A, B, C, D)
+    th = _ang(A, B)
+    f.arc(A, 30, 0, th); f.arc(B, 30, -(180 - th), 0)
+    f.label(A, (1, -0.45), 'α', 'tx', start=40, alts=(0, 10, -10, 20, -20))
+    f.label(B, (0.4, 1), 'β', 'tx', start=40, alts=(0, 10, -10, 20, -20))
+    return f.render('Углы A и B при боковой стороне AB: α + β = 180°')
+
+def fig_trap_mid():
+    A, B, C, D = (60, 160), (125, 50), (255, 50), (330, 160)
+    M, N = _mid(A, B), _mid(C, D)
+    f = Fig(390, 210)
+    _trap_draw(f, A, B, C, D)
+    f.line(M, N, 'acc', 'stroke-dasharray="6 4"'); f.dot(M, 4); f.dot(N, 4)
+    f.label(M, (-1, 0), 'M', 'tx', start=12); f.label(N, (1, 0), 'N', 'tx', start=12)
+    f.label(_mid(B, C), (0, -1), 'b', 'tx', start=12); f.label(_mid(A, D), (0, 1), 'a', 'tx', start=14)
+    f.label(_mid(M, N), (0, -1), 'MN', 'tx', start=10, alts=(0, 20, -20, 180))
+    return f.render('MN — средняя линия: MN = (a + b) : 2')
+
+def fig_trap_iso():
+    A, B, C, D = (70, 160), (130, 50), (250, 50), (310, 160)
+    f = Fig(380, 205)
+    cen = _trap_draw(f, A, B, C, D)
+    for p, q in ((A, B), (D, C)):
+        m = _mid(p, q); dx, dy = q[0] - p[0], q[1] - p[1]; n = math.hypot(dx, dy)
+        ux, uy = -dy / n * 6, dx / n * 6
+        f.line((m[0] - ux, m[1] - uy), (m[0] + ux, m[1] + uy), 'acc')
+    thA = _ang(A, B); f.arc(A, 28, 0, thA); f.arc(D, 28, 180 - thA, 180)
+    f.arc(B, 26, -(180 - thA), 0); f.arc(C, 26, 180, 180 + (180 - thA))
+    f.label(A, (1, -0.5), 'α', 'tx', start=38, alts=(0, 10, -10, 20, -20)); f.label(D, (-1, -0.5), 'α', 'tx', start=38, alts=(0, 10, -10, 20, -20))
+    f.label(B, (0.4, 1), 'β', 'tx', start=38, alts=(0, 10, -10, 20, -20)); f.label(C, (-0.4, 1), 'β', 'tx', start=38, alts=(0, 10, -10, 20, -20))
+    return f.render('Равнобедренная трапеция: AB = CD, углы при основании равны')
+
+def fig_trap_iso_h():
+    A, B, C, D = (60, 165), (130, 50), (250, 50), (320, 165)
+    H, K = (130, 165), (250, 165)
+    f = Fig(390, 215)
+    _trap_draw(f, A, B, C, D)
+    f.line(B, H, 'acc', 'stroke-dasharray="6 4"'); f.line(C, K, 'acc', 'stroke-dasharray="6 4"')
+    f.right_angle(H, (-1, 0), (0, -1)); f.right_angle(K, (1, 0), (0, -1))
+    f.label(H, (0, 1), 'H', 'tx', start=14); f.label(K, (0, 1), 'K', 'tx', start=14)
+    f.label(_mid(A, H), (0, 1), 'x', 'tx', start=16); f.label(_mid(K, D), (0, 1), 'x', 'tx', start=16)
+    f.label(_mid(B, H), (-1, 0), 'h', 'tx', start=10, alts=(0, 20, -20, 180))
+    f.label(_mid(H, K), (0, 1), 'b', 'tx', start=16)
+    return f.render('BH и CK — высоты. AH = KD = x, HK = BC = b')
+
+def fig_trap_rect():
+    A, B, C, D = (80, 165), (80, 50), (230, 50), (320, 165)
+    Hp = (230, 165)
+    f = Fig(390, 215)
+    _trap_draw(f, A, B, C, D)
+    f.line(C, Hp, 'acc', 'stroke-dasharray="6 4"')
+    f.right_angle(A, (1, 0), (0, -1)); f.right_angle(B, (1, 0), (0, 1)); f.right_angle(Hp, (1, 0), (0, -1))
+    f.label(Hp, (0, 1), 'H', 'tx', start=14)
+    f.label(_mid(A, B), (-1, 0), 'h', 'tx', start=10)
+    f.label(_mid(B, C), (0, -1), 'b', 'tx', start=12)
+    f.label(_mid(Hp, D), (0, 1), 'a − b', 'tx', start=16)
+    return f.render('Прямоугольная трапеция: AB ⟂ AD, AB = h; AD = a, BC = b, HD = a − b')
+
+def fig_trap_diag():
+    A, D = (40, 170), (300, 170)
+    ac = 260 * math.sin(math.radians(70)) / math.sin(math.radians(80))
+    C = (A[0] + ac * math.cos(math.radians(30)), A[1] - ac * math.sin(math.radians(30)))
+    B = (A[0] + D[0] - C[0], C[1])
+    f = Fig(340, 215)
+    _trap_draw(f, A, B, C, D)
+    f.line(A, C, 'acc', 'stroke-dasharray="6 4"')
+    f.arc(A, 40, 0, 30); f.arc(C, 30, _ang(C, A), _ang(C, D))
+    f.label(A, (1, -0.2), '30°', 'tm', start=48, alts=(0, 8, -8, 16, -16))
+    f.label(C, (0.1, 1), '80°', 'tm', start=34, alts=(0, 12, -12, 25, -25))
+    return f.render('Равнобедренная трапеция ABCD, диагональ AC')
