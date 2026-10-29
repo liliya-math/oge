@@ -6113,6 +6113,46 @@
         "9A.2.2",
         "8A.3.5"
       ]
+    },
+    {
+      "type": "zadanie",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "file": "zadachi-8-podobie-proporcii.pdf",
+      "title": "8G.3.1 · 40 задач (PDF) · Пропорциональность в подобии треугольников",
+      "note": "4 уровня по 10 задач, вводная памятка, рисунки, без ответов. Печать с экономией бумаги.",
+      "node": [
+        "8G.3.1",
+        "8G.3.3"
+      ]
+    },
+    {
+      "type": "zadanie",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "file": "shpargalka-8-podobie-proporcii.pdf",
+      "title": "8G.3.1 · Шпаргалка (PDF) · Подобие треугольников",
+      "note": "Вся теория к 40 задачам, 2 страницы А4.",
+      "node": [
+        "8G.3.1",
+        "8G.3.3"
+      ]
+    },
+    {
+      "type": "zadanie",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "file": "zadachi-8-podobie-proporcii-razbor.pdf",
+      "title": "8G.3.1 · Разбор 40 задач (PDF) · Подобие треугольников",
+      "note": "Подробные решения. Для учителя, на сайте без ссылки.",
+      "node": [
+        "8G.3.1",
+        "8G.3.3"
+      ],
+      "audience": "teacher"
     }
   ]
 }
