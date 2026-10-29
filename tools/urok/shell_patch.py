@@ -85,6 +85,9 @@ def _text(s): return mark_formulas(fix_fractions(s))
 
 def process_T(T):
     """Дроби и формулы во всех текстах экранов. Вызывать после LC.finalize()."""
+    # экраны «Старт» и «План урока» ученику не нужны: убираем (номера n остальных не меняются)
+    if len(T) > 2 and 'Старт' in T[0].get('kick', '') and 'План' in T[1].get('kick', ''):
+        del T[:2]
     for d in T:
         d.pop('cp', None)  # без контрольных игр (царапка, барабан, зарядка)
         if d.get('_sp'): continue
