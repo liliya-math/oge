@@ -13,6 +13,7 @@ RULES = [
  (r'^z6-obyknovennye', ['6A.2.3','6A.2.4','6A.2.5']),
  (r'^z6-umn-del', ['5A.3.1','5A.3.2']),
  (r'^z7-koord-pryamaya', ['6A.5.2','8A.2.2']),
+ (r'^(zadachi|razbor|shpargalka)-7-stepeni', ['7A.3','7A.4.1.4']),
  (r'^z8-stepeni', ['7A.3','8A.1.6']),
  (r'^z8-korni', ['8A.2']),
  (r'^z10-veroyatnost', ['7A.7.2','9A.5.2']),

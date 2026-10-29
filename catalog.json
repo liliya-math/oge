@@ -6034,6 +6034,45 @@
       "node": [
         "9G.2.2"
       ]
+    },
+    {
+      "file": "zadachi-7-stepeni.pdf",
+      "title": "7A.3 · Задачи (PDF) · Степени · 40 задач, 4 уровня",
+      "type": "zadanie",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-29",
+      "node": [
+        "7A.3",
+        "7A.4.1.4"
+      ]
+    },
+    {
+      "file": "razbor-7-stepeni.pdf",
+      "title": "7A.3 · Ответы и подробный разбор (PDF) · Степени · 7 класс",
+      "type": "razbor",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-29",
+      "node": [
+        "7A.3",
+        "7A.4.1.4"
+      ]
+    },
+    {
+      "file": "shpargalka-7-stepeni.pdf",
+      "title": "7A.3 · Шпаргалка (PDF) · Степени · 7 класс",
+      "type": "zadanie",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-10-29",
+      "node": [
+        "7A.3",
+        "7A.4.1.4"
+      ]
     }
   ]
 }
