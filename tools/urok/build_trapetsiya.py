@@ -6,6 +6,8 @@ sys.path.insert(0, os.path.dirname(__file__))
 import trapetsiya as LC0
 LC=LC0.LC
 LC.finalize()
+import figs_apply, figs_map_trap
+print('чертежей добавлено:', figs_apply.apply(LC.T, figs_map_trap.MAP))
 import shell_patch as SP, cheats
 SP.process_T(LC.T)  # дроби с горизонтальной чертой, оформление формул
 

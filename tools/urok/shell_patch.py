@@ -90,7 +90,7 @@ def process_T(T):
         for k in ('body', 'box', 'q', 'why', 'note', 'trap', 'share'):
             if isinstance(d.get(k), str): d[k] = _text(d[k])
         if d.get('h') and isinstance(d['h'], list): d['h'] = [_text(x) for x in d['h']]
-        if d.get('opts'): d['opts'] = [_text(x) for x in d['opts']]
+        if d.get('opts'): d['opts'] = [fix_fractions(x) for x in d['opts']]
         if d.get('rev'): d['rev']['html'] = _text(d['rev']['html'])
         if d['kind'] == 'cheat':
             d['rules'] = [_text(x) for x in d['rules']]; d['ex'] = [_text(x) for x in d['ex']]
@@ -115,6 +115,10 @@ CSS = r'''
 .stmt b,.rvb b,.chr b,.fbox b,.cs-sec b{color:#ffb48a;font-weight:750;font-size:1.06em}
 .stmt .nb.fm,.rvb .nb.fm,.chr .nb.fm,.fbox .nb.fm,.cs-f .nb.fm{display:block;margin:12px 0;padding:10px 14px;max-width:100%;overflow-x:auto;text-indent:0;text-align:left;font-family:var(--display);font-weight:700;font-size:1.3em;line-height:1.55;color:var(--amber);background:rgba(245,220,106,.07);border-left:3px solid var(--apricot);border-radius:12px;white-space:nowrap}
 .fbox .nb.fm{background:none;border:0;padding:6px 0;margin:6px 0;font-size:1.08em}
+.chr,.fbox,.cs-f{min-width:0;max-width:100%}
+.opt .nb{white-space:normal}
+.opt>span{min-width:0}
+.chr .nb.fm,.fbox .nb.fm{white-space:normal}
 .wrap{padding-block-end:112px}
 .navbar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;gap:10px;align-items:center;max-width:760px;margin:0 auto;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));pointer-events:none;background:linear-gradient(transparent,rgba(20,33,30,.88) 55%)}
 .navbar .sp{flex:1}

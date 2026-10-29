@@ -6,6 +6,8 @@ sys.path.insert(0, os.path.dirname(__file__))
 import sin_cos_2 as LC0
 LC=LC0.LC
 LC.finalize()  # формулы и примеры становятся неразрывными
+import figs_apply, figs_map_sc2
+print('чертежей добавлено:', figs_apply.apply(LC.T, figs_map_sc2.MAP))
 import shell_patch as SP, cheats
 SP.process_T(LC.T)  # дроби с горизонтальной чертой, оформление формул
 for d in LC.T: d.pop('cp', None)  # без контрольных игр
