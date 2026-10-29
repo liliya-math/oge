@@ -619,6 +619,17 @@ a.btn{display:inline-flex;align-items:center;text-decoration:none;height:48px}
 .hbpick{display:inline-flex;align-items:center;gap:8px;padding:6px 6px 6px 12px;border-radius:999px;border:1px solid rgba(242,144,94,.5);background:rgba(242,144,94,.1);font-size:14px}
 .hbpick button{width:24px;height:24px;border-radius:50%;border:0;background:var(--glass2);color:var(--fg);line-height:1}
 .hbquick{display:flex;gap:8px;flex-wrap:wrap}
+.hbcal{display:grid;gap:6px;max-width:340px}
+.hbcal-h{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.hbcal-h b{font-size:14px;text-transform:capitalize}
+.hbcal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.hbcal-g span.w{font-size:11px;color:var(--faint);text-align:center}
+.hbcal-g button{aspect-ratio:1;border:1px solid transparent;border-radius:10px;background:transparent;color:var(--fg);font:inherit;font-size:13px;cursor:pointer;position:relative;padding:0}
+.hbcal-g button.past{opacity:.4}
+.hbcal-g button.today{border-color:var(--line,rgba(255,255,255,.25))}
+.hbcal-g button.les{background:rgba(242,144,94,.2);border-color:rgba(242,144,94,.55);font-weight:600}
+.hbcal-g button.sel{outline:2px solid var(--fg);outline-offset:1px}
+.hbcal-g button:disabled{visibility:hidden}
 .hbmore summary{cursor:pointer;color:var(--muted);font-size:14px;padding:6px 0}
 .hbmore[open]{display:grid;gap:12px}
 .ferr{color:var(--miss);font-size:14px}
@@ -1879,6 +1890,19 @@ function hbLoad(){return fetch('catalog.json',{cache:'no-store'}).then(r=>r.ok?r
 function hbSec(i){return i.type==='razbor'?'raz':i.type==='uchebnik'?'theor':''}
 function hbN(i){return PROG().oge&&i.oge_task?String(i.oge_task):''}
 function hbItems(skipTask){const tab=HB_TABS.find(t=>t[0]===HB.tab)||HB_TABS[0],q=HB.q.toLowerCase().trim(),c=clsOf();return CAT.filter(i=>tab[2].includes(i.kind)&&(!HB.fmt||(HB.fmt==='pdf')===/\.pdf$/.test(i.file))&&(!HB.mine||i.class==null||i.class===c)&&(skipTask||!HB.task||String(i.oge_task)===HB.task)&&(!q||(i.title+' '+i.file).toLowerCase().includes(q)))}
+function hbCalHTML(){const sel=(document.getElementById('h-d')||{}).value||'',lw=new Set(SCH().slots.map(x=>x.wd)),tm={};SCH().slots.forEach(x=>tm[x.wd]=hhmm(x.h,x.m));
+ const n=new Date(Date.now()+SAMARA_OFF*6e4),td=n.getUTCFullYear()+'-'+String(n.getUTCMonth()+1).padStart(2,'0')+'-'+String(n.getUTCDate()).padStart(2,'0');
+ if(!HB.cal){const b=/^\d{4}-\d{2}/.test(sel)?sel:td;HB.cal={y:+b.slice(0,4),m:+b.slice(5,7)-1}}
+ const {y,m}=HB.cal,first=new Date(Date.UTC(y,m,1)),lead=(first.getUTCDay()+6)%7,days=new Date(Date.UTC(y,m+1,0)).getUTCDate();
+ let g=['Пн','Вт','Ср','Чт','Пт','Сб','Вс'].map(w=>`<span class="w">${w}</span>`).join('');
+ for(let i=0;i<lead;i++)g+='<button type="button" disabled></button>';
+ for(let d=1;d<=days;d++){const iso=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0'),wd=new Date(Date.UTC(y,m,d)).getUTCDay(),c=[lw.has(wd)?'les':'',iso<td?'past':'',iso===td?'today':'',iso===sel?'sel':''].filter(Boolean).join(' ');
+  g+=`<button type="button" class="${c}" data-hbday="${iso}"${lw.has(wd)?` title="занятие в ${tm[wd]} (Самара)"`:''}>${d}</button>`}
+ const title=first.toLocaleDateString('ru-RU',{month:'long',year:'numeric',timeZone:'UTC'});
+ return `<div class="hbcal"><div class="hbcal-h"><button type="button" class="chip" data-hbmon="-1" aria-label="Предыдущий месяц">‹</button><b>${title}</b><button type="button" class="chip" data-hbmon="1" aria-label="Следующий месяц">›</button></div><div class="hbcal-g">${g}</div><p class="note" style="margin:0">${lw.size?'Закрашены дни занятий этого ученика. Нажми на день, чтобы выбрать срок.':'У ученика не заданы дни занятий. Нажми на день, чтобы выбрать срок.'}</p></div>`}
+function hbCalPaint(){const c=document.getElementById('hb-cal');if(!c)return;c.innerHTML=hbCalHTML();
+ c.querySelectorAll('[data-hbday]').forEach(b=>b.onclick=()=>{document.getElementById('h-d').value=b.dataset.hbday;hbCalPaint()});
+ c.querySelectorAll('[data-hbmon]').forEach(b=>b.onclick=()=>{let {y,m}=HB.cal;m+=+b.dataset.hbmon;if(m<0){m=11;y--}if(m>11){m=0;y++}HB.cal={y,m};hbCalPaint()})}
 function hbIso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function hbRow(i){const on=HB.pick.includes(i.file),meta=[i.class?i.class+' класс':'',i.oge_task?'№'+i.oge_task:'',/\.pdf$/.test(i.file)?'PDF':''].filter(Boolean).join(' · ');return `<button type="button" class="hbrow" data-hbadd="${esc(i.file)}" aria-pressed="${on}"><span>${esc(i.title)}</span><small>${esc(meta)}${i.auto?(meta?' · ':'')+'сдача отметится сама':''}</small></button>`}
 function hbListHTML(){const all=hbItems(),shown=all.slice(0,50);return shown.length?shown.map(hbRow).join('')+(all.length>shown.length?`<p class="note">Показано ${shown.length} из ${all.length}. Уточни поиск.</p>`:''):`<p class="note">${CAT.length?'Ничего не нашлось. Сними «только этот класс» или измени поиск.':'Каталог загружается…'}</p>`}
@@ -1896,6 +1920,7 @@ function hwBuilder(){const nx=nextLesson(),quick=[['Завтра',(()=>{const d=
   <div><span class="eyebrow">В задании</span><div class="hbpicked" id="hb-picked">${hbPickHTML()}</div></div>
   <label class="fld"><span>Комментарий или задание текстом (появится отдельной карточкой)</span><textarea id="h-t" rows="2" placeholder="Например: реши в тетради №5 и пришли фото"></textarea></label>
   <div class="fgrid"><label class="fld"><span>Срок</span><input id="h-d" type="date"></label><div class="fld"><span>Быстрый срок</span><div class="hbquick">${quick.map(q=>`<button type="button" class="chip" data-hbdue="${q[1]}">${q[0]}</button>`).join('')}</div></div></div>
+  <div id="hb-cal"></div>
   <details class="hbmore"><summary>Дополнительно: свой файл или ссылка, темы, раздел</summary>
    <div class="fgrid"><label class="fld"><span>${PROG().oge?'Задания ОГЭ (если не из каталога)':'Разделы карты'}</span><input id="h-n" placeholder="${PROG().oge?'4, 5':'3, 8'}"></label>
    <label class="fld"><span>Раздел домашки</span><select id="h-s">${hwSecOptions('')}</select></label></div>
@@ -1910,7 +1935,9 @@ function hbBind(){const q=document.getElementById('hb-q');if(!q)return;
  q.oninput=()=>{HB.q=q.value;hbPaint()};
  document.getElementById('hb-mine').onchange=e=>{HB.mine=e.target.checked;hbPaint()};
  document.getElementById('hb-task').onchange=e=>{HB.task=e.target.value;hbPaint()};
- document.querySelectorAll('[data-hbdue]').forEach(b=>b.onclick=()=>{document.getElementById('h-d').value=b.dataset.hbdue});
+ HB.cal=null;document.querySelectorAll('[data-hbdue]').forEach(b=>b.onclick=()=>{const d=document.getElementById('h-d');d.value=b.dataset.hbdue;HB.cal=null;hbCalPaint()});
+ {const d=document.getElementById('h-d');if(d)d.onchange=()=>{HB.cal=null;hbCalPaint()}}
+ hbCalPaint();
  ['h-t','h-u','h-f'].forEach(id=>{const el=document.getElementById(id);if(el){el.oninput=hbPaint;el.onchange=hbPaint}});
  if(!CAT.length)hbLoad();hbPaint()}
 function tHwCard(){const open=D.hw.filter(h=>!h.done),done=D.hw.filter(h=>h.done).slice().reverse();const L=open.concat(done).sort((a,b)=>{const priority=h=>({submitted:0,help:1,revise:2,new:3,solving:3,done:4,checked:4}[wfStatus(h)]??3);return priority(a)-priority(b)});
