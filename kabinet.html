@@ -1351,11 +1351,18 @@ function lessonCard(teach){const t=nextLesson();if(!t)return `<div class="card">
  ${teach&&wkS?`<div class="wk"><span>У ученика (${esc(P.city||tzLabel(P.tz))})</span>${esc(wkS)}</div>`:''}
  <div class="tzn">${teach?'Ученик видит время в своём поясе.':`Время по твоему часовому поясу${tz?' ('+esc(P.tz?tzLabel(tz):tz)+')':''}.`}${diff?` Сейчас твоё устройство в другом поясе: там это ${t.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}.`:''}</div></div>`}
 const isSite=u=>!!u&&(!/^https?:/.test(u)||u.indexOf(BASE)===0);
+function boardTaskLink(h){
+ const material=homeworkURL(h);if(!material||!D?.board)return '';
+ try{const board=new URL(href(D.board));if(board.protocol!=='https:'||board.hostname!=='liliya-math.github.io'||!board.pathname.startsWith('/excalidraw/'))return '';
+ const source=new URL(material);if(source.protocol!=='https:'||!['lilimath.ru','www.lilimath.ru','liliya-math.github.io'].includes(source.hostname)||(source.hostname==='liliya-math.github.io'&&!source.pathname.startsWith('/oge/')))return '';
+ board.searchParams.set('material',material);board.searchParams.set('materialTitle',h.t||'Задание из кабинета');
+ return `<a class="btn ghost" href="${esc(board.href)}" target="_blank" rel="noopener noreferrer">На доску</a>`;}catch{return ''}
+}
 function hwLinks(h){let o='';
  if(h.url)o+=`<a href="${esc(href(h.url))}" target="_blank" rel="noopener">${esc(h.label||(isSite(h.url)?'Пройти интерактив':'Открыть'))}</a>`;
  if(h.file)o+=`<a href="${esc(h.file)}" target="_blank" rel="noopener">PDF с заданиями</a>`;
  (h.files||[]).forEach(f=>{o+=`<a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.name||'PDF для печати')}</a>`});
- return o}
+ return o+boardTaskLink(h)}
 function hwRow(h){const d=isDone(h),k=daysTo(h.due);return `<li class="hwi ${d?'done':''}" id="hw-${h.id}">
   <button class="chk" data-hw="${h.id}" aria-pressed="${d}" aria-label="Отметить: ${esc(h.t)}">${I.ok}</button>
   <div style="min-width:0"><div class="hwt">${esc(h.t)}</div><div class="hwm">${h.n?`<span class="tagn">${esc(h.n)}</span>`:''}<span class="due ${!d&&k!==null&&k<=1?'soon':''}">${d?'готово':dueText(h.due)}</span>${hwLinks(h)}</div></div></li>`}
@@ -2085,7 +2092,7 @@ const STUDENT_KEY=LIVE?CODE:'demo';
 function resumeFor(h){try{const v=JSON.parse(localStorage.getItem('lili-resume-v1:'+STUDENT_KEY))||{};const item=v[String(h.id)];if(!item)return null;const url=homeworkURL(h,false);return url&&new URL(url,BASE).pathname===item.path?item:null}catch(e){return null}}
 function homeworkURL(h,withContext=true){const raw=h.url||h.file||(h.files||[])[0]?.url;if(!raw)return '';try{const u=new URL(href(raw),BASE);if(!['http:','https:'].includes(u.protocol))return '';if(withContext&&u.origin===new URL(BASE).origin&&u.pathname.endsWith('.html')){u.searchParams.set('lili_student',STUDENT_KEY);u.searchParams.set('lili_hw',String(h.id));u.searchParams.set('lili_resume','1')}return u.href}catch(e){return ''}}
 function checkpointText(h){const p=resumeFor(h);return p&&!p.done?p.label:''}
-function hwAction(h){const u=homeworkURL(h),p=resumeFor(h);return u?`<a class="btn" href="${esc(u)}" target="_blank" rel="noopener" data-hwopen="${esc(h.id)}">${p&&!p.done?'Продолжить с места остановки':p?.done?'Открыть работу снова':'Открыть задание'}</a>`:''}
+function hwAction(h){const u=homeworkURL(h),p=resumeFor(h);return u?`<a class="btn" href="${esc(u)}" target="_blank" rel="noopener" data-hwopen="${esc(h.id)}">${p&&!p.done?'Продолжить с места остановки':p?.done?'Открыть работу снова':'Открыть задание'}</a>${boardTaskLink(h)}`:''}
 function assignmentMeta(h){const time=Number(h.minutes||h.estimateMinutes),P=PROG(),nums=String(h.n||'').match(/\d+/g)||[],topics=nums.map(n=>P.topic[+n]).filter(Boolean);return `<div class="assignment-meta">${h.sec&&HWSEC[h.sec]?`<span>${esc(HWSEC[h.sec])}</span>`:''}${topics.length?`<span>${esc([...new Set(topics)].join(' · '))}</span>`:''}${time>0&&time<=240?`<span>Около ${time} мин</span>`:''}<span>${esc(dueText(h.due))}</span></div>`}
 function secondaryFiles(h){const first=h.url||h.file||(h.files||[])[0]?.url;return [h.file?{name:'PDF с заданиями',url:h.file}:null,...(h.files||[])].filter(f=>f&&f.url!==first).map(f=>`<a href="${esc(href(f.url))}" target="_blank" rel="noopener">${esc(f.name||'Дополнительный файл')}</a>`).join('')}
 function homeworkCounts(active){const c={submitted:0,checked:0,revise:0,done:0};active.forEach(h=>{const st=wfStatus(h);if(st in c)c[st]++});return wfEnabled()?`${c.submitted} на проверке · ${c.checked} проверено${c.revise?' · '+c.revise+' исправить':''}${c.done?' · '+c.done+' отмечено выполненными':''}`:`${c.done} из ${active.length} отмечено выполненными`}
