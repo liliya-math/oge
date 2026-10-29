@@ -5,6 +5,8 @@ import json, re, sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 import kvadratnye_20 as LC0
 LC=LC0.LC
+import shell_patch as SP, cheats
+SP.process_T(LC.T)  # дроби с горизонтальной чертой, оформление формул
 
 SRC = ROOT+'/obyasnenie-5-9-bissektrisa.html'  # шаблон оболочки
 OUT = ROOT+'/obyasnenie-9-kvadratnye-20.html'
@@ -41,7 +43,7 @@ s = s[:i] + open(WJS, encoding='utf8').read() + '\n' + s[j:]
 # 5. реплики зверя
 old = "trap:['Вот тут чаще всего ошибаются. Запомни.','Эту ловушку знают все, кто ошибался. Теперь ты тоже.']"
 assert s.count(old) == 1
-s = s.replace(old, old + ",recall:['Это из прошлых тем. Вспоминай спокойно, не подглядывай.','Мы это уже проходили. Загляни в память.'],key:['Вот это главное. Перепиши в тетрадь.','Эту формулу стоит записать в тетрадь.']")
+s = s.replace(old, old + ",recall:['Это из прошлых тем. Вспоминай спокойно, не подглядывай.','Мы это уже проходили. Вспомни, как мы это разбирали.'],key:['Вот это главное. Перепиши в тетрадь.','Эту формулу стоит записать в тетрадь.']")
 
 # 6. стартовый экран
 s = rep_once(s, 'Простыми словами, без зубрёжки: история, картинка из жизни, три правила и несколько быстрых проверок. Ошибаться можно: подсказки есть, а если не получится, я объясню ещё раз. В конце тебя ждут шпаргалка и диплом.',
@@ -49,5 +51,6 @@ s = rep_once(s, 'Простыми словами, без зубрёжки: ис�
 s = rep_once(s, '<span class="pill">${L.length} коротких экранов</span>', '<span class="pill">${L.length} экранов</span>')
 s = rep_once(s, '<a class="chip" href="obyasnenie-5-9.html">Все темы</a>', '<a class="chip" href="9-klass.html">Все материалы 9 класса</a>')
 
+s = SP.patch_shell(s, cheats.CHEATS['kvadratnye_20']())
 open(OUT, 'w', encoding='utf8').write(s)
 print('written', OUT, len(s), 'screens', len(LC.T))
