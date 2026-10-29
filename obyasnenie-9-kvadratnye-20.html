@@ -1033,7 +1033,6 @@ function topbar(){
   return `<div class="top"><div class="toprow">
     ${t?`<span class="pet mini" id="talb" style="background:${t.bg}" title="${t.n}">${petSVG(t.id,'idle')}</span>`:''}
     <div class="brand">${logoFull(28)}</div><div class="sp"></div>
-    <span class="pill" title="Стикеры">стикеры <strong>${S.stk.length}</strong></span>
     <span class="pill" title="Верных ответов на вопросы">верно <strong id="pts">${livePts()}</strong></span>
     <span class="pill${S.streak>=3?' hot':''}" title="Серия верных ответов подряд">серия <strong id="stk">${S.streak}</strong></span>
     <span class="pill"><strong id="tmr">${fmtT(elapsed())}</strong></span>
@@ -1238,7 +1237,7 @@ function celebrate(){
 
 /* ---------- streak sticker drop ---------- */
 const DROPS={3:null,5:'r',7:'e',10:'l',13:'e',16:'l'};
-function streakDrop(){
+function streakDrop(){return;
   if(!(S.streak in DROPS))return;const key='s'+S.streak+'_'+S.i;if(S.cp[key])return;
   const s=grant(DROPS[S.streak]||rollRarity());S.cp[key]=s.id;save();
   const tp=document.querySelector('.pill strong');if(tp)tp.textContent=S.stk.length;

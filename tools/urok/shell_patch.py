@@ -86,6 +86,7 @@ def _text(s): return mark_formulas(fix_fractions(s))
 def process_T(T):
     """Дроби и формулы во всех текстах экранов. Вызывать после LC.finalize()."""
     for d in T:
+        d.pop('cp', None)  # без контрольных игр (царапка, барабан, зарядка)
         if d.get('_sp'): continue
         for k in ('body', 'box', 'q', 'why', 'note', 'trap', 'share'):
             if isinstance(d.get(k), str): d[k] = _text(d[k])
@@ -274,6 +275,10 @@ def patch_shell(s, cheat):
     if 'Загляни в память.' in s:
         s = s.replace('Загляни в память.', 'Вспомни, как мы это разбирали.')
     assert 'Загляни в память' not in s
+    # 0b. без игровых элементов: нет стикеров и счётчика стикеров, нет награды за серию (контрольные игры снимает process_T)
+    s = s.replace('    <span class="pill" title="Стикеры">стикеры <strong>${S.stk.length}</strong></span>\n', '')
+    if 'function streakDrop(){return;' not in s:
+        s = _once(s, 'function streakDrop(){\n', 'function streakDrop(){return;\n')
     # 1. CSS
     s = _once(s, '</head>', '<style>' + CSS + '</style></head>')
     # 2. нижняя панель на всех экранах урока (topbar() вызывается везде, bindTop() после отрисовки)
