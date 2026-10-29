@@ -45,6 +45,11 @@ KITS = {
         ('theory', 'obyasnenie-5-9-procenty.html', 'Объяснение: проценты'),
         ('theory', 'razbor-procenty-dialog.pdf', 'Диалог ученик-учитель (PDF)'),
         ('hw', 'dz-procenty.pdf', 'ДЗ по процентам (PDF)')]),
+    'drobno-rac': ('дробно-рациональные уравнения', None, [
+        ('theory', 'shpargalka-9-drobno-ratsionalnye-40.pdf', 'Шпаргалка: вся теория (PDF)'),
+        ('theory', 'obyasnenie-9-drobno-ratsionalnye-uravneniya.html', 'Объяснение: дробно-рациональные уравнения'),
+        ('hw', 'zadaniya-9-drobno-ratsionalnye-40.pdf', '40 заданий в 4 уровнях (PDF)'),
+        ('hw', 'dz-9-drobnye-uravneniya.html', 'ДЗ №1-3: дробные уравнения')]),
     'stepeni': ('степени', 'z8-stepeni', [
         ('theory', 'obyasnenie-5-9-stepeni.html', 'Объяснение: степени')]),
     'korni': ('корни', 'z8-korni', [
@@ -113,7 +118,8 @@ NODES = {
     'N18': (['stepeni'], []), 'N19': (['stepeni'], []),
     'N20': (['korni'], []), 'N21': (['korni'], []),
     'A07': ([], ['stepeni', 'korni']),
-    'A10': (['kvadratnye'], []), 'A11': (['kvadratnye'], []), 'A12': ([], ['kvadratnye']),
+    'A09': ([], ['drobno-rac']), 'A12': (['drobno-rac'], ['kvadratnye']),
+    'A10': (['kvadratnye'], []), 'A11': (['kvadratnye'], []),
     'A13': (['sistemy'], []),
     'A14': (['neravenstva'], []), 'A15': (['neravenstva'], []), 'A16': (['neravenstva'], []),
     'A17': (['progressii'], []), 'A18': (['progressii'], []),
