@@ -599,7 +599,7 @@
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
-      "status": "hidden",
+      "status": "public",
       "note": "скрыт 2026-10-18: ждёт привязки к программе/теме",
       "node": [
         "8A.1.3"
@@ -611,7 +611,7 @@
       "type": "uchebnik",
       "class": null,
       "oge_task": null,
-      "status": "hidden",
+      "status": "public",
       "note": "скрыт 2026-10-18: ждёт привязки к программе/теме",
       "node": [
         "8A.1.5"
