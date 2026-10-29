@@ -29,7 +29,8 @@ const out2=(c,p)=>[p[0]-c[0],p[1]-c[1]];
 const angOf=(c,p)=>Math.atan2(-(p[1]-c[1]),p[0]-c[0])/DEG;
 
 /* ---------- Полуокружность: sin и cos любого угла от 0° до 180° ---------- */
-const EXV={0:['1','0'],30:['√3/2','1/2'],45:['√2/2','√2/2'],60:['1/2','√3/2'],90:['0','1'],120:['−1/2','√3/2'],135:['−√2/2','√2/2'],150:['−√3/2','1/2'],180:['−1','0']};
+const FRH=(n,d)=>`<span class="fr"><span>${n}</span><span>${d}</span></span>`,RTH=x=>`<span class="rt"><span class="rs" aria-hidden="true"></span><span class="rad">${x}</span></span>`;
+const EXV={0:['1','0'],30:[FRH(RTH(3),2),FRH(1,2)],45:[FRH(RTH(2),2),FRH(RTH(2),2)],60:[FRH(1,2),FRH(RTH(3),2)],90:['0','1'],120:['−'+FRH(1,2),FRH(RTH(3),2)],135:['−'+FRH(RTH(2),2),FRH(RTH(2),2)],150:['−'+FRH(RTH(3),2),FRH(1,2)],180:['−1','0']};
 function semiW(b,pair){
   b.innerHTML=sl('a','Угол α',0,180,60,1)+chips([30,45,60,90,120,135,150])+SV('sv',330,200)+OUT;
   const mark=wireChips(b,'a');
