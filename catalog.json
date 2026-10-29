@@ -6073,6 +6073,43 @@
         "7A.3",
         "7A.4.1.4"
       ]
+    },
+    {
+      "file": "zadaniya-9-drobno-ratsionalnye.pdf",
+      "title": "9A.2.2 · ДЗ (PDF) · Дробно рациональные уравнения · 40 заданий в 4 уровнях",
+      "type": "dz",
+      "note": "Добавлено 2026-10-29; 2 страницы А4, экономия бумаги.",
+      "class": 9,
+      "oge_task": null,
+      "status": "public",
+      "node": [
+        "9A.2.2"
+      ]
+    },
+    {
+      "file": "razbor-zadaniya-9-drobno-ratsionalnye.pdf",
+      "title": "9A.2.2 · Разбор (PDF) · Дробно рациональные уравнения · Подробное решение 40 заданий",
+      "type": "dz",
+      "note": "Добавлено 2026-10-29. Материал преподавателя; не выводить ученику и родителю.",
+      "audience": "teacher",
+      "class": 9,
+      "oge_task": null,
+      "status": "public",
+      "node": [
+        "9A.2.2"
+      ]
+    },
+    {
+      "file": "shpargalka-9-drobno-ratsionalnye.pdf",
+      "title": "9A.2.2 · Шпаргалка (PDF) · Дробно рациональные уравнения · Вся теория",
+      "type": "uchebnik",
+      "note": "Добавлено 2026-10-29.",
+      "class": 9,
+      "oge_task": null,
+      "status": "public",
+      "node": [
+        "9A.2.2"
+      ]
     }
   ]
 }
