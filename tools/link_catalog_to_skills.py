@@ -10,6 +10,7 @@ ids |= {'5A','6A','7A','8A','9A','5G','6G','7G','8G','9G'}
 RULES = [
  (r'^dz\.html\?w=5A\.5\.3', ['5A.5.3','5A.5.4']),
  (r'^(zadaniya|razbor|shpargalka)-9-drobno-ratsionalnye', ['9A.2.2','8A.3.5']),
+ (r'^(zadaniya|razbor|shpargalka)-9-oge20-40', ['8A.3','7A.6','8A.4','9A.2.3']),
  (r'^z6-drobi', ['5A.5.3','5A.5.4']),
  (r'^z6-obyknovennye', ['6A.2.3','6A.2.4','6A.2.5']),
  (r'^z6-umn-del', ['5A.3.1','5A.3.2']),
