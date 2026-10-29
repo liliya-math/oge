@@ -39,6 +39,7 @@ RULES = [
  (r'^z22-grafiki', ['7A.2','9A.1.4']),
  (r'^z22-funkcij', ['9A.1.2','9A.1.4','8A.1.5']),
  (r'^z23-trapeciya', ['8G.1.3']),
+ (r'podobie-proporcii-40', ['8G.3.1', '8G.3.3']),
  (r'^razbor-(dvizhenie|smesi)-dialog', ['9A.3.2']),
  (r'^razbor-procenty-dialog', ['6A.4','9A.3.2']),
  (r'^razbor-kvadratnye-dialog', ['8A.3']),
