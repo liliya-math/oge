@@ -1872,12 +1872,13 @@ function openHwEditor(h){
 function hwSecOptions(sel){const oge=clsOf()>=8||PROG().oge;const L=[['','Обычное задание'],['raz','Разборы'],['theor','Теория'],['oral','Вопросы к устному опросу']];if(oge)L.push(['oge','ОГЭ']);return L.map(o=>`<option value="${o[0]}" ${sel===o[0]?'selected':''}>${o[1]}</option>`).join('')}
 /* ===== Конструктор выдачи ДЗ: тренажёры, интерактивы, тесты и разборы берутся из catalog.json ===== */
 let CAT=[];
-const HB={tab:'trenazher',q:'',mine:true,task:'',pick:[]};
-const HB_TABS=[['trenazher','Тренажёр',['trenazher']],['dz','Интерактивное ДЗ',['dz']],['test','Тест',['diagnostika','probnik']],['theory','Теория и разборы',['uchebnik','razbor']],['tasks','Задачи по теме',['zadanie']]];
-function hbLoad(){return fetch('catalog.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{if(!j||!Array.isArray(j.items))return;const types=new Set(HB_TABS.flatMap(t=>t[2]));CAT=j.items.filter(i=>i&&i.status==='public'&&i.title&&types.has(i.type)&&/\.(html|pdf)$/.test(i.file)&&i.file!=='kabinet.html'&&!/otvet/i.test(i.file));hbPaint()}).catch(()=>{})}
+const HB={tab:'trenazher',q:'',mine:true,task:'',fmt:'',pick:[]};
+const HB_TABS=[['trenazher','Тренажёр',['trenazher']],['dz','Интерактивное ДЗ',['dz']],['test','Тест',['diagnostika','probnik']],['urok','Урок',['urok']],['theory','Теория и разборы',['uchebnik','razbor']],['tasks','Задачи по теме',['zadanie']]];
+function hbKind(i){return i.type==='uchebnik'&&/^obyasnenie-\d+-.+\.html$/.test(i.file)&&!/^obyasnenie-5-9\.html$/.test(i.file)?'urok':i.type}
+function hbLoad(){return fetch('catalog.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{if(!j||!Array.isArray(j.items))return;const types=new Set(HB_TABS.flatMap(t=>t[2]));CAT=j.items.filter(i=>i&&i.status==='public'&&i.title&&/\.(html|pdf)$/.test(i.file)&&i.file!=='kabinet.html'&&!/otvet/i.test(i.file)).map(i=>Object.assign({},i,{kind:hbKind(i)})).filter(i=>types.has(i.kind));hbPaint()}).catch(()=>{})}
 function hbSec(i){return i.type==='razbor'?'raz':i.type==='uchebnik'?'theor':''}
 function hbN(i){return PROG().oge&&i.oge_task?String(i.oge_task):''}
-function hbItems(skipTask){const tab=HB_TABS.find(t=>t[0]===HB.tab)||HB_TABS[0],q=HB.q.toLowerCase().trim(),c=clsOf();return CAT.filter(i=>tab[2].includes(i.type)&&(!HB.mine||i.class==null||i.class===c)&&(skipTask||!HB.task||String(i.oge_task)===HB.task)&&(!q||(i.title+' '+i.file).toLowerCase().includes(q)))}
+function hbItems(skipTask){const tab=HB_TABS.find(t=>t[0]===HB.tab)||HB_TABS[0],q=HB.q.toLowerCase().trim(),c=clsOf();return CAT.filter(i=>tab[2].includes(i.kind)&&(!HB.fmt||(HB.fmt==='pdf')===/\.pdf$/.test(i.file))&&(!HB.mine||i.class==null||i.class===c)&&(skipTask||!HB.task||String(i.oge_task)===HB.task)&&(!q||(i.title+' '+i.file).toLowerCase().includes(q)))}
 function hbIso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function hbRow(i){const on=HB.pick.includes(i.file),meta=[i.class?i.class+' класс':'',i.oge_task?'№'+i.oge_task:'',/\.pdf$/.test(i.file)?'PDF':''].filter(Boolean).join(' · ');return `<button type="button" class="hbrow" data-hbadd="${esc(i.file)}" aria-pressed="${on}"><span>${esc(i.title)}</span><small>${esc(meta)}${i.auto?(meta?' · ':'')+'сдача отметится сама':''}</small></button>`}
 function hbListHTML(){const all=hbItems(),shown=all.slice(0,50);return shown.length?shown.map(hbRow).join('')+(all.length>shown.length?`<p class="note">Показано ${shown.length} из ${all.length}. Уточни поиск.</p>`:''):`<p class="note">${CAT.length?'Ничего не нашлось. Сними «только этот класс» или измени поиск.':'Каталог загружается…'}</p>`}
@@ -1889,6 +1890,7 @@ function hbPaint(keepList){const l=document.getElementById('hb-list'),p=document
 function hwBuilder(){const nx=nextLesson(),quick=[['Завтра',(()=>{const d=new Date();d.setDate(d.getDate()+1);return hbIso(d)})()],['Через 3 дня',(()=>{const d=new Date();d.setDate(d.getDate()+3);return hbIso(d)})()]];if(nx)quick.splice(1,0,['К занятию',hbIso(nx)]);
  return `<div class="hbtabs" role="tablist" aria-label="Что задать">${HB_TABS.map(t=>`<button type="button" class="chip" data-hbtab="${t[0]}" aria-pressed="${HB.tab===t[0]}">${t[1]}</button>`).join('')}</div>
   <div class="hbtools"><label class="fld"><span>Поиск по названию</span><input id="hb-q" value="${esc(HB.q)}" placeholder="проценты, дроби, трапеция…" autocomplete="off"></label><label class="fld"><span>Номер ОГЭ</span><select id="hb-task"></select></label></div>
+  <div class="hbtabs" role="group" aria-label="Формат">${[['','Любой формат'],['html','Интерактив'],['pdf','PDF']].map(f=>`<button type="button" class="chip" data-hbfmt="${f[0]}" aria-pressed="${HB.fmt===f[0]}">${f[1]}</button>`).join('')}</div>
   <label class="hbmine"><input type="checkbox" id="hb-mine" ${HB.mine?'checked':''}> только ${clsOf()} класс и общие</label>
   <div class="hblist" id="hb-list">${hbListHTML()}</div>
   <div><span class="eyebrow">В задании</span><div class="hbpicked" id="hb-picked">${hbPickHTML()}</div></div>
@@ -1904,6 +1906,7 @@ function hwBuilder(){const nx=nextLesson(),quick=[['Завтра',(()=>{const d=
   <p class="note" id="hb-sum"></p>`}
 function hbBind(){const q=document.getElementById('hb-q');if(!q)return;
  document.querySelectorAll('[data-hbtab]').forEach(b=>b.onclick=()=>{HB.tab=b.dataset.hbtab;HB.task='';document.querySelectorAll('[data-hbtab]').forEach(x=>x.setAttribute('aria-pressed',x===b));hbPaint()});
+ document.querySelectorAll('[data-hbfmt]').forEach(b=>b.onclick=()=>{HB.fmt=b.dataset.hbfmt;HB.task='';document.querySelectorAll('[data-hbfmt]').forEach(x=>x.setAttribute('aria-pressed',x===b));hbPaint()});
  q.oninput=()=>{HB.q=q.value;hbPaint()};
  document.getElementById('hb-mine').onchange=e=>{HB.mine=e.target.checked;hbPaint()};
  document.getElementById('hb-task').onchange=e=>{HB.task=e.target.value;hbPaint()};
