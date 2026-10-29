@@ -6143,6 +6143,32 @@
       "node": [
         "8A.2"
       ]
+    },
+    {
+      "file": "quadrilaterals-8-two-variants.pdf",
+      "title": "8 класс · Четырёхугольники · 2 варианта по 40 задач",
+      "type": "homework",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "Ромб, трапеция, параллелограмм. Четыре уровня по 10 задач, инструкция перехода между уровнями. 16 страниц, без решений.",
+      "auto": false,
+      "node": [
+        "8G"
+      ]
+    },
+    {
+      "file": "quadrilaterals-8-cheatsheet.pdf",
+      "title": "8 класс · Четырёхугольники · Шпаргалка",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "Свойства, формулы, дополнительные построения и теория ко всем задачам. 5 страниц.",
+      "auto": false,
+      "node": [
+        "8G"
+      ]
     }
   ]
 }
