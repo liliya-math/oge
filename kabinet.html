@@ -1171,7 +1171,7 @@ const gMarked=t=>gLeaves(t).filter(n=>skOf(n.id)!=='new').length;
 const gTabs=()=>TEACH?GTABS:GTABS.filter(t=>gMarked(t)>0);
 function gTab(){const L=gTabs();if(S.gt&&L.includes(S.gt))return S.gt;const d=clsOf()+'A';return L.includes(d)?d:(L[0]||d)}
 function gMats(id){const t=id.split('.').slice(0,3).join('.');const rel=x=>x.includes('.')&&(x===t||t.startsWith(x+'.')||x.startsWith(t+'.'));
- return GCAT.filter(i=>GMT[i.type]&&/\.(html|pdf)$/.test(i.file)&&i.node.some(rel)).slice(0,10)}
+ return GCAT.filter(i=>GMT[i.type]&&/\.(html|pdf)$/.test(i.file)&&(TEACH||i.audience!=='teacher')&&i.node.some(rel)).slice(0,10)}
 function gRow(n){const s=skOf(n.id),o=n.oge?'ОГЭ '+esc(n.oge):'';
  return TEACH?`<button class="gkr ${s}" type="button" data-gk="${n.id}" aria-pressed="${S.gk===n.id}"><i></i><b>${n.id.split('.').slice(3).join('.')}</b><span>${esc(n.title)}</span><small>${o}</small></button>`
  :`<div class="gkr ro ${s}"><i></i><span>${esc(n.title)}</span></div>`}
