@@ -826,6 +826,7 @@ a.gc{text-decoration:none}
 <div class="amb" aria-hidden="true"><i></i><i></i><i></i></div>
 <canvas id="fx" aria-hidden="true"></canvas>
 <main class="wrap" id="app"></main>
+<script src="assets/lili-board-links.js?v=20261030"></script>
 <script>
 (() => {
 const TALS=[
@@ -1337,7 +1338,14 @@ function heroPar(){const P=PROG(),H=(D.hist||[]).filter(h=>typeof h.p==='number'
   :P.oge?`<div class="stat"><b>${last.p} <em>/ 31</em></b><span>${when}</span><small>${prev?'было '+prev.p:'первая работа'}${D.goal?' · цель '+D.goal:''}</small></div>`
   :`<div class="stat"><b><em>${resultWord(last.p)}</em></b><span>${when}</span></div>`;
  return `<section style="display:grid;gap:10px;padding-block:6px 4px"><span class="eyebrow">Для родителей · ${esc(D.name)}</span><h1 class="big1">Занятия и <em>результаты</em></h1></section><div class="card"><div class="stats"><div class="stat"><b>${D.lessonsDone||0} <em>/ ${D.lessonsPlan||0}</em></b><span>занятий в этом месяце</span></div><div class="stat"><b>${done} <em>/ ${all.length}</em></b><span>домашних заданий сдано</span></div>${res}</div></div>`}
-function lessonCard(teach){const t=nextLesson();if(!t)return `<div class="card"><span class="eyebrow">Следующее занятие</span><div class="when">Расписание уточняется</div>${topicHTML(D.topic)}${teach?boardRow():(D.board?`<a class="btn" href="${esc(href(D.board))}" target="_blank" rel="noopener">Открыть доску</a>`:'')}</div>`;
+
+function pupilBoardURL(){return LiliBoardLinks.studentURL(D?.board||'')}
+function myBoardURL(){try{return TEACH&&D?LiliBoardLinks.teacherURL(localStorage,D.code||CODE,D.board||''):''}catch(_){return ''}}
+function boardOpenButtons(teacher){const u=teacher?myBoardURL():pupilBoardURL();
+ if(!u)return teacher?'<button class="btn ghost" type="button" id="bd-setup">Настроить доску</button>':'';
+ return `<div class="boardrow"><a class="btn" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${teacher?'Моя доска с учеником':'Открыть доску'}</a>${LiliBoardLinks.parse(u)?`<a class="btn ghost" href="${esc(LiliBoardLinks.videoURL(u))}" target="_blank" rel="noopener noreferrer">Доска + видео</a>`:''}</div>`}
+
+function lessonCard(teach){const t=nextLesson();if(!t)return `<div class="card"><span class="eyebrow">Следующее занятие</span><div class="when">Расписание уточняется</div>${topicHTML(D.topic)}${boardOpenButtons(teach)}</div>`;
  const c=countdown(t),P=SCH(),tz=stuTz(),dev=devTz(),diff=!teach&&P.tz&&dev&&tzOff(dev,t)!==tzOff(P.tz,t);
  const wk=teach?weekLine('Europe/Samara'):weekLine(tz),wkS=teach&&P.tz&&tzOff(P.tz,t)!==SAMARA_OFF?weekLine(P.tz):'';
  return `<div class="card">
@@ -1346,14 +1354,14 @@ function lessonCard(teach){const t=nextLesson();if(!t)return `<div class="card">
  ${teach&&wkS?`<div class="tzalt">у ученика: ${fmtWhen(t,P.tz)} · ${esc(P.city||tzLabel(P.tz))}</div>`:''}
  <span class="cd ${c.live?'live':''}" id="cd"><i></i>${c.s}</span>
  ${D.topic?topicHTML(D.topic):'<div style="height:14px"></div>'}
- ${teach?boardRow():`${D.board?`<a class="btn" href="${esc(href(D.board))}" target="_blank" rel="noopener">Открыть доску</a>`:''}`}
+ ${boardOpenButtons(teach)}
  ${P.slots.length>1||teach?`<div class="wk"><span>${teach?'Неделя по Самаре':'Каждую неделю'}</span>${esc(wk)}</div>`:''}
  ${teach&&wkS?`<div class="wk"><span>У ученика (${esc(P.city||tzLabel(P.tz))})</span>${esc(wkS)}</div>`:''}
  <div class="tzn">${teach?'Ученик видит время в своём поясе.':`Время по твоему часовому поясу${tz?' ('+esc(P.tz?tzLabel(tz):tz)+')':''}.`}${diff?` Сейчас твоё устройство в другом поясе: там это ${t.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}.`:''}</div></div>`}
 const isSite=u=>!!u&&(!/^https?:/.test(u)||u.indexOf(BASE)===0);
 function boardTaskLink(h){
- const material=homeworkURL(h);if(!material||!D?.board)return '';
- try{const board=new URL(href(D.board));if(board.protocol!=='https:'||board.hostname!=='liliya-math.github.io'||!board.pathname.startsWith('/excalidraw/'))return '';
+ const material=homeworkURL(h),boardSource=TEACH?myBoardURL():pupilBoardURL();if(!material||!boardSource)return '';
+ try{const board=new URL(boardSource);if(board.protocol!=='https:'||board.hostname!=='liliya-math.github.io'||!board.pathname.startsWith('/excalidraw/'))return '';
  const source=new URL(material);if(source.protocol!=='https:'||!['lilimath.ru','www.lilimath.ru','liliya-math.github.io'].includes(source.hostname)||(source.hostname==='liliya-math.github.io'&&!source.pathname.startsWith('/oge/')))return '';
  board.searchParams.set('material',material);board.searchParams.set('materialTitle',h.t||'Задание из кабинета');
  return `<a class="btn ghost" href="${esc(board.href)}" target="_blank" rel="noopener noreferrer">На доску</a>`;}catch{return ''}
@@ -1685,7 +1693,7 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
   <div class="stum"><span>${esc(PG.name)}</span><span>${esc(schedShort(s.days,s.time))}</span>
   <span class="${s.hwLeft?'soon':''}">${s.hwLeft?'домашка: '+s.hwLeft+' не сделано':'домашка закрыта'}</span>
   ${s.letters?`<span class="kchip shaky">анонимные письма: ${s.letters}</span>`:''}
-  <span class="kchip bbrd" data-b="${esc(s.name)}" title="Открыть доску ученика">доска</span></div></a>`}).join('')}</div>`:'<p class="klead">Пока нет ни одного ученика.</p>'}
+  <span class="kchip bbrd" data-b="${esc(s.code)}" title="Открыть мою доску с учеником">доска</span></div></a>`}).join('')}</div>`:'<p class="klead">Пока нет ни одного ученика.</p>'}
  <form class="card" id="nsf"><div class="sh"><h2>Новый ученик</h2></div>
   <div class="fgrid"><label class="fld"><span>Имя, как в кабинете</span><input id="ns-n" placeholder="Ксения" required></label>
   <label class="fld"><span>Кому — дательный падеж</span><input id="ns-d" placeholder="Ксении"></label>
@@ -1694,7 +1702,7 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
   <div class="ferr" id="ns-e"></div><button class="btn" id="ns-b">Добавить и открыть</button></form>
  ${foot()}</div>`;
  bindTopT();
- document.querySelectorAll('.bbrd').forEach(el=>el.onclick=e=>{e.preventDefault();e.stopPropagation();window.open('https://liliya-math.github.io/excalidraw/?student='+encodeURIComponent(el.dataset.b||''),'_blank','noopener')});
+ document.querySelectorAll('.bbrd').forEach(el=>el.onclick=e=>{e.preventDefault();e.stopPropagation();const code=el.dataset.b||'',u=LiliBoardLinks.savedTeacherURL(localStorage,code);if(u)window.open(u,'_blank','noopener,noreferrer');else{location.hash='lilia-'+code;toast('Открой настройки ученика и добавь свою ссылку учителя.')}});
  document.getElementById('nsf').onsubmit=e=>{e.preventDefault();const b=document.getElementById('ns-b');b.disabled=true;
   adm('addStudent',{name:document.getElementById('ns-n').value,dat:document.getElementById('ns-d').value,prog:document.getElementById('ns-p').value,cls:+document.getElementById('ns-c').value})
    .then(j=>{location.hash='lilia-'+j.code}).catch(err=>{b.disabled=false;document.getElementById('ns-e').textContent=errText(err)})};
@@ -1769,11 +1777,18 @@ function bindSched(){const z=document.getElementById('f-tz');if(!z)return;const 
 
 function progOptions(cls,cur){const L=CLASS_PROGS[cls]||CLASS_PROGS[9];if(!L.includes(cur))cur=L[0];return L.map(p=>`<option value="${p}" ${cur===p?'selected':''}>${PROGS[p].name}</option>`).join('')}
 const SHOW_KEYS=[['work','Над чем работаем (родителям)'],['grades','Школьные оценки'],['exams','Пробники: график и вся история'],['map','Карта заданий'],['skills','Карта навыков'],['notebook','Тетрадь ошибок'],['rewards','Стикеры и коллекция'],['letter','Личное сообщение преподавателю'],['library','Библиотека (теория, тренажёры, разборы)']];
-function boardRow(){const b=D.board?href(D.board):'';
- return `<div class="boardrow">${b?`<a class="btn" href="${esc(b)}" target="_blank" rel="noopener">Открыть доску</a><button class="btn ghost tsm" id="bd-copy" type="button">Скопировать ссылку</button><button class="btn ghost tsm" id="bd-edit" type="button">Заменить</button>`:`<span class="note">Ссылка на доску не задана.</span><button class="btn" id="bd-edit" type="button">Вставить ссылку</button>`}</div>
- <div class="boardedit" id="bd-form" hidden><label class="fld"><span>Ссылка на доску ${esc(D.dat||D.name)}: ученик откроет её кнопкой «Открыть доску» в своём кабинете</span><input id="bd-url" value="${esc(D.board||'')}" placeholder="https://liliya-math.github.io/excalidraw/?student=Имя#room=…" autocomplete="off"></label>
- <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="bd-save" type="button">Сохранить</button><button class="btn ghost" id="bd-gen" type="button">Создать новую комнату</button><button class="btn ghost" id="bd-cancel" type="button">Отмена</button></div>
- <div class="ferr" id="bd-e"></div><p class="note">«Создать новую комнату» подставит свежую ссылку Excalidraw с именем ученика. Старая комната останется по своему адресу, но ученик получит новую только после «Сохранить».</p></div>`}
+function boardRow(){const teacher=myBoardURL(),pupil=pupilBoardURL();
+ return `<section class="boardsettings"><h3>Доска и видеосвязь</h3>
+ <p class="note">Две ссылки ведут в одну комнату: твоя открывает сторону учителя, ученическая — сторону ученика.</p>
+ <div class="boardrow">${teacher?`<a class="btn" href="${esc(teacher)}" target="_blank" rel="noopener noreferrer">Моя доска с учеником</a><a class="btn ghost" href="${esc(LiliBoardLinks.videoURL(teacher))}" target="_blank" rel="noopener noreferrer">Доска + видео</a>`:''}<button class="btn ghost tsm" id="bd-edit" type="button">${pupil?'Настроить ссылки':'Добавить доску'}</button>${pupil?'<button class="btn ghost tsm" id="bd-copy" type="button">Ссылка ученика</button>':''}</div>
+ ${!teacher&&pupil?'<p class="note">Ссылка ученика уже задана. Добавь свою ссылку учителя с той же доски.</p>':''}
+ <div class="boardedit" id="bd-form" hidden>
+ <label class="fld"><span>Твоя ссылка учителя</span><input id="bd-teacher" value="${esc(teacher)}" placeholder="Скопируй на доске: Уроки → Защита → Ссылка учителя" autocomplete="off" spellcheck="false"></label>
+ <p class="note">Хранится только в этом браузере, отдельно для ${esc(D.dat||D.name)}. Ученику не передаётся. Для другого устройства вставь её здесь один раз.</p>
+ <label class="fld"><span>Ссылка ученика — сохранится в его кабинете</span><input id="bd-url" value="${esc(pupil)}" placeholder="https://liliya-math.github.io/excalidraw/?pin=1#room=…;student=…" autocomplete="off" spellcheck="false"></label>
+ <button class="chip" id="bd-from-teacher" type="button">Получить ссылку ученика из моей</button>
+ <div class="boardrow"><button class="btn" id="bd-save" type="button">Сохранить обе ссылки</button><button class="btn ghost" id="bd-gen" type="button">Создать новую комнату</button><button class="btn ghost" id="bd-cancel" type="button">Отмена</button></div>
+ <div class="ferr" id="bd-e" role="alert"></div><p class="note">Для существующей доски вставь обе её ссылки. Новая комната создаст пустую доску; прежняя останется по старому адресу. Ученическая кнопка изменится только после сохранения. Кнопка «Доска + видео» откроет видеопанель; камеру каждый включает сам.</p></div></section>`}
 /* ---------- тема следующего занятия: алгебра + геометрия, выбор из карты навыков ---------- */
 const TOP_PRAC=[['Чтение условия, единицы измерения, масштаб, пропорции','S01–S05'],['Статистика и вероятность, перебор','S06–S09'],['Задачи на движение','S10–S11'],['Задачи на работу, растворы и сплавы','S12–S13'],['Составление уравнения по тексту','S14']].map(([t,s])=>({t,s:'ОГЭ · практика'}));
 const TOPK=[['a','Алгебра','алгебра'],['g','Геометрия','геометрия'],['p','Практика','практика']];
@@ -1801,19 +1816,27 @@ function bindTopic(){document.querySelectorAll('.tpk').forEach(box=>{const inp=b
  inp.onfocus=inp.oninput=paint;if(gr)gr.onchange=()=>{inp.focus();paint()};inp.onblur=()=>setTimeout(()=>{list.hidden=true},120);
  inp.onkeydown=e=>{if(e.key==='Escape')list.hidden=true}})}
 function bindBoard(){const ed=document.getElementById('bd-edit'),f=document.getElementById('bd-form');if(!ed||!f)return;
- ed.onclick=()=>{f.hidden=!f.hidden;if(!f.hidden){const i=document.getElementById('bd-url');i.focus();i.select()}};
- document.getElementById('bd-gen').onclick=()=>{const r=n=>[...crypto.getRandomValues(new Uint8Array(n))],hex=r(10).map(b=>b.toString(16).padStart(2,'0')).join(''),key=btoa(String.fromCharCode(...r(16))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');document.getElementById('bd-url').value='https://liliya-math.github.io/excalidraw/?student='+encodeURIComponent(D.name)+'#room='+hex+','+key;document.getElementById('bd-e').textContent=''};
+ const show=()=>{const admc=document.getElementById('admc');if(admc)admc.open=true;f.hidden=false;document.getElementById('bd-teacher').focus()};
+ ed.onclick=()=>{if(f.hidden)show();else f.hidden=true};const setup=document.getElementById('bd-setup');if(setup)setup.onclick=()=>{show();f.scrollIntoView({block:'center',behavior:'smooth'})};
+ document.getElementById('bd-gen').onclick=async()=>{const er=document.getElementById('bd-e');if((document.getElementById('bd-url').value||document.getElementById('bd-teacher').value)&&!confirm('Создать новую пустую комнату? Ссылки в полях будут заменены, старая доска сохранится по прежнему адресу.'))return;try{const pair=await LiliBoardLinks.createPair(crypto);document.getElementById('bd-url').value=pair.student;document.getElementById('bd-teacher').value=pair.teacher;er.textContent='Новые ссылки готовы. Нажми «Сохранить обе ссылки».'}catch(e){er.textContent='Не удалось создать ссылки. Скопируй их с уже открытой доски.'}};
+ document.getElementById('bd-from-teacher').onclick=async()=>{const er=document.getElementById('bd-e');try{document.getElementById('bd-url').value=await LiliBoardLinks.pupilFromTeacher(document.getElementById('bd-teacher').value.trim(),crypto);er.textContent=''}catch(e){er.textContent=e.message}};
  document.getElementById('bd-cancel').onclick=()=>{f.hidden=true;document.getElementById('bd-e').textContent=''};
- const cp=document.getElementById('bd-copy');if(cp)cp.onclick=()=>{const u=href(D.board),ok=()=>{cp.textContent='Скопировано';setTimeout(()=>{if(cp.isConnected)cp.textContent='Скопировать ссылку'},1600)};try{navigator.clipboard.writeText(u).then(ok,()=>{cp.textContent='Не вышло, выдели ссылку вручную'})}catch(e){cp.textContent='Не вышло, выдели ссылку вручную'}};
- document.getElementById('bd-save').onclick=e=>{const b=e.currentTarget,er=document.getElementById('bd-e');let u=document.getElementById('bd-url').value.trim();er.textContent='';
-  if(u&&!/^[a-z][a-z0-9+.-]*:/i.test(u))u='https://'+u;
-  if(u&&!/^https?:\/\/[^\s]+\.[^\s]+/i.test(u)){er.textContent='Нужна полная ссылка, например https://learnboard.ru/…';return}
-  if(u===(D.board||'')){f.hidden=true;return}
-  b.disabled=true;adm('student',{fields:{board:u}}).then(j=>{apply(j,false);toast(u?'Ссылка на доску сохранена, у ученика уже новая':'Ссылка на доску убрана')}).catch(err=>{b.disabled=false;er.textContent=errText(err)})}}
+ const cp=document.getElementById('bd-copy');if(cp)cp.onclick=()=>copy(pupilBoardURL(),cp);
+ document.getElementById('bd-save').onclick=async e=>{const b=e.currentTarget,er=document.getElementById('bd-e');er.textContent='';
+ let u=document.getElementById('bd-url').value.trim(),t=document.getElementById('bd-teacher').value.trim();
+ if(u&&!/^[a-z][a-z0-9+.-]*:/i.test(u))u='https://'+u;
+ try{const pair=LiliBoardLinks.checkPair(u,t);u=pair.student;t=pair.teacher;
+  const probe='lili-board-storage-probe';localStorage.setItem(probe,'1');localStorage.removeItem(probe);
+  b.disabled=true;
+  // Only the pupil link is ever sent to the existing cabinet API.
+  if(u!==(D.board||'')){const j=await adm('student',{fields:{board:u}});D=j.d}
+  LiliBoardLinks.saveTeacher(localStorage,D.code||CODE,u,t);tRender(false);toast('Ссылки сохранены. Твоя кнопка — «Моя доска с учеником», его — «Открыть доску».');
+ }catch(err){b.disabled=false;er.textContent=err?.name==='QuotaExceededError'||err?.name==='SecurityError'?'Браузер не разрешил сохранить твою ссылку. Разреши хранение данных для сайта и повтори.':errText(err)}}}
 function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).join('\n');
  return `<details class="card adm" id="admc" ${S.admOpen?'open':''}><summary><span class="sh" style="margin:0"><h2>${esc(fullName()||D.name)} · настройки</h2><span class="sub">${D.active?'кабинет открыт':'на паузе'}</span></span></summary>
  <div class="formbox" style="border-top:0;margin-top:10px;padding-top:0">
  <div class="linkrow"><code id="lnk">${esc(url)}</code><button class="btn ghost tsm" id="lnkc" type="button">Скопировать</button><a class="btn ghost tsm" href="${esc(url)}" target="_blank" rel="noopener">Открыть как ученик</a><button class="btn ghost tsm" id="lnkn" type="button">Сменить ссылку кабинета</button></div>
+ ${boardRow()}
  <div class="fgrid">
   <label class="fld"><span>Имя</span><input id="f-name" value="${esc(D.name)}" data-fresh="1"></label>
   <label class="fld"><span>Фамилия (видишь только ты)</span><input id="f-fname" value="${esc(D.fname||'')}" placeholder="Петрова" data-fresh="1"></label>
@@ -2010,7 +2033,7 @@ function tBind(){
  document.getElementById('mPar').onclick=()=>{if(S.mode!=='par'){S.mode='par';save();tRender()}};
  const ad=document.getElementById('admc');ad.ontoggle=()=>{S.admOpen=ad.open;save()};bindSched();
  document.getElementById('lnkc').onclick=e=>copy(BASE+'kabinet.html#'+D.code,e.currentTarget);
- document.getElementById('lnkn').onclick=e=>{if(!confirm('Выдать ученику новую ссылку? Старая перестанет работать сразу. Домашка, оценки, карта и Telegram сохранятся. Новую ссылку нужно будет отправить ученику или родителю.'))return;const b=e.currentTarget;b.disabled=true;adm('rotateCode').then(j=>{location.hash='lilia-'+j.code}).catch(err=>{b.disabled=false;toast(errText(err))})};
+ document.getElementById('lnkn').onclick=e=>{if(!confirm('Выдать ученику новую ссылку? Старая перестанет работать сразу. Домашка, оценки, карта и Telegram сохранятся. Новую ссылку нужно будет отправить ученику или родителю.'))return;const b=e.currentTarget;b.disabled=true;adm('rotateCode').then(j=>{LiliBoardLinks.moveTeacher(localStorage,CODE,j.code);location.hash='lilia-'+j.code}).catch(err=>{b.disabled=false;toast(errText(err))})};
  const fc=document.getElementById('f-cls');if(fc)fc.onchange=()=>{const pr=document.getElementById('f-prog');pr.innerHTML=progOptions(+fc.value,pr.value)};
  document.getElementById('f-save').onclick=e=>{const b=e.currentTarget,v=id=>{const el=document.getElementById(id);return el?el.value:''};b.disabled=true;
   adm('student',{fields:{name:v('f-name'),fname:v('f-fname'),nick:v('f-nick'),dat:v('f-dat'),bdate:v('f-bdate'),parent:v('f-parent'),phone:v('f-phone'),cls:v('f-cls'),prog:document.getElementById('f-prog').value,goal:v('f-goal'),days:serSched(SL,STZ,STC),time:SL.length?hhmm(sortSlots(SL.slice())[0].h,sortSlots(SL.slice())[0].m):'',topic:topicVal(),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),active:document.getElementById('f-act').checked,show:[...document.querySelectorAll('.f-show:checked')].map(e=>e.dataset.k)}})
@@ -2112,3 +2135,4 @@ start();
 
 </body>
 </html>
+
