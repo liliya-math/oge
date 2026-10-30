@@ -1781,7 +1781,7 @@ function boardRow(){const teacher=myBoardURL(),pupil=pupilBoardURL();
  return `<section class="boardsettings"><h3>Доска и видеосвязь</h3>
  <p class="note">Две ссылки ведут в одну комнату: твоя открывает сторону учителя, ученическая — сторону ученика.</p>
  <div class="boardrow">${teacher?`<a class="btn" href="${esc(teacher)}" target="_blank" rel="noopener noreferrer">Моя доска с учеником</a><a class="btn ghost" href="${esc(LiliBoardLinks.videoURL(teacher))}" target="_blank" rel="noopener noreferrer">Доска + видео</a>`:''}<button class="btn ghost tsm" id="bd-edit" type="button">${pupil?'Настроить ссылки':'Добавить доску'}</button>${pupil?'<button class="btn ghost tsm" id="bd-copy" type="button">Ссылка ученика</button>':''}</div>
- ${!teacher&&pupil?'<p class="note">Ссылка ученика уже задана. Добавь свою ссылку учителя с той же доски.</p>':''}
+ ${!teacher&&pupil?`<p class="note">Ссылка ученика уже задана. <a href="${esc(pupil)}" target="_blank" rel="noopener noreferrer">Открыть текущую доску</a>, затем «Уроки → Защита → Скопировать ссылку учителя». Вставь её ниже.</p>`:''}
  <div class="boardedit" id="bd-form" hidden>
  <label class="fld"><span>Твоя ссылка учителя</span><input id="bd-teacher" value="${esc(teacher)}" placeholder="Скопируй на доске: Уроки → Защита → Ссылка учителя" autocomplete="off" spellcheck="false"></label>
  <p class="note">Хранится только в этом браузере, отдельно для ${esc(D.dat||D.name)}. Ученику не передаётся. Для другого устройства вставь её здесь один раз.</p>
