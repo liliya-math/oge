@@ -1,5 +1,5 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 7.10
+ * Кабинет ученика 25/25 · lili.math — версия 7.11
  * (7.9: простая автопроверка домашки — листы «Ключи» и «Результаты», страница dz.html; ответы ученика проверяются на сервере, учителю приходит письмо; один раз выполни setupDz, затем «Новая версия»)
  * (7.8: кнопка «Новая ссылка» в режиме учителя — выдаёт ученику новый код, старый перестаёт работать; после замены кода: «Новая версия» развёртывания)
  * (7.7: учитель выбирает, что видит ученик и родитель (колонка «Показывать», скрытое вообще не уходит на страницу);
@@ -386,6 +386,8 @@ function setPassword() {
 function doGet(e) {
   const p = (e && e.parameter) || {};
   const code = String(p.t || '').trim();
+  if (p.quiz === 'capabilities') return json_({ok:true,quiz:1});
+  if (p.quiz === 'load') return json_(quizLoad_(code,{work:p.q,version:p.v,assignment:p.a,row:p.row}));
   if (p.w) return json_(dzLoad_(code, String(p.w).trim(), Number(p.row) || 0));
   return json_(code ? studentData_(code, false) : {error: 'no_code'});
 }
@@ -401,6 +403,7 @@ function doPost(e) {
     const st = findStudentRow_(body.t);
     if (!st || st.row[11] === false) return json_({error: 'not_found'});
     const code = String(body.t).trim();
+    if (body.quiz) return json_(quizSubmit_(code, body.quiz));
     if (body.dz) return json_(dzSubmit_(code, body.dz));
     if (body.telegram === 'connect') return json_(telegramConnect_(code));
     if (body.workflow === true) return json_(workflowHw_(code, body, false));
@@ -504,7 +507,11 @@ function admin_(b) {
     const need = () => { const st = findStudentRow_(code); if (!st) throw new Error('not_found'); return st; };
     const fresh = () => ({ok: true, d: studentData_(code, true)});
     switch (b.op) {
-      case 'ping': return {ok: true, hwEdit: true, workflow: 1};
+      case 'ping': return {ok: true, hwEdit: true, workflow: 1, quiz: 1};
+      case 'quizList': return quizList_();
+      case 'quizGet': return {ok:true,work:quizDefinition_(String(b.work||''),Number(b.version)||0)};
+      case 'quizSave': return quizSave_(b);
+      case 'quizAssign': { need(); return quizAssign_(code,b); }
       case 'hwReview': { need(); const result = workflowHw_(code, b, true); return result.ok ? fresh() : result; }
       case 'list': return {ok: true, students: listStudents_()};
       case 'rotateCode': { need(); return {ok: true, code: rotateCode_(code)}; }
@@ -828,7 +835,7 @@ function studentData_(code, admin) {
   const pet = PETS.indexOf(String(r[20] || '').trim()) >= 0 ? String(r[20]).trim() : '';
   const nick = String(r[21] || '').trim();
   const out = {
-    workflow: 1, nickEdit: true, name: admin ? String(r[1]) : (nick || String(r[1])), nick: nick, dat: admin ? String(r[2] || r[1]) : (nick || String(r[1])), goal: Number(r[3]) || Math.round(goalMax_(prog) * 0.8),
+    quiz: 1, quizHistory: quizHistory_(code), workflow: 1, nickEdit: true, name: admin ? String(r[1]) : (nick || String(r[1])), nick: nick, dat: admin ? String(r[2] || r[1]) : (nick || String(r[1])), goal: Number(r[3]) || Math.round(goalMax_(prog) * 0.8),
     days: String(r[4] || ''), time: st.time, topic: String(r[6] || ''), board: String(r[7] || ''),
     work: String(r[8] || '').split(';').map(s => s.trim()).filter(Boolean),
     lessonsPlan: Number(r[9]) || 0, lessonsDone: Number(r[10]) || 0,
@@ -881,7 +888,7 @@ function rotateCode_(old) {
     v.forEach(r => { if (String(r[0]).trim() === old) { r[0] = next; hit = true; } });
     if (hit) rng.setValues(v);
   };
-  ['Ученики', 'Карта', 'Домашка', 'Пробники', 'Оценки', 'Письма', 'Навыки', 'Комментарии', 'Файлы', 'Разборы']
+  ['Ученики', 'Карта', 'Домашка', 'Пробники', 'Оценки', 'Письма', 'Навыки', 'Комментарии', 'Файлы', 'Разборы', 'Результаты', 'Попытки тестов']
     .forEach(n => swap(ss.getSheetByName(n), 1));
   const st = findStudentRow_(next);
   if (st) ss.getSheetByName('Ученики').getRange(st.index, 13).setValue(PAGE + '#' + next);
@@ -1338,4 +1345,177 @@ function workflowHw_(code, b, teacher) {
   const done = status === 'submitted' || status === 'checked';
   sh.getRange(row, 7, 1, 2).setValues([[done, done ? now : '']]);
   return {ok: true, hw: {status: status, studentNote: note, feedback: feedback, solutionUrl: solutionUrl, revision: revision, done: done}};
+}
+
+/* BEGIN SHARED QUIZ CORE - keep in sync with assets/quiz-core.js */
+/* Shared deterministic text importer and answer rules. No AI calls, HTML or eval. */
+var LiliQuiz = (function () {
+  'use strict';
+  const types = {'число':'number','набор':'set','несколько числовых ответов':'set','выбор':'choice','текст':'text',number:'number',set:'set',choice:'choice',text:'text'};
+  function fail(s) { throw new Error(s); }
+  function number(v) {
+    const s=String(v).trim().replace(/[−–]/g,'-').replace(/,/g,'.');
+    const part='[+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)';
+    if(new RegExp('^'+part+'$').test(s))return Number.isFinite(Number(s))?Number(s):null;
+    if(new RegExp('^'+part+'\\s*/\\s*'+part+'$').test(s)){const a=s.split('/').map(Number);return a[1]!==0&&Number.isFinite(a[0]/a[1])?a[0]/a[1]:null;}
+    return null;
+  }
+  const text=v=>String(v).normalize('NFKC').trim().replace(/\s+/g,' ').toLowerCase();
+  const equal=(a,b)=>a!==null&&b!==null&&(Number.isInteger(a)&&Number.isInteger(b)?a===b:Math.abs(a-b)<=1e-9);
+  function same(g,q) {
+    if(typeof g!=='string'||!g.trim()||g.length>500)return false;
+    if(q.type==='set'){
+      const a=g.split(';').map(number), b=q.answer.split(';').map(number);
+      if(a.some(x=>x===null)||a.length!==b.length)return false;
+      a.sort((x,y)=>x-y);b.sort((x,y)=>x-y);
+      return a.every((v,i)=>equal(v,b[i]));
+    }
+    return q.answer.split('|').some(k=>q.type==='number'?equal(number(g),number(k)):text(g)===text(k));
+  }
+  function validate(d) {
+    if(!d||typeof d!=='object')fail('Нет данных работы.');
+    const string=(v,n,max)=>{if(typeof v!=='string'||!v.trim()||v.length>max)fail('Проверь поле «'+n+'».');return v.trim();};
+    const out={title:string(d.title,'Название',160),section:string(d.section,'Раздел',160),tasks:[]};
+    if(!Array.isArray(d.tasks)||!d.tasks.length||d.tasks.length>100)fail('Нужно от 1 до 100 заданий.');
+    out.tasks=d.tasks.map((q,i)=>{
+      if(!q||typeof q!=='object')fail('Некорректное задание '+(i+1));
+      const rawType=q.type||'число';
+      const prefix='Задание '+(i+1)+': ',type=Object.prototype.hasOwnProperty.call(types,rawType)?types[rawType]:null;
+      if(!type)fail(prefix+'неизвестный тип ответа.');
+      const item={n:String(i+1),q:string(q.q,prefix+'условие',4000),answer:string(q.answer,prefix+'ответ',500),type,points:Number(q.points===undefined?1:q.points),hint:String(q.hint||'').trim(),options:[]};
+      if(!Number.isInteger(item.points)||item.points<1||item.points>10)fail(prefix+'баллы должны быть целым числом от 1 до 10.');
+      if(item.hint.length>1500)fail(prefix+'подсказка длиннее 1500 символов.');
+      if(type==='number'&&item.answer.split('|').some(a=>number(a)===null))fail(prefix+'ответ должен быть числом или дробью a/b.');
+      if(type==='set'){
+        const a=item.answer.split(';').map(number);
+        if(a.some(x=>x===null)||new Set(a).size!==a.length)fail(prefix+'укажи разные числовые ответы через ;');
+      }
+      if(type==='choice'){
+        if(!Array.isArray(q.options)||q.options.length<2||q.options.length>8)fail(prefix+'нужно 2–8 вариантов.');
+        item.options=q.options.map(v=>string(v,prefix+'вариант',500));
+        if(new Set(item.options.map(text)).size!==item.options.length)fail(prefix+'варианты повторяются.');
+        if(!item.options.some(v=>text(v)===text(item.answer)))fail(prefix+'ответ должен совпадать с одним вариантом.');
+      }
+      return item;
+    });
+    if(JSON.stringify(out).length>40000)fail('Работа слишком большая. Раздели её на несколько тестов.');
+    return out;
+  }
+  function parse(src) {
+    if(typeof src!=='string'||src.length>80000)fail('Файл слишком большой (максимум 80 000 символов).');
+    const d={title:'',section:'',tasks:[]};let q=null,last='';
+    const keys={'название':'title','раздел':'section','задание':'q','ответ':'answer','тип':'type','баллы':'points','подсказка':'hint','варианты':'options'};
+    src.replace(/^\uFEFF/,'').replace(/\r/g,'').split('\n').forEach((line,i)=>{
+      if(!line.trim())return;
+      const m=/^\s*([^:]+):\s*(.*)$/.exec(line), key=m&&Object.prototype.hasOwnProperty.call(keys,m[1].trim().toLowerCase())&&keys[m[1].trim().toLowerCase()];
+      if(key){
+        if(key==='q'){q={q:m[2]};d.tasks.push(q);last='q';return;}
+        const target=key==='title'||key==='section'?d:q;
+        if(!target)fail('Строка '+(i+1)+': сначала напиши «Задание:».');
+        if(Object.prototype.hasOwnProperty.call(target,key)&&target[key]!=='')fail('Строка '+(i+1)+': поле повторяется.');
+        target[key]=key==='options'?m[2].split('|').map(v=>v.trim()):m[2];last=key;
+      }else if(q&&(last==='q'||last==='hint'))q[last]+='\n'+line;
+      else fail('Строка '+(i+1)+': неизвестное поле.');
+    });
+    return validate(d);
+  }
+  function stringify(d){return 'Название: '+d.title+'\nРаздел: '+d.section+'\n\n'+d.tasks.map(q=>'Задание: '+q.q+'\nТип: '+({number:'число',set:'набор',choice:'выбор',text:'текст'}[q.type])+'\n'+(q.options.length?'Варианты: '+q.options.join(' | ')+'\n':'')+'Ответ: '+q.answer+'\nБаллы: '+q.points+(q.hint?'\nПодсказка: '+q.hint:'')).join('\n\n');}
+  function publicWork(d){return {title:d.title,section:d.section,tasks:d.tasks.map(q=>({n:q.n,q:q.q,type:q.type,points:q.points,hint:q.hint,options:q.options}))};}
+  function grade(d,answers){let score=0;const tasks=d.tasks.map(q=>{const ok=same(answers[q.n],q);if(ok)score+=q.points;return {n:q.n,ok,points:ok?q.points:0};});return {score,max:d.tasks.reduce((n,q)=>n+q.points,0),tasks};}
+  const sample='Название: Квадратные корни · первая проверка\nРаздел: Алгебра / 8 класс / Квадратные корни\n\nЗадание: Вычисли \\(\\sqrt{81}\\).\nОтвет: 9\nБаллы: 1\n\nЗадание: Вычисли \\(\\frac{3}{4}+\\frac{1}{4}\\).\nОтвет: 1\nБаллы: 1\n\nЗадание: Реши уравнение \\(x^2=25\\). Запиши корни через ;\nТип: набор\nОтвет: -5; 5\nБаллы: 2\nПодсказка: Какие числа при возведении в квадрат дают 25?\n\nЗадание: Выбери верное равенство.\nТип: выбор\nВарианты: √36 = 6 | √36 = -6 | √36 = 18\nОтвет: √36 = 6\nБаллы: 1';
+  return {parse,validate,stringify,publicWork,grade,same,number,sample};
+})();
+if(typeof module!=='undefined')module.exports=LiliQuiz;
+
+/* END SHARED QUIZ CORE */
+/* Quiz API v1. All mutating calls run under the cabinet's existing script lock.
+   Published definitions are immutable; assignments pin a version and random identity. */
+const QUIZ_SHEETS = {
+  'Тесты': ['Работа', 'Версия', 'Название', 'Раздел', 'Дата', 'JSON'],
+  'Попытки тестов': ['Код', 'Работа', 'Версия', 'Назначение', 'Отправка', 'Дата', 'Название', 'Раздел', 'Баллы', 'Максимум', 'Секунд', 'JSON']
+};
+function quizSheet_(name) {
+  const ss=SpreadsheetApp.getActive();let sh=ss.getSheetByName(name);
+  if(!sh){sh=ss.insertSheet(name);sh.getRange(1,1,1,QUIZ_SHEETS[name].length).setValues([QUIZ_SHEETS[name]]);sh.setFrozenRows(1);}
+  return sh;
+}
+function quizValues_(name) {
+  const sh=SpreadsheetApp.getActive().getSheetByName(name);
+  return sh&&sh.getLastRow()>1?sh.getRange(2,1,sh.getLastRow()-1,QUIZ_SHEETS[name].length).getValues():[];
+}
+function quizDefinition_(id,version) {
+  const a=quizValues_('Тесты').filter(r=>String(r[0])===id&&(!version||Number(r[1])===Number(version)));
+  if(!a.length)return null;const r=a[a.length-1];
+  return Object.assign(JSON.parse(r[5]),{id:String(r[0]),version:Number(r[1])});
+}
+function quizSave_(b) {
+  try {
+    const d=LiliQuiz.validate(b.work),id=b.id?String(b.id):Utilities.getUuid();
+    if(!/^[a-zA-Z0-9-]{6,80}$/.test(id))return {error:'bad_value'};
+    const prev=quizDefinition_(id);
+    if((prev?prev.version:0)!==Number(b.baseVersion||0))return {error:'changed'};
+    const version=(prev?prev.version:0)+1;
+    // JSON starts with {, so imported text cannot become a spreadsheet formula.
+    quizSheet_('Тесты').appendRow([id,version,quizCell_(d.title),quizCell_(d.section),new Date(),JSON.stringify(d)]);
+    return {ok:true,id,version};
+  }catch(e){return {error:'quiz_validation',message:String(e.message||e)};}
+}
+function quizCell_(s){s=String(s);return /^[=+\-@]/.test(s)?"'"+s:s;}
+function quizList_(){
+  const latest={};quizValues_('Тесты').forEach(r=>{const d=JSON.parse(r[5]);latest[r[0]]={id:String(r[0]),version:Number(r[1]),title:d.title,section:d.section,count:d.tasks.length,max:d.tasks.reduce((n,q)=>n+q.points,0)};});
+  return {ok:true,works:Object.keys(latest).map(k=>latest[k])};
+}
+function quizAssign_(code,b) {
+  const st=findStudentRow_(code);if(!st||st.row[11]===false)return {error:'not_found'};
+  const d=quizDefinition_(String(b.work||''),Number(b.version));if(!d||!Number.isInteger(Number(b.version))||Number(b.version)<1)return {error:'no_work'};
+  if(b.due&&!/^\d{4}-\d{2}-\d{2}$/.test(String(b.due)))return {error:'bad_value'};
+  const aid=Utilities.getUuid(),url='quiz.html?q='+encodeURIComponent(d.id)+'&v='+d.version+'&a='+aid;
+  const sh=SpreadsheetApp.getActive().getSheetByName('Домашка');if(!sh)return {error:'not_ready'};
+  sh.appendRow([code,quizCell_(d.title),'',ruDate_(b.due),url,'Пройти тест',false,'','','','new','','','',new Date(),Utilities.getUuid()]);
+  return {ok:true,row:sh.getLastRow(),url:url,assignment:aid};
+}
+function quizAssigned_(code,b) {
+  const st=findStudentRow_(code);if(!st||st.row[11]===false)return null;
+  const sh=SpreadsheetApp.getActive().getSheetByName('Домашка'),row=Number(b.row);
+  if(!sh||!Number.isInteger(row)||row<2||row>sh.getLastRow())return null;
+  const r=sh.getRange(row,1,1,Math.min(16,sh.getMaxColumns())).getValues()[0];
+  if(String(r[0]).trim()!==code)return null;
+  const u=String(r[4]||''),m=/(?:^|\/)quiz\.html\?q=([^&]+)&v=(\d+)&a=([a-zA-Z0-9-]+)$/.exec(u);
+  if(!m||decodeURIComponent(m[1])!==String(b.work)||Number(m[2])!==Number(b.version)||m[3]!==String(b.assignment))return null;
+  return {sh,row,values:r};
+}
+function quizHistory_(code) {
+  return quizValues_('Попытки тестов').filter(r=>String(r[0])===code).map(r=>({work:String(r[1]),version:Number(r[2]),assignment:String(r[3]),submission:String(r[4]),at:r[5] instanceof Date?r[5].toISOString():String(r[5]),title:JSON.parse(r[11]).title||String(r[6]),section:JSON.parse(r[11]).section||String(r[7]),score:Number(r[8]),max:Number(r[9])}));
+}
+function quizLoad_(code,b) {
+  if(!quizAssigned_(code,b))return {error:'not_assigned'};
+  const d=quizDefinition_(String(b.work),Number(b.version));if(!d)return {error:'no_work'};
+  return {ok:true,quiz:1,work:Object.assign(LiliQuiz.publicWork(d),{id:d.id,version:d.version}),history:quizHistory_(code).filter(r=>r.assignment===b.assignment)};
+}
+function quizMarkHomework_(assignment,result){
+  try {
+    const r=assignment.values,status=String(r[10]||'');
+    // Preserve a teacher's review or a submission awaiting their review.
+    if(status==='checked'||status==='submitted')return true;
+    const sh=assignment.sh;if(sh.getMaxColumns()<16)sh.insertColumnsAfter(sh.getMaxColumns(),16-sh.getMaxColumns());
+    sh.getRange(assignment.row,11,1,6).setValues([['checked',String(r[11]||''),'Автопроверка: '+result.score+' из '+result.max,String(r[13]||''),new Date(),Utilities.getUuid()]]);
+    sh.getRange(assignment.row,7,1,2).setValues([[true,new Date()]]);return true;
+  }catch(e){console.error('Quiz homework status: '+e);return false;}
+}
+function quizSubmit_(code,b) {
+  const a=quizAssigned_(code,b);if(!a)return {error:'not_assigned'};
+  const sid=String(b.submission||'');if(!/^[a-zA-Z0-9-]{16,80}$/.test(sid))return {error:'bad_value'};
+  const old=quizValues_('Попытки тестов').find(r=>String(r[0])===code&&String(r[4])===sid);
+  if(old){
+    if(String(old[1])!==String(b.work)||Number(old[2])!==Number(b.version)||String(old[3])!==String(b.assignment))return {error:'changed'};
+    const r=JSON.parse(old[11]);return {ok:true,result:r,duplicate:true,homeworkSynced:quizMarkHomework_(a,r)};
+  }
+  const d=quizDefinition_(String(b.work),Number(b.version));if(!d)return {error:'no_work'};
+  if(!b.answers||typeof b.answers!=='object'||Array.isArray(b.answers))return {error:'bad_value'};
+  const answers={};
+  for(const q of d.tasks){const v=b.answers[q.n];if(v!==undefined&&(typeof v!=='string'||v.length>500))return {error:'bad_value'};answers[q.n]=v||'';}
+  if(JSON.stringify(answers).length>40000)return {error:'quiz_validation',message:'Ответы слишком длинные. Сократи записи до кратких ответов.'};
+  const result=Object.assign(LiliQuiz.grade(d,answers),{at:new Date().toISOString(),submission:sid,title:d.title,section:d.section});
+  quizSheet_('Попытки тестов').appendRow([code,d.id,d.version,b.assignment,sid,new Date(),quizCell_(d.title),quizCell_(d.section),result.score,result.max,Math.max(0,Math.min(86400,Number(b.seconds)||0)),JSON.stringify(Object.assign({},result,{answers}))]);
+  return {ok:true,result,homeworkSynced:quizMarkHomework_(a,result)};
 }

@@ -823,6 +823,9 @@ a.gc{text-decoration:none}
 @media(max-width:520px){.assignment-card{padding:16px!important}.assignment-card .focus-actions>.btn{width:100%;justify-content:center}.error-entry summary{align-items:flex-start}.error-body .btn{font-size:14px}}
 
 </style>
+<link rel="stylesheet" href="assets/quiz-cabinet.css">
+<script src="assets/quiz-ui.js"></script>
+<script src="assets/quiz-cabinet.js"></script>
 <div class="amb" aria-hidden="true"><i></i><i></i><i></i></div>
 <canvas id="fx" aria-hidden="true"></canvas>
 <main class="wrap" id="app"></main>
@@ -1495,7 +1498,7 @@ function tBindTelegram(){
 }
 
 function parentBody(){const two=[SHOW('exams')?chartCard():'',SHOW('work')?workCard():''].filter(Boolean);
- return heroPar()+(SHOW('map')?mapCard(true):'')+(SHOW('skills')?skillsCard(true)+gradeCard():'')+(two.length>1?`<div class="two">${two.join('')}</div>`:two.join(''))+(SHOW('grades')?gradesCard():'')}
+ return heroPar()+quizCabinetCard(D)+(SHOW('map')?mapCard(true):'')+(SHOW('skills')?skillsCard(true)+gradeCard():'')+(two.length>1?`<div class="two">${two.join('')}</div>`:two.join(''))+(SHOW('grades')?gradesCard():'')}
 function render(){
  if(!D)return;
  syncNotebook();
@@ -1573,7 +1576,7 @@ function choosePet(id){if(!TALS.some(t=>t.id===id))return;S.tal=id;S.picked=true
 /* Uses the current cabinet data and feature-detects Apps Script 7.6. */
 const WF_LABEL={new:'Не начато',solving:'Решаю',submitted:'На проверке',checked:'Проверено',revise:'Нужно исправить',help:'Нужна помощь',done:'Выполнено'};
 function CAB_TABS(){const t=[['homework','Домашка']];if(LIB())t.push(['materials','Библиотека']);
- if(SHOW('map')||SHOW('skills')||SHOW('exams')||SHOW('grades'))t.push(['progress','Прогресс']);
+ if(D.quiz===1||SHOW('map')||SHOW('skills')||SHOW('exams')||SHOW('grades'))t.push(['progress','Прогресс']);
  if(SHOW('rewards'))t.push(['rewards','Коллекция']);
  return t}
 function wfEnabled(){return !!(D&&(D.workflow===1||D.demo))}
@@ -1600,7 +1603,7 @@ function materialsFolders(){const groups=new Map(),P=PROG();(D.hw||[]).filter(h=
 
 function progressSummary(){const P=PROG(),counts={solid:0,shaky:0,gap:0,new:0};for(let n=1;n<=P.nmax;n++)counts[stOf(n)]++;const numeric=(D.hist||[]).filter(h=>typeof h.p==='number'),delta=numeric.length>1?numeric.at(-1).p-numeric[0].p:null;return `<div class="card"><div class="sh"><h2>Что уже получается</h2></div><div class="progress-summary"><div><b>${counts.solid}</b><span>тем решаешь уверенно</span></div><div><b>${counts.shaky}</b><span>тем ещё закрепляем</span></div><div><b>${delta===null?'—':(delta>=0?'+':'')+delta}</b><span>${delta===null?'сравним после двух работ':P.oge?'баллов с первой работы':'к результату первой работы'}</span></div></div><p class="note">Статусы тем отмечает преподаватель по результатам занятий. Результаты проверенных работ показаны ниже.</p></div>`}
 function contactLine(){return `<p class="contactline">Вопросы по заданиям: <a href="https://t.me/ohh_my_lily" target="_blank" rel="noopener">@ohh_my_lily</a> в Telegram.</p>`}
-function kidWorkspace(bday){const prog=(SHOW('map')?progressSummary()+mapCard(false):'')+(SHOW('skills')?skillsCard(false)+gradeCard():'')+(SHOW('exams')?chartCard():'')+(SHOW('grades')?gradesCard():'');
+function kidWorkspace(bday){const prog=quizCabinetCard(D)+(SHOW('map')?progressSummary()+mapCard(false):'')+(SHOW('skills')?skillsCard(false)+gradeCard():'')+(SHOW('exams')?chartCard():'')+(SHOW('grades')?gradesCard():'');
  return welcomeKid()+bday+focusWork()+`<div class="lessonstrip">${lessonCard()}</div>`+cabNav()
   +cabPanel('homework',newHwCard()+(SHOW('notebook')?notebookCard():'')+telegramCard()+(SHOW('letter')?letterCard():'')+contactLine())
   +(LIB()?cabPanel('materials',materialsFolders()+((D.mats&&D.mats.length)||!D.matsAll?matCard():'')):'')
@@ -1661,7 +1664,7 @@ function copy(txt,btn){const ok=()=>{btn.textContent='Скопировано';se
 
 function tTop(){return `<header class="top"><div class="toprow">
  <div class="brandrow">${logoMark(30)}<span class="brand">25/25 · <b>Учитель</b></span></div>
- <span class="sp"></span><span class="tbusy" id="tbusy"></span>
+ <span class="sp"></span><span class="tbusy" id="tbusy"></span><a class="btn ghost tsm" href="quiz-builder.html">Тесты</a>
  ${D&&CODE?`<div class="mseg" role="group" aria-label="Как видят"><button id="mKid" aria-pressed="${S.mode==='kid'}">Ученик</button><button id="mPar" aria-pressed="${S.mode==='par'}">Родитель</button></div>`:''}
  ${CODE?'<a class="btn ghost tsm" href="#lilia">Все ученики</a>':PASS?'<button class="btn ghost tsm" id="tout">Выйти</button>':''}
 </div></header>`}
@@ -1687,7 +1690,7 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
  app.innerHTML=tTop()+`<div class="cab enter">
  <section style="display:grid;gap:8px;padding-block:6px 4px"><span class="eyebrow">Режим учителя</span>
  <h1 class="big1">Ученики · <em>${act.length}</em></h1>
- <p class="klead" style="margin:0">Нажми на ученика, чтобы открыть и редактировать его кабинет.</p></section>
+ <p class="klead" style="margin:0">Нажми на ученика, чтобы открыть и редактировать его кабинет.</p><p><a class="btn" href="quiz-builder.html">Конструктор тестов</a></p></section>
  ${L.length?`<div class="stus">${L.map(s=>{const PG=PROGS[s.prog]||PROGS.oge9;return `<a class="stu ${s.active?'':'off'}" href="#lilia-${esc(s.code)}">
   <div class="stuh"><b>${esc(s.name)}${s.fname?' '+esc(s.fname):''}${s.nick?' <span class="sub">(«'+esc(s.nick)+'»)</span>':''}</b>${PG.oge?'':`<span class="kchip new">${esc(PG.name)}</span>`}${s.active?'':'<span class="kchip new">на паузе</span>'}</div>
   <div class="stum"><span>${esc(PG.name)}</span><span>${esc(schedShort(s.days,s.time))}</span>
@@ -1721,8 +1724,8 @@ function drafts(){const o={};app.querySelectorAll('input[id]:not([type=file]),te
 function tRender(keep){const y=scrollY,dr=keep===false?{}:drafts(),foc=document.activeElement&&document.activeElement.id;
  const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
  app.innerHTML=tTop()+`<div class="cab enter">`+adminCard()+tTelegramCard()+bday+(kid
-  ? heroKid()+`<div class="two">${lessonCard(true)}${tHwCard()}</div>`+tMatCard()+mapCard(false)+skillsCard(false)+gradeCard()+`<div class="two">${chartCard()}${probCard()}</div>`+tGradesCard()+tLettersCard()
-  : heroPar()+mapCard(true)+skillsCard(true)+gradeCard()+`<div class="two">${chartCard()}${workCard()}</div>`+tGradesCard()+tLettersCard())+foot()+`</div>`;
+  ? heroKid()+quizCabinetCard(D)+`<div class="two">${lessonCard(true)}${tHwCard()}</div>`+tMatCard()+mapCard(false)+skillsCard(false)+gradeCard()+`<div class="two">${chartCard()}${probCard()}</div>`+tGradesCard()+tLettersCard()
+  : heroPar()+quizCabinetCard(D)+mapCard(true)+skillsCard(true)+gradeCard()+`<div class="two">${chartCard()}${workCard()}</div>`+tGradesCard()+tLettersCard())+foot()+`</div>`;
  Object.keys(dr).forEach(id=>{const i=document.getElementById(id);if(!i)return;if(i.type==='checkbox')i.checked=dr[id];else i.value=dr[id]});
  tBind();scrollTo({top:y});if(foc){const f=document.getElementById(foc);if(f&&f.focus)f.focus({preventScroll:true})}if(bday)bdayFX()}
 
