@@ -28,12 +28,18 @@
     out.sort((a,b) => a.start-b.start || String(a.student.name).localeCompare(String(b.student.name),'ru'));
     return out.map((x,i) => ({...x,conflict:out.some((y,j) => i !== j && x.start < y.end && y.start < x.end),state:x.end <= now?'past':x.start <= now?'live':'next'}));
   }
+  function cleanClose(raw) {
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return undefined;
+    const text=(k,n)=>String(raw[k]||'').slice(0,n);
+    const state=k=>['new','pending','done','unknown','skipped'].includes(raw[k])?raw[k]:'new';
+    return {summary:text('summary',5000),nextTopic:text('nextTopic',300),text:text('text',5000),url:text('url',2000),due:text('due',10),publishHW:!!raw.publishHW,updateTopic:!!raw.updateTopic,phase:['ready','working','done'].includes(raw.phase)?raw.phase:'ready',hwState:state('hwState'),topicState:state('topicState'),beforeIds:Array.isArray(raw.beforeIds)?raw.beforeIds.slice(0,10000).map(x=>String(x).slice(0,100)):[],hwId:text('hwId',100),error:text('error',2000),...(raw.topicBefore===undefined?{}:{topicBefore:text('topicBefore',300)})};
+  }
   function cleanCard(value) {
     if (!value || !/^[a-z0-9-]{1,100}$/i.test(value.id || '') || !dateOK(value.date || '')) throw new Error('Некорректная карточка занятия.');
     const text = (k,n) => String(value[k] || '').slice(0,n);
     const time = text('time',5);
     if (time && !/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) throw new Error('Проверь время занятия.');
-    return {id:value.id,date:value.date,time,topic:text('topic',300),plan:text('plan',10000),materials:text('materials',5000),summary:text('summary',5000),updated:Number(value.updated)||Date.now()};
+    return {id:value.id,date:value.date,time,topic:text('topic',300),plan:text('plan',10000),materials:text('materials',5000),summary:text('summary',5000),closedAt:Number.isFinite(Number(value.closedAt))?Math.max(0,Number(value.closedAt)):0,close:cleanClose(value.close),updated:Number(value.updated)||Date.now()};
   }
   function read(storage) {
     const raw = storage.getItem(KEY);
@@ -45,7 +51,9 @@
   function cards(storage,code) { return (read(storage).students[code] || []).map(cleanCard).sort((a,b) => (b.date+b.time).localeCompare(a.date+a.time)); }
   function saveCard(storage,code,value) {
     if (!codeOK(code)) throw new Error('Не выбран ученик.');
-    const data = read(storage), card = cleanCard({...value,updated:Date.now()});
+    const data = read(storage);
+    const previous=(data.students[code] || []).find(x=>x.id===value.id);
+    const card = cleanCard({...previous,...value,updated:Date.now()});
     const list = data.students[code] || [];
     data.students[code] = [card,...list.filter(x => x.id !== card.id)];
     storage.setItem(KEY,JSON.stringify(data));
@@ -113,9 +121,10 @@
     doc.querySelectorAll('[data-journal-export]').forEach(b => b.onclick = () => {try {download(doc,read(doc.defaultView.localStorage),'lili-lesson-journal-'+dayKey()+'.json');} catch(e) {notify(e.message);}});
     doc.querySelectorAll('[data-journal-import]').forEach(b => b.onchange = async () => {try {const file=b.files[0]; if(!file)return; if(file.size>2*1024*1024)throw new Error('Файл больше 2 МБ.');const n=restore(doc.defaultView.localStorage,JSON.parse(await file.text()));refresh();notify(`Журнал восстановлен: ${n} записей. Более новые записи сохранены.`);}catch(e){notify(e.message);}finally{b.value='';}});
   }
-  function bindToday(doc,students,{getStudent,parse,notify}) {
+  function bindToday(doc,students,{getStudent,parse,notify,reviewQueue}) {
     doc.querySelectorAll('[data-teaching-open]').forEach(a => a.onclick = () => {try {doc.defaultView.sessionStorage.setItem('lili-teaching-date',dayKey());}catch(_){}});
     const b=doc.getElementById('teaching-check'); if(!b)return;
+    if(reviewQueue){reviewQueue();return;}
     b.onclick=async () => {
       const target=doc.getElementById('teaching-review'); b.disabled=true;
       const active=students.filter(s => s.active !== false), rows=[], failed=[];
@@ -137,9 +146,9 @@
     try{desired=desired || new URLSearchParams(root.location.search).get('lesson');}catch(_){}
     const found=list.find(x => x.id===desired) || list.find(x => x.date===dayKey());
     const c=drafts.get(code) || found || {id:'',date:dayKey(),time:'',topic:student.topic || '',plan:'',materials:'',summary:''};
-    return `<section class="card teaching-journal" id="teaching-journal"><div class="sh"><h2>Карточка занятия</h2><span class="sub">Личный журнал</span></div><p class="note">План и итоги видишь только ты. Журнал хранится в этом браузере; выгружай копию для другого устройства.</p>${backupHTML()}<label class="fld"><span>История занятий</span><select id="jl-select"><option value="">Новое занятие</option>${list.map(x=>`<option value="${esc(x.id)}" ${c.id===x.id?'selected':''}>${esc(x.date)} ${esc(x.time)} · ${esc(x.topic || 'Без темы')}</option>`).join('')}</select></label><form id="jl-form"><input type="hidden" name="id" value="${esc(c.id)}"><div class="fgrid"><label class="fld"><span>Дата</span><input type="date" name="date" required value="${esc(c.date)}"></label><label class="fld"><span>Время по Самаре</span><input type="time" name="time" value="${esc(c.time)}"></label></div><label class="fld"><span>Тема этого занятия</span><input name="topic" maxlength="300" required value="${esc(c.topic)}"></label><details class="teaching-notes"><summary>План, материалы и итог</summary><label class="fld"><span>Личный план</span><textarea name="plan" maxlength="10000" rows="3">${esc(c.plan)}</textarea></label><label class="fld"><span>Ссылки на материалы, каждая с новой строки</span><textarea name="materials" maxlength="5000" rows="2" placeholder="https://lilimath.ru/…">${esc(c.materials)}</textarea></label><div class="focus-actions" id="jl-materials"></div><label class="fld"><span>Итог и что повторить</span><textarea name="summary" maxlength="5000" rows="2">${esc(c.summary)}</textarea></label></details><p class="ferr" role="status" id="jl-status">${esc(error)}</p><div class="focus-actions"><button class="btn" type="submit">Сохранить карточку</button><button class="btn ghost" type="button" id="jl-start">Начать урок на доске</button><button class="btn ghost" type="button" id="jl-video">Урок с видео</button><a class="chip" href="#hwcard">Выдать домашку</a></div></form></section>`;
+    return `<section class="card teaching-journal" id="teaching-journal"><div class="sh"><h2>Карточка занятия</h2><span class="sub">Личный журнал</span></div><p class="note">План и итоги видишь только ты. Журнал хранится в этом браузере; выгружай копию для другого устройства.</p>${backupHTML()}<label class="fld"><span>История занятий</span><select id="jl-select"><option value="">Новое занятие</option>${list.map(x=>`<option value="${esc(x.id)}" ${c.id===x.id?'selected':''}>${esc(x.date)} ${esc(x.time)} · ${esc(x.topic || 'Без темы')}${x.closedAt?' · завершён':''}</option>`).join('')}</select></label><form id="jl-form"><input type="hidden" name="id" value="${esc(c.id)}"><div class="fgrid"><label class="fld"><span>Дата</span><input type="date" name="date" required value="${esc(c.date)}"></label><label class="fld"><span>Время по Самаре</span><input type="time" name="time" value="${esc(c.time)}"></label></div><label class="fld"><span>Тема этого занятия</span><input name="topic" maxlength="300" required value="${esc(c.topic)}"></label><details class="teaching-notes"><summary>План, материалы и итог</summary><label class="fld"><span>Личный план</span><textarea name="plan" maxlength="10000" rows="3">${esc(c.plan)}</textarea></label><label class="fld"><span>Ссылки на материалы, каждая с новой строки</span><textarea name="materials" maxlength="5000" rows="2" placeholder="https://lilimath.ru/…">${esc(c.materials)}</textarea></label><div class="focus-actions" id="jl-materials"></div><label class="fld"><span>Итог и что повторить</span><textarea name="summary" maxlength="5000" rows="2">${esc(c.summary)}</textarea></label></details><p class="ferr" role="status" id="jl-status">${esc(error)}</p><div class="focus-actions"><button class="btn" type="submit">Сохранить карточку</button><button class="btn ghost" type="button" id="jl-start">Начать урок на доске</button><button class="btn ghost" type="button" id="jl-video">Урок с видео</button><button class="btn ghost" type="button" id="jl-finish">Завершить урок</button><a class="chip" href="#hwcard">Выдать домашку отдельно</a></div></form></section>`;
   }
-  function bindJournal(doc,code,student,{teacherURL,refresh,notify}) {
+  function bindJournal(doc,code,student,{teacherURL,refresh,notify,finish}) {
     const form=doc.getElementById('jl-form');if(!form)return;
     let dirty=drafts.has(code);
     if(dirty)form.dataset.dirty='1';
@@ -169,6 +178,15 @@
       try {const raw=teacherURL();if(!raw)throw new Error('Сначала добавь свою учительскую ссылку в настройках ученика.');const c=save();const u=boardURL(raw,{code,name:student.name,teacher:true,card:c,start:true,video});doc.defaultView.open(u,'_blank','noopener,noreferrer');status.textContent='Карточка сохранена. Доска открывается в новой вкладке. Если её нет, разреши всплывающие окна для сайта.';}catch(e){status.textContent=e.message;}
     };
     doc.getElementById('jl-start').onclick=()=>start(false);doc.getElementById('jl-video').onclick=()=>start(true);
+    const finishButton=doc.getElementById('jl-finish');
+    if(finish)finishButton.onclick=()=>{if(!form.reportValidity())return;try{finish(save());}catch(e){status.textContent=e.message;}};else finishButton.hidden=true;
+    const params=new URLSearchParams(doc.defaultView.location.search);
+    if(finish && params.get('finish')==='1'){
+      const requested=params.get('lesson');params.delete('finish');
+      doc.defaultView.history.replaceState(null,'',doc.defaultView.location.pathname+(params.size?'?'+params:'')+doc.defaultView.location.hash);
+      if(requested && requested===form.elements.namedItem('id').value){const saved=cards(doc.defaultView.localStorage,code).find(x=>x.id===requested);if(saved)finish(saved);}
+      else notify('Карточка этого урока не найдена в текущем браузере. Сначала восстанови журнал из копии.');
+    }
     const guard=e=>{if(dirty){e.preventDefault();e.returnValue='';}};
     if(doc.defaultView.__liliJournalGuard)doc.defaultView.removeEventListener('beforeunload',doc.defaultView.__liliJournalGuard);
     doc.defaultView.__liliJournalGuard=guard;doc.defaultView.addEventListener('beforeunload',guard);

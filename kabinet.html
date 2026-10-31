@@ -3,7 +3,7 @@
 <meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-<link rel="stylesheet" href="assets/lili-teaching.css?v=20261031-logistics2">
+<link rel="stylesheet" href="assets/lili-teaching.css?v=20261031-stage2">
 <style>
 /* Layout: one centered column; sticky progress bar; glass task card over a slow warm ambient glow */
 :root{
@@ -830,8 +830,9 @@ a.gc{text-decoration:none}
 <div class="amb" aria-hidden="true"><i></i><i></i><i></i></div>
 <canvas id="fx" aria-hidden="true"></canvas>
 <main class="wrap" id="app"></main>
-<script src="assets/lili-board-links.js?v=20261031-logistics2"></script>
-<script src="assets/lili-teaching.js?v=20261031-logistics2"></script>
+<script src="assets/lili-board-links.js?v=20261031-stage2"></script>
+<script src="assets/lili-teaching.js?v=20261031-stage2"></script>
+<script src="assets/lili-lesson-flow.js?v=20261031-stage2"></script>
 <script>
 (() => {
 const TALS=[
@@ -1710,7 +1711,7 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
   <div class="ferr" id="ns-e"></div><button class="btn" id="ns-b">Добавить и открыть</button></form>
  ${foot()}</div>`;
  bindTopT();
- LiliTeaching.bindToday(document, L, {getStudent:code=>adm('get',{t:code}).then(j=>j.d),parse:parseSched,notify:toast});
+ LiliTeaching.bindToday(document, L, {getStudent:code=>adm('get',{t:code}).then(j=>j.d),parse:parseSched,notify:toast,reviewQueue:()=>LiliLessonFlow.bindQueue(document,L,{getStudent:code=>adm('get',{t:code}).then(j=>j.d),saveReview:(code,payload)=>adm('hwReview',{t:code,...payload}).then(j=>j.d)})});
  document.querySelectorAll('.bbrd').forEach(el=>el.onclick=e=>{e.preventDefault();e.stopPropagation();const code=el.dataset.b||'',u=LiliBoardLinks.savedTeacherURL(localStorage,code);if(u)window.open(LiliTeaching.boardURL(u,{code,name:(L.find(x=>x.code===code)||{}).name,teacher:true}),'_blank','noopener,noreferrer');else{location.hash='lilia-'+code;toast('Открой настройки ученика и добавь свою ссылку учителя.')}});
  document.getElementById('nsf').onsubmit=e=>{e.preventDefault();const b=document.getElementById('ns-b');b.disabled=true;
   adm('addStudent',{name:document.getElementById('ns-n').value,dat:document.getElementById('ns-d').value,prog:document.getElementById('ns-p').value,cls:+document.getElementById('ns-c').value})
@@ -1729,7 +1730,8 @@ function apply(j,keep){D=j.d;tRender(keep)}
 function drafts(){const o={};app.querySelectorAll('input[id]:not([type=file]),textarea[id]').forEach(i=>{o[i.id]=i.type==='checkbox'?i.checked:i.value});return o}
 let journalRequested;
 function journalCard(){try{return LiliTeaching.journalHTML(localStorage,D.code||CODE,D,journalRequested)}catch(e){return '<div class="card"><h2>Карточка занятия</h2><p>Браузер запретил доступ к личному журналу. Разреши хранение данных для сайта.</p></div>'}}
-function bindJournalCard(){LiliTeaching.bindJournal(document,D.code||CODE,D,{teacherURL:myBoardURL,refresh:id=>{journalRequested=id;const el=document.getElementById('teaching-journal');if(el){el.outerHTML=journalCard();bindJournalCard()}},notify:toast})}
+function openLessonFinish(card){LiliLessonFlow.showFinish(document,{code:D.code||CODE,card,student:D,storage:localStorage,getStudent:code=>adm('get',{t:code}).then(j=>j.d),assignHomework:(code,payload)=>adm('hwAdd',{t:code,...payload}).then(j=>(D=j.d)),setTopic:(code,topic)=>adm('student',{t:code,fields:{topic}}).then(j=>(D=j.d)),onSaved:card=>{journalRequested=card.id;tRender(false)},onDismiss:card=>{journalRequested=card.id;tRender(false)},notify:toast})}
+function bindJournalCard(){LiliTeaching.bindJournal(document,D.code||CODE,D,{teacherURL:myBoardURL,finish:openLessonFinish,refresh:id=>{journalRequested=id;const el=document.getElementById('teaching-journal');if(el){el.outerHTML=journalCard();bindJournalCard()}},notify:toast})}
 function tRender(keep){LiliTeaching.preserveDraft(document,D.code||CODE);const y=scrollY,dr=keep===false?{}:drafts(),foc=document.activeElement&&document.activeElement.id;
  const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
  app.innerHTML=tTop()+`<div class="cab enter">`+adminCard()+journalCard()+tTelegramCard()+bday+(kid
