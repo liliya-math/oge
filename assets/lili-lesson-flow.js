@@ -15,7 +15,7 @@ function readCard(storage,code,id){const c=T.cards(storage,code).find(c=>c.id===
 function prepare(storage,code,id,raw){
  const c=readCard(storage,code,id);if(c.closedAt)return c;
  if(c.close&&(['pending','unknown'].includes(c.close.hwState)||c.close.topicState==='pending'))throw Error('Выдача уже отправлялась. Сначала проверь её сохранение.');
- if(c.close&&c.close.hwState==='done')throw Error('Домашка уже выдана. Продолжи завершение без повторной выдачи.');
+ if(c.close&&(c.close.hwState==='done'||c.close.uncertainHomework))throw Error('Домашка уже выдана. Продолжи завершение без повторной выдачи.');
  const v=values(raw);
  return T.saveCard(storage,code,{...c,summary:v.summary,close:{...v,phase:'ready',hwState:v.publishHW?'new':'skipped',topicState:v.updateTopic?'new':'skipped',beforeIds:[],hwId:'',error:''}});
 }
@@ -25,7 +25,7 @@ async function completeUnlocked({storage,code,id,getStudent,assignHomework,setTo
  if(!card.close)throw Error('Сначала проверь итог занятия.');
  let op={...card.close};const v=values({...op,summary:card.summary});
  const checkpoint=patch=>{op={...op,...patch};card=T.saveCard(storage,code,{...card,summary:v.summary,close:op});onProgress(op);};
- let fresh=await getStudent(code);
+ let fresh=v.publishHW&&op.hwState!=='done'?await getStudent(code):null;
  if(v.publishHW&&op.hwState!=='done'){
   if(['pending','unknown'].includes(op.hwState)){
    const candidates=(fresh.hw||[]).filter(h=>!op.beforeIds.includes(String(h.id))&&matching(h,v));
@@ -56,6 +56,12 @@ async function completeUnlocked({storage,code,id,getStudent,assignHomework,setTo
  checkpoint({phase:'done',error:''});
  return T.saveCard(storage,code,{...card,closedAt:Date.now(),close:op});
 }
+function skipUnconfirmed(storage,code,id){
+ const card=readCard(storage,code,id);
+ if(card.closedAt)return card;
+ if(!card.close || !['pending','unknown'].includes(card.close.hwState))throw Error('Нет неподтверждённой выдачи.');
+ return T.saveCard(storage,code,{...card,close:{...card.close,publishHW:false,hwState:'skipped',uncertainHomework:true,phase:'working'}});
+}
 const pendingClosures=new Map();
 function complete(options){
  const key=options.code+':'+options.id;
@@ -69,25 +75,29 @@ function showFinish(doc,{code,card,student,storage,getStudent,assignHomework,set
  const win=doc.defaultView,dialog=doc.createElement('dialog');dialog.className='workflow-dialog lesson-close-dialog';dialog.setAttribute('aria-labelledby','close-title');
  let busy=false,edited=false,prepared=card.close||null;
  const old=card.close||{};
- dialog.innerHTML=`<form><h2 id="close-title">Завершить урок</h2><p class="note">${esc(student.name)} · ${esc(card.date)} · ${esc(card.topic)}</p><div data-edit><label>Итог только для тебя<textarea name="summary" maxlength="5000">${esc(card.summary||'')}</textarea></label><label class="close-check"><input type="checkbox" name="publishHW" ${old.publishHW?'checked':''}> Выдать домашку в кабинет ученика</label><div data-homework><label>Что нужно выполнить<textarea name="text" maxlength="5000" placeholder="Номера заданий и короткая инструкция">${esc(old.text||'')}</textarea></label><label>Материал с сайта или ссылка https://<input name="url" list="sitepages" value="${esc(old.url||'')}" placeholder="https://lilimath.ru/…"></label><label>Срок<input type="date" name="due" value="${esc(old.due||'')}"></label></div><label class="close-check"><input type="checkbox" name="updateTopic" ${old.updateTopic?'checked':''}> Записать тему следующего занятия</label><label data-next>Следующая тема<input name="nextTopic" maxlength="300" value="${esc(old.nextTopic||student.topic||'')}"></label></div><div data-preview hidden></div><p class="ferr" role="status" data-status></p><div class="focus-actions"><button class="btn ghost" type="button" data-cancel>Закрыть</button><button class="btn ghost" type="button" data-back hidden>Изменить</button><button class="btn" type="submit" data-preview-button>Посмотреть итог</button><button class="btn" type="button" data-commit hidden>Завершить и сохранить</button></div></form>`;
+ dialog.innerHTML=`<form><h2 id="close-title">Завершить урок</h2><p class="note">${esc(student.name)} · ${esc(card.date)} · ${esc(card.topic)}</p><div data-edit><label>Итог только для тебя<textarea name="summary" maxlength="5000">${esc(card.summary||'')}</textarea></label><label class="close-check"><input type="checkbox" name="publishHW" ${old.publishHW?'checked':''}> Выдать домашку в кабинет ученика</label><div data-homework><label>Что нужно выполнить<textarea name="text" maxlength="5000" placeholder="Номера заданий и короткая инструкция">${esc(old.text||'')}</textarea></label><label>Материал с сайта или ссылка https://<input name="url" list="sitepages" value="${esc(old.url||'')}" placeholder="https://lilimath.ru/…"></label><label>Срок<input type="date" name="due" value="${esc(old.due||'')}"></label></div><label class="close-check"><input type="checkbox" name="updateTopic" ${old.updateTopic?'checked':''}> Записать тему следующего занятия</label><label data-next>Следующая тема<input name="nextTopic" maxlength="300" value="${esc(old.nextTopic||student.topic||'')}"></label></div><div data-preview hidden></div><p class="ferr" role="status" data-status></p><div class="focus-actions"><button class="btn ghost" type="button" data-cancel>Закрыть</button><button class="btn ghost" type="button" data-back hidden>Изменить</button><button class="btn" type="submit" data-preview-button>Посмотреть итог</button><button class="btn ghost" type="button" data-skip-unknown hidden>Продолжить без повторной выдачи</button><button class="btn" type="button" data-commit hidden>Завершить и сохранить</button></div></form>`;
  doc.body.append(dialog);const form=dialog.querySelector('form'),status=dialog.querySelector('[data-status]'),edit=dialog.querySelector('[data-edit]'),preview=dialog.querySelector('[data-preview]'),commit=dialog.querySelector('[data-commit]'),back=dialog.querySelector('[data-back]'),previewButton=dialog.querySelector('[data-preview-button]');
  form.oninput=()=>{edited=true;};
  const toggle=()=>{dialog.querySelector('[data-homework]').hidden=!form.elements.publishHW.checked;dialog.querySelector('[data-next]').hidden=!form.elements.updateTopic.checked;};toggle();form.onchange=toggle;
  const progress=op=>{const labels={new:'ожидает',pending:'проверяем подтверждение',unknown:'нужно проверить сохранение',done:'сохранено',skipped:'не выбрано'};status.textContent=`Домашка: ${labels[op.hwState]||'ожидает'}. Следующая тема: ${labels[op.topicState]||'ожидает'}.`;};
  const showPreview=op=>{
-  prepared=op;edit.hidden=true;preview.hidden=false;previewButton.hidden=true;commit.hidden=false;back.hidden=['pending','unknown','done'].includes(op.hwState)||op.topicState==='pending';
-  preview.innerHTML=`<h3>Только в твоём журнале</h3><p class="close-text">${esc(op.summary||'Без заметки')}</p><h3>Ученик увидит в кабинете</h3>${op.publishHW?`<p class="close-text">${esc(op.text)}</p><p>${esc(op.due?'Срок: '+op.due:'Без срока')}</p>${safeLink(op.url,'Открыть материал')}`:'<p>Новая домашка не выбрана.</p>'}${op.updateTopic?`<p><b>Следующая тема:</b> ${esc(op.nextTopic)}</p>`:''}`;
+  prepared=op;edit.hidden=true;preview.hidden=false;previewButton.hidden=true;commit.hidden=false;back.hidden=op.uncertainHomework||['pending','unknown','done'].includes(op.hwState)||op.topicState==='pending';dialog.querySelector('[data-skip-unknown]').hidden=!['pending','unknown'].includes(op.hwState);
+  preview.innerHTML=`${op.uncertainHomework?'<p class="ferr">Выдача домашки не подтверждена. Проверь задания в кабинете ученика; повторная выдача не выполняется.</p>':''}<h3>Только в твоём журнале</h3><p class="close-text">${esc(op.summary||'Без заметки')}</p><h3>Ученик увидит в кабинете</h3>${op.publishHW?`<p class="close-text">${esc(op.text)}</p><p>${esc(op.due?'Срок: '+op.due:'Без срока')}</p>${safeLink(op.url,'Открыть материал')}`:'<p>Новая домашка не выбрана.</p>'}${op.updateTopic?`<p><b>Следующая тема:</b> ${esc(op.nextTopic)}</p>`:''}`;
   commit.textContent=['pending','unknown'].includes(op.hwState)||op.topicState==='pending'?'Проверить сохранение':'Завершить и сохранить';progress(op);
  };
- if(card.closedAt){showPreview({...old,summary:card.summary});commit.hidden=true;back.hidden=true;status.textContent='Это занятие уже завершено. Повторная домашка не создаётся.';}
+ if(card.closedAt){showPreview({...old,summary:card.summary});commit.hidden=true;back.hidden=true;dialog.querySelector('[data-skip-unknown]').hidden=true;status.textContent='Это занятие уже завершено. Повторная домашка не создаётся.';}
  else if(old.phase==='working'||['pending','unknown','done'].includes(old.hwState)||old.topicState==='pending')showPreview(old);
  form.onsubmit=e=>{e.preventDefault();try{const raw={};for(const k of ['summary','text','url','due','nextTopic'])raw[k]=form.elements[k].value;raw.publishHW=form.elements.publishHW.checked;raw.updateTopic=form.elements.updateTopic.checked;card=prepare(storage,code,card.id,raw);edited=false;showPreview(card.close);}catch(e){status.textContent=e.message;}};
  back.onclick=()=>{edit.hidden=false;preview.hidden=true;previewButton.hidden=false;commit.hidden=true;back.hidden=true;status.textContent='Изменения ещё не выданы ученику.';};
  commit.onclick=async()=>{
   if(busy)return;busy=true;commit.disabled=true;back.disabled=true;dialog.querySelector('[data-cancel]').disabled=true;
-  try{card=await complete({storage,code,id:card.id,getStudent,assignHomework,setTopic,onProgress:progress});status.textContent='Урок завершён. '+(card.close.publishHW?'Домашка выдана в кабинет. ':'')+(card.close.updateTopic?'Следующая тема сохранена. ':'')+'Итог сохранён в личном журнале.';commit.hidden=true;back.hidden=true;onSaved(card);notify('Урок завершён.');}
-  catch(e){status.textContent=e.message;const latest=readCard(storage,code,card.id);prepared=latest.close;commit.textContent=['pending','unknown'].includes(prepared.hwState)||prepared.topicState==='pending'?'Проверить сохранение':'Продолжить сохранение';back.hidden=['pending','unknown','done'].includes(prepared.hwState)||prepared.topicState==='pending';}
+  try{card=await complete({storage,code,id:card.id,getStudent,assignHomework,setTopic,onProgress:progress});status.textContent='Урок завершён. '+(card.close.publishHW?'Домашка выдана в кабинет. ':'')+(card.close.updateTopic?'Следующая тема сохранена. ':'')+(card.close.uncertainHomework?'Выдача домашки не подтверждена: проверь её в кабинете ученика. ':'')+'Итог сохранён в личном журнале.';commit.hidden=true;back.hidden=true;dialog.querySelector('[data-skip-unknown]').hidden=true;onSaved(card);notify('Урок завершён.');}
+  catch(e){status.textContent=e.message;const latest=readCard(storage,code,card.id);prepared=latest.close;commit.textContent=['pending','unknown'].includes(prepared.hwState)||prepared.topicState==='pending'?'Проверить сохранение':'Продолжить сохранение';back.hidden=prepared.uncertainHomework||['pending','unknown','done'].includes(prepared.hwState)||prepared.topicState==='pending';dialog.querySelector('[data-skip-unknown]').hidden=!['pending','unknown'].includes(prepared.hwState);}
   finally{busy=false;commit.disabled=false;back.disabled=false;dialog.querySelector('[data-cancel]').disabled=false;}
+ };
+ dialog.querySelector('[data-skip-unknown]').onclick=async()=>{
+  if(busy||!win.confirm('Выдача домашки уже отправлялась, но подтверждения нет. Она может появиться в кабинете позже. Продолжить без повторной выдачи и оставить отметку о проверке?'))return;
+  try{card=skipUnconfirmed(storage,code,card.id);showPreview(card.close);await commit.onclick();}catch(e){status.textContent=e.message;}
  };
  const mayClose=()=>!busy&&(!edited||win.confirm('В окне есть несохранённые изменения. Закрыть без сохранения?'));
  const leave=e=>{if(busy||edited){e.preventDefault();e.returnValue='';}};win.addEventListener('beforeunload',leave);
@@ -133,6 +143,6 @@ function bindQueue(doc,students,{getStudent,saveReview}){
   }finally{button.disabled=false;}
  };
 }
-const api={values,matching,prepare,complete,showFinish,reviewDialog,bindQueue};
+const api={values,matching,prepare,complete,skipUnconfirmed,showFinish,reviewDialog,bindQueue};
 if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.LiliLessonFlow=api;
 })(typeof window==='undefined'?globalThis:window);

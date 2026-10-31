@@ -32,7 +32,7 @@
     if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return undefined;
     const text=(k,n)=>String(raw[k]||'').slice(0,n);
     const state=k=>['new','pending','done','unknown','skipped'].includes(raw[k])?raw[k]:'new';
-    return {summary:text('summary',5000),nextTopic:text('nextTopic',300),text:text('text',5000),url:text('url',2000),due:text('due',10),publishHW:!!raw.publishHW,updateTopic:!!raw.updateTopic,phase:['ready','working','done'].includes(raw.phase)?raw.phase:'ready',hwState:state('hwState'),topicState:state('topicState'),beforeIds:Array.isArray(raw.beforeIds)?raw.beforeIds.slice(0,10000).map(x=>String(x).slice(0,100)):[],hwId:text('hwId',100),error:text('error',2000),...(raw.topicBefore===undefined?{}:{topicBefore:text('topicBefore',300)})};
+    return {summary:text('summary',5000),nextTopic:text('nextTopic',300),text:text('text',5000),url:text('url',2000),due:text('due',10),publishHW:!!raw.publishHW,updateTopic:!!raw.updateTopic,uncertainHomework:!!raw.uncertainHomework,phase:['ready','working','done'].includes(raw.phase)?raw.phase:'ready',hwState:state('hwState'),topicState:state('topicState'),beforeIds:Array.isArray(raw.beforeIds)?raw.beforeIds.slice(0,10000).map(x=>String(x).slice(0,100)):[],hwId:text('hwId',100),error:text('error',2000),...(raw.topicBefore===undefined?{}:{topicBefore:text('topicBefore',300)})};
   }
   function cleanCard(value) {
     if (!value || !/^[a-z0-9-]{1,100}$/i.test(value.id || '') || !dateOK(value.date || '')) throw new Error('Некорректная карточка занятия.');

@@ -7,3 +7,10 @@ test('unconfirmed homework is never automatically sent again',async()=>{const s=
 test('lost topic acknowledgement resumes without reissuing homework or topic',async()=>{const s=setup(),set=s.opts.setTopic;s.opts.setTopic=async(...args)=>{await set(...args);throw Error('network')};await assert.rejects(F.complete(s.opts),/Проверить сохранение/);await F.complete(s.opts);assert.equal(s.adds,1);assert.equal(s.topics,1);assert(T.cards(s.storage,'alice')[0].closedAt);});
 test('existing matching homework is not duplicated and preview can skip issuing',async()=>{const s=setup();s.fresh.hw.push({id:4,t:s.raw.text,url:s.raw.url,due:s.raw.due});await assert.rejects(F.complete(s.opts),/уже есть/);assert.equal(s.adds,0);F.prepare(s.storage,'alice','one',{...s.raw,publishHW:false});await F.complete(s.opts);assert.equal(s.adds,0);assert.equal(s.topics,1);});
 test('backup keeps completion checkpoints and failed local checkpoint blocks a server write',async()=>{const s=setup();await F.complete(s.opts);const backup=JSON.parse(JSON.stringify(T.read(s.storage))),m=new Map(),other={getItem:k=>m.get(k)||null,setItem:(k,v)=>m.set(k,v)};T.restore(other,backup);await F.complete({...s.opts,storage:other});assert.equal(s.adds,1);const broken=setup();broken.storage.setItem=()=>{throw Error('quota')};await assert.rejects(F.complete(broken.opts),/quota/);assert.equal(broken.adds,0);});
+
+test('unconfirmed issuing can finish without a second POST while retaining a warning',async()=>{
+ const s=setup();let calls=0;s.opts.assignHomework=async()=>{calls++;throw Error('offline')};await assert.rejects(F.complete(s.opts));F.skipUnconfirmed(s.storage,'alice','one');const c=await F.complete(s.opts);assert(c.closedAt);assert(c.close.uncertainHomework);assert.equal(calls,1);assert.equal(s.topics,1);
+});
+test('a private-only completion works without a network request',async()=>{
+ const s=setup();F.prepare(s.storage,'alice','one',{summary:'Личный итог',publishHW:false,updateTopic:false,url:'javascript:ignored'});s.opts.getStudent=async()=>{throw Error('should not fetch')};const c=await F.complete(s.opts);assert(c.closedAt);assert.equal(s.adds,0);assert.equal(s.topics,0);
+});
