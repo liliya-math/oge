@@ -830,7 +830,8 @@ a.gc{text-decoration:none}
 <div class="amb" aria-hidden="true"><i></i><i></i><i></i></div>
 <canvas id="fx" aria-hidden="true"></canvas>
 <main class="wrap" id="app"></main>
-<script src="assets/lili-board-links.js?v=20261031-stage3"></script>
+<script src="assets/lili-board-links.js?v=20261031-personal"></script>
+<script src="assets/lili-personal-board.js?v=20261031-personal"></script>
 <script src="assets/lili-board-window.js?v=20261031-stage3"></script>
 <script src="assets/lili-teaching.js?v=20261031-stage3"></script>
 <script src="assets/lili-lesson-flow.js?v=20261031-stage3"></script>
@@ -1671,7 +1672,7 @@ function copy(txt,btn){const ok=()=>{btn.textContent='Скопировано';se
 
 function tTop(){return `<header class="top"><div class="toprow">
  <div class="brandrow">${logoMark(30)}<span class="brand">25/25 · <b>Учитель</b></span></div>
- <span class="sp"></span><span class="tbusy" id="tbusy"></span><a class="btn ghost tsm" href="quiz-builder.html">Тесты</a>
+ <span class="sp"></span><span class="tbusy" id="tbusy"></span><a class="btn ghost tsm" data-personal-board>Моя доска</a><a class="btn ghost tsm" href="quiz-builder.html">Тесты</a>
  ${D&&CODE?`<div class="mseg" role="group" aria-label="Как видят"><button id="mKid" aria-pressed="${S.mode==='kid'}">Ученик</button><button id="mPar" aria-pressed="${S.mode==='par'}">Родитель</button></div>`:''}
  ${CODE?'<a class="btn ghost tsm" href="#lilia">Сегодня / ученики</a>':PASS?'<button class="btn ghost tsm" id="tout">Выйти</button>':''}
 </div></header>`}
@@ -1683,6 +1684,7 @@ function tLogin(msg){D=null;
  <p class="klead">Здесь ты ведёшь кабинеты учеников. Пароль задаётся в таблице: «Кабинет → Пароль для режима учителя».</p></div></section>
  <form class="card formbox" id="lgf" style="border-top:1px solid var(--line);margin:0"><label class="fld"><span>Пароль</span><input id="lgp" type="password" autocomplete="current-password" required></label>
  <div class="ferr" id="lge">${esc(msg||'')}</div><button class="btn" id="lgb">Войти</button></form>${foot()}</div>`;
+ LiliPersonalBoard.bind(document,LiliBoardLinks,toast);
  document.getElementById('lgf').onsubmit=e=>{e.preventDefault();const b=document.getElementById('lgb'),er=document.getElementById('lge');PASS=document.getElementById('lgp').value.trim();if(!PASS)return;b.disabled=true;er.textContent='';
   adm('ping').then(()=>{try{localStorage.setItem('cab-admin',PASS)}catch(e){}tRoute()})
   .catch(err=>{b.disabled=false;const m=String(err.message);if(m==='bad_password')return;er.textContent=m==='not_found'||m==='no_task'?ERR.old:errText(err)})};
@@ -1698,6 +1700,7 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
  <section style="display:grid;gap:8px;padding-block:6px 4px"><span class="eyebrow">Режим учителя</span>
  <h1 class="big1">Рабочий день · <em>${act.length}</em></h1>
  <p class="klead" style="margin:0">Нажми на ученика, чтобы открыть и редактировать его кабинет.</p><p><a class="btn" href="quiz-builder.html">Конструктор тестов</a></p></section>
+ <div id="personal-board-transfer"></div>
  ${LiliTeaching.todayHTML(L,parseSched)}
  <h2 id="teacher-students">Все ученики</h2>
  ${L.length?`<div class="stus">${L.map(s=>{const PG=PROGS[s.prog]||PROGS.oge9;return `<a class="stu ${s.active?'':'off'}" href="#lilia-${esc(s.code)}">
@@ -1714,6 +1717,7 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
   <div class="ferr" id="ns-e"></div><button class="btn" id="ns-b">Добавить и открыть</button></form>
  ${foot()}</div>`;
  bindTopT();
+ LiliPersonalBoard.chooser(document,L,LiliBoardLinks,LiliTeaching.boardURL,toast);
  LiliTeaching.bindToday(document, L, {getStudent:code=>adm('get',{t:code}).then(j=>j.d),parse:parseSched,notify:toast,reviewQueue:()=>LiliLessonFlow.bindQueue(document,L,{getStudent:code=>adm('get',{t:code}).then(j=>j.d),saveReview:(code,payload)=>adm('hwReview',{t:code,...payload}).then(j=>j.d)})});
  document.querySelectorAll('.bbrd').forEach(el=>el.onclick=e=>{e.preventDefault();e.stopPropagation();const code=el.dataset.b||'',u=LiliBoardLinks.savedTeacherURL(localStorage,code);if(u)openBoardTab(LiliTeaching.boardURL(u,{code,name:(L.find(x=>x.code===code)||{}).name,teacher:true}));else{location.hash='lilia-'+code;toast('Открой настройки ученика и добавь свою ссылку учителя.')}});
  document.getElementById('nsf').onsubmit=e=>{e.preventDefault();const b=document.getElementById('ns-b');b.disabled=true;
@@ -1724,7 +1728,7 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
 function tFail(err,retry){app.innerHTML=tTop()+`<div class="cab enter"><section class="khero"><div class="hpet">${petSVG(tal().id,'sad')}</div><div style="min-width:0">
  <h1 class="big1" style="font-size:clamp(26px,6vw,36px)">Не получилось</h1><p class="klead">${esc(errText(err))}</p><button class="btn" id="retry" style="margin-top:16px">Ещё раз</button></div></section></div>`;
  bindTopT();document.getElementById('retry').onclick=retry}
-function bindTopT(){const o=document.getElementById('tout');if(o)o.onclick=()=>logout(false)}
+function bindTopT(){LiliPersonalBoard.bind(document,LiliBoardLinks,toast);const o=document.getElementById('tout');if(o)o.onclick=()=>logout(false)}
 
 /* ---------- кабинет ученика в режиме учителя ---------- */
 function tStudent(){app.innerHTML=tTop()+`<div class="cab enter"><p class="klead">Открываю кабинет…</p></div>`;

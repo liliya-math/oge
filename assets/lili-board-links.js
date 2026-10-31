@@ -28,7 +28,7 @@
   function clean(value) {
     const board = parse(value);
     if (!board) return safeURL(value);
-    for (const key of ['video', 'material', 'materialTitle', 'student', 'cabinet', 'cabinetRole', 'studentName', 'lessonId', 'lessonDate', 'lessonTitle', 'startLesson']) board.url.searchParams.delete(key);
+    for (const key of ['video', 'material', 'materialTitle', 'student', 'cabinet', 'cabinetRole', 'studentName', 'lessonId', 'lessonDate', 'lessonTitle', 'startLesson', 'contentTemplate']) board.url.searchParams.delete(key);
     return board.url.href;
   }
   function videoURL(value) {
