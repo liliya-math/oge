@@ -3,7 +3,7 @@
 <meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-<link rel="stylesheet" href="assets/lili-teaching.css?v=20261031-stage2b">
+<link rel="stylesheet" href="assets/lili-teaching.css?v=20261031-stage3">
 <style>
 /* Layout: one centered column; sticky progress bar; glass task card over a slow warm ambient glow */
 :root{
@@ -830,9 +830,10 @@ a.gc{text-decoration:none}
 <div class="amb" aria-hidden="true"><i></i><i></i><i></i></div>
 <canvas id="fx" aria-hidden="true"></canvas>
 <main class="wrap" id="app"></main>
-<script src="assets/lili-board-links.js?v=20261031-stage2b"></script>
-<script src="assets/lili-teaching.js?v=20261031-stage2b"></script>
-<script src="assets/lili-lesson-flow.js?v=20261031-stage2b"></script>
+<script src="assets/lili-board-links.js?v=20261031-stage3"></script>
+<script src="assets/lili-board-window.js?v=20261031-stage3"></script>
+<script src="assets/lili-teaching.js?v=20261031-stage3"></script>
+<script src="assets/lili-lesson-flow.js?v=20261031-stage3"></script>
 <script>
 (() => {
 const TALS=[
@@ -1037,6 +1038,8 @@ for(let i=TALS.length-1;i>=0;i--)if(TALS[i].id==='lab'||TALS[i].id==='rad')TALS.
 /* Адрес веб-приложения Apps Script (Развернуть → Веб-приложение). Пока пусто — работает только демо. */
 const API='https://script.google.com/macros/s/AKfycbwg68-wqapNubGW4BuTEB_ri38yu41uV8hoQPOhluE84y4ZSRfZ9-sFl--uwv7T7AA_xA/exec';
 const BASE='https://lilimath.ru/';
+LiliBoardWindows.bind(document, message=>toast(message));
+function openBoardTab(url){return LiliBoardWindows.open(document,url).then(result=>LiliBoardWindows.feedback(result,toast))}
 const RAW=location.hash.slice(1)||'';
 const TM=/^lilia(?:-([a-z0-9]+))?$/i.exec(RAW);
 const TEACH=!!TM;
@@ -1712,7 +1715,7 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
  ${foot()}</div>`;
  bindTopT();
  LiliTeaching.bindToday(document, L, {getStudent:code=>adm('get',{t:code}).then(j=>j.d),parse:parseSched,notify:toast,reviewQueue:()=>LiliLessonFlow.bindQueue(document,L,{getStudent:code=>adm('get',{t:code}).then(j=>j.d),saveReview:(code,payload)=>adm('hwReview',{t:code,...payload}).then(j=>j.d)})});
- document.querySelectorAll('.bbrd').forEach(el=>el.onclick=e=>{e.preventDefault();e.stopPropagation();const code=el.dataset.b||'',u=LiliBoardLinks.savedTeacherURL(localStorage,code);if(u)window.open(LiliTeaching.boardURL(u,{code,name:(L.find(x=>x.code===code)||{}).name,teacher:true}),'_blank','noopener,noreferrer');else{location.hash='lilia-'+code;toast('Открой настройки ученика и добавь свою ссылку учителя.')}});
+ document.querySelectorAll('.bbrd').forEach(el=>el.onclick=e=>{e.preventDefault();e.stopPropagation();const code=el.dataset.b||'',u=LiliBoardLinks.savedTeacherURL(localStorage,code);if(u)openBoardTab(LiliTeaching.boardURL(u,{code,name:(L.find(x=>x.code===code)||{}).name,teacher:true}));else{location.hash='lilia-'+code;toast('Открой настройки ученика и добавь свою ссылку учителя.')}});
  document.getElementById('nsf').onsubmit=e=>{e.preventDefault();const b=document.getElementById('ns-b');b.disabled=true;
   adm('addStudent',{name:document.getElementById('ns-n').value,dat:document.getElementById('ns-d').value,prog:document.getElementById('ns-p').value,cls:+document.getElementById('ns-c').value})
    .then(j=>{location.hash='lilia-'+j.code}).catch(err=>{b.disabled=false;document.getElementById('ns-e').textContent=errText(err)})};

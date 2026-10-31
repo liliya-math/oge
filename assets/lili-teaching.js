@@ -175,7 +175,7 @@
     };
     const start=video=>{
       if(!form.reportValidity())return;
-      try {const raw=teacherURL();if(!raw)throw new Error('Сначала добавь свою учительскую ссылку в настройках ученика.');const c=save();const u=boardURL(raw,{code,name:student.name,teacher:true,card:c,start:true,video});doc.defaultView.open(u,'_blank','noopener,noreferrer');status.textContent='Карточка сохранена. Доска открывается в новой вкладке. Если её нет, разреши всплывающие окна для сайта.';}catch(e){status.textContent=e.message;}
+      try {const raw=teacherURL();if(!raw)throw new Error('Сначала добавь свою учительскую ссылку в настройках ученика.');const c=save();const u=boardURL(raw,{code,name:student.name,teacher:true,card:c,start:true,video});if(doc.defaultView.LiliBoardWindows)doc.defaultView.LiliBoardWindows.open(doc,u).then(r=>doc.defaultView.LiliBoardWindows.feedback(r,notify));else doc.defaultView.open(u,'_blank','noopener,noreferrer');status.textContent='Карточка сохранена. Открываю доску этого ученика. Если её нет, разреши открытие вкладок для сайта.';}catch(e){status.textContent=e.message;}
     };
     doc.getElementById('jl-start').onclick=()=>start(false);doc.getElementById('jl-video').onclick=()=>start(true);
     const finishButton=doc.getElementById('jl-finish');
