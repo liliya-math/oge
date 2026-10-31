@@ -68,6 +68,19 @@
     storage.setItem(KEY,JSON.stringify(data));
     return count;
   }
+  function moveJournal(storage,from,to) {
+    if (!codeOK(from) || !codeOK(to) || from === to) return;
+    const data=read(storage);
+    if (!Array.isArray(data.students[from])) return;
+    const merged=new Map((data.students[to] || []).map(x => [x.id,cleanCard(x)]));
+    for(const raw of data.students[from]) {
+      const card=cleanCard(raw);
+      if(!merged.has(card.id) || merged.get(card.id).updated < card.updated) merged.set(card.id,card);
+    }
+    data.students[to]=[...merged.values()];
+    // Keep the old local key as a recovery copy if a redirect is interrupted.
+    storage.setItem(KEY,JSON.stringify(data));
+  }
   function boardURL(raw,{code,name,teacher=false,card,start=false,video=false} = {}) {
     if (!raw || !codeOK(code)) return raw || '';
     try {
@@ -161,6 +174,6 @@
     doc.defaultView.__liliJournalGuard=guard;doc.defaultView.addEventListener('beforeunload',guard);
     bindBackup(doc,()=>refresh(),notify);
   }
-  const api={preserveDraft,dayKey,schedule,cards,saveCard,restore,read,boardURL,todayHTML,bindToday,journalHTML,bindJournal,backupHTML,bindBackup};
+  const api={moveJournal,preserveDraft,dayKey,schedule,cards,saveCard,restore,read,boardURL,todayHTML,bindToday,journalHTML,bindJournal,backupHTML,bindBackup};
   if(typeof module!=='undefined' && module.exports)module.exports=api;else root.LiliTeaching=api;
 })(typeof window==='undefined'?globalThis:window);

@@ -36,3 +36,8 @@ test('lesson links carry public context only and stored links discard transient 
  const clean=links.checkPair(pupil,teacher);assert.equal(clean.teacher,p.teacher);assert.equal(clean.student,p.student);
  assert(!teaching.todayHTML([{code:'x',name:'<script>bad</script>',days:'',time:''}],()=>({slots:[{wd:6,h:18,m:0}]}),Date.parse('2026-10-31T12:00Z')).includes('<script>'));
 });
+
+test('changing the pupil cabinet code keeps lesson history under the new code',()=>{
+ const s=storage();teaching.saveCard(s,'alice',card());teaching.saveCard(s,'newalice',card('two'));
+ teaching.moveJournal(s,'alice','newalice');assert.equal(teaching.cards(s,'newalice').length,2);assert.equal(teaching.cards(s,'alice').length,1);
+});
