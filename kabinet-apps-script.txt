@@ -1,5 +1,5 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 7.11
+ * Кабинет ученика 25/25 · lili.math — версия 7.12
  * (7.9: простая автопроверка домашки — листы «Ключи» и «Результаты», страница dz.html; ответы ученика проверяются на сервере, учителю приходит письмо; один раз выполни setupDz, затем «Новая версия»)
  * (7.8: кнопка «Новая ссылка» в режиме учителя — выдаёт ученику новый код, старый перестаёт работать; после замены кода: «Новая версия» развёртывания)
  * (7.7: учитель выбирает, что видит ученик и родитель (колонка «Показывать», скрытое вообще не уходит на страницу);
@@ -507,7 +507,9 @@ function admin_(b) {
     const need = () => { const st = findStudentRow_(code); if (!st) throw new Error('not_found'); return st; };
     const fresh = () => ({ok: true, d: studentData_(code, true)});
     switch (b.op) {
-      case 'ping': return {ok: true, hwEdit: true, workflow: 1, quiz: 1};
+      case 'ping': return {ok: true, hwEdit: true, workflow: 1, quiz: 1, boardLibrary: 1};
+      case 'boardLibraryGet': return {ok:true,library:boardLibraryGet_()};
+      case 'boardLibraryPut': return boardLibraryPut_(b);
       case 'quizList': return quizList_();
       case 'quizGet': return {ok:true,work:quizDefinition_(String(b.work||''),Number(b.version)||0)};
       case 'quizSave': return quizSave_(b);
@@ -1518,4 +1520,41 @@ function quizSubmit_(code,b) {
   const result=Object.assign(LiliQuiz.grade(d,answers),{at:new Date().toISOString(),submission:sid,title:d.title,section:d.section});
   quizSheet_('Попытки тестов').appendRow([code,d.id,d.version,b.assignment,sid,new Date(),quizCell_(d.title),quizCell_(d.section),result.score,result.max,Math.max(0,Math.min(86400,Number(b.seconds)||0)),JSON.stringify(Object.assign({},result,{answers}))]);
   return {ok:true,result,homeworkSynced:quizMarkHomework_(a,result)};
+}
+
+
+/* Private teacher board library. Only called after admin_ authentication and locking.
+ * Stored on the owner's Drive without public sharing. A new file is committed before
+ * replacing the pointer; previous revisions remain recoverable on Drive.
+ */
+function boardLibraryGet_() {
+  const id=PropertiesService.getScriptProperties().getProperty('BOARD_LIBRARY_FILE');
+  if(!id)return {version:1,revision:0,templates:[],personalBoard:''};
+  const data=JSON.parse(DriveApp.getFileById(id).getBlob().getDataAsString('UTF-8'));
+  if(data.version!==1||!Array.isArray(data.templates))throw new Error('board_library_corrupt');
+  return data;
+}
+function boardLibraryValidate_(b) {
+  if(!Array.isArray(b.templates)||b.templates.length>100||JSON.stringify(b.templates).length>40*1024*1024)throw new Error('board_library_too_large');
+  const ids=Object.create(null);
+  b.templates.forEach(t=>{
+    if(!t||t.version!==1||!/^[a-z0-9_-]{1,100}$/i.test(t.id||'')||ids[t.id]||typeof t.name!=='string'||!t.name.trim()||t.name.length>100||!Number.isFinite(t.created)||!Array.isArray(t.elements)||!t.elements.length||t.elements.length>5000||!t.files||typeof t.files!=='object'||JSON.stringify(t).length>25*1024*1024)throw new Error('board_library_bad_template');
+    ids[t.id]=true;
+  });
+  if(!/^https:\/\/liliya-math\.github\.io\/excalidraw\/\?[^#]*#room=[\w-]+,[\w-]{22};teacher=[\w-]{32,128}$/.test(String(b.personalBoard||'')))throw new Error('board_library_bad_link');
+  if(!/^[a-z0-9-]{36}$/i.test(b.operationId||''))throw new Error('board_library_bad_request');
+}
+function boardLibraryPut_(b) {
+  boardLibraryValidate_(b);
+  const current=boardLibraryGet_();
+  if(current.operationId===b.operationId)return {ok:true,library:current};
+  if(!Number.isInteger(b.revision)||b.revision!==current.revision)return {error:'changed'};
+  const props=PropertiesService.getScriptProperties();
+  let folder;const folderId=props.getProperty('BOARD_LIBRARY_FOLDER');
+  if(folderId)folder=DriveApp.getFolderById(folderId);
+  else{folder=DriveApp.createFolder('lili.math · личная библиотека доски');props.setProperty('BOARD_LIBRARY_FOLDER',folder.getId());}
+  const next={version:1,revision:current.revision+1,operationId:b.operationId,updated:Date.now(),personalBoard:current.personalBoard||b.personalBoard,templates:b.templates};
+  const file=folder.createFile('board-library-'+next.revision+'.json',JSON.stringify(next),'application/json');
+  props.setProperty('BOARD_LIBRARY_FILE',file.getId());
+  return {ok:true,library:next};
 }

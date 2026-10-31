@@ -831,6 +831,7 @@ a.gc{text-decoration:none}
 <canvas id="fx" aria-hidden="true"></canvas>
 <main class="wrap" id="app"></main>
 <script src="assets/lili-board-links.js?v=20261031-personal"></script>
+<script src="assets/lili-board-cloud.js?v=20261031-recovery"></script>
 <script src="assets/lili-personal-board.js?v=20261031-personal"></script>
 <script src="assets/lili-board-window.js?v=20261031-stage3"></script>
 <script src="assets/lili-teaching.js?v=20261031-stage3"></script>
@@ -1653,7 +1654,7 @@ setInterval(()=>{const e=document.getElementById('cd');if(!e||!D)return;const t=
 /* ===== Режим учителя: kabinet.html#lilia ===== */
 let PASS='';try{PASS=localStorage.getItem('cab-admin')||''}catch(e){}
 let busy=0,LIST=null;
-const ERR={locked:'Слишком много неверных паролей. Подожди 15 минут.',too_many:'Слишком много сообщений за час. Попробуй позже.',telegram_not_configured:'Сначала подключи Telegram-бота через меню Google-таблицы.',telegram_not_connected:'Ученик ещё не подключил Telegram-бота.',telegram_paused:'Уведомления на паузе.',telegram_blocked:'Ученик отключил бота. Нужно подключить его заново.',telegram_api_error:'Telegram временно недоступен. Попробуй уведомить позже.',telegram_network_error:'Не удалось связаться с Telegram. Попробуй уведомить позже.',no_password:'Сначала задай пароль в таблице: меню «Кабинет → Пароль для режима учителя».',
+const ERR={board_library_corrupt:'Не удалось прочитать библиотеку аккаунта. Локальные материалы сохранены.',board_library_too_large:'Библиотека превышает 40 МБ или 100 материалов. Выгрузи резервную копию.',board_library_bad_template:'Сервер отклонил повреждённый шаблон.',board_library_bad_link:'Не удалось проверить ссылку личной доски.',board_library_bad_request:'Запрос синхронизации некорректен. Открой синхронизацию ещё раз.',locked:'Слишком много неверных паролей. Подожди 15 минут.',too_many:'Слишком много сообщений за час. Попробуй позже.',telegram_not_configured:'Сначала подключи Telegram-бота через меню Google-таблицы.',telegram_not_connected:'Ученик ещё не подключил Telegram-бота.',telegram_paused:'Уведомления на паузе.',telegram_blocked:'Ученик отключил бота. Нужно подключить его заново.',telegram_api_error:'Telegram временно недоступен. Попробуй уведомить позже.',telegram_network_error:'Не удалось связаться с Telegram. Попробуй уведомить позже.',no_password:'Сначала задай пароль в таблице: меню «Кабинет → Пароль для режима учителя».',
  old:'В таблице старая версия скрипта. Вставь новый код и сделай новую версию развёртывания.',
  not_found:'Такого ученика нет в таблице.',changed:'В таблице что-то поменялось. Данные обновлены, попробуй ещё раз.',
  bad_value:'Проверь, что всё заполнено правильно.',no_name:'Впиши имя ученика.',net:'Нет связи с таблицей. Проверь интернет.',
@@ -1685,6 +1686,7 @@ function tLogin(msg){D=null;
  <form class="card formbox" id="lgf" style="border-top:1px solid var(--line);margin:0"><label class="fld"><span>Пароль</span><input id="lgp" type="password" autocomplete="current-password" required></label>
  <div class="ferr" id="lge">${esc(msg||'')}</div><button class="btn" id="lgb">Войти</button></form>${foot()}</div>`;
  LiliPersonalBoard.bind(document,LiliBoardLinks,toast);
+ LiliBoardCloud.bind(document,{password:()=>PASS,request:adm,links:LiliBoardLinks,notify:toast});
  document.getElementById('lgf').onsubmit=e=>{e.preventDefault();const b=document.getElementById('lgb'),er=document.getElementById('lge');PASS=document.getElementById('lgp').value.trim();if(!PASS)return;b.disabled=true;er.textContent='';
   adm('ping').then(()=>{try{localStorage.setItem('cab-admin',PASS)}catch(e){}tRoute()})
   .catch(err=>{b.disabled=false;const m=String(err.message);if(m==='bad_password')return;er.textContent=m==='not_found'||m==='no_task'?ERR.old:errText(err)})};
@@ -2129,7 +2131,7 @@ function readB64(f){return new Promise((res,rej)=>{const r=new FileReader();r.on
 function loadPages(){fetch('materialy.html',{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{if(!t)return;const d=new DOMParser().parseFromString(t,'text/html');const seen=new Set();
   PAGES=[...d.querySelectorAll('a[href$=".html"],a[href$=".pdf"]')].map(a=>{const h=a.getAttribute('href').replace(/^\.\//,'');const tt=a.querySelector('.t');return [h,(tt?tt.textContent:a.textContent).trim().replace(/\s+/g,' ')]}).filter(p=>p[0]!=='kabinet.html'&&!seen.has(p[0])&&seen.add(p[0]));
   const dl=document.getElementById('sitepages');if(dl)dl.innerHTML=PAGES.map(p=>`<option value="${esc(p[0])}">${esc(p[1])}</option>`).join('')}).catch(()=>{})}
-function tRoute(){loadPages();hbLoad();if(!API)return tFail(new Error('Кабинет не подключён к таблице'),tRoute);if(!PASS)return tLogin('');if(CODE)tStudent();else tList()}
+function tRoute(){LiliBoardCloud.bind(document,{password:()=>PASS,request:adm,links:LiliBoardLinks,notify:toast});loadPages();hbLoad();if(!API)return tFail(new Error('Кабинет не подключён к таблице'),tRoute);if(!PASS)return tLogin('');if(CODE)tStudent();else tList()}
 
 /* Homework workspace: readable cards, local checkpoints, correction notebook. */
 const STUDENT_KEY=LIVE?CODE:'demo';
