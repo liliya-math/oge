@@ -174,6 +174,7 @@ function onOpen() {
     .addItem('Обновить список материалов', 'syncMaterials')
     .addItem('Оформить в стиле 25/25', 'styleSheets')
     .addItem('Подключить Telegram-бота', 'configureTelegram')
+    .addItem('Подключить Telegram преподавателя', 'connectTeacherTelegram')
     .addItem('Подготовить таблицу', 'setup')
     .addToUi();
 }
@@ -1185,11 +1186,43 @@ function telegramSend_(code, text, fileUrl) {
 function telegramHomeworkNotice_(code, title, url) {
   return telegramSend_(code, 'Домашнее задание от lili.math\n\n' + String(title || '').slice(0, 500), url);
 }
+/* Уведомления преподавателю: один личный чат, привязывается из меню таблицы
+ * (Кабинет → Подключить Telegram преподавателя). Chat ID хранится только в Script Properties. */
+function telegramTeacherChat_() {
+  const c = PropertiesService.getScriptProperties().getProperty('TG_TEACHER_CHAT');
+  return /^\d+$/.test(c || '') ? c : '';
+}
+function telegramTeacherLink_() {
+  const sh = sheet_(telegramSS_(), 'Telegram-ссылки'), now = Date.now();
+  telegramRows_('Telegram-ссылки').filter(r => String(r.v[1]) === '__teacher__' || !(new Date(r.v[2]).getTime() > now))
+    .sort((a, b) => b.row - a.row).forEach(r => sh.deleteRow(r.row));
+  const token = Utilities.getUuid().replace(/-/g, '') + Utilities.getUuid().replace(/-/g, '').slice(0, 16);
+  sh.appendRow([telegramHash_(token), '__teacher__', new Date(now + 10 * 60 * 1000)]);
+  return 'https://t.me/' + PropertiesService.getScriptProperties().getProperty('TG_BOT_USERNAME') + '?start=' + token;
+}
+function connectTeacherTelegram() {
+  const ui = SpreadsheetApp.getUi();
+  if (!telegramAvailable_()) { ui.alert('Сначала подключи бота: Кабинет → Подключить Telegram-бота.'); return; }
+  ui.alert('Telegram преподавателя', 'Открой эту ссылку в Telegram и нажми «Старт». Ссылка одноразовая, действует 10 минут. Ответ бота может прийти через минуту.\n\n' + telegramTeacherLink_(), ui.ButtonSet.OK);
+}
+function telegramNotifyTeacher_(text, code) {
+  const chat = telegramTeacherChat_();
+  if (!chat || !telegramAvailable_()) return {ok: false, error: 'telegram_teacher_not_connected'};
+  return telegramApi_('sendMessage', {
+    chat_id: chat, text: String(text).slice(0, 3500), link_preview_options: {is_disabled: true},
+    reply_markup: {inline_keyboard: [[{text: 'Открыть карточку ученика', url: PAGE + '#lilia-' + code}]]}
+  });
+}
 function telegramHandleUpdate_(update) {
   const m = update && update.message;
   if (!m || !m.chat || m.chat.type !== 'private' || !m.from || m.from.is_bot || !/^\d+$/.test(String(m.chat.id))) return;
   const text = String(m.text || '').trim(), chat = String(m.chat.id);
   if (/^\/stop(?:@\w+)?(?:\s|$)/i.test(text)) {
+    if (chat === telegramTeacherChat_()) {
+      PropertiesService.getScriptProperties().deleteProperty('TG_TEACHER_CHAT');
+      telegramApi_('sendMessage', {chat_id: chat, text: 'Уведомления преподавателю отключены. Подключить заново: меню таблицы → Кабинет → Подключить Telegram преподавателя.'});
+      return;
+    }
     const sh = sheet_(telegramSS_(), 'Telegram');
     telegramRows_('Telegram').filter(r => String(r.v[1]) === chat).forEach(r => sh.getRange(r.row, 2, 1, 5).setValues([['', false, false, '', '']]));
     telegramApi_('sendMessage', {chat_id: chat, text: 'Уведомления отключены. Подключить их заново можно из своего кабинета.'});
@@ -1202,6 +1235,12 @@ function telegramHandleUpdate_(update) {
   }
   const hash = telegramHash_(start[1]);
   const link = telegramRows_('Telegram-ссылки').find(r => String(r.v[0]) === hash && new Date(r.v[2]).getTime() > Date.now());
+  if (link && String(link.v[1]) === '__teacher__') {
+    PropertiesService.getScriptProperties().setProperty('TG_TEACHER_CHAT', chat);
+    sheet_(telegramSS_(), 'Telegram-ссылки').deleteRow(link.row);
+    telegramApi_('sendMessage', {chat_id: chat, text: 'Готово! Сюда будут приходить результаты домашних, самостоятельных и контрольных работ. Отключить: /stop.'});
+    return;
+  }
   if (!link || !telegramStudent_(String(link.v[1]))) {
     telegramApi_('sendMessage', {chat_id: chat, text: 'Ссылка недействительна или истекла. Получи новую в своём кабинете.'}); return;
   }
@@ -1515,6 +1554,19 @@ function quizMarkHomework_(assignment,result){
     sh.getRange(assignment.row,7,1,2).setValues([[true,new Date()]]);return true;
   }catch(e){console.error('Quiz homework status: '+e);return false;}
 }
+// Telegram message to the teacher about a new attempt. Never blocks or fails the submission.
+function quizNotifyTeacher_(code,d,result,seconds,attempt){
+  try{
+    if(!telegramTeacherChat_())return;
+    const st=findStudentRow_(code),KN={hw:'Домашняя работа',self:'Самостоятельная',exam:'Контрольная',free:'Тест'};
+    const wrong=result.tasks.filter(t=>!t.ok).map(t=>t.n),pct=result.max?Math.round(result.score/result.max*100):0;
+    const lines=[(st?String(st.row[1]):code)+' · '+(KN[d.kind||'free']||KN.free),String(d.title),'Балл: '+result.score+' из '+result.max+' ('+pct+'%)'];
+    if(wrong.length)lines.push('Неверно: '+wrong.join(', '));
+    if(!LiliQuiz.limited(d.kind))lines.push('Подсказок: '+result.hints.length+' · «не знаю»: '+result.idk.length+(attempt>1?' · попытка '+attempt:''));
+    if(seconds)lines.push('Время: '+Math.max(1,Math.round(seconds/60))+' мин');
+    telegramNotifyTeacher_(lines.join('\n'),code);
+  }catch(e){console.error('Quiz teacher notice: '+e);}
+}
 // In a self-check or test the pupil sees only the score, not which tasks were right.
 function quizPupilResult_(r){return LiliQuiz.limited(r.kind)?Object.assign({},r,{tasks:[],answers:undefined}):r;}
 function quizSubmit_(code,b) {
@@ -1535,6 +1587,7 @@ function quizSubmit_(code,b) {
   const hints=LiliQuiz.limited(d.kind)?[]:pick(b.hints),idk=LiliQuiz.limited(d.kind)?[]:pick(b.idk);
   const result=Object.assign(LiliQuiz.grade(d,answers),{at:new Date().toISOString(),submission:sid,title:d.title,section:d.section,kind:d.kind||'free',hints,idk});
   quizSheet_('Попытки тестов').appendRow([code,d.id,d.version,b.assignment,sid,new Date(),quizCell_(d.title),quizCell_(d.section),result.score,result.max,Math.max(0,Math.min(86400,Number(b.seconds)||0)),JSON.stringify(Object.assign({},result,{answers}))]);
+  quizNotifyTeacher_(code,d,result,Math.max(0,Math.min(86400,Number(b.seconds)||0)),quizValues_('Попытки тестов').filter(r=>String(r[0])===code&&String(r[3])===String(b.assignment)).length);
   return {ok:true,result:quizPupilResult_(result),homeworkSynced:quizMarkHomework_(a,result)};
 }
 

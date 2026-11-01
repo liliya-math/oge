@@ -2,15 +2,15 @@ const {test}=require('node:test'),assert=require('node:assert/strict'),fs=requir
 const Q=require('../assets/quiz-core.js');
 function env(){
 let uid=0;const sheets=new Map();
-class Sheet{constructor(name,rows=[]){this.name=name;this.rows=rows;this.cols=22;}getLastRow(){return this.rows.length;}getLastColumn(){return Math.max(1,...this.rows.map(r=>r.length));}getMaxColumns(){return this.cols;}insertColumnsAfter(n,c){this.cols+=c;}setFrozenRows(){}appendRow(r){this.rows.push([...r]);}getRange(row,col,n=1,w=1){const sh=this;return {getValues(){return Array.from({length:n},(_,i)=>Array.from({length:w},(_,j)=>sh.rows[row+i-1]?.[col+j-1]??''));},setValues(values){values.forEach((r,i)=>{sh.rows[row+i-1]||=[];r.forEach((v,j)=>sh.rows[row+i-1][col+j-1]=v);});},getDisplayValue(){return String(sh.rows[row-1]?.[col-1]||'');},getValue(){return sh.rows[row-1]?.[col-1]||'';}};}}
+class Sheet{constructor(name,rows=[]){this.name=name;this.rows=rows;this.cols=22;}getLastRow(){return this.rows.length;}getLastColumn(){return Math.max(1,...this.rows.map(r=>r.length));}getMaxColumns(){return this.cols;}insertColumnsAfter(n,c){this.cols+=c;}setFrozenRows(){}appendRow(r){this.rows.push([...r]);}deleteRow(n){this.rows.splice(n-1,1);}getRange(row,col,n=1,w=1){const sh=this;return {getValues(){return Array.from({length:n},(_,i)=>Array.from({length:w},(_,j)=>sh.rows[row+i-1]?.[col+j-1]??''));},setValues(values){values.forEach((r,i)=>{sh.rows[row+i-1]||=[];r.forEach((v,j)=>sh.rows[row+i-1][col+j-1]=v);});},getDisplayValue(){return String(sh.rows[row-1]?.[col-1]||'');},getValue(){return sh.rows[row-1]?.[col-1]||'';}};}}
 sheets.set('Ученики',new Sheet('Ученики',[['Код'],['alice','Аня','','','','18:00','','','','','',true],['bob','Боря','','','','18:00','','','','','',true],['off','Неактивен','','','','18:00','','','','','',false]]));
 sheets.set('Домашка',new Sheet('Домашка',[['Код']]));
 const ss={getSheetByName:n=>sheets.get(n)||null,insertSheet:n=>{const sh=new Sheet(n);sheets.set(n,sh);return sh;}};
-const props={getProperty:k=>k==='ADMIN'?'teacher-password':null,setProperty(){}};
-const ctx={console,Date,SpreadsheetApp:{getActive:()=>ss},Utilities:{getUuid:()=> 'test-uuid-'+String(++uid).padStart(20,'0'),sleep(){}},PropertiesService:{getScriptProperties:()=>props},LockService:{getScriptLock:()=>({waitLock(){},releaseLock(){}})}};
+const tg={},fetches=[];let netDown=false;const props={getProperty:k=>k in tg?tg[k]:(k==='ADMIN'?'teacher-password':null),setProperty(k,v){if(k.startsWith('TG_'))tg[k]=v;},deleteProperty(k){delete tg[k];}};
+const ctx={console,Date,SpreadsheetApp:{getActive:()=>ss},Utilities:{getUuid:()=> 'test-uuid-'+String(++uid).padStart(20,'0'),sleep(){},DigestAlgorithm:{SHA_256:'sha256'},computeDigest:(a,v)=>[...require('node:crypto').createHash(a).update(String(v)).digest()].map(b=>b>127?b-256:b)},UrlFetchApp:{fetch(url,o){if(netDown)throw new Error('offline');fetches.push({url,body:JSON.parse(o.payload)});return {getResponseCode:()=>200,getContentText:()=>'{"ok":true,"result":{}}'};}},PropertiesService:{getScriptProperties:()=>props},LockService:{getScriptLock:()=>({waitLock(){},releaseLock(){}})}};
 vm.createContext(ctx);vm.runInContext(fs.readFileSync(require.resolve('../kabinet-apps-script.txt'),'utf8'),ctx);vm.runInContext('json_=function(x){return x;};',ctx);
-function call(name,...args){ctx.args=args;return JSON.parse(JSON.stringify(vm.runInContext(name+'(...args)',ctx)));}
-return {call,sheets,post:b=>call('doPost',{postData:{contents:JSON.stringify(b)}})};
+function call(name,...args){ctx.args=args;return JSON.parse(JSON.stringify(vm.runInContext(name+'(...args)',ctx))||'null');}
+return {call,sheets,tg,fetches,down:v=>{netDown=v;},post:b=>call('doPost',{postData:{contents:JSON.stringify(b)}})};
 }
 test('import roundtrip and answer formats',()=>{
 const d=Q.parse(Q.sample);assert.equal(d.tasks.length,4);assert.deepEqual(Q.parse(Q.stringify(d)),d);
@@ -82,4 +82,35 @@ const html=vm.runInContext('LiliQuizUI',ui).historyHTML([rec(1,'hw',2),rec(2,'se
 assert(html.includes('Динамика по всех работам'.replace('всех','всем')));assert(html.includes('Контрольная'));assert(html.includes('Разбор по заданиям (только преподавателю)'));
 assert(!vm.runInContext('LiliQuizUI',ui).historyHTML([rec(1,'hw',2),rec(2,'self',3)]).includes('Разбор по заданиям'));
 assert(vm.runInContext('LiliQuizUI',ui).taskHTML({n:'1',q:'q',type:'number',points:1,hint:'',options:[],figure:'fig-1.svg'},false,'').includes('src="quiz-fig/fig-1.svg"'));
+});
+
+function tgEnv(){const e=env();e.tg.TG_BOT_TOKEN='123456:'+'a'.repeat(30);e.tg.TG_BOT_USERNAME='lili_test_bot';return e;}
+function bindTeacher(e,chat='777'){const url=e.call('telegramTeacherLink_');const token=/start=([A-Za-z0-9]+)$/.exec(url)[1];e.call('telegramHandleUpdate_',{update_id:1,message:{chat:{id:Number(chat),type:'private'},from:{is_bot:false},text:'/start '+token}});return token;}
+test('teacher Telegram: one-time link binds chat; student links and /stop behave',()=>{
+const e=tgEnv();assert.equal(e.tg.TG_TEACHER_CHAT,undefined);const token=bindTeacher(e);assert.equal(e.tg.TG_TEACHER_CHAT,'777');
+assert(e.fetches.some(f=>f.body.chat_id==='777'&&/Готово/.test(f.body.text)));
+// link is single-use and a stranger cannot reuse it
+e.call('telegramHandleUpdate_',{update_id:2,message:{chat:{id:999,type:'private'},from:{is_bot:false},text:'/start '+token}});assert.equal(e.tg.TG_TEACHER_CHAT,'777');
+// a stranger's /stop does not unbind the teacher
+e.call('telegramHandleUpdate_',{update_id:3,message:{chat:{id:999,type:'private'},from:{is_bot:false},text:'/stop'}});assert.equal(e.tg.TG_TEACHER_CHAT,'777');
+e.call('telegramHandleUpdate_',{update_id:4,message:{chat:{id:777,type:'private'},from:{is_bot:false},text:'/stop'}});assert.equal(e.tg.TG_TEACHER_CHAT,undefined);
+});
+test('teacher Telegram: message on each new attempt, never on retries of the same id, never blocks the result',()=>{
+const e=tgEnv();bindTeacher(e);const sent=()=>e.fetches.filter(f=>f.body.chat_id==='777'&&/Балл:/.test(f.body.text));
+const ex=e.call('quizSave_',{work:Q.parse(kindText('контр'))}),a=e.call('quizAssign_','alice',{work:ex.id,version:1});
+const b={work:ex.id,version:1,assignment:a.assignment,row:a.row,submission:'submission-000000001',answers:{'1':'5','2':'0'},seconds:600};
+assert.equal(e.post({t:'alice',quiz:b}).result.score,2);assert.equal(sent().length,1);
+const m=sent()[0].body;assert(m.text.includes('Аня · Контрольная'));assert(m.text.includes('Балл: 2 из 3 (67%)'));assert(m.text.includes('Неверно: 2'));assert(m.text.includes('Время: 10 мин'));assert(!m.text.includes('Подсказок'));assert(m.reply_markup.inline_keyboard[0][0].url.endsWith('#lilia-alice'));
+assert.equal(e.post({t:'alice',quiz:b}).duplicate,true);assert.equal(sent().length,1);
+assert.equal(e.post({t:'alice',quiz:{...b,submission:'submission-000000002'}}).error,'already_done');assert.equal(sent().length,1);
+// homework: hints, «не знаю», attempt number; network failure must not break the submission
+const hw=e.call('quizSave_',{work:Q.parse(kindText('дз'))}),h=e.call('quizAssign_','bob',{work:hw.id,version:1});
+const c={work:hw.id,version:1,assignment:h.assignment,row:h.row,submission:'submission-000000003',answers:{'1':'1','2':''},hints:['1'],idk:['2']};
+e.post({t:'bob',quiz:c});const t1=sent()[1].body.text;assert(t1.includes('Боря · Домашняя работа'));assert(t1.includes('Подсказок: 1 · «не знаю»: 1'));assert(!t1.includes('попытка'));
+e.post({t:'bob',quiz:{...c,submission:'submission-000000004',answers:{'1':'5','2':'4'},hints:[],idk:[]}});assert(sent()[2].body.text.includes('попытка 2'));
+e.down(true);const out=e.post({t:'bob',quiz:{...c,submission:'submission-000000005'}});assert.equal(out.ok,true);assert.equal(e.sheets.get('Попытки тестов').rows.length,5);
+});
+test('teacher Telegram: silent when teacher is not connected',()=>{
+const e=tgEnv();const ex=e.call('quizSave_',{work:Q.parse(kindText('сам'))}),a=e.call('quizAssign_','alice',{work:ex.id,version:1});
+assert.equal(e.post({t:'alice',quiz:{work:ex.id,version:1,assignment:a.assignment,row:a.row,submission:'submission-000000001',answers:{}}}).ok,true);assert.equal(e.fetches.length,0);
 });
