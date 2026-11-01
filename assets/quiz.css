@@ -11,3 +11,4 @@
 .zoom-box{flex:1;overflow:auto;-webkit-overflow-scrolling:touch}
 .zoom-box img{display:block;min-width:900px;width:900px;max-width:none;height:auto}
 @media(min-width:960px){.zoom-box img{width:100%;min-width:0}}
+.students{border:0;padding:0;margin:0 0 14px}.students legend{padding:0 0 6px}.students #student{display:grid;gap:6px}.pick{display:flex;align-items:center;gap:8px;min-height:36px}.pick input{width:20px;height:20px}
