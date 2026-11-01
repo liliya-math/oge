@@ -79,7 +79,16 @@ function draw(G,L){
    +(nr.length?`<div class="card"><h2>Рядом по теме</h2><p class="lead" style="margin-bottom:12px">Не про этот навык точь-в-точь, но соседняя тема.</p>${list(nr)}</div>`:'')
    +(n.prereq.length?`<div class="card"><h2>Что нужно знать до этого</h2><p class="lead" style="margin-bottom:12px">Если здесь трудно, сначала подтяни эти навыки.</p><ul class="list pre">${n.prereq.map(p=>by[p]).filter(Boolean).map(step).join('')}</ul></div>`:`<div class="card"><h2>Что нужно знать до этого</h2><p class="lead">Это основа: навыки уровня 5 класса. Ниже спускаться не надо.</p></div>`)
    +(after.length?`<div class="card"><h2>Что дальше по цепочке</h2><ul class="list pre">${after.map(step).join('')}</ul></div>`:'');
-  bind();scrollTo(0,0);
+  bind();scrollTo(0,0);quizzes(n.id);
+}
+function quizzes(id){
+  fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({admin:PASS,op:'quizList'})}).then(r=>r.json()).then(j=>{
+    const w=((j&&j.works)||[]).filter(x=>(x.nodes||[]).includes(id));if(!w.length||getId()!==id)return;
+    const c=document.createElement('div');c.className='card';
+    c.innerHTML='<h2>Тесты по этому навыку</h2><ul class="list">'+w.map(x=>`<li><a href="quiz-builder.html?open=${encodeURIComponent(x.id)}" target="_blank" rel="noopener"><span>${esc(x.title)}<span class="t">${esc(x.section)} · ${x.count} зад.</span></span><small>назначить</small></a></li>`).join('')+'</ul>';
+    const hwCard=[...app.querySelectorAll('.card')].find(e=>/Домашка/.test(e.textContent.slice(0,40)));
+    if(hwCard)hwCard.after(c);else app.appendChild(c);
+  }).catch(()=>{});
 }
 const DENY=['Страница только для учителя','Открой кабинет в режиме учителя на этом устройстве и войди с паролем, потом вернись сюда.'];
 function gate(){

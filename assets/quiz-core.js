@@ -7,6 +7,12 @@ var LiliQuiz = (function () {
   const limited=k=>k==='self'||k==='exam';
   const tries=k=>limited(k)?1:k==='hw'?2:Infinity;
   function fail(s) { throw new Error(s); }
+  function nodeList(v,where){
+    const a=(Array.isArray(v)?v:String(v||'').split(/[\s,;]+/)).map(s=>String(s).trim()).filter(Boolean);
+    if(a.length>10)fail(where+'узел: не больше 10 значений.');
+    a.forEach(s=>{if(!/^(?:[A-Z]\d{2}|\d[A-Z]\.\d+(?:\.\d+){1,2})$/.test(s))fail(where+'узел «'+s+'»: нужен номер навыка вида A05, G12 или 8G.1.4.');});
+    return [...new Set(a)];
+  }
   function number(v) {
     const s=String(v).trim().replace(/[−–]/g,'-').replace(/,/g,'.');
     const part='[+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)';
@@ -31,14 +37,14 @@ var LiliQuiz = (function () {
     const string=(v,n,max)=>{if(typeof v!=='string'||!v.trim()||v.length>max)fail('Проверь поле «'+n+'».');return v.trim();};
     const kind=d.kind===undefined||d.kind===''?'free':(Object.prototype.hasOwnProperty.call(kinds,String(d.kind).trim().toLowerCase())?kinds[String(d.kind).trim().toLowerCase()]:null);
     if(!kind)fail('Неизвестный тип работы. Допустимо: дз, сам, контр.');
-    const out={title:string(d.title,'Название',160),section:string(d.section,'Раздел',160),kind,tasks:[]};
+    const out={title:string(d.title,'Название',160),section:string(d.section,'Раздел',160),kind,nodes:nodeList(d.nodes,''),tasks:[]};
     if(!Array.isArray(d.tasks)||!d.tasks.length||d.tasks.length>100)fail('Нужно от 1 до 100 заданий.');
     out.tasks=d.tasks.map((q,i)=>{
       if(!q||typeof q!=='object')fail('Некорректное задание '+(i+1));
       const rawType=q.type||'число';
       const prefix='Задание '+(i+1)+': ',type=Object.prototype.hasOwnProperty.call(types,rawType)?types[rawType]:null;
       if(!type)fail(prefix+'неизвестный тип ответа.');
-      const item={n:String(i+1),q:string(q.q,prefix+'условие',4000),answer:string(q.answer,prefix+'ответ',500),type,points:Number(q.points===undefined?1:q.points),hint:String(q.hint||'').trim(),figure:String(q.figure||'').trim(),options:[]};
+      const item={n:String(i+1),q:string(q.q,prefix+'условие',4000),answer:string(q.answer,prefix+'ответ',500),type,points:Number(q.points===undefined?1:q.points),hint:String(q.hint||'').trim(),figure:String(q.figure||'').trim(),nodes:nodeList(q.nodes,prefix),options:[]};
       if(!Number.isInteger(item.points)||item.points<1||item.points>10)fail(prefix+'баллы должны быть целым числом от 1 до 10.');
       if(item.hint.length>1500)fail(prefix+'подсказка длиннее 1500 символов.');
       if(item.figure&&!/^[a-z0-9][a-z0-9_-]{0,60}\.(svg|png|jpg)$/.test(item.figure))fail(prefix+'рисунок: имя файла вида fig-name.svg, .png или .jpg (латиница, цифры, - и _).');
@@ -61,13 +67,13 @@ var LiliQuiz = (function () {
   function parse(src) {
     if(typeof src!=='string'||src.length>80000)fail('Файл слишком большой (максимум 80 000 символов).');
     const d={title:'',section:'',tasks:[]};let q=null,last='';
-    const keys={'название':'title','раздел':'section','задание':'q','ответ':'answer','тип':'type','баллы':'points','подсказка':'hint','варианты':'options','тип работы':'kind','рисунок':'figure'};
+    const keys={'название':'title','раздел':'section','задание':'q','ответ':'answer','тип':'type','баллы':'points','подсказка':'hint','варианты':'options','тип работы':'kind','рисунок':'figure','узел':'nodes'};
     src.replace(/^\uFEFF/,'').replace(/\r/g,'').split('\n').forEach((line,i)=>{
       if(!line.trim())return;
       const m=/^\s*([^:]+):\s*(.*)$/.exec(line), key=m&&Object.prototype.hasOwnProperty.call(keys,m[1].trim().toLowerCase())&&keys[m[1].trim().toLowerCase()];
       if(key){
         if(key==='q'){q={q:m[2]};d.tasks.push(q);last='q';return;}
-        const target=key==='title'||key==='section'||key==='kind'?d:q;
+        const target=key==='title'||key==='section'||key==='kind'||(key==='nodes'&&!q)?d:q;
         if(!target)fail('Строка '+(i+1)+': сначала напиши «Задание:».');
         if(Object.prototype.hasOwnProperty.call(target,key)&&target[key]!=='')fail('Строка '+(i+1)+': поле повторяется.');
         target[key]=key==='options'?m[2].split('|').map(v=>v.trim()):m[2];last=key;
@@ -76,7 +82,7 @@ var LiliQuiz = (function () {
     });
     return validate(d);
   }
-  function stringify(d){return 'Название: '+d.title+'\nРаздел: '+d.section+'\n'+(kindName[d.kind]?'Тип работы: '+kindName[d.kind]+'\n':'')+'\n'+d.tasks.map(q=>'Задание: '+q.q+(q.figure?'\nРисунок: '+q.figure:'')+'\nТип: '+({number:'число',set:'набор',choice:'выбор',text:'текст'}[q.type])+'\n'+(q.options.length?'Варианты: '+q.options.join(' | ')+'\n':'')+'Ответ: '+q.answer+'\nБаллы: '+q.points+(q.hint?'\nПодсказка: '+q.hint:'')).join('\n\n');}
+  function stringify(d){return 'Название: '+d.title+'\nРаздел: '+d.section+'\n'+(kindName[d.kind]?'Тип работы: '+kindName[d.kind]+'\n':'')+(d.nodes&&d.nodes.length?'Узел: '+d.nodes.join(', ')+'\n':'')+'\n'+d.tasks.map(q=>'Задание: '+q.q+(q.figure?'\nРисунок: '+q.figure:'')+(q.nodes&&q.nodes.length?'\nУзел: '+q.nodes.join(', '):'')+'\nТип: '+({number:'число',set:'набор',choice:'выбор',text:'текст'}[q.type])+'\n'+(q.options.length?'Варианты: '+q.options.join(' | ')+'\n':'')+'Ответ: '+q.answer+'\nБаллы: '+q.points+(q.hint?'\nПодсказка: '+q.hint:'')).join('\n\n');}
   function publicWork(d){const kind=d.kind||'free';return {title:d.title,section:d.section,kind,tasks:d.tasks.map(q=>({n:q.n,q:q.q,type:q.type,points:q.points,hint:limited(kind)?'':q.hint,figure:q.figure||'',options:q.options}))};}
   function grade(d,answers){let score=0;const tasks=d.tasks.map(q=>{const ok=same(answers[q.n],q);if(ok)score+=q.points;return {n:q.n,ok,points:ok?q.points:0};});return {score,max:d.tasks.reduce((n,q)=>n+q.points,0),tasks};}
   const sample='Название: Квадратные корни · первая проверка\nРаздел: Алгебра / 8 класс / Квадратные корни\n\nЗадание: Вычисли \\(\\sqrt{81}\\).\nОтвет: 9\nБаллы: 1\n\nЗадание: Вычисли \\(\\frac{3}{4}+\\frac{1}{4}\\).\nОтвет: 1\nБаллы: 1\n\nЗадание: Реши уравнение \\(x^2=25\\). Запиши корни через ;\nТип: набор\nОтвет: -5; 5\nБаллы: 2\nПодсказка: Какие числа при возведении в квадрат дают 25?\n\nЗадание: Выбери верное равенство.\nТип: выбор\nВарианты: √36 = 6 | √36 = -6 | √36 = 18\nОтвет: √36 = 6\nБаллы: 1';
