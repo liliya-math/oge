@@ -54,6 +54,8 @@ for(const [t,k] of [['дз','hw'],['сам','self'],['самостоятельн
 assert.throws(()=>Q.parse(kindText('кр')),/Неизвестный тип работы/);
 assert.throws(()=>Q.parse(kindText('дз').replace('fig-1.svg','http://x.ru/a.svg')),/рисунок/);
 assert.throws(()=>Q.parse(kindText('дз').replace('fig-1.svg','../a.svg')),/рисунок/);
+assert.equal(Q.parse(kindText('дз').replace('fig-1.svg','fig-1.png')).tasks[0].figure,'fig-1.png');
+assert.throws(()=>Q.parse(kindText('дз').replace('fig-1.svg','fig-1.gif')),/рисунок/);
 const d=Q.parse(kindText('контр'));assert.equal(Q.stringify(Q.parse(Q.stringify(d))),Q.stringify(d));assert.equal(d.tasks[0].figure,'fig-1.svg');
 assert.equal(Q.publicWork(d).tasks[0].hint,'');assert.equal(Q.publicWork(Q.parse(kindText('дз'))).tasks[0].hint,'Подумай.');assert(!('answer' in Q.publicWork(d).tasks[0]));
 });

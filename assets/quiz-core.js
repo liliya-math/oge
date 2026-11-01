@@ -40,7 +40,7 @@ var LiliQuiz = (function () {
       const item={n:String(i+1),q:string(q.q,prefix+'условие',4000),answer:string(q.answer,prefix+'ответ',500),type,points:Number(q.points===undefined?1:q.points),hint:String(q.hint||'').trim(),figure:String(q.figure||'').trim(),options:[]};
       if(!Number.isInteger(item.points)||item.points<1||item.points>10)fail(prefix+'баллы должны быть целым числом от 1 до 10.');
       if(item.hint.length>1500)fail(prefix+'подсказка длиннее 1500 символов.');
-      if(item.figure&&!/^[a-z0-9][a-z0-9_-]{0,60}\.svg$/.test(item.figure))fail(prefix+'рисунок: имя файла вида fig-name.svg (латиница, цифры, - и _).');
+      if(item.figure&&!/^[a-z0-9][a-z0-9_-]{0,60}\.(svg|png|jpg)$/.test(item.figure))fail(prefix+'рисунок: имя файла вида fig-name.svg, .png или .jpg (латиница, цифры, - и _).');
       if(type==='number'&&item.answer.split('|').some(a=>number(a)===null))fail(prefix+'ответ должен быть числом или дробью a/b.');
       if(type==='set'){
         const a=item.answer.split(';').map(number);
