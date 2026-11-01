@@ -46,3 +46,40 @@ const html=fs.readFileSync(require.resolve('../kabinet.html'),'utf8');for(const 
 assert(html.includes('quizCabinetCard(D)+'));assert(html.includes('src="assets/quiz-cabinet.js"'));assert(html.includes('src="assets/quiz-ui.js"'));
 const ui={window:{addEventListener(){}},URLSearchParams,Date};vm.createContext(ui);vm.runInContext(fs.readFileSync(require.resolve('../assets/quiz-ui.js'),'utf8'),ui);vm.runInContext(fs.readFileSync(require.resolve('../assets/quiz-cabinet.js'),'utf8'),ui);assert.equal(ui.quizCabinetCard({}), '');assert(ui.quizCabinetCard({quiz:1,quizHistory:[]}).includes('Результаты тестов'));assert(source.includes("'Попытки тестов']\n    .forEach"));
 });
+
+const kindText=k=>'Название: Работа\nРаздел: Алгебра / 9 класс\n'+(k?'Тип работы: '+k+'\n':'')+'\nЗадание: Найди x.\nРисунок: fig-1.svg\nОтвет: 5\nБаллы: 2\nПодсказка: Подумай.\n\nЗадание: 2+2\nОтвет: 4';
+test('work kind and figure: parse, validate, roundtrip, pupil view',()=>{
+assert.equal(Q.parse(kindText('')).kind,'free');
+for(const [t,k] of [['дз','hw'],['сам','self'],['самостоятельная','self'],['контр','exam'],['проверочная','exam']])assert.equal(Q.parse(kindText(t)).kind,k);
+assert.throws(()=>Q.parse(kindText('кр')),/Неизвестный тип работы/);
+assert.throws(()=>Q.parse(kindText('дз').replace('fig-1.svg','http://x.ru/a.svg')),/рисунок/);
+assert.throws(()=>Q.parse(kindText('дз').replace('fig-1.svg','../a.svg')),/рисунок/);
+const d=Q.parse(kindText('контр'));assert.equal(Q.stringify(Q.parse(Q.stringify(d))),Q.stringify(d));assert.equal(d.tasks[0].figure,'fig-1.svg');
+assert.equal(Q.publicWork(d).tasks[0].hint,'');assert.equal(Q.publicWork(Q.parse(kindText('дз'))).tasks[0].hint,'Подумай.');assert(!('answer' in Q.publicWork(d).tasks[0]));
+});
+test('сам/контр: one attempt, pupil sees score only, teacher gets task detail',()=>{
+const e=env(),r=e.call('quizSave_',{work:Q.parse(kindText('контр'))}),a=e.call('quizAssign_','alice',{work:r.id,version:1});
+const b={work:r.id,version:1,assignment:a.assignment,row:a.row,submission:'submission-000000001',answers:{'1':'5','2':'0'},hints:['1'],idk:['2']};
+const out=e.post({t:'alice',quiz:b});assert.equal(out.result.score,2);assert.deepEqual(out.result.tasks,[]);assert(!('answers' in out.result));
+assert.equal(e.post({t:'alice',quiz:b}).duplicate,true);assert.deepEqual(e.post({t:'alice',quiz:b}).result.tasks,[]);
+assert.equal(e.post({t:'alice',quiz:{...b,submission:'submission-000000002'}}).error,'already_done');assert.equal(e.sheets.get('Попытки тестов').rows.length,2);
+const pupil=e.call('quizHistory_','alice')[0];assert.equal(pupil.kind,'exam');assert(!('detail' in pupil));assert.equal(pupil.hints,0);
+const teacher=e.call('quizHistory_','alice',true)[0];assert.deepEqual(teacher.detail.tasks,[{n:'1',ok:true},{n:'2',ok:false}]);
+assert.equal(e.call('quizLoad_','alice',{work:r.id,version:1,assignment:a.assignment,row:a.row}).work.tasks[0].hint,'');
+});
+test('дз: retries allowed, hints and «не знаю» recorded, detail only for teacher',()=>{
+const e=env(),r=e.call('quizSave_',{work:Q.parse(kindText('дз'))}),a=e.call('quizAssign_','alice',{work:r.id,version:1});
+const b={work:r.id,version:1,assignment:a.assignment,row:a.row,submission:'submission-000000001',answers:{'1':'7','2':''},hints:['1','1','99'],idk:['2']};
+const o1=e.post({t:'alice',quiz:b});assert.equal(o1.result.score,0);assert.equal(o1.result.tasks.length,2);
+const o2=e.post({t:'alice',quiz:{...b,submission:'submission-000000002',answers:{'1':'5','2':'4'},hints:[],idk:[]}});assert.equal(o2.result.score,3);
+const h=e.call('quizHistory_','alice');assert.deepEqual(h.map(x=>[x.kind,x.hints,x.idk]),[['hw',1,1],['hw',0,0]]);assert(!('detail' in h[0]));
+assert.deepEqual(e.call('quizHistory_','alice',true)[0].detail.hints,['1']);
+});
+test('overall chart and teacher detail render; figure shown',()=>{
+const ui={window:{addEventListener(){}},URLSearchParams,Date};vm.createContext(ui);vm.runInContext(fs.readFileSync(require.resolve('../assets/quiz-ui.js'),'utf8'),ui);
+const rec=(i,kind,score)=>({work:'w'+i,version:1,assignment:'a'+i,submission:'s'+i,at:'2026-11-0'+i+'T10:00:00Z',title:'Р'+i,section:'Алгебра',kind,hints:0,idk:0,score,max:4});
+const html=vm.runInContext('LiliQuizUI',ui).historyHTML([rec(1,'hw',2),rec(2,'self',3),{...rec(3,'exam',4),detail:{tasks:[{n:'1',ok:true}],hints:[],idk:[],seconds:600}}]);
+assert(html.includes('Динамика по всех работам'.replace('всех','всем')));assert(html.includes('Контрольная'));assert(html.includes('Разбор по заданиям (только преподавателю)'));
+assert(!vm.runInContext('LiliQuizUI',ui).historyHTML([rec(1,'hw',2),rec(2,'self',3)]).includes('Разбор по заданиям'));
+assert(vm.runInContext('LiliQuizUI',ui).taskHTML({n:'1',q:'q',type:'number',points:1,hint:'',options:[],figure:'fig-1.svg'},false,'').includes('src="quiz-fig/fig-1.svg"'));
+});

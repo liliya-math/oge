@@ -6169,6 +6169,26 @@
       "node": [
         "8G"
       ]
+    },
+    {
+      "file": "quiz.html",
+      "title": "Тест (прохождение, из кабинета)",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "служебная страница конструктора тестов, открывается по личной ссылке из кабинета; типы дз/сам/контр с 2026-11-01",
+      "auto": true
+    },
+    {
+      "file": "quiz-builder.html",
+      "title": "Конструктор тестов (преподаватель)",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "служебная страница, вход по паролю преподавателя; см. docs/quiz-constructor.md",
+      "auto": true
     }
   ]
 }
