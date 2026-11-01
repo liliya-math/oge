@@ -5,3 +5,9 @@
 .overall{margin:0 0 18px}.overall h3{margin:0 0 6px}.overall svg{display:block;width:100%;height:auto;max-width:520px;color:var(--sage)}
 .legend{margin:6px 0 0}
 .idk{margin-top:10px}.idk[aria-pressed="true"]{border-color:var(--apricot);color:var(--apricot)}
+.qfig{cursor:zoom-in}
+.zoom{position:fixed;inset:0;z-index:50;background:#fff;display:flex;flex-direction:column}
+.zoom>button{margin:10px;align-self:flex-end}
+.zoom-box{flex:1;overflow:auto;-webkit-overflow-scrolling:touch}
+.zoom-box img{display:block;min-width:900px;width:900px;max-width:none;height:auto}
+@media(min-width:960px){.zoom-box img{width:100%;min-width:0}}

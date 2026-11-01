@@ -5,6 +5,7 @@ var LiliQuiz = (function () {
   const kinds={'дз':'hw','домашняя':'hw','домашняя работа':'hw','сам':'self','самостоятельная':'self','контр':'exam','контрольная':'exam','проверочная':'exam','тест':'free',hw:'hw',self:'self',exam:'exam',free:'free'};
   const kindName={hw:'дз',self:'сам',exam:'контр'};
   const limited=k=>k==='self'||k==='exam';
+  const tries=k=>limited(k)?1:k==='hw'?2:Infinity;
   function fail(s) { throw new Error(s); }
   function number(v) {
     const s=String(v).trim().replace(/[−–]/g,'-').replace(/,/g,'.');
@@ -79,6 +80,6 @@ var LiliQuiz = (function () {
   function publicWork(d){const kind=d.kind||'free';return {title:d.title,section:d.section,kind,tasks:d.tasks.map(q=>({n:q.n,q:q.q,type:q.type,points:q.points,hint:limited(kind)?'':q.hint,figure:q.figure||'',options:q.options}))};}
   function grade(d,answers){let score=0;const tasks=d.tasks.map(q=>{const ok=same(answers[q.n],q);if(ok)score+=q.points;return {n:q.n,ok,points:ok?q.points:0};});return {score,max:d.tasks.reduce((n,q)=>n+q.points,0),tasks};}
   const sample='Название: Квадратные корни · первая проверка\nРаздел: Алгебра / 8 класс / Квадратные корни\n\nЗадание: Вычисли \\(\\sqrt{81}\\).\nОтвет: 9\nБаллы: 1\n\nЗадание: Вычисли \\(\\frac{3}{4}+\\frac{1}{4}\\).\nОтвет: 1\nБаллы: 1\n\nЗадание: Реши уравнение \\(x^2=25\\). Запиши корни через ;\nТип: набор\nОтвет: -5; 5\nБаллы: 2\nПодсказка: Какие числа при возведении в квадрат дают 25?\n\nЗадание: Выбери верное равенство.\nТип: выбор\nВарианты: √36 = 6 | √36 = -6 | √36 = 18\nОтвет: √36 = 6\nБаллы: 1';
-  return {parse,validate,stringify,publicWork,grade,same,number,limited,sample};
+  return {parse,validate,stringify,publicWork,grade,same,number,limited,tries,sample};
 })();
 if(typeof module!=='undefined')module.exports=LiliQuiz;

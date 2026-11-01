@@ -53,6 +53,7 @@ assert.equal(Q.parse(kindText('')).kind,'free');
 for(const [t,k] of [['дз','hw'],['сам','self'],['самостоятельная','self'],['контр','exam'],['проверочная','exam']])assert.equal(Q.parse(kindText(t)).kind,k);
 assert.throws(()=>Q.parse(kindText('кр')),/Неизвестный тип работы/);
 assert.throws(()=>Q.parse(kindText('дз').replace('fig-1.svg','http://x.ru/a.svg')),/рисунок/);
+assert.deepEqual(['hw','self','exam','free'].map(Q.tries),[2,1,1,Infinity]);
 assert.throws(()=>Q.parse(kindText('дз').replace('fig-1.svg','../a.svg')),/рисунок/);
 assert.equal(Q.parse(kindText('дз').replace('fig-1.svg','fig-1.png')).tasks[0].figure,'fig-1.png');
 assert.throws(()=>Q.parse(kindText('дз').replace('fig-1.svg','fig-1.gif')),/рисунок/);
@@ -110,7 +111,9 @@ const hw=e.call('quizSave_',{work:Q.parse(kindText('дз'))}),h=e.call('quizAssi
 const c={work:hw.id,version:1,assignment:h.assignment,row:h.row,submission:'submission-000000003',answers:{'1':'1','2':''},hints:['1'],idk:['2']};
 e.post({t:'bob',quiz:c});const t1=sent()[1].body.text;assert(t1.includes('Боря · Домашняя работа'));assert(t1.includes('Подсказок: 1 · «не знаю»: 1'));assert(!t1.includes('попытка'));
 e.post({t:'bob',quiz:{...c,submission:'submission-000000004',answers:{'1':'5','2':'4'},hints:[],idk:[]}});assert(sent()[2].body.text.includes('попытка 2'));
-e.down(true);const out=e.post({t:'bob',quiz:{...c,submission:'submission-000000005'}});assert.equal(out.ok,true);assert.equal(e.sheets.get('Попытки тестов').rows.length,5);
+assert.equal(e.post({t:'bob',quiz:{...c,submission:'submission-000000006'}}).error,'already_done');assert.equal(e.sheets.get('Попытки тестов').rows.length,4);
+const h2=e.call('quizAssign_','bob',{work:hw.id,version:1});
+e.down(true);const out=e.post({t:'bob',quiz:{...c,assignment:h2.assignment,row:h2.row,submission:'submission-000000005'}});assert.equal(out.ok,true);assert.equal(e.sheets.get('Попытки тестов').rows.length,5);
 });
 test('teacher Telegram: silent when teacher is not connected',()=>{
 const e=tgEnv();const ex=e.call('quizSave_',{work:Q.parse(kindText('сам'))}),a=e.call('quizAssign_','alice',{work:ex.id,version:1});

@@ -45,6 +45,7 @@ const used=last.hints>0||last.idk>0;
 return '<div><b>'+esc(first.title)+'</b> <span class="tag">'+kn(first.kind)+'</span> <span class="tag">версия '+first.version+'</span><p class="history-stats">Последняя: '+last.score+'/'+last.max+(a.length>1?' · лучшая: '+best.score+'/'+best.max+' · попыток: '+a.length+' · изменение: '+(delta>0?'+':'')+delta+' п. п.':'')+(used?' · подсказок: '+last.hints+' · «не знаю»: '+last.idk:'')+'</p>'+graph+(a.length>1?'<div class="trend">'+a.map(r=>'<span>'+r.score+'/'+r.max+'</span>').join('<small aria-hidden="true">→</small>')+'</div>':'')+'<details><summary>Даты и баллы</summary><div class="history-table"><table><thead><tr><th>Попытка</th><th>Дата</th><th>Баллы</th><th>Выполнено</th><th>Подсказки / не знаю</th></tr></thead><tbody>'+a.map((r,i)=>'<tr><td>'+(i+1)+'</td><td>'+esc(new Date(r.at).toLocaleString('ru-RU'))+'</td><td>'+r.score+'/'+r.max+'</td><td>'+Math.round(r.score/r.max*100)+'%</td><td>'+(r.kind==='self'||r.kind==='exam'?'—':(r.hints||0)+' / '+(r.idk||0))+'</td></tr>').join('')+'</tbody></table></div></details>'+detailHTML(a)+'</div>';
 }).join('')).join('')+'</section>';
 }
-return {API,esc,request,math,taskHTML,historyHTML};
+function zoom(src){const o=document.createElement('div');o.className='zoom';o.innerHTML='<button type="button" class="qbtn">Закрыть</button><div class="zoom-box"><img alt="Рисунок"></div>';o.querySelector('img').src=src;o.onclick=e=>{if(e.target.tagName!=='IMG')o.remove();};document.body.appendChild(o);}
+return {API,esc,request,math,taskHTML,historyHTML,zoom};
 })();
 window.addEventListener('load',()=>LiliQuizUI.math(document.body));

@@ -4949,6 +4949,14 @@
       "oge_task": null,
       "status": "hidden",
       "note": "служебный файл, добавлен 2026-10-19, чтобы check_links.py возвращал 0"
+    },    {
+      "file": "STATE-log.md",
+      "title": "",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "журнал сессий, добавлен 2026-11-01"
     },
     {
       "file": "umk-8-9-zadanie-6.html",
