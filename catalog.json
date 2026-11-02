@@ -5411,6 +5411,19 @@
       ]
     },
     {
+      "file": "trenazher-proporcii.html",
+      "title": "6A.3 · Тренажёр · Пропорции с нуля, 13 ступеней",
+      "type": "trenazher",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-11-02; первый на общем движке tren/staged.js (содержание tren/proporcii.js); серия 7 подряд, отправка в таблицу, режим учителя #lilia",
+      "auto": true,
+      "node": [
+        "6A.3"
+      ]
+    },
+    {
       "file": "trenazher-kvadratnyj-koren.html",
       "title": "8A.2 · Тренажёр · Квадратный корень с нуля, 13 ступеней",
       "type": "trenazher",

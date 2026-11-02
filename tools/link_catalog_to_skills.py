@@ -109,7 +109,7 @@ RULES = [
  (r'^trenazher-linejnaya-funkciya-7-klass', ['7A.1.5','7A.2.2']),
  (r'^trenazher-geometriya-osnovy', ['7G.1']), (r'^trenazher-procenty-7-klass', ['6A.4']),
  (r'^trenazher-drobi-s-nulya', ['5A.4','6A.2']), (r'^trenazher-kvadratnyj-koren', ['8A.2']),
- (r'^trenazher-sopryazhennye', ['8A.2.5']), (r'^trenazher-kvadratnye-neravenstva', ['9A.2.3']), (r'^trenazher-formuly-oge12', ['9A.8.1']), (r'^trenazher-vychisleniya-oge6', ['9A.7.1']), (r'^trenazher-chisla-na-pryamoj-oge7', ['9A.7.2']), (r'^trenazher-stepeni-i-korni-oge8', ['9A.7.3']), (r'^trenazher-treugolniki-oge15', ['9G.7.1']), (r'^trenazher-okruzhnost-oge16', ['9G.8.1']), (r'^trenazher-uravneniya-oge20', ['9A.2.1','9A.2.2','9A.2.4']), (r'^trenazher-tablica-umnozheniya', ['5A.3.1']),
+ (r'^trenazher-sopryazhennye', ['8A.2.5']), (r'^trenazher-kvadratnye-neravenstva', ['9A.2.3']), (r'^trenazher-formuly-oge12', ['9A.8.1']), (r'^trenazher-vychisleniya-oge6', ['9A.7.1']), (r'^trenazher-chisla-na-pryamoj-oge7', ['9A.7.2']), (r'^trenazher-stepeni-i-korni-oge8', ['9A.7.3']), (r'^trenazher-treugolniki-oge15', ['9G.7.1']), (r'^trenazher-okruzhnost-oge16', ['9G.8.1']), (r'^trenazher-uravneniya-oge20', ['9A.2.1','9A.2.2','9A.2.4']), (r'^trenazher-tablica-umnozheniya', ['5A.3.1']), (r'^trenazher-proporcii', ['6A.3']),
  (r'^trenazher-oge-formuly-pravila', ['9A.1', '9A.2', '9A.4', '9A.5', '9A.6', '9A.7', '9G.2', '9G.4', '9G.7', '9G.8', '9G.9', '9G.10']),
  (r'^trenazher-ustnyj-schet', ['5A.3.1','5A.3.4','7A.3.1','8A.2.1']),
  (r'^trainer\.html', ['5A.5.4','6A.2.5']),
