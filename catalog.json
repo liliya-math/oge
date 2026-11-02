@@ -6234,6 +6234,26 @@
         "9G.9",
         "9G.10"
       ]
+    },
+    {
+      "file": "quiz-txt/test-5-sovmestnaya-rabota-v1.txt",
+      "title": "Тест · 5 класс · Совместная работа · вариант 1 (TXT для конструктора)",
+      "type": "sluzhebnoe",
+      "class": 5,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "исходник для quiz-builder.html: загрузить TXT, проверить, сохранить, назначить; 5 заданий, 7 баллов",
+      "auto": false
+    },
+    {
+      "file": "quiz-txt/test-5-sovmestnaya-rabota-v2.txt",
+      "title": "Тест · 5 класс · Совместная работа · вариант 2 (TXT для конструктора)",
+      "type": "sluzhebnoe",
+      "class": 5,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "исходник для quiz-builder.html: загрузить TXT, проверить, сохранить, назначить; 5 заданий, 7 баллов",
+      "auto": false
     }
   ]
 }
