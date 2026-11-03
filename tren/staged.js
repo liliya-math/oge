@@ -53,6 +53,37 @@ function push() {
 }
 window.addEventListener('pagehide', push);
 
+
+/* ---------- школьная доска: надписи мелом на заднем плане ---------- */
+// CFG.board = список надписей темы; дробь пишется как {числитель|знаменатель}
+var BOARD_DEFAULT = ['a² + b² = c²', '{3|4} + {1|4} = 1', '(a + b)² = a² + 2ab + b²', 'S = a · b', '{a|b} : {c|d} = {a|b} · {d|c}', 'x + 5 = 12', '2 · 3 = 6', 'P = 2(a + b)', '25% = {1|4}', 'v = s : t', '7 · 8 = 56', 'π ≈ 3,14'];
+function boardSvg(list) {
+  var W = 380, H = 900, fs = 28, seed = 7;
+  function rn() { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+  var cols = 1, rowsN = Math.ceil(list.length / cols), cw = W / cols, ch = H / rowsN, out = '';
+  list.forEach(function (t, i) {
+    var c = i % cols, r = Math.floor(i / cols), x = c * cw + 14 + rn() * 70 + (r % 2 ? 40 : 0), y = r * ch + ch * 0.5 + rn() * 14, rot = Math.round(rn() * 14 - 7), g = '', cx = 0;
+    String(t).split(/(\{[^}]+\})/).forEach(function (part) {
+      var m = /^\{([^|]+)\|([^}]+)\}$/.exec(part);
+      if (m) {
+        var w = Math.max(m[1].length, m[2].length) * fs * 0.5 + 12;
+        g += '<text x="' + (cx + w / 2) + '" y="' + (-fs * 0.42) + '" text-anchor="middle">' + m[1] + '</text><line x1="' + cx + '" y1="' + (-fs * 0.3) + '" x2="' + (cx + w) + '" y2="' + (-fs * 0.3) + '" stroke="#f3ece2" stroke-width="2.2" stroke-linecap="round"/><text x="' + (cx + w / 2) + '" y="' + (fs * 0.78) + '" text-anchor="middle">' + m[2] + '</text>';
+        cx += w + 6;
+      } else if (part) { g += '<text x="' + cx + '" y="0">' + part.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</text>'; cx += part.length * fs * 0.52; }
+    });
+    if (x + cx > W - 14) x = Math.max(10, W - 14 - cx);
+    out += '<g transform="translate(' + Math.round(x) + ' ' + Math.round(y) + ') rotate(' + rot + ')">' + g + '</g>';
+  });
+  return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" fill="#f3ece2" font-family="\'Bradley Hand\',\'Segoe Print\',\'Chalkboard SE\',\'Times New Roman\',serif" font-style="italic" font-size="' + fs + '">' + out + '</svg>';
+}
+(function () {
+  var d = document.createElement('div');
+  d.className = 'board';
+  d.setAttribute('aria-hidden', 'true');
+  d.style.backgroundImage = 'url("data:image/svg+xml;utf8,' + encodeURIComponent(boardSvg(CFG.board || BOARD_DEFAULT)) + '")';
+  document.body.insertBefore(d, document.body.firstChild);
+})();
+
 /* ---------- экран ---------- */
 var V = { name: S.name ? 'home' : 'start' };
 var P = null; // текущая практика
@@ -64,13 +95,14 @@ function render() {
   if (!isTeacher() && V.name === 'teacher') V = { name: S.name ? 'home' : 'start' };
   var f = { start: rStart, home: rHome, teach: rTeach, task: rTask, done: rDone, inter: rInter, stuck: rStuck, teacher: rTeacher }[V.name];
   app.innerHTML = f();
+  document.body.classList.toggle('on-start', V.name === 'start');
   window.scrollTo(0, 0);
   var inp = app.querySelector('input');
   if (inp && V.name === 'task') inp.focus();
 }
 
 function rStart() {
-  return '<h1>' + CFG.shortTitle + '</h1><p>Как тебя зовут?</p><input id="nm" class="txt" maxlength="30" autocomplete="off"><p><button class="btn" data-a="start">Начать</button></p>';
+  return '<div class="start"><h1>' + CFG.shortTitle + '</h1><p class="ask-name">Как тебя зовут?</p><input id="nm" class="txt" maxlength="30" autocomplete="off"><p class="go"><button class="btn" data-a="start">Начать</button></p></div>';
 }
 
 function rHome() {

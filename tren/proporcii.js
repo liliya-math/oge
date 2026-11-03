@@ -304,7 +304,8 @@ var api = { STEPS: STEPS, fr: fr, mx: mx, rnd: rnd };
 root.TRAINER = {
   title: 'Пропорции с нуля', shortTitle: 'Пропорции', key: 'prop_trainer_v1',
   sheetUrl: 'https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec',
-  needDefault: 7, needEarly: 5, earlyUpto: 3, tagMsg: TAGMSG, api: api
+  needDefault: 7, needEarly: 5, earlyUpto: 3, tagMsg: TAGMSG, api: api,
+  board: ['2 : 3 = 4 : 6', 'a : b = c : d', 'a · d = b · c', 'x = {b · c|a}', '{3|x} = {6|10}', '1 : 4 = 25%', 'v = s : t', '5 : 2 = 10 : x', '{a|b} = {c|d}', 'x = 4 · 6 : 8', '12 : 3 = 4', '3 : 240 = 5 : x']
 };
 if (typeof module !== 'undefined' && module.exports) module.exports = root.TRAINER;
 })(typeof window !== 'undefined' ? window : globalThis);

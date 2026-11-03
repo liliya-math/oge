@@ -100,3 +100,20 @@ table.rep th { color: var(--muted); font-weight: 600; }
 .tape i { min-width: 24px; height: 26px; }
 .tape i.sp { margin-left: 12px; }
 .trow .lab { width: 78px; }
+
+/* школьная доска */
+html, body { background: #14211e; }
+body { background: radial-gradient(ellipse at 30% 20%, #1c2f2a 0%, #14211e 60%, #0f1a17 100%) fixed; }
+.board { position: fixed; inset: 0; z-index: 0; pointer-events: none; background-repeat: repeat; background-size: min(100vw, 520px) auto; opacity: .07; transition: opacity .3s; }
+body.on-start .board { opacity: .24; }
+.wrap { position: relative; z-index: 1; }
+.start { min-height: 78vh; display: flex; flex-direction: column; justify-content: center; max-width: 440px; margin: 0 auto; }
+.start h1 { font-size: 40px; margin-bottom: 18px; }
+.start .go { margin-top: 56px; }
+.start .btn { width: 100%; }
+@media (max-width: 520px) { .start h1 { font-size: 34px; } }
+.card, .row { background: rgba(24, 40, 36, .9); }
+.row:hover:not(:disabled) { background: rgba(34, 54, 49, .95); }
+.opt { background: rgba(24, 40, 36, .9); }
+.start { position: relative; }
+.start::before { content: ''; position: absolute; inset: -24px -30px; z-index: -1; background: radial-gradient(ellipse at center, rgba(15,26,23,.92) 0%, rgba(15,26,23,.7) 55%, rgba(15,26,23,0) 78%); }
