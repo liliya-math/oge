@@ -1690,3 +1690,95 @@ function boardLibraryPut_(b) {
   props.setProperty('BOARD_LIBRARY_FILE',file.getId());
   return {ok:true,library:next};
 }
+
+/* ================= Напоминания о занятиях в Telegram =================
+ * Вставить В КОНЕЦ существующего скрипта (ничего не заменяя), один раз запустить setupLessonReminders,
+ * затем «Новая версия» развёртывания не нужна: это работает по триггеру, а не через веб-адрес.
+ * Читает расписание из листа «Ученики» (колонка «Дни занятий», время по Самаре, после « | » пояс ученика),
+ * шлёт за сутки и за час через уже работающую telegramSend_. Отметки об отправке — лист «Напоминания». */
+const LR_STEPS = [{key: 'd1', min: 24 * 60}, {key: 'h1', min: 60}];
+const LR_WINDOW_MIN = 15;   // триггер каждые 10 минут, окно 15: хотя бы одно срабатывание гарантировано
+const LR_SAMARA_OFF = 4 * 60;
+const LR_DAYS = {'вс': 0, 'пн': 1, 'вт': 2, 'ср': 3, 'чт': 4, 'пт': 5, 'сб': 6};
+const LR_DAY_NAMES = ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'];
+const LR_MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+
+function lrParse_(days, time, tzDefault) {
+  let raw = String(days || '').replace(/^\s*\[[^\]]{1,40}\]\s*/, '');
+  const k = raw.indexOf('|');
+  const a = k < 0 ? raw : raw.slice(0, k);
+  let tz = k < 0 ? '' : raw.slice(k + 1).trim();
+  if (tz) { try { Utilities.formatDate(new Date(), tz, 'HH'); } catch (e) { tz = ''; } }
+  const slots = [], re = /(пн|вт|ср|чт|пт|сб|вс)\s*(\d{1,2})[:.](\d{2})/gi;
+  let m;
+  while ((m = re.exec(a))) slots.push({wd: LR_DAYS[m[1].toLowerCase()], h: +m[2], m: +m[3]});
+  if (!slots.length) {   // старый формат: «ср, сб» и время в отдельной колонке
+    const ds = a.toLowerCase().match(/пн|вт|ср|чт|пт|сб|вс/g) || [];
+    const t = time instanceof Date ? Utilities.formatDate(time, tzDefault, 'HH:mm') : String(time || '');
+    const tm = t.match(/(\d{1,2})[:.](\d{2})/);
+    if (tm) ds.forEach(d => slots.push({wd: LR_DAYS[d], h: +tm[1], m: +tm[2]}));
+  }
+  return {slots: slots, tz: tz || 'Europe/Samara'};
+}
+
+/* Ближайшие занятия (мс UTC) в ближайшие 3 суток по самарскому времени. */
+function lrUpcoming_(slots, nowMs) {
+  const out = [], sam = new Date(nowMs + LR_SAMARA_OFF * 60000);
+  slots.forEach(s => {
+    for (let off = 0; off <= 3; off++) {
+      const d = new Date(Date.UTC(sam.getUTCFullYear(), sam.getUTCMonth(), sam.getUTCDate() + off));
+      if (d.getUTCDay() !== s.wd) continue;
+      const t = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), s.h, s.m) - LR_SAMARA_OFF * 60000;
+      if (t > nowMs) out.push(t);
+    }
+  });
+  return out;
+}
+
+function lrWhen_(ms, tz) {
+  const d = new Date(ms);
+  const dow = Number(Utilities.formatDate(d, tz, 'u')) % 7;   // 'u': 1=пн ... 7=вс
+  return LR_DAY_NAMES[dow] + ', ' + Number(Utilities.formatDate(d, tz, 'd')) + ' ' +
+    LR_MONTHS[Number(Utilities.formatDate(d, tz, 'M')) - 1] + ', ' + Utilities.formatDate(d, tz, 'HH:mm');
+}
+
+function sendLessonReminders() {
+  if (!telegramAvailable_()) return;
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(1000)) return;
+  try {
+    const ss = telegramSS_(), ssTz = SpreadsheetApp.getActive().getSpreadsheetTimeZone();
+    const st = ss.getSheetByName('Ученики');
+    if (!st || st.getLastRow() < 2) return;
+    let log = ss.getSheetByName('Напоминания');
+    if (!log) { log = ss.insertSheet('Напоминания'); log.getRange(1, 1, 1, 2).setValues([['Ключ', 'Отправлено']]); }
+    const sentKeys = {};
+    if (log.getLastRow() > 1) log.getRange(2, 1, log.getLastRow() - 1, 1).getValues().forEach(r => { sentKeys[String(r[0])] = true; });
+    const connected = {};
+    telegramRows_('Telegram').forEach(r => { if (r.v[2] === true && r.v[3] !== true) connected[String(r.v[0])] = true; });
+    const now = Date.now();
+    st.getRange(2, 1, st.getLastRow() - 1, 12).getValues().forEach(r => {
+      const code = String(r[0] || '').trim();
+      if (!code || r[11] === false || !connected[code]) return;
+      const P = lrParse_(r[4], r[5], ssTz);
+      lrUpcoming_(P.slots, now).forEach(t => {
+        const left = (t - now) / 60000;
+        LR_STEPS.forEach(step => {
+          if (!(left <= step.min && left > step.min - LR_WINDOW_MIN)) return;
+          const key = code + '|' + t + '|' + step.key;
+          if (sentKeys[key]) return;
+          const text = (step.key === 'd1' ? 'Занятие через сутки\n\n' : 'Занятие через час\n\n') + lrWhen_(t, P.tz) +
+            (P.tz !== 'Europe/Samara' ? ' (по твоему времени)' : '');
+          const res = telegramSend_(code, text);
+          if (res.ok) { log.appendRow([key, new Date()]); sentKeys[key] = true; }
+        });
+      });
+    });
+    if (log.getLastRow() > 600) log.deleteRows(2, 300);   // старые отметки не нужны, занятия уже прошли
+  } finally { lock.releaseLock(); }
+}
+
+function setupLessonReminders() {
+  ScriptApp.getProjectTriggers().filter(t => t.getHandlerFunction() === 'sendLessonReminders').forEach(t => ScriptApp.deleteTrigger(t));
+  ScriptApp.newTrigger('sendLessonReminders').timeBased().everyMinutes(10).create();
+}
