@@ -50,6 +50,7 @@ const SHEETS = {
   'Оценки': ['Код', 'Дата', 'Предмет', 'Оценка', 'Примечание'],
   'Письма': ['Код', 'Дата', 'Текст', 'Прочитано'],
   'Навыки': ['Код', 'Узел', 'Статус', 'Дата проверки'],
+  'Планы': ['Код', 'План занятий (текст)', 'Обновлён'],
   'Ключи': ['Работа', 'Название', '№', 'Ур.', 'Условие', 'Ответ (варианты через |)'],
   'Результаты': ['Код', 'Работа', 'Строка ДЗ', 'Дата', 'Верно', 'Всего', 'Неверные', 'Минут', 'Ответы ученика'],
   'Telegram': ['Код', 'Chat ID', 'Подключён', 'Пауза', 'Дата', 'Ошибка'],
@@ -111,7 +112,7 @@ const C = {bg: '#14211e', bg2: '#1b2b28', fg: '#f3ece2', muted: '#a9b6ad', cobal
 const STUDENT_COLS = {name: 2, dat: 3, goal: 4, days: 5, time: 6, topic: 7, board: 8, work: 9, lessonsPlan: 10, lessonsDone: 11, active: 12, prog: 14,
                       fname: 15, bdate: 16, parent: 17, phone: 18, cls: 19, show: 20, pet: 21, nick: 22};
 const STUDENT_NCOL = 22;
-const SHOW_KEYS = ['work', 'grades', 'exams', 'map', 'skills', 'notebook', 'rewards', 'letter'];
+const SHOW_KEYS = ['work', 'grades', 'exams', 'map', 'skills', 'notebook', 'rewards', 'letter', 'library', 'plan'];
 const PETS = ['cat', 'meer', 'rac', 'lab', 'capy', 'ham'];
 const CATALOG_URL = 'https://lilimath.ru/catalog.json';
 const HW_SECS = ['разборы', 'теория', 'устный опрос', 'огэ'];
@@ -508,7 +509,7 @@ function admin_(b) {
     const need = () => { const st = findStudentRow_(code); if (!st) throw new Error('not_found'); return st; };
     const fresh = () => ({ok: true, d: studentData_(code, true)});
     switch (b.op) {
-      case 'ping': return {ok: true, hwEdit: true, workflow: 1, quiz: 1, boardLibrary: 1};
+      case 'ping': return {ok: true, hwEdit: true, workflow: 1, quiz: 1, boardLibrary: 1, plan: 1};
       case 'boardLibraryGet': return {ok:true,library:boardLibraryGet_()};
       case 'boardLibraryPut': return boardLibraryPut_(b);
       case 'quizList': return quizList_();
@@ -566,6 +567,11 @@ function admin_(b) {
         else if (row) sh.getRange(row, 3, 1, 2).setValues([[s, new Date()]]);
         else sh.appendRow([code, id, s, new Date()]);
         return fresh();
+      }
+      case 'planSave': {
+        need();
+        const res = planSave_(code, b.text);
+        return res.error ? res : fresh();
       }
       case 'note': {
         const st = need();
@@ -851,6 +857,12 @@ function studentData_(code, admin) {
     parent: admin ? String(r[16] || '') : '', phone: admin ? String(r[17] || '') : '',
     cls: Number(r[18]) || clsOfProg_(prog), grades: has('grades') ? grades : [], telegram: telegramState_(code)
   };
+  // План занятий: ученику уходят только даты, блок, тема и пометка, и только если включено «plan».
+  // Домашнее задание из плана и сам текст плана видит только учитель.
+  const pl = planGet_(code);
+  out.planV = 1;
+  out.plan = has('plan') ? pl.rows.map(x => admin ? x : {d: x.d, b: x.b, t: x.t, n: x.n}) : [];
+  if (admin) out.planText = pl.text;
   if (admin) {
     out.active = r[11] !== false; out.code = code;
     const tz = SpreadsheetApp.getActive().getSpreadsheetTimeZone();
@@ -861,6 +873,50 @@ function studentData_(code, admin) {
     })).sort((a, b) => b.id - a.id);
   }
   return out;
+}
+
+/* ================= план занятий =================
+   Формат текста (одна строка = один урок), поля через «|»:
+     2026-11-05 | Алгебра | Тема урока | Домашнее задание | пометка
+   Обязательны дата (ГГГГ-ММ-ДД), блок и тема; ДЗ и пометка необязательны.
+   Пустые строки и строки, начинающиеся с #, пропускаются. */
+const PLAN_MAX_ROWS = 300, PLAN_MAX_CHARS = 45000;
+function planParse_(text) {
+  const rows = [];
+  const lines = String(text || '').replace(/\r\n?/g, '\n').split('\n');
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line || line.charAt(0) === '#') continue;
+    const f = line.split('|').map(s => s.trim());
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(f[0] || '');
+    const dt = m ? new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])) : null;
+    const valid = dt && dt.getUTCFullYear() === +m[1] && dt.getUTCMonth() === +m[2] - 1 && dt.getUTCDate() === +m[3];
+    if (!valid || f.length < 3 || !f[1] || !f[2]) return {error: 'plan_bad_line_' + (i + 1)};
+    rows.push({d: f[0], b: f[1].slice(0, 40), t: f[2].slice(0, 400), hw: (f[3] || '').slice(0, 600), n: (f[4] || '').slice(0, 120)});
+  }
+  rows.sort((a, b) => a.d < b.d ? -1 : a.d > b.d ? 1 : 0);
+  return {rows: rows};
+}
+function planGet_(code) {
+  const row = findRow_('Планы', r => String(r[0]).trim() === code);
+  if (!row) return {text: '', rows: []};
+  const text = String(SpreadsheetApp.getActive().getSheetByName('Планы').getRange(row, 2).getValue() || '');
+  const p = planParse_(text);
+  return {text: text, rows: p.rows || []};
+}
+function planSave_(code, text) {
+  text = String(text || '').replace(/\r\n?/g, '\n').trim();
+  if (text.length > PLAN_MAX_CHARS) return {error: 'plan_too_long'};
+  const p = planParse_(text);
+  if (p.error) return p;
+  if (p.rows.length > PLAN_MAX_ROWS) return {error: 'plan_too_long'};
+  const sh = SpreadsheetApp.getActive().getSheetByName('Планы');
+  if (!sh) return {error: 'plan_no_sheet'};
+  const row = findRow_('Планы', r => String(r[0]).trim() === code);
+  if (!text) { if (row) sh.deleteRow(row); return {ok: true}; }
+  if (row) sh.getRange(row, 2, 1, 2).setValues([[text, new Date()]]);
+  else sh.appendRow([code, text, new Date()]);
+  return {ok: true};
 }
 
 /* ================= служебное ================= */

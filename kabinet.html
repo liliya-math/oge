@@ -823,6 +823,17 @@ a.gc{text-decoration:none}
 .error-notebook .note{color:#bdc9c0}.focuswork .btn{height:auto;min-height:48px;white-space:normal;padding:13px 18px;line-height:1.35}
 @media(max-width:520px){.assignment-card{padding:16px!important}.assignment-card .focus-actions>.btn{width:100%;justify-content:center}.error-entry summary{align-items:flex-start}.error-body .btn{font-size:14px}}
 
+.plan-wrap{overflow-x:auto;margin:6px -4px 0}
+.plan-tab{width:100%;border-collapse:collapse;font-size:15px}
+.plan-tab th,.plan-tab td{padding:10px 8px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+.plan-mh th{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:650;padding-top:18px;border-bottom:0}
+.plan-tab .pd{white-space:nowrap}.plan-tab .pd span{color:var(--muted);font-size:13px;margin-left:6px}
+.plan-tab .pb{white-space:nowrap;color:var(--lilac)}
+.plan-tab em{display:block;color:var(--amber);font-size:13px;font-style:normal;margin-top:2px}
+.plan-tab .ph{color:var(--muted);min-width:180px}
+.plan-row.past{opacity:.45}
+.plan-row.next td{background:var(--glass2)}
+.plan-row.next .pd b{color:var(--amber)}
 </style>
 <link rel="stylesheet" href="assets/quiz-cabinet.css">
 <script src="assets/quiz-ui.js"></script>
@@ -1488,6 +1499,29 @@ function bindTelegram(){
   }catch(error){button.disabled=false;status.textContent=errText(error);}
  };
 }
+/* ---------- план занятий ---------- */
+const PLAN_WD=['вс','пн','вт','ср','чт','пт','сб'],PLAN_MN=['январь','февраль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь'];
+function planToday(){const n=new Date();return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0')}
+function planDate(d){const[y,m,dd]=d.split('-').map(Number);return{y,m,short:String(dd).padStart(2,'0')+'.'+String(m).padStart(2,'0'),wd:PLAN_WD[new Date(Date.UTC(y,m-1,dd)).getUTCDay()]}}
+function planTable(rows,teach){if(!rows.length)return '';const today=planToday(),next=rows.find(r=>r.d>=today);let cur='',out='';
+ rows.forEach(r=>{const p=planDate(r.d),key=p.y+'-'+p.m;
+  if(key!==cur){if(cur)out+='</tbody>';cur=key;out+=`<tbody><tr class="plan-mh"><th colspan="${teach?4:3}">${PLAN_MN[p.m-1]} ${p.y}</th></tr>`}
+  out+=`<tr class="plan-row${r.d<today?' past':''}${r===next?' next':''}"><td class="pd"><b>${p.short}</b><span>${p.wd}</span></td><td class="pb">${esc(r.b)}</td><td class="pt">${esc(r.t)}${r.n?`<em>${esc(r.n)}</em>`:''}</td>${teach?`<td class="ph">${esc(r.hw||'')}</td>`:''}</tr>`});
+ return `<div class="plan-wrap"><table class="plan-tab">${out}</tbody></table></div>`}
+function planKidCard(){return `<div class="card"><div class="sh"><h2>План занятий</h2></div>${planTable(D.plan||[],false)}</div>`}
+function tPlanCard(){
+ if(D.planV!==1)return `<div class="card"><div class="sh"><h2>План занятий</h2></div><p class="note">Серверу кабинета нужна версия Apps Script с планами: вставь актуальный код из репозитория, выполни setup и сделай новую версию развёртывания.</p></div>`;
+ const rows=D.plan||[],on=Array.isArray(D.show)&&D.show.includes('plan');
+ return `<details class="card" id="plancard" ${rows.length&&!S.planOpen?'':'open'}><summary><span class="sh" style="margin:0"><h2>План занятий</h2><span class="sub">${rows.length?rows.length+' уроков · '+(on?'виден ученику':'скрыт от ученика'):'пока нет'}</span></span></summary>
+ <div class="formbox" style="border-top:0;margin-top:10px;padding-top:0">
+ ${planTable(rows,true)}
+ <div class="fld" style="margin-top:14px"><span>Одна строка на урок: «ГГГГ-ММ-ДД | блок | тема | ДЗ | пометка». Дата, блок и тема обязательны. ДЗ ученику не показывается.</span><textarea id="plan-text-${esc(D.code)}" data-plantext rows="8" spellcheck="false" placeholder="2026-11-05 | Алгебра | Тема урока | Домашнее задание | пометка">${esc(D.planText||'')}</textarea></div>
+ <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px"><button class="btn tsm" id="plan-save" type="button">Сохранить план</button><label class="btn ghost tsm" for="plan-file">Загрузить файл…</label><input type="file" id="plan-file" accept=".txt,text/plain" hidden>${on?'':'<span class="note">Чтобы ученик видел вкладку, включи «План занятий» в настройках кабинета.</span>'}</div>
+ </div></details>`}
+function bindPlan(){const ta=document.querySelector('[data-plantext]'),sv=document.getElementById('plan-save'),fl=document.getElementById('plan-file'),dt=document.getElementById('plancard');if(!ta||!sv)return;
+ if(dt)dt.ontoggle=()=>{S.planOpen=dt.open};
+ sv.onclick=()=>{sv.disabled=true;adm('planSave',{text:ta.value}).then(j=>{S.planOpen=true;apply(j);toast('План сохранён')}).catch(e=>{sv.disabled=false;toast(errText(e))})};
+ if(fl)fl.onchange=()=>{const f=fl.files&&fl.files[0];if(!f)return;if(f.size>200000){toast('Файл слишком большой для плана');return}const r=new FileReader();r.onload=()=>{ta.value=String(r.result||'');toast('Файл загружен в поле. Проверь и нажми «Сохранить план»')};r.readAsText(f,'utf-8')}}
 function tTelegramCard(){
  const t=D.telegram;
  if(!t||!t.available)return '';
@@ -1588,6 +1622,7 @@ const WF_LABEL={new:'Не начато',solving:'Решаю',submitted:'На п�
 function CAB_TABS(){const t=[['homework','Домашка']];if(LIB())t.push(['materials','Библиотека']);
  if(D.quiz===1||SHOW('map')||SHOW('skills')||SHOW('exams')||SHOW('grades'))t.push(['progress','Прогресс']);
  if(SHOW('rewards'))t.push(['rewards','Коллекция']);
+ if(!TEACH&&SHOW('plan')&&Array.isArray(D.plan)&&D.plan.length)t.push(['plan','План']);
  return t}
 function wfEnabled(){return !!(D&&(D.workflow===1||D.demo))}
 function wfStatus(h){return wfEnabled()?(WF_LABEL[h.status]?h.status:h.done?'done':'new'):(isDone(h)?'done':'new')}
@@ -1617,7 +1652,8 @@ function kidWorkspace(bday){const prog=quizCabinetCard(D)+(SHOW('map')?progressS
  return welcomeKid()+bday+focusWork()+`<div class="lessonstrip">${lessonCard()}</div>`+cabNav()
   +cabPanel('homework',newHwCard()+(SHOW('notebook')?notebookCard():'')+telegramCard()+(SHOW('letter')?letterCard():'')+contactLine())
   +(LIB()?cabPanel('materials',materialsFolders()+((D.mats&&D.mats.length)||!D.matsAll?matCard():'')):'')
-  +(prog?cabPanel('progress',prog):'')+(SHOW('rewards')?cabPanel('rewards',stkCard()):'')}
+  +(prog?cabPanel('progress',prog):'')+(SHOW('rewards')?cabPanel('rewards',stkCard()):'')
+  +(CAB_TABS().some(x=>x[0]==='plan')?cabPanel('plan',planKidCard()):'')}
 function bindHomeworkRows(){document.querySelectorAll('[data-hwrow] .hwm a').forEach(a=>a.dataset.hwopen=a.closest('[data-hwrow]').dataset.hwrow);document.querySelectorAll('#hw-results .chk').forEach(b=>b.onclick=()=>toggleHW(b.dataset.hw,b));bindWorkflowButtons()}
 function bindWorkspace(){const pl=document.getElementById('petlink');if(pl)pl.onclick=openPetPicker;const nl=document.getElementById('namelink');if(nl)nl.onclick=openNameDialog;bindNotebook();document.querySelectorAll('[data-cabtab]').forEach(b=>b.onclick=()=>switchCabTab(b.dataset.cabtab));document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>switchCabTab(b.dataset.go));document.querySelectorAll('[data-hwfilter]').forEach(b=>b.onclick=()=>{S.hwFilter=b.dataset.hwfilter;save();document.querySelectorAll('[data-hwfilter]').forEach(x=>x.setAttribute('aria-pressed',x===b));paintHwList()});const search=document.getElementById('hw-search');if(search)search.oninput=()=>{S.hwQuery=search.value;save();paintHwList()};paintHwList();bindWorkflowButtons()}
 function bindWorkflowButtons(){document.querySelectorAll('[data-hwopen]').forEach(a=>{const h=D.hw.find(h=>String(h.id)===String(a.dataset.hwopen));if(h){const original=new URL(a.href,BASE);if(original.origin===new URL(BASE).origin&&original.pathname.endsWith('.html')){original.searchParams.set('lili_student',STUDENT_KEY);original.searchParams.set('lili_hw',String(h.id));original.searchParams.set('lili_resume','1');a.href=original.href}}});document.querySelectorAll('[data-wfsubmit],[data-wfhelp],[data-wfreview]').forEach(b=>b.onclick=()=>{const id=b.dataset.wfsubmit||b.dataset.wfhelp||b.dataset.wfreview;const h=D.hw.find(h=>String(h.id)===String(id));if(h)openWorkflow(h,b.dataset.wfreview?'review':b.dataset.wfhelp?'help':'submit')});document.querySelectorAll('[data-hwopen]').forEach(a=>a.onclick=()=>{const h=D.hw.find(h=>String(h.id)===String(a.dataset.hwopen));if(h&&wfEnabled()&&wfStatus(h)==='new')workflowSave(h,{status:'solving'}).then(()=>{const y=scrollY;render();scrollTo({top:y})}).catch(()=>toast('Задание открыто. Отметка «Решаю» не сохранилась — проверь связь.'))})}
@@ -1662,7 +1698,7 @@ const ERR={board_library_corrupt:'Не удалось прочитать биб�
  no_code:'Страница и скрипт рассинхронизировались (закэшировалась старая версия). Полностью обнови страницу: зажми Shift и нажми круглую стрелку в адресной строке, или Ctrl+Shift+R.',
  bad_request:'Скрипт не разобрал запрос — похоже, в таблице развёрнута старая или битая версия. Вставь код заново и сделай «Новая версия» развёртывания.',
  bad_op:'В таблице старая версия скрипта: этой функции в ней ещё нет. Сделай «Новая версия» развёртывания.'};
-function errText(e){const m=String(e&&e.message||e);if(/DriveApp|Drive|разрешени|permission/i.test(m))return 'Скрипту нужен доступ к Google Диску: в Apps Script выбери setup → «Выполнить» и разреши доступ, потом сделай новую версию развёртывания.';return ERR[m]||('Не получилось: '+m)}
+function errText(e){const m=String(e&&e.message||e);if(/DriveApp|Drive|разрешени|permission/i.test(m))return 'Скрипту нужен доступ к Google Диску: в Apps Script выбери setup → «Выполнить» и разреши доступ, потом сделай новую версию развёртывания.';const pl=/^plan_bad_line_(\d+)$/.exec(m);if(pl)return 'План не сохранён: строка '+pl[1]+' не по формату. Нужно «ГГГГ-ММ-ДД | блок | тема | ДЗ | пометка», дата и тема обязательны.';if(m==='plan_too_long')return 'План слишком длинный: не больше 300 уроков и 45 000 знаков.';if(m==='plan_no_sheet')return 'В таблице нет листа «Планы»: в Apps Script выбери setup → «Выполнить».';return ERR[m]||('Не получилось: '+m)}
 function setBusy(){const b=document.getElementById('tbusy');if(b)b.textContent=busy?'Сохраняю…':''}
 function adm(op,x){busy++;setBusy();
  return fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({admin:PASS,op,t:CODE},x||{}))})
@@ -1760,11 +1796,11 @@ function openLessonFinish(card){LiliLessonFlow.showFinish(document,{code:D.code|
 function bindJournalCard(){LiliTeaching.bindJournal(document,D.code||CODE,D,{teacherURL:myBoardURL,finish:openLessonFinish,refresh:id=>{journalRequested=id;const el=document.getElementById('teaching-journal');if(el){el.outerHTML=journalCard();bindJournalCard()}},notify:toast})}
 function tRender(keep){LiliTeaching.preserveDraft(document,D.code||CODE);const y=scrollY,dr=keep===false?{}:drafts(),foc=document.activeElement&&document.activeElement.id;
  const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
- app.innerHTML=tTop()+`<div class="cab enter">`+adminCard()+journalCard()+tTelegramCard()+bday+(kid
+ app.innerHTML=tTop()+`<div class="cab enter">`+adminCard()+journalCard()+tPlanCard()+tTelegramCard()+bday+(kid
   ? heroKid()+quizCabinetCard(D)+`<div class="two">${lessonCard(true)}${tHwCard()}</div>`+tMatCard()+mapCard(false)+skillsCard(false)+gradeCard()+`<div class="two">${chartCard()}${probCard()}</div>`+tGradesCard()+tLettersCard()
   : heroPar()+quizCabinetCard(D)+mapCard(true)+skillsCard(true)+gradeCard()+`<div class="two">${chartCard()}${workCard()}</div>`+tGradesCard()+tLettersCard())+foot()+`</div>`;
  Object.keys(dr).forEach(id=>{const i=document.getElementById(id);if(!i)return;if(i.type==='checkbox')i.checked=dr[id];else i.value=dr[id]});
- tBind();bindJournalCard();scrollTo({top:y});if(foc){const f=document.getElementById(foc);if(f&&f.focus)f.focus({preventScroll:true})}if(bday)bdayFX()}
+ tBind();bindJournalCard();bindPlan();scrollTo({top:y});if(foc){const f=document.getElementById(foc);if(f&&f.focus)f.focus({preventScroll:true})}if(bday)bdayFX()}
 
 /* ---------- редактор расписания ---------- */
 let SL=[],STZ='',STC='';
@@ -1816,7 +1852,7 @@ function bindSched(){const z=document.getElementById('f-tz');if(!z)return;const 
  bindSlots()}
 
 function progOptions(cls,cur){const L=CLASS_PROGS[cls]||CLASS_PROGS[9];if(!L.includes(cur))cur=L[0];return L.map(p=>`<option value="${p}" ${cur===p?'selected':''}>${PROGS[p].name}</option>`).join('')}
-const SHOW_KEYS=[['work','Над чем работаем (родителям)'],['grades','Школьные оценки'],['exams','Пробники: график и вся история'],['map','Карта заданий'],['skills','Карта навыков'],['notebook','Тетрадь ошибок'],['rewards','Стикеры и коллекция'],['letter','Личное сообщение преподавателю'],['library','Библиотека (теория, тренажёры, разборы)']];
+const SHOW_KEYS=[['work','Над чем работаем (родителям)'],['grades','Школьные оценки'],['exams','Пробники: график и вся история'],['map','Карта заданий'],['skills','Карта навыков'],['notebook','Тетрадь ошибок'],['rewards','Стикеры и коллекция'],['letter','Личное сообщение преподавателю'],['library','Библиотека (теория, тренажёры, разборы)'],['plan','План занятий (даты и темы, без ДЗ)']];
 function boardRow(){const teacher=myBoardURL(),pupil=pupilBoardURL();
  return `<section class="boardsettings"><h3>Доска и видеосвязь</h3>
  <p class="note">Две ссылки ведут в одну комнату: твоя открывает сторону учителя, ученическая — сторону ученика.</p>
