@@ -133,7 +133,7 @@ function rTeach() {
   return '<div class="top"><button class="lnk" data-a="home">← Ступени</button><div class="who">Ступень ' + s.id + '</div></div><h2>' + s.title + '</h2>' +
     '<div class="card">' + sl.t + '<div class="vis">' + sl.v + '</div>' + (sl.ask ? askHtml(sl) : '') + '</div>' +
     '<div class="nav">' + (V.k > 0 ? '<button class="btn sec" data-a="prev">Назад</button>' : '<span></span>') +
-    '<span class="small">' + (V.k + 1) + ' из ' + s.teach.length + '</span>' + nextBtn + '</div>';
+    '<span class="small">' + (V.k + 1) + ' из ' + s.teach.length + '</span>' + nextBtn + '</div>' + (wait ? '<p id="waitmsg" class="small" style="text-align:center;margin-top:10px">Выбери ответ на вопрос выше, и кнопка станет активной.</p>' : '');
 }
 
 function rTask() {
@@ -323,6 +323,7 @@ app.addEventListener('click', function (e) {
     app.querySelectorAll('.ask .opt').forEach(function (o) { o.classList.toggle('sel', o === b); });
     var am = document.getElementById('askmsg'); am.className = 'msg ' + (good ? 'good' : 'bad'); am.innerHTML = good ? sl2.ask.ok : sl2.ask.no;
     var nb = app.querySelector('.nav [data-a="next"], .nav [data-a="practice"]'); if (nb) nb.disabled = false;
+    var wm = document.getElementById('waitmsg'); if (wm) wm.remove();
     send({ t: 'ask', step: STEPS[V.i].id, ok: good });
   }
   else if (a === 'next') { V.k++; render(); }
