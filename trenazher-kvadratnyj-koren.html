@@ -382,7 +382,7 @@ function afterFb(){
 function reteachScreen(){app(hdr()+`<h2>Давай ещё раз посмотрим объяснение</h2><div class="card"><p>Несколько ответов подряд не получились. Это нормально: значит, объяснение надо прочитать ещё раз, не торопясь.</p></div><button class="btn" onclick="V.page=0;V.phase='learn';render()">Смотреть объяснение</button>`)}
 function stuckScreen(){app(hdr()+`<h2>Стоп</h2><div class="card"><p>Здесь стало трудно, и это не страшно. Эту ступень лучше разобрать вместе с учителем. Результат уже отправлен Лилии.</p><p>Скажи, на каком месте перестало быть понятно.</p></div><button class="btn" onclick="home()">К списку</button><button class="btn sec" onclick="V.page=0;V.cons=0;V.phase='learn';render()">Ещё раз объяснение</button>`)}
 function doneScreen(){const last=V.i===LEVELS.length-1;
- app(hdr()+`<h2>Ступень пройдена</h2><div class="card"><p><b>${V.i+1}. ${LEVELS[V.i].t}</b>: ${NEED} верных ответов подряд. Это настоящая работа.</p><p class="muted">Результат отправлен Лилии.</p></div>`+
+ app(hdr()+`<h2>Ступень пройдена</h2><div class="card"><p><b>${V.i+1}. ${LEVELS[V.i].t}</b>: ${NEED} верных ответов подряд. Молодец.</p><p class="muted">Результат отправлен Лилии.</p></div>`+
  (last?`<p>Это была последняя ступень. Тренажёр пройден.</p><button class="btn" onclick="home()">К списку</button>`:`<button class="btn" onclick="openLevel(${V.i+1})">Следующая ступень</button><button class="btn sec" onclick="home()">К списку</button>`))}
 
 /* ====== режим учителя ====== */

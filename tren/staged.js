@@ -54,35 +54,157 @@ function push() {
 window.addEventListener('pagehide', push);
 
 
-/* ---------- школьная доска: надписи мелом на заднем плане ---------- */
-// CFG.board = список надписей темы; дробь пишется как {числитель|знаменатель}
-var BOARD_DEFAULT = ['a² + b² = c²', '{3|4} + {1|4} = 1', '(a + b)² = a² + 2ab + b²', 'S = a · b', '{a|b} : {c|d} = {a|b} · {d|c}', 'x + 5 = 12', '2 · 3 = 6', 'P = 2(a + b)', '25% = {1|4}', 'v = s : t', '7 · 8 = 56', 'π ≈ 3,14'];
-function boardSvg(list) {
-  var W = 380, H = 900, fs = 28, seed = 7;
-  function rn() { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
-  var cols = 1, rowsN = Math.ceil(list.length / cols), cw = W / cols, ch = H / rowsN, out = '';
-  list.forEach(function (t, i) {
-    var c = i % cols, r = Math.floor(i / cols), x = c * cw + 14 + rn() * 70 + (r % 2 ? 40 : 0), y = r * ch + ch * 0.5 + rn() * 14, rot = Math.round(rn() * 14 - 7), g = '', cx = 0;
-    String(t).split(/(\{[^}]+\})/).forEach(function (part) {
-      var m = /^\{([^|]+)\|([^}]+)\}$/.exec(part);
-      if (m) {
-        var w = Math.max(m[1].length, m[2].length) * fs * 0.5 + 12;
-        g += '<text x="' + (cx + w / 2) + '" y="' + (-fs * 0.42) + '" text-anchor="middle">' + m[1] + '</text><line x1="' + cx + '" y1="' + (-fs * 0.3) + '" x2="' + (cx + w) + '" y2="' + (-fs * 0.3) + '" stroke="#f3ece2" stroke-width="2.2" stroke-linecap="round"/><text x="' + (cx + w / 2) + '" y="' + (fs * 0.78) + '" text-anchor="middle">' + m[2] + '</text>';
-        cx += w + 6;
-      } else if (part) { g += '<text x="' + cx + '" y="0">' + part.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</text>'; cx += part.length * fs * 0.52; }
-    });
-    if (x + cx > W - 14) x = Math.max(10, W - 14 - cx);
-    out += '<g transform="translate(' + Math.round(x) + ' ' + Math.round(y) + ') rotate(' + rot + ')">' + g + '</g>';
-  });
-  return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" fill="#f3ece2" font-family="\'Bradley Hand\',\'Segoe Print\',\'Chalkboard SE\',\'Times New Roman\',serif" font-style="italic" font-size="' + fs + '">' + out + '</svg>';
+/* ---------- школьная доска: рукописный мел, чертежи, следы тряпки ---------- */
+// Рисуется заново для каждого экрана и только в свободных местах: под текст, карточки и кнопки ничего не попадает.
+// CFG.board = надписи темы. Дробь {числитель|знаменатель}, корень R[выражение] (рисуется одним знаком).
+var BOARD_TEXTS = ['a² + b² = c²', 'E = mc²', '36 × 42 = 1512', '{1|2} + {2|2} = {3|2}', 'S = {1|2} a · h', '{6|10} + {5|12}', 'D = b² − 4ac', '(a + b)² = a² + 2ab + b²', 'P = 2(a + b)', 'v = {s|t}', '25% = {1|4}', 'sin² A + cos² A = 1', '7 · 8 = 56', 'y = kx + b', 'S = {a b|2}', 'tg A = {a|b}', 'R[a² + b²] = c', 'R[144] = 12', 'x + 5 = 12', '3(x − 2) = 15', 'V = a³'];
+var CHALK = '#efe8d8', boardKey = 'start', boardTimer = 0;
+var boardEl = document.createElement('div');
+boardEl.className = 'board'; boardEl.setAttribute('aria-hidden', 'true');
+document.body.insertBefore(boardEl, document.body.firstChild);
+
+function rng(str) {
+  var h = 1779033703 ^ str.length, i;
+  for (i = 0; i < str.length; i++) { h = Math.imul(h ^ str.charCodeAt(i), 3432918353); h = h << 13 | h >>> 19; }
+  var a = h >>> 0;
+  return function () { a = (a + 0x6D2B79F5) >>> 0; var t = a; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; };
 }
-(function () {
-  var d = document.createElement('div');
-  d.className = 'board';
-  d.setAttribute('aria-hidden', 'true');
-  d.style.backgroundImage = 'url("data:image/svg+xml;utf8,' + encodeURIComponent(boardSvg(CFG.board || BOARD_DEFAULT)) + '")';
-  document.body.insertBefore(d, document.body.firstChild);
-})();
+function r1(x) { return Math.round(x * 10) / 10; }
+function pt(x, y) { return r1(x) + ' ' + r1(y); }
+function seg(a, b) { return 'M' + pt(a[0], a[1]) + 'L' + pt(b[0], b[1]); }
+function mid(a, b) { return [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]; }
+function outward(v, c, d) { var dx = v[0] - c[0], dy = v[1] - c[1], l = Math.hypot(dx, dy) || 1; return [v[0] + dx / l * d, v[1] + dy / l * d]; }
+function dseg(p, a, b) {
+  var dx = b[0] - a[0], dy = b[1] - a[1], l2 = dx * dx + dy * dy || 1, t = Math.max(0, Math.min(1, ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / l2));
+  return Math.hypot(p[0] - a[0] - t * dx, p[1] - a[1] - t * dy);
+}
+function tx(x, y, s, fs, anchor) { return '<text x="' + r1(x) + '" y="' + r1(y) + '" font-size="' + fs + '" text-anchor="' + (anchor || 'start') + '" fill="' + CHALK + '" stroke="none">' + String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</text>'; }
+function lb(s, p, fs) { return tx(p[0], p[1] + fs * 0.28, s, fs, 'middle'); }
+
+function makeBoard(W, H, forb, rnd, mt) {
+  function tw(s, fs) { mt.setAttribute('font-size', fs); mt.textContent = s; return mt.getComputedTextLength(); }
+  function pickN(a) { return a[Math.floor(rnd() * a.length)]; }
+  function shuf(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(rnd() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function wrapStroke(g, fs) { return '<g fill="none" stroke="' + CHALK + '" stroke-width="' + r1(Math.max(2.4, fs * 0.075)) + '" stroke-linecap="round" stroke-linejoin="round">' + g + '</g>'; }
+
+  function formula(str, fs) {
+    var parts = String(str).split(/(R\[[^\]]*\]|\{[^}]+\})/), cx = 0, g = '';
+    parts.forEach(function (p) {
+      if (!p) return;
+      var m;
+      if ((m = /^\{([^|]+)\|([^}]+)\}$/.exec(p))) {
+        var w = Math.max(tw(m[1], fs), tw(m[2], fs)) + fs * 0.3;
+        g += tx(cx + w / 2, -fs * 0.40, m[1], fs, 'middle') + '<path d="M' + pt(cx + 2, -fs * 0.28) + 'H' + r1(cx + w - 2) + '"/>' + tx(cx + w / 2, fs * 0.36, m[2], fs, 'middle');
+        cx += w + fs * 0.12;
+      } else if ((m = /^R\[([^\]]*)\]$/.exec(p))) {
+        var c = tw(m[1], fs), t = fs;
+        g += '<path d="M' + pt(cx, -.32 * t) + 'L' + pt(cx + .12 * t, -.38 * t) + 'L' + pt(cx + .30 * t, .12 * t) + 'L' + pt(cx + .46 * t, -.86 * t) + 'H' + r1(cx + .58 * t + c) + '"/>' + tx(cx + .54 * t, 0, m[1], fs, 'start');
+        cx += .64 * t + c + fs * .08;
+      } else { g += tx(cx, 0, p, fs, 'start'); cx += tw(p, fs); }
+    });
+    return { w: Math.ceil(cx) + 6, h: Math.ceil(fs * 1.55), g: '<g transform="translate(3 ' + r1(fs * 1.02) + ')">' + wrapStroke(g, fs) + '</g>' };
+  }
+  function rightTri(k) {
+    var M = 36, w = Math.round(150 * k), h = Math.round(112 * k), fs = 26;
+    var A = [M, M], C = [M, M + h], B = [M + w, M + h], cen = [(A[0] + B[0] + C[0]) / 3, (A[1] + B[1] + C[1]) / 3];
+    var dx = B[0] - A[0], dy = B[1] - A[1], t = ((C[0] - A[0]) * dx + (C[1] - A[1]) * dy) / (dx * dx + dy * dy), Hh = [A[0] + dx * t, A[1] + dy * t];
+    var g = '<path d="' + seg(A, B) + seg(B, C) + seg(C, A) + seg(C, Hh) + 'M' + pt(C[0], C[1] - 12) + 'L' + pt(C[0] + 12, C[1] - 12) + 'L' + pt(C[0] + 12, C[1]) + '"/>';
+    var lab = lb('A', outward(A, cen, 25), fs) + lb('B', outward(B, cen, 27), fs) + lb('C', outward(C, cen, 25), fs) + lb('b', outward(mid(A, C), cen, 23), fs) + lb('a', outward(mid(C, B), cen, 24), fs) + lb('c', outward(mid(A, B), cen, 25), fs);
+    var m = mid(C, Hh), nx = -(Hh[1] - C[1]), ny = Hh[0] - C[0], nl = Math.hypot(nx, ny) || 1; nx /= nl; ny /= nl;
+    var c1 = [m[0] + nx * 17, m[1] + ny * 17], c2 = [m[0] - nx * 17, m[1] - ny * 17], S = [[A, B], [B, C], [C, A], [C, Hh]];
+    function md(p) { return Math.min.apply(null, S.map(function (s) { return dseg(p, s[0], s[1]); })); }
+    var best = md(c1) >= md(c2) ? c1 : c2;
+    if (md(best) >= 12) lab += lb('h', best, fs);
+    return { w: w + 2 * M, h: h + 2 * M, g: wrapStroke(g, 26) + lab };
+  }
+  function isoTri(k) {
+    var M = 36, w = Math.round(150 * k), h = Math.round(128 * k), fs = 26;
+    var B = [M + w / 2, M], A = [M, M + h], C = [M + w, M + h], D = [M + w / 2, M + h], cen = [(A[0] + B[0] + C[0]) / 3, (A[1] + B[1] + C[1]) / 3];
+    var g = '<path d="' + seg(A, B) + seg(B, C) + seg(A, C) + seg(B, D) + 'M' + pt(D[0] - 11, D[1]) + 'L' + pt(D[0] - 11, D[1] - 11) + 'L' + pt(D[0], D[1] - 11) + '"/>';
+    var lab = lb('B', outward(B, cen, 25), fs) + lb('A', outward(A, cen, 27), fs) + lb('C', outward(C, cen, 27), fs) + lb('c', outward(mid(A, B), cen, 24), fs) + lb('a', outward(mid(B, C), cen, 24), fs) + lb('b', [D[0], D[1] + 27], fs) + lb('h', [D[0] + 19, M + h * 0.45], fs);
+    return { w: w + 2 * M, h: h + 2 * M + 4, g: wrapStroke(g, 26) + lab };
+  }
+  function venn(k) {
+    var r = 46 * k, M = 16, cs = [[M + r, M + r], [M + r + .95 * r, M + r], [M + r + .475 * r, M + r + .82 * r]], cen = [(cs[0][0] + cs[1][0] + cs[2][0]) / 3, (cs[0][1] + cs[1][1] + cs[2][1]) / 3], fs = 26, g = '', lab = '';
+    cs.forEach(function (c) { g += '<circle cx="' + r1(c[0]) + '" cy="' + r1(c[1]) + '" r="' + r1(r) + '"/>'; });
+    cs.forEach(function (c, i) {
+      var dx = c[0] - cen[0], dy = c[1] - cen[1], l = Math.hypot(dx, dy) || 1, t, p, ok;
+      for (t = .85; t >= .3; t -= .05) {
+        p = [c[0] + dx / l * t * r, c[1] + dy / l * t * r];
+        ok = Math.hypot(p[0] - c[0], p[1] - c[1]) < r - 15 && cs.every(function (o, j) { return j === i || Math.hypot(p[0] - o[0], p[1] - o[1]) > r + 15; });
+        if (ok) { lab += lb('ABC'.charAt(i), p, fs); break; }
+      }
+    });
+    return { w: Math.ceil(cs[1][0] + r + M), h: Math.ceil(cs[2][1] + r + M), g: wrapStroke(g, 26) + lab };
+  }
+  function graph(k) {
+    var M = 34, w = Math.round(150 * k), h = Math.round(108 * k), fs = 24, O = [M, M + h], X = [M + w, M + h], Y = [M, M - 4], g, lab = '', i;
+    g = '<path d="' + seg(O, X) + seg(O, Y) + 'M' + pt(X[0] - 10, X[1] - 5) + 'L' + pt(X[0], X[1]) + 'L' + pt(X[0] - 10, X[1] + 5) + 'M' + pt(Y[0] - 5, Y[1] + 10) + 'L' + pt(Y[0], Y[1]) + 'L' + pt(Y[0] + 5, Y[1] + 10);
+    for (i = 1; i <= 3; i++) {
+      var tx0 = M + w * (0.2 + 0.25 * i), ty0 = M + h - h * (0.2 + 0.24 * i);
+      g += 'M' + pt(tx0, O[1] - 5) + 'L' + pt(tx0, O[1] + 5) + 'M' + pt(O[0] - 5, ty0) + 'L' + pt(O[0] + 5, ty0);
+      lab += lb(String(i), [tx0, O[1] + 24], fs) + lb(String(i), [O[0] - 19, ty0], fs);
+    }
+    var n = 8, d = 'M';
+    for (i = 0; i <= n; i++) { var px = M + 10 + (w - 28) * i / n, py = M + h - 12 - (h - 34) * (i / n) * (0.55 + 0.35 * rnd()) - (i % 2 ? 7 + rnd() * 8 : 0); d += (i ? 'L' : '') + pt(px, py); }
+    return { w: w + M + 16, h: h + M + 36, g: wrapStroke(g + '"/><path d="' + d + '"/>', 24) + lab };
+  }
+  function circ(k) {
+    var r = 50 * k, M = 30, O = [M + r, M + r], a = -0.62, P = [O[0] + r * Math.cos(a), O[1] + r * Math.sin(a)], fs = 26;
+    var g = '<circle cx="' + r1(O[0]) + '" cy="' + r1(O[1]) + '" r="' + r1(r) + '"/><path d="' + seg(O, P) + '"/><circle cx="' + r1(O[0]) + '" cy="' + r1(O[1]) + '" r="1.6"/>';
+    var m = mid(O, P), lab = lb('r', [m[0] + Math.sin(a) * 17, m[1] - Math.cos(a) * 17], fs) + lb('O', [O[0] - Math.cos(a) * 24, O[1] - Math.sin(a) * 24], fs);
+    return { w: Math.ceil(2 * r + 2 * M), h: Math.ceil(2 * r + 2 * M), g: wrapStroke(g, 26) + lab };
+  }
+
+  var narrow = W < 520, fsList = narrow ? [30, 34] : [32, 38, 44], items = [], n;
+  var texts = (CFG.board || []).concat(shuf(BOARD_TEXTS));
+  texts.forEach(function (s) { var it = formula(s, pickN(fsList)); it.kind = 't'; items.push(it); });
+  var kk = function () { return (narrow ? .78 : .85) + rnd() * .3; };
+  [rightTri, isoTri, venn, graph, circ, rightTri, graph].forEach(function (f) { var it = f(kk()); it.kind = 'd'; items.push(it); });
+  items = shuf(items);
+
+  var placed = [], out = '', ghost = '', cnt = 0, cap = Math.min(26, Math.max(3, Math.round(W * H / 52000)));
+  function hits(b, list) { return list.some(function (o) { return b.x < o.x + o.w && o.x < b.x + b.w && b.y < o.y + o.h && o.y < b.y + b.h; }); }
+  items.forEach(function (it) {
+    if (cnt >= cap || it.w > W - 16 || it.h > H - 8) return;
+    for (var t = 0; t < 90; t++) {
+      var x = 8 + rnd() * (W - it.w - 16), y = 4 + rnd() * (H - it.h - 8), pad = 12, b = { x: x - pad, y: y - pad, w: it.w + 2 * pad, h: it.h + 2 * pad };
+      if (hits(b, forb) || hits(b, placed)) continue;
+      placed.push(b); cnt++;
+      var rot = r1((rnd() - .5) * (it.kind === 't' ? 7 : 8)), g = '<g transform="translate(' + r1(x) + ' ' + r1(y) + ') rotate(' + rot + ' ' + r1(it.w / 2) + ' ' + r1(it.h / 2) + ')">' + it.g + '</g>';
+      if (rnd() < .22) ghost += g; else out += g;
+      break;
+    }
+  });
+
+  var sm = '', i, ns = Math.round(H / 240) + 3;
+  for (i = 0; i < ns; i++) sm += '<ellipse cx="' + r1(rnd() * W) + '" cy="' + r1(rnd() * H) + '" rx="' + r1(60 + rnd() * 150) + '" ry="' + r1(24 + rnd() * 60) + '" transform="rotate(' + r1(rnd() * 60 - 30) + ' ' + r1(rnd() * W) + ' ' + r1(rnd() * H) + ')" fill="#f3ece2" opacity="' + r1(.035 + rnd() * .05) + '"/>';
+  for (i = 0; i < 4; i++) { var sx = rnd() * W, sy = rnd() * H, ex = sx + (rnd() - .3) * 360, ey = sy + (rnd() - .5) * 160; sm += '<path d="M' + pt(sx, sy) + 'C' + pt(sx + 90, sy - 70 * rnd()) + ' ' + pt(ex - 90, ey + 70 * rnd()) + ' ' + pt(ex, ey) + '" fill="none" stroke="#f3ece2" stroke-width="' + r1(30 + rnd() * 40) + '" stroke-linecap="round" opacity="' + r1(.03 + rnd() * .035) + '"/>'; }
+
+  var fil = '<filter id="chalk" filterUnits="userSpaceOnUse" x="0" y="0" width="' + W + '" height="' + H + '"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="4" result="w"/><feDisplacementMap in="SourceGraphic" in2="w" scale="3.4" xChannelSelector="R" yChannelSelector="G" result="a"/><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="8" result="g"/><feDisplacementMap in="a" in2="g" scale="1.6" xChannelSelector="R" yChannelSelector="G" result="b"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 2.6 0 0 0 -.42" result="m"/><feComposite in="b" in2="m" operator="in"/></filter>' +
+    '<filter id="smudge" filterUnits="userSpaceOnUse" x="0" y="0" width="' + W + '" height="' + H + '"><feGaussianBlur stdDeviation="16"/></filter>' +
+    '<filter id="soft" filterUnits="userSpaceOnUse" x="0" y="0" width="' + W + '" height="' + H + '"><feGaussianBlur stdDeviation="2.2"/></filter>';
+  return '<defs>' + fil + '</defs><g filter="url(#smudge)">' + sm + '</g><g filter="url(#soft)" opacity=".16"><g filter="url(#chalk)">' + ghost + '</g></g><g opacity=".82" filter="url(#chalk)">' + out + '</g>';
+}
+
+function drawBoard() {
+  var W = document.documentElement.clientWidth;
+  boardEl.style.height = '0px';
+  var H = Math.max(document.documentElement.scrollHeight, window.innerHeight);
+  boardEl.style.height = H + 'px';
+  var sx = window.pageXOffset || 0, sy = window.pageYOffset || 0, forb = [];
+  app.querySelectorAll('h1,h2,h3,p,.card,.row,.opts,.btn,.msg,.hint,.why,input,.nav,.top,table,.acts,.rows,.cap,.expr').forEach(function (e) {
+    var r = e.getBoundingClientRect();
+    if (r.width > 0 && r.height > 0) forb.push({ x: r.left + sx - 16, y: r.top + sy - 16, w: r.width + 32, h: r.height + 32 });
+  });
+  boardEl.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '"><text id="bm" x="0" y="-99" font-size="30" fill="none"></text></svg>';
+  var svg = boardEl.firstChild, mt = svg.querySelector('#bm');
+  try { svg.insertAdjacentHTML('beforeend', makeBoard(W, H, forb, rng(boardKey + '|' + Math.round(W / 40)), mt)); } catch (e) { if (window.console) console.error(e); }
+}
+function scheduleBoard() { clearTimeout(boardTimer); boardTimer = setTimeout(drawBoard, 90); }
+if (document.fonts && document.fonts.load) document.fonts.load('600 30px ChalkHand').then(scheduleBoard, scheduleBoard);
+window.addEventListener('resize', scheduleBoard);
+if (window.ResizeObserver) new ResizeObserver(scheduleBoard).observe(document.getElementById('app'));
 
 /* ---------- экран ---------- */
 var V = { name: S.name ? 'home' : 'start' };
@@ -95,7 +217,8 @@ function render() {
   if (!isTeacher() && V.name === 'teacher') V = { name: S.name ? 'home' : 'start' };
   var f = { start: rStart, home: rHome, teach: rTeach, task: rTask, done: rDone, inter: rInter, stuck: rStuck, teacher: rTeacher }[V.name];
   app.innerHTML = f();
-  document.body.classList.toggle('on-start', V.name === 'start');
+  boardKey = V.name + '|' + (V.name === 'task' && P ? P.i : (V.i === undefined ? '' : V.i)) + '|' + (V.k === undefined ? '' : V.k);
+  scheduleBoard();
   window.scrollTo(0, 0);
   var inp = app.querySelector('input');
   if (inp && V.name === 'task') inp.focus();
@@ -170,7 +293,7 @@ function inputHtml(T) {
 
 function rDone() {
   var s = STEPS[V.i], last = V.i === STEPS.length - 1;
-  return '<h2>Ступень пройдена</h2><div class="card"><p><b>' + s.title + '</b>: ' + need(s.id) + ' верных ответов подряд. Молодец, это настоящая работа.</p></div>' +
+  return '<h2>Ступень пройдена</h2><div class="card"><p><b>' + s.title + '</b>: ' + need(s.id) + ' верных ответов подряд. Молодец.</p></div>' +
     '<p>' + (last ? '<button class="btn" data-a="home">К списку ступеней</button>' : '<button class="btn" data-a="open" data-i="' + (V.i + 1) + '">Следующая ступень</button> <button class="btn sec" data-a="home">К списку</button>') + '</p>';
 }
 function rInter() {
