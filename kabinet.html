@@ -1043,7 +1043,8 @@ const BASE='https://lilimath.ru/';
 LiliBoardWindows.bind(document, message=>toast(message));
 function openBoardTab(url){return LiliBoardWindows.open(document,url).then(result=>LiliBoardWindows.feedback(result,toast))}
 const RAW=location.hash.slice(1)||'';
-const TM=/^lilia(?:-([a-z0-9]+))?$/i.exec(RAW);
+const TM=/^lilia(?:-([a-z0-9]+))?$/i.exec(RAW)||(RAW==='teacher-students'?['','']:null);
+const GOSTU=RAW==='teacher-students';
 const TEACH=!!TM;
 const CODE=TEACH?(TM[1]||''):RAW.replace(/[^a-z0-9]/gi,'');
 const LIVE=!TEACH&&!!CODE&&CODE!=='demo';
@@ -1719,7 +1720,7 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
   <label class="fld"><span>Программа — зависит от класса</span><select id="ns-p">${progOptions(5,'school5')}</select></label></div>
   <div class="ferr" id="ns-e"></div><button class="btn" id="ns-b">Добавить и открыть</button></form>
  ${foot()}</div>`;
- bindTopT();tFeed(L);
+ bindTopT();tFeed(L);if(GOSTU)setTimeout(()=>{const e=document.getElementById('teacher-students');if(e)e.scrollIntoView({block:'start'})},60);
  LiliPersonalBoard.chooser(document,L,LiliBoardLinks,LiliTeaching.boardURL,toast);
  LiliTeaching.bindToday(document, L, {getStudent:code=>adm('get',{t:code}).then(j=>j.d),parse:parseSched,notify:toast,reviewQueue:()=>LiliLessonFlow.bindQueue(document,L,{getStudent:code=>adm('get',{t:code}).then(j=>j.d),saveReview:(code,payload)=>adm('hwReview',{t:code,...payload}).then(j=>j.d)})});
  document.querySelectorAll('.bbrd').forEach(el=>el.onclick=e=>{e.preventDefault();e.stopPropagation();const code=el.dataset.b||'',u=LiliBoardLinks.savedTeacherURL(localStorage,code);if(u)openBoardTab(LiliTeaching.boardURL(u,{code,name:(L.find(x=>x.code===code)||{}).name,teacher:true}));else{location.hash='lilia-'+code;toast('Открой настройки ученика и добавь свою ссылку учителя.')}});
