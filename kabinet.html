@@ -1704,6 +1704,7 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
  <p class="klead" style="margin:0">Нажми на ученика, чтобы открыть и редактировать его кабинет.</p><p><a class="btn" href="quiz-builder.html">Конструктор тестов</a></p></section>
  <div id="personal-board-transfer"></div>
  ${LiliTeaching.todayHTML(L,parseSched)}
+ <div id="tfeed"></div>
  <h2 id="teacher-students">Все ученики</h2>
  ${L.length?`<div class="stus">${L.map(s=>{const PG=PROGS[s.prog]||PROGS.oge9;return `<a class="stu ${s.active?'':'off'}" href="#lilia-${esc(s.code)}">
   <div class="stuh"><b>${esc(s.name)}${s.fname?' '+esc(s.fname):''}${s.nick?' <span class="sub">(«'+esc(s.nick)+'»)</span>':''}</b>${PG.oge?'':`<span class="kchip new">${esc(PG.name)}</span>`}${s.active?'':'<span class="kchip new">на паузе</span>'}</div>
@@ -1718,7 +1719,7 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
   <label class="fld"><span>Программа — зависит от класса</span><select id="ns-p">${progOptions(5,'school5')}</select></label></div>
   <div class="ferr" id="ns-e"></div><button class="btn" id="ns-b">Добавить и открыть</button></form>
  ${foot()}</div>`;
- bindTopT();
+ bindTopT();tFeed(L);
  LiliPersonalBoard.chooser(document,L,LiliBoardLinks,LiliTeaching.boardURL,toast);
  LiliTeaching.bindToday(document, L, {getStudent:code=>adm('get',{t:code}).then(j=>j.d),parse:parseSched,notify:toast,reviewQueue:()=>LiliLessonFlow.bindQueue(document,L,{getStudent:code=>adm('get',{t:code}).then(j=>j.d),saveReview:(code,payload)=>adm('hwReview',{t:code,...payload}).then(j=>j.d)})});
  document.querySelectorAll('.bbrd').forEach(el=>el.onclick=e=>{e.preventDefault();e.stopPropagation();const code=el.dataset.b||'',u=LiliBoardLinks.savedTeacherURL(localStorage,code);if(u)openBoardTab(LiliTeaching.boardURL(u,{code,name:(L.find(x=>x.code===code)||{}).name,teacher:true}));else{location.hash='lilia-'+code;toast('Открой настройки ученика и добавь свою ссылку учителя.')}});
@@ -1726,6 +1727,21 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
   adm('addStudent',{name:document.getElementById('ns-n').value,dat:document.getElementById('ns-d').value,prog:document.getElementById('ns-p').value,cls:+document.getElementById('ns-c').value})
    .then(j=>{location.hash='lilia-'+j.code}).catch(err=>{b.disabled=false;document.getElementById('ns-e').textContent=errText(err)})};
  document.getElementById('ns-c').onchange=()=>{const p=document.getElementById('ns-p');p.innerHTML=progOptions(+document.getElementById('ns-c').value,p.value)};
+}
+/* ---------- лента сдач: что сделали ученики, у кого что ждёт проверки (данные те же, что в кабинете ученика) ---------- */
+const FEED_ORD={help:0,submitted:1,revise:2,solving:3};
+function tFeed(L){const box=document.getElementById('tfeed');if(!box)return;const act=(L||[]).filter(s=>s.active);if(!act.length)return;
+ box.innerHTML='<h2>Что сдали ученики</h2><p class="klead" style="margin:0 0 8px">Загружаю…</p>';
+ Promise.all(act.map(s=>adm('get',{t:s.code}).then(j=>({s,hw:(j.d&&j.d.hw)||[]})).catch(()=>({s,hw:[],fail:true})))).then(R=>{
+  const rows=[];R.forEach(r=>r.hw.forEach(h=>{if(FEED_ORD[h.status]!==undefined)rows.push({s:r.s,h})}));
+  rows.sort((x,y)=>FEED_ORD[x.h.status]-FEED_ORD[y.h.status]||String(x.s.name).localeCompare(String(y.s.name),'ru'));
+  const fails=R.filter(r=>r.fail).length;
+  const cnt=k=>rows.filter(r=>r.h.status===k).length;
+  const head=`<h2>Что сдали ученики</h2><p class="klead" style="margin:0 0 8px">${rows.length?`Ждут проверки: <b>${cnt('submitted')}</b> · нужна помощь: <b>${cnt('help')}</b> · на исправлении: <b>${cnt('revise')}</b> · решают сейчас: <b>${cnt('solving')}</b>`:'Новых сдач нет: всё проверено или ещё не начато.'}${fails?` · не удалось загрузить: ${fails}`:''}</p>`;
+  box.innerHTML=head+(rows.length?`<div class="stus">${rows.map(({s,h})=>{const st=h.status;const note=String(h.studentNote||'').split('\n').slice(0,2).join(' · ');
+   return `<a class="stu" href="#lilia-${esc(s.code)}"><div class="stuh"><b>${esc(s.name)}${s.fname?' '+esc(s.fname):''}</b><span class="kchip ${st==='help'||st==='revise'?'new':st==='submitted'?'bbrd':'shaky'}">${esc(WF_LABEL[st])}</span></div>
+   <div class="stum"><span>${esc(h.t)}</span>${note?`<span>${esc(note)}</span>`:''}</div></a>`}).join('')}</div>`:'');
+ });
 }
 function tFail(err,retry){app.innerHTML=tTop()+`<div class="cab enter"><section class="khero"><div class="hpet">${petSVG(tal().id,'sad')}</div><div style="min-width:0">
  <h1 class="big1" style="font-size:clamp(26px,6vw,36px)">Не получилось</h1><p class="klead">${esc(errText(err))}</p><button class="btn" id="retry" style="margin-top:16px">Ещё раз</button></div></section></div>`;
