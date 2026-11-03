@@ -293,7 +293,7 @@ function inputHtml(T) {
 
 function rDone() {
   var s = STEPS[V.i], last = V.i === STEPS.length - 1;
-  return '<h2>Ступень пройдена</h2><div class="card"><p><b>' + s.title + '</b>: ' + need(s.id) + ' верных ответов подряд. Молодец.</p></div>' +
+  return '<h2>Ступень пройдена</h2><div class="card"><p><b>' + s.title + '</b>: ' + need(s.id) + ' верных ответов подряд. Молодец! Всё отлично получается!</p></div>' +
     '<p>' + (last ? '<button class="btn" data-a="home">К списку ступеней</button>' : '<button class="btn" data-a="open" data-i="' + (V.i + 1) + '">Следующая ступень</button> <button class="btn sec" data-a="home">К списку</button>') + '</p>';
 }
 function rInter() {
