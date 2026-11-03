@@ -5424,6 +5424,19 @@
       ]
     },
     {
+      "file": "trenazher-tekstovye-zadachi-5.html",
+      "title": "5A.3.6 · Тренажёр · Текстовые задачи, совместная работа, 13 ступеней",
+      "type": "trenazher",
+      "class": 5,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-11-03; общий движок tren/staged.js (содержание tren/tekstovye-zadachi-5.js); ступени 8-13 про работу и совместную работу",
+      "auto": true,
+      "node": [
+        "5A.3.6"
+      ]
+    },
+    {
       "file": "trenazher-kvadratnyj-koren.html",
       "title": "8A.2 · Тренажёр · Квадратный корень с нуля, 13 ступеней",
       "type": "trenazher",
