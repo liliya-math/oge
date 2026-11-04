@@ -1670,17 +1670,20 @@ function openWorkflow(h,mode){const review=mode==='review',help=mode==='help',dl
 const CKEY='cab-data-'+CODE;
 function cacheSave(){try{localStorage.setItem(CKEY,JSON.stringify({at:syncedAt,d:D}))}catch(e){}}
 function cacheLoad(){try{const c=JSON.parse(localStorage.getItem(CKEY));return c&&c.d&&c.d.map?c:null}catch(e){return null}}
+let studentLoad=null;
 function load(){
+ if(studentLoad)return studentLoad;
  if(!API){screen('Кабинет ещё не подключён','Преподаватель скоро всё настроит. А пока можно посмотреть <a href="#demo" style="color:var(--apricot)">пример кабинета</a>.');return}
- fetch(API+'?t='+encodeURIComponent(CODE),{cache:'no-store'}).then(r=>r.json()).then(j=>{
+ studentLoad=tableRequest(API+'?t='+encodeURIComponent(CODE),{cache:'no-store'},true).then(j=>{
   if(j.error){D=null;try{localStorage.removeItem(CKEY)}catch(e){}
    screen(j.error==='inactive'?'Кабинет на паузе':'Ссылка не найдена',j.error==='inactive'?'Напиши преподавателю, если хочешь продолжить занятия.':'Проверь, что ссылка скопирована целиком, или попроси у преподавателя новую.');return}
   if(j.pet&&TALS.some(t=>t.id===j.pet)){if(S.tal!==j.pet||!S.picked){S.tal=j.pet;S.picked=true;save()}}else if(S.picked&&TALS.some(t=>t.id===S.tal)){fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({t:CODE,pet:S.tal})}).catch(()=>{})}
   const first=!D,same=!first&&JSON.stringify(j)===JSON.stringify(D);D=j;syncedAt=Date.now();cacheSave();
-  if(same)return;
+  if(same){const sync=document.getElementById('sync');if(sync)sync.textContent='Обновлено '+new Date(syncedAt).toLocaleString('ru-RU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});return;}
   if(first||!document.querySelector('.cab .tile'))render();else{const y=scrollY;render();scrollTo({top:y})}
- }).catch(()=>{if(D){const s=document.getElementById('sync');if(s)s.textContent='Нет связи · данные от '+new Date(syncedAt).toLocaleString('ru-RU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}
-  else screen('Не получилось открыть кабинет','Похоже, пропал интернет. Попробуй ещё раз.','Ещё раз')});
+ }).catch(()=>{if(D){const s=document.getElementById('sync');if(s)s.textContent='Не удалось обновить · данные от '+new Date(syncedAt).toLocaleString('ru-RU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}
+  else screen('Не получилось открыть кабинет','Таблица пока не ответила. Попробуй ещё раз через несколько секунд.','Ещё раз')}).finally(()=>{studentLoad=null});
+ return studentLoad;
 }
 function start(){
  Promise.allSettled([loadSkills(),loadGrades()]).then(()=>{
@@ -1694,6 +1697,7 @@ function start(){
 }
 function HWdemoInit(){D.hw.forEach(h=>{if(h.done&&!(h.id in S.hw))S.hw[h.id]=true})}
 addEventListener('hashchange',()=>location.reload());
+addEventListener('online',()=>{if(LIVE)load()});
 document.addEventListener('visibilitychange',()=>{if(LIVE&&document.visibilityState==='visible'&&Date.now()-syncedAt>5*6e4)load()});
 setInterval(()=>{const e=document.getElementById('cd');if(!e||!D)return;const t=nextLesson();if(!t)return;const c=countdown(t);e.className='cd'+(c.live?' live':'');e.innerHTML='<i></i>'+c.s},30000);
 /* ===== Режим учителя: kabinet.html#lilia ===== */
@@ -1702,17 +1706,43 @@ let busy=0,LIST=null;
 const ERR={board_library_corrupt:'Не удалось прочитать библиотеку аккаунта. Локальные материалы сохранены.',board_library_too_large:'Библиотека превышает 40 МБ или 100 материалов. Выгрузи резервную копию.',board_library_bad_template:'Сервер отклонил повреждённый шаблон.',board_library_bad_link:'Не удалось проверить ссылку личной доски.',board_library_bad_request:'Запрос синхронизации некорректен. Открой синхронизацию ещё раз.',locked:'Слишком много неверных паролей. Подожди 15 минут.',too_many:'Слишком много сообщений за час. Попробуй позже.',telegram_not_configured:'Сначала подключи Telegram-бота через меню Google-таблицы.',telegram_not_connected:'Ученик ещё не подключил Telegram-бота.',telegram_paused:'Уведомления на паузе.',telegram_blocked:'Ученик отключил бота. Нужно подключить его заново.',telegram_api_error:'Telegram временно недоступен. Попробуй уведомить позже.',telegram_network_error:'Не удалось связаться с Telegram. Попробуй уведомить позже.',no_password:'Сначала задай пароль в таблице: меню «Кабинет → Пароль для режима учителя».',
  old:'В таблице старая версия скрипта. Вставь новый код и сделай новую версию развёртывания.',
  not_found:'Такого ученика нет в таблице.',changed:'В таблице что-то поменялось. Данные обновлены, попробуй ещё раз.',
- bad_value:'Проверь, что всё заполнено правильно.',no_name:'Впиши имя ученика.',net:'Нет связи с таблицей. Проверь интернет.',
+ bad_value:'Проверь, что всё заполнено правильно.',no_name:'Впиши имя ученика.',net:'Таблица пока не ответила. Попробуй ещё раз через несколько секунд.',save_unknown:'Не удалось подтвердить сохранение. Сначала обнови данные кабинета и проверь результат, прежде чем повторять действие.',
  no_code:'Страница и скрипт рассинхронизировались (закэшировалась старая версия). Полностью обнови страницу: зажми Shift и нажми круглую стрелку в адресной строке, или Ctrl+Shift+R.',
  bad_request:'Скрипт не разобрал запрос — похоже, в таблице развёрнута старая или битая версия. Вставь код заново и сделай «Новая версия» развёртывания.',
  bad_op:'В таблице старая версия скрипта: этой функции в ней ещё нет. Сделай «Новая версия» развёртывания.'};
 function errText(e){const m=String(e&&e.message||e);if(/DriveApp|Drive|разрешени|permission/i.test(m))return 'Скрипту нужен доступ к Google Диску: в Apps Script выбери setup → «Выполнить» и разреши доступ, потом сделай новую версию развёртывания.';const pl=/^plan_bad_line_(\d+)$/.exec(m);if(pl)return 'План не сохранён: строка '+pl[1]+' не по формату. Нужно «ГГГГ-ММ-ДД | блок | тема | ДЗ | пометка», дата и тема обязательны.';if(m==='plan_too_long')return 'План слишком длинный: не больше 300 уроков и 45 000 знаков.';if(m==='plan_no_sheet')return 'В таблице нет листа «Планы»: в Apps Script выбери setup → «Выполнить».';return ERR[m]||('Не получилось: '+m)}
 function setBusy(){const b=document.getElementById('tbusy');if(b)b.textContent=busy?'Сохраняю…':''}
-function adm(op,x){busy++;setBusy();
- return fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({admin:PASS,op,t:CODE},x||{}))})
-  .then(r=>r.json(),()=>{throw new Error('net')})
-  .then(j=>{if(j.error==='bad_password'){logout(true);throw new Error('bad_password')}if(j.error)throw new Error(j.error);return j})
-  .finally(()=>{busy--;setBusy()})}
+// Retry reads only: a failed write may already have reached the table.
+async function tableRequest(url,options={},readOnly=false){
+ for(let attempt=0;attempt<(readOnly?2:1);attempt++){
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),readOnly?30000:60000);
+  try{
+   const response=await fetch(url,{...options,signal:controller.signal});
+   if(!response.ok)throw new Error('net');
+   const j=await response.json();
+   if(!j||typeof j!=='object'||Array.isArray(j))throw new Error('net');
+   return j;
+  }catch(e){
+   if(!readOnly)throw new Error('save_unknown');
+   if(attempt===1)throw new Error('net');
+  }finally{clearTimeout(timer)}
+  await new Promise(resolve=>setTimeout(resolve,1200));
+ }
+}
+let adminQueue=Promise.resolve();
+const adminReads=new Map();
+function adm(op,x){
+ const payload=Object.assign({admin:PASS,op,t:CODE},x||{}),body=JSON.stringify(payload);
+ const readOnly=['ping','list','get','boardLibraryGet','quizList','quizGet'].includes(op);
+ if(readOnly&&adminReads.has(body))return adminReads.get(body);
+ busy++;setBusy();
+ const run=adminQueue.then(()=>tableRequest(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body},readOnly))
+  .then(j=>{if(j.error==='bad_password'){if(PASS===payload.admin)logout(true);throw new Error('bad_password')}if(j.error)throw new Error(j.error);return j})
+  .finally(()=>{busy--;setBusy();if(readOnly)adminReads.delete(body)});
+ adminQueue=run.catch(()=>{});
+ if(readOnly)adminReads.set(body,run);
+ return run;
+}
 function logout(bad){PASS='';try{localStorage.removeItem('cab-admin')}catch(e){}tLogin(bad?'Пароль не подошёл. Введи ещё раз.':'')}
 function copy(txt,btn){const ok=()=>{btn.textContent='Скопировано';setTimeout(()=>btn.textContent='Скопировать',1600)};try{navigator.clipboard.writeText(txt).then(ok,()=>{btn.textContent='Выдели и скопируй'})}catch(e){btn.textContent='Выдели и скопируй'}}
 
