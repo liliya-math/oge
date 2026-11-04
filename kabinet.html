@@ -1743,7 +1743,7 @@ function adm(op,x){
  if(readOnly)adminReads.set(body,run);
  return run;
 }
-function logout(bad){PASS='';try{localStorage.removeItem('cab-admin')}catch(e){}tLogin(bad?'Пароль не подошёл. Введи ещё раз.':'')}
+function logout(bad){PASS='';tCacheClear();try{localStorage.removeItem('cab-admin')}catch(e){}tLogin(bad?'Пароль не подошёл. Введи ещё раз.':'')}
 function copy(txt,btn){const ok=()=>{btn.textContent='Скопировано';setTimeout(()=>btn.textContent='Скопировать',1600)};try{navigator.clipboard.writeText(txt).then(ok,()=>{btn.textContent='Выдели и скопируй'})}catch(e){btn.textContent='Выдели и скопируй'}}
 
 function tTop(){return `<header class="top"><div class="toprow">
@@ -1768,9 +1768,20 @@ function tLogin(msg){D=null;
 }
 
 /* ---------- список учеников ---------- */
+function tCacheGet(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
+function tCacheSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function tCacheClear(){try{Object.keys(localStorage).filter(k=>k.startsWith('cab-t-')).forEach(k=>localStorage.removeItem(k))}catch(e){}}
 function tList(){
- app.innerHTML=tTop()+`<div class="cab enter"><p class="klead">Загружаю учеников…</p></div>`;bindTopT();
- adm('list').then(j=>{LIST=j.students;tListRender()}).catch(err=>{if(String(err.message)!=='bad_password')tFail(err,tList)});
+ const c=tCacheGet('cab-t-list');let shown=false;
+ if(c&&Array.isArray(c)){LIST=c;shown=true;tListRender()}
+ else{app.innerHTML=tTop()+`<div class="cab enter"><p class="klead">Загружаю учеников…</p></div>`;bindTopT()}
+ adm('list').then(j=>{
+  const same=shown&&JSON.stringify(j.students)===JSON.stringify(c);
+  tCacheSet('cab-t-list',j.students);
+  if(same)return;
+  const typing=shown&&document.activeElement&&/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
+  LIST=j.students;if(!typing)tListRender()
+ }).catch(err=>{if(String(err.message)!=='bad_password'&&!shown)tFail(err,tList)});
 }
 function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
  app.innerHTML=tTop()+`<div class="cab enter">
@@ -1824,9 +1835,17 @@ function tFail(err,retry){app.innerHTML=tTop()+`<div class="cab enter"><section 
 function bindTopT(){LiliPersonalBoard.bind(document,LiliBoardLinks,toast);const o=document.getElementById('tout');if(o)o.onclick=()=>logout(false)}
 
 /* ---------- кабинет ученика в режиме учителя ---------- */
-function tStudent(){app.innerHTML=tTop()+`<div class="cab enter"><p class="klead">Открываю кабинет…</p></div>`;
- adm('get').then(j=>{D=j.d;tRender()}).catch(err=>{if(String(err.message)!=='bad_password')tFail(err,tStudent)})}
-function apply(j,keep){D=j.d;tRender(keep)}
+function tStudent(){const ck='cab-t-get:'+CODE,c=tCacheGet(ck);let shown=false;
+ if(c&&typeof c==='object'){D=c;shown=true;tRender()}
+ else app.innerHTML=tTop()+`<div class="cab enter"><p class="klead">Открываю кабинет…</p></div>`;
+ adm('get').then(j=>{
+  const same=shown&&JSON.stringify(j.d)===JSON.stringify(c);
+  tCacheSet(ck,j.d);
+  if(same)return;
+  const typing=shown&&document.activeElement&&/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
+  D=j.d;if(!typing)tRender()
+ }).catch(err=>{if(String(err.message)!=='bad_password'&&!shown)tFail(err,tStudent)})}
+function apply(j,keep){D=j.d;if(CODE)tCacheSet('cab-t-get:'+CODE,D);tRender(keep)}
 function drafts(){const o={};app.querySelectorAll('input[id]:not([type=file]),textarea[id]').forEach(i=>{o[i.id]=i.type==='checkbox'?i.checked:i.value});return o}
 let journalRequested;
 function journalCard(){try{return LiliTeaching.journalHTML(localStorage,D.code||CODE,D,journalRequested)}catch(e){return '<div class="card"><h2>Карточка занятия</h2><p>Браузер запретил доступ к личному журналу. Разреши хранение данных для сайта.</p></div>'}}
