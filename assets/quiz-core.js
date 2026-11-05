@@ -32,6 +32,8 @@ var LiliQuiz = (function () {
     }
     return q.answer.split('|').some(k=>q.type==='number'?equal(number(g),number(k)):text(g)===text(k));
   }
+  const mockSection='ОГЭ / Пробники / Часть 1';
+  const isMock=d=>!!d&&d.section===mockSection;
   function validate(d) {
     if(!d||typeof d!=='object')fail('Нет данных работы.');
     const string=(v,n,max)=>{if(typeof v!=='string'||!v.trim()||v.length>max)fail('Проверь поле «'+n+'».');return v.trim();};
@@ -61,6 +63,7 @@ var LiliQuiz = (function () {
       }
       return item;
     });
+    if(isMock(out)&&(out.kind!=='exam'||out.tasks.length!==19||out.tasks.some(q=>q.points!==1)))fail('Пробник первой части: тип работы контр, ровно 19 заданий по 1 баллу, в порядке №1–19.');
     if(JSON.stringify(out).length>40000)fail('Работа слишком большая. Раздели её на несколько тестов.');
     return out;
   }
@@ -86,6 +89,6 @@ var LiliQuiz = (function () {
   function publicWork(d){const kind=d.kind||'free';return {title:d.title,section:d.section,kind,tasks:d.tasks.map(q=>({n:q.n,q:q.q,type:q.type,points:q.points,hint:limited(kind)?'':q.hint,figure:q.figure||'',options:q.options}))};}
   function grade(d,answers){let score=0;const tasks=d.tasks.map(q=>{const ok=same(answers[q.n],q);if(ok)score+=q.points;return {n:q.n,ok,points:ok?q.points:0};});return {score,max:d.tasks.reduce((n,q)=>n+q.points,0),tasks};}
   const sample='Название: Квадратные корни · первая проверка\nРаздел: Алгебра / 8 класс / Квадратные корни\n\nЗадание: Вычисли \\(\\sqrt{81}\\).\nОтвет: 9\nБаллы: 1\n\nЗадание: Вычисли \\(\\frac{3}{4}+\\frac{1}{4}\\).\nОтвет: 1\nБаллы: 1\n\nЗадание: Реши уравнение \\(x^2=25\\). Запиши корни через ;\nТип: набор\nОтвет: -5; 5\nБаллы: 2\nПодсказка: Какие числа при возведении в квадрат дают 25?\n\nЗадание: Выбери верное равенство.\nТип: выбор\nВарианты: √36 = 6 | √36 = -6 | √36 = 18\nОтвет: √36 = 6\nБаллы: 1';
-  return {parse,validate,stringify,publicWork,grade,same,number,limited,tries,sample};
+  return {mockSection,isMock,parse,validate,stringify,publicWork,grade,same,number,limited,tries,sample};
 })();
 if(typeof module!=='undefined')module.exports=LiliQuiz;

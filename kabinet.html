@@ -835,9 +835,10 @@ a.gc{text-decoration:none}
 .plan-row.next td{background:var(--glass2)}
 .plan-row.next .pd b{color:var(--amber)}
 </style>
-<link rel="stylesheet" href="assets/quiz-cabinet.css">
+<link rel="stylesheet" href="assets/quiz-cabinet.css?v=714">
 <script src="assets/quiz-ui.js"></script>
-<script src="assets/quiz-cabinet.js"></script>
+<script src="assets/oge-progress.js?v=2"></script>
+<script src="assets/quiz-cabinet.js?v=714"></script>
 <div class="amb" aria-hidden="true"><i></i><i></i><i></i></div>
 <canvas id="fx" aria-hidden="true"></canvas>
 <main class="wrap" id="app"></main>
@@ -1253,7 +1254,7 @@ const href=u=>!u?'':/^https?:\/\//.test(u)?u:BASE+u.replace(/^\/+/,'');
 function isoIn(k){const t=new Date(Date.now()+k*864e5);return t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0')}
 const DEMO_SK=()=>{const o={};[['7A.4.2.1','solid',-12],['7A.4.2.5','gap',-5],['7A.5.1.1','shaky',-6],['8A.3.2.3','shaky',-3],['N01','solid',-40],['N02','solid',-40],['N03','solid',-38],['N04','solid',-38],['N05','solid',-35],['N06','solid',-35],['N07','solid',-33],['N08','solid',-30],['N09','solid',-30],['N10','solid',-28],['N11','solid',-28],['N12','solid',-25],['N13','solid',-25],['N14','solid',-22],['N15','solid',-22],['N16','solid',-20],['N17','shaky',-9],['S02','solid',-14],['S03','gap',-9],['S05','solid',-14],['A01','solid',-12],['A02','shaky',-6],['A03','gap',-6],['G02','solid',-18],['G03','solid',-18],['G04','solid',-16],['G05','solid',-16],['G06','solid',-12],['G07','solid',-10],['G11','solid',-8],['G12','shaky',-3]].forEach(([id,s,k])=>o[id]={s,d:isoIn(k)});return o};
 function demoData(){const st='ssspp'+'s'.repeat(11)+'pssp'+'ggp'+'nn';const map={};for(let n=1;n<=25;n++)map[n]={s:'solid',p:'shaky',g:'gap',n:'new'}[st[n-1]];
- return {demo:true,workflow:1,skills:DEMO_SK(),name:'Маша',fname:'Петрова',dat:'Маше',bdate:'2011-04-22',parent:'Мама — Ольга',phone:'+7 900 123-45-67',cls:9,goal:22,days:'ср, сб',time:'18:00',board:'https://learnboard.ru',
+ return {demo:true,quiz:1,quizHistory:[[-22,[4,5,8,13,16,17,18,19]],[-15,[4,5,13,17,18,19]],[-8,[4,13,17,18]],[-1,[4,13,18]]].map(([day,wrong],i)=>({section:'ОГЭ / Пробники / Часть 1',kind:'exam',title:'Пробник №'+(i+1),version:1,work:'demo-mock-'+i,assignment:'demo-assignment-'+i,submission:'demo-submission-'+i,at:isoIn(day)+'T12:00:00Z',score:19-wrong.length,max:19,mock:{tasks:Array.from({length:19},(_,n)=>({n:String(n+1),ok:!wrong.includes(n+1)})),seconds:4200}})),workflow:1,skills:DEMO_SK(),name:'Маша',fname:'Петрова',dat:'Маше',bdate:'2011-04-22',parent:'Мама — Ольга',phone:'+7 900 123-45-67',cls:9,goal:22,days:'ср, сб',time:'18:00',board:'https://learnboard.ru',
   topic:'Задания 4–5: тарифы и выгодный выбор',lessonsPlan:8,lessonsDone:4,
   work:['Задания 4, 5 и 17: довести до уверенного решения.','Задание 20: убрать ошибки в знаках. Ход решения уже верный.','Задание 21: начали задачи на движение, к концу месяца — первые решения без подсказки.'],
   map,notes:{
@@ -1627,6 +1628,7 @@ function choosePet(id){if(!TALS.some(t=>t.id===id))return;S.tal=id;S.picked=true
 const WF_LABEL={new:'Не начато',solving:'Решаю',submitted:'На проверке',checked:'Проверено',revise:'Нужно исправить',help:'Нужна помощь',done:'Выполнено'};
 function CAB_TABS(){const t=[['homework','Домашка']];if(LIB())t.push(['materials','Библиотека']);
  if(D.quiz===1||SHOW('map')||SHOW('skills')||SHOW('exams')||SHOW('grades'))t.push(['progress','Прогресс']);
+ if(clsOf()===9||(D.quizHistory||[]).some(LiliOgeProgress.isMock))t.push(['mocks','Пробники ОГЭ']);
  if(SHOW('rewards'))t.push(['rewards','Коллекция']);
  if(!TEACH&&SHOW('plan')&&Array.isArray(D.plan)&&D.plan.length)t.push(['plan','План']);
  return t}
@@ -1658,7 +1660,7 @@ function kidWorkspace(bday){const prog=quizCabinetCard(D)+(SHOW('map')?progressS
  return welcomeKid()+bday+focusWork()+`<div class="lessonstrip">${lessonCard()}</div>`+cabNav()
   +cabPanel('homework',newHwCard()+(SHOW('notebook')?notebookCard():'')+telegramCard()+(SHOW('letter')?letterCard():'')+contactLine())
   +(LIB()?cabPanel('materials',materialsFolders()+((D.mats&&D.mats.length)||!D.matsAll?matCard():'')):'')
-  +(prog?cabPanel('progress',prog):'')+(SHOW('rewards')?cabPanel('rewards',stkCard()):'')
+  +(prog?cabPanel('progress',prog):'')+(CAB_TABS().some(x=>x[0]==='mocks')?cabPanel('mocks',LiliOgeProgress.html(D.quizHistory||[],T_OGE)):'')+(SHOW('rewards')?cabPanel('rewards',stkCard()):'')
   +(CAB_TABS().some(x=>x[0]==='plan')?cabPanel('plan',planKidCard()):'')}
 function bindHomeworkRows(){document.querySelectorAll('[data-hwrow] .hwm a').forEach(a=>a.dataset.hwopen=a.closest('[data-hwrow]').dataset.hwrow);document.querySelectorAll('#hw-results .chk').forEach(b=>b.onclick=()=>toggleHW(b.dataset.hw,b));bindWorkflowButtons()}
 function bindWorkspace(){const pl=document.getElementById('petlink');if(pl)pl.onclick=openPetPicker;const nl=document.getElementById('namelink');if(nl)nl.onclick=openNameDialog;bindNotebook();document.querySelectorAll('[data-cabtab]').forEach(b=>b.onclick=()=>switchCabTab(b.dataset.cabtab));document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>switchCabTab(b.dataset.go));document.querySelectorAll('[data-hwfilter]').forEach(b=>b.onclick=()=>{S.hwFilter=b.dataset.hwfilter;save();document.querySelectorAll('[data-hwfilter]').forEach(x=>x.setAttribute('aria-pressed',x===b));paintHwList()});const search=document.getElementById('hw-search');if(search)search.oninput=()=>{S.hwQuery=search.value;save();paintHwList()};paintHwList();bindWorkflowButtons()}

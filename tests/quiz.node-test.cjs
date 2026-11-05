@@ -43,7 +43,7 @@ test('identical browser/server rules and syntax of changed scripts',()=>{
 const source=fs.readFileSync(require.resolve('../kabinet-apps-script.txt'),'utf8'),core=fs.readFileSync(require.resolve('../assets/quiz-core.js'),'utf8');assert(source.includes(core));
 for(const path of ['../assets/quiz-ui.js','../assets/quiz-builder.js','../assets/quiz-runner.js','../assets/quiz-cabinet.js'])new vm.Script(fs.readFileSync(require.resolve(path),'utf8'));
 const html=fs.readFileSync(require.resolve('../kabinet.html'),'utf8');for(const m of html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g))if(m[1].trim())new vm.Script(m[1]);
-assert(html.includes('quizCabinetCard(D)+'));assert(html.includes('src="assets/quiz-cabinet.js"'));assert(html.includes('src="assets/quiz-ui.js"'));
+assert(html.includes('quizCabinetCard(D)+'));assert(/src="assets\/quiz-cabinet\.js(?:\?[^"]*)?"/.test(html));assert(html.includes('src="assets/quiz-ui.js"'));
 const ui={window:{addEventListener(){}},URLSearchParams,Date};vm.createContext(ui);vm.runInContext(fs.readFileSync(require.resolve('../assets/quiz-ui.js'),'utf8'),ui);vm.runInContext(fs.readFileSync(require.resolve('../assets/quiz-cabinet.js'),'utf8'),ui);assert.equal(ui.quizCabinetCard({}), '');assert(ui.quizCabinetCard({quiz:1,quizHistory:[]}).includes('Результаты тестов'));assert(source.includes("'Попытки тестов']\n    .forEach"));
 });
 
@@ -119,4 +119,31 @@ e.down(true);const out=e.post({t:'bob',quiz:{...c,assignment:h2.assignment,row:h
 test('teacher Telegram: silent when teacher is not connected',()=>{
 const e=tgEnv();const ex=e.call('quizSave_',{work:Q.parse(kindText('сам'))}),a=e.call('quizAssign_','alice',{work:ex.id,version:1});
 assert.equal(e.post({t:'alice',quiz:{work:ex.id,version:1,assignment:a.assignment,row:a.row,submission:'submission-000000001',answers:{}}}).ok,true);assert.equal(e.fetches.length,0);
+});
+test('OGE part 1: strict shape, one attempt, private correctness survives server history',()=>{
+const d={title:'Пробник №1',section:Q.mockSection,kind:'exam',tasks:Array.from({length:19},(_,i)=>({q:'Вычисли '+i,answer:String(i),points:1}))};
+assert(Q.isMock(Q.parse(Q.stringify(Q.validate(d)))));
+for(const bad of [{...d,kind:'hw'},{...d,tasks:d.tasks.slice(1)},{...d,tasks:d.tasks.map((q,i)=>({...q,points:i?1:2}))}])assert.throws(()=>Q.validate(bad));
+const e=env(),w=e.call('quizSave_',{work:d}),a=e.call('quizAssign_','alice',{work:w.id,version:1}),body={work:w.id,version:1,assignment:a.assignment,row:a.row,submission:'mock-submission-000001',answers:{1:'0',2:'wrong'},seconds:600};
+const result=e.post({t:'alice',quiz:body});assert(result.ok);assert.equal(result.result.score,1);assert.deepEqual(result.result.tasks,[]);
+const h=e.call('quizHistory_','alice')[0];assert(!h.detail);assert.equal(h.mock.tasks.length,19);assert.deepEqual(h.mock.tasks.slice(0,2),[{n:'1',ok:true},{n:'2',ok:false}]);assert(!JSON.stringify(h).includes('answers'));assert.equal(e.call('quizHistory_','bob').length,0);
+assert.equal(e.post({t:'alice',quiz:{...body,submission:'mock-submission-000002'}}).error,'already_done');assert.equal(e.post({t:'alice',quiz:body}).duplicate,true);
+});
+test('mark existing mock retroactively across eligible versions without changing definitions, grades, assignments or attempts',()=>{
+const e=env(),d={title:'Старый пробник',section:'ОГЭ / 9 класс',kind:'free',tasks:Array.from({length:19},(_,i)=>({q:'Вычисли '+i,answer:String(i),points:1}))};
+const old=e.call('quizSave_',{work:{...d,tasks:d.tasks.slice(0,2)}}),w=e.call('quizSave_',{id:old.id,baseVersion:1,work:d}),a=e.call('quizAssign_','alice',{work:w.id,version:2}),b={work:w.id,version:2,assignment:a.assignment,row:a.row,submission:'legacy-submission-001',answers:{1:'0'}};
+assert(e.post({t:'alice',quiz:b}).ok);assert.equal(e.call('quizHistory_','alice')[0].ogePart1,false);
+const beforeDefs=JSON.stringify(e.sheets.get('Тесты').rows),beforeAttempts=JSON.stringify(e.sheets.get('Попытки тестов').rows),beforeAssignments=JSON.stringify(e.sheets.get('Домашка').rows);
+assert.equal(e.post({admin:'wrong',op:'quizClassify',work:w.id,version:2,enabled:true}).error,'bad_password');
+assert.equal(e.post({t:'alice',op:'quizClassify',work:w.id,version:2,enabled:true}).error,'no_task');
+const r=e.post({admin:'teacher-password',op:'quizClassify',work:w.id,version:2,enabled:true});assert(r.ok);assert.equal(r.skipped,1);assert.equal(r.versions,1);
+const h=e.call('quizHistory_','alice')[0];assert(h.ogePart1);assert.equal(h.score,1);assert.equal(h.mock.tasks.length,19);assert.equal(h.mock.tasks[0].ok,true);assert(!h.detail);assert(!h.answers);
+assert.equal(e.call('quizList_').works[0].ogePart1,true);assert(e.post({admin:'teacher-password',op:'quizGet',work:w.id}).ogePart1);
+assert.equal(JSON.stringify(e.sheets.get('Тесты').rows),beforeDefs);assert.equal(JSON.stringify(e.sheets.get('Попытки тестов').rows),beforeAttempts);assert.equal(JSON.stringify(e.sheets.get('Домашка').rows),beforeAssignments);
+assert.equal(e.call('quizClassify_',{work:w.id,version:1,enabled:true}).error,'changed');
+const v3=e.call('quizSave_',{id:w.id,baseVersion:2,work:d});assert(v3.ogePart1);assert.equal(e.call('quizClassify_',{work:w.id,version:3,enabled:false}).ok,true);assert.equal(e.call('quizHistory_','alice')[0].ogePart1,false);assert(!e.call('quizHistory_','alice')[0].mock);assert.equal(e.call('quizHistory_','bob').length,0);assert.equal(JSON.stringify(e.sheets.get('Попытки тестов').rows),beforeAttempts);
+});
+test('classification rejects nonstandard mocks and explicit removal overrides section marker',()=>{
+const e=env(),w=e.call('quizSave_',{work:Q.parse(Q.sample)});assert.equal(e.call('quizClassify_',{work:w.id,version:1,enabled:true}).error,'quiz_validation');assert.equal(e.call('quizSave_',{work:Q.parse(Q.sample),ogePart1:true}).error,'quiz_validation');
+const d={title:'Пробник',section:Q.mockSection,kind:'exam',tasks:Array.from({length:19},(_,i)=>({q:'Вычисли '+i,answer:String(i),points:1}))},r=e.call('quizSave_',{work:d});assert(r.ogePart1);assert(e.call('quizClassify_',{work:r.id,version:1,enabled:false}).ok);assert.equal(e.call('quizList_').works.find(t=>t.id===r.id).ogePart1,false);const next=e.call('quizSave_',{id:r.id,baseVersion:1,work:d});assert.equal(next.ogePart1,false);
 });

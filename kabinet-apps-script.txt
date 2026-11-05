@@ -1,5 +1,5 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 7.12
+ * Кабинет ученика 25/25 · lili.math — версия 7.14
  * (7.9: простая автопроверка домашки — листы «Ключи» и «Результаты», страница dz.html; ответы ученика проверяются на сервере, учителю приходит письмо; один раз выполни setupDz, затем «Новая версия»)
  * (7.8: кнопка «Новая ссылка» в режиме учителя — выдаёт ученику новый код, старый перестаёт работать; после замены кода: «Новая версия» развёртывания)
  * (7.7: учитель выбирает, что видит ученик и родитель (колонка «Показывать», скрытое вообще не уходит на страницу);
@@ -439,7 +439,7 @@ function setPassword() {
 function doGet(e) {
   const p = (e && e.parameter) || {};
   const code = String(p.t || '').trim();
-  if (p.quiz === 'capabilities') return json_({ok:true,quiz:1});
+  if (p.quiz === 'capabilities') return json_({ok:true,quiz:1,ogeMocks:2});
   if (p.quiz === 'load') return json_(quizLoad_(code,{work:p.q,version:p.v,assignment:p.a,row:p.row}));
   if (p.w) return json_(dzLoad_(code, String(p.w).trim(), Number(p.row) || 0));
   return json_(code ? studentDataCached_(code, false) : {error: 'no_code'});
@@ -582,7 +582,8 @@ function adminRun_(b) {
       case 'boardLibraryGet': return {ok:true,library:boardLibraryGet_()};
       case 'boardLibraryPut': return boardLibraryPut_(b);
       case 'quizList': return quizList_();
-      case 'quizGet': return {ok:true,work:quizDefinition_(String(b.work||''),Number(b.version)||0)};
+      case 'quizGet': { const d=quizDefinition_(String(b.work||''),Number(b.version)||0); return {ok:true,work:d,ogePart1:!!d&&quizMockFlag_(d.id,d.version,d.section)}; }
+      case 'quizClassify': return quizClassify_(b);
       case 'quizSave': return quizSave_(b);
       case 'quizAssign': { need(); return quizAssign_(code,b); }
       case 'hwReview': { need(); const result = workflowHw_(code, b, true); return result.ok ? fresh() : result; }
@@ -913,7 +914,7 @@ function studentData_(code, admin) {
   const pet = PETS.indexOf(String(r[20] || '').trim()) >= 0 ? String(r[20]).trim() : '';
   const nick = String(r[21] || '').trim();
   const out = {
-    quiz: 1, quizHistory: quizHistory_(code, admin), workflow: 1, nickEdit: true, name: admin ? String(r[1]) : (nick || String(r[1])), nick: nick, dat: admin ? String(r[2] || r[1]) : (nick || String(r[1])), goal: Number(r[3]) || Math.round(goalMax_(prog) * 0.8),
+    quiz: 1, ogeMocks: 2, quizHistory: quizHistory_(code, admin), workflow: 1, nickEdit: true, name: admin ? String(r[1]) : (nick || String(r[1])), nick: nick, dat: admin ? String(r[2] || r[1]) : (nick || String(r[1])), goal: Number(r[3]) || Math.round(goalMax_(prog) * 0.8),
     days: String(r[4] || ''), time: st.time, topic: String(r[6] || ''), board: String(r[7] || ''),
     work: String(r[8] || '').split(';').map(s => s.trim()).filter(Boolean),
     lessonsPlan: Number(r[9]) || 0, lessonsDone: Number(r[10]) || 0,
@@ -1551,6 +1552,8 @@ var LiliQuiz = (function () {
     }
     return q.answer.split('|').some(k=>q.type==='number'?equal(number(g),number(k)):text(g)===text(k));
   }
+  const mockSection='ОГЭ / Пробники / Часть 1';
+  const isMock=d=>!!d&&d.section===mockSection;
   function validate(d) {
     if(!d||typeof d!=='object')fail('Нет данных работы.');
     const string=(v,n,max)=>{if(typeof v!=='string'||!v.trim()||v.length>max)fail('Проверь поле «'+n+'».');return v.trim();};
@@ -1580,6 +1583,7 @@ var LiliQuiz = (function () {
       }
       return item;
     });
+    if(isMock(out)&&(out.kind!=='exam'||out.tasks.length!==19||out.tasks.some(q=>q.points!==1)))fail('Пробник первой части: тип работы контр, ровно 19 заданий по 1 баллу, в порядке №1–19.');
     if(JSON.stringify(out).length>40000)fail('Работа слишком большая. Раздели её на несколько тестов.');
     return out;
   }
@@ -1605,7 +1609,7 @@ var LiliQuiz = (function () {
   function publicWork(d){const kind=d.kind||'free';return {title:d.title,section:d.section,kind,tasks:d.tasks.map(q=>({n:q.n,q:q.q,type:q.type,points:q.points,hint:limited(kind)?'':q.hint,figure:q.figure||'',options:q.options}))};}
   function grade(d,answers){let score=0;const tasks=d.tasks.map(q=>{const ok=same(answers[q.n],q);if(ok)score+=q.points;return {n:q.n,ok,points:ok?q.points:0};});return {score,max:d.tasks.reduce((n,q)=>n+q.points,0),tasks};}
   const sample='Название: Квадратные корни · первая проверка\nРаздел: Алгебра / 8 класс / Квадратные корни\n\nЗадание: Вычисли \\(\\sqrt{81}\\).\nОтвет: 9\nБаллы: 1\n\nЗадание: Вычисли \\(\\frac{3}{4}+\\frac{1}{4}\\).\nОтвет: 1\nБаллы: 1\n\nЗадание: Реши уравнение \\(x^2=25\\). Запиши корни через ;\nТип: набор\nОтвет: -5; 5\nБаллы: 2\nПодсказка: Какие числа при возведении в квадрат дают 25?\n\nЗадание: Выбери верное равенство.\nТип: выбор\nВарианты: √36 = 6 | √36 = -6 | √36 = 18\nОтвет: √36 = 6\nБаллы: 1';
-  return {parse,validate,stringify,publicWork,grade,same,number,limited,tries,sample};
+  return {mockSection,isMock,parse,validate,stringify,publicWork,grade,same,number,limited,tries,sample};
 })();
 if(typeof module!=='undefined')module.exports=LiliQuiz;
 
@@ -1613,6 +1617,7 @@ if(typeof module!=='undefined')module.exports=LiliQuiz;
 /* Quiz API v1. All mutating calls run under the cabinet's existing script lock.
    Published definitions are immutable; assignments pin a version and random identity. */
 const QUIZ_SHEETS = {
+  'Виды тестов': ['Работа', 'Версия', 'Пробник первой части', 'Дата'],
   'Тесты': ['Работа', 'Версия', 'Название', 'Раздел', 'Дата', 'JSON'],
   'Попытки тестов': ['Код', 'Работа', 'Версия', 'Назначение', 'Отправка', 'Дата', 'Название', 'Раздел', 'Баллы', 'Максимум', 'Секунд', 'JSON']
 };
@@ -1630,21 +1635,44 @@ function quizDefinition_(id,version) {
   if(!a.length)return null;const r=a[a.length-1];
   return Object.assign(JSON.parse(r[5]),{id:String(r[0]),version:Number(r[1])});
 }
+// Classification is separate from immutable definitions and original attempt records.
+function quizMockFlags_(){
+  const flags=Object.create(null);quizValues_('Виды тестов').forEach(r=>{flags[String(r[0])+'@'+Number(r[1])]=r[2]===true;});return flags;
+}
+function quizMockFlag_(id,version,section,flags){
+  flags=flags||quizMockFlags_();const key=String(id)+'@'+Number(version);
+  return Object.prototype.hasOwnProperty.call(flags,key)?flags[key]:LiliQuiz.isMock({section:section});
+}
+function quizMockShape_(d){return !!d&&Array.isArray(d.tasks)&&d.tasks.length===19&&d.tasks.every((q,i)=>String(q.n)===String(i+1)&&q.points===1);}
+function quizSetMockFlag_(id,version,enabled){quizSheet_('Виды тестов').appendRow([id,version,enabled,new Date()]);}
+function quizClassify_(b){
+  if(typeof b.enabled!=='boolean')return {error:'bad_value'};
+  const id=String(b.work||''),latest=quizDefinition_(id);if(!latest)return {error:'no_work'};
+  if(latest.version!==Number(b.version))return {error:'changed'};
+  if(b.enabled&&!quizMockShape_(latest))return {error:'quiz_validation',message:'Для пробника первой части нужны 19 заданий в порядке №1–19, по 1 баллу. Условия и ответы менять не нужно, если работа уже соответствует этому формату.'};
+  const versions=quizValues_('Тесты').filter(r=>String(r[0])===id),flags=quizMockFlags_();let included=0,skipped=0;
+  versions.forEach(r=>{const d=JSON.parse(r[5]),valid=quizMockShape_(d);if(b.enabled&&!valid){skipped++;return;}included++;if(quizMockFlag_(id,Number(r[1]),d.section,flags)!==b.enabled)quizSetMockFlag_(id,Number(r[1]),b.enabled);});
+  return {ok:true,ogePart1:b.enabled,versions:included,skipped:skipped};
+}
 function quizSave_(b) {
   try {
     const d=LiliQuiz.validate(b.work),id=b.id?String(b.id):Utilities.getUuid();
     if(!/^[a-zA-Z0-9-]{6,80}$/.test(id))return {error:'bad_value'};
     const prev=quizDefinition_(id);
     if((prev?prev.version:0)!==Number(b.baseVersion||0))return {error:'changed'};
+    if(b.ogePart1!==undefined&&typeof b.ogePart1!=='boolean')return {error:'bad_value'};
+    const flagged=b.ogePart1===undefined?(prev?quizMockFlag_(id,prev.version,prev.section):LiliQuiz.isMock(d)):b.ogePart1;
+    if(flagged&&!quizMockShape_(d))return {error:'quiz_validation',message:'Пробник первой части должен содержать 19 заданий по 1 баллу в порядке №1–19.'};
     const version=(prev?prev.version:0)+1;
     // JSON starts with {, so imported text cannot become a spreadsheet formula.
     quizSheet_('Тесты').appendRow([id,version,quizCell_(d.title),quizCell_(d.section),new Date(),JSON.stringify(d)]);
-    return {ok:true,id,version};
+    quizSetMockFlag_(id,version,flagged);
+    return {ok:true,id,version,ogePart1:flagged};
   }catch(e){return {error:'quiz_validation',message:String(e.message||e)};}
 }
 function quizCell_(s){s=String(s);return /^[=+\-@]/.test(s)?"'"+s:s;}
 function quizList_(){
-  const latest={};quizValues_('Тесты').forEach(r=>{const d=JSON.parse(r[5]);latest[r[0]]={id:String(r[0]),version:Number(r[1]),title:d.title,section:d.section,count:d.tasks.length,kind:d.kind||'free',nodes:[...new Set((d.nodes||[]).concat(...d.tasks.map(q=>q.nodes||[])))],max:d.tasks.reduce((n,q)=>n+q.points,0)};});
+  const latest={},flags=quizMockFlags_();quizValues_('Тесты').forEach(r=>{const d=JSON.parse(r[5]);latest[r[0]]={id:String(r[0]),version:Number(r[1]),title:d.title,section:d.section,count:d.tasks.length,ogePart1:quizMockFlag_(String(r[0]),Number(r[1]),d.section,flags),kind:d.kind||'free',nodes:[...new Set((d.nodes||[]).concat(...d.tasks.map(q=>q.nodes||[])))],max:d.tasks.reduce((n,q)=>n+q.points,0)};});
   return {ok:true,works:Object.keys(latest).map(k=>latest[k])};
 }
 function quizAssign_(code,b) {
@@ -1672,9 +1700,13 @@ function quizAssigned_(code,b) {
   return {sh,row,values:r};
 }
 function quizHistory_(code,admin) {
+  const flags=quizMockFlags_();
   return quizValues_('Попытки тестов').filter(r=>String(r[0])===code).map(r=>{
     const j=JSON.parse(r[11]),h={work:String(r[1]),version:Number(r[2]),assignment:String(r[3]),submission:String(r[4]),at:r[5] instanceof Date?r[5].toISOString():String(r[5]),title:j.title||String(r[6]),section:j.section||String(r[7]),kind:j.kind||'free',hints:(j.hints||[]).length,idk:(j.idk||[]).length,score:Number(r[8]),max:Number(r[9])};
-    // Per-task detail is for the teacher only; pupils and parents get the score.
+    // Mock analytics expose correctness only, never answer keys or responses.
+    h.ogePart1=quizMockFlag_(h.work,h.version,h.section,flags);
+    if(h.ogePart1)h.mock={tasks:(j.tasks||[]).map(t=>({n:String(t.n),ok:!!t.ok})),seconds:Number(r[10])||0};
+    // Other per-task detail remains teacher-only.
     if(admin)h.detail={tasks:(j.tasks||[]).map(t=>({n:String(t.n),ok:!!t.ok})),hints:j.hints||[],idk:j.idk||[],seconds:Number(r[10])||0};
     return h;
   });
