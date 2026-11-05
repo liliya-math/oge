@@ -1331,6 +1331,9 @@ function telegramSiteUrl_(value) {
   if (!/^[a-z]+:/i.test(url) && !url.startsWith('//')) url = 'https://lilimath.ru/' + url.replace(/^\/+/, '');
   const m = /^https:\/\/lilimath\.ru\/([^?#]*)(?:[?#].*)?$/i.exec(url);
   if (!m || /(?:^|\/)\.{1,2}(?:\/|$)|\\|%2e|%2f|%5c/i.test(m[1]) || !/\.(?:html?|pdf)$/i.test(m[1])) return '';
+  // Личная ссылка на тест из конструктора: параметры нужны, иначе quiz.html откроется пустым.
+  const q = /^https:\/\/lilimath\.ru\/quiz\.html(\?q=[\w%.-]+&v=\d+&a=[a-zA-Z0-9-]+)$/.exec(url);
+  if (q) return 'https://lilimath.ru/quiz.html' + q[1];
   return 'https://lilimath.ru/' + m[1];
 }
 function telegramWatchList_() {
@@ -1582,7 +1585,12 @@ function quizAssign_(code,b) {
   const aid=Utilities.getUuid(),url='quiz.html?q='+encodeURIComponent(d.id)+'&v='+d.version+'&a='+aid;
   const sh=SpreadsheetApp.getActive().getSheetByName('Домашка');if(!sh)return {error:'not_ready'};
   sh.appendRow([code,quizCell_(d.title),'',ruDate_(b.due),url,'Пройти тест',false,'','','','new','','','',new Date(),Utilities.getUuid()]);
-  return {ok:true,row:sh.getLastRow(),url:url,assignment:aid};
+  let notification=null;
+  if(b.notify===true){
+    try{notification=telegramHomeworkNotice_(code,'Новый тест: '+d.title+(b.due?'\nСрок: '+ruDate_(b.due):''),url);}
+    catch(e){console.error('quizAssign_ notify: '+e);notification={ok:false,error:'telegram_failed'};}
+  }
+  return {ok:true,row:sh.getLastRow(),url:url,assignment:aid,notification:notification};
 }
 function quizAssigned_(code,b) {
   const st=findStudentRow_(code);if(!st||st.row[11]===false)return null;
