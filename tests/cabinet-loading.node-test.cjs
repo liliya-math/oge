@@ -6,7 +6,7 @@ const html=fs.readFileSync(require('node:path').join(__dirname,'../kabinet.html'
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
 function scheduler(){
  const calls=[],pending=[];
- const ctx={Promise,Map,busy:0,API:'https://example.test',PASS:'password',CODE:'',setBusy(){},logout(){},
+ const ctx={Promise,Map,busy:0,busyWrites:0,API:'https://example.test',PASS:'password',CODE:'',setBusy(){},logout(){},
   tableRequest(url,options,readOnly){const payload=JSON.parse(options.body);calls.push({payload,readOnly});return new Promise((resolve,reject)=>pending.push({resolve,reject}));}};
  vm.createContext(ctx);
  vm.runInContext(html.slice(html.indexOf('const adminQueue=[];'),html.indexOf('function logout(')),ctx);

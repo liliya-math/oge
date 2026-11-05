@@ -446,7 +446,13 @@ function doGet(e) {
 }
 
 function doPost(e) {
-  try { return doPostRun_(e); } finally { bumpVer_(); }
+  // Admin writes invalidate in admin_(). Reads must leave cached answers usable.
+  let adminRequest = false;
+  try {
+    const body = JSON.parse(e.postData.contents);
+    adminRequest = body.admin !== undefined;
+  } catch (err) { /* Invalid requests are handled by doPostRun_(). */ }
+  try { return doPostRun_(e); } finally { if (!adminRequest) bumpVer_(); }
 }
 
 function doPostRun_(e) {

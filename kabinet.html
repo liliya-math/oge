@@ -1702,7 +1702,7 @@ document.addEventListener('visibilitychange',()=>{if(LIVE&&document.visibilitySt
 setInterval(()=>{const e=document.getElementById('cd');if(!e||!D)return;const t=nextLesson();if(!t)return;const c=countdown(t);e.className='cd'+(c.live?' live':'');e.innerHTML='<i></i>'+c.s},30000);
 /* ===== Режим учителя: kabinet.html#lilia ===== */
 let PASS='';try{PASS=localStorage.getItem('cab-admin')||''}catch(e){}
-let busy=0,LIST=null;
+let busy=0,busyWrites=0,LIST=null;
 const ERR={board_library_corrupt:'Не удалось прочитать библиотеку аккаунта. Локальные материалы сохранены.',board_library_too_large:'Библиотека превышает 40 МБ или 100 материалов. Выгрузи резервную копию.',board_library_bad_template:'Сервер отклонил повреждённый шаблон.',board_library_bad_link:'Не удалось проверить ссылку личной доски.',board_library_bad_request:'Запрос синхронизации некорректен. Открой синхронизацию ещё раз.',locked:'Слишком много неверных паролей. Подожди 15 минут.',too_many:'Слишком много сообщений за час. Попробуй позже.',telegram_not_configured:'Сначала подключи Telegram-бота через меню Google-таблицы.',telegram_not_connected:'Ученик ещё не подключил Telegram-бота.',telegram_paused:'Уведомления на паузе.',telegram_blocked:'Ученик отключил бота. Нужно подключить его заново.',telegram_api_error:'Telegram временно недоступен. Попробуй уведомить позже.',telegram_network_error:'Не удалось связаться с Telegram. Попробуй уведомить позже.',no_password:'Сначала задай пароль в таблице: меню «Кабинет → Пароль для режима учителя».',
  old:'В таблице старая версия скрипта. Вставь новый код и сделай новую версию развёртывания.',
  not_found:'Такого ученика нет в таблице.',changed:'В таблице что-то поменялось. Данные обновлены, попробуй ещё раз.',
@@ -1711,7 +1711,7 @@ const ERR={board_library_corrupt:'Не удалось прочитать биб�
  bad_request:'Скрипт не разобрал запрос — похоже, в таблице развёрнута старая или битая версия. Вставь код заново и сделай «Новая версия» развёртывания.',
  bad_op:'В таблице старая версия скрипта: этой функции в ней ещё нет. Сделай «Новая версия» развёртывания.'};
 function errText(e){const m=String(e&&e.message||e);if(/DriveApp|Drive|разрешени|permission/i.test(m))return 'Скрипту нужен доступ к Google Диску: в Apps Script выбери setup → «Выполнить» и разреши доступ, потом сделай новую версию развёртывания.';const pl=/^plan_bad_line_(\d+)$/.exec(m);if(pl)return 'План не сохранён: строка '+pl[1]+' не по формату. Нужно «ГГГГ-ММ-ДД | блок | тема | ДЗ | пометка», дата и тема обязательны.';if(m==='plan_too_long')return 'План слишком длинный: не больше 300 уроков и 45 000 знаков.';if(m==='plan_no_sheet')return 'В таблице нет листа «Планы»: в Apps Script выбери setup → «Выполнить».';return ERR[m]||('Не получилось: '+m)}
-function setBusy(){const b=document.getElementById('tbusy');if(b)b.textContent=busy?'Сохраняю…':''}
+function setBusy(){const b=document.getElementById('tbusy');if(b)b.textContent=busyWrites?'Сохраняю…':busy?'Загружаю…':''}
 // Retry reads only: a failed write may already have reached the table.
 async function tableRequest(url,options={},readOnly=false){
  for(let attempt=0;attempt<(readOnly?2:1);attempt++){
@@ -1747,11 +1747,11 @@ function adm(op,x,options={}){
   const job=adminReads.get(body);if(!options.background)job.background=false;
   return job.promise;
  }
- busy++;setBusy();
+ busy++;if(!readOnly)busyWrites++;setBusy();
  const job={background:readOnly&&!!options.background};
  job.execute=()=>tableRequest(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body},readOnly)
   .then(j=>{if(j.error==='bad_password'){if(PASS===payload.admin)logout(true);throw new Error('bad_password')}if(j.error)throw new Error(j.error);return j})
-  .finally(()=>{busy--;setBusy();if(readOnly&&adminReads.get(body)===job)adminReads.delete(body)});
+  .finally(()=>{busy--;if(!readOnly)busyWrites--;setBusy();if(readOnly&&adminReads.get(body)===job)adminReads.delete(body)});
  job.promise=new Promise((resolve,reject)=>{job.resolve=resolve;job.reject=reject});
  if(readOnly)adminReads.set(body,job);
  adminQueue.push(job);nextAdminRequest();
