@@ -1729,19 +1729,33 @@ async function tableRequest(url,options={},readOnly=false){
   await new Promise(resolve=>setTimeout(resolve,1200));
  }
 }
-let adminQueue=Promise.resolve();
+// Keep table writes ordered; visible actions take precedence over background reads.
+const adminQueue=[];
+let adminRunning=false;
 const adminReads=new Map();
-function adm(op,x){
+function nextAdminRequest(){
+ if(adminRunning||!adminQueue.length)return;
+ const urgent=adminQueue.findIndex(job=>!job.background);
+ const job=adminQueue.splice(urgent<0?0:urgent,1)[0];
+ adminRunning=true;
+ Promise.resolve().then(job.execute).then(job.resolve,job.reject).finally(()=>{adminRunning=false;nextAdminRequest()});
+}
+function adm(op,x,options={}){
  const payload=Object.assign({admin:PASS,op,t:CODE},x||{}),body=JSON.stringify(payload);
  const readOnly=['ping','list','get','boardLibraryGet','quizList','quizGet'].includes(op);
- if(readOnly&&adminReads.has(body))return adminReads.get(body);
+ if(readOnly&&adminReads.has(body)){
+  const job=adminReads.get(body);if(!options.background)job.background=false;
+  return job.promise;
+ }
  busy++;setBusy();
- const run=adminQueue.then(()=>tableRequest(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body},readOnly))
+ const job={background:readOnly&&!!options.background};
+ job.execute=()=>tableRequest(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body},readOnly)
   .then(j=>{if(j.error==='bad_password'){if(PASS===payload.admin)logout(true);throw new Error('bad_password')}if(j.error)throw new Error(j.error);return j})
-  .finally(()=>{busy--;setBusy();if(readOnly)adminReads.delete(body)});
- adminQueue=run.catch(()=>{});
- if(readOnly)adminReads.set(body,run);
- return run;
+  .finally(()=>{busy--;setBusy();if(readOnly&&adminReads.get(body)===job)adminReads.delete(body)});
+ job.promise=new Promise((resolve,reject)=>{job.resolve=resolve;job.reject=reject});
+ if(readOnly)adminReads.set(body,job);
+ adminQueue.push(job);nextAdminRequest();
+ return job.promise;
 }
 function logout(bad){PASS='';tCacheClear();try{localStorage.removeItem('cab-admin')}catch(e){}tLogin(bad?'Пароль не подошёл. Введи ещё раз.':'')}
 function copy(txt,btn){const ok=()=>{btn.textContent='Скопировано';setTimeout(()=>btn.textContent='Скопировать',1600)};try{navigator.clipboard.writeText(txt).then(ok,()=>{btn.textContent='Выдели и скопируй'})}catch(e){btn.textContent='Выдели и скопируй'}}
@@ -1817,17 +1831,32 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
 /* ---------- лента сдач: что сделали ученики, у кого что ждёт проверки (данные те же, что в кабинете ученика) ---------- */
 const FEED_ORD={help:0,submitted:1,revise:2,solving:3};
 function tFeed(L){const box=document.getElementById('tfeed');if(!box)return;const act=(L||[]).filter(s=>s.active);if(!act.length)return;
- box.innerHTML='<h2>Что сдали ученики</h2><p class="klead" style="margin:0 0 8px">Загружаю…</p>';
- Promise.all(act.map(s=>adm('get',{t:s.code}).then(j=>({s,hw:(j.d&&j.d.hw)||[]})).catch(()=>({s,hw:[],fail:true})))).then(R=>{
+ box.innerHTML='<h2>Что сдали ученики</h2><p class="note">Обнови сдачи, когда будешь готова проверять работы.</p><button class="btn ghost" data-feed-refresh>Обновить сдачи</button><div data-feed-results></div>';
+ const refresh=box.querySelector('[data-feed-refresh]'),results=box.querySelector('[data-feed-results]');
+ const paint=(R,cached)=>{
   const rows=[];R.forEach(r=>r.hw.forEach(h=>{if(FEED_ORD[h.status]!==undefined)rows.push({s:r.s,h})}));
   rows.sort((x,y)=>FEED_ORD[x.h.status]-FEED_ORD[y.h.status]||String(x.s.name).localeCompare(String(y.s.name),'ru'));
   const fails=R.filter(r=>r.fail).length;
   const cnt=k=>rows.filter(r=>r.h.status===k).length;
   const head=`<h2>Что сдали ученики</h2><p class="klead" style="margin:0 0 8px">${rows.length?`Ждут проверки: <b>${cnt('submitted')}</b> · нужна помощь: <b>${cnt('help')}</b> · на исправлении: <b>${cnt('revise')}</b> · решают сейчас: <b>${cnt('solving')}</b>`:'Новых сдач нет: всё проверено или ещё не начато.'}${fails?` · не удалось загрузить: ${fails}`:''}</p>`;
-  box.innerHTML=head+(rows.length?`<div class="stus">${rows.map(({s,h})=>{const st=h.status;const note=String(h.studentNote||'').split('\n').slice(0,2).join(' · ');
+  results.innerHTML=(cached?'<p class="note">Последние загруженные данные. Нажми «Обновить сдачи», чтобы проверить изменения.</p>':'')+head+(rows.length?`<div class="stus">${rows.map(({s,h})=>{const st=h.status;const note=String(h.studentNote||'').split('\n').slice(0,2).join(' · ');
    return `<a class="stu" href="#lilia-${esc(s.code)}"><div class="stuh"><b>${esc(s.name)}${s.fname?' '+esc(s.fname):''}</b><span class="kchip ${st==='help'||st==='revise'?'new':st==='submitted'?'bbrd':'shaky'}">${esc(WF_LABEL[st])}</span></div>
    <div class="stum"><span>${esc(h.t)}</span>${note?`<span>${esc(note)}</span>`:''}</div></a>`}).join('')}</div>`:'');
- });
+ };
+ const cached=act.map(s=>({s,d:tCacheGet('cab-t-get:'+s.code)})).filter(x=>x.d).map(({s,d})=>({s,hw:d.hw||[]}));
+ if(cached.length)paint(cached,true);
+ refresh.onclick=async()=>{
+  if(refresh.disabled)return;refresh.disabled=true;const R=[];
+  try{for(let i=0;i<act.length;i++){
+   if(!box.isConnected)return;
+   refresh.textContent=`Проверяю: ${i+1} из ${act.length}…`;
+   const s=act[i];
+   try{const j=await adm('get',{t:s.code},{background:true});if(j.d)tCacheSet('cab-t-get:'+s.code,j.d);R.push({s,hw:(j.d&&j.d.hw)||[]})}
+   catch(e){if(e.message==='bad_password')return;R.push({s,hw:[],fail:true})}
+  }
+  if(box.isConnected)paint(R,false);
+  }finally{refresh.disabled=false;refresh.textContent='Обновить сдачи'}
+ };
 }
 function tFail(err,retry){app.innerHTML=tTop()+`<div class="cab enter"><section class="khero"><div class="hpet">${petSVG(tal().id,'sad')}</div><div style="min-width:0">
  <h1 class="big1" style="font-size:clamp(26px,6vw,36px)">Не получилось</h1><p class="klead">${esc(errText(err))}</p><button class="btn" id="retry" style="margin-top:16px">Ещё раз</button></div></section></div>`;
