@@ -2449,6 +2449,14 @@ function tDetail(n){if(!n)return `<p class="klead" style="margin:14px 0 0;font-s
  <label class="fld"><span>Подпись ссылки</span><input id="nt-l" value="${esc(N.label||'')}" placeholder="Разбор: теорема Пифагора" data-fresh="1"></label></div>
  <div class="ferr" id="nt-e"></div><button class="btn" id="nt-save" type="button">Сохранить комментарий</button></div>`}
 
+function findSavedHomework(before,after,payload){
+ const ids=new Set(before.map(h=>h.id));
+ const files=payload.files.map(f=>f.url).sort().join('\u001f');
+ const matches=after.filter(h=>!ids.has(h.id)&&h.t===payload.text&&h.n===(payload.n||'')&&
+  h.due===payload.due&&h.url===payload.url&&h.label===payload.label&&
+  (h.files||[]).map(f=>f.url).sort().join('\u001f')===files);
+ return matches.length===1;
+}
 function tBind(){
  const decisions=[...document.querySelectorAll('[data-lesson-decision]')];
  decisions.forEach(button=>button.onclick=async()=>{
@@ -2514,13 +2522,22 @@ function tBind(){
   ha.disabled=true;if(hn)hn.disabled=true;er.textContent='';
   const due=v('h-d'),nAll=v('h-n'),secAll=v('h-s'),idle=ha.textContent;
   const up=(own&&fs.length)?(ha.textContent='Загружаю файлы…',fs.reduce((p,f)=>p.then(a=>readB64(f).then(data=>adm('upload',{fname:f.name,mime:f.type||'application/pdf',data})).then(j=>{a.push({name:f.name,url:j.url});return a})),Promise.resolve([]))):Promise.resolve([]);
-  up.then(async files=>{let last=null,done=0;
+  up.then(async files=>{let last=null,done=0,recovered=false;
    try{for(let k=0;k<jobs.length;k++){const j=jobs[k];ha.textContent='Задаю '+(k+1)+' из '+jobs.length+'…';
-     last=await adm('hwAdd',{text:j.text,n:nAll||j.n,due,url:j.url,label:j.label,file:'',sec:secAll||j.sec,files:j.own?files:[],notify:notify&&k===jobs.length-1});
+     const payload={text:j.text,n:nAll||j.n,due,url:j.url,label:j.label,file:'',sec:secAll||j.sec,files:j.own?files:[],notify:notify&&k===jobs.length-1};
+     const before=last?.d||D;
+     try{last=await adm('hwAdd',payload)}catch(err){
+      if(err.message!=='save_unknown')throw err;
+      const checked=await adm('get').catch(()=>null);
+      if(checked?.d)D=checked.d;
+      if(!checked?.d||!findSavedHomework(before.hw,checked.d.hw,payload))throw err;
+      last=checked;recovered=true;
+     }
      done++;if(j.pick)HB.pick=HB.pick.filter(x=>x!==j.pick)}
-    }catch(err){if(last){D=last.d}ha.disabled=false;if(hn)hn.disabled=false;ha.textContent=idle;tRender();const e2=document.getElementById('h-e');if(e2)e2.textContent=(done?'Задано '+done+' из '+jobs.length+', остальное не сохранилось. ':'')+errText(err);return}
+    }catch(err){if(last&&err.message!=='save_unknown'){D=last.d}ha.disabled=false;if(hn)hn.disabled=false;ha.textContent=idle;tRender();const e2=document.getElementById('h-e');if(e2)e2.textContent=(done?'Подтверждено '+done+' из '+jobs.length+'. ':'')+errText(err);return}
    ['h-t','h-n','h-d','h-u','h-l'].forEach(id=>{const i=document.getElementById(id);if(i)i.value=''});if(fi)fi.value='';HB.q='';apply(last,true);
-   toast(last.notification?notificationText(last.notification):(jobs.length>1?'Задано карточек: '+jobs.length:'Задание добавлено'))})};
+   toast(last.notification?notificationText(last.notification):recovered?'Задание найдено в кабинете'+(notify?'. Доставка уведомления не подтверждена.':''):(jobs.length>1?'Задано карточек: '+jobs.length:'Задание добавлено'));
+  }).catch(err=>{ha.disabled=false;if(hn)hn.disabled=false;ha.textContent=idle;er.textContent=errText(err)})};
  document.querySelectorAll('.hwfi').forEach(inp=>inp.onchange=()=>{const fs=[...inp.files];if(!fs.length)return;const h=D.hw.find(x=>String(x.id)===inp.dataset.hw);if(!h)return;
   fs.reduce((p,f)=>p.then(()=>readB64(f).then(data=>adm('upload',{fname:f.name,mime:f.type||'application/pdf',data})).then(j=>adm('fileAdd',{hw:h.id,name:f.name,url:j.url})).then(j=>apply(j))),Promise.resolve())
    .then(()=>toast('Файл(ы) прикреплены')).catch(err=>{toast(errText(err));tStudent()});inp.value=''});
