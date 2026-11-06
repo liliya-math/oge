@@ -20,10 +20,14 @@
   function schedule(students, parse, now = Date.now()) {
     const day = dayKey(now), wd = new Date(day+'T12:00:00Z').getUTCDay(), out = [];
     students.filter(s => s.active !== false).forEach(s => {
-      parse(s.days,s.time).slots.filter(x => x.wd === wd && x.h >= 0 && x.h < 24 && x.m >= 0 && x.m < 60).forEach(x => {
-        const start = Date.parse(`${day}T${String(x.h).padStart(2,'0')}:${String(x.m).padStart(2,'0')}:00+04:00`);
-        out.push({student:s,start,end:start+3600000});
-      });
+      const moves = s.lessonMoves || [];
+      const skipped = new Set(moves.map(m => m.from));
+      const regular = parse(s.days,s.time).slots
+        .filter(x => x.wd === wd && x.h >= 0 && x.h < 24 && x.m >= 0 && x.m < 60)
+        .map(x => Date.parse(`${day}T${String(x.h).padStart(2,'0')}:${String(x.m).padStart(2,'0')}:00+04:00`))
+        .filter(start => !skipped.has(start));
+      const moved = moves.map(m => m.to).filter(start => dayKey(start) === day);
+      for (const start of new Set([...regular, ...moved])) out.push({student:s,start,end:start+3600000});
     });
     out.sort((a,b) => a.start-b.start || String(a.student.name).localeCompare(String(b.student.name),'ru'));
     return out.map((x,i) => ({...x,conflict:out.some((y,j) => i !== j && x.start < y.end && y.start < x.end),state:x.end <= now?'past':x.start <= now?'live':'next'}));

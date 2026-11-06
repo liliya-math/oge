@@ -170,7 +170,7 @@ function sheet_(ss, name) {
    Любая запись (doPost, admin-операции кроме чтения, ручная правка таблицы) меняет «версию данных»,
    и старый кэш перестаёт использоваться. Если кэш недоступен или не влез, скрипт работает как раньше. */
 const CACHE_TTL_ = 120;
-const READ_OPS_ = ['ping', 'list', 'get', 'boardLibraryGet', 'quizList', 'quizGet'];
+const READ_OPS_ = ['ping', 'list', 'get', 'boardLibraryGet', 'quizList', 'quizGet', 'lessonDefaultsGet'];
 
 function cacheVer_() {
   const c = CacheService.getScriptCache();
@@ -227,6 +227,7 @@ function onOpen() {
     .addItem('Оформить в стиле 25/25', 'styleSheets')
     .addItem('Подключить Telegram-бота', 'configureTelegram')
     .addItem('Подключить Telegram преподавателя', 'connectTeacherTelegram')
+    .addItem('Включить напоминания об уроках', 'setupLessonReminders')
     .addItem('Подготовить таблицу', 'setup')
     .addToUi();
 }
@@ -587,6 +588,34 @@ function adminRun_(b) {
       case 'quizSave': return quizSave_(b);
       case 'quizAssign': { need(); return quizAssign_(code,b); }
       case 'hwReview': { need(); const result = workflowHw_(code, b, true); return result.ok ? fresh() : result; }
+      case 'lessonDefaultsGet': return {ok: true, minutes: lrDefaults_()};
+      case 'lessonDefaultsSet': {
+        props.setProperty('LESSON_DEFAULTS', JSON.stringify(lrMinutes_(b.minutes)));
+        return {ok: true, minutes: lrDefaults_()};
+      }
+      case 'lessonReminderSet': {
+        need();
+        const cfg = lrConfig_(code);
+        cfg.minutes = b.minutes === null ? null : lrMinutes_(b.minutes);
+        lrSave_(code, cfg);
+        return fresh();
+      }
+      case 'lessonMove': {
+        const st = need(), cfg = lrConfig_(code), now = Date.now();
+        const from = b.from, to = b.to;
+        const previous = cfg.moves.find(m => m.from === from);
+        if (!Number.isSafeInteger(from) || (previous ? previous.to <= now : from <= now) || (to === null && from <= now) || (to !== null &&
+          (!Number.isSafeInteger(to) || to <= now || to % 60000 || to > now + 90 * 86400000))) return {error: 'bad_value'};
+        const slots = lrParse_(st.row[4], st.time, 'Europe/Samara').slots;
+        if (!previous && !lrUpcoming_(slots, now, 8).includes(from)) return {error: 'bad_value'};
+        if ((previous ? previous.to : from) !== b.expected) return {error: 'changed'};
+        if (to !== null && to !== from && (lrUpcoming_(slots, to - 1, 1).includes(to) ||
+            cfg.moves.some(m => m.from !== from && m.to === to))) return {error: 'lesson_conflict'};
+        cfg.moves = cfg.moves.filter(m => m.from !== from);
+        if (to !== null && to !== from) cfg.moves.push({from, to});
+        lrSave_(code, cfg);
+        return fresh();
+      }
       case 'list': return {ok: true, students: listStudentsCached_()};
       case 'rotateCode': { need(); return {ok: true, code: rotateCode_(code)}; }
       case 'get': { const d = studentDataCached_(code, true); return d.error ? {error: d.error} : {ok: true, d: d}; }
@@ -853,7 +882,7 @@ function listStudents_() {
     if (m) for (let n = 1; n <= nmax; n++) if (STATUS_KEY[String(m[n + 1]).trim().toLowerCase()] === 'solid') p += ptsOf_(pr, n);
     return {code: c, name: String(r[1]), fname: String(r[14] || ''), nick: String(r[21] || '').trim(), goal: Number(r[3]) || Math.round(goalMax_(pr) * 0.8),
             days: String(r[4] || ''), time: x.time, active: r[11] !== false, prog: pr, pts: p, hwLeft: left[c] || 0,
-            letters: letters[c] || 0, cls: Number(r[18]) || clsOfProg_(pr)};
+            lessonMoves: lrConfig_(c).moves, letters: letters[c] || 0, cls: Number(r[18]) || clsOfProg_(pr)};
   });
 }
 
@@ -915,7 +944,7 @@ function studentData_(code, admin) {
   const nick = String(r[21] || '').trim();
   const out = {
     quiz: 1, ogeMocks: 2, quizHistory: quizHistory_(code, admin), workflow: 1, nickEdit: true, name: admin ? String(r[1]) : (nick || String(r[1])), nick: nick, dat: admin ? String(r[2] || r[1]) : (nick || String(r[1])), goal: Number(r[3]) || Math.round(goalMax_(prog) * 0.8),
-    days: String(r[4] || ''), time: st.time, topic: String(r[6] || ''), board: String(r[7] || ''),
+    lessonMoves: lrConfig_(code).moves, days: String(r[4] || ''), time: st.time, topic: String(r[6] || ''), board: String(r[7] || ''),
     work: String(r[8] || '').split(';').map(s => s.trim()).filter(Boolean),
     lessonsPlan: Number(r[9]) || 0, lessonsDone: Number(r[10]) || 0,
     map: has('map') ? map : {}, notes: has('map') ? notes : {}, skills: has('skills') ? skills : {}, hw: hw,
@@ -934,6 +963,7 @@ function studentData_(code, admin) {
   out.plan = has('plan') ? pl.rows.map(x => admin ? x : {d: x.d, b: x.b, t: x.t, n: x.n}) : [];
   if (admin) out.planText = pl.text;
   if (admin) {
+    out.lessonReminders = lrConfig_(code).minutes;
     out.active = r[11] !== false; out.code = code;
     const tz = SpreadsheetApp.getActive().getSpreadsheetTimeZone();
     out.letters = rows('Письма').map(x => ({
@@ -1025,6 +1055,17 @@ function rotateCode_(old) {
   swap(tg.getSheetByName('Telegram'), 1);
   swap(tg.getSheetByName('Telegram-ссылки'), 2);
   swap(tg.getSheetByName('Telegram-файлы'), 2);
+  const props = PropertiesService.getScriptProperties(), config = props.getProperty('LESSON_' + old);
+  if (config) {
+    props.setProperty('LESSON_' + next, config);
+    props.deleteProperty('LESSON_' + old);
+  }
+  const log = ss.getSheetByName('Напоминания');
+  if (log && log.getLastRow() > 1) {
+    const range = log.getRange(2, 1, log.getLastRow() - 1, 1), keys = range.getValues();
+    keys.forEach(row => { if (String(row[0]).startsWith(old + '|')) row[0] = next + String(row[0]).slice(old.length); });
+    range.setValues(keys);
+  }
   return next;
 }
 /* ================= Простая автопроверка домашки =================
@@ -1801,11 +1842,34 @@ function boardLibraryPut_(b) {
 }
 
 /* ================= Напоминания о занятиях в Telegram =================
- * Вставить В КОНЕЦ существующего скрипта (ничего не заменяя), один раз запустить setupLessonReminders,
- * затем «Новая версия» развёртывания не нужна: это работает по триггеру, а не через веб-адрес.
+ * Сохранить этот файл в Apps Script и обновить существующее развёртывание.
+ * Если триггер ещё не создан, один раз запустить setupLessonReminders.
  * Читает расписание из листа «Ученики» (колонка «Дни занятий», время по Самаре, после « | » пояс ученика),
  * шлёт за сутки и за час через уже работающую telegramSend_. Отметки об отправке — лист «Напоминания». */
-const LR_STEPS = [{key: 'd1', min: 24 * 60}, {key: 'h1', min: 60}];
+function lrMinutes_(value) {
+  if (!Array.isArray(value) || value.length > 3 ||
+      value.some(n => !Number.isInteger(n) || n < 15 || n > 2880)) throw new Error('bad_value');
+  return Array.from(new Set(value)).sort((a, b) => b - a);
+}
+function lrDefaults_() {
+  const raw = PropertiesService.getScriptProperties().getProperty('LESSON_DEFAULTS');
+  return raw ? JSON.parse(raw) : [1440, 60];
+}
+function lrConfig_(code) {
+  const raw = PropertiesService.getScriptProperties().getProperty('LESSON_' + code);
+  return raw ? JSON.parse(raw) : {minutes: null, moves: []};
+}
+function lrSave_(code, config) {
+  const cutoff = Date.now() - 3600000;
+  config.moves = config.moves.filter(m => Math.max(m.from, m.to) > cutoff);
+  const props = PropertiesService.getScriptProperties(), key = 'LESSON_' + code;
+  if (config.minutes === null && !config.moves.length) props.deleteProperty(key);
+  else props.setProperty(key, JSON.stringify(config));
+}
+function lrApplyMoves_(regular, moves, now) {
+  const skipped = new Set(moves.map(m => m.from));
+  return Array.from(new Set(regular.filter(t => !skipped.has(t)).concat(moves.map(m => m.to).filter(t => t > now))));
+}
 const LR_WINDOW_MIN = 15;   // триггер каждые 10 минут, окно 15: хотя бы одно срабатывание гарантировано
 const LR_SAMARA_OFF = 4 * 60;
 const LR_DAYS = {'вс': 0, 'пн': 1, 'вт': 2, 'ср': 3, 'чт': 4, 'пт': 5, 'сб': 6};
@@ -1831,10 +1895,10 @@ function lrParse_(days, time, tzDefault) {
 }
 
 /* Ближайшие занятия (мс UTC) в ближайшие 3 суток по самарскому времени. */
-function lrUpcoming_(slots, nowMs) {
+function lrUpcoming_(slots, nowMs, days = 3) {
   const out = [], sam = new Date(nowMs + LR_SAMARA_OFF * 60000);
   slots.forEach(s => {
-    for (let off = 0; off <= 3; off++) {
+    for (let off = 0; off <= days; off++) {
       const d = new Date(Date.UTC(sam.getUTCFullYear(), sam.getUTCMonth(), sam.getUTCDate() + off));
       if (d.getUTCDay() !== s.wd) continue;
       const t = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), s.h, s.m) - LR_SAMARA_OFF * 60000;
@@ -1856,7 +1920,7 @@ function sendLessonReminders() {
   const lock = LockService.getScriptLock();
   if (!lock.tryLock(1000)) return;
   try {
-    const ss = telegramSS_(), ssTz = SpreadsheetApp.getActive().getSpreadsheetTimeZone();
+    const ss = telegramSS_(), ssTz = ss.getSpreadsheetTimeZone();
     const st = ss.getSheetByName('Ученики');
     if (!st || st.getLastRow() < 2) return;
     let log = ss.getSheetByName('Напоминания');
@@ -1865,18 +1929,19 @@ function sendLessonReminders() {
     if (log.getLastRow() > 1) log.getRange(2, 1, log.getLastRow() - 1, 1).getValues().forEach(r => { sentKeys[String(r[0])] = true; });
     const connected = {};
     telegramRows_('Telegram').forEach(r => { if (r.v[2] === true && r.v[3] !== true) connected[String(r.v[0])] = true; });
-    const now = Date.now();
+    const now = Date.now(), defaults = lrDefaults_();
     st.getRange(2, 1, st.getLastRow() - 1, 12).getValues().forEach(r => {
       const code = String(r[0] || '').trim();
       if (!code || r[11] === false || !connected[code]) return;
       const P = lrParse_(r[4], r[5], ssTz);
-      lrUpcoming_(P.slots, now).forEach(t => {
+      const cfg = lrConfig_(code), minutes = cfg.minutes === null ? defaults : cfg.minutes;
+      lrApplyMoves_(lrUpcoming_(P.slots, now), cfg.moves, now).forEach(t => {
         const left = (t - now) / 60000;
-        LR_STEPS.forEach(step => {
-          if (!(left <= step.min && left > step.min - LR_WINDOW_MIN)) return;
-          const key = code + '|' + t + '|' + step.key;
+        minutes.forEach(min => {
+          if (!(left <= min && left > min - LR_WINDOW_MIN)) return;
+          const key = code + '|' + t + '|' + (min === 1440 ? 'd1' : min === 60 ? 'h1' : min);
           if (sentKeys[key]) return;
-          const text = (step.key === 'd1' ? 'Занятие через сутки\n\n' : 'Занятие через час\n\n') + lrWhen_(t, P.tz) +
+          const text = 'Напоминание о занятии\n\n' + lrWhen_(t, P.tz) +
             (P.tz !== 'Europe/Samara' ? ' (по твоему времени)' : '');
           const res = telegramSend_(code, text);
           if (res.ok) { log.appendRow([key, new Date()]); sentKeys[key] = true; }

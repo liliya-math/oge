@@ -846,7 +846,7 @@ a.gc{text-decoration:none}
 <script src="assets/lili-board-cloud.js?v=20261031-recovery"></script>
 <script src="assets/lili-personal-board.js?v=20261031-personal"></script>
 <script src="assets/lili-board-window.js?v=20261031-stage3"></script>
-<script src="assets/lili-teaching.js?v=20261031-stage3"></script>
+<script src="assets/lili-teaching.js?v=20261106-schedule"></script>
 <script src="assets/lili-lesson-flow.js?v=20261031-stage3"></script>
 <script>
 (() => {
@@ -1342,7 +1342,20 @@ function shiftSlot(x,delta){/* сдвиг дня недели и времени 
  let v=(x.wd*1440+x.h*60+x.m+delta)%10080;if(v<0)v+=10080;return {wd:Math.floor(v/1440),h:Math.floor(v%1440/60),m:v%60}}
 function SCH(){return parseSched(D.days,D.time)}
 function stuTz(){const z=SCH().tz;return z||devTz()}
-function nextLesson(){const P=SCH(),now=Date.now();let best=null;P.slots.forEach(x=>{const t=slotNext(x,now);if(t&&(!best||t<best))best=t});return best}
+function lessonTimes(now=Date.now()){
+ const moves=D.lessonMoves||[], skipped=new Set(moves.map(m=>m.from)), regular=SCH().slots.flatMap(x=>{
+  const first=+slotNext(x,now);return first?[first,first+7*86400000]:[];
+ });
+ return [...new Set(regular.filter(t=>!skipped.has(t)).concat(moves.map(m=>m.to)))].filter(t=>t+3600000>now).sort((a,b)=>a-b);
+}
+function nextLesson(){const t=lessonTimes()[0];return t?new Date(t):null}
+function lessonSchedule(teach,t){
+ const times=lessonTimes(), tz=teach?'Europe/Samara':stuTz();
+ return `<details class="formbox"><summary>Расписание</summary>
+ <p class="note">${teach?'Регулярно, по Самаре':'Регулярно'} · ${esc(weekLine(tz))}</p>
+ <ul>${times.slice(0,8).map(ms=>`<li>${fmtWhen(new Date(ms),tz)}${(D.lessonMoves||[]).some(m=>m.to===ms)?' · перенос':''}</li>`).join('')}</ul></details>
+ ${teach&&D.active&&D.lessonReminders!==undefined&&+t>Date.now()?'<button class="btn ghost tsm" type="button" id="lesson-move">Перенести урок</button>':''}`;
+}
 function fmtWhen(t,tz){const o=validTz(tz)?{timeZone:tz}:{};const day=t.toLocaleDateString('ru-RU',Object.assign({weekday:'long',day:'numeric',month:'long'},o));const hm=t.toLocaleTimeString('ru-RU',Object.assign({hour:'2-digit',minute:'2-digit'},o));return day.charAt(0).toUpperCase()+day.slice(1)+', '+hm}
 function weekLine(tz){/* расписание недели в поясе tz */
  const P=SCH(),now=Date.now();return P.slots.map(x=>{const t=slotNext(x,now);if(!t)return '';const sl=shiftSlot(x,tzOff(tz,t)-SAMARA_OFF);return {k:DORDER.indexOf(sl.wd)*1440+sl.h*60+sl.m,s:DN[sl.wd]+' '+hhmm(sl.h,sl.m)}}).filter(Boolean).sort((a,b)=>a.k-b.k).map(o=>o.s).join(', ')}
@@ -1374,11 +1387,11 @@ function myBoardURL(){try{return TEACH&&D?LiliBoardLinks.teacherURL(localStorage
 function boardContextURL(raw,teacher){return LiliTeaching.boardURL(raw,{code:D.code||CODE,name:D.name,teacher})}
 function boardOpenButtons(teacher){const u=boardContextURL(teacher?myBoardURL():pupilBoardURL(),teacher);
  if(!u)return teacher?'<button class="btn ghost" type="button" id="bd-setup">Настроить доску</button>':'';
- return `<div class="boardrow"><a class="btn" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${teacher?'Моя доска с учеником':'Открыть доску'}</a>${LiliBoardLinks.parse(u)?`<a class="btn ghost" href="${esc(LiliBoardLinks.videoURL(u))}" target="_blank" rel="noopener noreferrer">Доска + видео</a>`:''}</div>`}
+ return `<div class="boardrow"><a class="btn" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${'Открыть доску'}</a>${LiliBoardLinks.parse(u)?`<a class="btn ghost" href="${esc(LiliBoardLinks.videoURL(u))}" target="_blank" rel="noopener noreferrer">Доска + видео</a>`:''}</div>`}
 
 function lessonCard(teach){const t=nextLesson();if(!t)return `<div class="card"><span class="eyebrow">Следующее занятие</span><div class="when">Расписание уточняется</div>${topicHTML(D.topic)}${boardOpenButtons(teach)}</div>`;
  const c=countdown(t),P=SCH(),tz=stuTz(),dev=devTz(),diff=!teach&&P.tz&&dev&&tzOff(dev,t)!==tzOff(P.tz,t);
- const wk=teach?weekLine('Europe/Samara'):weekLine(tz),wkS=teach&&P.tz&&tzOff(P.tz,t)!==SAMARA_OFF?weekLine(P.tz):'';
+ const wkS=teach&&P.tz&&tzOff(P.tz,t)!==SAMARA_OFF;
  return `<div class="card">
  <span class="eyebrow">Следующее занятие</span>
  <div class="when">${fmtWhen(t,teach?'Europe/Samara':tz)}${teach?' <small class="tzs">по Самаре</small>':''}</div>
@@ -1386,8 +1399,7 @@ function lessonCard(teach){const t=nextLesson();if(!t)return `<div class="card">
  <span class="cd ${c.live?'live':''}" id="cd"><i></i>${c.s}</span>
  ${D.topic?topicHTML(D.topic):'<div style="height:14px"></div>'}
  ${boardOpenButtons(teach)}
- ${P.slots.length>1||teach?`<div class="wk"><span>${teach?'Неделя по Самаре':'Каждую неделю'}</span>${esc(wk)}</div>`:''}
- ${teach&&wkS?`<div class="wk"><span>У ученика (${esc(P.city||tzLabel(P.tz))})</span>${esc(wkS)}</div>`:''}
+ ${lessonSchedule(teach,t)}
  <div class="tzn">${teach?'Ученик видит время в своём поясе.':`Время по твоему часовому поясу${tz?' ('+esc(P.tz?tzLabel(tz):tz)+')':''}.`}${diff?` Сейчас твоё устройство в другом поясе: там это ${t.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}.`:''}</div></div>`}
 const isSite=u=>!!u&&(!/^https?:/.test(u)||u.indexOf(BASE)===0);
 function boardTaskLink(h){
@@ -1705,7 +1717,7 @@ setInterval(()=>{const e=document.getElementById('cd');if(!e||!D)return;const t=
 /* ===== Режим учителя: kabinet.html#lilia ===== */
 let PASS='';try{PASS=localStorage.getItem('cab-admin')||''}catch(e){}
 let busy=0,busyWrites=0,LIST=null;
-const ERR={board_library_corrupt:'Не удалось прочитать библиотеку аккаунта. Локальные материалы сохранены.',board_library_too_large:'Библиотека превышает 40 МБ или 100 материалов. Выгрузи резервную копию.',board_library_bad_template:'Сервер отклонил повреждённый шаблон.',board_library_bad_link:'Не удалось проверить ссылку личной доски.',board_library_bad_request:'Запрос синхронизации некорректен. Открой синхронизацию ещё раз.',locked:'Слишком много неверных паролей. Подожди 15 минут.',too_many:'Слишком много сообщений за час. Попробуй позже.',telegram_not_configured:'Сначала подключи Telegram-бота через меню Google-таблицы.',telegram_not_connected:'Ученик ещё не подключил Telegram-бота.',telegram_paused:'Уведомления на паузе.',telegram_blocked:'Ученик отключил бота. Нужно подключить его заново.',telegram_api_error:'Telegram временно недоступен. Попробуй уведомить позже.',telegram_network_error:'Не удалось связаться с Telegram. Попробуй уведомить позже.',no_password:'Сначала задай пароль в таблице: меню «Кабинет → Пароль для режима учителя».',
+const ERR={lesson_conflict:'У ученика уже есть занятие в это время.',board_library_corrupt:'Не удалось прочитать библиотеку аккаунта. Локальные материалы сохранены.',board_library_too_large:'Библиотека превышает 40 МБ или 100 материалов. Выгрузи резервную копию.',board_library_bad_template:'Сервер отклонил повреждённый шаблон.',board_library_bad_link:'Не удалось проверить ссылку личной доски.',board_library_bad_request:'Запрос синхронизации некорректен. Открой синхронизацию ещё раз.',locked:'Слишком много неверных паролей. Подожди 15 минут.',too_many:'Слишком много сообщений за час. Попробуй позже.',telegram_not_configured:'Сначала подключи Telegram-бота через меню Google-таблицы.',telegram_not_connected:'Ученик ещё не подключил Telegram-бота.',telegram_paused:'Уведомления на паузе.',telegram_blocked:'Ученик отключил бота. Нужно подключить его заново.',telegram_api_error:'Telegram временно недоступен. Попробуй уведомить позже.',telegram_network_error:'Не удалось связаться с Telegram. Попробуй уведомить позже.',no_password:'Сначала задай пароль в таблице: меню «Кабинет → Пароль для режима учителя».',
  old:'В таблице старая версия скрипта. Вставь новый код и сделай новую версию развёртывания.',
  not_found:'Такого ученика нет в таблице.',changed:'В таблице что-то поменялось. Данные обновлены, попробуй ещё раз.',
  bad_value:'Проверь, что всё заполнено правильно.',no_name:'Впиши имя ученика.',net:'Таблица пока не ответила. Попробуй ещё раз через несколько секунд.',save_unknown:'Не удалось подтвердить сохранение. Сначала обнови данные кабинета и проверь результат, прежде чем повторять действие.',
@@ -1744,7 +1756,7 @@ function nextAdminRequest(){
 }
 function adm(op,x,options={}){
  const payload=Object.assign({admin:PASS,op,t:CODE},x||{}),body=JSON.stringify(payload);
- const readOnly=['ping','list','get','boardLibraryGet','quizList','quizGet'].includes(op);
+ const readOnly=['ping','list','get','boardLibraryGet','quizList','quizGet','lessonDefaultsGet'].includes(op);
  if(readOnly&&adminReads.has(body)){
   const job=adminReads.get(body);if(!options.background)job.background=false;
   return job.promise;
@@ -1760,13 +1772,13 @@ function adm(op,x,options={}){
  return job.promise;
 }
 function logout(bad){PASS='';tCacheClear();try{localStorage.removeItem('cab-admin')}catch(e){}tLogin(bad?'Пароль не подошёл. Введи ещё раз.':'')}
-function copy(txt,btn){const ok=()=>{btn.textContent='Скопировано';setTimeout(()=>btn.textContent='Скопировать',1600)};try{navigator.clipboard.writeText(txt).then(ok,()=>{btn.textContent='Выдели и скопируй'})}catch(e){btn.textContent='Выдели и скопируй'}}
+function copy(txt,btn){const label=btn.textContent,ok=()=>{btn.textContent='Скопировано';setTimeout(()=>btn.textContent=label,1600)};try{navigator.clipboard.writeText(txt).then(ok,()=>{btn.textContent='Выдели и скопируй'})}catch(e){btn.textContent='Выдели и скопируй'}}
 
 function tTop(){return `<header class="top"><div class="toprow">
  <div class="brandrow">${logoMark(30)}<span class="brand">25/25 · <b>Учитель</b></span></div>
  <span class="sp"></span><span class="tbusy" id="tbusy"></span><a class="btn ghost tsm" data-personal-board>Моя доска</a><a class="btn ghost tsm" href="quiz-builder.html">Тесты</a>
  ${D&&CODE?`<div class="mseg" role="group" aria-label="Как видят"><button id="mKid" aria-pressed="${S.mode==='kid'}">Ученик</button><button id="mPar" aria-pressed="${S.mode==='par'}">Родитель</button></div>`:''}
- ${CODE?'<a class="btn ghost tsm" href="#lilia">Сегодня / ученики</a>':PASS?'<button class="btn ghost tsm" id="tout">Выйти</button>':''}
+ ${CODE?'<a class="btn ghost tsm" href="#lilia">Сегодня / ученики</a>':PASS?'<button class="btn ghost tsm" id="teacher-settings">Общие настройки</button><button class="btn ghost tsm" id="tout">Выйти</button>':''}
 </div></header>`}
 
 /* ---------- вход ---------- */
@@ -1807,9 +1819,9 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
  <div id="personal-board-transfer"></div>
  ${LiliTeaching.todayHTML(L,parseSched)}
  <div id="tfeed"></div>
- <h2 id="teacher-students">Все ученики</h2>
- ${L.length?`<div class="stus">${L.map(s=>{const PG=PROGS[s.prog]||PROGS.oge9;return `<a class="stu ${s.active?'':'off'}" href="#lilia-${esc(s.code)}">
-  <div class="stuh"><b>${esc(s.name)}${s.fname?' '+esc(s.fname):''}${s.nick?' <span class="sub">(«'+esc(s.nick)+'»)</span>':''}</b>${PG.oge?'':`<span class="kchip new">${esc(PG.name)}</span>`}${s.active?'':'<span class="kchip new">на паузе</span>'}</div>
+ <h2 id="teacher-students">Ученики</h2>
+ ${L.length?`<div class="stus">${[...act,...L.filter(s=>!s.active)].map(s=>{const PG=PROGS[s.prog]||PROGS.oge9;return `<a class="stu ${s.active?'':'off'}" href="#lilia-${esc(s.code)}">
+  <div class="stuh"><b>${esc(s.name)}${s.fname?' '+esc(s.fname):''}${s.nick?' <span class="sub">(«'+esc(s.nick)+'»)</span>':''}</b>${PG.oge?'':`<span class="kchip new">${esc(PG.name)}</span>`}${s.active?'':'<span class="kchip new">в архиве</span>'}</div>
   <div class="stum"><span>${esc(PG.name)}</span><span>${esc(schedShort(s.days,s.time))}</span>
   <span class="${s.hwLeft?'soon':''}">${s.hwLeft?'домашка: '+s.hwLeft+' не сделано':'домашка закрыта'}</span>
   ${s.letters?`<span class="kchip shaky">анонимные письма: ${s.letters}</span>`:''}
@@ -1863,7 +1875,7 @@ function tFeed(L){const box=document.getElementById('tfeed');if(!box)return;cons
 function tFail(err,retry){app.innerHTML=tTop()+`<div class="cab enter"><section class="khero"><div class="hpet">${petSVG(tal().id,'sad')}</div><div style="min-width:0">
  <h1 class="big1" style="font-size:clamp(26px,6vw,36px)">Не получилось</h1><p class="klead">${esc(errText(err))}</p><button class="btn" id="retry" style="margin-top:16px">Ещё раз</button></div></section></div>`;
  bindTopT();document.getElementById('retry').onclick=retry}
-function bindTopT(){LiliPersonalBoard.bind(document,LiliBoardLinks,toast);const o=document.getElementById('tout');if(o)o.onclick=()=>logout(false)}
+function bindTopT(){LiliPersonalBoard.bind(document,LiliBoardLinks,toast);const o=document.getElementById('tout');if(o)o.onclick=()=>logout(false);const settings=document.getElementById('teacher-settings');if(settings)settings.onclick=openTeacherSettings}
 
 /* ---------- кабинет ученика в режиме учителя ---------- */
 function tStudent(){const ck='cab-t-get:'+CODE,c=tCacheGet(ck);let shown=false;
@@ -1884,9 +1896,11 @@ function openLessonFinish(card){LiliLessonFlow.showFinish(document,{code:D.code|
 function bindJournalCard(){LiliTeaching.bindJournal(document,D.code||CODE,D,{teacherURL:myBoardURL,finish:openLessonFinish,refresh:id=>{journalRequested=id;const el=document.getElementById('teaching-journal');if(el){el.outerHTML=journalCard();bindJournalCard()}},notify:toast})}
 function tRender(keep){LiliTeaching.preserveDraft(document,D.code||CODE);const y=scrollY,dr=keep===false?{}:drafts(),foc=document.activeElement&&document.activeElement.id;
  const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
- app.innerHTML=tTop()+`<div class="cab enter">`+adminCard()+journalCard()+tPlanCard()+tTelegramCard()+bday+(kid
-  ? heroKid()+quizCabinetCard(D)+`<div class="two">${lessonCard(true)}${tHwCard()}</div>`+tMatCard()+mapCard(false)+skillsCard(false)+gradeCard()+`<div class="two">${chartCard()}${probCard()}</div>`+tGradesCard()+tLettersCard()
-  : heroPar()+quizCabinetCard(D)+mapCard(true)+skillsCard(true)+gradeCard()+`<div class="two">${chartCard()}${workCard()}</div>`+tGradesCard()+tLettersCard())+foot()+`</div>`;
+ app.innerHTML=tTop()+`<div class="cab enter"><section class="card"><div class="sh"><h1>${esc(fullName()||D.name)}</h1><span class="sub">${D.active?'':'В архиве'}</span></div>
+ <div class="boardrow"><button class="btn ghost" id="lnkc" type="button">Скопировать ссылку ученика</button>${kid?'<a class="btn ghost" href="#new-homework" id="assign-shortcut">Назначить задание</a>':''}<button class="btn ghost" id="open-settings" type="button">Настройки</button></div></section>
+ ${lessonCard(true)}`+(kid
+  ? quizCabinetCard(D)+tHwCard()+journalCard()+tPlanCard()+tMatCard()+mapCard(false)+skillsCard(false)+gradeCard()+`<div class="two">${chartCard()}${probCard()}</div>`+tGradesCard()+tLettersCard()+bday
+  : heroPar()+quizCabinetCard(D)+mapCard(true)+skillsCard(true)+gradeCard()+`<div class="two">${chartCard()}${workCard()}</div>`+tGradesCard()+tLettersCard())+adminCard()+foot()+`</div>`;
  Object.keys(dr).forEach(id=>{const i=document.getElementById(id);if(!i)return;if(i.type==='checkbox')i.checked=dr[id];else i.value=dr[id]});
  tBind();bindJournalCard();bindPlan();scrollTo({top:y});if(foc){const f=document.getElementById(foc);if(f&&f.focus)f.focus({preventScroll:true})}if(bday)bdayFX()}
 
@@ -1942,9 +1956,9 @@ function bindSched(){const z=document.getElementById('f-tz');if(!z)return;const 
 function progOptions(cls,cur){const L=CLASS_PROGS[cls]||CLASS_PROGS[9];if(!L.includes(cur))cur=L[0];return L.map(p=>`<option value="${p}" ${cur===p?'selected':''}>${PROGS[p].name}</option>`).join('')}
 const SHOW_KEYS=[['work','Над чем работаем (родителям)'],['grades','Школьные оценки'],['exams','Пробники: график и вся история'],['map','Карта заданий'],['skills','Карта навыков'],['notebook','Тетрадь ошибок'],['rewards','Стикеры и коллекция'],['letter','Личное сообщение преподавателю'],['library','Библиотека (теория, тренажёры, разборы)'],['plan','План занятий (даты и темы, без ДЗ)']];
 function boardRow(){const teacher=myBoardURL(),pupil=pupilBoardURL();
- return `<section class="boardsettings"><h3>Доска и видеосвязь</h3>
+ return `<section class="boardsettings"><h3>Доска</h3>
  <p class="note">Две ссылки ведут в одну комнату: твоя открывает сторону учителя, ученическая — сторону ученика.</p>
- <div class="boardrow">${teacher?`<a class="btn" href="${esc(teacher)}" target="_blank" rel="noopener noreferrer">Моя доска с учеником</a><a class="btn ghost" href="${esc(LiliBoardLinks.videoURL(teacher))}" target="_blank" rel="noopener noreferrer">Доска + видео</a>`:''}<button class="btn ghost tsm" id="bd-edit" type="button">${pupil?'Настроить ссылки':'Добавить доску'}</button>${pupil?'<button class="btn ghost tsm" id="bd-copy" type="button">Ссылка ученика</button>':''}</div>
+ <div class="boardrow"><button class="btn ghost tsm" id="bd-edit" type="button">${pupil?'Настроить ссылки':'Добавить доску'}</button>${pupil?'<button class="btn ghost tsm" id="bd-copy" type="button">Скопировать ссылку на доску ученика</button>':''}</div>
  ${!teacher&&pupil?`<p class="note">Ссылка ученика уже задана. <a href="${esc(pupil)}" target="_blank" rel="noopener noreferrer">Открыть текущую доску</a>, затем «Уроки → Защита → Скопировать ссылку учителя». Вставь её ниже.</p>`:''}
  <div class="boardedit" id="bd-form" hidden>
  <label class="fld"><span>Твоя ссылка учителя</span><input id="bd-teacher" value="${esc(teacher)}" placeholder="Скопируй на доске: Уроки → Защита → Ссылка учителя" autocomplete="off" spellcheck="false"></label>
@@ -1996,20 +2010,67 @@ function bindBoard(){const ed=document.getElementById('bd-edit'),f=document.getE
   if(u!==(D.board||'')){const j=await adm('student',{fields:{board:u}});D=j.d}
   LiliBoardLinks.saveTeacher(localStorage,D.code||CODE,u,t);tRender(false);toast('Ссылки сохранены. Твоя кнопка — «Моя доска с учеником», его — «Открыть доску».');
  }catch(err){b.disabled=false;er.textContent=err?.name==='QuotaExceededError'||err?.name==='SecurityError'?'Браузер не разрешил сохранить твою ссылку. Разреши хранение данных для сайта и повтори.':errText(err)}}}
+function settingsDialog(title,body){
+ const dlg=document.createElement('dialog');dlg.className='workflow-dialog';
+ dlg.innerHTML=`<form class="card" method="dialog"><div class="sh"><h2>${title}</h2></div>${body}
+ <p class="ferr" role="alert"></p><div class="boardrow"><button class="btn" type="submit">Сохранить</button><button class="btn ghost" type="button" data-close>Закрыть</button></div></form>`;
+ document.body.append(dlg);dlg.querySelector('[data-close]').onclick=()=>dlg.close();
+ dlg.addEventListener('close',()=>dlg.remove(),{once:true});dlg.showModal();return dlg;
+}
+function bindSettingsSave(dlg,saveSettings){
+ const form=dlg.querySelector('form'),button=form.querySelector('[type=submit]'),error=form.querySelector('[role=alert]');
+ form.onsubmit=async e=>{
+  e.preventDefault();button.disabled=true;error.textContent='';
+  try{await saveSettings(form);dlg.close()}catch(err){error.textContent=errText(err);button.disabled=false}
+ };
+}
+function openLessonMove(){
+ const expected=+nextLesson(),existing=(D.lessonMoves||[]).find(m=>m.to===expected),from=existing?existing.from:expected;
+ const dlg=settingsDialog('Перенести ближайший урок',`<p class="note">Сейчас · ${fmtWhen(new Date(expected),'Europe/Samara')} по Самаре</p>
+ <label class="fld"><span>Новая дата и время по Самаре</span><input name="when" type="datetime-local" required value="${new Date(expected+SAMARA_OFF*60000).toISOString().slice(0,16)}"></label>
+ ${existing&&from>Date.now()?'<button class="btn ghost" type="button" data-undo>Вернуть в обычное расписание</button>':''}`);
+ const move=async to=>{if(to===expected){return}const j=await adm('lessonMove',{from,to:to===from?null:to,expected});tCacheSet('cab-t-list',null);apply(j);toast(to===null?'Урок возвращён в расписание':'Урок перенесён')};
+ bindSettingsSave(dlg,form=>move(Date.parse(form.elements.when.value+'+04:00')));
+ const undo=dlg.querySelector('[data-undo]');if(undo)undo.onclick=async()=>{undo.disabled=true;try{await move(null);dlg.close()}catch(err){dlg.querySelector('[role=alert]').textContent=errText(err);undo.disabled=false}};
+}
+function openReminderDialog(global,minutes){
+ const dlg=settingsDialog(global?'Общие настройки преподавателя':'Напоминания об уроках',`
+ <p class="note">Напоминания приходят в Telegram ученика, если он подключён.</p>
+ ${global?'':`<label class="chkrow"><input type="checkbox" name="inherit" ${minutes===null?'checked':''}> Использовать общее правило</label>`}
+ <label class="fld"><span>За сколько минут напоминать</span><input name="minutes" value="${(minutes||[]).join(', ')}" placeholder="1440, 60" ${minutes===null?'disabled':''}></label>
+ <p class="note">До трёх сроков через запятую, от 15 до 2880 минут. Пустое поле отключает напоминания.</p>
+ ${global?'<details class="formbox"><summary>Таблица, скрипт и Telegram</summary><p class="note">В таблице открой меню «Кабинет». Там подключаются бот и Telegram преподавателя. В редакторе Apps Script обновляется развёртывание.</p><a href="kabinet-code.html" target="_blank" rel="noopener">Код для таблицы</a></details>':''}`);
+ const form=dlg.querySelector('form'),inherit=form.elements.inherit;
+ if(inherit)inherit.onchange=()=>{form.elements.minutes.disabled=inherit.checked};
+ bindSettingsSave(dlg,async()=>{
+  const raw=form.elements.minutes.value.trim();
+  if(!inherit?.checked&&raw&&!/^\d+(?:\s*,\s*\d+){0,2}$/.test(raw))throw new Error('Укажи до трёх целых чисел через запятую.');
+  const values=inherit?.checked?null:raw?raw.split(',').map(Number):[];
+  if(values?.some(n=>n<15||n>2880))throw new Error('Допустимые сроки: от 15 до 2880 минут.');
+  const j=await adm(global?'lessonDefaultsSet':'lessonReminderSet',{minutes:values});
+  if(!global)apply(j);toast('Напоминания сохранены');
+ });
+}
+async function openTeacherSettings(){
+ try{const j=await adm('lessonDefaultsGet');if(!CODE)openReminderDialog(true,j.minutes)}
+ catch(err){toast(err.message==='bad_op'?'Обнови скрипт таблицы, чтобы настроить напоминания.':errText(err))}
+}
 function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).join('\n');
  return `<details class="card adm" id="admc" ${S.admOpen?'open':''}><summary><span class="sh" style="margin:0"><h2>${esc(fullName()||D.name)} · настройки</h2><span class="sub">${D.active?'кабинет открыт':'на паузе'}</span></span></summary>
  <div class="formbox" style="border-top:0;margin-top:10px;padding-top:0">
- <div class="linkrow"><code id="lnk">${esc(url)}</code><button class="btn ghost tsm" id="lnkc" type="button">Скопировать</button><a class="btn ghost tsm" href="${esc(url)}" target="_blank" rel="noopener">Открыть как ученик</a><button class="btn ghost tsm" id="lnkn" type="button">Сменить ссылку кабинета</button></div>
- ${boardRow()}
+ <h3>Ученик</h3>
  <div class="fgrid">
   <label class="fld"><span>Имя</span><input id="f-name" value="${esc(D.name)}" data-fresh="1"></label>
+  <label class="fld"><span>Класс</span><select id="f-cls" data-fresh="1">${[5,6,7,8,9].map(c=>`<option value="${c}" ${clsOf()===c?'selected':''}>${c}</option>`).join('')}</select></label>
+ </div>
+ <details class="formbox"><summary>Дополнительные данные ученика</summary>
+ <div class="fgrid">
   <label class="fld"><span>Фамилия (видишь только ты)</span><input id="f-fname" value="${esc(D.fname||'')}" placeholder="Петрова" data-fresh="1"></label>
   <label class="fld"><span>Как просит обращаться ученик (очисти, чтобы сбросить)</span><input id="f-nick" maxlength="24" value="${esc(D.nick||'')}" data-fresh="1"></label>
   <label class="fld"><span>Кому — дательный падеж</span><input id="f-dat" value="${esc(D.dat)}" data-fresh="1"></label>
  </div>
  <div class="fgrid">
   <label class="fld"><span>Дата рождения</span><input id="f-bdate" type="date" value="${esc(D.bdate||'')}" data-fresh="1"></label>
-  <label class="fld"><span>Класс</span><select id="f-cls" data-fresh="1">${[5,6,7,8,9].map(c=>`<option value="${c}" ${clsOf()===c?'selected':''}>${c}</option>`).join('')}</select></label>
   <label class="fld"><span>Программа — зависит от класса</span><select id="f-prog" data-fresh="1">${progOptions(clsOf(),D.prog)}</select></label>
   <label class="fld"><span>Цель, баллов из ${PROG().max}</span><input id="f-goal" type="number" min="0" max="${PROG().max}" inputmode="numeric" value="${D.goal}" data-fresh="1"></label>
  </div>
@@ -2017,7 +2078,15 @@ function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).
   <label class="fld"><span>Родитель</span><input id="f-parent" value="${esc(D.parent||'')}" placeholder="Мама — Ольга" data-fresh="1"></label>
   <label class="fld"><span>Телефон родителя</span><input id="f-phone" value="${esc(D.phone||'')}" placeholder="+7 …" data-fresh="1"></label>
  </div>
+ </details>
+ ${boardRow()}
+ <section class="formbox"><h3>Уроки и напоминания</h3>
  ${schedEditor()}
+ ${D.lessonReminders===undefined?'<p class="note">Сроки напоминаний и перенос урока доступны после обновления скрипта таблицы.</p>':`
+ <button class="btn ghost tsm" id="lesson-reminders" type="button">Настроить напоминания об уроках</button>
+ <p class="note">${D.lessonReminders===null?'По общим настройкам':D.lessonReminders.length?'За '+D.lessonReminders.join(', ')+' мин.':'Выключены'}</p>`}
+ <details class="formbox"><summary>Telegram ученика</summary>${tTelegramCard()||'<p class="note">Бот подключается в общих настройках преподавателя.</p>'}</details></section>
+ <details class="formbox"><summary>Учебные данные и видимость разделов</summary>
  ${topicField()}
  <label class="fld"><span>Над чем работаем — для родителей, каждый пункт с новой строки</span><textarea id="f-work" rows="3" data-fresh="1">${esc(W)}</textarea></label>
  <div class="fgrid">
@@ -2025,7 +2094,11 @@ function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).
   <label class="fld"><span>Проведено в этом месяце</span><input id="f-ld" type="number" min="0" inputmode="numeric" value="${D.lessonsDone}" data-fresh="1"></label>
  </div>
  <div class="fld"><span>Что видит ученик и родитель. Выключенное не уходит на страницу вообще.</span><div class="showgrid">${SHOW_KEYS.map(([k,t])=>`<label class="chkrow"><input type="checkbox" class="f-show" data-k="${k}" ${(Array.isArray(D.show)?D.show:['work']).includes(k)?'checked':''}> ${t}</label>`).join('')}</div></div>
- <label class="chkrow"><input id="f-act" type="checkbox" ${D.active?'checked':''} data-fresh="1"> Кабинет открыт для ученика</label>
+ </details>
+ <details class="formbox"><summary>Другие действия</summary><div class="boardrow">
+ <a class="btn ghost tsm" href="${esc(url)}" target="_blank" rel="noopener">Открыть как ученик</a>
+ <button class="btn ghost tsm" id="lnkn" type="button">Сменить ссылку кабинета</button>
+ <button class="btn ghost tsm" id="archive-cabinet" type="button">${D.active?'Архивировать кабинет':'Восстановить кабинет'}</button></div></details>
  <div class="ferr" id="f-err"></div>
  <button class="btn" id="f-save" type="button">Сохранить настройки</button></div></details>`}
 
@@ -2138,7 +2211,7 @@ function hbBind(){const q=document.getElementById('hb-q');if(!q)return;
 function tHwCard(){const open=D.hw.filter(h=>!h.done),done=D.hw.filter(h=>h.done).slice().reverse();const L=open.concat(done).sort((a,b)=>{const priority=h=>({submitted:0,help:1,revise:2,new:3,solving:3,done:4,checked:4}[wfStatus(h)]??3);return priority(a)-priority(b)});
  return `<div class="card" id="hwcard"><div class="sh"><h2>Домашка</h2><span class="sub">${open.length} не сделано</span></div>
  ${L.length?`<ul class="hw">${L.map(tHwRow).join('')}</ul>`:'<p class="klead" style="margin:0">Пока ничего не задано.</p>'}
-  <div class="formbox"><span class="eyebrow">Новое задание</span>
+  <div class="formbox" id="new-homework"><span class="eyebrow">Новое задание</span>
   ${hwBuilder()}
   <div class="ferr" id="h-e"></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="h-add" type="button">${D.telegram&&D.telegram.available?'Задать без уведомления':'Задать'}</button>${D.telegram&&D.telegram.connected&&!D.telegram.paused?'<button class="btn ghost" id="h-add-notify" type="button">Задать и уведомить</button>':''}</div></div></div>`}
 
@@ -2195,12 +2268,24 @@ function tBind(){
  bindTopT();
  document.getElementById('mKid').onclick=()=>{if(S.mode!=='kid'){S.mode='kid';save();tRender()}};
  document.getElementById('mPar').onclick=()=>{if(S.mode!=='par'){S.mode='par';save();tRender()}};
- const ad=document.getElementById('admc');ad.ontoggle=()=>{S.admOpen=ad.open;save()};bindSched();
+ const ad=document.getElementById('admc');
+ document.getElementById('open-settings').onclick=()=>{ad.open=true;ad.scrollIntoView({block:'start'})};
+ const assign=document.getElementById('assign-shortcut');if(assign)assign.onclick=e=>{e.preventDefault();document.getElementById('new-homework').scrollIntoView({block:'start'})};
+ const move=document.getElementById('lesson-move');if(move)move.onclick=openLessonMove;
+ const reminders=document.getElementById('lesson-reminders');if(reminders)reminders.onclick=()=>openReminderDialog(false,D.lessonReminders);
+ document.getElementById('archive-cabinet').onclick=async e=>{
+  const b=e.currentTarget, active=!D.active;
+  if(!active&&!confirm('Архивировать кабинет? Ученик потеряет доступ, расписание и работы сохранятся.'))return;
+  b.disabled=true;
+  try{const j=await adm('student',{fields:{active}});tCacheSet('cab-t-list',null);apply(j,false);toast(active?'Кабинет восстановлен':'Кабинет в архиве')}
+  catch(err){b.disabled=false;toast(errText(err))}
+ };
+ ad.ontoggle=()=>{S.admOpen=ad.open;save()};bindSched();
  document.getElementById('lnkc').onclick=e=>copy(BASE+'kabinet.html#'+D.code,e.currentTarget);
  document.getElementById('lnkn').onclick=e=>{if(!confirm('Выдать ученику новую ссылку? Старая перестанет работать сразу. Домашка, оценки, карта и Telegram сохранятся. Новую ссылку нужно будет отправить ученику или родителю.'))return;const b=e.currentTarget;b.disabled=true;adm('rotateCode').then(j=>{LiliBoardLinks.moveTeacher(localStorage,CODE,j.code);LiliTeaching.moveJournal(localStorage,CODE,j.code);location.hash='lilia-'+j.code}).catch(err=>{b.disabled=false;toast(errText(err))})};
  const fc=document.getElementById('f-cls');if(fc)fc.onchange=()=>{const pr=document.getElementById('f-prog');pr.innerHTML=progOptions(+fc.value,pr.value)};
  document.getElementById('f-save').onclick=e=>{const b=e.currentTarget,v=id=>{const el=document.getElementById(id);return el?el.value:''};b.disabled=true;
-  adm('student',{fields:{name:v('f-name'),fname:v('f-fname'),nick:v('f-nick'),dat:v('f-dat'),bdate:v('f-bdate'),parent:v('f-parent'),phone:v('f-phone'),cls:v('f-cls'),prog:document.getElementById('f-prog').value,goal:v('f-goal'),days:serSched(SL,STZ,STC),time:SL.length?hhmm(sortSlots(SL.slice())[0].h,sortSlots(SL.slice())[0].m):'',topic:topicVal(),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),active:document.getElementById('f-act').checked,show:[...document.querySelectorAll('.f-show:checked')].map(e=>e.dataset.k)}})
+  adm('student',{fields:{name:v('f-name'),fname:v('f-fname'),nick:v('f-nick'),dat:v('f-dat'),bdate:v('f-bdate'),parent:v('f-parent'),phone:v('f-phone'),cls:v('f-cls'),prog:document.getElementById('f-prog').value,goal:v('f-goal'),days:serSched(SL,STZ,STC),time:SL.length?hhmm(sortSlots(SL.slice())[0].h,sortSlots(SL.slice())[0].m):'',topic:topicVal(),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),show:[...document.querySelectorAll('.f-show:checked')].map(e=>e.dataset.k)}})
    .then(j=>{apply(j,false);toast('Настройки сохранены')}).catch(err=>{b.disabled=false;const e2=document.getElementById('f-err');if(e2)e2.textContent=errText(err)})};
  const hp=document.getElementById('hpet');if(hp)hp.onclick=()=>react('neu','',pick(sayList()));
  document.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{const n=+b.dataset.t;S.sel=n;save();document.querySelectorAll('.tile').forEach(x=>x.setAttribute('aria-pressed',x===b));document.getElementById('tdet').innerHTML=tDetail(n);bindDetail();
