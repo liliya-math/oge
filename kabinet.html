@@ -1917,7 +1917,7 @@ function bindJournalCard(){LiliTeaching.bindJournal(document,D.code||CODE,D,{tea
 function tRender(keep){LiliTeaching.preserveDraft(document,D.code||CODE);const y=scrollY,dr=keep===false?{}:drafts(),foc=document.activeElement&&document.activeElement.id;
  const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
  app.innerHTML=tTop()+`<div class="cab enter"><section class="card"><div class="sh"><h1>${esc(fullName()||D.name)}</h1><span class="sub">${D.active?'':'В архиве'}</span></div>
- <div class="boardrow"><button class="btn ghost" id="lnkc" type="button">Скопировать ссылку ученика</button>${kid?'<a class="btn ghost" href="#new-homework" id="assign-shortcut">Назначить задание</a>':''}<button class="btn ghost" id="open-settings" type="button">Настройки</button></div></section>
+ <div class="boardrow"><button class="btn ghost" id="lnkc" type="button">Скопировать ссылку ученика</button><button class="btn" type="button" id="assign-shortcut">Назначить задание</button><button class="btn ghost" id="open-settings" type="button">Настройки</button></div></section>
  ${lessonCard(true)}${lessonRequestCard(true)}`+(kid
   ? quizCabinetCard(D)+tHwCard()+journalCard()+tPlanCard()+tMatCard()+mapCard(false)+skillsCard(false)+gradeCard()+`<div class="two">${chartCard()}${probCard()}</div>`+tGradesCard()+tLettersCard()+bday
   : heroPar()+quizCabinetCard(D)+mapCard(true)+skillsCard(true)+gradeCard()+`<div class="two">${chartCard()}${workCard()}</div>`+tGradesCard()+tLettersCard())+adminCard()+foot()+`</div>`;
@@ -2400,7 +2400,7 @@ function hbBind(){const q=document.getElementById('hb-q');if(!q)return;
 function tHwCard(){const open=D.hw.filter(h=>!h.done),done=D.hw.filter(h=>h.done).slice().reverse();const L=open.concat(done).sort((a,b)=>{const priority=h=>({submitted:0,help:1,revise:2,new:3,solving:3,done:4,checked:4}[wfStatus(h)]??3);return priority(a)-priority(b)});
  return `<div class="card" id="hwcard"><div class="sh"><h2>Домашка</h2><span class="sub">${open.length} не сделано</span></div>
  ${L.length?`<ul class="hw">${L.map(tHwRow).join('')}</ul>`:'<p class="klead" style="margin:0">Пока ничего не задано.</p>'}
-  <div class="formbox" id="new-homework"><span class="eyebrow">Новое задание</span>
+  <div class="formbox" id="new-homework" tabindex="-1"><span class="eyebrow">Новое задание</span>
   ${hwBuilder()}
   <div class="ferr" id="h-e"></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="h-add" type="button">${D.telegram&&D.telegram.available?'Задать без уведомления':'Задать'}</button>${D.telegram&&D.telegram.connected&&!D.telegram.paused?'<button class="btn ghost" id="h-add-notify" type="button">Задать и уведомить</button>':''}</div></div></div>`}
 
@@ -2468,7 +2468,12 @@ function tBind(){
  document.getElementById('mPar').onclick=()=>{if(S.mode!=='par'){S.mode='par';save();tRender()}};
  const ad=document.getElementById('admc');
  document.getElementById('open-settings').onclick=()=>{ad.open=true;ad.scrollIntoView({block:'start'})};
- const assign=document.getElementById('assign-shortcut');if(assign)assign.onclick=e=>{e.preventDefault();document.getElementById('new-homework').scrollIntoView({block:'start'})};
+ document.getElementById('assign-shortcut').onclick=()=>{
+  if(S.mode!=='kid'){S.mode='kid';save();tRender()}
+  const form=document.getElementById('new-homework');
+  form.scrollIntoView({block:'start'});
+  form.focus({preventScroll:true});
+ };
  const move=document.getElementById('lesson-move');if(move)move.onclick=openLessonMove;
  const reminders=document.getElementById('lesson-reminders');if(reminders)reminders.onclick=()=>openReminderDialog(false,D.lessonReminders);
  document.getElementById('archive-cabinet').onclick=async e=>{
