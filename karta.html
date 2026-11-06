@@ -47,8 +47,9 @@ h1{margin:4px 0 6px;font-size:clamp(24px,6vw,34px);line-height:1.15;letter-spaci
 .lesson-grid .tile{background:color-mix(in srgb,var(--c,#a9d18e) 26%,#14211e);border:1px solid color-mix(in srgb,var(--c,#a9d18e) 50%,transparent);border-left:7px solid var(--c,#a9d18e);font-weight:600}
 .lesson-grid .tile:hover{background:color-mix(in srgb,var(--c,#a9d18e) 38%,#14211e)}
 .mywrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
-#cal{position:sticky;top:10px;margin-top:0}
-@media(max-width:900px){.mywrap{grid-template-columns:1fr}#cal{position:static}}
+@media(min-width:901px){.calwrap{position:sticky;top:10px;margin-top:0}}
+@media(max-width:900px){.mywrap{grid-template-columns:1fr}}
+.calwrap select{font:inherit;margin:0 0 10px}
 .lesson-grid .tile.done{opacity:.62}
 .lesson-grid .tile.next{box-shadow:0 0 0 2px var(--c,#a9d18e)}
 .lesson-grid .tile small{font-weight:400;color:var(--fg);opacity:.8}
@@ -153,7 +154,7 @@ async function selectLesson(id){
     const status=form.querySelector('[role=status]');
     const student=form.querySelector('[data-student]');
     if([...student.options].some(o=>o.value===selectedStudent))student.value=selectedStudent;
-    student.onchange=()=>{selectedStudent=student.value;try{sessionStorage.setItem('lili-route-student',selectedStudent)}catch(e){}};
+    student.onchange=()=>{selectedStudent=student.value;try{sessionStorage.setItem('lili-route-student',selectedStudent)}catch(e){}if(!myMode||getId()!=='MY'){if(window.calUse)window.calUse(selectedStudent)}};
     const links=()=>Object.fromEntries([...form.querySelectorAll('[data-link]')].map(e=>[e.dataset.link,e.value.trim()]));
     let saved=JSON.stringify(links());
     const run=async action=>{
@@ -203,7 +204,7 @@ function calSet(id,d){
   renderCal();refreshTile(l);
   admin('calSet',{t:m.code,id,d:d||'',title:l.title}).catch(()=>{l.cal=prev;m.st.cal=m.st.cal.filter(y=>y.id!==id);if(prev)m.st.cal.push({d:prev,id,title:l.title});renderCal();refreshTile(l);alert('Не получилось сохранить в календаре. Проверь связь и обнови Apps Script.')});
 }
-function refreshTile(l){const b=app.querySelector('[data-lesson="'+l.id+'"]');if(b){b.classList.toggle('done',/^✓/.test(l.mark||''));b.classList.toggle('next',/^→/.test(l.mark||''))}if(b)b.innerHTML='<small>'+esc(l.tag||'')+(l.cal?' · '+esc(shortD(l.cal)):'')+'</small><br>'+(l.mark||'')+esc(l.title)}
+function refreshTile(l){const b=app.querySelector('[data-lesson="'+l.id+'"]');if(b){b.classList.toggle('done',/^✓/.test(l.mark||''));b.classList.toggle('next',/^→/.test(l.mark||''))}if(b)b.innerHTML='<small>'+esc(l.tag||(l.school?'Школьные № '+l.school:'Дополнительно'))+(l.cal?' · '+esc(shortD(l.cal)):'')+'</small><br>'+(l.mark||'')+esc(l.title)}
 function renderCal(){
   const box=document.getElementById('cal');if(!box||!myMode)return;
   const days=String(myMode.st.days||'').split('|')[0].match(/Пн|Вт|Ср|Чт|Пт|Сб|Вс/g)||[];
@@ -225,6 +226,28 @@ function renderCal(){
   box.querySelectorAll('[data-chip]').forEach(c=>c.ondragstart=e=>e.dataTransfer.setData('text/plain','c:'+c.dataset.chip));
   box.querySelectorAll('[data-x]').forEach(x=>x.onclick=e=>{e.stopPropagation();calSet(x.dataset.x,'')});
 }
+async function initClassCal(){
+  const sel=document.getElementById('cal-student');if(!sel)return;
+  let roster=[];try{roster=(await admin('list')).students||[]}catch(e){}
+  if(!document.getElementById('cal-student'))return;
+  roster=roster.filter(x=>x.active!==false);
+  sel.innerHTML='<option value="">Выбрать ученика</option>'+roster.map(x=>`<option value="${esc(x.code)}">${esc([x.name,x.fname].filter(Boolean).join(' '))}</option>`).join('');
+  const all=Object.values(ROUTES).flatMap(x=>x.lessons);
+  const use=code=>{
+    selectedStudent=code;try{sessionStorage.setItem('lili-route-student',code)}catch(e){}
+    const st=roster.find(x=>x.code===code);
+    if(!st){myMode=null;document.getElementById('cal').innerHTML='<p class="lead">Выбери ученика, и появится его календарь.</p>';route.lessons.forEach(x=>{x.cal=undefined;x.mark='';refreshTile(x)});app.querySelectorAll('[data-lesson]').forEach(b=>{b.draggable=false});return}
+    st.cal=st.cal||[];const done=new Set(st.routeDone||[]);
+    all.forEach(x=>{const c=st.cal.find(y=>y.id===x.id);x.cal=c?c.d:undefined;x.mark=done.has(x.id)?'✓ ':''});
+    myMode={code,st,lessons:all};
+    route.lessons.forEach(refreshTile);
+    app.querySelectorAll('[data-lesson]').forEach(b=>{b.draggable=true;b.ondragstart=e=>e.dataTransfer.setData('text/plain','t:'+b.dataset.lesson)});
+    renderCal();
+  };
+  sel.onchange=()=>use(sel.value);
+  window.calUse=code=>{if(document.getElementById('cal-student')){sel.value=code;use(code)}};
+  if(selectedStudent&&roster.some(x=>x.code===selectedStudent)){sel.value=selectedStudent;use(selectedStudent)}
+}
 async function myPage(){
   document.title='Квадратики ученика · lili.math';
   let code='';try{code=sessionStorage.getItem('lili-route-student')||''}catch(e){}
@@ -245,13 +268,13 @@ async function myPage(){
   add('Школьная программа по порядку (алгебра, алгебра, геометрия)',school);
   add('ОГЭ, часть 1',O);
   route={chapters,lessons};myMode={code,st,lessons};selectedStudent=code;st.cal=st.cal||[];lessons.forEach(x=>{const c=st.cal.find(y=>y.id===x.id);if(c)x.cal=c.d});
-  app.innerHTML=`<div class="bar"><span class="id">Ученик</span><span class="brand">lili<b>.</b>math</span></div><div class="crumbs"><a href="#">Карта</a></div><h1>${esc(nm)}</h1><p class="lead">Программы: ${progs.map(k=>NAMES[k]).join(', ')}. ✓ проведено, → следующее.</p>`+'<div class="mywrap"><div>'+routeCard()+'</div><section class="card" id="cal"></section></div>';
+  app.innerHTML=`<div class="bar"><span class="id">Ученик</span><span class="brand">lili<b>.</b>math</span></div><div class="crumbs"><a href="#">Карта</a></div><h1>${esc(nm)}</h1><p class="lead">Программы: ${progs.map(k=>NAMES[k]).join(', ')}. ✓ проведено, → следующее.</p>`+'<div class="mywrap"><div>'+routeCard()+'</div><section class="card calwrap"><div id="cal"></div></section></div>';
   app.querySelectorAll('[data-lesson]').forEach(b=>{b.onclick=()=>selectLesson(b.dataset.lesson);b.ondragstart=e=>{e.dataTransfer.setData('text/plain','t:'+b.dataset.lesson)}});renderCal();scrollTo(0,0);
 }
 function node(id){
   if(id!=='MY')myMode=null;
   if(id==='MY'){myPage();return}
-  if(id==='OGE'){document.title='ОГЭ, часть 1 · lili.math';route=ROUTES.OGE;app.innerHTML=`<div class="bar"><span class="id">ОГЭ</span><span class="brand">lili<b>.</b>math</span></div><div class="crumbs"><a href="#">Карта</a></div><h1>ОГЭ, часть 1</h1>`+(route?routeCard():'<p class="lead">Не получилось загрузить программу ОГЭ.</p>');app.querySelectorAll('[data-lesson]').forEach(b=>b.onclick=()=>selectLesson(b.dataset.lesson));scrollTo(0,0);return}
+  if(id==='OGE'){document.title='ОГЭ, часть 1 · lili.math';route=ROUTES.OGE;app.innerHTML=`<div class="bar"><span class="id">ОГЭ</span><span class="brand">lili<b>.</b>math</span></div><div class="crumbs"><a href="#">Карта</a></div><h1>ОГЭ, часть 1</h1>`+(route?'<div class="mywrap"><div>'+routeCard()+'</div><section class="card calwrap"><label class="lead">Ученик <select id="cal-student"><option value="">Выбрать ученика</option></select></label><div id="cal"><p class="lead">Выбери ученика, и появится его календарь.</p></div></section></div>':'<p class="lead">Не получилось загрузить программу ОГЭ.</p>');app.querySelectorAll('[data-lesson]').forEach(b=>b.onclick=()=>selectLesson(b.dataset.lesson));if(route)initClassCal();scrollTo(0,0);return}
   const isRoot=/^\d[AG]$/.test(id),n=BY[id];
   if(!isRoot&&!n){fail('Не нашла такой раздел','Вернись на «Карта» и выбери класс.');return}
   const kids=isRoot?N.filter(x=>x.grade===+id[0]&&x.subject===(id[1]==='A'?'алгебра':'геометрия')&&!x.parent):KIDS[id]||[];
@@ -261,7 +284,7 @@ function node(id){
   document.title=title+' · lili.math';
   let h=`<div class="bar"><span class="id">${esc(id)}</span><span class="brand">lili<b>.</b>math</span></div>${crumbs(id)}<h1>${esc(title)}</h1>`;
   if(!isRoot&&n.oge)h+=`<div class="chips"><span class="chip">ОГЭ: ${esc(n.oge)}</span></div>`;
-  route=ROUTES[id];if(route)h+=routeCard();
+  route=ROUTES[id];if(route)h+='<div class="mywrap"><div>'+routeCard()+'</div><section class="card calwrap"><label class="lead">Ученик <select id="cal-student"><option value="">Выбрать ученика</option></select></label><div id="cal"><p class="lead">Выбери ученика, и появится его календарь.</p></div></section></div>';
   if(kids.length){
     h+=`<div class="card"><h2>${isRoot?'Разделы':lvl===2?'Темы':'Навыки'}</h2><ul class="list">${kids.map(k=>{const c=counts(k.id);
      return `<li><a class="row" href="#${k.id}"><span class="n">${esc(k.id)}</span><span>${esc(k.title)}${k.oge?`<span class="t">ОГЭ ${esc(k.oge)}</span>`:''}</span><span class="c${c.all||lvl===3?'':' z'}">${lvl===3?'':(c.all?c.all+' мат.':'пусто')}</span></a></li>`}).join('')}</ul></div>`;
@@ -276,6 +299,7 @@ function node(id){
   if(!isRoot&&n.prereq&&n.prereq.length){h+=`<div class="card pre"><h2>Что нужно знать до этого</h2>${n.prereq.map(p=>BY[p]?`<a href="#${p}"><b style="font:600 11px var(--mono);color:var(--faint)">${p}</b> ${esc(BY[p].title)}</a>`:'').join('')}</div>`}
   app.innerHTML=h;
   app.querySelectorAll('[data-lesson]').forEach(b=>b.onclick=()=>selectLesson(b.dataset.lesson));
+  if(route)initClassCal();
   scrollTo(0,0);
 }
 function draw(){const id=getId();if(!id)home();else node(id)}
