@@ -231,7 +231,7 @@ async function selectLesson(id){
       controls.forEach(e=>e.disabled=true);
       status.textContent='Сохраняю…';
       try{status.textContent=await action()}
-      catch(e){status.textContent=e.message==='bad_value'?'Проверь формат ссылки или PDF.':'Не получилось сохранить. Попробуй ещё раз.'}
+      catch(e){status.textContent=e.message==='bad_value'?'Проверь формат ссылки или PDF, название и номера навыков.':'Не получилось сохранить (ответ сервера: '+(e&&e.message||e)+'). Попробуй ещё раз.'}
       finally{controls.forEach(e=>e.disabled=false)}
     };
     form.querySelectorAll('[data-pdf]').forEach(input=>input.onchange=()=>{
