@@ -1717,7 +1717,7 @@ setInterval(()=>{const e=document.getElementById('cd');if(!e||!D)return;const t=
 /* ===== Режим учителя: kabinet.html#lilia ===== */
 let PASS='';try{PASS=localStorage.getItem('cab-admin')||''}catch(e){}
 let busy=0,busyWrites=0,LIST=null;
-const ERR={lesson_conflict:'У ученика уже есть занятие в это время.',board_library_corrupt:'Не удалось прочитать библиотеку аккаунта. Локальные материалы сохранены.',board_library_too_large:'Библиотека превышает 40 МБ или 100 материалов. Выгрузи резервную копию.',board_library_bad_template:'Сервер отклонил повреждённый шаблон.',board_library_bad_link:'Не удалось проверить ссылку личной доски.',board_library_bad_request:'Запрос синхронизации некорректен. Открой синхронизацию ещё раз.',locked:'Слишком много неверных паролей. Подожди 15 минут.',too_many:'Слишком много сообщений за час. Попробуй позже.',telegram_not_configured:'Сначала подключи Telegram-бота через меню Google-таблицы.',telegram_not_connected:'Ученик ещё не подключил Telegram-бота.',telegram_paused:'Уведомления на паузе.',telegram_blocked:'Ученик отключил бота. Нужно подключить его заново.',telegram_api_error:'Telegram временно недоступен. Попробуй уведомить позже.',telegram_network_error:'Не удалось связаться с Telegram. Попробуй уведомить позже.',no_password:'Сначала задай пароль в таблице: меню «Кабинет → Пароль для режима учителя».',
+const ERR={lesson_conflict:'Это окно уже занято. Обнови список и выбери другое время.',lesson_unavailable:'Это время вне рабочих часов или закрыто. Обнови список и выбери другое окно.',board_library_corrupt:'Не удалось прочитать библиотеку аккаунта. Локальные материалы сохранены.',board_library_too_large:'Библиотека превышает 40 МБ или 100 материалов. Выгрузи резервную копию.',board_library_bad_template:'Сервер отклонил повреждённый шаблон.',board_library_bad_link:'Не удалось проверить ссылку личной доски.',board_library_bad_request:'Запрос синхронизации некорректен. Открой синхронизацию ещё раз.',locked:'Слишком много неверных паролей. Подожди 15 минут.',too_many:'Слишком много сообщений за час. Попробуй позже.',telegram_not_configured:'Сначала подключи Telegram-бота через меню Google-таблицы.',telegram_not_connected:'Ученик ещё не подключил Telegram-бота.',telegram_paused:'Уведомления на паузе.',telegram_blocked:'Ученик отключил бота. Нужно подключить его заново.',telegram_api_error:'Telegram временно недоступен. Попробуй уведомить позже.',telegram_network_error:'Не удалось связаться с Telegram. Попробуй уведомить позже.',no_password:'Сначала задай пароль в таблице: меню «Кабинет → Пароль для режима учителя».',
  old:'В таблице старая версия скрипта. Вставь новый код и сделай новую версию развёртывания.',
  not_found:'Такого ученика нет в таблице.',changed:'В таблице что-то поменялось. Данные обновлены, попробуй ещё раз.',
  bad_value:'Проверь, что всё заполнено правильно.',no_name:'Впиши имя ученика.',net:'Таблица пока не ответила. Попробуй ещё раз через несколько секунд.',save_unknown:'Не удалось подтвердить сохранение. Сначала обнови данные кабинета и проверь результат, прежде чем повторять действие.',
@@ -1756,7 +1756,7 @@ function nextAdminRequest(){
 }
 function adm(op,x,options={}){
  const payload=Object.assign({admin:PASS,op,t:CODE},x||{}),body=JSON.stringify(payload);
- const readOnly=['ping','list','get','boardLibraryGet','quizList','quizGet','lessonDefaultsGet'].includes(op);
+ const readOnly=['ping','list','get','boardLibraryGet','quizList','quizGet','lessonDefaultsGet','lessonWindows'].includes(op);
  if(readOnly&&adminReads.has(body)){
   const job=adminReads.get(body);if(!options.background)job.background=false;
   return job.promise;
@@ -2027,19 +2027,95 @@ function bindSettingsSave(dlg,saveSettings){
 function openLessonMove(){
  const expected=+nextLesson(),existing=(D.lessonMoves||[]).find(m=>m.to===expected),from=existing?existing.from:expected;
  const dlg=settingsDialog('Перенести ближайший урок',`<p class="note">Сейчас · ${fmtWhen(new Date(expected),'Europe/Samara')} по Самаре</p>
- <label class="fld"><span>Новая дата и время по Самаре</span><input name="when" type="datetime-local" required value="${new Date(expected+SAMARA_OFF*60000).toISOString().slice(0,16)}"></label>
- ${existing&&from>Date.now()?'<button class="btn ghost" type="button" data-undo>Вернуть в обычное расписание</button>':''}`);
- const move=async to=>{if(to===expected){return}const j=await adm('lessonMove',{from,to:to===from?null:to,expected});tCacheSet('cab-t-list',null);apply(j);toast(to===null?'Урок возвращён в расписание':'Урок перенесён')};
- bindSettingsSave(dlg,form=>move(Date.parse(form.elements.when.value+'+04:00')));
- const undo=dlg.querySelector('[data-undo]');if(undo)undo.onclick=async()=>{undo.disabled=true;try{await move(null);dlg.close()}catch(err){dlg.querySelector('[role=alert]').textContent=errText(err);undo.disabled=false}};
+ <p class="note">Свободные окна на 14 дней. Продолжительность урока 60 минут.</p>
+ <label class="fld"><span>Новая дата и время по Самаре</span><select name="when" required disabled></select></label>
+ <p class="note" data-windows-status role="status"></p>
+ <div class="boardrow"><button class="btn ghost tsm" type="button" data-refresh>Обновить окна</button><button class="btn ghost tsm" type="button" data-hours hidden>Задать рабочие часы</button>
+ ${existing&&from>Date.now()?'<button class="btn ghost tsm" type="button" data-undo disabled>Вернуть в обычное расписание</button>':''}</div>`);
+ const form=dlg.querySelector('form'),select=form.elements.when,save=form.querySelector('[type=submit]');
+ const status=dlg.querySelector('[data-windows-status]'),refresh=dlg.querySelector('[data-refresh]');
+ const undo=dlg.querySelector('[data-undo]'),hours=dlg.querySelector('[data-hours]');
+ const load=async()=>{
+  const previous=select.value;
+  save.disabled=select.disabled=refresh.disabled=true;
+  if(undo)undo.disabled=true;
+  hours.hidden=true;
+  status.textContent='Проверяю расписание…';
+  try{
+   const result=await adm('lessonWindows',{from,expected});
+   const groups=new Map(), placeholder=new Option('Выбери свободное окно','');
+   select.replaceChildren(placeholder);
+   for(const time of result.windows){
+    const date=new Date(time), day=date.toLocaleDateString('ru-RU',{timeZone:'Europe/Samara',weekday:'long',day:'numeric',month:'long'});
+    if(!groups.has(day)){
+     const group=document.createElement('optgroup');group.label=day;groups.set(day,group);select.append(group);
+    }
+    const label=date.toLocaleTimeString('ru-RU',{timeZone:'Europe/Samara',hour:'2-digit',minute:'2-digit'});
+    groups.get(day).append(new Option(label,time));
+   }
+   if(result.windows.includes(Number(previous)))select.value=previous;
+   save.disabled=select.disabled=!result.windows.length;
+   if(undo)undo.disabled=!result.configured;
+   hours.hidden=result.configured;
+   status.textContent=!result.configured?'Сначала задай рабочие дни и часы.':result.windows.length?'':'В ближайшие 14 дней нет свободных окон.';
+  }catch(err){
+   status.textContent=err.message==='bad_op'?'Обнови скрипт таблицы, чтобы появились свободные окна.':errText(err);
+  }finally{refresh.disabled=false}
+ };
+ const move=async to=>{const j=await adm('lessonMove',{from,to:to===from?null:to,expected});tCacheSet('cab-t-list',null);apply(j);toast(to===null||to===from?'Урок возвращён в расписание':'Урок перенесён')};
+ bindSettingsSave(dlg,form=>move(Number(form.elements.when.value)));
+ hours.onclick=async()=>{try{const j=await adm('lessonDefaultsGet');dlg.close();openAvailabilityDialog(j.availability)}catch(err){status.textContent=errText(err)}};
+ if(undo)undo.onclick=async()=>{undo.disabled=true;try{await move(null);dlg.close()}catch(err){dlg.querySelector('[role=alert]').textContent=errText(err);undo.disabled=false}};
+ load();
 }
-function openReminderDialog(global,minutes){
+function openAvailabilityDialog(availability){
+ const weekdays=['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
+ const clock=n=>hhmm(Math.floor(n/60),n%60);
+ const minutes=value=>{const [h,m]=value.split(':').map(Number);return h*60+m};
+ const dlg=settingsDialog('Рабочие часы',`<p class="note">Время по Самаре. Оставь оба поля пустыми в выходные.</p>
+ ${DORDER.map(day=>{const row=availability.week[day];return `<fieldset class="fgrid"><legend>${weekdays[day]}</legend>
+ <label class="fld"><span>С</span><input type="time" name="start-${day}" value="${row?clock(row[0]):''}"></label>
+ <label class="fld"><span>До</span><input type="time" name="end-${day}" value="${row?clock(row[1]):''}"></label></fieldset>`}).join('')}
+ <h3>Выходные и занятые часы на конкретную дату</h3><p class="note">Оставь время пустым, чтобы закрыть весь день.</p>
+ <div data-blocks></div><button class="btn ghost tsm" type="button" data-add-block>Закрыть дату или время</button>`);
+ const list=dlg.querySelector('[data-blocks]');
+ const add=(date='',start=0,end=1440)=>{
+  const row=document.createElement('fieldset');row.className='fgrid';row.dataset.block='';
+  row.innerHTML=`<label class="fld"><span>Дата</span><input type="date" required value="${esc(date)}"></label>
+  <label class="fld"><span>С</span><input type="time" value="${start||end!==1440?clock(start):''}"></label>
+  <label class="fld"><span>До</span><input type="time" value="${end===1440?'':clock(end)}"></label>
+  <button class="btn ghost tsm" type="button">Убрать исключение</button>`;
+  row.querySelector('button').onclick=()=>row.remove();list.append(row);
+ };
+ const today=LiliTeaching.dayKey();
+ availability.blocks.filter(row=>row[0]>=today).forEach(row=>add(...row));
+ dlg.querySelector('[data-add-block]').onclick=()=>{add();list.lastElementChild.querySelector('input').focus()};
+ bindSettingsSave(dlg,async form=>{
+  const week=weekdays.map((day,i)=>{
+   const start=form.elements['start-'+i].value,end=form.elements['end-'+i].value;
+   if(!start&&!end)return null;
+   if(!start||!end||end<=start)throw new Error(day+' · укажи начало и конец рабочего дня.');
+   return [minutes(start),minutes(end)];
+  });
+  const blocks=[...list.children].map(row=>{
+   const [date,start,end]=[...row.querySelectorAll('input')].map(input=>input.value);
+   if(start&&end&&end<=start)throw new Error('В закрытом интервале время окончания должно быть позже начала.');
+   return [date,start?minutes(start):0,end?minutes(end):1440];
+  });
+  if(blocks.length>100)throw new Error('Можно сохранить до 100 исключений.');
+  await adm('lessonAvailabilitySet',{availability:{week,blocks}});
+  toast('Рабочие часы сохранены');
+ });
+}
+function openReminderDialog(global,minutes,availability){
  const dlg=settingsDialog(global?'Общие настройки преподавателя':'Напоминания об уроках',`
+ ${global?availability?'<button class="btn ghost" type="button" data-availability>Рабочие часы и выходные</button>':'<p class="note">Для рабочих часов обнови скрипт таблицы.</p>':''}
  <p class="note">Напоминания приходят в Telegram ученика, если он подключён.</p>
  ${global?'':`<label class="chkrow"><input type="checkbox" name="inherit" ${minutes===null?'checked':''}> Использовать общее правило</label>`}
  <label class="fld"><span>За сколько минут напоминать</span><input name="minutes" value="${(minutes||[]).join(', ')}" placeholder="1440, 60" ${minutes===null?'disabled':''}></label>
  <p class="note">До трёх сроков через запятую, от 15 до 2880 минут. Пустое поле отключает напоминания.</p>
  ${global?'<details class="formbox"><summary>Таблица, скрипт и Telegram</summary><p class="note">В таблице открой меню «Кабинет». Там подключаются бот и Telegram преподавателя. В редакторе Apps Script обновляется развёртывание.</p><a href="kabinet-code.html" target="_blank" rel="noopener">Код для таблицы</a></details>':''}`);
+ const edit=dlg.querySelector('[data-availability]');if(edit)edit.onclick=()=>{dlg.close();openAvailabilityDialog(availability)};
  const form=dlg.querySelector('form'),inherit=form.elements.inherit;
  if(inherit)inherit.onchange=()=>{form.elements.minutes.disabled=inherit.checked};
  bindSettingsSave(dlg,async()=>{
@@ -2052,7 +2128,7 @@ function openReminderDialog(global,minutes){
  });
 }
 async function openTeacherSettings(){
- try{const j=await adm('lessonDefaultsGet');if(!CODE)openReminderDialog(true,j.minutes)}
+ try{const j=await adm('lessonDefaultsGet');if(!CODE)openReminderDialog(true,j.minutes,j.availability)}
  catch(err){toast(err.message==='bad_op'?'Обнови скрипт таблицы, чтобы настроить напоминания.':errText(err))}
 }
 function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).join('\n');

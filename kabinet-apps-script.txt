@@ -170,7 +170,7 @@ function sheet_(ss, name) {
    Любая запись (doPost, admin-операции кроме чтения, ручная правка таблицы) меняет «версию данных»,
    и старый кэш перестаёт использоваться. Если кэш недоступен или не влез, скрипт работает как раньше. */
 const CACHE_TTL_ = 120;
-const READ_OPS_ = ['ping', 'list', 'get', 'boardLibraryGet', 'quizList', 'quizGet', 'lessonDefaultsGet'];
+const READ_OPS_ = ['ping', 'list', 'get', 'boardLibraryGet', 'quizList', 'quizGet', 'lessonDefaultsGet', 'lessonWindows'];
 
 function cacheVer_() {
   const c = CacheService.getScriptCache();
@@ -440,6 +440,7 @@ function setPassword() {
 function doGet(e) {
   const p = (e && e.parameter) || {};
   const code = String(p.t || '').trim();
+  if (p.schedule === 'capabilities') return json_({ok: true, lessonAvailability: 1});
   if (p.quiz === 'capabilities') return json_({ok:true,quiz:1,ogeMocks:2});
   if (p.quiz === 'load') return json_(quizLoad_(code,{work:p.q,version:p.v,assignment:p.a,row:p.row}));
   if (p.w) return json_(dzLoad_(code, String(p.w).trim(), Number(p.row) || 0));
@@ -588,7 +589,20 @@ function adminRun_(b) {
       case 'quizSave': return quizSave_(b);
       case 'quizAssign': { need(); return quizAssign_(code,b); }
       case 'hwReview': { need(); const result = workflowHw_(code, b, true); return result.ok ? fresh() : result; }
-      case 'lessonDefaultsGet': return {ok: true, minutes: lrDefaults_()};
+      case 'lessonDefaultsGet': return {ok: true, minutes: lrDefaults_(), availability: lrAvailability_()};
+      case 'lessonAvailabilitySet': {
+        const availability = lrValidateAvailability_(b.availability);
+        props.setProperty('LESSON_AVAILABILITY', JSON.stringify(availability));
+        return {ok: true};
+      }
+      case 'lessonWindows': {
+        if (need().row[11] === false) return {error: 'inactive'};
+        const availability = lrAvailability_();
+        const now = Date.now(), end = lrSamaraDay_(now) + 14 * 86400000;
+        const busy = lrBusy_(ss, now - LR_LESSON_MS, end, code, b.from);
+        return {ok: true, configured: availability.week.some(Boolean),
+          windows: lrWindows_(availability, busy, now, end, b.expected)};
+      }
       case 'lessonDefaultsSet': {
         props.setProperty('LESSON_DEFAULTS', JSON.stringify(lrMinutes_(b.minutes)));
         return {ok: true, minutes: lrDefaults_()};
@@ -602,15 +616,18 @@ function adminRun_(b) {
       }
       case 'lessonMove': {
         const st = need(), cfg = lrConfig_(code), now = Date.now();
+        if (st.row[11] === false) return {error: 'inactive'};
         const from = b.from, to = b.to;
         const previous = cfg.moves.find(m => m.from === from);
         if (!Number.isSafeInteger(from) || (previous ? previous.to <= now : from <= now) || (to === null && from <= now) || (to !== null &&
-          (!Number.isSafeInteger(to) || to <= now || to % 60000 || to > now + 90 * 86400000))) return {error: 'bad_value'};
+          (!Number.isSafeInteger(to) || to <= now || to % 60000 || to >= lrSamaraDay_(now) + 14 * 86400000))) return {error: 'bad_value'};
         const slots = lrParse_(st.row[4], st.time, 'Europe/Samara').slots;
         if (!previous && !lrUpcoming_(slots, now, 8).includes(from)) return {error: 'bad_value'};
         if ((previous ? previous.to : from) !== b.expected) return {error: 'changed'};
-        if (to !== null && to !== from && (lrUpcoming_(slots, to - 1, 1).includes(to) ||
-            cfg.moves.some(m => m.from !== from && m.to === to))) return {error: 'lesson_conflict'};
+        const target = to === null ? from : to;
+        if (!lrFits_(target, lrAvailability_())) return {error: 'lesson_unavailable'};
+        const busy = lrBusy_(ss, target - LR_LESSON_MS, target + LR_LESSON_MS, code, from);
+        if (busy.length) return {error: 'lesson_conflict'};
         cfg.moves = cfg.moves.filter(m => m.from !== from);
         if (to !== null && to !== from) cfg.moves.push({from, to});
         lrSave_(code, cfg);
@@ -1846,6 +1863,70 @@ function boardLibraryPut_(b) {
  * Если триггер ещё не создан, один раз запустить setupLessonReminders.
  * Читает расписание из листа «Ученики» (колонка «Дни занятий», время по Самаре, после « | » пояс ученика),
  * шлёт за сутки и за час через уже работающую telegramSend_. Отметки об отправке — лист «Напоминания». */
+const LR_LESSON_MS = 60 * 60000;
+const LR_STEP_MS = 30 * 60000;
+function lrSamaraDay_(time) {
+  const offset = LR_SAMARA_OFF * 60000;
+  return Math.floor((time + offset) / 86400000) * 86400000 - offset;
+}
+function lrAvailability_() {
+  const raw = PropertiesService.getScriptProperties().getProperty('LESSON_AVAILABILITY');
+  return raw ? JSON.parse(raw) : {week: Array(7).fill(null), blocks: []};
+}
+function lrValidateAvailability_(value) {
+  const valid = (start, end) => Number.isInteger(start) && Number.isInteger(end) &&
+    start >= 0 && end <= 1440 && end > start;
+  if (!value || !Array.isArray(value.week) || value.week.length !== 7 ||
+      value.week.some(row => row !== null && (!Array.isArray(row) || !valid(row[0], row[1]))) ||
+      !Array.isArray(value.blocks) || value.blocks.length > 100) throw new Error('bad_value');
+  const blocks = value.blocks.map(row => {
+    if (!Array.isArray(row) || !/^\d{4}-\d{2}-\d{2}$/.test(row[0]) || !valid(row[1], row[2])) throw new Error('bad_value');
+    const day = Date.parse(row[0] + 'T00:00:00Z');
+    if (!Number.isFinite(day) || new Date(day).toISOString().slice(0, 10) !== row[0]) throw new Error('bad_value');
+    return row.slice(0, 3);
+  });
+  return {week: value.week.map(row => row && row.slice(0, 2)), blocks};
+}
+function lrFits_(time, availability) {
+  const day = lrSamaraDay_(time), local = new Date(day + LR_SAMARA_OFF * 60000);
+  const work = availability.week[local.getUTCDay()], date = local.toISOString().slice(0, 10);
+  if (!work) return false;
+  const start = (time - day) / 60000, end = start + LR_LESSON_MS / 60000;
+  return start >= work[0] && end <= work[1] &&
+    !availability.blocks.some(row => row[0] === date && row[1] < end && row[2] > start);
+}
+function lrBusy_(ss, after, before, skipCode, skipFrom) {
+  const sh = ss.getSheetByName('Ученики');
+  if (!sh || sh.getLastRow() < 2) return [];
+  const rows = sh.getRange(2, 1, sh.getLastRow() - 1, 12).getValues();
+  const times = sh.getRange(2, 6, rows.length, 1).getDisplayValues();
+  const days = Math.ceil((before - lrSamaraDay_(after)) / 86400000);
+  const busy = [];
+  rows.forEach((r, i) => {
+    const code = String(r[0] || '').trim();
+    if (!code || r[11] === false) return;
+    const slots = lrParse_(r[4], times[i][0], 'Europe/Samara').slots;
+    const moves = lrConfig_(code).moves;
+    const skipped = new Set(moves.map(m => m.from));
+    if (code === skipCode) skipped.add(skipFrom);
+    const regular = lrUpcoming_(slots, after, days).filter(t => !skipped.has(t));
+    const moved = moves.filter(m => code !== skipCode || m.from !== skipFrom).map(m => m.to);
+    regular.concat(moved).forEach(t => { if (t > after && t < before) busy.push(t); });
+  });
+  return busy;
+}
+function lrWindows_(availability, busy, now, end, expected) {
+  const windows = [];
+  for (let day = lrSamaraDay_(now); day < end; day += 86400000) {
+    const work = availability.week[new Date(day + LR_SAMARA_OFF * 60000).getUTCDay()];
+    if (!work) continue;
+    for (let t = day + work[0] * 60000; t + LR_LESSON_MS <= day + work[1] * 60000; t += LR_STEP_MS) {
+      if (t > now && t !== expected && lrFits_(t, availability) &&
+          !busy.some(start => Math.abs(start - t) < LR_LESSON_MS)) windows.push(t);
+    }
+  }
+  return windows;
+}
 function lrMinutes_(value) {
   if (!Array.isArray(value) || value.length > 3 ||
       value.some(n => !Number.isInteger(n) || n < 15 || n > 2880)) throw new Error('bad_value');
