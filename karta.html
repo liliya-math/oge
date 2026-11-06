@@ -195,7 +195,7 @@ async function selectLesson(id){
     };
   }catch(e){if(pending.isConnected)pending.textContent='Не получилось загрузить материалы и учеников. Нажми на квадратик ещё раз.'}
 }
-const PAL=['#f5dc6a','#f2905e','#a9d18e','#a9c1ff','#d6e2ee','#ff8f73','#5d7a4f','#1747c9'];
+const PROGCOL={'5':'#f5dc6a','6':'#f2905e','7A':'#a9d18e','7G':'#5d7a4f','8A':'#a9c1ff','8G':'#d6e2ee','9A':'#1747c9','9G':'#ff8f73',OGE:'#f3ece2'};
 const PCOL={'5':'#f5dc6a','6':'#f2905e','7A':'#a9c1ff','7G':'#d6e2ee','8A':'#a9d18e','8G':'#5d7a4f','9A':'#1747c9','9G':'#ff8f73',OGE:'#f3ece2'};
 const WD=['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
 const isoD=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
@@ -308,7 +308,7 @@ function node(id){
 function draw(){const id=getId();if(!id)home();else node(id)}
 function go(){
   Promise.all([fetch('skills-by-grade.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}),fetch('catalog.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}),Promise.all(Object.keys(ROUTE_FILES).map(k=>fetch(ROUTE_FILES[k],{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}).catch(()=>null)))])
-  .then(([g,c,rs])=>{Object.keys(ROUTE_FILES).forEach((k,i)=>{if(rs[i]&&rs[i].lessons){rs[i].lessons.forEach(l=>{l.prog=k;l.col=PAL[(l.chapter-1)%PAL.length]});ROUTES[k]=rs[i]}});N=g;BY=Object.fromEntries(g.map(x=>[x.id,x]));KIDS={};g.forEach(x=>{if(x.parent)(KIDS[x.parent]=KIDS[x.parent]||[]).push(x)});Object.values(KIDS).forEach(a=>a.sort((p,q)=>p.id.localeCompare(q.id,'en',{numeric:true})));MAT=c.items.filter(m=>m.file&&!/^(index|karta|kabinet|skill|STATE)/.test(m.file));draw()})
+  .then(([g,c,rs])=>{Object.keys(ROUTE_FILES).forEach((k,i)=>{if(rs[i]&&rs[i].lessons){rs[i].lessons.forEach(l=>{l.prog=k;l.col=PROGCOL[k]||'#f5dc6a'});ROUTES[k]=rs[i]}});N=g;BY=Object.fromEntries(g.map(x=>[x.id,x]));KIDS={};g.forEach(x=>{if(x.parent)(KIDS[x.parent]=KIDS[x.parent]||[]).push(x)});Object.values(KIDS).forEach(a=>a.sort((p,q)=>p.id.localeCompare(q.id,'en',{numeric:true})));MAT=c.items.filter(m=>m.file&&!/^(index|karta|kabinet|skill|STATE)/.test(m.file));draw()})
   .catch(()=>fail('Не получилось открыть','Похоже, пропал интернет. Обнови страницу.'));
 }
 addEventListener('hashchange',()=>{if(N)draw()});
