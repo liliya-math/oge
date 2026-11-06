@@ -597,8 +597,8 @@ function adminRun_(b) {
       case 'ping': return {ok: true, hwEdit: true, workflow: 1, quiz: 1, boardLibrary: 1, plan: 1, lessonRoute: 1};
       case 'routeGet': return {ok: true, materials: routeMaterials_(b.id)};
       case 'routeSave': return routeSave_(b);
-      case 'routeEdits': { need(); return {ok: true, edits: routeEdits_(), layouts: routeLayouts_()}; }
-      case 'routeLayoutSave': { need(); return routeLayoutSave_(b); }
+      case 'routeEdits': { return {ok: true, edits: routeEdits_(), layouts: routeLayouts_()}; }
+      case 'routeLayoutSave': { return routeLayoutSave_(b); }
       case 'routeUpload': return routeUpload_(b);
       case 'calSet': { need(); return calSet_(ss, code, b); }
       case 'routeAssign': { const st = need(); return routeAssign_(ss, st, code, b); }
