@@ -50,8 +50,9 @@ h1{margin:4px 0 6px;font-size:clamp(24px,6vw,34px);line-height:1.15;letter-spaci
 @media(min-width:901px){.calwrap{position:sticky;top:10px;margin-top:0}}
 @media(max-width:900px){.mywrap{grid-template-columns:1fr}}
 .calwrap select{font:inherit;margin:0 0 10px}
-.lesson-grid .tile.done{opacity:.62}
-.lesson-grid .tile.next{box-shadow:0 0 0 2px var(--c,#a9d18e)}
+.lesson-grid .tile{--c:#f5dc6a}
+.lesson-grid .tile.done{--c:#a9d18e;opacity:.7}
+.lesson-grid .tile.next{--c:#f2905e;box-shadow:0 0 0 2px #f2905e}
 .lesson-grid .tile small{font-weight:400;color:var(--fg);opacity:.8}
 .lesson-form{display:grid;gap:12px}.lesson-form label{display:grid;gap:5px}
 .lesson-form input,.lesson-form select,.lesson-form button{max-width:100%;font:inherit;color:var(--fg);background:#243831;border:1px solid var(--line);border-radius:10px;padding:9px}
@@ -120,7 +121,7 @@ function home(){
 }
 function routeCard(){
   return '<section class="card"><h2>Занятия по программе</h2><p class="lead">Открой квадратик, чтобы увидеть навыки, прикрепить материалы или отметить занятие.</p>'
-    +route.chapters.map((name,i)=>`<h3>${esc(name)}</h3><div class="grid lesson-grid">${route.lessons.filter(x=>x.chapter===i+1).map(x=>`<button class="tile${/^✓/.test(x.mark||'')?' done':/^→/.test(x.mark||'')?' next':''}" style="--c:${PCOL[x.prog]||'#a9d18e'}" type="button" ${myMode?'draggable="true" ':''}data-lesson="${x.id}" aria-controls="route-detail" aria-pressed="false"><small>${x.tag?esc(x.tag):x.school?'Школьные № '+esc(x.school):'Дополнительно'}${x.cal?' · '+esc(shortD(x.cal)):''}</small><br>${x.mark||''}${esc(x.title)}</button>`).join('')}</div>`).join('')
+    +route.chapters.map((name,i)=>`<h3>${esc(name)}</h3><div class="grid lesson-grid">${route.lessons.filter(x=>x.chapter===i+1).map(x=>`<button class="tile${/^✓/.test(x.mark||'')?' done':/^→/.test(x.mark||'')?' next':''}" type="button" ${myMode?'draggable="true" ':''}data-lesson="${x.id}" aria-controls="route-detail" aria-pressed="false"><small>${x.tag?esc(x.tag):x.school?'Школьные № '+esc(x.school):'Дополнительно'}${x.cal?' · '+esc(shortD(x.cal)):''}</small><br>${x.mark||''}${esc(x.title)}</button>`).join('')}</div>`).join('')
     +'<div id="route-detail" hidden></div></section>';
 }
 async function selectLesson(id){
@@ -207,14 +208,14 @@ function calSet(id,d){
 function refreshTile(l){const b=app.querySelector('[data-lesson="'+l.id+'"]');if(b){b.classList.toggle('done',/^✓/.test(l.mark||''));b.classList.toggle('next',/^→/.test(l.mark||''))}if(b)b.innerHTML='<small>'+esc(l.tag||(l.school?'Школьные № '+l.school:'Дополнительно'))+(l.cal?' · '+esc(shortD(l.cal)):'')+'</small><br>'+(l.mark||'')+esc(l.title)}
 function renderCal(){
   const box=document.getElementById('cal');if(!box||!myMode)return;
-  const days=String(myMode.st.days||'').split('|')[0].match(/Пн|Вт|Ср|Чт|Пт|Сб|Вс/g)||[];
-  const lessonWd=new Set(days.map(x=>WD.indexOf(x)));
+  const days=(String(myMode.st.days||'').split('|')[0].toLowerCase().match(/пн|вт|ср|чт|пт|сб|вс/g)||[]);
+  const lessonWd=new Set(days.map(x=>WD.map(w=>w.toLowerCase()).indexOf(x)));
   const now=new Date();now.setHours(0,0,0,0);const mon=new Date(now);mon.setDate(now.getDate()-((now.getDay()+6)%7)+calWeek*7);
-  let h='<h2>Календарь</h2><p class="lead">Перетащи квадратик на день. Или открой квадратик и нажми на день. Занятие можно перетащить на другой день, ✕ убирает из календаря.</p><div style="display:flex;gap:8px;margin-bottom:10px"><button type="button" data-cw="-1">←</button><button type="button" data-cw="0">Сегодня</button><button type="button" data-cw="1">→</button></div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px">';
+  let h='<h2>Календарь</h2><p class="lead">Перетащи квадратик на день (дни занятий ученика обведены оранжевым). Или открой квадратик и нажми на день. Занятие можно перетащить на другой день, ✕ убирает из календаря.</p><div style="display:flex;gap:8px;margin-bottom:10px"><button type="button" data-cw="-1">←</button><button type="button" data-cw="0">Сегодня</button><button type="button" data-cw="1">→</button></div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px">';
   for(let w=0;w<4;w++)for(let i=0;i<7;i++){
     const d=new Date(mon);d.setDate(mon.getDate()+w*7+i);const iso=isoD(d),on=lessonWd.has(d.getDay()),today=iso===isoD(now);
-    const chips=myMode.st.cal.filter(y=>y.d===iso).map(y=>{const l=myMode.lessons.find(x=>x.id===y.id);const done=l&&/^✓/.test(l.mark||'');return `<div draggable="true" data-chip="${esc(y.id)}" style="font-size:12px;padding:3px 5px;margin-top:3px;border-radius:6px;border-left:5px solid ${PCOL[l&&l.prog]||'#a9d18e'};background:color-mix(in srgb,${PCOL[l&&l.prog]||'#a9d18e'} 30%,#14211e);cursor:grab">${done?'✓ ':''}${esc(y.title)} <span data-x="${esc(y.id)}" style="cursor:pointer;opacity:.7">✕</span></div>`}).join('');
-    h+=`<div data-day="${iso}" style="min-height:74px;padding:5px;border-radius:8px;border:1px solid ${today?'#f2905e':'rgba(255,255,255,.18)'};background:${on?'rgba(169,209,142,.16)':'transparent'}"><b style="font-size:12px">${WD[d.getDay()]} ${shortD(iso)}</b>${chips}</div>`;
+    const chips=myMode.st.cal.filter(y=>y.d===iso).map(y=>{const l=myMode.lessons.find(x=>x.id===y.id);const done=l&&/^✓/.test(l.mark||'');return `<div draggable="true" data-chip="${esc(y.id)}" style="font-size:12px;padding:3px 5px;margin-top:3px;border-radius:6px;border-left:5px solid ${done?'#a9d18e':'#f5dc6a'};background:color-mix(in srgb,${done?'#a9d18e':'#f5dc6a'} 26%,#14211e);cursor:grab">${done?'✓ ':''}${esc(y.title)} <span data-x="${esc(y.id)}" style="cursor:pointer;opacity:.7">✕</span></div>`}).join('');
+    h+=`<div data-day="${iso}" style="min-height:74px;padding:5px;border-radius:8px;border:${on?'2px':'1px'} solid ${on?'#f2905e':today?'#f5dc6a':'rgba(255,255,255,.18)'};background:${on?'linear-gradient(115deg,rgba(245,220,106,.20),rgba(242,144,94,.20))':'transparent'}"><b style="font-size:12px">${WD[d.getDay()]} ${shortD(iso)}${on?' · занятие':''}</b>${chips}</div>`;
   }
   box.innerHTML=h+'</div>';
   box.querySelectorAll('[data-cw]').forEach(b=>b.onclick=()=>{calWeek=b.dataset.cw==='0'?0:calWeek+Number(b.dataset.cw);renderCal()});
