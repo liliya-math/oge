@@ -1286,7 +1286,7 @@ function demoData(){const st='ssspp'+'s'.repeat(11)+'pssp'+'ggp'+'nn';const map=
 }
 
 /* ---------- подсчёты ---------- */
-const LIB=()=>TEACH||!!(D&&Array.isArray(D.show)&&D.show.includes('library'));
+const LIB=()=>TEACH||!!(D&&(D.routeHistory?.length||Array.isArray(D.show)&&D.show.includes('library')));
 const SHOW=k=>TEACH||!D||!Array.isArray(D.show)||D.show.includes(k);
 const stOf=n=>(D.map&&D.map[n])||'new';
 const isDone=h=>D.demo&&!wfEnabled()&&h.id in S.hw?S.hw[h.id]:!!h.done;
@@ -1297,7 +1297,7 @@ function visibleHW(){return D.hw.filter(h=>!h.old&&(!isDone(h)||(daysTo(h.due)??
 function sayList(){const a=[],left=visibleHW().filter(h=>!isDone(h)).length,H=D.hist||[];
  if(left)a.push(`Домашка ждёт: ${left} ${plural(left,'задание','задания','заданий')}. Сделаешь — получишь стикер.`);else a.push('Вся домашка закрыта. Красота.');
  if(SHOW('exams')&&H.length>1&&H[H.length-1].p>H[0].p)a.push(`С первой диагностики +${H[H.length-1].p-H[0].p}. Это система, а не везение.`);
- if(D.topic&&topicSay(D.topic))a.push(topicSay(D.topic));
+ if(!routeActive()&&D.topic&&topicSay(D.topic))a.push(topicSay(D.topic));
  if(!S.picked&&!TEACH)a.push('Нажми «Сменить талисмана» и выбери того, кто тебе по душе. Я не обижусь. Почти.');
  return a}
 
@@ -1399,7 +1399,7 @@ function boardOpenButtons(teacher){const u=boardContextURL(teacher?myBoardURL():
  if(!u)return teacher?'<button class="btn ghost" type="button" id="bd-setup">Настроить доску</button>':'';
  return `<div class="boardrow"><a class="btn" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${'Открыть доску'}</a>${LiliBoardLinks.parse(u)?`<a class="btn ghost" href="${esc(LiliBoardLinks.videoURL(u))}" target="_blank" rel="noopener noreferrer">Доска + видео</a>`:''}</div>`}
 
-function lessonCard(teach){const t=nextLesson();if(!t)return `<div class="card"><span class="eyebrow">Следующее занятие</span><div class="when">Расписание уточняется</div>${topicHTML(D.topic)}${boardOpenButtons(teach)}</div>`;
+function lessonCard(teach){const t=nextLesson();if(!t)return `<div class="card"><span class="eyebrow">Следующее занятие</span><div class="when">Расписание уточняется</div>${routeActive()?'':topicHTML(D.topic)}${boardOpenButtons(teach)}</div>`;
  const c=countdown(t),P=SCH(),tz=stuTz(),dev=devTz(),diff=!teach&&P.tz&&dev&&tzOff(dev,t)!==tzOff(P.tz,t);
  const wkS=teach&&P.tz&&tzOff(P.tz,t)!==SAMARA_OFF;
  return `<div class="card">
@@ -1407,7 +1407,7 @@ function lessonCard(teach){const t=nextLesson();if(!t)return `<div class="card">
  <div class="when">${fmtWhen(t,teach?'Europe/Samara':tz)}${teach?' <small class="tzs">по Самаре</small>':''}</div>
  ${teach&&wkS?`<div class="tzalt">у ученика: ${fmtWhen(t,P.tz)} · ${esc(P.city||tzLabel(P.tz))}</div>`:''}
  <span class="cd ${c.live?'live':''}" id="cd"><i></i>${c.s}</span>
- ${D.topic?topicHTML(D.topic):'<div style="height:14px"></div>'}
+ ${!routeActive()&&D.topic?topicHTML(D.topic):'<div style="height:14px"></div>'}
  ${boardOpenButtons(teach)}
  ${lessonSchedule(teach,t)}
  <div class="tzn">${teach?'Ученик видит время в своём поясе.':`Время по твоему часовому поясу${tz?' ('+esc(P.tz?tzLabel(tz):tz)+')':''}.`}${diff?` Сейчас твоё устройство в другом поясе: там это ${t.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}.`:''}</div></div>`}
@@ -1687,10 +1687,20 @@ function materialsFolders(){const groups=new Map(),P=PROG();(D.hw||[]).filter(h=
 
 function progressSummary(){const P=PROG(),counts={solid:0,shaky:0,gap:0,new:0};for(let n=1;n<=P.nmax;n++)counts[stOf(n)]++;const numeric=(D.hist||[]).filter(h=>typeof h.p==='number'),delta=numeric.length>1?numeric.at(-1).p-numeric[0].p:null;return `<div class="card"><div class="sh"><h2>Что уже получается</h2></div><div class="progress-summary"><div><b>${counts.solid}</b><span>тем решаешь уверенно</span></div><div><b>${counts.shaky}</b><span>тем ещё закрепляем</span></div><div><b>${delta===null?'—':(delta>=0?'+':'')+delta}</b><span>${delta===null?'сравним после двух работ':P.oge?'баллов с первой работы':'к результату первой работы'}</span></div></div><p class="note">Статусы тем отмечает преподаватель по результатам занятий. Результаты проверенных работ показаны ниже.</p></div>`}
 function contactLine(){return `<p class="contactline">Вопросы по заданиям: <a href="https://t.me/ohh_my_lily" target="_blank" rel="noopener">@ohh_my_lily</a> в Telegram.</p>`}
+function routeActive(){return D.lessonRoute===1&&clsOf()===8}
+function routeHistoryCard(){
+ const history=D.routeHistory||[];
+ if(!history.length)return '';
+ return `<section class="card"><h2>Проведённые занятия</h2><ul class="work">${history.slice(0,30).map(item=>`<li><div><strong>${esc(item.title)}</strong> · ${esc(shortDate(item.date))}${/^https:\/\//i.test(item.theory)?` <a href="${esc(item.theory)}" target="_blank" rel="noopener noreferrer">Теория</a>`:''}</div></li>`).join('')}</ul></section>`;
+}
+function openLessonRoute(){
+ try{sessionStorage.setItem('lili-route-student',D.code||CODE)}catch(e){}
+ location.href='karta.html#8A';
+}
 function kidWorkspace(bday){const prog=quizCabinetCard(D)+(SHOW('map')?progressSummary()+mapCard(false):'')+(SHOW('skills')?skillsCard(false)+gradeCard():'')+(SHOW('exams')?chartCard():'')+(SHOW('grades')?gradesCard():'');
  return welcomeKid()+mascotPeek()+bday+focusWork()+`<div class="lessonstrip">${lessonCard()}</div>`+cabNav()
   +cabPanel('homework',newHwCard()+(SHOW('notebook')?notebookCard():'')+telegramCard()+(SHOW('letter')?letterCard():'')+contactLine())
-  +(LIB()?cabPanel('materials',materialsFolders()+((D.mats&&D.mats.length)||!D.matsAll?matCard():'')):'')
+  +(LIB()?cabPanel('materials',routeHistoryCard()+materialsFolders()+((D.mats&&D.mats.length)||!D.matsAll?matCard():'')):'')
   +(prog?cabPanel('progress',prog):'')+(CAB_TABS().some(x=>x[0]==='mocks')?cabPanel('mocks',LiliOgeProgress.html(D.quizHistory||[],T_OGE)):'')+(SHOW('rewards')?cabPanel('rewards',stkCard()):'')
   +(CAB_TABS().some(x=>x[0]==='plan')?cabPanel('plan',planKidCard()):'')}
 function bindHomeworkRows(){document.querySelectorAll('[data-hwrow] .hwm a').forEach(a=>a.dataset.hwopen=a.closest('[data-hwrow]').dataset.hwrow);document.querySelectorAll('#hw-results .chk').forEach(b=>b.onclick=()=>toggleHW(b.dataset.hw,b));bindWorkflowButtons()}
@@ -1912,17 +1922,17 @@ function apply(j,keep){D=j.d;if(CODE)tCacheSet('cab-t-get:'+CODE,D);tRender(keep
 function drafts(){const o={};app.querySelectorAll('input[id]:not([type=file]),textarea[id]').forEach(i=>{o[i.id]=i.type==='checkbox'?i.checked:i.value});return o}
 let journalRequested;
 function journalCard(){try{return LiliTeaching.journalHTML(localStorage,D.code||CODE,D,journalRequested)}catch(e){return '<div class="card"><h2>Карточка занятия</h2><p>Браузер запретил доступ к личному журналу. Разреши хранение данных для сайта.</p></div>'}}
-function openLessonFinish(card){LiliLessonFlow.showFinish(document,{code:D.code||CODE,card,student:D,storage:localStorage,getStudent:code=>adm('get',{t:code}).then(j=>j.d),assignHomework:(code,payload)=>adm('hwAdd',{t:code,...payload}).then(j=>(D=j.d)),setTopic:(code,topic)=>adm('student',{t:code,fields:{topic}}).then(j=>(D=j.d)),onSaved:card=>{journalRequested=card.id;tRender(false)},onDismiss:card=>{journalRequested=card.id;tRender(false)},notify:toast})}
+function openLessonFinish(card){if(routeActive()){openLessonRoute();return}LiliLessonFlow.showFinish(document,{code:D.code||CODE,card,student:D,storage:localStorage,getStudent:code=>adm('get',{t:code}).then(j=>j.d),assignHomework:(code,payload)=>adm('hwAdd',{t:code,...payload}).then(j=>(D=j.d)),setTopic:(code,topic)=>adm('student',{t:code,fields:{topic}}).then(j=>(D=j.d)),onSaved:card=>{journalRequested=card.id;tRender(false)},onDismiss:card=>{journalRequested=card.id;tRender(false)},notify:toast})}
 function bindJournalCard(){LiliTeaching.bindJournal(document,D.code||CODE,D,{teacherURL:myBoardURL,finish:openLessonFinish,refresh:id=>{journalRequested=id;const el=document.getElementById('teaching-journal');if(el){el.outerHTML=journalCard();bindJournalCard()}},notify:toast})}
 function tRender(keep){LiliTeaching.preserveDraft(document,D.code||CODE);const y=scrollY,dr=keep===false?{}:drafts(),foc=document.activeElement&&document.activeElement.id;
  const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
  app.innerHTML=tTop()+`<div class="cab enter"><section class="card"><div class="sh"><h1>${esc(fullName()||D.name)}</h1><span class="sub">${D.active?'':'В архиве'}</span></div>
- <div class="boardrow"><button class="btn ghost" id="lnkc" type="button">Скопировать ссылку ученика</button><button class="btn" type="button" id="assign-shortcut">Назначить задание</button><button class="btn ghost" id="open-settings" type="button">Настройки</button></div></section>
- ${lessonCard(true)}${lessonRequestCard(true)}`+(kid
+ <div class="boardrow"><button class="btn ghost" id="lnkc" type="button">Скопировать ссылку ученика</button><button class="btn" type="button" id="assign-shortcut">Назначить задание</button>${clsOf()===8?'<button class="btn" id="lesson-route" type="button">Открыть карту занятий</button>':''}<button class="btn ghost" id="open-settings" type="button">Настройки</button></div></section>
+ ${lessonCard(true)}${lessonRequestCard(true)}${routeHistoryCard()}`+(kid
   ? quizCabinetCard(D)+tHwCard()+journalCard()+tPlanCard()+tMatCard()+mapCard(false)+skillsCard(false)+gradeCard()+`<div class="two">${chartCard()}${probCard()}</div>`+tGradesCard()+tLettersCard()+bday
   : heroPar()+quizCabinetCard(D)+mapCard(true)+skillsCard(true)+gradeCard()+`<div class="two">${chartCard()}${workCard()}</div>`+tGradesCard()+tLettersCard())+adminCard()+foot()+`</div>`;
  Object.keys(dr).forEach(id=>{const i=document.getElementById(id);if(!i)return;if(i.type==='checkbox')i.checked=dr[id];else i.value=dr[id]});
- tBind();bindJournalCard();bindPlan();scrollTo({top:y});if(foc){const f=document.getElementById(foc);if(f&&f.focus)f.focus({preventScroll:true})}if(bday)bdayFX()}
+ tBind();const routeButton=document.getElementById('lesson-route');if(routeButton)routeButton.onclick=openLessonRoute;bindJournalCard();bindPlan();scrollTo({top:y});if(foc){const f=document.getElementById(foc);if(f&&f.focus)f.focus({preventScroll:true})}if(bday)bdayFX()}
 
 /* ---------- редактор расписания ---------- */
 let SL=[],STZ='',STC='';
@@ -2276,7 +2286,7 @@ function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).
  <p class="note">${D.lessonReminders===null?'По общим настройкам':D.lessonReminders.length?'За '+D.lessonReminders.join(', ')+' мин.':'Выключены'}</p>`}
  <details class="formbox"><summary>Telegram ученика</summary>${tTelegramCard()||'<p class="note">Бот подключается в общих настройках преподавателя.</p>'}</details></section>
  <details class="formbox"><summary>Учебные данные и видимость разделов</summary>
- ${topicField()}
+ ${routeActive()?'':topicField()}
  <label class="fld"><span>Над чем работаем — для родителей, каждый пункт с новой строки</span><textarea id="f-work" rows="3" data-fresh="1">${esc(W)}</textarea></label>
  <div class="fgrid">
   <label class="fld"><span>Занятий в месяце по плану</span><input id="f-lp" type="number" min="0" inputmode="numeric" value="${D.lessonsPlan}" data-fresh="1"></label>
@@ -2496,7 +2506,7 @@ function tBind(){
  document.getElementById('lnkn').onclick=e=>{if(!confirm('Выдать ученику новую ссылку? Старая перестанет работать сразу. Домашка, оценки, карта и Telegram сохранятся. Новую ссылку нужно будет отправить ученику или родителю.'))return;const b=e.currentTarget;b.disabled=true;adm('rotateCode').then(j=>{LiliBoardLinks.moveTeacher(localStorage,CODE,j.code);LiliTeaching.moveJournal(localStorage,CODE,j.code);location.hash='lilia-'+j.code}).catch(err=>{b.disabled=false;toast(errText(err))})};
  const fc=document.getElementById('f-cls');if(fc)fc.onchange=()=>{const pr=document.getElementById('f-prog');pr.innerHTML=progOptions(+fc.value,pr.value)};
  document.getElementById('f-save').onclick=e=>{const b=e.currentTarget,v=id=>{const el=document.getElementById(id);return el?el.value:''};b.disabled=true;
-  adm('student',{fields:{name:v('f-name'),fname:v('f-fname'),nick:v('f-nick'),dat:v('f-dat'),bdate:v('f-bdate'),parent:v('f-parent'),phone:v('f-phone'),cls:v('f-cls'),prog:document.getElementById('f-prog').value,goal:v('f-goal'),days:serSched(SL,STZ,STC),time:SL.length?hhmm(sortSlots(SL.slice())[0].h,sortSlots(SL.slice())[0].m):'',topic:topicVal(),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),show:[...document.querySelectorAll('.f-show:checked')].map(e=>e.dataset.k)}})
+  adm('student',{fields:{name:v('f-name'),fname:v('f-fname'),nick:v('f-nick'),dat:v('f-dat'),bdate:v('f-bdate'),parent:v('f-parent'),phone:v('f-phone'),cls:v('f-cls'),prog:document.getElementById('f-prog').value,goal:v('f-goal'),days:serSched(SL,STZ,STC),time:SL.length?hhmm(sortSlots(SL.slice())[0].h,sortSlots(SL.slice())[0].m):'',...(!routeActive()?{topic:topicVal()}:{}),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),show:[...document.querySelectorAll('.f-show:checked')].map(e=>e.dataset.k)}})
    .then(j=>{apply(j,false);toast('Настройки сохранены')}).catch(err=>{b.disabled=false;const e2=document.getElementById('f-err');if(e2)e2.textContent=errText(err)})};
  const hp=document.getElementById('hpet');if(hp)hp.onclick=()=>react('neu','',pick(sayList()));
  document.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{const n=+b.dataset.t;S.sel=n;save();document.querySelectorAll('.tile').forEach(x=>x.setAttribute('aria-pressed',x===b));document.getElementById('tdet').innerHTML=tDetail(n);bindDetail();

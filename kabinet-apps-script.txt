@@ -44,7 +44,8 @@ const SHEETS = {
   'Комментарии': ['Код', 'Задание ОГЭ', 'Комментарий', 'Ссылка на разбор', 'Подпись ссылки'],
   'Разборы': ['Код', 'Ссылка', 'Название', 'Подпись'],
   'Материалы': ['Ссылка', 'Название'],
-  'Домашка': ['Код', 'Что сделать', 'Задания ОГЭ', 'Срок', 'Ссылка', 'Подпись ссылки', 'Сделано', 'Отмечено', 'Файл (PDF)', 'Раздел', 'Статус работы', 'Сообщение ученика', 'Комментарий учителя', 'Решение ученика', 'Обновлено', 'Версия работы'],
+  'Занятия по карте': ['Код', 'Ключ', 'Дата', 'Занятие', 'Теория', 'Домашняя работа', 'Выдано'],
+  'Домашка': ['Код', 'Что сделать', 'Задания ОГЭ', 'Срок', 'Ссылка', 'Подпись ссылки', 'Сделано', 'Отмечено', 'Файл (PDF)', 'Раздел', 'Статус работы', 'Сообщение ученика', 'Комментарий учителя', 'Решение ученика', 'Обновлено', 'Версия работы', 'Ключ занятия'],
   'Файлы': ['Код', 'Строка ДЗ', 'Название', 'Ссылка'],
   'Пробники': ['Код', 'Дата', 'Название', 'Баллы'],
   'Оценки': ['Код', 'Дата', 'Предмет', 'Оценка', 'Примечание'],
@@ -158,7 +159,7 @@ function ptsOf_(p, n) {
 function sheet_(ss, name) {
   let sh = ss.getSheetByName(name);
   if (!sh && SHEETS[name]) {
-    sh = ss.insertSheet(name, 99);
+    sh = name === 'Занятия по карте' ? ss.insertSheet(name) : ss.insertSheet(name, 99);
     sh.getRange(1, 1, 1, SHEETS[name].length).setValues([SHEETS[name]]);
     sh.setFrozenRows(1);
   }
@@ -170,7 +171,7 @@ function sheet_(ss, name) {
    Любая запись (doPost, admin-операции кроме чтения, ручная правка таблицы) меняет «версию данных»,
    и старый кэш перестаёт использоваться. Если кэш недоступен или не влез, скрипт работает как раньше. */
 const CACHE_TTL_ = 120;
-const READ_OPS_ = ['ping', 'list', 'get', 'boardLibraryGet', 'quizList', 'quizGet', 'lessonDefaultsGet', 'lessonWindows'];
+const READ_OPS_ = ['ping', 'list', 'get', 'boardLibraryGet', 'quizList', 'quizGet', 'lessonDefaultsGet', 'lessonWindows', 'routeGet'];
 
 function cacheVer_() {
   const c = CacheService.getScriptCache();
@@ -589,7 +590,11 @@ function adminRun_(b) {
     const need = () => { const st = findStudentRow_(code); if (!st) throw new Error('not_found'); return st; };
     const fresh = () => ({ok: true, d: studentData_(code, true)});
     switch (b.op) {
-      case 'ping': return {ok: true, hwEdit: true, workflow: 1, quiz: 1, boardLibrary: 1, plan: 1};
+      case 'ping': return {ok: true, hwEdit: true, workflow: 1, quiz: 1, boardLibrary: 1, plan: 1, lessonRoute: 1};
+      case 'routeGet': return {ok: true, materials: routeMaterials_(b.id)};
+      case 'routeSave': return routeSave_(b);
+      case 'routeUpload': return routeUpload_(b);
+      case 'routeAssign': { const st = need(); return routeAssign_(ss, st, code, b); }
       case 'boardLibraryGet': return {ok:true,library:boardLibraryGet_()};
       case 'boardLibraryPut': return boardLibraryPut_(b);
       case 'quizList': return quizList_();
@@ -915,7 +920,8 @@ function listStudents_() {
     if (m) for (let n = 1; n <= nmax; n++) if (STATUS_KEY[String(m[n + 1]).trim().toLowerCase()] === 'solid') p += ptsOf_(pr, n);
     return {code: c, name: String(r[1]), fname: String(r[14] || ''), nick: String(r[21] || '').trim(), goal: Number(r[3]) || Math.round(goalMax_(pr) * 0.8),
             days: String(r[4] || ''), time: x.time, active: r[11] !== false, prog: pr, pts: p, hwLeft: left[c] || 0,
-            lessonMoves: lrConfig_(c).moves, lessonRequestPending: lrConfig_(c).request?.status === 'pending', letters: letters[c] || 0, cls: Number(r[18]) || clsOfProg_(pr)};
+            lessonRoute: 1, routeHistory: rows('Занятия по карте').filter(x => x.v[6] === true).reverse().map(x => ({date: day_(x.v[2]), title: String(x.v[3]), theory: String(x.v[4] || '')})),
+    lessonMoves: lrConfig_(c).moves, lessonRequestPending: lrConfig_(c).request?.status === 'pending', letters: letters[c] || 0, cls: Number(r[18]) || clsOfProg_(pr)};
   });
 }
 
@@ -1080,7 +1086,7 @@ function rotateCode_(old) {
     v.forEach(r => { if (String(r[0]).trim() === old) { r[0] = next; hit = true; } });
     if (hit) rng.setValues(v);
   };
-  ['Ученики', 'Карта', 'Домашка', 'Пробники', 'Оценки', 'Письма', 'Навыки', 'Комментарии', 'Файлы', 'Разборы', 'Результаты', 'Попытки тестов']
+  ['Ученики', 'Карта', 'Домашка', 'Пробники', 'Оценки', 'Письма', 'Навыки', 'Комментарии', 'Файлы', 'Разборы', 'Результаты', 'Попытки тестов', 'Занятия по карте']
     .forEach(n => swap(ss.getSheetByName(n), 1));
   const st = findStudentRow_(next);
   if (st) ss.getSheetByName('Ученики').getRange(st.index, 13).setValue(PAGE + '#' + next);
@@ -2174,4 +2180,59 @@ function sendLessonReminders() {
 function setupLessonReminders() {
   ScriptApp.getProjectTriggers().filter(t => t.getHandlerFunction() === 'sendLessonReminders').forEach(t => ScriptApp.deleteTrigger(t));
   ScriptApp.newTrigger('sendLessonReminders').timeBased().everyMinutes(10).create();
+}
+
+
+/* ================= Занятия по карте ================= */
+function routeId_(id) {
+  id = String(id || '');
+  if (!/^8A-(?:F\d{1,2}|\d{2,3})$/.test(id)) throw new Error('bad_value');
+  return id;
+}
+function routeMaterials_(id) {
+  const raw = PropertiesService.getScriptProperties().getProperty('ROUTE_' + routeId_(id));
+  return raw ? JSON.parse(raw) : {theory: '', homework: ''};
+}
+function routeSave_(b) {
+  const links = {};
+  for (const key of ['theory', 'homework']) {
+    const url = String(b[key] || '').trim();
+    if (url && (url.length > 1500 || !/^https:\/\/[^\s<>"']+$/i.test(url))) return {error: 'bad_value'};
+    links[key] = url;
+  }
+  PropertiesService.getScriptProperties().setProperty('ROUTE_' + routeId_(b.id), JSON.stringify(links));
+  return {ok: true, materials: links};
+}
+function routeUpload_(b) {
+  const data = String(b.data || '');
+  if (!data.startsWith('JVBERi0') || data.length > 11 * 1024 * 1024) return {error: 'bad_value'};
+  const name = String(b.name || 'Материал.pdf').replace(/[\\/:*?"<>|]/g, '_').slice(0, 150);
+  const it = DriveApp.getFoldersByName('lili.math · материалы занятий');
+  const folder = it.hasNext() ? it.next() : DriveApp.createFolder('lili.math · материалы занятий');
+  const file = folder.createFile(Utilities.newBlob(Utilities.base64Decode(data), 'application/pdf', name));
+  file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  return {ok: true, url: file.getUrl()};
+}
+function routeAssign_(ss, st, code, b) {
+  if (st.row[11] === false) return {error: 'not_found'};
+  const id = routeId_(b.id);
+  const title = String(b.title || '').trim();
+  if (!title || title.length > 200 || /^[=+@-]/.test(title)) return {error: 'bad_value'};
+  const date = Utilities.formatDate(new Date(), 'Europe/Samara', 'yyyy-MM-dd');
+  const key = date + '|' + id;
+  const journal = sheet_(ss, 'Занятия по карте');
+  let row = findRow_('Занятия по карте', v => String(v[0]).trim() === code && v[1] === key);
+  if (!row) {
+    const materials = routeMaterials_(id);
+    journal.appendRow([code, key, date, title, materials.theory, materials.homework, false]);
+    row = journal.getLastRow();
+  }
+  const entry = journal.getRange(row, 1, 1, 7).getValues()[0];
+  if (entry[6] === true) return {ok: true, duplicate: true};
+  if (entry[5] && !findRow_('Домашка', v => String(v[0]).trim() === code && v[16] === key)) {
+    const hw = sheet_(ss, 'Домашка');
+    hw.appendRow([code, 'Домашняя работа: ' + entry[3], '', '', entry[5], 'Открыть домашнюю работу', false, '', '', '', '', '', '', '', '', '', key]);
+  }
+  journal.getRange(row, 7).setValue(true);
+  return {ok: true, theory: !!entry[4], homework: !!entry[5]};
 }
