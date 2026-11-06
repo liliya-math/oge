@@ -54,6 +54,7 @@ h1{margin:4px 0 6px;font-size:clamp(24px,6vw,34px);line-height:1.15;letter-spaci
 .lesson-grid .tile.done{opacity:.55}
 .lesson-grid .tile.next{box-shadow:0 0 0 3px var(--fg)}
 .lesson-grid .tile{font-size:14.5px;line-height:1.3}
+.lesson-grid .cbadge{display:block;width:max-content;max-width:100%;margin-top:8px;padding:3px 9px;border-radius:999px;background:#14211e;color:#f3ece2;font-size:12px;font-weight:600}
 .lesson-grid .tile small{font-weight:400;color:inherit;opacity:.75}
 .calwrap button[data-cw]{font:inherit;font-weight:600;color:#14211e;background:linear-gradient(115deg,#f5dc6a,#f2905e);border:0;border-radius:10px;padding:7px 14px;cursor:pointer}
 .lesson-form{display:grid;gap:12px}.lesson-form label{display:grid;gap:5px}
@@ -123,7 +124,7 @@ function home(){
 }
 function routeCard(){
   return '<section class="card"><h2>Занятия по программе</h2><p class="lead">Открой квадратик, чтобы увидеть навыки, прикрепить материалы или отметить занятие.</p>'
-    +route.chapters.map((name,i)=>`<h3>${esc(name)}</h3><div class="grid lesson-grid">${route.lessons.filter(x=>x.chapter===i+1).map(x=>`<button class="tile${/^✓/.test(x.mark||'')?' done':/^→/.test(x.mark||'')?' next':''}" style="--c:${x.col||'#f5dc6a'};--ink:${INK[x.col]||'#14211e'}" type="button" ${myMode?'draggable="true" ':''}data-lesson="${x.id}" aria-controls="route-detail" aria-pressed="false"><small>${x.tag?esc(x.tag):x.school?'Школьные № '+esc(x.school):'Дополнительно'}${x.cal?' · '+esc(shortD(x.cal)):''}</small><br>${x.mark||''}${esc(x.title)}</button>`).join('')}</div>`).join('')
+    +route.chapters.map((name,i)=>`<h3>${esc(name)}</h3><div class="grid lesson-grid">${route.lessons.filter(x=>x.chapter===i+1).map(x=>`<button class="tile${/^✓/.test(x.mark||'')?' done':/^→/.test(x.mark||'')?' next':''}" style="--c:${x.col||'#f5dc6a'};--ink:${INK[x.col]||'#14211e'}" type="button" ${myMode?'draggable="true" ':''}data-lesson="${x.id}" aria-controls="route-detail" aria-pressed="false"><small>${x.tag?esc(x.tag):x.school?'Школьные № '+esc(x.school):'Дополнительно'}</small><br>${x.mark||''}${esc(x.title)}${calBadge(x)}</button>`).join('')}</div>`).join('')
     +'<div id="route-detail" hidden></div></section>';
 }
 async function selectLesson(id){
@@ -209,7 +210,8 @@ function calSet(id,d){
   renderCal();refreshTile(l);
   admin('calSet',{t:m.code,id,d:d||'',title:l.title}).catch(()=>{l.cal=prev;m.st.cal=m.st.cal.filter(y=>y.id!==id);if(prev)m.st.cal.push({d:prev,id,title:l.title});renderCal();refreshTile(l);alert('Не получилось сохранить в календаре. Проверь связь и обнови Apps Script.')});
 }
-function refreshTile(l){const b=app.querySelector('[data-lesson="'+l.id+'"]');if(b){b.classList.toggle('done',/^✓/.test(l.mark||''));b.classList.toggle('next',/^→/.test(l.mark||''))}if(b)b.innerHTML='<small>'+esc(l.tag||(l.school?'Школьные № '+l.school:'Дополнительно'))+(l.cal?' · '+esc(shortD(l.cal)):'')+'</small><br>'+(l.mark||'')+esc(l.title)}
+function calBadge(l){if(!l.cal)return '';const d=new Date(l.cal+'T00:00:00');return '<span class="cbadge">в календаре · '+WD[d.getDay()]+' '+esc(shortD(l.cal))+'</span>'}
+function refreshTile(l){const b=app.querySelector('[data-lesson="'+l.id+'"]');if(b){b.classList.toggle('done',/^✓/.test(l.mark||''));b.classList.toggle('next',/^→/.test(l.mark||''))}if(b)b.innerHTML='<small>'+esc(l.tag||(l.school?'Школьные № '+l.school:'Дополнительно'))+'</small><br>'+(l.mark||'')+esc(l.title)+calBadge(l)}
 function renderCal(){
   const box=document.getElementById('cal');if(!box||!myMode)return;
   const days=(String(myMode.st.days||'').split('|')[0].toLowerCase().match(/пн|вт|ср|чт|пт|сб|вс/g)||[]);
