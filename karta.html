@@ -46,6 +46,9 @@ h1{margin:4px 0 6px;font-size:clamp(24px,6vw,34px);line-height:1.15;letter-spaci
 .lesson-grid button[aria-pressed=true]{border-color:var(--apricot)}
 .lesson-grid .tile{background:color-mix(in srgb,var(--c,#a9d18e) 26%,#14211e);border:1px solid color-mix(in srgb,var(--c,#a9d18e) 50%,transparent);border-left:7px solid var(--c,#a9d18e);font-weight:600}
 .lesson-grid .tile:hover{background:color-mix(in srgb,var(--c,#a9d18e) 38%,#14211e)}
+.mywrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+#cal{position:sticky;top:10px;margin-top:0}
+@media(max-width:900px){.mywrap{grid-template-columns:1fr}#cal{position:static}}
 .lesson-grid .tile.done{opacity:.62}
 .lesson-grid .tile.next{box-shadow:0 0 0 2px var(--c,#a9d18e)}
 .lesson-grid .tile small{font-weight:400;color:var(--fg);opacity:.8}
@@ -189,7 +192,7 @@ async function selectLesson(id){
     };
   }catch(e){if(pending.isConnected)pending.textContent='Не получилось загрузить материалы и учеников. Нажми на квадратик ещё раз.'}
 }
-const PCOL={'5':'#f5dc6a','6':'#f2905e','7A':'#ee8fa8','7G':'#c9a0ee','8A':'#7fb8f0','8G':'#6fd9cf','9A':'#a9d18e','9G':'#d8e66f',OGE:'#ff8f73'};
+const PCOL={'5':'#f5dc6a','6':'#f2905e','7A':'#a9c1ff','7G':'#d6e2ee','8A':'#a9d18e','8G':'#5d7a4f','9A':'#1747c9','9G':'#ff8f73',OGE:'#f3ece2'};
 const WD=['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
 const isoD=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const shortD=iso=>iso.slice(8,10)+'.'+iso.slice(5,7);
@@ -242,7 +245,7 @@ async function myPage(){
   add('Школьная программа по порядку (алгебра, алгебра, геометрия)',school);
   add('ОГЭ, часть 1',O);
   route={chapters,lessons};myMode={code,st,lessons};selectedStudent=code;st.cal=st.cal||[];lessons.forEach(x=>{const c=st.cal.find(y=>y.id===x.id);if(c)x.cal=c.d});
-  app.innerHTML=`<div class="bar"><span class="id">Ученик</span><span class="brand">lili<b>.</b>math</span></div><div class="crumbs"><a href="#">Карта</a></div><h1>${esc(nm)}</h1><p class="lead">Программы: ${progs.map(k=>NAMES[k]).join(', ')}. ✓ проведено, → следующее.</p>`+'<section class="card" id="cal"></section>'+routeCard();
+  app.innerHTML=`<div class="bar"><span class="id">Ученик</span><span class="brand">lili<b>.</b>math</span></div><div class="crumbs"><a href="#">Карта</a></div><h1>${esc(nm)}</h1><p class="lead">Программы: ${progs.map(k=>NAMES[k]).join(', ')}. ✓ проведено, → следующее.</p>`+'<div class="mywrap"><div>'+routeCard()+'</div><section class="card" id="cal"></section></div>';
   app.querySelectorAll('[data-lesson]').forEach(b=>{b.onclick=()=>selectLesson(b.dataset.lesson);b.ondragstart=e=>{e.dataTransfer.setData('text/plain','t:'+b.dataset.lesson)}});renderCal();scrollTo(0,0);
 }
 function node(id){
