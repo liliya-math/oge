@@ -2186,7 +2186,7 @@ function setupLessonReminders() {
 /* ================= Занятия по карте ================= */
 function routeId_(id) {
   id = String(id || '');
-  if (!/^(?:8A-(?:F\d{1,2}|\d{2,3})|(?:5|6|7A|7G|8G|9A|9G)-\d{2,3})$/.test(id)) throw new Error('bad_value');
+  if (!/^(?:8A-(?:F\d{1,2}|\d{2,3})|(?:5|6|7A|7G|8G|9A|9G)-\d{2,3}|OGE-\d{2}-\d)$/.test(id)) throw new Error('bad_value');
   return id;
 }
 function routeMaterials_(id) {

@@ -74,7 +74,7 @@ function gate(){
    .then(r=>r.json(),()=>{throw 'net'}).then(j=>{if(!j||j.ok!==true)throw 'deny';routeEnabled=j.lessonRoute===1});
 }
 let N,BY,KIDS,MAT,route,routeEnabled;
-const ROUTE_FILES={'5A':'lesson-route-5.json','6A':'lesson-route-6.json','7A':'lesson-route-7a.json','7G':'lesson-route-7g.json','8A':'lesson-route-8a.json','8G':'lesson-route-8g.json','9A':'lesson-route-9a.json','9G':'lesson-route-9g.json'},ROUTES={};
+const ROUTE_FILES={'5A':'lesson-route-5.json','6A':'lesson-route-6.json','7A':'lesson-route-7a.json','7G':'lesson-route-7g.json','8A':'lesson-route-8a.json','8G':'lesson-route-8g.json','9A':'lesson-route-9a.json','9G':'lesson-route-9g.json','OGE':'lesson-route-oge.json'},ROUTES={};
 let selectedLesson;
 let selectedStudent='';
 try{selectedStudent=sessionStorage.getItem('lili-route-student')||''}catch(e){}
@@ -213,7 +213,7 @@ function node(id){
 function draw(){const id=getId();if(!id)home();else node(id)}
 function go(){
   Promise.all([fetch('skills-by-grade.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}),fetch('catalog.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}),Promise.all(Object.keys(ROUTE_FILES).map(k=>fetch(ROUTE_FILES[k],{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}).catch(()=>null)))])
-  .then(([g,c,rs])=>{Object.keys(ROUTE_FILES).forEach((k,i)=>{if(rs[i]&&rs[i].lessons)ROUTES[k]=rs[i]});N=g;BY=Object.fromEntries(g.map(x=>[x.id,x]));KIDS={};g.forEach(x=>{if(x.parent)(KIDS[x.parent]=KIDS[x.parent]||[]).push(x)});Object.values(KIDS).forEach(a=>a.sort((p,q)=>p.id.localeCompare(q.id,'en',{numeric:true})));MAT=c.items.filter(m=>m.file&&!/^(index|karta|kabinet|skill|STATE)/.test(m.file));draw()})
+  .then(([g,c,rs])=>{Object.keys(ROUTE_FILES).forEach((k,i)=>{if(rs[i]&&rs[i].lessons)ROUTES[k]=rs[i]});if(ROUTES.OGE){const o=ROUTES.OGE;delete ROUTES.OGE;const b=ROUTES['9A']||{chapters:[],lessons:[]},off=b.chapters.length;ROUTES['9A']={chapters:b.chapters.concat(o.chapters),lessons:b.lessons.concat(o.lessons.map(x=>({...x,chapter:x.chapter+off})))}}N=g;BY=Object.fromEntries(g.map(x=>[x.id,x]));KIDS={};g.forEach(x=>{if(x.parent)(KIDS[x.parent]=KIDS[x.parent]||[]).push(x)});Object.values(KIDS).forEach(a=>a.sort((p,q)=>p.id.localeCompare(q.id,'en',{numeric:true})));MAT=c.items.filter(m=>m.file&&!/^(index|karta|kabinet|skill|STATE)/.test(m.file));draw()})
   .catch(()=>fail('Не получилось открыть','Похоже, пропал интернет. Обнови страницу.'));
 }
 addEventListener('hashchange',()=>{if(N)draw()});
