@@ -275,7 +275,7 @@ function calSet(id,d){
   const m=myMode,l=m.lessons.find(x=>x.id===id);if(!l)return;
   const prev=l.cal;l.cal=d||undefined;m.st.cal=m.st.cal.filter(y=>y.id!==id);if(d)m.st.cal.push({d,id,title:l.title});
   renderCal();refreshTile(l);
-  admin('calSet',{t:m.code,id,d:d||'',title:l.title}).catch(()=>{l.cal=prev;m.st.cal=m.st.cal.filter(y=>y.id!==id);if(prev)m.st.cal.push({d:prev,id,title:l.title});renderCal();refreshTile(l);alert('Не получилось сохранить в календаре. Проверь связь и обнови Apps Script.')});
+  admin('calSet',{t:m.code,id,d:d||'',title:l.title}).catch(e=>{l.cal=prev;m.st.cal=m.st.cal.filter(y=>y.id!==id);if(prev)m.st.cal.push({d:prev,id,title:l.title});renderCal();refreshTile(l);alert('Не получилось сохранить в календаре. (ответ сервера: '+(e&&e.message||e)+').')});
 }
 function calBadge(l){if(!l.cal)return '';const d=new Date(l.cal+'T00:00:00');return '<span class="cbadge">в календаре · '+WD[d.getDay()]+' '+esc(shortD(l.cal))+'</span>'}
 function refreshTile(l){const b=app.querySelector('[data-lesson="'+l.id+'"]');if(b){b.classList.toggle('done',/^✓/.test(l.mark||''));b.classList.toggle('next',/^→/.test(l.mark||''))}if(b)b.innerHTML='<small>'+esc(l.tag||(l.school?'Школьные № '+l.school:'Дополнительно'))+'</small><br>'+(l.mark||'')+esc(l.title)+calBadge(l)+(editMode?'<span class="tdel" data-del="'+l.id+'" title="Удалить квадратик">✕</span>':'');const x=b&&b.querySelector('[data-del]');if(x)x.onclick=e=>{e.stopPropagation();delLesson(l.id)}}
