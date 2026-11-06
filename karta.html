@@ -159,8 +159,8 @@ function saveLayout(){
   clearTimeout(layoutTimer);
   layoutTimer=setTimeout(async()=>{
     const added={};route.lessons.forEach(x=>{if(x.added)added[x.id]={title:x.title,school:x.school||'',skills:x.skills||[],ch:x.chapter}});
-    try{const r=await admin('routeLayoutSave',{prog:route.key,layout:{lessons:route.lessons.map(x=>({id:x.id,ch:x.chapter})),added}});if(r&&r.error)throw 0}
-    catch(e){alert('Не получилось сохранить порядок квадратиков. Проверь связь и обнови Apps Script.')}
+    try{const r=await admin('routeLayoutSave',{prog:route.key,layout:{lessons:route.lessons.map(x=>({id:x.id,ch:x.chapter})),added}});if(r&&r.error)throw new Error(r.error)}
+    catch(e){alert('Не получилось сохранить порядок квадратиков (ответ сервера: '+(e&&e.message||e)+'). Обычно это значит, что в Apps Script не последняя версия: вставь файл целиком и сделай «Новая версия».')}
   },300);
 }
 function moveLesson(id,beforeId,ch){
