@@ -440,7 +440,12 @@ function setPassword() {
 function doGet(e) {
   const p = (e && e.parameter) || {};
   const code = String(p.t || '').trim();
-  if (p.schedule === 'capabilities') return json_({ok: true, lessonAvailability: 3});
+  if (p.schedule === 'capabilities') return json_({ok: true, lessonAvailability: 5});
+  if (p.schedule === 'options') {
+    const st = code && findStudentRow_(code);
+    if (!st || st.row[11] === false) return json_({error: 'not_found'});
+    return json_(lrPupilOptions_(SpreadsheetApp.getActive(), code, st, p.kind === 'weekly' ? 'weekly' : 'once', Date.now()));
+  }
   if (p.quiz === 'capabilities') return json_({ok:true,quiz:1,ogeMocks:2});
   if (p.quiz === 'load') return json_(quizLoad_(code,{work:p.q,version:p.v,assignment:p.a,row:p.row}));
   if (p.w) return json_(dzLoad_(code, String(p.w).trim(), Number(p.row) || 0));
@@ -468,6 +473,10 @@ function doPostRun_(e) {
     const st = findStudentRow_(body.t);
     if (!st || st.row[11] === false) return json_({error: 'not_found'});
     const code = String(body.t).trim();
+    if (body.lessonRequest) {
+      const result = lrRequest_(SpreadsheetApp.getActive(), code, st, body.lessonRequest, Date.now());
+      return json_(result);
+    }
     if (body.quiz) return json_(quizSubmit_(code, body.quiz));
     if (body.dz) return json_(dzSubmit_(code, body.dz));
     if (body.telegram === 'connect') return json_(telegramConnect_(code));
@@ -591,16 +600,16 @@ function adminRun_(b) {
       case 'hwReview': { need(); const result = workflowHw_(code, b, true); return result.ok ? fresh() : result; }
       case 'lessonDefaultsGet': return {ok: true, minutes: lrDefaults_(), availability: lrAvailability_()};
       case 'lessonAvailabilitySet': {
-        const availability = lrValidateAvailability_(b.availability);
+        const availability = lrValidateAvailability_({extra: lrAvailability_().extra, ...b.availability});
         props.setProperty('LESSON_AVAILABILITY', JSON.stringify(availability));
         return {ok: true};
       }
       case 'lessonWindows': {
         if (need().row[11] === false) return {error: 'inactive'};
         const availability = lrAvailability_();
-        const now = Date.now(), day = lrSamaraDay_(now), end = day + 14 * 86400000;
+        const now = Date.now(), day = lrSamaraDay_(now), end = day + LR_TRANSFER_DAYS * 86400000;
         const busy = lrBusy_(ss, day - LR_BREAK_LOOKAROUND_MS, end + LR_BREAK_LOOKAROUND_MS, code, b.from);
-        return {ok: true, lessonAvailability: 3, configured: availability.week.some(Boolean),
+        return {ok: true, lessonAvailability: 5, configured: availability.week.some(Boolean) || !!availability.extra?.length,
           windows: lrWindows_(availability, busy, now, end, b.expected)};
       }
       case 'lessonDefaultsSet': {
@@ -614,13 +623,18 @@ function adminRun_(b) {
         lrSave_(code, cfg);
         return fresh();
       }
+      case 'lessonRequestDecision': {
+        const st = need();
+        const result = lrDecideRequest_(ss, code, st, b, Date.now());
+        return result.error ? result : fresh();
+      }
       case 'lessonMove': {
         const st = need(), cfg = lrConfig_(code), now = Date.now();
         if (st.row[11] === false) return {error: 'inactive'};
         const from = b.from, to = b.to;
         const previous = cfg.moves.find(m => m.from === from);
         if (!Number.isSafeInteger(from) || (previous ? previous.to <= now : from <= now) || (to === null && from <= now) || (to !== null &&
-          (!Number.isSafeInteger(to) || to <= now || (to - lrSamaraDay_(to)) % LR_LESSON_MS || to >= lrSamaraDay_(now) + 14 * 86400000))) return {error: 'bad_value'};
+          (!Number.isSafeInteger(to) || to <= now || (to - lrSamaraDay_(to)) % LR_LESSON_MS || to >= lrSamaraDay_(now) + LR_TRANSFER_DAYS * 86400000))) return {error: 'bad_value'};
         const slots = lrParse_(st.row[4], st.time, 'Europe/Samara').slots;
         if (!previous && !lrUpcoming_(slots, now, 8).includes(from)) return {error: 'bad_value'};
         if ((previous ? previous.to : from) !== b.expected) return {error: 'changed'};
@@ -901,7 +915,7 @@ function listStudents_() {
     if (m) for (let n = 1; n <= nmax; n++) if (STATUS_KEY[String(m[n + 1]).trim().toLowerCase()] === 'solid') p += ptsOf_(pr, n);
     return {code: c, name: String(r[1]), fname: String(r[14] || ''), nick: String(r[21] || '').trim(), goal: Number(r[3]) || Math.round(goalMax_(pr) * 0.8),
             days: String(r[4] || ''), time: x.time, active: r[11] !== false, prog: pr, pts: p, hwLeft: left[c] || 0,
-            lessonMoves: lrConfig_(c).moves, letters: letters[c] || 0, cls: Number(r[18]) || clsOfProg_(pr)};
+            lessonMoves: lrConfig_(c).moves, lessonRequestPending: lrConfig_(c).request?.status === 'pending', letters: letters[c] || 0, cls: Number(r[18]) || clsOfProg_(pr)};
   });
 }
 
@@ -963,7 +977,7 @@ function studentData_(code, admin) {
   const nick = String(r[21] || '').trim();
   const out = {
     quiz: 1, ogeMocks: 2, quizHistory: quizHistory_(code, admin), workflow: 1, nickEdit: true, name: admin ? String(r[1]) : (nick || String(r[1])), nick: nick, dat: admin ? String(r[2] || r[1]) : (nick || String(r[1])), goal: Number(r[3]) || Math.round(goalMax_(prog) * 0.8),
-    lessonMoves: lrConfig_(code).moves, days: String(r[4] || ''), time: st.time, topic: String(r[6] || ''), board: String(r[7] || ''),
+    lessonMoves: lrConfig_(code).moves, lessonRequest: lrPublicRequest_(lrConfig_(code).request), days: String(r[4] || ''), time: st.time, topic: String(r[6] || ''), board: String(r[7] || ''),
     work: String(r[8] || '').split(';').map(s => s.trim()).filter(Boolean),
     lessonsPlan: Number(r[9]) || 0, lessonsDone: Number(r[10]) || 0,
     map: has('map') ? map : {}, notes: has('map') ? notes : {}, skills: has('skills') ? skills : {}, hw: hw,
@@ -1868,6 +1882,7 @@ function boardLibraryPut_(b) {
 const LR_LESSON_MS = 60 * 60000;
 const LR_BREAK_MS = 60 * 60000;
 const LR_MAX_IN_A_ROW = 3;
+const LR_TRANSFER_DAYS = 35;
 const LR_MAX_DAILY_MS = 7 * 60 * 60000;
 const LR_BREAK_LOOKAROUND_MS = LR_MAX_IN_A_ROW * (LR_LESSON_MS + LR_BREAK_MS);
 function lrSamaraDay_(time) {
@@ -1884,23 +1899,35 @@ function lrValidateAvailability_(value) {
   if (!value || !Array.isArray(value.week) || value.week.length !== 7 ||
       value.week.some(row => row !== null && (!Array.isArray(row) || !valid(row[0], row[1]))) ||
       !Array.isArray(value.blocks) || value.blocks.length > 100) throw new Error('bad_value');
-  const blocks = value.blocks.map(row => {
+  const interval = row => {
     if (!Array.isArray(row) || !/^\d{4}-\d{2}-\d{2}$/.test(row[0]) || !valid(row[1], row[2])) throw new Error('bad_value');
     const day = Date.parse(row[0] + 'T00:00:00Z');
     if (!Number.isFinite(day) || new Date(day).toISOString().slice(0, 10) !== row[0]) throw new Error('bad_value');
     return row.slice(0, 3);
-  });
-  return {week: value.week.map(row => row && row.slice(0, 2)), blocks};
+  };
+  const blocks = value.blocks.map(interval);
+  const extra = value.extra || [];
+  if (!Array.isArray(extra) || extra.length > 100) throw new Error('bad_value');
+  const byDate = new Map();
+  for (const row of extra.map(interval)) byDate.set(row[0], row);
+  return {week: value.week.map(row => row && row.slice(0, 2)), blocks, extra: Array.from(byDate.values())};
+}
+function lrWorkHours_(local, availability) {
+  const date = local.toISOString().slice(0, 10);
+  const regular = availability.week[local.getUTCDay()];
+  const extra = (availability.extra || []).find(row => row[0] === date);
+  if (!extra) return regular;
+  return regular ? [regular[0], Math.max(regular[1], extra[2])] : [extra[1], extra[2]];
 }
 function lrFits_(time, availability) {
   const day = lrSamaraDay_(time), local = new Date(day + LR_SAMARA_OFF * 60000);
-  const work = availability.week[local.getUTCDay()], date = local.toISOString().slice(0, 10);
+  const work = lrWorkHours_(local, availability), date = local.toISOString().slice(0, 10);
   if (!work) return false;
   const start = (time - day) / 60000, end = start + LR_LESSON_MS / 60000;
   return start >= work[0] && end <= work[1] &&
     !availability.blocks.some(row => row[0] === date && row[1] < end && row[2] > start);
 }
-function lrBusy_(ss, after, before, skipCode, skipFrom) {
+function lrBusy_(ss, after, before, skipCode, skipFrom, weekly = false) {
   const sh = ss.getSheetByName('Ученики');
   if (!sh || sh.getLastRow() < 2) return [];
   const rows = sh.getRange(2, 1, sh.getLastRow() - 1, 12).getValues();
@@ -1913,9 +1940,9 @@ function lrBusy_(ss, after, before, skipCode, skipFrom) {
     const slots = lrParse_(r[4], times[i][0], 'Europe/Samara').slots;
     const moves = lrConfig_(code).moves;
     const skipped = new Set(moves.map(m => m.from));
-    if (code === skipCode) skipped.add(skipFrom);
-    const regular = lrUpcoming_(slots, after, days).filter(t => !skipped.has(t));
-    const moved = moves.filter(m => code !== skipCode || m.from !== skipFrom).map(m => m.to);
+    const replaces = start => code === skipCode && (weekly ? (start - skipFrom) % (7 * 86400000) === 0 : start === skipFrom);
+    const regular = lrUpcoming_(slots, after, days).filter(t => !skipped.has(t) && !replaces(t));
+    const moved = moves.filter(m => !replaces(m.from)).map(m => m.to);
     regular.concat(moved).forEach(t => { if (t > after && t < before) busy.push(t); });
   });
   return busy.sort((a, b) => a - b);
@@ -1946,7 +1973,7 @@ function lrMoveError_(time, busy) {
 function lrWindows_(availability, busy, now, end, expected) {
   const windows = [];
   for (let day = lrSamaraDay_(now); day < end; day += 86400000) {
-    const work = availability.week[new Date(day + LR_SAMARA_OFF * 60000).getUTCDay()];
+    const work = lrWorkHours_(new Date(day + LR_SAMARA_OFF * 60000), availability);
     if (!work) continue;
     for (let t = day + Math.ceil(work[0] / 60) * LR_LESSON_MS; t + LR_LESSON_MS <= day + work[1] * 60000; t += LR_LESSON_MS) {
       if (t > now && t !== expected && lrFits_(t, availability) &&
@@ -1954,6 +1981,89 @@ function lrWindows_(availability, busy, now, end, expected) {
     }
   }
   return windows;
+}
+function lrPublicRequest_(request) {
+  if (!request) return null;
+  const {id, status, kind, from, expected, to} = request;
+  return {id, status, kind, from, expected, to};
+}
+function lrPupilOptions_(ss, code, st, kind, now) {
+  const cfg = lrConfig_(code), day = lrSamaraDay_(now), end = day + LR_TRANSFER_DAYS * 86400000;
+  const parsed = lrParse_(st.row[4], st.time, 'Europe/Samara');
+  const regular = lrUpcoming_(parsed.slots, now, 8);
+  const expected = Math.min(...lrApplyMoves_(regular, cfg.moves, now));
+  if (!Number.isFinite(expected)) return {options: [], request: lrPublicRequest_(cfg.request)};
+  const from = cfg.moves.find(move => move.to === expected)?.from ?? expected;
+  return {from, expected, options: lrRequestWindows_(ss, code, st, cfg, kind, from, expected, now, end), request: lrPublicRequest_(cfg.request)};
+}
+function lrRequestWindows_(ss, code, st, cfg, kind, from, expected, now, end) {
+  const weekly = kind === 'weekly', week = 7 * 86400000;
+  const day = lrSamaraDay_(now);
+  const slots = lrParse_(st.row[4], st.time, 'Europe/Samara').slots;
+  const move = cfg.moves.find(item => item.from === from);
+  if (expected <= now || (move?.to ?? from) !== expected ||
+      (!move && !lrUpcoming_(slots, now, 8).includes(from))) return [];
+  if (weekly && cfg.moves.some(item => Math.max(item.from, item.to) > now && (item.from - from) % week === 0)) return [];
+  const busy = lrBusy_(ss, day - LR_BREAK_LOOKAROUND_MS, end + LR_BREAK_LOOKAROUND_MS, code, from, weekly);
+  const availability = lrAvailability_();
+  if (!weekly) return lrWindows_(availability, busy, now, end, expected);
+  const base = {...availability, extra: []};
+  const firstWeek = lrWindows_(base, busy, now, day + week, expected);
+  return firstWeek.filter(start => {
+    if ((start - from) % week === 0) return false;
+    for (let t = start + week; t < end; t += week) {
+      if (!lrFits_(t, base) || lrMoveError_(t, busy)) return false;
+    }
+    return true;
+  });
+}
+function lrRequest_(ss, code, st, body, now) {
+  const cfg = lrConfig_(code);
+  if (cfg.request?.status === 'pending') return {error: 'lesson_request_pending'};
+  const kind = body.kind === 'weekly' ? 'weekly' : 'once';
+  const {from, expected, options} = lrPupilOptions_(ss, code, st, kind, now);
+  if (body.from !== from || body.expected !== expected || !options.includes(body.to)) return {error: 'lesson_request_stale'};
+  cfg.request = {id: Utilities.getUuid(), status: 'pending', kind, from, expected, to: body.to};
+  lrSave_(code, cfg);
+  return {ok: true, request: lrPublicRequest_(cfg.request)};
+}
+function lrDecideRequest_(ss, code, st, body, now) {
+  const cfg = lrConfig_(code), request = cfg.request;
+  if (!request || request.id !== body.id) return {error: 'changed'};
+  if (request.status !== 'pending') return {ok: true};
+  const applied = request.kind === 'weekly' && request.appliedDays && st.row[4] === request.appliedDays;
+  if (applied) {
+    request.status = 'approved';
+    lrSave_(code, cfg);
+    return {ok: true};
+  }
+  if (body.approve === true) {
+    if (st.row[11] === false) return {error: 'inactive'};
+    const {kind, from, expected, to} = request;
+    const end = lrSamaraDay_(now) + LR_TRANSFER_DAYS * 86400000;
+    if (!lrRequestWindows_(ss, code, st, cfg, kind, from, expected, now, end).includes(to)) return {error: 'lesson_request_stale'};
+    if (kind === 'weekly') {
+      const offset = LR_SAMARA_OFF * 60000;
+      const old = new Date(from + offset), next = new Date(to + offset);
+      const days = String(st.row[4] || '');
+      const city = days.match(/^\s*\[[^\]]+\]\s*/)?.[0] || '';
+      const zone = days.includes('|') ? days.slice(days.indexOf('|')) : '';
+      const names = Object.keys(LR_DAYS);
+      const slots = lrParse_(days, st.time, 'Europe/Samara').slots.map(slot =>
+        slot.wd === old.getUTCDay() && slot.h === old.getUTCHours() && slot.m === old.getUTCMinutes()
+          ? {wd: next.getUTCDay(), h: next.getUTCHours(), m: next.getUTCMinutes()} : slot);
+      const schedule = slots.map(slot => names[slot.wd] + ' ' + String(slot.h).padStart(2, '0') + ':' + String(slot.m).padStart(2, '0')).join(', ');
+      request.appliedDays = city + schedule + (zone ? ' ' + zone : '');
+      lrSave_(code, cfg);
+      ss.getSheetByName('Ученики').getRange(st.index, STUDENT_COLS.days).setValue(request.appliedDays);
+    } else if (kind === 'once') {
+      cfg.moves = cfg.moves.filter(move => move.from !== from);
+      if (to !== from) cfg.moves.push({from, to});
+    }
+  }
+  request.status = body.approve === true ? 'approved' : 'rejected';
+  lrSave_(code, cfg);
+  return {ok: true};
 }
 function lrMinutes_(value) {
   if (!Array.isArray(value) || value.length > 3 ||
@@ -1972,7 +2082,7 @@ function lrSave_(code, config) {
   const cutoff = Date.now() - 3600000;
   config.moves = config.moves.filter(m => Math.max(m.from, m.to) > cutoff);
   const props = PropertiesService.getScriptProperties(), key = 'LESSON_' + code;
-  if (config.minutes === null && !config.moves.length) props.deleteProperty(key);
+  if (config.minutes === null && !config.moves.length && !config.request) props.deleteProperty(key);
   else props.setProperty(key, JSON.stringify(config));
 }
 function lrApplyMoves_(regular, moves, now) {

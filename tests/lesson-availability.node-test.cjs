@@ -10,7 +10,7 @@ const saturday = '2026-11-07';
 const hour = 3600000;
 const workweek = [null, null, null, null, null, [540, 900], null];
 
-function load(pupils = [], moves = {}) {
+function load(pupils = [], moves = {}, availability) {
   const rows = pupils.map(({code, days, active}) => {
     const row = Array(12).fill('');
     row[0] = code;
@@ -18,17 +18,21 @@ function load(pupils = [], moves = {}) {
     row[11] = active;
     return row;
   });
+  const props = new Map(Object.entries(moves).map(([code,list]) => ['LESSON_' + code, JSON.stringify({minutes:null,moves:list})]));
+  if (availability) props.set('LESSON_AVAILABILITY', JSON.stringify(availability));
   const sheet = {
     getLastRow: () => rows.length + 1,
-    getRange: () => ({getValues: () => rows, getDisplayValues: () => pupils.map(p => [p.time || ''])})
+    getRange: row => ({getValues: () => rows, getDisplayValues: () => pupils.map(p => [p.time || '']), setValue: value => {rows[row - 2][4] = value;}})
   };
   const ctx = vm.createContext({
+    Date: class extends Date { static now() { return samara(friday, '08:00'); } },
+    Utilities:{getUuid:()=> 'request-id', formatDate:()=> '00'},
     PropertiesService: {getScriptProperties: () => ({
-      getProperty: key => moves[key.slice(7)] && JSON.stringify({moves: moves[key.slice(7)]})
+      getProperty: key => props.get(key), setProperty:(key,value)=>props.set(key,value)
     })}
   });
   vm.runInContext(source, ctx);
-  return {ctx, sheet: {getSheetByName: () => sheet}};
+  return {ctx, sheet: {getSheetByName: () => sheet}, rows};
 }
 
 test('windows leave room for a full lesson and respect blocked dates and hours', () => {
@@ -105,4 +109,51 @@ test('a late lesson counts only for the part that falls on the target Samara dat
   const previous = samara('2026-11-05', '23:30');
   assert.equal(ctx.lrMoveError_(at('18:00'), [previous, ...busy]), 'lesson_day_limit');
   assert.equal(ctx.lrMoveError_(at('18:00'), [previous - hour, ...busy]), '');
+});
+
+
+test('extra dates extend working hours or open a day off, with closed hours taking precedence', () => {
+  const {ctx} = load();
+  const availability = {week: workweek, blocks: [[friday, 1140, 1200]], extra: [[friday, 1080, 1260], [saturday, 1080, 1260]]};
+  const windows = Array.from(ctx.lrWindows_(availability, [], samara(friday, '17:00'), samara('2026-11-08','00:00')));
+  assert(windows.includes(samara(friday, '20:00')));
+  assert(!windows.includes(samara(friday, '19:00')));
+  assert(!windows.includes(samara(saturday, '17:00')));
+  assert(windows.includes(samara(saturday, '18:00')));
+  assert(!windows.includes(samara(saturday, '21:00')));
+});
+
+test('pupil requests leave the timetable alone until teacher approval and recheck availability', () => {
+  const availability = {week: workweek, blocks: [], extra: [[saturday, 1080, 1260]]};
+  const {ctx,sheet,rows} = load([{code:'pupil',days:'пт 10:00',active:true},{code:'other',days:'',active:true}],{},availability);
+  const st = {row:rows[0],index:2,time:''};
+  const now = samara(friday,'08:00'), to = samara(saturday,'18:00');
+  const options = ctx.lrPupilOptions_(sheet,'pupil',st,'once',now);
+  assert(options.options.includes(to));
+  assert(!ctx.lrPupilOptions_(sheet,'pupil',st,'weekly',now).options.includes(to));
+  const result = ctx.lrRequest_(sheet,'pupil',st,{kind:'once',from:options.from,expected:options.expected,to},now);
+  assert.equal(result.request.status,'pending');
+  assert.equal(ctx.lrConfig_('pupil').moves.length,0);
+  rows[1][4] = 'сб 18:00';
+  const approval = {id:result.request.id,approve:true};
+  assert.equal(ctx.lrDecideRequest_(sheet,'pupil',st,approval,now).error,'lesson_request_stale');
+  rows[1][4] = '';
+  assert(ctx.lrDecideRequest_(sheet,'pupil',st,approval,now).ok);
+  assert.equal(ctx.lrConfig_('pupil').moves[0].to,to);
+  assert.equal(ctx.lrConfig_('pupil').request.status,'approved');
+  assert(ctx.lrDecideRequest_(sheet,'pupil',st,approval,now).ok);
+  assert.equal(ctx.lrConfig_('pupil').moves.length,1);
+});
+
+test('weekly approval replaces only the requested slot and keeps the pupil timezone', () => {
+  const week = workweek.map((hours, day) => day === 6 ? [540, 900] : hours);
+  const {ctx,sheet,rows} = load([{code:'pupil',days:'[Москва] пт 10:00, сб 11:00 | Europe/Moscow',active:true}],{}, {week,blocks:[]});
+  const st = {row:rows[0],index:2,time:''}, now = samara(friday,'08:00');
+  const to = samara(friday,'12:00');
+  const {from,expected,options} = ctx.lrPupilOptions_(sheet,'pupil',st,'weekly',now);
+  assert(options.includes(to));
+  const request = ctx.lrRequest_(sheet,'pupil',st,{kind:'weekly',from,expected,to},now).request;
+  assert(ctx.lrDecideRequest_(sheet,'pupil',st,{id:request.id,approve:true},now).ok);
+  assert.equal(rows[0][4],'[Москва] пт 12:00, сб 11:00 | Europe/Moscow');
+  assert.equal(ctx.lrPublicRequest_(ctx.lrConfig_('pupil').request).appliedDays,undefined);
 });

@@ -1363,7 +1363,8 @@ function lessonSchedule(teach,t){
  return `<details class="formbox"><summary>Расписание</summary>
  <p class="note">${teach?'Регулярно, по Самаре':'Регулярно'} · ${esc(weekLine(tz))}</p>
  <ul>${times.slice(0,8).map(ms=>`<li>${fmtWhen(new Date(ms),tz)}${(D.lessonMoves||[]).some(m=>m.to===ms)?' · перенос':''}</li>`).join('')}</ul></details>
- ${teach&&D.active&&D.lessonReminders!==undefined&&+t>Date.now()?'<button class="btn ghost tsm" type="button" id="lesson-move">Перенести урок</button>':''}`;
+ ${teach&&D.active&&D.lessonReminders!==undefined&&+t>Date.now()?'<button class="btn ghost tsm" type="button" id="lesson-move">Перенести урок</button>':''}
+ ${!teach&&!D.demo&&D.lessonRequest!==undefined?`<button class="btn ghost tsm" type="button" id="pupil-lesson-move">Запросить перенос</button>${lessonRequestCard(false)}`:''}`;
 }
 function fmtWhen(t,tz){const o=validTz(tz)?{timeZone:tz}:{};const day=t.toLocaleDateString('ru-RU',Object.assign({weekday:'long',day:'numeric',month:'long'},o));const hm=t.toLocaleTimeString('ru-RU',Object.assign({hour:'2-digit',minute:'2-digit'},o));return day.charAt(0).toUpperCase()+day.slice(1)+', '+hm}
 function weekLine(tz){/* расписание недели в поясе tz */
@@ -1588,6 +1589,7 @@ function screen(title,text,btn){app.innerHTML=topbar()+`<div class="cab enter"><
  const s=document.getElementById('snd');if(s)s.onclick=()=>{S.sound=!S.sound;save();s.innerHTML=S.sound?I.snd:I.mute};
  const r=document.getElementById('retry');if(r)r.onclick=()=>{screen('Открываю кабинет…','Секунду, забираю данные у преподавателя.','load');load()}}
 function bind(){
+ const request=document.getElementById('pupil-lesson-move');if(request)request.onclick=openPupilLessonRequest;
  bindTelegram();
  document.getElementById('snd').onclick=e=>{S.sound=!S.sound;save();e.currentTarget.innerHTML=S.sound?I.snd:I.mute;sfx.tap()};
  document.getElementById('mKid').onclick=()=>{if(S.mode!=='kid'){S.mode='kid';save();sfx.tap();render();scrollTo({top:0})}};
@@ -1734,7 +1736,7 @@ setInterval(()=>{const e=document.getElementById('cd');if(!e||!D)return;const t=
 /* ===== Режим учителя: kabinet.html#lilia ===== */
 let PASS='';try{PASS=localStorage.getItem('cab-admin')||''}catch(e){}
 let busy=0,busyWrites=0,LIST=null;
-const ERR={lesson_day_limit:'С этим переносом в выбранный день будет больше семи часов занятий. Выбери другую дату.',lesson_break:'После трёх уроков подряд нужен перерыв не меньше часа. Выбери другое окно.',lesson_conflict:'Это окно уже занято. Обнови список и выбери другое время.',lesson_unavailable:'Это время вне рабочих часов или закрыто. Обнови список и выбери другое окно.',board_library_corrupt:'Не удалось прочитать библиотеку аккаунта. Локальные материалы сохранены.',board_library_too_large:'Библиотека превышает 40 МБ или 100 материалов. Выгрузи резервную копию.',board_library_bad_template:'Сервер отклонил повреждённый шаблон.',board_library_bad_link:'Не удалось проверить ссылку личной доски.',board_library_bad_request:'Запрос синхронизации некорректен. Открой синхронизацию ещё раз.',locked:'Слишком много неверных паролей. Подожди 15 минут.',too_many:'Слишком много сообщений за час. Попробуй позже.',telegram_not_configured:'Сначала подключи Telegram-бота через меню Google-таблицы.',telegram_not_connected:'Ученик ещё не подключил Telegram-бота.',telegram_paused:'Уведомления на паузе.',telegram_blocked:'Ученик отключил бота. Нужно подключить его заново.',telegram_api_error:'Telegram временно недоступен. Попробуй уведомить позже.',telegram_network_error:'Не удалось связаться с Telegram. Попробуй уведомить позже.',no_password:'Сначала задай пароль в таблице: меню «Кабинет → Пароль для режима учителя».',
+const ERR={lesson_request_pending:'Один запрос уже ждёт решения преподавателя.',lesson_request_stale:'Это окно или исходный урок изменились. Проверь расписание и выбери другое время.',lesson_day_limit:'С этим переносом в выбранный день будет больше семи часов занятий. Выбери другую дату.',lesson_break:'После трёх уроков подряд нужен перерыв не меньше часа. Выбери другое окно.',lesson_conflict:'Это окно уже занято. Обнови список и выбери другое время.',lesson_unavailable:'Это время вне рабочих часов или закрыто. Обнови список и выбери другое окно.',board_library_corrupt:'Не удалось прочитать библиотеку аккаунта. Локальные материалы сохранены.',board_library_too_large:'Библиотека превышает 40 МБ или 100 материалов. Выгрузи резервную копию.',board_library_bad_template:'Сервер отклонил повреждённый шаблон.',board_library_bad_link:'Не удалось проверить ссылку личной доски.',board_library_bad_request:'Запрос синхронизации некорректен. Открой синхронизацию ещё раз.',locked:'Слишком много неверных паролей. Подожди 15 минут.',too_many:'Слишком много сообщений за час. Попробуй позже.',telegram_not_configured:'Сначала подключи Telegram-бота через меню Google-таблицы.',telegram_not_connected:'Ученик ещё не подключил Telegram-бота.',telegram_paused:'Уведомления на паузе.',telegram_blocked:'Ученик отключил бота. Нужно подключить его заново.',telegram_api_error:'Telegram временно недоступен. Попробуй уведомить позже.',telegram_network_error:'Не удалось связаться с Telegram. Попробуй уведомить позже.',no_password:'Сначала задай пароль в таблице: меню «Кабинет → Пароль для режима учителя».',
  old:'В таблице старая версия скрипта. Вставь новый код и сделай новую версию развёртывания.',
  not_found:'Такого ученика нет в таблице.',changed:'В таблице что-то поменялось. Данные обновлены, попробуй ещё раз.',
  bad_value:'Проверь, что всё заполнено правильно.',no_name:'Впиши имя ученика.',net:'Таблица пока не ответила. Попробуй ещё раз через несколько секунд.',save_unknown:'Не удалось подтвердить сохранение. Сначала обнови данные кабинета и проверь результат, прежде чем повторять действие.',
@@ -1835,6 +1837,7 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
  <p class="klead" style="margin:0">Нажми на ученика, чтобы открыть и редактировать его кабинет.</p><p><a class="btn" href="quiz-builder.html">Конструктор тестов</a></p></section>
  <div id="personal-board-transfer"></div>
  ${LiliTeaching.todayHTML(L,parseSched)}
+ ${L.some(s=>s.lessonRequestPending)?`<section class="card"><h2>Запросы на перенос</h2><div class="stus">${L.filter(s=>s.lessonRequestPending).map(s=>`<a class="stu" href="#lilia-${esc(s.code)}">${esc([s.name,s.fname].filter(Boolean).join(' '))}</a>`).join('')}</div></section>`:''}
  <div id="tfeed"></div>
  <h2 id="teacher-students">Ученики</h2>
  ${L.length?`<div class="stus">${[...act,...L.filter(s=>!s.active)].map(s=>{const PG=PROGS[s.prog]||PROGS.oge9;return `<a class="stu ${s.active?'':'off'}" href="#lilia-${esc(s.code)}">
@@ -1915,7 +1918,7 @@ function tRender(keep){LiliTeaching.preserveDraft(document,D.code||CODE);const y
  const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
  app.innerHTML=tTop()+`<div class="cab enter"><section class="card"><div class="sh"><h1>${esc(fullName()||D.name)}</h1><span class="sub">${D.active?'':'В архиве'}</span></div>
  <div class="boardrow"><button class="btn ghost" id="lnkc" type="button">Скопировать ссылку ученика</button>${kid?'<a class="btn ghost" href="#new-homework" id="assign-shortcut">Назначить задание</a>':''}<button class="btn ghost" id="open-settings" type="button">Настройки</button></div></section>
- ${lessonCard(true)}`+(kid
+ ${lessonCard(true)}${lessonRequestCard(true)}`+(kid
   ? quizCabinetCard(D)+tHwCard()+journalCard()+tPlanCard()+tMatCard()+mapCard(false)+skillsCard(false)+gradeCard()+`<div class="two">${chartCard()}${probCard()}</div>`+tGradesCard()+tLettersCard()+bday
   : heroPar()+quizCabinetCard(D)+mapCard(true)+skillsCard(true)+gradeCard()+`<div class="two">${chartCard()}${workCard()}</div>`+tGradesCard()+tLettersCard())+adminCard()+foot()+`</div>`;
  Object.keys(dr).forEach(id=>{const i=document.getElementById(id);if(!i)return;if(i.type==='checkbox')i.checked=dr[id];else i.value=dr[id]});
@@ -2041,10 +2044,65 @@ function bindSettingsSave(dlg,saveSettings){
   try{await saveSettings(form);dlg.close()}catch(err){error.textContent=errText(err);button.disabled=false}
  };
 }
+function lessonRequestCard(teach){
+ const r=D.lessonRequest;
+ if(!r||teach&&r.status!=='pending')return '';
+ const status={pending:'Ждёт решения',approved:'Подтверждён',rejected:'Отклонён'}[r.status];
+ const tz=teach?'Europe/Samara':stuTz();
+ const when=r.kind==='weekly'?weeklyRequestTime(r.to,tz):fmtWhen(new Date(r.to),tz);
+ const from=r.kind==='weekly'?weeklyRequestTime(r.from,tz):fmtWhen(new Date(r.expected),tz);
+ return `<section class="${teach?'card':'formbox'}"><div class="sh"><h3>Запрос на перенос</h3><span class="sub">${status}</span></div>
+ <p class="note">${r.kind==='weekly'?'Каждую неделю':'Разово'} · ${esc(from)} → ${esc(when)}${teach?' по Самаре':''}</p>
+ ${teach?'<div class="boardrow"><button class="btn" type="button" data-lesson-decision="approve">Подтвердить</button><button class="btn ghost" type="button" data-lesson-decision="reject">Отклонить</button></div>':''}</section>`;
+}
+function weeklyRequestTime(time,tz){
+ return new Intl.DateTimeFormat('ru-RU',{timeZone:tz,weekday:'long',hour:'2-digit',minute:'2-digit'}).format(time);
+}
+function openPupilLessonRequest(){
+ const dlg=settingsDialog('Запросить перенос',`<p class="note">Выбери свободное время. Расписание изменится после подтверждения преподавателем.</p>
+ <label class="fld"><span>Как перенести</span><select name="kind"><option value="once">Один урок</option><option value="weekly">Каждую неделю</option></select></label>
+ <p class="note" data-request-status role="status"></p>
+ <label class="fld"><span>Свободное время по твоему часовому поясу</span><select name="when" required disabled></select></label>`);
+ const form=dlg.querySelector('form'), save=form.querySelector('[type=submit]'), select=form.elements.when;
+ const kind=form.elements.kind,status=dlg.querySelector('[data-request-status]');
+ save.textContent='Отправить запрос';
+ let current=null, sequence=0;
+ const load=async()=>{
+  const seq=++sequence, weekly=kind.value==='weekly', tz=stuTz();
+  current=null;save.disabled=select.disabled=true;select.replaceChildren();
+  status.textContent='Проверяю свободное время…';
+  try{
+   const j=await tableRequest(API+'?schedule=options&t='+encodeURIComponent(CODE)+'&kind='+kind.value,{cache:'no-store'},true);
+   if(seq!==sequence)return;
+   if(j.error||!Array.isArray(j.options))throw new Error('net');
+   D.lessonRequest=j.request;current=j;
+   const pending=j.request?.status==='pending';
+   status.textContent=pending?'Запрос уже отправлен. Дождись решения преподавателя.':j.options.length?
+    'Переносим: '+(weekly?weeklyRequestTime(j.from,tz)+' · проверены ближайшие пять недель':fmtWhen(new Date(j.expected),tz)):
+    'Подходящих окон пока нет. Можно написать преподавателю.';
+   select.append(new Option('Выбери время',''));
+   j.options.forEach(t=>select.append(new Option(weekly?weeklyRequestTime(t,tz):fmtWhen(new Date(t),tz),t)));
+   save.disabled=select.disabled=pending||!j.options.length;
+  }catch(e){if(seq===sequence)status.textContent='Не удалось загрузить окна. Закрой окно и попробуй ещё раз.'}
+ };
+ kind.onchange=load;
+ bindSettingsSave(dlg,async()=>{
+  if(!current)throw new Error('net');
+  kind.disabled=true;
+  try{
+   const j=await tableRequest(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({
+    t:CODE,lessonRequest:{kind:kind.value,from:current.from,expected:current.expected,to:Number(select.value)}
+   })});
+   if(j.error)throw new Error(j.error);
+   D.lessonRequest=j.request;render();toast('Запрос отправлен');
+  }finally{kind.disabled=false}
+ });
+ load();
+}
 function openLessonMove(){
  const expected=+nextLesson(),existing=(D.lessonMoves||[]).find(m=>m.to===expected),from=existing?existing.from:expected;
  const dlg=settingsDialog('Перенести ближайший урок',`<p class="note">Сейчас · ${fmtWhen(new Date(expected),'Europe/Samara')} по Самаре</p>
- <p class="note">Свободные окна на 14 дней. Уроки начинаются в ровный час. После трёх уроков подряд нужен перерыв от часа. Не больше семи часов занятий в день.</p>
+ <p class="note">Свободные окна на 35 дней. Уроки начинаются в ровный час. После трёх уроков подряд нужен перерыв от часа. Не больше семи часов занятий в день.</p>
  <label class="fld"><span>Новая дата и время по Самаре</span><select name="when" required disabled></select></label>
  <p class="note" data-windows-status role="status"></p>
  <div class="boardrow"><button class="btn ghost tsm" type="button" data-refresh>Обновить окна</button><button class="btn ghost tsm" type="button" data-hours hidden>Задать рабочие часы</button>
@@ -2060,7 +2118,7 @@ function openLessonMove(){
   status.textContent='Проверяю расписание…';
   try{
    const result=await adm('lessonWindows',{from,expected});
-   if(result.lessonAvailability!==3)throw new Error('bad_op');
+   if(result.lessonAvailability!==5)throw new Error('bad_op');
    const groups=new Map(), placeholder=new Option('Выбери свободное окно','');
    select.replaceChildren(placeholder);
    for(const time of result.windows){
@@ -2075,7 +2133,7 @@ function openLessonMove(){
    save.disabled=select.disabled=!result.windows.length;
    if(undo)undo.disabled=!result.configured;
    hours.hidden=result.configured;
-   status.textContent=!result.configured?'Сначала задай рабочие дни и часы.':result.windows.length?'':'В ближайшие 14 дней нет свободных окон.';
+   status.textContent=!result.configured?'Сначала задай рабочие дни и часы.':result.windows.length?'':'В ближайшие 35 дней нет свободных окон.';
   }catch(err){
    status.textContent=err.message==='bad_op'?'Обнови скрипт таблицы, чтобы применить новые правила переноса.':errText(err);
   }finally{refresh.disabled=false}
@@ -2090,12 +2148,23 @@ function openAvailabilityDialog(availability){
  const weekdays=['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
  const clock=n=>hhmm(Math.floor(n/60),n%60);
  const minutes=value=>{const [h,m]=value.split(':').map(Number);return h*60+m};
+ const today=LiliTeaching.dayKey();
  const dlg=settingsDialog('Рабочие часы',`<p class="note">Время по Самаре. Оставь оба поля пустыми в выходные.</p>
  ${DORDER.map(day=>{const row=availability.week[day];return `<fieldset class="fgrid"><legend>${weekdays[day]}</legend>
  <label class="fld"><span>С</span><input type="time" name="start-${day}" value="${row?clock(row[0]):''}"></label>
  <label class="fld"><span>До</span><input type="time" name="end-${day}" value="${row?clock(row[1]):''}"></label></fieldset>`}).join('')}
  <h3>Выходные и занятые часы на конкретную дату</h3><p class="note">Оставь время пустым, чтобы закрыть весь день.</p>
- <div data-blocks></div><button class="btn ghost tsm" type="button" data-add-block>Закрыть дату или время</button>`);
+ <div data-blocks></div><button class="btn ghost tsm" type="button" data-add-block>Закрыть дату или время</button>
+ <h3>Дополнительные часы по датам</h3>
+ <p class="note">Рабочий день продлится до указанного времени. Для обычного выходного укажи также время начала.</p>
+ <div class="fgrid">
+  <label class="fld"><span>Месяц</span><input type="month" name="extra-month" value="${today.slice(0,7)}"></label>
+  <label class="fld"><span>Числа через запятую</span><input name="extra-days" placeholder="10, 14, 18, 22, 26, 30"></label>
+  <label class="fld"><span>Начало в обычный выходной</span><input type="time" name="extra-start" value="18:00"></label>
+  <label class="fld"><span>Работаю до</span><input type="time" name="extra-end" value="21:00"></label>
+ </div>
+ <button class="btn ghost tsm" type="button" data-add-extra>Добавить даты</button>
+ <p class="ferr" data-extra-error role="status"></p><div data-extra-list></div>`);
  const list=dlg.querySelector('[data-blocks]');
  const add=(date='',start=0,end=1440)=>{
   const row=document.createElement('fieldset');row.className='fgrid';row.dataset.block='';
@@ -2105,9 +2174,33 @@ function openAvailabilityDialog(availability){
   <button class="btn ghost tsm" type="button">Убрать исключение</button>`;
   row.querySelector('button').onclick=()=>row.remove();list.append(row);
  };
- const today=LiliTeaching.dayKey();
  availability.blocks.filter(row=>row[0]>=today).forEach(row=>add(...row));
  dlg.querySelector('[data-add-block]').onclick=()=>{add();list.lastElementChild.querySelector('input').focus()};
+ const form=dlg.querySelector('form'), extraList=dlg.querySelector('[data-extra-list]');
+ const extraError=dlg.querySelector('[data-extra-error]');
+ const extra=new Map((availability.extra||[]).filter(row=>row[0]>=today).map(row=>[row[0],row]));
+ const renderExtra=()=>{
+  extraList.innerHTML=[...extra.values()].sort((a,b)=>a[0].localeCompare(b[0])).map(([date,start,end])=>
+   `<div class="boardrow"><span>${esc(date.split('-').reverse().join('.'))} · до ${clock(end)} (в выходной с ${clock(start)})</span><button class="btn ghost tsm" type="button" data-extra-remove="${esc(date)}">Убрать</button></div>`).join('');
+ };
+ extraList.onclick=e=>{const date=e.target.dataset.extraRemove;if(date){extra.delete(date);renderExtra()}};
+ const addExtra=()=>{
+  extraError.textContent='';
+  const month=form.elements['extra-month'].value, days=form.elements['extra-days'].value.trim();
+  const start=form.elements['extra-start'].value, end=form.elements['extra-end'].value;
+  if(!/^\d{4}-\d{2}$/.test(month)||!/^\d{1,2}(?:[\s,]+\d{1,2})*$/.test(days)||!start||!end||start>=end){
+   throw new Error('Укажи месяц, числа и корректное время начала и окончания.');
+  }
+  const dates=days.split(/[\s,]+/).map(day=>month+'-'+String(Number(day)).padStart(2,'0'));
+  for(const date of dates){
+   const stamp=Date.parse(date+'T00:00:00Z');
+   if(date<today||!Number.isFinite(stamp)||new Date(stamp).toISOString().slice(0,10)!==date)throw new Error('Укажи только существующие даты, начиная с сегодняшней.');
+  }
+  for(const date of dates)extra.set(date,[date,minutes(start),minutes(end)]);
+  form.elements['extra-days'].value='';renderExtra();
+ };
+ dlg.querySelector('[data-add-extra]').onclick=()=>{try{addExtra()}catch(err){extraError.textContent=err.message}};
+ renderExtra();
  bindSettingsSave(dlg,async form=>{
   const week=weekdays.map((day,i)=>{
    const start=form.elements['start-'+i].value,end=form.elements['end-'+i].value;
@@ -2121,7 +2214,9 @@ function openAvailabilityDialog(availability){
    return [date,start?minutes(start):0,end?minutes(end):1440];
   });
   if(blocks.length>100)throw new Error('Можно сохранить до 100 исключений.');
-  await adm('lessonAvailabilitySet',{availability:{week,blocks}});
+  if(form.elements['extra-days'].value.trim())addExtra();
+  if(extra.size>100)throw new Error('Можно сохранить до 100 дат с дополнительными часами.');
+  await adm('lessonAvailabilitySet',{availability:{week,blocks,extra:[...extra.values()]}});
   toast('Рабочие часы сохранены');
  });
 }
@@ -2355,6 +2450,15 @@ function tDetail(n){if(!n)return `<p class="klead" style="margin:14px 0 0;font-s
  <div class="ferr" id="nt-e"></div><button class="btn" id="nt-save" type="button">Сохранить комментарий</button></div>`}
 
 function tBind(){
+ const decisions=[...document.querySelectorAll('[data-lesson-decision]')];
+ decisions.forEach(button=>button.onclick=async()=>{
+  decisions.forEach(b=>b.disabled=true);
+  try{
+   const approve=button.dataset.lessonDecision==='approve';
+   const j=await adm('lessonRequestDecision',{id:D.lessonRequest.id,approve});
+   tCacheSet('cab-t-list',null);apply(j);toast(j.d.lessonRequest?.status==='approved'?'Перенос подтверждён':'Запрос отклонён');
+  }catch(err){decisions.forEach(b=>b.disabled=false);toast(errText(err))}
+ });
  bindWorkflowButtons();
  bindTopic();
  bindBoard();
