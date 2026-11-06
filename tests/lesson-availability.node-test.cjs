@@ -39,7 +39,7 @@ test('windows leave room for a full lesson and respect blocked dates and hours',
   const busy = [samara(friday, '12:15')];
   const end = samara('2026-11-08', '00:00');
   const windows = ctx.lrWindows_(availability, busy, now, end, expected);
-  const times = ['09:30', '11:00', '13:30', '14:00'].map(time => samara(friday, time));
+  const times = ['11:00', '14:00'].map(time => samara(friday, time));
   assert.deepEqual(Array.from(windows), times);
   assert(!ctx.lrFits_(samara(friday, '14:30'), availability));
   assert(!ctx.lrFits_(samara(saturday, '10:00'), availability));
@@ -61,4 +61,27 @@ test('busy times combine every active pupil and use moved lessons instead of the
   assert.deepEqual(Array.from(busy), [samara(friday, '12:30'), otherMove]);
   assert.equal(ctx.lrBusy_(sheet, otherMove - hour, otherMove + hour, 'own', from).length, 2);
   assert.equal(ctx.lrBusy_(sheet, otherMove, otherMove + hour, 'own', from).length, 0);
+});
+
+test('transfer windows start on the hour even when working hours start at half past', () => {
+  const {ctx} = load();
+  const availability = {week: workweek.map((hours, day) => day === 5 ? [570, 720] : hours), blocks: []};
+  const windows = ctx.lrWindows_(availability, [], samara(friday, '08:00'), samara(saturday, '00:00'));
+  assert.deepEqual(Array.from(windows), ['10:00', '11:00'].map(time => samara(friday, time)));
+});
+
+test('a transfer cannot extend or join a run past three lessons without an hour break', () => {
+  const {ctx} = load();
+  const at = time => samara(friday, time);
+  const busy = ['09:00', '10:00', '11:00'].map(at);
+  assert.equal(ctx.lrMoveError_(at('08:00'), busy), 'lesson_break');
+  assert.equal(ctx.lrMoveError_(at('12:00'), busy), 'lesson_break');
+  assert.equal(ctx.lrMoveError_(at('12:30'), busy), 'lesson_break');
+  assert.equal(ctx.lrMoveError_(at('13:00'), busy), '');
+  assert.equal(ctx.lrMoveError_(at('11:30'), busy), 'lesson_conflict');
+  assert.equal(ctx.lrMoveError_(at('11:00'), ['09:00', '10:00', '12:30'].map(at)), 'lesson_break');
+  assert.equal(ctx.lrMoveError_(at('11:00'), ['09:00', '10:00', '13:00'].map(at)), '');
+  const availability = {week: workweek, blocks: []};
+  const windows = ctx.lrWindows_(availability, busy, at('08:00'), samara(saturday, '00:00'));
+  assert.deepEqual(Array.from(windows), ['13:00', '14:00'].map(at));
 });
