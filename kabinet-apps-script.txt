@@ -45,6 +45,7 @@ const SHEETS = {
   'Разборы': ['Код', 'Ссылка', 'Название', 'Подпись'],
   'Материалы': ['Ссылка', 'Название'],
   'Занятия по карте': ['Код', 'Ключ', 'Дата', 'Занятие', 'Теория', 'Домашняя работа', 'Выдано'],
+  'Календарь занятий': ['Код', 'Дата', 'Квадратик', 'Название'],
   'Домашка': ['Код', 'Что сделать', 'Задания ОГЭ', 'Срок', 'Ссылка', 'Подпись ссылки', 'Сделано', 'Отмечено', 'Файл (PDF)', 'Раздел', 'Статус работы', 'Сообщение ученика', 'Комментарий учителя', 'Решение ученика', 'Обновлено', 'Версия работы', 'Ключ занятия'],
   'Файлы': ['Код', 'Строка ДЗ', 'Название', 'Ссылка'],
   'Пробники': ['Код', 'Дата', 'Название', 'Баллы'],
@@ -597,6 +598,7 @@ function adminRun_(b) {
       case 'routeGet': return {ok: true, materials: routeMaterials_(b.id)};
       case 'routeSave': return routeSave_(b);
       case 'routeUpload': return routeUpload_(b);
+      case 'calSet': { need(); return calSet_(ss, code, b); }
       case 'routeAssign': { const st = need(); return routeAssign_(ss, st, code, b); }
       case 'boardLibraryGet': return {ok:true,library:boardLibraryGet_()};
       case 'boardLibraryPut': return boardLibraryPut_(b);
@@ -917,6 +919,10 @@ function listStudents_() {
     const c = String(r[0]).trim(), id = String(r[1]).split('|')[1];
     if (c && id && r[6] === true) (routeDone[c] = routeDone[c] || []).push(id);
   });
+  const calMap = {}, calSh = ss.getSheetByName('Календарь занятий');
+  if (calSh && calSh.getLastRow() >= 2) calSh.getRange(2, 1, calSh.getLastRow() - 1, 4).getValues().forEach(r => {
+    const c = String(r[0]).trim(); if (c && String(r[2]).trim()) (calMap[c] = calMap[c] || []).push({d: calDay_(r[1]), id: String(r[2]).trim(), title: String(r[3])});
+  });
   const letters = {};
   const ltSh = ss.getSheetByName('Письма');
   if (ltSh && ltSh.getLastRow() >= 2) ltSh.getRange(2, 1, ltSh.getLastRow() - 1, 4).getValues().forEach(r => {
@@ -929,7 +935,7 @@ function listStudents_() {
     if (m) for (let n = 1; n <= nmax; n++) if (STATUS_KEY[String(m[n + 1]).trim().toLowerCase()] === 'solid') p += ptsOf_(pr, n);
     return {code: c, name: String(r[1]), fname: String(r[14] || ''), nick: String(r[21] || '').trim(), goal: Number(r[3]) || Math.round(goalMax_(pr) * 0.8),
             days: String(r[4] || ''), time: x.time, active: r[11] !== false, prog: pr, pts: p, hwLeft: left[c] || 0,
-            routes: routesOf_(r), routeDone: routeDone[c] || [],
+            routes: routesOf_(r), routeDone: routeDone[c] || [], cal: calMap[c] || [],
     lessonMoves: lrConfig_(c).moves, lessonRequestPending: lrConfig_(c).request?.status === 'pending', letters: letters[c] || 0, cls: Number(r[18]) || clsOfProg_(pr)};
   });
 }
@@ -2224,6 +2230,20 @@ function routeUpload_(b) {
   const file = folder.createFile(Utilities.newBlob(Utilities.base64Decode(data), 'application/pdf', name));
   file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
   return {ok: true, url: file.getUrl()};
+}
+function calDay_(v) { return /^\d{4}-\d{2}-\d{2}$/.test(String(v)) ? String(v) : day_(v); }
+function calSet_(ss, code, b) {
+  const id = routeId_(b.id), d = String(b.d || '').trim();
+  if (d && !/^\d{4}-\d{2}-\d{2}$/.test(d)) return {error: 'bad_value'};
+  const title = String(b.title || '').trim().slice(0, 200);
+  if (/^[=+@-]/.test(title)) return {error: 'bad_value'};
+  const sh = sheet_(ss, 'Календарь занятий');
+  const row = findRow_('Календарь занятий', v => String(v[0]).trim() === code && String(v[2]).trim() === id);
+  if (!d) { if (row) sh.deleteRow(row); return {ok: true}; }
+  if (!title) return {error: 'bad_value'};
+  if (row) { sh.getRange(row, 2).setNumberFormat('@').setValue(d); sh.getRange(row, 4).setValue(title); }
+  else { const n = sh.getLastRow() + 1; sh.getRange(n, 1, 1, 4).setNumberFormats([['@', '@', '@', '@']]).setValues([[code, d, id, title]]); }
+  return {ok: true};
 }
 function routeAssign_(ss, st, code, b) {
   if (st.row[11] === false) return {error: 'not_found'};
