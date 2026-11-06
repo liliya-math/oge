@@ -75,7 +75,7 @@ function gate(){
 }
 let N,BY,KIDS,MAT,route,routeEnabled;
 const ROUTE_FILES={'5A':'lesson-route-5.json','6A':'lesson-route-6.json','7A':'lesson-route-7a.json','7G':'lesson-route-7g.json','8A':'lesson-route-8a.json','8G':'lesson-route-8g.json','9A':'lesson-route-9a.json','9G':'lesson-route-9g.json','OGE':'lesson-route-oge.json'},ROUTES={};
-let selectedLesson;
+let selectedLesson,myMode=null;
 let selectedStudent='';
 try{selectedStudent=sessionStorage.getItem('lili-route-student')||''}catch(e){}
 const segs=id=>id.split('.');
@@ -111,7 +111,7 @@ function home(){
 }
 function routeCard(){
   return '<section class="card"><h2>Занятия по программе</h2><p class="lead">Открой квадратик, чтобы увидеть навыки, прикрепить материалы или отметить занятие.</p>'
-    +route.chapters.map((name,i)=>`<h3>${esc(name)}</h3><div class="grid lesson-grid">${route.lessons.filter(x=>x.chapter===i+1).map(x=>`<button class="tile" type="button" data-lesson="${x.id}" aria-controls="route-detail" aria-pressed="false"><small>${x.school?'Школьные № '+esc(x.school):'Дополнительно'}</small><br>${esc(x.title)}</button>`).join('')}</div>`).join('')
+    +route.chapters.map((name,i)=>`<h3>${esc(name)}</h3><div class="grid lesson-grid">${route.lessons.filter(x=>x.chapter===i+1).map(x=>`<button class="tile" type="button" data-lesson="${x.id}" aria-controls="route-detail" aria-pressed="false"><small>${x.tag?esc(x.tag):x.school?'Школьные № '+esc(x.school):'Дополнительно'}</small><br>${x.mark||''}${esc(x.title)}</button>`).join('')}</div>`).join('')
     +'<div id="route-detail" hidden></div></section>';
 }
 async function selectLesson(id){
@@ -178,12 +178,37 @@ async function selectLesson(id){
       if(saved!==JSON.stringify(links())){status.textContent='Сначала сохрани изменённые материалы.';return}
       run(async()=>{
         const result=await admin('routeAssign',{id,t:student.value,title:lesson.title});
+        if(myMode&&student.value===myMode.code){lesson.mark='✓ ';const b=app.querySelector('[data-lesson="'+id+'"]');if(b)b.innerHTML='<small>'+esc(lesson.tag||'')+'</small><br>✓ '+esc(lesson.title)}
         return result.duplicate?'Сегодня это занятие уже отмечено.':result.theory||result.homework?'Занятие отмечено. Прикреплённые материалы появились в кабинете ученика.':'Занятие отмечено. К нему пока нет прикреплённых файлов.';
       });
     };
   }catch(e){if(pending.isConnected)pending.textContent='Не получилось загрузить материалы и учеников. Нажми на квадратик ещё раз.'}
 }
+async function myPage(){
+  document.title='Квадратики ученика · lili.math';
+  let code='';try{code=sessionStorage.getItem('lili-route-student')||''}catch(e){}
+  app.innerHTML='<div class="bar"><span class="id">Ученик</span><span class="brand">lili<b>.</b>math</span></div><div class="crumbs"><a href="#">Карта</a></div><p class="lead" role="status">Загружаю программу ученика…</p>';
+  let st=null;
+  try{const j=await admin('list');st=(j.students||[]).find(x=>x.code===code)}catch(e){}
+  if(!st){app.innerHTML+='<p class="empty">Не получилось найти ученика. Открой кабинет ученика и нажми «Открыть карту занятий».</p>';return}
+  const progs=st.routes||[],done=new Set(st.routeDone||[]);
+  const NAMES={'5':'5 класс','6':'6 класс','7A':'7 алгебра','7G':'7 геометрия','8A':'8 алгебра','8G':'8 геометрия','9A':'9 алгебра','9G':'9 геометрия',OGE:'ОГЭ, часть 1'};
+  const nm=[st.name,st.fname].filter(Boolean).join(' ');
+  if(!progs.length){app.innerHTML=`<div class="bar"><span class="id">Ученик</span><span class="brand">lili<b>.</b>math</span></div><div class="crumbs"><a href="#">Карта</a></div><h1>${esc(nm)}</h1><p class="empty">Программа не выбрана. В кабинете ученика: настройки, «Программа по квадратикам».</p>`;return}
+  const seq=k=>(ROUTES[k]?ROUTES[k].lessons:[]).map(x=>({...x,tag:NAMES[k]}));
+  const A=progs.filter(k=>k!=='OGE'&&k.slice(-1)!=='G').flatMap(seq),G=progs.filter(k=>k.slice(-1)==='G').flatMap(seq),O=progs.includes('OGE')?seq('OGE'):[];
+  const school=[];let ai=0,gi=0,n=0;const pat=['A','A','G'];
+  while(ai<A.length||gi<G.length){let k=pat[n++%3];if(k==='A'&&ai>=A.length)k='G';if(k==='G'&&gi>=G.length)k='A';school.push(k==='A'?A[ai++]:G[gi++])}
+  const chapters=[],lessons=[];
+  const add=(name,list)=>{if(!list.length)return;chapters.push(name);let next=true;list.forEach((x,i)=>{const d=done.has(x.id);lessons.push({...x,chapter:chapters.length,mark:d?'✓ ':(next?'→ ':'')});if(!d)next=false})};
+  add('Школьная программа по порядку (алгебра, алгебра, геометрия)',school);
+  add('ОГЭ, часть 1',O);
+  route={chapters,lessons};myMode={code};selectedStudent=code;
+  app.innerHTML=`<div class="bar"><span class="id">Ученик</span><span class="brand">lili<b>.</b>math</span></div><div class="crumbs"><a href="#">Карта</a></div><h1>${esc(nm)}</h1><p class="lead">Программы: ${progs.map(k=>NAMES[k]).join(', ')}. ✓ проведено, → следующее.</p>`+routeCard();
+  app.querySelectorAll('[data-lesson]').forEach(b=>b.onclick=()=>selectLesson(b.dataset.lesson));scrollTo(0,0);
+}
 function node(id){
+  if(id==='MY'){myPage();return}
   if(id==='OGE'){document.title='ОГЭ, часть 1 · lili.math';route=ROUTES.OGE;app.innerHTML=`<div class="bar"><span class="id">ОГЭ</span><span class="brand">lili<b>.</b>math</span></div><div class="crumbs"><a href="#">Карта</a></div><h1>ОГЭ, часть 1</h1>`+(route?routeCard():'<p class="lead">Не получилось загрузить программу ОГЭ.</p>');app.querySelectorAll('[data-lesson]').forEach(b=>b.onclick=()=>selectLesson(b.dataset.lesson));scrollTo(0,0);return}
   const isRoot=/^\d[AG]$/.test(id),n=BY[id];
   if(!isRoot&&!n){fail('Не нашла такой раздел','Вернись на «Карта» и выбери класс.');return}

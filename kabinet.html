@@ -1687,7 +1687,8 @@ function materialsFolders(){const groups=new Map(),P=PROG();(D.hw||[]).filter(h=
 
 function progressSummary(){const P=PROG(),counts={solid:0,shaky:0,gap:0,new:0};for(let n=1;n<=P.nmax;n++)counts[stOf(n)]++;const numeric=(D.hist||[]).filter(h=>typeof h.p==='number'),delta=numeric.length>1?numeric.at(-1).p-numeric[0].p:null;return `<div class="card"><div class="sh"><h2>Что уже получается</h2></div><div class="progress-summary"><div><b>${counts.solid}</b><span>тем решаешь уверенно</span></div><div><b>${counts.shaky}</b><span>тем ещё закрепляем</span></div><div><b>${delta===null?'—':(delta>=0?'+':'')+delta}</b><span>${delta===null?'сравним после двух работ':P.oge?'баллов с первой работы':'к результату первой работы'}</span></div></div><p class="note">Статусы тем отмечает преподаватель по результатам занятий. Результаты проверенных работ показаны ниже.</p></div>`}
 function contactLine(){return `<p class="contactline">Вопросы по заданиям: <a href="https://t.me/ohh_my_lily" target="_blank" rel="noopener">@ohh_my_lily</a> в Telegram.</p>`}
-function routeActive(){return D.lessonRoute===1&&clsOf()===8}
+function routeActive(){return D.lessonRoute===1&&(((D.routes||[]).length>0)||clsOf()===8)}
+const ROUTE_PROGS=[['5','5 класс'],['6','6 класс'],['7A','7 алгебра'],['7G','7 геометрия'],['8A','8 алгебра'],['8G','8 геометрия'],['9A','9 алгебра'],['9G','9 геометрия'],['OGE','ОГЭ, часть 1']];
 function routeHistoryCard(){
  const history=D.routeHistory||[];
  if(!history.length)return '';
@@ -1695,7 +1696,7 @@ function routeHistoryCard(){
 }
 function openLessonRoute(){
  try{sessionStorage.setItem('lili-route-student',D.code||CODE)}catch(e){}
- location.href='karta.html#8A';
+ location.href=(D.routes||[]).length?'karta.html#MY':'karta.html#8A';
 }
 function kidWorkspace(bday){const prog=quizCabinetCard(D)+(SHOW('map')?progressSummary()+mapCard(false):'')+(SHOW('skills')?skillsCard(false)+gradeCard():'')+(SHOW('exams')?chartCard():'')+(SHOW('grades')?gradesCard():'');
  return welcomeKid()+mascotPeek()+bday+focusWork()+`<div class="lessonstrip">${lessonCard()}</div>`+cabNav()
@@ -1927,7 +1928,7 @@ function bindJournalCard(){LiliTeaching.bindJournal(document,D.code||CODE,D,{tea
 function tRender(keep){LiliTeaching.preserveDraft(document,D.code||CODE);const y=scrollY,dr=keep===false?{}:drafts(),foc=document.activeElement&&document.activeElement.id;
  const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
  app.innerHTML=tTop()+`<div class="cab enter"><section class="card"><div class="sh"><h1>${esc(fullName()||D.name)}</h1><span class="sub">${D.active?'':'В архиве'}</span></div>
- <div class="boardrow"><button class="btn ghost" id="lnkc" type="button">Скопировать ссылку ученика</button><button class="btn" type="button" id="assign-shortcut">Назначить задание</button>${clsOf()===8?'<button class="btn" id="lesson-route" type="button">Открыть карту занятий</button>':''}<button class="btn ghost" id="open-settings" type="button">Настройки</button></div></section>
+ <div class="boardrow"><button class="btn ghost" id="lnkc" type="button">Скопировать ссылку ученика</button><button class="btn" type="button" id="assign-shortcut">Назначить задание</button>${routeActive()?'<button class="btn" id="lesson-route" type="button">Открыть карту занятий</button>':''}<button class="btn ghost" id="open-settings" type="button">Настройки</button></div></section>
  ${lessonCard(true)}${lessonRequestCard(true)}${routeHistoryCard()}`+(kid
   ? quizCabinetCard(D)+tHwCard()+journalCard()+tMatCard()+mapCard(false)+skillsCard(false)+gradeCard()+`<div class="two">${chartCard()}${probCard()}</div>`+tGradesCard()+tLettersCard()+bday
   : heroPar()+quizCabinetCard(D)+mapCard(true)+skillsCard(true)+gradeCard()+`<div class="two">${chartCard()}${workCard()}</div>`+tGradesCard()+tLettersCard())+adminCard()+foot()+`</div>`;
@@ -2287,6 +2288,7 @@ function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).
  <details class="formbox"><summary>Telegram ученика</summary>${tTelegramCard()||'<p class="note">Бот подключается в общих настройках преподавателя.</p>'}</details></section>
  <details class="formbox"><summary>Учебные данные и видимость разделов</summary>
  ${routeActive()?'':topicField()}
+ <div class="fld"><span>Программа по квадратикам. Можно несколько: алгебра и геометрия идут по порядку, ОГЭ отдельно.</span><div class="showgrid">${ROUTE_PROGS.map(([k,t])=>`<label class="chkrow"><input type="checkbox" class="f-routes" data-k="${k}" ${(D.routes||[]).includes(k)?'checked':''}><span>${t}</span></label>`).join('')}</div></div>
  <label class="fld"><span>Над чем работаем — для родителей, каждый пункт с новой строки</span><textarea id="f-work" rows="3" data-fresh="1">${esc(W)}</textarea></label>
  <div class="fgrid">
   <label class="fld"><span>Занятий в месяце по плану</span><input id="f-lp" type="number" min="0" inputmode="numeric" value="${D.lessonsPlan}" data-fresh="1"></label>
@@ -2506,7 +2508,7 @@ function tBind(){
  document.getElementById('lnkn').onclick=e=>{if(!confirm('Выдать ученику новую ссылку? Старая перестанет работать сразу. Домашка, оценки, карта и Telegram сохранятся. Новую ссылку нужно будет отправить ученику или родителю.'))return;const b=e.currentTarget;b.disabled=true;adm('rotateCode').then(j=>{LiliBoardLinks.moveTeacher(localStorage,CODE,j.code);LiliTeaching.moveJournal(localStorage,CODE,j.code);location.hash='lilia-'+j.code}).catch(err=>{b.disabled=false;toast(errText(err))})};
  const fc=document.getElementById('f-cls');if(fc)fc.onchange=()=>{const pr=document.getElementById('f-prog');pr.innerHTML=progOptions(+fc.value,pr.value)};
  document.getElementById('f-save').onclick=e=>{const b=e.currentTarget,v=id=>{const el=document.getElementById(id);return el?el.value:''};b.disabled=true;
-  adm('student',{fields:{name:v('f-name'),fname:v('f-fname'),nick:v('f-nick'),dat:v('f-dat'),bdate:v('f-bdate'),parent:v('f-parent'),phone:v('f-phone'),cls:v('f-cls'),prog:document.getElementById('f-prog').value,goal:v('f-goal'),days:serSched(SL,STZ,STC),time:SL.length?hhmm(sortSlots(SL.slice())[0].h,sortSlots(SL.slice())[0].m):'',...(!routeActive()?{topic:topicVal()}:{}),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),show:[...document.querySelectorAll('.f-show:checked')].map(e=>e.dataset.k)}})
+  adm('student',{fields:{name:v('f-name'),fname:v('f-fname'),nick:v('f-nick'),dat:v('f-dat'),bdate:v('f-bdate'),parent:v('f-parent'),phone:v('f-phone'),cls:v('f-cls'),prog:document.getElementById('f-prog').value,goal:v('f-goal'),days:serSched(SL,STZ,STC),time:SL.length?hhmm(sortSlots(SL.slice())[0].h,sortSlots(SL.slice())[0].m):'',...(!routeActive()?{topic:topicVal()}:{}),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),show:[...document.querySelectorAll('.f-show:checked')].map(e=>e.dataset.k),routes:[...document.querySelectorAll('.f-routes:checked')].map(e=>e.dataset.k)}})
    .then(j=>{apply(j,false);toast('Настройки сохранены')}).catch(err=>{b.disabled=false;const e2=document.getElementById('f-err');if(e2)e2.textContent=errText(err)})};
  const hp=document.getElementById('hpet');if(hp)hp.onclick=()=>react('neu','',pick(sayList()));
  document.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{const n=+b.dataset.t;S.sel=n;save();document.querySelectorAll('.tile').forEach(x=>x.setAttribute('aria-pressed',x===b));document.getElementById('tdet').innerHTML=tDetail(n);bindDetail();

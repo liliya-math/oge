@@ -39,7 +39,7 @@ const SHEETS = {
   'Ученики': ['Код', 'Имя', 'Кому (дательный)', 'Цель, баллов', 'Дни занятий', 'Время (по Самаре)',
               'Тема следующего занятия', 'Ссылка на доску', 'Над чем работаем (через ;)',
               'Занятий в месяце по плану', 'Проведено в этом месяце', 'Активен', 'Ссылка на кабинет',
-              'Программа', 'Фамилия', 'Дата рождения', 'Родитель', 'Телефон родителя', 'Класс', 'Показывать', 'Талисман', 'Как обращаться (выбрал ученик)'],
+              'Программа', 'Фамилия', 'Дата рождения', 'Родитель', 'Телефон родителя', 'Класс', 'Показывать', 'Талисман', 'Как обращаться (выбрал ученик)', 'Программы по карте'],
   'Карта': ['Код', 'Имя'].concat(Array.from({length: 58}, (_, i) => String(i + 1))),
   'Комментарии': ['Код', 'Задание ОГЭ', 'Комментарий', 'Ссылка на разбор', 'Подпись ссылки'],
   'Разборы': ['Код', 'Ссылка', 'Название', 'Подпись'],
@@ -111,8 +111,10 @@ const MATERIALS = [
 const C = {bg: '#14211e', bg2: '#1b2b28', fg: '#f3ece2', muted: '#a9b6ad', cobalt: '#1747c9', apricot: '#f2905e',
            amber: '#f5dc6a', sage: '#a9d18e', miss: '#ff8f73', none: '#2a3a36'};
 const STUDENT_COLS = {name: 2, dat: 3, goal: 4, days: 5, time: 6, topic: 7, board: 8, work: 9, lessonsPlan: 10, lessonsDone: 11, active: 12, prog: 14,
-                      fname: 15, bdate: 16, parent: 17, phone: 18, cls: 19, show: 20, pet: 21, nick: 22};
-const STUDENT_NCOL = 22;
+                      fname: 15, bdate: 16, parent: 17, phone: 18, cls: 19, show: 20, pet: 21, nick: 22, routes: 23};
+const STUDENT_NCOL = 23;
+const ROUTE_PROGS = ['5', '6', '7A', '7G', '8A', '8G', '9A', '9G', 'OGE'];
+function routesOf_(r) { return String(r[22] || '').split(',').map(x => x.trim()).filter(x => ROUTE_PROGS.indexOf(x) >= 0); }
 const SHOW_KEYS = ['work', 'grades', 'exams', 'map', 'skills', 'notebook', 'rewards', 'letter', 'library', 'plan'];
 const PETS = ['cat', 'meer', 'rac', 'lab', 'capy', 'ham'];
 const CATALOG_URL = 'https://lilimath.ru/catalog.json';
@@ -498,10 +500,11 @@ function doPostRun_(e) {
 function cleanNick_(v) {
   return String(v || '').replace(/[<>&"\\\u0000-\u001f]/g, '').replace(/\s+/g, ' ').trim().slice(0, 24);
 }
-function ensureNickCol_(sh) {
-  if (sh.getMaxColumns() < STUDENT_COLS.nick) sh.insertColumnsAfter(sh.getMaxColumns(), STUDENT_COLS.nick - sh.getMaxColumns());
-  const h = sh.getRange(1, STUDENT_COLS.nick);
-  if (!String(h.getValue()).trim()) h.setValue(SHEETS['Ученики'][STUDENT_COLS.nick - 1]);
+function ensureNickCol_(sh, col) {
+  col = col || STUDENT_COLS.nick;
+  if (sh.getMaxColumns() < col) sh.insertColumnsAfter(sh.getMaxColumns(), col - sh.getMaxColumns());
+  const h = sh.getRange(1, col);
+  if (!String(h.getValue()).trim()) h.setValue(SHEETS['Ученики'][col - 1]);
 }
 function saveNick_(code, st, raw) {
   const nick = cleanNick_(raw);
@@ -665,7 +668,7 @@ function adminRun_(b) {
       case 'student': {
         const st = need(), sh = ss.getSheetByName('Ученики'), f = b.fields || {};
         const pr = progOf_(st.row, f);
-        if (f.nick !== undefined) ensureNickCol_(sh);
+        if (f.nick !== undefined || f.routes !== undefined) ensureNickCol_(sh, f.routes !== undefined ? STUDENT_COLS.routes : STUDENT_COLS.nick);
         Object.keys(f).forEach(k => {
           if (!STUDENT_COLS[k]) return;
           let v = f[k];
@@ -678,6 +681,7 @@ function adminRun_(b) {
           else if (k === 'show') v = (Array.isArray(v) ? v : String(v).split(',')).map(x => String(x).trim()).filter(x => SHOW_KEYS.indexOf(x) >= 0).join(',');
           else if (k === 'pet') v = PETS.indexOf(String(v)) >= 0 ? String(v) : '';
           else if (k === 'nick') v = cleanNick_(v);
+          else if (k === 'routes') v = (Array.isArray(v) ? v : String(v).split(',')).map(x => String(x).trim()).filter((x, i, a) => ROUTE_PROGS.indexOf(x) >= 0 && a.indexOf(x) === i).join(',');
           else v = String(v).trim();
           sh.getRange(st.index, STUDENT_COLS[k]).setValue(v);
         });
@@ -908,6 +912,11 @@ function listStudents_() {
   if (hwSh && hwSh.getLastRow() >= 2) hwSh.getRange(2, 1, hwSh.getLastRow() - 1, 7).getValues().forEach(r => {
     const c = String(r[0]).trim(); if (c && String(r[1]).trim() && r[6] !== true) left[c] = (left[c] || 0) + 1;
   });
+  const routeDone = {}, rjSh = ss.getSheetByName('Занятия по карте');
+  if (rjSh && rjSh.getLastRow() >= 2) rjSh.getRange(2, 1, rjSh.getLastRow() - 1, 7).getValues().forEach(r => {
+    const c = String(r[0]).trim(), id = String(r[1]).split('|')[1];
+    if (c && id && r[6] === true) (routeDone[c] = routeDone[c] || []).push(id);
+  });
   const letters = {};
   const ltSh = ss.getSheetByName('Письма');
   if (ltSh && ltSh.getLastRow() >= 2) ltSh.getRange(2, 1, ltSh.getLastRow() - 1, 4).getValues().forEach(r => {
@@ -920,7 +929,7 @@ function listStudents_() {
     if (m) for (let n = 1; n <= nmax; n++) if (STATUS_KEY[String(m[n + 1]).trim().toLowerCase()] === 'solid') p += ptsOf_(pr, n);
     return {code: c, name: String(r[1]), fname: String(r[14] || ''), nick: String(r[21] || '').trim(), goal: Number(r[3]) || Math.round(goalMax_(pr) * 0.8),
             days: String(r[4] || ''), time: x.time, active: r[11] !== false, prog: pr, pts: p, hwLeft: left[c] || 0,
-            lessonRoute: 1, routeHistory: rows('Занятия по карте').filter(x => x.v[6] === true).reverse().map(x => ({date: day_(x.v[2]), title: String(x.v[3]), theory: String(x.v[4] || '')})),
+            routes: routesOf_(r), routeDone: routeDone[c] || [],
     lessonMoves: lrConfig_(c).moves, lessonRequestPending: lrConfig_(c).request?.status === 'pending', letters: letters[c] || 0, cls: Number(r[18]) || clsOfProg_(pr)};
   });
 }
@@ -981,7 +990,10 @@ function studentData_(code, admin) {
   const has = k => admin || show.indexOf(k) >= 0;
   const pet = PETS.indexOf(String(r[20] || '').trim()) >= 0 ? String(r[20]).trim() : '';
   const nick = String(r[21] || '').trim();
+  const rj = rows('Занятия по карте').filter(x => x.v[6] === true);
   const out = {
+    lessonRoute: 1, routeHistory: rj.slice().reverse().map(x => ({date: day_(x.v[2]), title: String(x.v[3]), theory: String(x.v[4] || '')})),
+    routes: admin ? routesOf_(r) : [], routeDone: admin ? rj.map(x => String(x.v[1]).split('|')[1]) : [],
     quiz: 1, ogeMocks: 2, quizHistory: quizHistory_(code, admin), workflow: 1, nickEdit: true, name: admin ? String(r[1]) : (nick || String(r[1])), nick: nick, dat: admin ? String(r[2] || r[1]) : (nick || String(r[1])), goal: Number(r[3]) || Math.round(goalMax_(prog) * 0.8),
     lessonMoves: lrConfig_(code).moves, lessonRequest: lrPublicRequest_(lrConfig_(code).request), days: String(r[4] || ''), time: st.time, topic: String(r[6] || ''), board: String(r[7] || ''),
     work: String(r[8] || '').split(';').map(s => s.trim()).filter(Boolean),
