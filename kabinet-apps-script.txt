@@ -469,7 +469,10 @@ function doPost(e) {
 function doPostRun_(e) {
   let body = {};
   try { body = JSON.parse(e.postData.contents); } catch (err) { return json_({error: 'bad_request'}); }
-  if (body.admin !== undefined) return json_(admin_(body));
+  if (body.admin !== undefined) {
+    try { return json_(admin_(body)); }
+    catch (err) { return json_({error: 'server: ' + String(err && err.message || err).slice(0, 200)}); }
+  }
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
