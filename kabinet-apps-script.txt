@@ -440,7 +440,7 @@ function setPassword() {
 function doGet(e) {
   const p = (e && e.parameter) || {};
   const code = String(p.t || '').trim();
-  if (p.schedule === 'capabilities') return json_({ok: true, lessonAvailability: 2});
+  if (p.schedule === 'capabilities') return json_({ok: true, lessonAvailability: 3});
   if (p.quiz === 'capabilities') return json_({ok:true,quiz:1,ogeMocks:2});
   if (p.quiz === 'load') return json_(quizLoad_(code,{work:p.q,version:p.v,assignment:p.a,row:p.row}));
   if (p.w) return json_(dzLoad_(code, String(p.w).trim(), Number(p.row) || 0));
@@ -598,9 +598,9 @@ function adminRun_(b) {
       case 'lessonWindows': {
         if (need().row[11] === false) return {error: 'inactive'};
         const availability = lrAvailability_();
-        const now = Date.now(), end = lrSamaraDay_(now) + 14 * 86400000;
-        const busy = lrBusy_(ss, now - LR_BREAK_LOOKAROUND_MS, end + LR_BREAK_LOOKAROUND_MS, code, b.from);
-        return {ok: true, lessonAvailability: 2, configured: availability.week.some(Boolean),
+        const now = Date.now(), day = lrSamaraDay_(now), end = day + 14 * 86400000;
+        const busy = lrBusy_(ss, day - LR_BREAK_LOOKAROUND_MS, end + LR_BREAK_LOOKAROUND_MS, code, b.from);
+        return {ok: true, lessonAvailability: 3, configured: availability.week.some(Boolean),
           windows: lrWindows_(availability, busy, now, end, b.expected)};
       }
       case 'lessonDefaultsSet': {
@@ -626,7 +626,8 @@ function adminRun_(b) {
         if ((previous ? previous.to : from) !== b.expected) return {error: 'changed'};
         const target = to === null ? from : to;
         if (!lrFits_(target, lrAvailability_())) return {error: 'lesson_unavailable'};
-        const busy = lrBusy_(ss, target - LR_BREAK_LOOKAROUND_MS, target + LR_BREAK_LOOKAROUND_MS, code, from);
+        const day = lrSamaraDay_(target);
+        const busy = lrBusy_(ss, day - LR_BREAK_LOOKAROUND_MS, day + 86400000 + LR_BREAK_LOOKAROUND_MS, code, from);
         const error = lrMoveError_(target, busy);
         if (error) return {error};
         cfg.moves = cfg.moves.filter(m => m.from !== from);
@@ -1867,6 +1868,7 @@ function boardLibraryPut_(b) {
 const LR_LESSON_MS = 60 * 60000;
 const LR_BREAK_MS = 60 * 60000;
 const LR_MAX_IN_A_ROW = 3;
+const LR_MAX_DAILY_MS = 7 * 60 * 60000;
 const LR_BREAK_LOOKAROUND_MS = LR_MAX_IN_A_ROW * (LR_LESSON_MS + LR_BREAK_MS);
 function lrSamaraDay_(time) {
   const offset = LR_SAMARA_OFF * 60000;
@@ -1931,6 +1933,13 @@ function lrMoveError_(time, busy) {
   for (let i = index; i < busy.length && busy[i] - previous < LR_LESSON_MS + LR_BREAK_MS; i++) {
     if (++count > LR_MAX_IN_A_ROW) return 'lesson_break';
     previous = busy[i];
+  }
+  const day = lrSamaraDay_(time), end = day + 86400000;
+  let daily = LR_LESSON_MS;
+  for (const start of busy) {
+    if (start >= end) break;
+    daily += Math.max(0, Math.min(end, start + LR_LESSON_MS) - Math.max(day, start));
+    if (daily > LR_MAX_DAILY_MS) return 'lesson_day_limit';
   }
   return '';
 }

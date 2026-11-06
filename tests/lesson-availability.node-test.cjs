@@ -85,3 +85,24 @@ test('a transfer cannot extend or join a run past three lessons without an hour 
   const windows = ctx.lrWindows_(availability, busy, at('08:00'), samara(saturday, '00:00'));
   assert.deepEqual(Array.from(windows), ['13:00', '14:00'].map(at));
 });
+
+test('daily limit allows the seventh hour and excludes the eighth, including lessons earlier today', () => {
+  const {ctx} = load();
+  const at = time => samara(friday, time);
+  const six = ['08:00', '09:00', '10:00', '12:00', '13:00', '14:00'].map(at);
+  assert.equal(ctx.lrMoveError_(at('20:00'), six), '');
+  const seven = six.concat(at('16:00'));
+  assert.equal(ctx.lrMoveError_(at('20:00'), seven), 'lesson_day_limit');
+  const availability = {week: workweek.map((hours, day) => day === 5 ? [480, 1320] : hours), blocks: []};
+  assert.deepEqual(Array.from(ctx.lrWindows_(availability, seven, at('19:00'), samara(saturday, '00:00'))), []);
+  assert.equal(ctx.lrMoveError_(samara(saturday, '20:00'), seven), '');
+});
+
+test('a late lesson counts only for the part that falls on the target Samara date', () => {
+  const {ctx} = load();
+  const at = time => samara(friday, time);
+  const busy = ['08:00', '09:00', '10:00', '12:00', '13:00', '14:00'].map(at);
+  const previous = samara('2026-11-05', '23:30');
+  assert.equal(ctx.lrMoveError_(at('18:00'), [previous, ...busy]), 'lesson_day_limit');
+  assert.equal(ctx.lrMoveError_(at('18:00'), [previous - hour, ...busy]), '');
+});

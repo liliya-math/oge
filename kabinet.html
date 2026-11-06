@@ -1734,7 +1734,7 @@ setInterval(()=>{const e=document.getElementById('cd');if(!e||!D)return;const t=
 /* ===== Режим учителя: kabinet.html#lilia ===== */
 let PASS='';try{PASS=localStorage.getItem('cab-admin')||''}catch(e){}
 let busy=0,busyWrites=0,LIST=null;
-const ERR={lesson_break:'После трёх уроков подряд нужен перерыв не меньше часа. Выбери другое окно.',lesson_conflict:'Это окно уже занято. Обнови список и выбери другое время.',lesson_unavailable:'Это время вне рабочих часов или закрыто. Обнови список и выбери другое окно.',board_library_corrupt:'Не удалось прочитать библиотеку аккаунта. Локальные материалы сохранены.',board_library_too_large:'Библиотека превышает 40 МБ или 100 материалов. Выгрузи резервную копию.',board_library_bad_template:'Сервер отклонил повреждённый шаблон.',board_library_bad_link:'Не удалось проверить ссылку личной доски.',board_library_bad_request:'Запрос синхронизации некорректен. Открой синхронизацию ещё раз.',locked:'Слишком много неверных паролей. Подожди 15 минут.',too_many:'Слишком много сообщений за час. Попробуй позже.',telegram_not_configured:'Сначала подключи Telegram-бота через меню Google-таблицы.',telegram_not_connected:'Ученик ещё не подключил Telegram-бота.',telegram_paused:'Уведомления на паузе.',telegram_blocked:'Ученик отключил бота. Нужно подключить его заново.',telegram_api_error:'Telegram временно недоступен. Попробуй уведомить позже.',telegram_network_error:'Не удалось связаться с Telegram. Попробуй уведомить позже.',no_password:'Сначала задай пароль в таблице: меню «Кабинет → Пароль для режима учителя».',
+const ERR={lesson_day_limit:'С этим переносом в выбранный день будет больше семи часов занятий. Выбери другую дату.',lesson_break:'После трёх уроков подряд нужен перерыв не меньше часа. Выбери другое окно.',lesson_conflict:'Это окно уже занято. Обнови список и выбери другое время.',lesson_unavailable:'Это время вне рабочих часов или закрыто. Обнови список и выбери другое окно.',board_library_corrupt:'Не удалось прочитать библиотеку аккаунта. Локальные материалы сохранены.',board_library_too_large:'Библиотека превышает 40 МБ или 100 материалов. Выгрузи резервную копию.',board_library_bad_template:'Сервер отклонил повреждённый шаблон.',board_library_bad_link:'Не удалось проверить ссылку личной доски.',board_library_bad_request:'Запрос синхронизации некорректен. Открой синхронизацию ещё раз.',locked:'Слишком много неверных паролей. Подожди 15 минут.',too_many:'Слишком много сообщений за час. Попробуй позже.',telegram_not_configured:'Сначала подключи Telegram-бота через меню Google-таблицы.',telegram_not_connected:'Ученик ещё не подключил Telegram-бота.',telegram_paused:'Уведомления на паузе.',telegram_blocked:'Ученик отключил бота. Нужно подключить его заново.',telegram_api_error:'Telegram временно недоступен. Попробуй уведомить позже.',telegram_network_error:'Не удалось связаться с Telegram. Попробуй уведомить позже.',no_password:'Сначала задай пароль в таблице: меню «Кабинет → Пароль для режима учителя».',
  old:'В таблице старая версия скрипта. Вставь новый код и сделай новую версию развёртывания.',
  not_found:'Такого ученика нет в таблице.',changed:'В таблице что-то поменялось. Данные обновлены, попробуй ещё раз.',
  bad_value:'Проверь, что всё заполнено правильно.',no_name:'Впиши имя ученика.',net:'Таблица пока не ответила. Попробуй ещё раз через несколько секунд.',save_unknown:'Не удалось подтвердить сохранение. Сначала обнови данные кабинета и проверь результат, прежде чем повторять действие.',
@@ -2044,7 +2044,7 @@ function bindSettingsSave(dlg,saveSettings){
 function openLessonMove(){
  const expected=+nextLesson(),existing=(D.lessonMoves||[]).find(m=>m.to===expected),from=existing?existing.from:expected;
  const dlg=settingsDialog('Перенести ближайший урок',`<p class="note">Сейчас · ${fmtWhen(new Date(expected),'Europe/Samara')} по Самаре</p>
- <p class="note">Свободные окна на 14 дней. Уроки начинаются в ровный час. После трёх уроков подряд нужен перерыв от часа.</p>
+ <p class="note">Свободные окна на 14 дней. Уроки начинаются в ровный час. После трёх уроков подряд нужен перерыв от часа. Не больше семи часов занятий в день.</p>
  <label class="fld"><span>Новая дата и время по Самаре</span><select name="when" required disabled></select></label>
  <p class="note" data-windows-status role="status"></p>
  <div class="boardrow"><button class="btn ghost tsm" type="button" data-refresh>Обновить окна</button><button class="btn ghost tsm" type="button" data-hours hidden>Задать рабочие часы</button>
@@ -2060,7 +2060,7 @@ function openLessonMove(){
   status.textContent='Проверяю расписание…';
   try{
    const result=await adm('lessonWindows',{from,expected});
-   if(result.lessonAvailability!==2)throw new Error('bad_op');
+   if(result.lessonAvailability!==3)throw new Error('bad_op');
    const groups=new Map(), placeholder=new Option('Выбери свободное окно','');
    select.replaceChildren(placeholder);
    for(const time of result.windows){
