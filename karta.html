@@ -44,6 +44,11 @@ h1{margin:4px 0 6px;font-size:clamp(24px,6vw,34px);line-height:1.15;letter-spaci
 .lesson-grid{grid-template-columns:repeat(auto-fill,minmax(136px,1fr))}
 .lesson-grid button{aspect-ratio:1;font:inherit;text-align:left;cursor:pointer;overflow-wrap:anywhere}
 .lesson-grid button[aria-pressed=true]{border-color:var(--apricot)}
+.lesson-grid .tile{background:color-mix(in srgb,var(--c,#a9d18e) 26%,#14211e);border:1px solid color-mix(in srgb,var(--c,#a9d18e) 50%,transparent);border-left:7px solid var(--c,#a9d18e);font-weight:600}
+.lesson-grid .tile:hover{background:color-mix(in srgb,var(--c,#a9d18e) 38%,#14211e)}
+.lesson-grid .tile.done{opacity:.62}
+.lesson-grid .tile.next{box-shadow:0 0 0 2px var(--c,#a9d18e)}
+.lesson-grid .tile small{font-weight:400;color:var(--fg);opacity:.8}
 .lesson-form{display:grid;gap:12px}.lesson-form label{display:grid;gap:5px}
 .lesson-form input,.lesson-form select,.lesson-form button{max-width:100%;font:inherit;color:var(--fg);background:#243831;border:1px solid var(--line);border-radius:10px;padding:9px}
 .lesson-form button{cursor:pointer}.lesson-form button:disabled{opacity:.5;cursor:default}
@@ -111,7 +116,7 @@ function home(){
 }
 function routeCard(){
   return '<section class="card"><h2>Занятия по программе</h2><p class="lead">Открой квадратик, чтобы увидеть навыки, прикрепить материалы или отметить занятие.</p>'
-    +route.chapters.map((name,i)=>`<h3>${esc(name)}</h3><div class="grid lesson-grid">${route.lessons.filter(x=>x.chapter===i+1).map(x=>`<button class="tile" type="button" ${myMode?'draggable="true" ':''}data-lesson="${x.id}" aria-controls="route-detail" aria-pressed="false"><small>${x.tag?esc(x.tag):x.school?'Школьные № '+esc(x.school):'Дополнительно'}${x.cal?' · '+esc(shortD(x.cal)):''}</small><br>${x.mark||''}${esc(x.title)}</button>`).join('')}</div>`).join('')
+    +route.chapters.map((name,i)=>`<h3>${esc(name)}</h3><div class="grid lesson-grid">${route.lessons.filter(x=>x.chapter===i+1).map(x=>`<button class="tile${/^✓/.test(x.mark||'')?' done':/^→/.test(x.mark||'')?' next':''}" style="--c:${PCOL[x.prog]||'#a9d18e'}" type="button" ${myMode?'draggable="true" ':''}data-lesson="${x.id}" aria-controls="route-detail" aria-pressed="false"><small>${x.tag?esc(x.tag):x.school?'Школьные № '+esc(x.school):'Дополнительно'}${x.cal?' · '+esc(shortD(x.cal)):''}</small><br>${x.mark||''}${esc(x.title)}</button>`).join('')}</div>`).join('')
     +'<div id="route-detail" hidden></div></section>';
 }
 async function selectLesson(id){
@@ -184,6 +189,7 @@ async function selectLesson(id){
     };
   }catch(e){if(pending.isConnected)pending.textContent='Не получилось загрузить материалы и учеников. Нажми на квадратик ещё раз.'}
 }
+const PCOL={'5':'#f5dc6a','6':'#f2905e','7A':'#ee8fa8','7G':'#c9a0ee','8A':'#7fb8f0','8G':'#6fd9cf','9A':'#a9d18e','9G':'#d8e66f',OGE:'#ff8f73'};
 const WD=['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
 const isoD=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const shortD=iso=>iso.slice(8,10)+'.'+iso.slice(5,7);
@@ -194,7 +200,7 @@ function calSet(id,d){
   renderCal();refreshTile(l);
   admin('calSet',{t:m.code,id,d:d||'',title:l.title}).catch(()=>{l.cal=prev;m.st.cal=m.st.cal.filter(y=>y.id!==id);if(prev)m.st.cal.push({d:prev,id,title:l.title});renderCal();refreshTile(l);alert('Не получилось сохранить в календаре. Проверь связь и обнови Apps Script.')});
 }
-function refreshTile(l){const b=app.querySelector('[data-lesson="'+l.id+'"]');if(b)b.innerHTML='<small>'+esc(l.tag||'')+(l.cal?' · '+esc(shortD(l.cal)):'')+'</small><br>'+(l.mark||'')+esc(l.title)}
+function refreshTile(l){const b=app.querySelector('[data-lesson="'+l.id+'"]');if(b){b.classList.toggle('done',/^✓/.test(l.mark||''));b.classList.toggle('next',/^→/.test(l.mark||''))}if(b)b.innerHTML='<small>'+esc(l.tag||'')+(l.cal?' · '+esc(shortD(l.cal)):'')+'</small><br>'+(l.mark||'')+esc(l.title)}
 function renderCal(){
   const box=document.getElementById('cal');if(!box||!myMode)return;
   const days=String(myMode.st.days||'').split('|')[0].match(/Пн|Вт|Ср|Чт|Пт|Сб|Вс/g)||[];
@@ -203,7 +209,7 @@ function renderCal(){
   let h='<h2>Календарь</h2><p class="lead">Перетащи квадратик на день. Или открой квадратик и нажми на день. Занятие можно перетащить на другой день, ✕ убирает из календаря.</p><div style="display:flex;gap:8px;margin-bottom:10px"><button type="button" data-cw="-1">←</button><button type="button" data-cw="0">Сегодня</button><button type="button" data-cw="1">→</button></div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px">';
   for(let w=0;w<4;w++)for(let i=0;i<7;i++){
     const d=new Date(mon);d.setDate(mon.getDate()+w*7+i);const iso=isoD(d),on=lessonWd.has(d.getDay()),today=iso===isoD(now);
-    const chips=myMode.st.cal.filter(y=>y.d===iso).map(y=>{const l=myMode.lessons.find(x=>x.id===y.id);const done=l&&/^✓/.test(l.mark||'');return `<div draggable="true" data-chip="${esc(y.id)}" style="font-size:12px;padding:3px 5px;margin-top:3px;border-radius:6px;background:rgba(255,255,255,.12);cursor:grab">${done?'✓ ':''}${esc(y.title)} <span data-x="${esc(y.id)}" style="cursor:pointer;opacity:.7">✕</span></div>`}).join('');
+    const chips=myMode.st.cal.filter(y=>y.d===iso).map(y=>{const l=myMode.lessons.find(x=>x.id===y.id);const done=l&&/^✓/.test(l.mark||'');return `<div draggable="true" data-chip="${esc(y.id)}" style="font-size:12px;padding:3px 5px;margin-top:3px;border-radius:6px;border-left:5px solid ${PCOL[l&&l.prog]||'#a9d18e'};background:color-mix(in srgb,${PCOL[l&&l.prog]||'#a9d18e'} 30%,#14211e);cursor:grab">${done?'✓ ':''}${esc(y.title)} <span data-x="${esc(y.id)}" style="cursor:pointer;opacity:.7">✕</span></div>`}).join('');
     h+=`<div data-day="${iso}" style="min-height:74px;padding:5px;border-radius:8px;border:1px solid ${today?'#f2905e':'rgba(255,255,255,.18)'};background:${on?'rgba(169,209,142,.16)':'transparent'}"><b style="font-size:12px">${WD[d.getDay()]} ${shortD(iso)}</b>${chips}</div>`;
   }
   box.innerHTML=h+'</div>';
@@ -272,7 +278,7 @@ function node(id){
 function draw(){const id=getId();if(!id)home();else node(id)}
 function go(){
   Promise.all([fetch('skills-by-grade.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}),fetch('catalog.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}),Promise.all(Object.keys(ROUTE_FILES).map(k=>fetch(ROUTE_FILES[k],{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}).catch(()=>null)))])
-  .then(([g,c,rs])=>{Object.keys(ROUTE_FILES).forEach((k,i)=>{if(rs[i]&&rs[i].lessons)ROUTES[k]=rs[i]});N=g;BY=Object.fromEntries(g.map(x=>[x.id,x]));KIDS={};g.forEach(x=>{if(x.parent)(KIDS[x.parent]=KIDS[x.parent]||[]).push(x)});Object.values(KIDS).forEach(a=>a.sort((p,q)=>p.id.localeCompare(q.id,'en',{numeric:true})));MAT=c.items.filter(m=>m.file&&!/^(index|karta|kabinet|skill|STATE)/.test(m.file));draw()})
+  .then(([g,c,rs])=>{Object.keys(ROUTE_FILES).forEach((k,i)=>{if(rs[i]&&rs[i].lessons){rs[i].lessons.forEach(l=>{l.prog=k});ROUTES[k]=rs[i]}});N=g;BY=Object.fromEntries(g.map(x=>[x.id,x]));KIDS={};g.forEach(x=>{if(x.parent)(KIDS[x.parent]=KIDS[x.parent]||[]).push(x)});Object.values(KIDS).forEach(a=>a.sort((p,q)=>p.id.localeCompare(q.id,'en',{numeric:true})));MAT=c.items.filter(m=>m.file&&!/^(index|karta|kabinet|skill|STATE)/.test(m.file));draw()})
   .catch(()=>fail('Не получилось открыть','Похоже, пропал интернет. Обнови страницу.'));
 }
 addEventListener('hashchange',()=>{if(N)draw()});

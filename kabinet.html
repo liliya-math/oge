@@ -1928,7 +1928,7 @@ function bindJournalCard(){LiliTeaching.bindJournal(document,D.code||CODE,D,{tea
 function tRender(keep){LiliTeaching.preserveDraft(document,D.code||CODE);const y=scrollY,dr=keep===false?{}:drafts(),foc=document.activeElement&&document.activeElement.id;
  const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
  app.innerHTML=tTop()+`<div class="cab enter"><section class="card"><div class="sh"><h1>${esc(fullName()||D.name)}</h1><span class="sub">${D.active?'':'В архиве'}</span></div>
- <div class="boardrow"><button class="btn ghost" id="lnkc" type="button">Скопировать ссылку ученика</button><button class="btn" type="button" id="assign-shortcut">Назначить задание</button>${routeActive()?'<button class="btn" id="lesson-route" type="button">Открыть карту занятий</button>':''}<button class="btn ghost" id="open-settings" type="button">Настройки</button></div></section>
+ <div class="boardrow"><button class="btn ghost" id="lnkc" type="button">Скопировать ссылку ученика</button><button class="btn" type="button" id="assign-shortcut">Назначить задание</button>${routeActive()?'<button class="btn" id="lesson-route" type="button">Календарь и квадратики</button>':''}<button class="btn ghost" id="open-settings" type="button">Настройки</button></div></section>
  ${lessonCard(true)}${lessonRequestCard(true)}${routeHistoryCard()}`+(kid
   ? quizCabinetCard(D)+tHwCard()+journalCard()+tMatCard()+mapCard(false)+skillsCard(false)+gradeCard()+`<div class="two">${chartCard()}${probCard()}</div>`+tGradesCard()+tLettersCard()+bday
   : heroPar()+quizCabinetCard(D)+mapCard(true)+skillsCard(true)+gradeCard()+`<div class="two">${chartCard()}${workCard()}</div>`+tGradesCard()+tLettersCard())+adminCard()+foot()+`</div>`;
