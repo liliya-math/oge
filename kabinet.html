@@ -1654,7 +1654,7 @@ function CAB_TABS(){const t=[['homework','Домашка']];if(LIB())t.push(['ma
  if(D.quiz===1||SHOW('map')||SHOW('skills')||SHOW('exams')||SHOW('grades'))t.push(['progress','Прогресс']);
  if(clsOf()===9||(D.quizHistory||[]).some(LiliOgeProgress.isMock))t.push(['mocks','Пробники ОГЭ']);
  if(SHOW('rewards'))t.push(['rewards','Коллекция']);
- if(!TEACH&&SHOW('plan')&&Array.isArray(D.plan)&&D.plan.length)t.push(['plan','План']);
+ /* вкладка «План» скрыта: планирование идёт по квадратикам на карте */
  return t}
 function wfEnabled(){return !!(D&&(D.workflow===1||D.demo))}
 function wfStatus(h){return wfEnabled()?(WF_LABEL[h.status]?h.status:h.done?'done':'new'):(isDone(h)?'done':'new')}
@@ -1929,7 +1929,7 @@ function tRender(keep){LiliTeaching.preserveDraft(document,D.code||CODE);const y
  app.innerHTML=tTop()+`<div class="cab enter"><section class="card"><div class="sh"><h1>${esc(fullName()||D.name)}</h1><span class="sub">${D.active?'':'В архиве'}</span></div>
  <div class="boardrow"><button class="btn ghost" id="lnkc" type="button">Скопировать ссылку ученика</button><button class="btn" type="button" id="assign-shortcut">Назначить задание</button>${clsOf()===8?'<button class="btn" id="lesson-route" type="button">Открыть карту занятий</button>':''}<button class="btn ghost" id="open-settings" type="button">Настройки</button></div></section>
  ${lessonCard(true)}${lessonRequestCard(true)}${routeHistoryCard()}`+(kid
-  ? quizCabinetCard(D)+tHwCard()+journalCard()+tPlanCard()+tMatCard()+mapCard(false)+skillsCard(false)+gradeCard()+`<div class="two">${chartCard()}${probCard()}</div>`+tGradesCard()+tLettersCard()+bday
+  ? quizCabinetCard(D)+tHwCard()+journalCard()+tMatCard()+mapCard(false)+skillsCard(false)+gradeCard()+`<div class="two">${chartCard()}${probCard()}</div>`+tGradesCard()+tLettersCard()+bday
   : heroPar()+quizCabinetCard(D)+mapCard(true)+skillsCard(true)+gradeCard()+`<div class="two">${chartCard()}${workCard()}</div>`+tGradesCard()+tLettersCard())+adminCard()+foot()+`</div>`;
  Object.keys(dr).forEach(id=>{const i=document.getElementById(id);if(!i)return;if(i.type==='checkbox')i.checked=dr[id];else i.value=dr[id]});
  tBind();const routeButton=document.getElementById('lesson-route');if(routeButton)routeButton.onclick=openLessonRoute;bindJournalCard();bindPlan();scrollTo({top:y});if(foc){const f=document.getElementById(foc);if(f&&f.focus)f.focus({preventScroll:true})}if(bday)bdayFX()}
