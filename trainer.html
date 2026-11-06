@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#14211e">
+<meta name="theme-color" content="#212E30">
 <title>Тренажёр: Задание 6</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
-:root{--bg:#14211e;--bg2:#1b2b28;--glass:rgba(243,236,226,.05);--glass2:rgba(243,236,226,.085);--line:rgba(226,234,228,.13);--fg:#f3ece2;--muted:#a9b6ad;--faint:#6e7f77;--cobalt:#1747c9;--apricot:#f2905e;--mint:#a9d18e;--amber:#f5dc6a;--miss:#ff8f73;--sans:-apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif;--display:-apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif;color-scheme:dark}
+:root{--bg:#243033;--bg2:#293538;--glass:rgba(245,232,219,.05);--glass2:rgba(245,232,219,.085);--line:rgba(245,232,219,.13);--fg:#F5E8DB;--muted:#BDBFAA;--faint:#AFB3A8;--cobalt:#27439B;--apricot:#CF8960;--mint:#BDBFAA;--amber:#F0D56E;--miss:#CF8960;--sans:-apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif;--display:-apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif;color-scheme:dark}
 *{box-sizing:border-box}
 html,body{background:var(--bg);color:var(--fg);margin:0}
 body{font-family:var(--sans);font-size:16px;line-height:1.5;min-height:100vh;-webkit-font-smoothing:antialiased}
@@ -24,18 +24,18 @@ body{font-family:var(--sans);font-size:16px;line-height:1.5;min-height:100vh;-we
 .ans{display:grid;gap:14px;margin-top:24px}
 .irow{display:flex;gap:10px}
 .field{flex:1;height:54px;padding:0 18px;border-radius:16px;border:1px solid var(--line);background:rgba(0,0,0,.25);font-size:20px;font-family:var(--display);font-variant-numeric:tabular-nums;color:var(--fg);transition:.2s}
-.field:focus{outline:none;border-color:var(--apricot);box-shadow:0 0 0 4px rgba(242,144,94,.15)}
-.btn{height:54px;padding:0 28px;border-radius:16px;border:0;font-weight:700;font-size:16px;background:var(--cobalt);color:#f3ece2;cursor:pointer;transition:.15s}
+.field:focus{outline:none;border-color:var(--apricot);box-shadow:0 0 0 4px rgba(207,137,96,.15)}
+.btn{height:54px;padding:0 28px;border-radius:16px;border:0;font-weight:700;font-size:16px;background:var(--cobalt);color:#F5E8DB;cursor:pointer;transition:.15s}
 .btn:hover{filter:brightness(1.1)}.btn:active{transform:scale(.97)}
 .hints{margin-top:20px;display:grid;gap:10px}
 .ctx{border:1px solid var(--line);border-radius:16px;background:rgba(0,0,0,.18);overflow:hidden}
 .ctx summary{padding:14px 16px;cursor:pointer;font-weight:600;font-size:15px;color:var(--apricot);list-style:none;display:flex;align-items:center;gap:8px}
 .ctx summary::before{content:"→";transition:transform .2s;display:inline-block}
 .ctx[open] summary::before{transform:rotate(90deg)}
-.ctx .in{padding:0 16px 16px;font-size:15px;color:#e6dbd3;line-height:1.6}
+.ctx .in{padding:0 16px 16px;font-size:15px;color:#ECE1D4;line-height:1.6}
 .fb{border-radius:18px;padding:16px;display:flex;gap:14px;align-items:center;margin-top:20px;animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
 @keyframes pop{from{opacity:0;transform:scale(.95)}}
-.fb.ok{background:rgba(169,209,142,.1);border:1px solid rgba(169,209,142,.35)}
+.fb.ok{background:rgba(189,191,170,.1);border:1px solid rgba(189,191,170,.35)}
 .fb.bad{background:rgba(255,143,115,.08);border:1px solid rgba(255,143,115,.3)}
 .fb .t{font-weight:700;font-size:16px}.fb .s{font-size:14px;color:var(--muted)}
 .pet{width:48px;height:48px;border-radius:14px;background:var(--glass2);display:grid;place-items:center;font-size:24px;flex:none;border:2px solid var(--line)}

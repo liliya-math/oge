@@ -1,5 +1,5 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#14211e"><title>Дроби</title><style>
-:root { --bg: #14211e; --glass: rgba(243,236,226,.05); --glass2: rgba(243,236,226,.085); --line: rgba(226,234,228,.14); --fg: #f3ece2; --muted: #a9b6ad; --faint: #6e7f77; --cobalt: #1747c9; --apricot: #f2905e; --mint: #a9d18e; --amber: #f5dc6a; --miss: #ff8f73; color-scheme: dark; }
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#212E30"><title>Дроби</title><style>
+:root { --bg: #243033; --glass: rgba(245,232,219,.05); --glass2: rgba(245,232,219,.085); --line: rgba(245,232,219,.14); --fg: #F5E8DB; --muted: #BDBFAA; --faint: #AFB3A8; --cobalt: #27439B; --apricot: #CF8960; --mint: #BDBFAA; --amber: #F0D56E; --miss: #CF8960; color-scheme: dark; }
 * { box-sizing: border-box; }
 html, body { background: var(--bg); color: var(--fg); margin: 0; }
 body { font: 19px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif; -webkit-font-smoothing: antialiased; min-height: 100vh; }
@@ -23,12 +23,12 @@ table .lnk { margin: 0; padding: 2px 4px; text-decoration: underline; font-size:
 .txt { font: inherit; font-size: 20px; width: 100%; height: 56px; padding: 0 18px; border-radius: 16px; border: 1px solid var(--line); background: rgba(0,0,0,.25); color: var(--fg); }
 .list { display: flex; flex-direction: column; gap: 10px; }
 .row { display: flex; align-items: center; gap: 14px; text-align: left; font: inherit; background: var(--glass); border: 1px solid var(--line); border-radius: 20px; padding: 14px 16px; cursor: pointer; color: var(--fg); transition: .15s; width: 100%; }
-.row:hover:not(:disabled) { background: var(--glass2); border-color: rgba(242,144,94,.45); }
+.row:hover:not(:disabled) { background: var(--glass2); border-color: rgba(207,137,96,.45); }
 .row .num { width: 34px; height: 34px; border-radius: 50%; background: var(--cobalt); color: var(--fg); display: grid; place-items: center; font-weight: 700; font-size: 15px; flex: none; }
 .row .tt { flex: 1; display: flex; flex-direction: column; line-height: 1.25; }
 .row small { color: var(--muted); font-size: 14px; }
 .row .stt { font-size: 14px; color: var(--muted); text-align: right; }
-.row.ok .num { background: var(--mint); color: #14211e; } .row.ok .stt { color: var(--mint); font-weight: 600; }
+.row.ok .num { background: var(--mint); color: #212E30; } .row.ok .stt { color: var(--mint); font-weight: 600; }
 .row.lock { opacity: .45; cursor: default; }
 .row.help { border-color: var(--miss); } .row.help .stt { color: var(--miss); font-weight: 600; }
 .row.run .stt { color: var(--apricot); font-weight: 600; }
@@ -54,7 +54,7 @@ svg.bar.click .pc { cursor: pointer; }
 .opts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
 .opt { font: inherit; background: var(--glass); border: 1px solid var(--line); border-radius: 16px; padding: 10px 18px; cursor: pointer; min-height: 54px; color: var(--fg); text-align: left; transition: .15s; }
 .opt:hover:not(:disabled) { background: var(--glass2); }
-.opt.sel { border-color: var(--apricot); background: rgba(242,144,94,.16); }
+.opt.sel { border-color: var(--apricot); background: rgba(207,137,96,.16); }
 .opt:disabled { opacity: .75; cursor: default; }
 .rows { margin-top: 12px; display: flex; flex-direction: column; gap: 14px; }
 .irow { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
@@ -62,7 +62,7 @@ svg.bar.click .pc { cursor: pointer; }
 .num, .fin input { font: inherit; font-size: 24px; width: 3.3em; height: 56px; text-align: center; border-radius: 16px; border: 1px solid var(--line); background: rgba(0,0,0,.25); color: var(--fg); font-variant-numeric: tabular-nums; }
 .fin { display: inline-flex; flex-direction: column; align-items: center; gap: 4px; }
 .fin .line { width: 3.4em; border-top: 3px solid var(--fg); }
-.hint { border-left: 4px solid var(--amber); background: rgba(245,220,106,.1); padding: 10px 14px; margin-bottom: 10px; border-radius: 10px; }
+.hint { border-left: 4px solid var(--amber); background: rgba(240,213,110,.1); padding: 10px 14px; margin-bottom: 10px; border-radius: 10px; }
 .msg { min-height: 30px; font-weight: 600; margin-bottom: 8px; }
 .msg.good { color: var(--mint); } .msg.bad { color: var(--miss); }
 table.rep { width: 100%; border-collapse: collapse; font-size: 14px; margin: 8px 0; }
@@ -108,7 +108,7 @@ function tile(x, y, w, h, dark, r) {
     poly([x + ',' + y2, (x + b) + ',' + (y2 - b), (x2 - b) + ',' + (y2 - b), x2 + ',' + y2], P.bot) +
     poly([x2 + ',' + y, x2 + ',' + y2, (x2 - b) + ',' + (y2 - b), (x2 - b) + ',' + (y + b)], P.right) +
     '<rect x="' + (x + b) + '" y="' + (y + b) + '" width="' + Math.max(w - 2 * b, 1) + '" height="' + Math.max(h - 2 * b, 1) + '" fill="' + P.face + '"/>' +
-    '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" fill="none" stroke="#14211e" stroke-opacity=".6" stroke-width="1"/>';
+    '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" fill="none" stroke="#212E30" stroke-opacity=".6" stroke-width="1"/>';
 }
 // плитка шоколада: n кусочков, taken — число тёмных (первые) или массив индексов
 function bar(n, taken, o) {
@@ -150,8 +150,8 @@ function area(q, s, p, r) {
   let out = '<svg class="bar" viewBox="0 0 ' + (W + 4) + ' ' + (H + 4) + '" width="' + (W + 4) + '" role="img">';
   for (let i = 0; i < q; i++) for (let j = 0; j < s; j++) {
     const c = i < p, rr = j < r;
-    const f = (c && rr) ? '#5b3a29' : c ? '#f2905e' : rr ? '#a9d18e' : '#f3ece2';
-    out += '<rect x="' + (2 + i * cw) + '" y="' + (2 + j * ch) + '" width="' + cw + '" height="' + ch + '" fill="' + f + '" stroke="#14211e" stroke-width="1.5"/>';
+    const f = (c && rr) ? '#5b3a29' : c ? '#CF8960' : rr ? '#BDBFAA' : '#F5E8DB';
+    out += '<rect x="' + (2 + i * cw) + '" y="' + (2 + j * ch) + '" width="' + cw + '" height="' + ch + '" fill="' + f + '" stroke="#212E30" stroke-width="1.5"/>';
   }
   return out + '</svg>';
 }

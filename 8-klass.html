@@ -5,10 +5,10 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
 :root{
-  --bg:#14211e; --bg2:#1b2b28; --glass:rgba(243,236,226,.05); --glass2:rgba(243,236,226,.085);
-  --line:rgba(226,234,228,.13); --fg:#f3ece2; --muted:#a9b6ad; --faint:#6e7f77;
-  --cobalt:#4d7dff; --sky:#d6e2ee; --apricot:#f2905e; --lilac:#a9c1ff; --mint:#a9d18e; --amber:#f5dc6a; --miss:#ff8f73;
-  --grad:linear-gradient(115deg,#f5dc6a 0%,#f2905e 100%);
+  --bg:#243033; --bg2:#293538; --glass:rgba(245,232,219,.05); --glass2:rgba(245,232,219,.085);
+  --line:rgba(245,232,219,.13); --fg:#F5E8DB; --muted:#BDBFAA; --faint:#AFB3A8;
+  --cobalt:#4d7dff; --sky:#CCD0D5; --apricot:#CF8960; --lilac:#CCD0D5; --mint:#BDBFAA; --amber:#F0D56E; --miss:#CF8960;
+  --grad:linear-gradient(115deg,#F0D56E 0%,#CF8960 100%);
   --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Inter",system-ui,"Segoe UI",Roboto,sans-serif;
   --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,sans-serif;
   color-scheme:dark;
@@ -21,9 +21,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 :focus-visible{outline:2px solid var(--apricot);outline-offset:3px;border-radius:10px}
 .amb{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .amb i{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.26;animation:drift 26s ease-in-out infinite alternate}
-.amb i:nth-child(1){background:#1747c9;left:-20vmax;top:-25vmax}
-.amb i:nth-child(2){background:#5d7a4f;right:-25vmax;top:10vmax;opacity:.15;animation-duration:32s}
-.amb i:nth-child(3){background:#2c4f6b;left:10vmax;bottom:-35vmax;opacity:.15;animation-duration:38s}
+.amb i:nth-child(1){background:#27439B;left:-20vmax;top:-25vmax}
+.amb i:nth-child(2){background:#5C694F;right:-25vmax;top:10vmax;opacity:.15;animation-duration:32s}
+.amb i:nth-child(3){background:#34444C;left:10vmax;bottom:-35vmax;opacity:.15;animation-duration:38s}
 @keyframes drift{to{transform:translate(8vmax,6vmax) scale(1.12)}}
 .wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding-inline:16px;padding-block:20px 90px}
 .top{position:sticky;top:0;z-index:20;margin:0 -16px 18px;padding:12px 16px 10px;background:linear-gradient(var(--bg) 70%,transparent);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
@@ -41,31 +41,31 @@ h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;back
 .navchips a:hover{background:var(--glass2);border-color:var(--apricot)}
 .sec{display:flex;align-items:center;gap:12px;margin:34px 0 10px}
 .sec h2{font-family:var(--display);font-size:20px;margin:0;font-weight:800;letter-spacing:-.01em}
-.sec .n{min-width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--grad);color:#14211e;font-weight:800;font-size:14px}
+.sec .n{min-width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--grad);color:#212E30;font-weight:800;font-size:14px}
 .sec .ln{flex:1;height:1px;background:var(--line)}
 .card{background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:18px;margin:12px 0;backdrop-filter:blur(8px)}
 .tag{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:rgba(77,125,255,.15);color:var(--lilac);border:1px solid rgba(77,125,255,.3)}
-.tag.o{background:rgba(242,144,94,.13);color:var(--apricot);border-color:rgba(242,144,94,.32)}
-.tag.g{background:rgba(169,209,142,.12);color:var(--mint);border-color:rgba(169,209,142,.3)}
+.tag.o{background:rgba(207,137,96,.13);color:var(--apricot);border-color:rgba(207,137,96,.32)}
+.tag.g{background:rgba(189,191,170,.12);color:var(--mint);border-color:rgba(189,191,170,.3)}
 .tgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 @media(max-width:620px){.tgrid{grid-template-columns:1fr}}
 .tcard{background:var(--glass2);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
 .tcard .tt{font-weight:700;font-size:14.5px;margin-bottom:3px}
 .tcard .td{font-size:13px;color:var(--muted);line-height:1.45}
-.zachet{margin-top:14px;border:1px dashed rgba(245,220,106,.4);background:rgba(245,220,106,.05);border-radius:18px;padding:16px 18px}
+.zachet{margin-top:14px;border:1px dashed rgba(240,213,110,.4);background:rgba(240,213,110,.05);border-radius:18px;padding:16px 18px}
 .zachet h3{margin:0 0 4px;font-size:16.5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .zhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.zbtn{padding:9px 20px;border-radius:999px;border:none;background:var(--grad);color:#14211e;font-weight:800;font-size:14.5px}
+.zbtn{padding:9px 20px;border-radius:999px;border:none;background:var(--grad);color:#212E30;font-weight:800;font-size:14.5px}
 .zbtn:disabled{opacity:.45;cursor:default}
 .zprog{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
 .qq{margin-top:12px;font-size:16px;font-weight:600;line-height:1.5}
 .qo{display:grid;gap:8px;margin-top:12px}
 .opt{padding:11px 14px;border-radius:13px;background:var(--glass2);border:1px solid var(--line);text-align:left;font-size:15px;transition:border-color .15s,background .15s}
 .opt:hover{border-color:var(--cobalt)}
-.opt.ok{border-color:var(--mint);background:rgba(169,209,142,.14)}
+.opt.ok{border-color:var(--mint);background:rgba(189,191,170,.14)}
 .opt.bad{border-color:var(--miss);background:rgba(255,143,115,.12)}
 .opt:disabled{cursor:default;opacity:.9}
-.qexp{margin-top:10px;font-size:14px;color:var(--muted);border-left:3px solid var(--apricot);padding:6px 12px;background:rgba(242,144,94,.06);border-radius:0 10px 10px 0}
+.qexp{margin-top:10px;font-size:14px;color:var(--muted);border-left:3px solid var(--apricot);padding:6px 12px;background:rgba(207,137,96,.06);border-radius:0 10px 10px 0}
 .qnext{margin-top:12px;padding:9px 20px;border-radius:999px;border:1px solid var(--line);background:var(--glass2);font-weight:700;font-size:14px}
 .qres{margin-top:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .qres img{width:72px;height:72px;object-fit:cover;border-radius:20px;border:1px solid var(--line)}

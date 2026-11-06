@@ -11,18 +11,18 @@ tailwind.config = {
   theme: {
     extend: {
       colors: {
-        slate: {100:'#f3ece2',200:'#f3ece2',300:'#a9b6ad',400:'#a9b6ad',500:'#6e7f77',600:'#3a5249',700:'#2e423c',800:'#1e2f2b',900:'#14211e',950:'#0f1b18'},
-        cyan: {300:'#f5a87e',400:'#f2905e',500:'#1747c9',600:'#1747c9',900:'#f2905e',950:'#f2905e'},
-        amber: {300:'#f5dc6a',400:'#f5dc6a',500:'#e8c84f',950:'#f5dc6a'},
-        emerald: {400:'#a9d18e',900:'#a9d18e',950:'#a9d18e'},
-        purple: {300:'#a9d18e',400:'#a9d18e',500:'#a9d18e',900:'#a9d18e',950:'#a9d18e'}
+        slate: {100:'#F5E8DB',200:'#F5E8DB',300:'#BDBFAA',400:'#BDBFAA',500:'#AFB3A8',600:'#3a5249',700:'#2e423c',800:'#1e2f2b',900:'#212E30',950:'#0f1b18'},
+        cyan: {300:'#f5a87e',400:'#CF8960',500:'#27439B',600:'#27439B',900:'#CF8960',950:'#CF8960'},
+        amber: {300:'#F0D56E',400:'#F0D56E',500:'#e8c84f',950:'#F0D56E'},
+        emerald: {400:'#BDBFAA',900:'#BDBFAA',950:'#BDBFAA'},
+        purple: {300:'#BDBFAA',400:'#BDBFAA',500:'#BDBFAA',900:'#BDBFAA',950:'#BDBFAA'}
       }
     }
   }
 }
 </script>
 <style>
-body{font-family:-apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif;background-color:#14211e}
+body{font-family:-apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif;background-color:#212E30}
 h2{font-weight:700}
 </style>
 </head>
@@ -235,16 +235,16 @@ h2{font-weight:700}
             type: 'scatter',
             data: {
                 datasets: [
-                    { label: 'Ветвь 1', data: [], borderColor: '#f2905e', backgroundColor: '#f2905e', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
-                    { label: 'Ветвь 2', data: [], borderColor: '#f2905e', backgroundColor: '#f2905e', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 }
+                    { label: 'Ветвь 1', data: [], borderColor: '#CF8960', backgroundColor: '#CF8960', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
+                    { label: 'Ветвь 2', data: [], borderColor: '#CF8960', backgroundColor: '#CF8960', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 }
                 ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    x: { type: 'linear', position: 'center', min: -10, max: 10, grid: { color: 'rgba(243,236,226,0.07)' }, ticks: { color: '#a9b6ad' } },
-                    y: { type: 'linear', position: 'center', min: -10, max: 10, grid: { color: 'rgba(243,236,226,0.07)' }, ticks: { color: '#a9b6ad' } }
+                    x: { type: 'linear', position: 'center', min: -10, max: 10, grid: { color: 'rgba(245,232,219,0.07)' }, ticks: { color: '#BDBFAA' } },
+                    y: { type: 'linear', position: 'center', min: -10, max: 10, grid: { color: 'rgba(245,232,219,0.07)' }, ticks: { color: '#BDBFAA' } }
                 },
                 plugins: { legend: { display: false } }
             }
@@ -283,17 +283,17 @@ h2{font-weight:700}
             type: 'scatter',
             data: {
                 datasets: [
-                    { label: 'График функции', data: [], borderColor: '#f5dc6a', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
-                    { label: 'Выколотая точка', data: [], backgroundColor: '#ff8f73', borderColor: '#ffffff', pointRadius: 6, pointStyle: 'circle' },
-                    { label: 'Параметрическая прямая', data: [], borderColor: '#a9d18e', showLine: true, pointRadius: 0, borderWidth: 2, borderDash: [5, 5] }
+                    { label: 'График функции', data: [], borderColor: '#F0D56E', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
+                    { label: 'Выколотая точка', data: [], backgroundColor: '#CF8960', borderColor: '#ffffff', pointRadius: 6, pointStyle: 'circle' },
+                    { label: 'Параметрическая прямая', data: [], borderColor: '#BDBFAA', showLine: true, pointRadius: 0, borderWidth: 2, borderDash: [5, 5] }
                 ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    x: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(243,236,226,0.07)' }, ticks: { color: '#a9b6ad' } },
-                    y: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(243,236,226,0.07)' }, ticks: { color: '#a9b6ad' } }
+                    x: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(245,232,219,0.07)' }, ticks: { color: '#BDBFAA' } },
+                    y: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(245,232,219,0.07)' }, ticks: { color: '#BDBFAA' } }
                 },
                 plugins: { legend: { display: false } }
             }
@@ -407,16 +407,16 @@ h2{font-weight:700}
             type: 'scatter',
             data: {
                 datasets: [
-                    { label: 'Широкая: y = a/x', data: [], borderColor: '#f2905e', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
-                    { label: 'Прижатая: y = 1/(ax)', data: [], borderColor: '#a9d18e', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 }
+                    { label: 'Широкая: y = a/x', data: [], borderColor: '#CF8960', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
+                    { label: 'Прижатая: y = 1/(ax)', data: [], borderColor: '#BDBFAA', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 }
                 ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    x: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(243,236,226,0.07)' }, ticks: { color: '#a9b6ad' } },
-                    y: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(243,236,226,0.07)' }, ticks: { color: '#a9b6ad' } }
+                    x: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(245,232,219,0.07)' }, ticks: { color: '#BDBFAA' } },
+                    y: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(245,232,219,0.07)' }, ticks: { color: '#BDBFAA' } }
                 },
                 plugins: { legend: { display: false } }
             }
@@ -446,17 +446,17 @@ h2{font-weight:700}
             type: 'scatter',
             data: {
                 datasets: [
-                    { label: 'Гипербола', data: [], borderColor: '#f2905e', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
-                    { label: 'Второй график', data: [], borderColor: '#a9d18e', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
-                    { label: 'Точки пересечения', data: [], backgroundColor: '#f5dc6a', borderColor: '#ffffff', pointRadius: 6, pointStyle: 'circle' }
+                    { label: 'Гипербола', data: [], borderColor: '#CF8960', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
+                    { label: 'Второй график', data: [], borderColor: '#BDBFAA', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
+                    { label: 'Точки пересечения', data: [], backgroundColor: '#F0D56E', borderColor: '#ffffff', pointRadius: 6, pointStyle: 'circle' }
                 ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    x: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(243,236,226,0.07)' }, ticks: { color: '#a9b6ad' } },
-                    y: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(243,236,226,0.07)' }, ticks: { color: '#a9b6ad' } }
+                    x: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(245,232,219,0.07)' }, ticks: { color: '#BDBFAA' } },
+                    y: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(245,232,219,0.07)' }, ticks: { color: '#BDBFAA' } }
                 },
                 plugins: { legend: { display: false } }
             }

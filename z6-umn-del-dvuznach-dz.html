@@ -1,6 +1,6 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>ДЗ №1 · Умножение и деление</title><script src="cabinet-report.js"></script>
 </head><body><style>
-:root{--bg:#14211e;--card:#1b2b28;--line:rgba(226,234,228,.14);--fg:#f3ece2;--muted:#a9b6ad;--cobalt:#1747c9;--apricot:#f2905e;--mint:#a9d18e;--amber:#f5dc6a;--miss:#ff8f73;--sky:#9db8ff;color-scheme:dark}
+:root{--bg:#243033;--card:#293538;--line:rgba(245,232,219,.14);--fg:#F5E8DB;--muted:#BDBFAA;--cobalt:#27439B;--apricot:#CF8960;--mint:#BDBFAA;--amber:#F0D56E;--miss:#CF8960;--sky:#CCD0D5;color-scheme:dark}
 *{box-sizing:border-box}
 html,body{background:var(--bg);color:var(--fg)}
 body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
@@ -11,8 +11,8 @@ button,input,textarea{font:inherit;color:inherit}button{cursor:pointer}
 .toprow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .lockup{display:inline-flex;align-items:center;gap:8px}.lw{font-weight:700;font-size:14px;letter-spacing:-.01em}.lw i{font-style:normal;color:var(--apricot)}
 .sp{flex:1}.pill{padding:4px 11px;border-radius:999px;border:1px solid var(--line);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}.pill strong{color:var(--fg)}
-.track{display:grid;gap:4px}.track span{height:6px;border-radius:3px;background:rgba(243,236,226,.12)}
-.track .cur{background:rgba(243,236,226,.5)}.track .ok{background:var(--mint)}.track .bad{background:var(--miss)}.track .idk{background:#6f625a}.track .th{background:var(--amber)}
+.track{display:grid;gap:4px}.track span{height:6px;border-radius:3px;background:rgba(245,232,219,.12)}
+.track .cur{background:rgba(245,232,219,.5)}.track .ok{background:var(--mint)}.track .bad{background:var(--miss)}.track .idk{background:#34444C}.track .th{background:var(--amber)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px}
 @media(max-width:520px){.card{padding:18px 16px;border-radius:18px}}
 .thead{display:flex;align-items:center;gap:14px;margin-bottom:14px}
@@ -27,8 +27,8 @@ button,input,textarea{font:inherit;color:inherit}button{cursor:pointer}
 .rt .rs{width:.62em;flex:none;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 20' preserveAspectRatio='none'%3E%3Cpath d='M0.5 11.5 L2.6 10.2 L5.4 19 L9.6 0.8 L10 0.8' fill='none' stroke='black' stroke-width='1.5' vector-effect='non-scaling-stroke' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat 0 0/100% 100%;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 20' preserveAspectRatio='none'%3E%3Cpath d='M0.5 11.5 L2.6 10.2 L5.4 19 L9.6 0.8 L10 0.8' fill='none' stroke='black' stroke-width='1.5' vector-effect='non-scaling-stroke' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat 0 0/100% 100%}
 .rt .rad{border-top:1.5px solid currentColor;padding:.1em 2px 0;line-height:1.2}
 .fig{text-align:center;margin:6px 0;overflow-x:auto}.fig svg{max-width:100%;height:auto}
-svg .ax{stroke:#f3ece2;stroke-width:1.5}svg .arw{fill:#f3ece2}svg .tm{fill:#f3ece2;font:600 13px -apple-system,Inter,sans-serif}
-svg .pt{fill:#f5dc6a}svg .pt.g{fill:#f3ece2}svg .ptl{fill:#f5dc6a;font:800 15px -apple-system,Inter,sans-serif}svg .ptl.g{fill:#f3ece2}
+svg .ax{stroke:#F5E8DB;stroke-width:1.5}svg .arw{fill:#F5E8DB}svg .tm{fill:#F5E8DB;font:600 13px -apple-system,Inter,sans-serif}
+svg .pt{fill:#F0D56E}svg .pt.g{fill:#F5E8DB}svg .ptl{fill:#F0D56E;font:800 15px -apple-system,Inter,sans-serif}svg .ptl.g{fill:#F5E8DB}
 .opts{display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:8px}.opts div{white-space:nowrap}
 .ans{margin-top:20px;display:grid;gap:12px}
 .irow{display:flex;gap:10px;flex-wrap:wrap}
@@ -39,14 +39,14 @@ svg .pt{fill:#f5dc6a}svg .pt.g{fill:#f3ece2}svg .ptl{fill:#f5dc6a;font:800 15px 
 .alts{display:flex;gap:8px;flex-wrap:wrap}
 .chip{padding:9px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;font-size:14.5px;color:var(--muted)}
 .chip:hover{color:var(--fg)}
-.hint{padding:12px 15px;border-radius:14px;background:rgba(245,220,106,.08);border:1px solid rgba(245,220,106,.28);font-size:15.5px}
+.hint{padding:12px 15px;border-radius:14px;background:rgba(240,213,110,.08);border:1px solid rgba(240,213,110,.28);font-size:15.5px}
 .hint small{display:block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:3px}
 .hints{display:grid;gap:8px}
 textarea{width:100%;min-height:110px;resize:vertical;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.25);line-height:1.5}
 .fb{padding:12px 16px;border-radius:14px;font-weight:600}
-.fb.ok{background:rgba(169,209,142,.12);border:1px solid rgba(169,209,142,.4)}
+.fb.ok{background:rgba(189,191,170,.12);border:1px solid rgba(189,191,170,.4)}
 .fb.bad{background:rgba(255,143,115,.1);border:1px solid rgba(255,143,115,.35)}
-.fb.neu{background:rgba(243,236,226,.06);border:1px solid var(--line)}
+.fb.neu{background:rgba(245,232,219,.06);border:1px solid var(--line)}
 .fb span{display:block;font-weight:400;font-size:14.5px;color:var(--muted)}
 .next{justify-self:end}
 .note{font-size:13.5px;color:var(--muted);margin:0}
@@ -58,16 +58,16 @@ h1 span{color:var(--apricot)}
 .quiet{color:var(--muted);font-size:14.5px}
 .cells{display:grid;grid-template-columns:repeat(auto-fill,minmax(48px,1fr));gap:8px;margin-top:16px}
 .cell{height:44px;border-radius:12px;display:grid;place-items:center;font-weight:700;border:1px solid var(--line);color:var(--muted)}
-.cell.ok{background:rgba(169,209,142,.16);border-color:rgba(169,209,142,.45);color:var(--mint)}
+.cell.ok{background:rgba(189,191,170,.16);border-color:rgba(189,191,170,.45);color:var(--mint)}
 .cell.bad{background:rgba(255,143,115,.1);border-color:rgba(255,143,115,.35);color:var(--miss)}
-.cell.th{background:rgba(245,220,106,.1);border-color:rgba(245,220,106,.35);color:var(--amber)}
+.cell.th{background:rgba(240,213,110,.1);border-color:rgba(240,213,110,.35);color:var(--amber)}
 .legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:13px;color:var(--muted);margin-top:10px}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
 .blocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:16px}
 .blk{padding:12px 14px;border-radius:14px;background:rgba(0,0,0,.2);border:1px solid var(--line);display:grid;gap:6px}
 .blk .h{display:flex;justify-content:space-between;gap:8px;font-size:14px;color:var(--muted)}.blk .h b{color:var(--fg)}
-.bar{height:6px;border-radius:3px;background:rgba(243,236,226,.12);overflow:hidden}.bar i{display:block;height:100%;background:var(--amber)}
-.weak{margin-top:16px;padding:14px 16px;border-radius:14px;background:rgba(242,144,94,.1);border:1px solid rgba(242,144,94,.35)}
+.bar{height:6px;border-radius:3px;background:rgba(245,232,219,.12);overflow:hidden}.bar i{display:block;height:100%;background:var(--amber)}
+.weak{margin-top:16px;padding:14px 16px;border-radius:14px;background:rgba(207,137,96,.1);border:1px solid rgba(207,137,96,.35)}
 .weak ul{margin:6px 0 0;padding-left:20px;display:grid;gap:4px}.weak p{margin:4px 0 0}
 .send{margin-top:18px;display:grid;gap:10px;justify-items:center}
 .exw{margin:6px 0 0}.ex{display:inline-block;font-size:1.25em;font-weight:700;color:var(--amber);white-space:nowrap}
@@ -90,7 +90,7 @@ const app=document.getElementById('app');
 const fmtT=s=>{s=Math.max(0,Math.round(s));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
 const elapsed=()=>S.started?(Date.now()-S.started)/1000:0;
 let tick=null,taskStart=0,mode='ans',shown=0,resolved=false;
-function logo(){return `<span class="lockup"><svg width="28" height="28" viewBox="0 0 64 64" role="img" aria-label="25/25"><rect x="2" y="2" width="60" height="60" rx="19" fill="#1747c9"/><text x="32" y="27" text-anchor="middle" font-family="-apple-system,Inter,sans-serif" font-weight="800" font-size="18" fill="#f3ece2">25</text><rect x="15" y="32" width="34" height="3.4" rx="1.7" fill="#f2905e"/><text x="32" y="53" text-anchor="middle" font-family="-apple-system,Inter,sans-serif" font-weight="800" font-size="18" fill="#f3ece2">25</text></svg><span class="lw">lili<i>.</i>math</span></span>`}
+function logo(){return `<span class="lockup"><svg width="28" height="28" viewBox="0 0 64 64" role="img" aria-label="25/25"><rect x="2" y="2" width="60" height="60" rx="19" fill="#27439B"/><text x="32" y="27" text-anchor="middle" font-family="-apple-system,Inter,sans-serif" font-weight="800" font-size="18" fill="#F5E8DB">25</text><rect x="15" y="32" width="34" height="3.4" rx="1.7" fill="#CF8960"/><text x="32" y="53" text-anchor="middle" font-family="-apple-system,Inter,sans-serif" font-weight="800" font-size="18" fill="#F5E8DB">25</text></svg><span class="lw">lili<i>.</i>math</span></span>`}
 function parseNums(s){return String(s).replace(/[−–—]/g,'-').split(/;|\s+и\s+|\n/).map(x=>x.trim().replace(/\s+/g,'').replace(',','.')).filter(Boolean).map(x=>/^-?\d+(\.\d+)?$/.test(x)?+x:NaN)}
 function same(a,b){if(a.length!==b.length||a.some(isNaN))return false;const x=[...a].sort((p,q)=>p-q),y=[...b].sort((p,q)=>p-q);return x.every((v,i)=>Math.abs(v-y[i])<1e-6)}
 function topbar(){return `<div class="top"><div class="toprow">${logo()}<div class="sp"></div><span class="pill">решено <strong>${T.filter(t=>S.r[t.n]&&S.r[t.n].st==='ok').length}/${T.length}</strong></span><span class="pill"><strong id="tmr">${fmtT(elapsed())}</strong></span></div>
@@ -187,7 +187,7 @@ function finish(){
   app.innerHTML=topbar()+`<article class="card"><div class="rhead"><div class="kick">${esc(S.name)}, работа сдана</div><div class="big">${sc.pct}<span style="font-size:.4em">%</span></div>
   <div class="quiet">верно: ${sc.ok} из ${sc.n} · время ${fmtT(elapsed())}</div></div>
   <div class="cells">${T.map(x=>{const r=S.r[x.n]||{};return `<div class="cell ${r.st||''}">${x.lab}</div>`}).join('')}</div>
-  <div class="legend"><span><i style="background:var(--mint)"></i>верно</span><span><i style="background:var(--miss)"></i>не сошлось</span><span><i style="background:var(--amber)"></i>была идея</span><span><i style="background:#6f625a"></i>не знаю</span></div>
+  <div class="legend"><span><i style="background:var(--mint)"></i>верно</span><span><i style="background:var(--miss)"></i>не сошлось</span><span><i style="background:var(--amber)"></i>была идея</span><span><i style="background:#34444C"></i>не знаю</span></div>
   <div class="blocks">${blk(1)}${blk(2)}</div>
   <div class="weak"><div class="kick" style="margin:0">Что подтянуть</div>${weak.length?`<ul>${weak.map(x=>`<li><b>${x.lab}</b> · ${x.topic}</li>`).join('')}</ul>`:'<p>Всё решено. Подтягивать нечего.</p>'}</div>
   <div class="send"><p class="quiet">Результат отправлен Лилии.</p></div></article>`;

@@ -5,10 +5,10 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
 :root{
-  --bg:#14211e; --bg2:#1b2b28; --glass:rgba(243,236,226,.05); --glass2:rgba(243,236,226,.085);
-  --line:rgba(226,234,228,.13); --fg:#f3ece2; --muted:#a9b6ad; --faint:#6e7f77;
-  --cobalt:#4d7dff; --sky:#d6e2ee; --apricot:#f2905e; --lilac:#a9c1ff; --mint:#a9d18e; --amber:#f5dc6a; --miss:#ff8f73;
-  --grad:linear-gradient(115deg,#f5dc6a 0%,#f2905e 100%);
+  --bg:#243033; --bg2:#293538; --glass:rgba(245,232,219,.05); --glass2:rgba(245,232,219,.085);
+  --line:rgba(245,232,219,.13); --fg:#F5E8DB; --muted:#BDBFAA; --faint:#AFB3A8;
+  --cobalt:#4d7dff; --sky:#CCD0D5; --apricot:#CF8960; --lilac:#CCD0D5; --mint:#BDBFAA; --amber:#F0D56E; --miss:#CF8960;
+  --grad:linear-gradient(115deg,#F0D56E 0%,#CF8960 100%);
   --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Inter",system-ui,"Segoe UI",Roboto,sans-serif;
   --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,sans-serif;
   color-scheme:dark;
@@ -21,9 +21,9 @@ button{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--apricot);outline-offset:3px;border-radius:10px}
 .amb{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .amb i{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.26;animation:drift 26s ease-in-out infinite alternate}
-.amb i:nth-child(1){background:#1747c9;left:-20vmax;top:-25vmax}
-.amb i:nth-child(2){background:#5d7a4f;right:-25vmax;top:10vmax;opacity:.15;animation-duration:32s}
-.amb i:nth-child(3){background:#2c4f6b;left:10vmax;bottom:-35vmax;opacity:.15;animation-duration:38s}
+.amb i:nth-child(1){background:#27439B;left:-20vmax;top:-25vmax}
+.amb i:nth-child(2){background:#5C694F;right:-25vmax;top:10vmax;opacity:.15;animation-duration:32s}
+.amb i:nth-child(3){background:#34444C;left:10vmax;bottom:-35vmax;opacity:.15;animation-duration:38s}
 @keyframes drift{to{transform:translate(8vmax,6vmax) scale(1.12)}}
 .wrap{position:relative;z-index:1;max-width:920px;margin:0 auto;padding-inline:16px;padding-block:20px 90px}
 .top{position:sticky;top:0;z-index:20;margin:0 -16px 18px;padding:12px 16px 10px;background:linear-gradient(var(--bg) 70%,transparent);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
@@ -47,9 +47,9 @@ a.card .t{font-weight:700;font-size:15.5px;display:flex;align-items:center;gap:8
 a.card .d{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.45}
 a.card .tags{margin-top:9px;display:flex;gap:6px;flex-wrap:wrap}
 .tag{font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;background:rgba(77,125,255,.15);color:var(--lilac);border:1px solid rgba(77,125,255,.3)}
-.tag.o{background:rgba(242,144,94,.13);color:var(--apricot);border-color:rgba(242,144,94,.32)}
-.tag.g{background:rgba(169,209,142,.12);color:var(--mint);border-color:rgba(169,209,142,.3)}
-.tag.y{background:rgba(245,220,106,.1);color:var(--amber);border-color:rgba(245,220,106,.3)}
+.tag.o{background:rgba(207,137,96,.13);color:var(--apricot);border-color:rgba(207,137,96,.32)}
+.tag.g{background:rgba(189,191,170,.12);color:var(--mint);border-color:rgba(189,191,170,.3)}
+.tag.y{background:rgba(240,213,110,.1);color:var(--amber);border-color:rgba(240,213,110,.3)}
 .pet{position:absolute;right:-6px;bottom:-6px;width:64px;height:64px;object-fit:cover;border-radius:18px 0 18px 0;opacity:.9;border:1px solid var(--line)}
 .hero{display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 6px}
 .hero img{width:64px;height:64px;object-fit:cover;border-radius:18px;border:1px solid var(--line)}
