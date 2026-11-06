@@ -597,6 +597,7 @@ function adminRun_(b) {
       case 'ping': return {ok: true, hwEdit: true, workflow: 1, quiz: 1, boardLibrary: 1, plan: 1, lessonRoute: 1};
       case 'routeGet': return {ok: true, materials: routeMaterials_(b.id)};
       case 'routeSave': return routeSave_(b);
+      case 'routeEdits': { need(); return {ok: true, edits: routeEdits_()}; }
       case 'routeUpload': return routeUpload_(b);
       case 'calSet': { need(); return calSet_(ss, code, b); }
       case 'routeAssign': { const st = need(); return routeAssign_(ss, st, code, b); }
@@ -2212,14 +2213,29 @@ function routeMaterials_(id) {
   return raw ? JSON.parse(raw) : {theory: '', homework: ''};
 }
 function routeSave_(b) {
-  const links = {};
+  const id = routeId_(b.id), cur = routeMaterials_(id), links = {theory: cur.theory || '', homework: cur.homework || ''};
   for (const key of ['theory', 'homework']) {
+    if (b[key] === undefined) continue;
     const url = String(b[key] || '').trim();
     if (url && (url.length > 1500 || !/^https:\/\/[^\s<>"']+$/i.test(url))) return {error: 'bad_value'};
     links[key] = url;
   }
-  PropertiesService.getScriptProperties().setProperty('ROUTE_' + routeId_(b.id), JSON.stringify(links));
+  for (const key of ['title', 'school']) {
+    const v = b[key] === undefined ? cur[key] : String(b[key] || '').trim();
+    if (v === undefined) continue;
+    if (v.length > 200 || /^[=+@-]/.test(v)) return {error: 'bad_value'};
+    if (v) links[key] = v;
+  }
+  PropertiesService.getScriptProperties().setProperty('ROUTE_' + id, JSON.stringify(links));
   return {ok: true, materials: links};
+}
+function routeEdits_() {
+  const out = {}, all = PropertiesService.getScriptProperties().getProperties();
+  Object.keys(all).forEach(k => {
+    if (k.indexOf('ROUTE_') !== 0) return;
+    try { const o = JSON.parse(all[k]); if (o.title || o.school) out[k.slice(6)] = {title: o.title || '', school: o.school || ''}; } catch (e) {}
+  });
+  return out;
 }
 function routeUpload_(b) {
   const data = String(b.data || '');

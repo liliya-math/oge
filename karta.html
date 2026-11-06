@@ -149,8 +149,9 @@ async function selectLesson(id){
     if(!panel.isConnected||selectedLesson!==id||!pending.isConnected)return;
     pending.remove();
     panel.insertAdjacentHTML('beforeend',`<div class="lesson-form">
+      <label>Название квадратика <input type="text" data-edit="title" maxlength="200" value="${esc(lesson.title)}"></label><label>Школьные уроки (номера) <input type="text" data-edit="school" maxlength="200" value="${esc(lesson.school||'')}"></label>
       ${['theory','homework'].map((key,i)=>`<label>${i?'Домашняя работа':'Теория'} <input type="url" data-link="${key}" value="${esc(config.materials[key])}" placeholder="https://…"></label><label>Загрузить PDF до 8 МБ<input type="file" accept=".pdf,application/pdf" data-pdf="${key}"></label>`).join('')}
-      <button type="button" data-save>Сохранить материалы занятия</button>
+      <button type="button" data-save>Сохранить квадратик</button>
       <label>Ученик<select data-student><option value="">Выбрать ученика</option>${roster.students.filter(s=>s.active!==false).map(s=>`<option value="${esc(s.code)}">${esc([s.name,s.fname].filter(Boolean).join(' '))}</option>`).join('')}</select></label>
       <button type="button" data-assign>Провели сегодня</button>
       <p class="lead" role="status"></p></div>`);
@@ -182,13 +183,15 @@ async function selectLesson(id){
       });
     });
     form.querySelector('[data-save]').onclick=()=>run(async()=>{
-      const result=await admin('routeSave',{id,...links()});
-      saved=JSON.stringify(result.materials);
-      return 'Материалы сохранены для следующих занятий.';
+      const ed=Object.fromEntries([...form.querySelectorAll('[data-edit]')].map(e=>[e.dataset.edit,e.value.trim()]));
+      if(!ed.title){return 'Название не может быть пустым.'}
+      const result=await admin('routeSave',{id,...links(),...ed});
+      saved=JSON.stringify(links());lesson.title=ed.title;lesson.school=ed.school;refreshTile(lesson);const h2=panel.querySelector('h2');if(h2)h2.textContent=lesson.title;
+      return 'Сохранено: название, номера уроков и материалы.';
     });
     form.querySelector('[data-assign]').onclick=()=>{
       if(!student.value){status.textContent='Сначала выбери ученика.';return}
-      if(saved!==JSON.stringify(links())){status.textContent='Сначала сохрани изменённые материалы.';return}
+      if(saved!==JSON.stringify(links())){status.textContent='Сначала сохрани изменения квадратика.';return}
       run(async()=>{
         const result=await admin('routeAssign',{id,t:student.value,title:lesson.title});
         if(myMode&&student.value===myMode.code){lesson.mark='✓ ';refreshTile(lesson);renderCal()}
@@ -311,8 +314,8 @@ function node(id){
 }
 function draw(){const id=getId();if(!id)home();else node(id)}
 function go(){
-  Promise.all([fetch('skills-by-grade.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}),fetch('catalog.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}),Promise.all(Object.keys(ROUTE_FILES).map(k=>fetch(ROUTE_FILES[k],{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}).catch(()=>null)))])
-  .then(([g,c,rs])=>{Object.keys(ROUTE_FILES).forEach((k,i)=>{if(rs[i]&&rs[i].lessons){rs[i].lessons.forEach(l=>{l.prog=k;l.col=PROGCOL[k]||'#f5dc6a'});ROUTES[k]=rs[i]}});N=g;BY=Object.fromEntries(g.map(x=>[x.id,x]));KIDS={};g.forEach(x=>{if(x.parent)(KIDS[x.parent]=KIDS[x.parent]||[]).push(x)});Object.values(KIDS).forEach(a=>a.sort((p,q)=>p.id.localeCompare(q.id,'en',{numeric:true})));MAT=c.items.filter(m=>m.file&&!/^(index|karta|kabinet|skill|STATE)/.test(m.file));draw()})
+  Promise.all([fetch('skills-by-grade.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}),fetch('catalog.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}),Promise.all(Object.keys(ROUTE_FILES).map(k=>fetch(ROUTE_FILES[k],{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}).catch(()=>null))),admin('routeEdits').then(j=>j&&j.edits||{},()=>({}))])
+  .then(([g,c,rs,ed])=>{Object.keys(ROUTE_FILES).forEach((k,i)=>{if(rs[i]&&rs[i].lessons){rs[i].lessons.forEach(l=>{const e=ed[l.id];if(e){if(e.title)l.title=e.title;if(e.school)l.school=e.school}l.prog=k;l.col=PROGCOL[k]||'#f5dc6a'});ROUTES[k]=rs[i]}});N=g;BY=Object.fromEntries(g.map(x=>[x.id,x]));KIDS={};g.forEach(x=>{if(x.parent)(KIDS[x.parent]=KIDS[x.parent]||[]).push(x)});Object.values(KIDS).forEach(a=>a.sort((p,q)=>p.id.localeCompare(q.id,'en',{numeric:true})));MAT=c.items.filter(m=>m.file&&!/^(index|karta|kabinet|skill|STATE)/.test(m.file));draw()})
   .catch(()=>fail('Не получилось открыть','Похоже, пропал интернет. Обнови страницу.'));
 }
 addEventListener('hashchange',()=>{if(N)draw()});
