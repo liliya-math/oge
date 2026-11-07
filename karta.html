@@ -198,11 +198,14 @@ async function selectLesson(id){
     if([...student.options].some(o=>o.value===selectedStudent))student.value=selectedStudent;
     student.onchange=()=>{selectedStudent=student.value;try{sessionStorage.setItem('lili-route-student',selectedStudent)}catch(e){}if(!myMode||getId()!=='MY'){if(window.calUse)window.calUse(selectedStudent)}};
     const qBox=form.querySelector('[data-quizzes]');
-    const renderQz=()=>{const free=works.filter(w=>!qz.includes(w.id));
-      qBox.innerHTML='<b>Тесты (из раздела «Тесты»)</b>'+qz.map(q=>{const w=works.find(x=>x.id===q);return `<div class="skrow"><b>${esc(w?w.title:q)}</b> ${w?esc(w.section||''):'(тест не найден)'} <span data-qz-del="${esc(q)}">✕</span></div>`}).join('')
-       +(free.length?`<select data-qz-add><option value="">Добавить тест…</option>${free.map(w=>`<option value="${esc(w.id)}">${esc(w.title)}${w.section?' · '+esc(w.section):''}</option>`).join('')}</select>`:'<p class="lead">Других тестов нет.</p>');
+    const grp=[['hw','Домашние задания',w=>w.kind!=='self'&&w.kind!=='exam'],['self','Самостоятельные и контрольные',w=>w.kind==='self'||w.kind==='exam']];
+    const kindTag=w=>({self:'самостоятельная',exam:'контрольная',hw:'ДЗ'}[w.kind]||'без типа');
+    const renderQz=()=>{
+      qBox.innerHTML=grp.map(([g,name,test])=>{const mine=qz.filter(q=>{const w=works.find(x=>x.id===q);return w?test(w):g==='hw'}),free=works.filter(w=>test(w)&&!qz.includes(w.id));
+        return `<div class="qz-group" data-g="${g}"><b>${name}</b>`+(mine.length?mine.map(q=>{const w=works.find(x=>x.id===q);return `<div class="skrow"><b>${esc(w?w.title:q)}</b> ${w?esc(kindTag(w)+(w.section?' · '+w.section:'')):'(работа не найдена)'} <span data-qz-del="${esc(q)}">✕</span></div>`}).join(''):'<p class="lead">Пока ничего не добавлено.</p>')
+        +(free.length?`<select data-qz-add="${g}"><option value="">Добавить…</option>${free.map(w=>`<option value="${esc(w.id)}">${esc(w.title)}${w.section?' · '+esc(w.section):''}</option>`).join('')}</select>`:'<p class="lead">Других работ этого вида нет.</p>')+'</div>'}).join('');
       qBox.querySelectorAll('[data-qz-del]').forEach(x=>x.onclick=()=>{qz=qz.filter(z=>z!==x.dataset.qzDel);renderQz()});
-      const sel=qBox.querySelector('[data-qz-add]');if(sel)sel.onchange=()=>{if(sel.value){qz.push(sel.value);renderQz()}}};
+      qBox.querySelectorAll('[data-qz-add]').forEach(sel=>sel.onchange=()=>{if(sel.value&&qz.length<10){qz.push(sel.value);renderQz()}})};
     renderQz();
     const links=()=>({...Object.fromEntries([...form.querySelectorAll('[data-link]')].map(e=>[e.dataset.link,e.value.trim()])),quizzes:[...qz]});
     let saved=JSON.stringify(links());
