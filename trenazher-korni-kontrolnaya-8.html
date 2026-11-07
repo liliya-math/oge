@@ -24,7 +24,13 @@
 @media(max-width:650px){.page-heading{gap:12px}.mascot-hero{flex-basis:88px;width:88px;margin-left:0;align-self:center}.mascot-hero img{width:88px;height:88px;border-radius:19px}.mascot-hero figcaption{font-size:8px;margin-top:7px}.page-heading h1{font-size:clamp(25px,7vw,34px)}.page-heading p{max-width:245px}}
 body{background-image:linear-gradient(#c9ab8207 1px,transparent 1px),linear-gradient(90deg,#c9ab8207 1px,transparent 1px);background-size:24px 24px}.factor-list{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 14px}.factor{border:1px solid #c9ab82;border-radius:7px;padding:4px 9px}.factor.common{background:#2b3d2b;color:#ffffff}.div-label{font-size:12px;font-weight:600}.nod-inputs{display:flex;gap:14px;flex-wrap:wrap}.nod-inputs label{font-size:12px}.nod-inputs input{display:block;width:110px;margin-top:6px;padding:9px;border:1px solid #c9ab82;border-radius:9px;background:#16231a;color:var(--text)}</style>
 <style>
-math { font-size: 1em; }
+.formula { display: inline-block; white-space: nowrap; }
+.radical { display: inline-block; position: relative; padding-left: .74em; }
+.radical-mark { position: absolute; left: 0; top: 0; width: .77em; height: 100%; overflow: visible; }
+.radicand { display: inline-block; padding: .16em .12em 0; border-top: .075em solid currentColor; line-height: 1.15; }
+.math-fraction { display: inline-grid; grid-template-rows: auto auto; vertical-align: middle; text-align: center; line-height: 1.12; font-size: .92em; }
+.math-fraction > span { padding: .07em .18em; }
+.math-fraction > span:first-child { border-bottom: .075em solid currentColor; }
 .fraction-input { display: inline-grid; gap: .2em; width: min(8rem, 45vw); }
 .fraction-input input { width: 100%; min-width: 0; text-align: center; padding: .45em; }
 .fraction-input input:first-child { border-bottom: 2px solid currentColor; border-radius: 6px 6px 0 0; }
@@ -91,11 +97,9 @@ window.TrainerData={"id":"korni-kontrolnaya-8","version":1,"grade":"8 класс
     ['6/√3', '6', '√3'],
     ['√3/2', '√3', '2'],
   ];
-  const plainMath = value => '<mtext>' + esc(value) + '</mtext>';
   function mathParts(value, inFormula = false) {
     const token = /√|[−+-]?\d+(?:[.,]\d+)?\/[−+-]?\d+(?:[.,]\d+)?/uy;
     let output = '', start = 0;
-    const literal = value => value ? (inFormula ? plainMath(value) : esc(value)) : '';
     for (let i = 0; i < value.length;) {
       const fraction = fractions.find(([source]) => value.startsWith(source, i));
       token.lastIndex = i;
@@ -103,8 +107,8 @@ window.TrainerData={"id":"korni-kontrolnaya-8","version":1,"grade":"8 класс
       let node, end;
       if (fraction || match?.includes('/')) {
         const [source, numerator, denominator] = fraction || [match, ...match.split('/')];
-        node = '<mfrac><mrow>' + mathParts(numerator, true) +
-          '</mrow><mrow>' + mathParts(denominator, true) + '</mrow></mfrac>';
+        node = '<span class="math-fraction"><span>' + mathParts(numerator, true) +
+          '</span><span>' + mathParts(denominator, true) + '</span></span>';
         end = i + source.length;
       } else if (match === '√') {
         let inner = value.slice(i + 1).match(/^(?:\d+(?:[.,]\d+)?|[a-zA-Zа-яА-Я])/u)?.[0];
@@ -119,16 +123,18 @@ window.TrainerData={"id":"korni-kontrolnaya-8","version":1,"grade":"8 класс
           }
           if (!depth) inner = value.slice(i + 2, end - 1);
         }
-        if (inner) node = '<msqrt><mpadded height="+0.18em"><mrow>' + mathParts(inner, true) + '</mrow></mpadded></msqrt>';
+        if (inner) node = '<span class="radical"><svg class="radical-mark" aria-hidden="true" viewBox="0 0 12 20" preserveAspectRatio="none"><path d="M.5 11L3 10L6 19L11.5 .5H12" fill="none" stroke="currentColor" vector-effect="non-scaling-stroke"/></svg><span class="radicand">' +
+          mathParts(inner, true) + '</span></span>';
       }
       if (!node) {
         i++;
         continue;
       }
-      output += literal(value.slice(start, i)) + (inFormula ? node : '<math>' + node + '</math>');
+      output += esc(value.slice(start, i)) + (inFormula ? node :
+        '<span class="formula" role="math" aria-label="' + esc(value.slice(i, end).replace(/√/g, 'корень из ').replace(/\//g, ' делить на ')) + '">' + node + '</span>');
       start = i = end;
     }
-    return output + literal(value.slice(start));
+    return output + esc(value.slice(start));
   }
   const formatMath = value => mathParts(String(value));
   function labMarkup(html) {
