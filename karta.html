@@ -263,7 +263,7 @@ function calSet(id,d){
 function matBadge(l){const h=l.has||{};const a=[];if(h.t)a.push('Теория');if(h.h)a.push('ДЗ');if(h.q)a.push('Тесты'+(h.q>1?' '+h.q:''));return a.length?'<span class="mbadges">'+a.map(x=>'<span>'+x+'</span>').join('')+'</span>':''}
 function calBadge(l){if(!l.cal)return '';const d=new Date(l.cal+'T00:00:00');return '<span class="cbadge">в календаре · '+WD[d.getDay()]+' '+esc(shortD(l.cal))+'</span>'}
 const NUMRE=/^\s*(§\s*\d+(?:\.\d+)*|\d+(?:\.\d+)+)\.?\s+(.*)$/;
-function tileLabel(x){if(x.tag)return esc(x.tag);if(x.school)return 'Школьные № '+esc(x.school);const m=NUMRE.exec(x.title||'');if(m)return esc(/^§/.test(m[1])?m[1].replace(/\s+/g,' '):'п. '+m[1]);return 'Дополнительно'}
+function tileLabel(x){if(x.tag)return esc(x.tag);if(x.school)return 'Школьные № '+esc(x.school);const o=/^OGE-(\d+)-(\d+)$/.exec(x.id||'');if(o&&o[1]!=='90'){const n=+o[1],k=(route&&route.lessons||[]).filter(y=>String(y.id).indexOf('OGE-'+o[1]+'-')===0).length;return 'Задание '+n+(k>1?'.'+(+o[2]):'')}const m=NUMRE.exec(x.title||'');if(m)return esc(/^§/.test(m[1])?m[1].replace(/\s+/g,' '):'п. '+m[1]);return 'Дополнительно'}
 function tileTitle(x){if(x.tag||x.school)return x.title;const m=NUMRE.exec(x.title||'');return m?m[2]:x.title}
 function refreshTile(l){const b=app.querySelector('[data-lesson="'+l.id+'"]');if(b){b.classList.toggle('done',/^✓/.test(l.mark||''));b.classList.toggle('next',/^→/.test(l.mark||''))}if(b)b.innerHTML='<small>'+tileLabel(l)+'</small><br>'+(l.mark||'')+esc(tileTitle(l))+matBadge(l)+calBadge(l)+(editMode?'<span class="tdel" data-del="'+l.id+'" title="Удалить квадратик">✕</span>':'');const x=b&&b.querySelector('[data-del]');if(x)x.onclick=e=>{e.stopPropagation();delLesson(l.id)}}
 function renderCal(){
