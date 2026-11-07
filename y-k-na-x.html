@@ -11,11 +11,11 @@ tailwind.config = {
   theme: {
     extend: {
       colors: {
-        slate: {100:'#EEE0C8',200:'#EEE0C8',300:'#9BB08A',400:'#9BB08A',500:'#9BB08A',600:'#2b3d2b',700:'#2b3d2b',800:'#16231a',900:'#16231A',950:'#16231a'},
+        slate: {100:'#EEE0C8',200:'#EEE0C8',300:'#C9AB82',400:'#C9AB82',500:'#C9AB82',600:'#2b3d2b',700:'#2b3d2b',800:'#16231a',900:'#16231A',950:'#16231a'},
         cyan: {300:'#c9ab82',400:'#DD7A3A',500:'#2F5BB5',600:'#2F5BB5',900:'#DD7A3A',950:'#DD7A3A'},
         amber: {300:'#E2B04A',400:'#E2B04A',500:'#e2b04a',950:'#E2B04A'},
-        emerald: {400:'#9BB08A',900:'#9BB08A',950:'#9BB08A'},
-        purple: {300:'#9BB08A',400:'#9BB08A',500:'#9BB08A',900:'#9BB08A',950:'#9BB08A'}
+        emerald: {400:'#C9AB82',900:'#C9AB82',950:'#C9AB82'},
+        purple: {300:'#C9AB82',400:'#C9AB82',500:'#C9AB82',900:'#C9AB82',950:'#C9AB82'}
       }
     }
   }
@@ -243,8 +243,8 @@ h2{font-weight:700}
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    x: { type: 'linear', position: 'center', min: -10, max: 10, grid: { color: 'rgba(238,224,200,0.07)' }, ticks: { color: '#9BB08A' } },
-                    y: { type: 'linear', position: 'center', min: -10, max: 10, grid: { color: 'rgba(238,224,200,0.07)' }, ticks: { color: '#9BB08A' } }
+                    x: { type: 'linear', position: 'center', min: -10, max: 10, grid: { color: 'rgba(238,224,200,0.07)' }, ticks: { color: '#C9AB82' } },
+                    y: { type: 'linear', position: 'center', min: -10, max: 10, grid: { color: 'rgba(238,224,200,0.07)' }, ticks: { color: '#C9AB82' } }
                 },
                 plugins: { legend: { display: false } }
             }
@@ -285,15 +285,15 @@ h2{font-weight:700}
                 datasets: [
                     { label: 'График функции', data: [], borderColor: '#E2B04A', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
                     { label: 'Выколотая точка', data: [], backgroundColor: '#DD7A3A', borderColor: '#ffffff', pointRadius: 6, pointStyle: 'circle' },
-                    { label: 'Параметрическая прямая', data: [], borderColor: '#9BB08A', showLine: true, pointRadius: 0, borderWidth: 2, borderDash: [5, 5] }
+                    { label: 'Параметрическая прямая', data: [], borderColor: '#C9AB82', showLine: true, pointRadius: 0, borderWidth: 2, borderDash: [5, 5] }
                 ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    x: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(238,224,200,0.07)' }, ticks: { color: '#9BB08A' } },
-                    y: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(238,224,200,0.07)' }, ticks: { color: '#9BB08A' } }
+                    x: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(238,224,200,0.07)' }, ticks: { color: '#C9AB82' } },
+                    y: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(238,224,200,0.07)' }, ticks: { color: '#C9AB82' } }
                 },
                 plugins: { legend: { display: false } }
             }
@@ -408,15 +408,15 @@ h2{font-weight:700}
             data: {
                 datasets: [
                     { label: 'Широкая: y = a/x', data: [], borderColor: '#DD7A3A', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
-                    { label: 'Прижатая: y = 1/(ax)', data: [], borderColor: '#9BB08A', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 }
+                    { label: 'Прижатая: y = 1/(ax)', data: [], borderColor: '#C9AB82', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 }
                 ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    x: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(238,224,200,0.07)' }, ticks: { color: '#9BB08A' } },
-                    y: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(238,224,200,0.07)' }, ticks: { color: '#9BB08A' } }
+                    x: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(238,224,200,0.07)' }, ticks: { color: '#C9AB82' } },
+                    y: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(238,224,200,0.07)' }, ticks: { color: '#C9AB82' } }
                 },
                 plugins: { legend: { display: false } }
             }
@@ -447,7 +447,7 @@ h2{font-weight:700}
             data: {
                 datasets: [
                     { label: 'Гипербола', data: [], borderColor: '#DD7A3A', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
-                    { label: 'Второй график', data: [], borderColor: '#9BB08A', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
+                    { label: 'Второй график', data: [], borderColor: '#C9AB82', showLine: true, tension: 0.1, pointRadius: 0, borderWidth: 3 },
                     { label: 'Точки пересечения', data: [], backgroundColor: '#E2B04A', borderColor: '#ffffff', pointRadius: 6, pointStyle: 'circle' }
                 ]
             },
@@ -455,8 +455,8 @@ h2{font-weight:700}
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    x: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(238,224,200,0.07)' }, ticks: { color: '#9BB08A' } },
-                    y: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(238,224,200,0.07)' }, ticks: { color: '#9BB08A' } }
+                    x: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(238,224,200,0.07)' }, ticks: { color: '#C9AB82' } },
+                    y: { type: 'linear', position: 'center', min: -6, max: 6, grid: { color: 'rgba(238,224,200,0.07)' }, ticks: { color: '#C9AB82' } }
                 },
                 plugins: { legend: { display: false } }
             }

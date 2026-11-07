@@ -1,5 +1,5 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#16231A"><title>Дроби</title><style>
-:root { --bg: #16231a; --glass: rgba(238,224,200,.05); --glass2: rgba(238,224,200,.085); --line: rgba(238,224,200,.14); --fg: #EEE0C8; --muted: #9BB08A; --faint: #9BB08A; --cobalt: #2F5BB5; --apricot: #DD7A3A; --mint: #9BB08A; --amber: #E2B04A; --miss: #DD7A3A; color-scheme: dark; }
+:root { --bg: #16231a; --glass: rgba(238,224,200,.05); --glass2: rgba(238,224,200,.085); --line: rgba(238,224,200,.14); --fg: #EEE0C8; --muted: #C9AB82; --faint: #C9AB82; --cobalt: #2F5BB5; --apricot: #DD7A3A; --mint: #C9AB82; --amber: #E2B04A; --miss: #DD7A3A; color-scheme: dark; }
 * { box-sizing: border-box; }
 html, body { background: var(--bg); color: var(--fg); margin: 0; }
 body { font: 19px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif; -webkit-font-smoothing: antialiased; min-height: 100vh; }
@@ -150,7 +150,7 @@ function area(q, s, p, r) {
   let out = '<svg class="bar" viewBox="0 0 ' + (W + 4) + ' ' + (H + 4) + '" width="' + (W + 4) + '" role="img">';
   for (let i = 0; i < q; i++) for (let j = 0; j < s; j++) {
     const c = i < p, rr = j < r;
-    const f = (c && rr) ? '#2b3d2b' : c ? '#DD7A3A' : rr ? '#9BB08A' : '#EEE0C8';
+    const f = (c && rr) ? '#2b3d2b' : c ? '#DD7A3A' : rr ? '#C9AB82' : '#EEE0C8';
     out += '<rect x="' + (2 + i * cw) + '" y="' + (2 + j * ch) + '" width="' + cw + '" height="' + ch + '" fill="' + f + '" stroke="#16231A" stroke-width="1.5"/>';
   }
   return out + '</svg>';

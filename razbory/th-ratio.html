@@ -1,5 +1,5 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Отношение и деление в данном отношении</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"><style>
-:root{color-scheme:dark;--bg:#16231a;--card:rgba(238,224,200,.06);--card2:rgba(238,224,200,.11);--line:rgba(238,224,200,.16);--fg:#EEE0C8;--muted:#9bb08a;--blue:#2F5BB5;--lblue:#B6CBE3;--apricot:#DD7A3A;--yellow:#E2B04A;--sage:#9BB08A;--bad:#dd7a3a;--font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Inter,"Segoe UI",Roboto,Arial,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+:root{color-scheme:dark;--bg:#16231a;--card:rgba(238,224,200,.06);--card2:rgba(238,224,200,.11);--line:rgba(238,224,200,.16);--fg:#EEE0C8;--muted:#c9ab82;--blue:#2F5BB5;--lblue:#B6CBE3;--apricot:#DD7A3A;--yellow:#E2B04A;--sage:#C9AB82;--bad:#dd7a3a;--font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Inter,"Segoe UI",Roboto,Arial,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--fg);font:400 17px/1.55 var(--font);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-top:0;padding-bottom:40px;overflow-x:hidden}
@@ -31,7 +31,7 @@ em{font-style:normal;color:var(--apricot);font-weight:600}
 .bl{color:var(--lblue);font-weight:700}
 .sg{color:var(--sage);font-weight:700}
 .eq{border:1.5px solid var(--apricot);border-radius:14px;padding:10px 14px;margin:10px 0;font-weight:600;font-size:19px;text-align:center;background:rgba(221,122,58,.08);overflow-x:auto}
-.ansbox{border:1.5px solid var(--sage);border-radius:14px;padding:12px 14px;margin:10px 0;background:rgba(155,176,138,.10)}
+.ansbox{border:1.5px solid var(--sage);border-radius:14px;padding:12px 14px;margin:10px 0;background:rgba(201,171,130,.10)}
 .ansbox .big{font:800 26px/1.2 var(--font);color:var(--sage);letter-spacing:-.01em}
 .say{border-left:3px solid var(--yellow);padding:2px 0 2px 12px;margin:10px 0;color:var(--fg)}
 pre.calc{font:500 17px/1.5 var(--mono);background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:10px 0;overflow-x:auto;white-space:pre;tab-size:4}
@@ -63,7 +63,7 @@ svg.fig{width:100%;height:auto;max-height:420px;display:block}
 .opt{font:600 16px var(--font);text-align:left;color:var(--fg);background:var(--card2);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer;min-height:44px}
 .opt:hover{border-color:var(--lblue)}
 .opt.bad{border-color:var(--bad);background:rgba(221,122,58,.12)}
-.opt.good{border-color:var(--sage);background:rgba(155,176,138,.16)}
+.opt.good{border-color:var(--sage);background:rgba(201,171,130,.16)}
 .row{display:flex;gap:8px;flex-wrap:wrap}
 .inp{font:600 18px var(--font);color:var(--fg);background:rgba(0,0,0,.3);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;min-width:0;flex:1 1 120px;min-height:44px}
 .inp:focus{outline:2px solid var(--lblue);outline-offset:1px}
@@ -109,7 +109,7 @@ details.dd table{width:100%}
 .dash{stroke-dasharray:6 5}
 .fa{fill:rgba(221,122,58,.30);stroke:none}
 .fb2{fill:rgba(182,203,227,.28);stroke:none}
-.fs{fill:rgba(155,176,138,.28);stroke:none}
+.fs{fill:rgba(201,171,130,.28);stroke:none}
 .fy{fill:rgba(226,176,74,.28);stroke:none}
 .fw{fill:rgba(238,224,200,.07);stroke:var(--fg);stroke-width:1.5}
 .pd{fill:var(--fg)} .pda{fill:var(--apricot)} .pdb{fill:var(--lblue)} .pds{fill:var(--sage)} .pdy{fill:var(--yellow)}

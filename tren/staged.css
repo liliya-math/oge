@@ -1,4 +1,4 @@
-:root { --bg: #16231a; --glass: rgba(238,224,200,.05); --glass2: rgba(238,224,200,.085); --line: rgba(238,224,200,.14); --fg: #EEE0C8; --muted: #9BB08A; --faint: #9BB08A; --cobalt: #2F5BB5; --apricot: #DD7A3A; --mint: #9BB08A; --amber: #E2B04A; --miss: #DD7A3A; color-scheme: dark; }
+:root { --bg: #16231a; --glass: rgba(238,224,200,.05); --glass2: rgba(238,224,200,.085); --line: rgba(238,224,200,.14); --fg: #EEE0C8; --muted: #C9AB82; --faint: #C9AB82; --cobalt: #2F5BB5; --apricot: #DD7A3A; --mint: #C9AB82; --amber: #E2B04A; --miss: #DD7A3A; color-scheme: dark; }
 * { box-sizing: border-box; }
 html, body { background: var(--bg); color: var(--fg); margin: 0; }
 body { font: 19px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif; -webkit-font-smoothing: antialiased; min-height: 100vh; }

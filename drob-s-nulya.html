@@ -6,8 +6,8 @@
 <style>
 :root{
   --bg:#16231a; --glass:rgba(238,224,200,.05); --glass2:rgba(238,224,200,.085);
-  --line:rgba(238,224,200,.13); --fg:#EEE0C8; --muted:#9BB08A; --faint:#9BB08A;
-  --cobalt:#2F5BB5; --apricot:#DD7A3A; --mint:#9BB08A; --amber:#E2B04A; --miss:#DD7A3A; --lilac:#B6CBE3;
+  --line:rgba(238,224,200,.13); --fg:#EEE0C8; --muted:#C9AB82; --faint:#C9AB82;
+  --cobalt:#2F5BB5; --apricot:#DD7A3A; --mint:#C9AB82; --amber:#E2B04A; --miss:#DD7A3A; --lilac:#B6CBE3;
   --grad:linear-gradient(115deg,#E2B04A 0%,#DD7A3A 100%);
   --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Inter",system-ui,sans-serif;
   --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,sans-serif;
@@ -83,7 +83,7 @@ p.txt b{color:var(--fg)}
 .opts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));width:100%;margin-top:6px}
 .opt{border:1px solid var(--line);background:rgba(0,0,0,.22);border-radius:18px;padding:10px;display:grid;justify-items:center;gap:4px;font-size:16px;font-weight:600;transition:border-color .2s,background .2s;min-height:64px}
 .opt:hover{border-color:rgba(201,171,130,.4)}
-.opt.ok{border-color:var(--mint);background:rgba(155,176,138,.12)}
+.opt.ok{border-color:var(--mint);background:rgba(201,171,130,.12)}
 .opt.bad{border-color:var(--miss);background:rgba(221,122,58,.1)}
 .opt.dis{pointer-events:none}
 .opt .word{font-size:16px}
@@ -91,7 +91,7 @@ p.txt b{color:var(--fg)}
 
 .fb{border-radius:18px;padding:14px 16px;display:flex;gap:12px;align-items:center;margin-top:14px;animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
 @keyframes pop{from{opacity:.001;transform:scale(.92)}}
-.fb.ok{background:rgba(155,176,138,.1);border:1px solid rgba(155,176,138,.35)}
+.fb.ok{background:rgba(201,171,130,.1);border:1px solid rgba(201,171,130,.35)}
 .fb.bad{background:rgba(221,122,58,.08);border:1px solid rgba(221,122,58,.3)}
 .fb .ic{width:38px;height:38px;flex:none;border-radius:50%;display:grid;place-items:center}
 .fb.ok .ic{background:var(--mint);color:#16231A}
@@ -115,7 +115,7 @@ p.txt b{color:var(--fg)}
 .lessons{display:grid;gap:12px;margin-top:16px}
 .lcard{display:flex;gap:14px;align-items:center;border:1px solid var(--line);border-radius:20px;background:var(--glass);padding:16px 18px;text-align:left;width:100%}
 .lcard .ln{width:44px;height:44px;flex:none;border-radius:14px;background:var(--glass2);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:19px}
-.lcard.done .ln{background:rgba(155,176,138,.15);border-color:rgba(155,176,138,.4);color:var(--mint)}
+.lcard.done .ln{background:rgba(201,171,130,.15);border-color:rgba(201,171,130,.4);color:var(--mint)}
 .lcard .lt b{display:block;font-size:16.5px}
 .lcard .lt span{font-size:13.5px;color:var(--muted)}
 .lcard .go{margin-left:auto;font-size:13px;color:var(--faint)}
@@ -168,7 +168,7 @@ const sfx={tap:()=>tone(880,0,.06,"sine",.03),soft:()=>{tone(440,0,.25,"sine",.0
 
 /* particles */
 const cv=$("#fx"),cx=cv.getContext("2d");let P=[],raf=0;
-const COLS=['#EEE0C8','#2F5BB5','#DD7A3A','#E2B04A','#9BB08A','#B6CBE3'];
+const COLS=['#EEE0C8','#2F5BB5','#DD7A3A','#E2B04A','#C9AB82','#B6CBE3'];
 function fit(){const d=devicePixelRatio||1;cv.width=innerWidth*d;cv.height=innerHeight*d;cx.setTransform(d,0,0,d,0,0)}
 addEventListener("resize",fit);fit();
 function burst(x,y,n=70,power=7){for(let i=0;i<n;i++){const a=Math.PI*2*i/n+Math.random()*.4,s=power*(.4+Math.random()*.7);P.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-2,g:.2,life:1,dec:.012+Math.random()*.012,c:COLS[i%COLS.length],sz:2+Math.random()*4,rot:Math.random()*6,vr:(Math.random()-.5)*.3,sh:Math.random()<.5?"rect":"dot"})}if(!raf)loop()}

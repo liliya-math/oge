@@ -6,8 +6,8 @@
 <style>
 :root{
   --bg:#16231a; --bg2:#16231a; --glass:rgba(238,224,200,.05); --glass2:rgba(238,224,200,.085);
-  --line:rgba(238,224,200,.13); --fg:#EEE0C8; --muted:#9BB08A; --faint:#9BB08A;
-  --cobalt:#2f5bb5; --sky:#B6CBE3; --apricot:#DD7A3A; --lilac:#B6CBE3; --mint:#9BB08A; --amber:#E2B04A; --miss:#DD7A3A;
+  --line:rgba(238,224,200,.13); --fg:#EEE0C8; --muted:#C9AB82; --faint:#C9AB82;
+  --cobalt:#2f5bb5; --sky:#B6CBE3; --apricot:#DD7A3A; --lilac:#B6CBE3; --mint:#C9AB82; --amber:#E2B04A; --miss:#DD7A3A;
   --grad:linear-gradient(115deg,#E2B04A 0%,#DD7A3A 100%);
   --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Inter",system-ui,"Segoe UI",Roboto,sans-serif;
   --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,sans-serif;
@@ -52,7 +52,7 @@ h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;back
 .card h3{margin:0 0 4px;font-size:17px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .tag{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:rgba(47,91,181,.15);color:var(--lilac);border:1px solid rgba(47,91,181,.3)}
 .tag.o{background:rgba(221,122,58,.13);color:var(--apricot);border-color:rgba(221,122,58,.32)}
-.tag.g{background:rgba(155,176,138,.12);color:var(--mint);border-color:rgba(155,176,138,.3)}
+.tag.g{background:rgba(201,171,130,.12);color:var(--mint);border-color:rgba(201,171,130,.3)}
 .card .lead{color:var(--muted);font-size:14px;margin:2px 0 10px}
 
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -120,14 +120,14 @@ a{color:var(--lilac)}
 <p class=lead>Иерархия: квадрат — это и прямоугольник, и ромб; ромб и прямоугольник — параллелограммы.</p>
 <div class=fig>
 <svg width="560" height="150" viewBox="0 0 560 150" fill="none">
-  <rect x="20" y="30" width="110" height="80" rx="4" stroke="#9BB08A" stroke-width="2"/>
-  <text x="75" y="128" fill="#9BB08A" font-size="12" text-anchor="middle" font-family="Inter">прямоугольник</text>
+  <rect x="20" y="30" width="110" height="80" rx="4" stroke="#C9AB82" stroke-width="2"/>
+  <text x="75" y="128" fill="#C9AB82" font-size="12" text-anchor="middle" font-family="Inter">прямоугольник</text>
   <path d="M160 110 L220 30 L280 110 Z" stroke="#DD7A3A" stroke-width="2"/>
-  <text x="220" y="128" fill="#9BB08A" font-size="12" text-anchor="middle" font-family="Inter">треугольник</text>
+  <text x="220" y="128" fill="#C9AB82" font-size="12" text-anchor="middle" font-family="Inter">треугольник</text>
   <path d="M320 110 L350 30 L420 30 L390 110 Z" stroke="#E2B04A" stroke-width="2"/>
-  <text x="370" y="128" fill="#9BB08A" font-size="12" text-anchor="middle" font-family="Inter">параллелограмм</text>
-  <path d="M450 110 L470 40 L530 40 L510 110 Z" stroke="#9BB08A" stroke-width="2"/>
-  <text x="490" y="128" fill="#9BB08A" font-size="12" text-anchor="middle" font-family="Inter">трапеция</text>
+  <text x="370" y="128" fill="#C9AB82" font-size="12" text-anchor="middle" font-family="Inter">параллелограмм</text>
+  <path d="M450 110 L470 40 L530 40 L510 110 Z" stroke="#C9AB82" stroke-width="2"/>
+  <text x="490" y="128" fill="#C9AB82" font-size="12" text-anchor="middle" font-family="Inter">трапеция</text>
 </svg>
 </div>
 <table class=tb>
@@ -190,9 +190,9 @@ a{color:var(--lilac)}
 <div>
 <div class=fig><svg width="200" height="160" viewBox="0 0 200 160" fill="none">
 <path d="M35 130 L165 130 L165 35 Z" stroke="#E2B04A" stroke-width="2"/>
-<path d="M155 130 L155 120 L165 120" stroke="#9BB08A" stroke-width="1.5"/>
-<text x="95" y="148" fill="#9BB08A" font-size="13" font-family="Inter">a</text>
-<text x="178" y="88" fill="#9BB08A" font-size="13" font-family="Inter">b</text>
+<path d="M155 130 L155 120 L165 120" stroke="#C9AB82" stroke-width="1.5"/>
+<text x="95" y="148" fill="#C9AB82" font-size="13" font-family="Inter">a</text>
+<text x="178" y="88" fill="#C9AB82" font-size="13" font-family="Inter">b</text>
 <text x="88" y="80" fill="#DD7A3A" font-size="14" font-family="Inter">c</text>
 <path d="M60 130 A25 25 0 0 0 35 105" stroke="#2f5bb5" stroke-width="1.5"/>
 <text x="52" y="122" fill="#2f5bb5" font-size="13" font-family="Inter">α</text>
@@ -217,8 +217,8 @@ a{color:var(--lilac)}
 <div class=fig><svg width="300" height="140" viewBox="0 0 300 140" fill="none">
 <path d="M25 120 L95 25 L165 120 Z" stroke="#E2B04A" stroke-width="2"/>
 <path d="M185 120 L230 55 L275 120 Z" stroke="#DD7A3A" stroke-width="2"/>
-<text x="95" y="135" fill="#9BB08A" font-size="12" text-anchor="middle" font-family="Inter">k = 1</text>
-<text x="230" y="135" fill="#9BB08A" font-size="12" text-anchor="middle" font-family="Inter">k</text>
+<text x="95" y="135" fill="#C9AB82" font-size="12" text-anchor="middle" font-family="Inter">k = 1</text>
+<text x="230" y="135" fill="#C9AB82" font-size="12" text-anchor="middle" font-family="Inter">k</text>
 </svg></div>
 <div class=grid2>
 <div class=fbox><div class=ft>Масштаб</div><div class=fx>периметры ∶ k, площади ∶ <span class=hl>k²</span></div></div>
@@ -233,10 +233,10 @@ a{color:var(--lilac)}
 <div>
 <div class=fig><svg width="190" height="150" viewBox="0 0 190 150" fill="none">
 <path d="M25 125 L165 125 L165 30 Z" stroke="#E2B04A" stroke-width="2"/>
-<path d="M155 125 L155 115 L165 115" stroke="#9BB08A" stroke-width="1.5"/>
+<path d="M155 125 L155 115 L165 115" stroke="#C9AB82" stroke-width="1.5"/>
 <text x="88" y="72" fill="#DD7A3A" font-size="13" font-family="Inter">c (гипотенуза)</text>
-<text x="180" y="82" fill="#9BB08A" font-size="13" font-family="Inter">a — против α</text>
-<text x="85" y="143" fill="#9BB08A" font-size="13" font-family="Inter">b — прилегает к α</text>
+<text x="180" y="82" fill="#C9AB82" font-size="13" font-family="Inter">a — против α</text>
+<text x="85" y="143" fill="#C9AB82" font-size="13" font-family="Inter">b — прилегает к α</text>
 <path d="M50 125 A25 25 0 0 0 25 100" stroke="#2f5bb5" stroke-width="1.5"/>
 <text x="42" y="117" fill="#2f5bb5" font-size="13" font-family="Inter">α</text>
 </svg></div>
@@ -272,15 +272,15 @@ a{color:var(--lilac)}
 <div class=fbox>
 <div class=ft>Центральный и вписанный угол</div>
 <div class=fig><svg width="200" height="150" viewBox="0 0 200 150" fill="none">
-<circle cx="100" cy="80" r="55" stroke="#9BB08A" stroke-width="2"/>
+<circle cx="100" cy="80" r="55" stroke="#C9AB82" stroke-width="2"/>
 <circle cx="100" cy="80" r="3.5" fill="#E2B04A"/>
 <path d="M58 44 A55 55 0 0 1 152 48" stroke="#DD7A3A" stroke-width="3"/>
 <path d="M100 80 L62 40" stroke="#2f5bb5" stroke-width="2"/>
 <path d="M100 80 L150 45" stroke="#2f5bb5" stroke-width="2"/>
 <text x="112" y="50" fill="#2f5bb5" font-size="12" font-family="Inter">центр. = дуга</text>
-<path d="M62 40 L95 132" stroke="#9BB08A" stroke-width="2"/>
-<path d="M150 45 L95 132" stroke="#9BB08A" stroke-width="2"/>
-<text x="120" y="120" fill="#9BB08A" font-size="12" font-family="Inter">впис. = ½ дуги</text>
+<path d="M62 40 L95 132" stroke="#C9AB82" stroke-width="2"/>
+<path d="M150 45 L95 132" stroke="#C9AB82" stroke-width="2"/>
+<text x="120" y="120" fill="#C9AB82" font-size="12" font-family="Inter">впис. = ½ дуги</text>
 </svg></div>
 <ul class=facts>
 <li>Вписанные углы на одной дуге <b>равны</b></li>
@@ -330,12 +330,12 @@ a{color:var(--lilac)}
 <div class=fbox>
 <div class=ft>Диаграмма Эйлера</div>
 <div class=fig><svg width="190" height="140" viewBox="0 0 190 140" fill="none">
-<rect x="8" y="10" width="174" height="120" rx="12" stroke="#9BB08A" stroke-width="1.5" stroke-dasharray="4 4"/>
+<rect x="8" y="10" width="174" height="120" rx="12" stroke="#C9AB82" stroke-width="1.5" stroke-dasharray="4 4"/>
 <circle cx="75" cy="70" r="45" stroke="#E2B04A" stroke-width="2"/>
 <circle cx="120" cy="70" r="45" stroke="#DD7A3A" stroke-width="2"/>
 <text x="52" y="30" fill="#E2B04A" font-size="13" font-family="Inter">A</text>
 <text x="143" y="30" fill="#DD7A3A" font-size="13" font-family="Inter">B</text>
-<text x="97" y="75" fill="#9BB08A" font-size="11" text-anchor="middle" font-family="Inter">∩</text>
+<text x="97" y="75" fill="#C9AB82" font-size="11" text-anchor="middle" font-family="Inter">∩</text>
 </svg></div>
 <div class=cap>Объединение — обе области, пересечение — линза</div>
 </div>
@@ -359,9 +359,9 @@ a{color:var(--lilac)}
 <div class=fig><svg width="220" height="130" viewBox="0 0 220 130" fill="none">
 <circle cx="18" cy="65" r="5" fill="#E2B04A"/>
 <circle cx="105" cy="25" r="5" fill="#2f5bb5"/><circle cx="105" cy="105" r="5" fill="#2f5bb5"/>
-<circle cx="195" cy="10" r="4" fill="#9BB08A"/><circle cx="195" cy="40" r="4" fill="#9BB08A"/>
-<circle cx="195" cy="90" r="4" fill="#9BB08A"/><circle cx="195" cy="120" r="4" fill="#9BB08A"/>
-<path d="M23 62 L100 27 M23 68 L100 103 M110 23 L190 12 M110 28 L190 37 M110 102 L190 92 M110 108 L190 117" stroke="#9BB08A" stroke-width="1.5"/>
+<circle cx="195" cy="10" r="4" fill="#C9AB82"/><circle cx="195" cy="40" r="4" fill="#C9AB82"/>
+<circle cx="195" cy="90" r="4" fill="#C9AB82"/><circle cx="195" cy="120" r="4" fill="#C9AB82"/>
+<path d="M23 62 L100 27 M23 68 L100 103 M110 23 L190 12 M110 28 L190 37 M110 102 L190 92 M110 108 L190 117" stroke="#C9AB82" stroke-width="1.5"/>
 </svg></div>
 <div style="font-size:13.5px">Вероятность пути — произведение ветвей; итог — <b>сумма</b> по нужным исходам.</div>
 </div>

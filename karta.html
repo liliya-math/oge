@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex">
 <title>Карта · lili.math</title>
 <style>
-:root{--bg:#16231a;--glass:rgba(238,224,200,.05);--line:rgba(238,224,200,.13);--fg:#EEE0C8;--muted:#9BB08A;--faint:#9BB08A;--apricot:#DD7A3A;--mint:#9BB08A;--amber:#E2B04A;--cobalt:#2F5BB5;
+:root{--bg:#16231a;--glass:rgba(238,224,200,.05);--line:rgba(238,224,200,.13);--fg:#EEE0C8;--muted:#C9AB82;--faint:#C9AB82;--apricot:#DD7A3A;--mint:#C9AB82;--amber:#E2B04A;--cobalt:#2F5BB5;
 --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,"Segoe UI",Roboto,Arial,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color-scheme:dark}
 *{box-sizing:border-box}html,body{background:var(--bg);color:var(--fg)}
 body{margin:0;font-family:var(--sans);font-size:16px;line-height:1.45;min-height:100vh;-webkit-font-smoothing:antialiased}
@@ -253,8 +253,8 @@ async function selectLesson(id){
   }catch(e){if(pending.isConnected)pending.textContent='Не получилось загрузить материалы и учеников. Нажми на квадратик ещё раз.'}
 }
 const INK={'#2B3D2B':'#EEE0C8','#2F5BB5':'#EEE0C8','#2F5BB5':'#EEE0C8','#2B3D2B':'#EEE0C8'};
-const PROGCOL={'5':'#E2B04A','6':'#DD7A3A','7A':'#2B3D2B','7G':'#9BB08A','8A':'#B6CBE3','8G':'#2F5BB5','9A':'#EEE0C8','9G':'#2F5BB5',OGE:'#2B3D2B'};
-const PCOL={'5':'#E2B04A','6':'#DD7A3A','7A':'#B6CBE3','7G':'#B6CBE3','8A':'#9BB08A','8G':'#2B3D2B','9A':'#2F5BB5','9G':'#DD7A3A',OGE:'#EEE0C8'};
+const PROGCOL={'5':'#E2B04A','6':'#DD7A3A','7A':'#2B3D2B','7G':'#C9AB82','8A':'#B6CBE3','8G':'#2F5BB5','9A':'#EEE0C8','9G':'#2F5BB5',OGE:'#2B3D2B'};
+const PCOL={'5':'#E2B04A','6':'#DD7A3A','7A':'#B6CBE3','7G':'#B6CBE3','8A':'#C9AB82','8G':'#2B3D2B','9A':'#2F5BB5','9G':'#DD7A3A',OGE:'#EEE0C8'};
 const WD=['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
 const isoD=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const shortD=iso=>iso.slice(8,10)+'.'+iso.slice(5,7);
