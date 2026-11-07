@@ -87,7 +87,7 @@
 </section>
 <section class="section cal" id="windows" hidden aria-labelledby="cal-title">
 <p class="eyebrow">Свободные окна</p>
-<div class="section-head"><h2 id="cal-title">Выберите время для знакомства</h2><p>Нажмите на время, откроется Telegram с готовым сообщением. Время показано по вашим часам.</p></div>
+<div class="section-head"><h2 id="cal-title">Выберите время для знакомства</h2><p>Нажмите на время, откроется Telegram с готовым сообщением. Время московское.</p></div>
 <div class="cal-days" id="cal-days"></div>
 <p class="cal-note" id="cal-note"></p>
 </section>
@@ -148,13 +148,13 @@ fig.querySelector('figcaption').textContent=q[1];
 (function(){const box=document.getElementById('windows');if(!box)return;
 fetch('https://script.google.com/macros/s/AKfycbwg68-wqapNubGW4BuTEB_ri38yu41uV8hoQPOhluE84y4ZSRfZ9-sFl--uwv7T7AA_xA/exec?schedule=public').then(r=>r.json()).then(d=>{
 const w=(d&&d.windows)||[];if(!w.length)return;
-const days=new Map(),key=t=>new Date(t).toLocaleDateString('ru-RU'),tf=new Intl.DateTimeFormat('ru-RU',{hour:'2-digit',minute:'2-digit'}),wd=new Intl.DateTimeFormat('ru-RU',{weekday:'short'}),df=new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'short'});
+const days=new Map(),key=t=>new Date(t).toLocaleDateString('ru-RU',{timeZone:'Europe/Moscow'}),tf=new Intl.DateTimeFormat('ru-RU',{timeZone:'Europe/Moscow',hour:'2-digit',minute:'2-digit'}),wd=new Intl.DateTimeFormat('ru-RU',{timeZone:'Europe/Moscow',weekday:'short'}),df=new Intl.DateTimeFormat('ru-RU',{timeZone:'Europe/Moscow',day:'numeric',month:'short'});
 w.forEach(t=>{const k=key(t);if(!days.has(k))days.set(k,[]);days.get(k).push(t)});
 const first=w[0],out=[];for(let i=0;i<14;i++){const t=first+i*86400000,k=key(t),list=days.get(k)||[];
-const slots=list.map(s=>{const label=wd.format(s)+', '+df.format(s)+' в '+tf.format(s);return '<a class="cal-slot" href="https://t.me/ohh_my_lily?text='+encodeURIComponent('Здравствуйте! Хочу записаться на знакомство: '+label+' (по моему времени).')+'">'+tf.format(s)+'</a>'}).join('');
+const slots=list.map(s=>{const label=wd.format(s)+', '+df.format(s)+' в '+tf.format(s);return '<a class="cal-slot" href="https://t.me/ohh_my_lily?text='+encodeURIComponent('Здравствуйте! Хочу записаться на знакомство: '+label+' (по московскому времени).')+'">'+tf.format(s)+'</a>'}).join('');
 out.push('<div class="cal-day'+(list.length?'':' off')+'"><b>'+wd.format(t)+'</b><span>'+df.format(t)+'</span>'+slots+'</div>')}
 document.getElementById('cal-days').innerHTML=out.join('');
-document.getElementById('cal-note').textContent='Часовой пояс: '+Intl.DateTimeFormat().resolvedOptions().timeZone+'. Не нашли удобное время - напишите, договоримся.';
+document.getElementById('cal-note').textContent='Время московское. Не нашли удобное время - напишите, договоримся.';
 box.hidden=false}).catch(()=>{})})();
 </script>
 </body>
