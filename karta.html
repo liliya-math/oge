@@ -58,8 +58,8 @@ h1{margin:4px 0 6px;font-size:clamp(24px,6vw,34px);line-height:1.15;letter-spaci
 .lesson-grid .cbadge{display:block;width:max-content;max-width:100%;margin-top:8px;padding:3px 9px;border-radius:999px;background:#16231A;color:#EEE0C8;font-size:12px;font-weight:600}
 .lesson-grid .tile small{font-weight:400;color:inherit;opacity:.75}
 .calwrap button[data-cw]{font:inherit;font-weight:600;color:#16231A;background:linear-gradient(115deg,#E2B04A,#DD7A3A);border:0;border-radius:10px;padding:7px 14px;cursor:pointer}
-.lesson-form{display:grid;gap:12px}.lesson-form label{display:grid;gap:5px}
-.lesson-form input,.lesson-form select,.lesson-form button{max-width:100%;font:inherit;color:var(--fg);background:#16231a;border:1px solid var(--line);border-radius:10px;padding:9px}
+.lesson-form{display:grid;gap:12px;min-width:0}.lesson-form label{display:grid;gap:5px;min-width:0}.mywrap>*{min-width:0}
+.lesson-form input,.lesson-form select,.lesson-form button{width:100%;min-width:0;box-sizing:border-box;text-overflow:ellipsis;font:inherit;color:var(--fg);background:#16231a;border:1px solid var(--line);border-radius:10px;padding:9px}
 .lesson-form button{cursor:pointer}.lesson-form button:disabled{opacity:.5;cursor:default}
 </style>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
