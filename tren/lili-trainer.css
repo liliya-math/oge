@@ -197,3 +197,19 @@ body .rad .ov { padding-top: .16em; }
 }
 .trainer-frac > span { padding: .07em .18em; }
 .trainer-frac > span:first-child { border-bottom: .075em solid currentColor; }
+
+body .route-progress { padding: 10px 16px; }
+body :is(.anchor-card small, .route-progress small) { color: var(--trainer-sand); }
+body .row.run .stt { color: var(--trainer-gold); }
+body .row.help .stt { color: var(--trainer-orange); }
+body :is(input:not([type]), input[type="text"], input[type="number"], input[type="search"], textarea, select) {
+  background-color: var(--trainer-bg);
+  color: var(--trainer-cream);
+  border-color: var(--trainer-border);
+}
+body :is(input, textarea)::placeholder { color: var(--trainer-sand); opacity: 1; }
+body :is(input.bad, [aria-invalid="true"]) { border-color: var(--trainer-orange); }
+body :is(input.ok, input.good) { border-color: var(--trainer-gold); }
+body a:not(:where(.brand, .btn, .secondary, .pill, .chip, .breadcrumb a)) {
+  color: var(--trainer-blue) !important;
+}
