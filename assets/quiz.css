@@ -12,3 +12,25 @@
 .zoom-box img{display:block;min-width:900px;width:900px;max-width:none;height:auto}
 @media(min-width:960px){.zoom-box img{width:100%;min-width:0}}
 .students{border:0;padding:0;margin:0 0 14px}.students legend{padding:0 0 6px}.students #student{display:grid;gap:6px}.pick{display:flex;align-items:center;gap:8px;min-height:36px}.pick input{width:20px;height:20px}
+
+/* оформление: палитра lili.math, контраст и иерархия */
+:root{--line:#EEE0C838;--gold:#E2B04A;--cream:#EEE0C8;--sand:#C9AB82}
+body{background:#16231A}
+header{border-bottom:1px solid #EEE0C826}header>a:not(.brand){color:var(--cream);text-decoration:none;border:1px solid #EEE0C838;border-radius:20px;padding:6px 14px;font-size:14px}header>a:not(.brand):hover{background:#EEE0C814}
+.brand img{display:block}
+.eyebrow{color:var(--gold)}
+h1{color:var(--cream)}.lead{color:var(--sand)}
+.panel{background:#2B3D2B66;border-color:#EEE0C826}
+.task{background:#16231A;border-color:#EEE0C826}
+.tag{color:var(--gold);border-color:#E2B04A66}
+.notice{border:1px solid #E2B04A66;border-left:4px solid var(--gold);background:#2B3D2B66}
+.secondary{color:var(--cream);border-color:#EEE0C84d;background:transparent}.secondary:hover:not(:disabled){background:#EEE0C814;border-color:#EEE0C899}
+button:not(.secondary):hover:not(:disabled){background:#3a6bd0}
+button.small{padding:9px 15px}
+input:not([type=radio]),textarea,select{border-color:#EEE0C84d;background:#16231A}
+input::placeholder,textarea::placeholder{color:#C9AB8299}
+.field>span,.editor label>span{color:var(--sand)}
+.task-num{color:var(--gold)}
+.hint{background:#2B3D2B;border-left:3px solid var(--gold)}
+.library-row{border-bottom-color:#EEE0C826}
+th{color:var(--sand)}th,td{border-bottom-color:#EEE0C826}
