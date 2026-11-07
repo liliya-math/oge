@@ -1449,6 +1449,7 @@ function materialsFolders(){const groups=new Map(),P=PROG();(D.hw||[]).filter(h=
 
 function contactLine(){return `<p class="contactline">Вопросы по заданиям: <a href="https://t.me/ohh_my_lily" target="_blank" rel="noopener">@ohh_my_lily</a> в Telegram.</p>`}
 function routeActive(){return D.lessonRoute===1&&(((D.routes||[]).length>0)||clsOf()===8)}
+function bindLabel(s,PG){const R=(s.routes||[]).map(k=>k==='OGE'?'ОГЭ':(ROUTE_PROGS.find(x=>x[0]===k)||[0,k])[1]);if(R.length)return R.join(' · ');return PG.oge?'ОГЭ':(s.cls||'')+' класс'}
 const ROUTE_PROGS=[['5','5 класс'],['6','6 класс'],['7A','7 алгебра'],['7G','7 геометрия'],['8A','8 алгебра'],['8G','8 геометрия'],['9A','9 алгебра'],['9G','9 геометрия'],['OGE','ОГЭ, часть 1']];
 function routeHistoryCard(){
  const history=D.routeHistory||[];
@@ -1612,7 +1613,7 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
  <div id="tfeed"></div>
  <h2 id="teacher-students">Ученики</h2>
  ${L.length?`<div class="stus">${[...act,...L.filter(s=>!s.active)].map(s=>{const PG=PROGS[s.prog]||PROGS.oge9;return `<a class="stu ${s.active?'':'off'}" href="#lilia-${esc(s.code)}">
-  <div class="stuh"><b>${esc(s.name)}${s.fname?' '+esc(s.fname):''}${s.nick?' <span class="sub">(«'+esc(s.nick)+'»)</span>':''}</b>${PG.oge?'':`<span class="kchip new">${esc(PG.name)}</span>`}${s.active?'':'<span class="kchip new">в архиве</span>'}</div>
+  <div class="stuh"><b>${esc(s.name)}${s.fname?' '+esc(s.fname):''}${s.nick?' <span class="sub">(«'+esc(s.nick)+'»)</span>':''}</b><span class="kchip new">${esc(bindLabel(s,PG))}</span>${s.active?'':'<span class="kchip new">в архиве</span>'}</div>
   <div class="stum"><span>${esc(PG.name)}</span><span>${esc(schedShort(s.days,s.time))}</span>
   <span class="${s.hwLeft?'soon':''}">${s.hwLeft?'домашка: '+s.hwLeft+' не сделано':'домашка закрыта'}</span>
   ${s.letters?`<span class="kchip shaky">анонимные письма: ${s.letters}</span>`:''}
