@@ -1,0 +1,199 @@
+/* Shared visual language for lili.math trainers. */
+:root {
+  --trainer-bg: #16231A;
+  --trainer-panel: #2B3D2B;
+  --trainer-cream: #EEE0C8;
+  --trainer-sand: #C9AB82;
+  --trainer-cobalt: #2F5BB5;
+  --trainer-orange: #DD7A3A;
+  --trainer-gold: #E2B04A;
+  --trainer-blue: #B6CBE3;
+  --trainer-moss: #5F7B3F;
+  --trainer-caramel: #9C6B40;
+  --trainer-border: #EEE0C826;
+  --trainer-card: #2B3D2B66;
+  --trainer-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, system-ui, sans-serif;
+  --bg: var(--trainer-bg);
+  --fg: var(--trainer-cream);
+  --text: var(--trainer-cream);
+  --cream: var(--trainer-cream);
+  --muted: var(--trainer-sand);
+  --faint: var(--trainer-sand);
+  --line: var(--trainer-border);
+  --mint: var(--trainer-gold);
+  --ok: var(--trainer-gold);
+  --bad: var(--trainer-orange);
+  --miss: var(--trainer-orange);
+  --sans: var(--trainer-font);
+  --display: var(--trainer-font);
+  color-scheme: dark;
+}
+html, body {
+  background: var(--trainer-bg) !important;
+  color: var(--trainer-cream);
+  font-family: var(--trainer-font) !important;
+}
+body *, body *::before, body *::after {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  font-style: normal !important;
+}
+h1, h2, h3, .page-heading h1 { font-family: var(--trainer-font); }
+h1, h2, .page-heading h1 { color: var(--trainer-cream); font-weight: 800; }
+:where(.sub, .lead, .caption, .muted, .small, figcaption) { color: var(--trainer-sand); }
+body :is(.eyebrow, .sidebar-title, .lesson-label, .task-kicker, .anchor-label, .visual-kicker, .sect) {
+  color: var(--trainer-gold);
+}
+body :is(.sidebar, .topbar) { background-image: none; }
+body .sidebar { background-color: var(--trainer-bg); }
+body .board text { font-family: var(--trainer-font); }
+body :is(.amb, .board) { background-image: none; }
+body :is(.mascot-hero, .mascot-hero img) { mask-image: none; }
+body svg.fig text {
+  paint-order: stroke;
+  stroke: var(--trainer-bg);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+body :is(.brand, .brand b, .trainer-wordmark) {
+  color: var(--trainer-cream);
+  font-family: var(--trainer-font);
+}
+.brand .brand-icon { display: none; }
+.trainer-wordmark { font-size: 1.2rem; font-weight: 800; letter-spacing: -.045em; margin: 0 0 1.2rem; }
+
+body :is(.card, .lesson-card, .support-card, .route-progress, .mode, dialog) {
+  --trainer-card-stripe: var(--trainer-cobalt);
+  color: var(--trainer-cream);
+  background: var(--trainer-card);
+  border: 1px solid var(--trainer-border);
+  border-top: 4px solid var(--trainer-card-stripe);
+  border-radius: 24px;
+}
+body :is(.card, .mode):nth-of-type(6n + 2), body .route-progress {
+  --trainer-card-stripe: var(--trainer-gold);
+}
+body :is(.card, .mode):nth-of-type(6n + 3), body .right-column .support-card:first-child {
+  --trainer-card-stripe: var(--trainer-orange);
+}
+body :is(.card, .mode):nth-of-type(6n + 4), body .right-column .support-card:nth-child(2) {
+  --trainer-card-stripe: var(--trainer-blue);
+}
+body :is(.card, .mode):nth-of-type(6n + 5) { --trainer-card-stripe: var(--trainer-moss); }
+body :is(.card, .mode):nth-of-type(6n + 6) { --trainer-card-stripe: var(--trainer-caramel); }
+body :is(.visual-panel, .solution, .why) {
+  background: var(--trainer-card);
+  border-color: var(--trainer-border);
+}
+body dialog { background: var(--trainer-bg); }
+body .mode:hover { border-top-color: var(--trainer-card-stripe); }
+
+body :is(button.primary, button.btn, a.btn, input[type="submit"]) {
+  color: var(--trainer-cream);
+  background: var(--trainer-cobalt);
+  border: 1.5px solid transparent;
+  border-radius: 18px;
+  filter: none;
+}
+body :is(.primary, .btn):is(.apr, .accent),
+body :is(.primary:not(.secondary), .btn:not(.sec, .ghost, .alt, .secondary)) +
+  :is(.primary:not(.secondary), .btn:not(.sec, .ghost, .alt, .secondary)) {
+  color: var(--trainer-bg);
+  background: var(--trainer-orange);
+}
+body :is(.primary, .btn):is(.gold, .yellow),
+body :is(.primary:not(.secondary), .btn:not(.sec, .ghost, .alt, .secondary)) +
+  :is(.primary:not(.secondary), .btn:not(.sec, .ghost, .alt, .secondary)) +
+  :is(.primary:not(.secondary), .btn:not(.sec, .ghost, .alt, .secondary)) {
+  color: var(--trainer-bg);
+  background: var(--trainer-gold);
+}
+body :is(button.secondary, a.secondary, button.ghost, .btn.sec, .btn.ghost, .btn.alt, .btn.secondary) {
+  color: var(--trainer-cream);
+  background: transparent;
+  border: 1.5px solid var(--trainer-cream);
+  border-radius: 18px;
+}
+body :is(.primary, .btn, .secondary):hover:not(:disabled) { filter: none; border-color: var(--trainer-cream); }
+body :is(button, a, input, summary, select):focus-visible {
+  outline: 2px solid var(--trainer-blue);
+  outline-offset: 3px;
+}
+body :is(.chip, .tag, .grade-tag, .pill, .visual-pill, .tile, .tabs button, .segmented button) {
+  color: var(--trainer-blue);
+  background: transparent;
+  border-color: var(--trainer-blue);
+}
+body :is(.chip, .tabs button, .segmented button):is(.on, .active, [aria-pressed="true"]) {
+  color: var(--trainer-gold);
+  background: transparent;
+  border-color: var(--trainer-gold);
+}
+body :is(.stage-link, .row, .choice, .opt) { color: var(--trainer-cream); }
+body :is(.stage-link.active, .row.run, .choice.selected, .opt.sel) {
+  border-color: var(--trainer-gold);
+}
+body :is(.stage-link.done, .row.ok, .row.passed, .row.pass) {
+  border-color: var(--trainer-moss);
+}
+body :is(.row.help, .choice.wrong, .opt.bad, input.bad, [aria-invalid="true"]) {
+  border-color: var(--trainer-orange);
+}
+body :is(.feedback.good, .fb.ok, .msg.good, .done:not(button, .stage-link), .ok:not(input, .row, .opt)) {
+  color: var(--trainer-gold);
+}
+body :is(.feedback.retry, .fb.bad, .msg.bad, .bad:not(input, .opt)) {
+  color: var(--trainer-orange);
+}
+body :is(.feedback.good, .fb.ok) {
+  border-color: var(--trainer-gold);
+  background: #E2B04A15;
+}
+body :is(.feedback.retry, .fb.bad) {
+  border-color: var(--trainer-orange);
+  background: #DD7A3A15;
+}
+body :is(.stage-link.done .stage-index, .row.ok .num) {
+  background: var(--trainer-moss);
+  color: var(--trainer-cream);
+}
+body :is(#progress-fill, .progress-fill, .progress-track > i) { background: var(--trainer-gold); }
+
+body :is(.qbig, .question, .expr, .fx, .cond, .stmt, .bar-equation) {
+  font-family: var(--trainer-font);
+  font-variant-numeric: tabular-nums;
+}
+body :is(.qbig, .expr, .fx, .bar-equation, .question:has(> .trainer-math, > .formula), .cond, .stmt):not(:has(svg:not(.trainer-root-mark, .radical-mark, .rs), canvas)) {
+  background: var(--trainer-cream);
+  color: var(--trainer-bg);
+  border: 1px solid transparent;
+  border-radius: 18px;
+  padding: .45em .65em;
+}
+body :is(.qbig, .expr, .fx, .bar-equation, .question:has(> .trainer-math), .question:has(> .formula), .cond, .stmt)
+  :is(.fr, .rad, .ov, .formula, .rs, .rs path, .rt, .ro, .q, .mid, .ex, .key, .trainer-math) {
+  color: inherit;
+}
+body :is(.qbig, .expr, .fx, .cond, .stmt) .rs path { stroke: currentColor; }
+body :is(.qbig, .expr, .fx, .cond, .stmt) .ov { border-top-color: currentColor; }
+body .rad .ov { padding-top: .16em; }
+.trainer-math, .trainer-root { display: inline-block; white-space: nowrap; }
+.trainer-root, .rt:has(> .trainer-root-mark) { position: relative; display: inline-block; padding-left: .74em; }
+.trainer-root-mark { position: absolute; left: 0; top: 0; width: .77em; height: 100%; overflow: visible; }
+.trainer-radicand, .rt:has(> .trainer-root-mark) > .ro {
+  display: inline-block;
+  padding: .16em .12em 0;
+  margin: 0;
+  border-top: .075em solid currentColor;
+  line-height: 1.15;
+}
+.trainer-frac {
+  display: inline-grid;
+  vertical-align: middle;
+  text-align: center;
+  font-size: .92em;
+  line-height: 1.12;
+}
+.trainer-frac > span { padding: .07em .18em; }
+.trainer-frac > span:first-child { border-bottom: .075em solid currentColor; }
