@@ -48,7 +48,7 @@
 </div>
 </section>
 <div class="strip"><div><b>5–9 классы</b>школьная программа и ОГЭ</div><div><b>Из любого города</b>онлайн, на общей доске</div></div>
-<figure class="site-quote"><span class="quote-mark" aria-hidden="true">“</span><div><blockquote>«В решении любой задачи есть <em>крупица открытия</em>».</blockquote><figcaption><a href="https://mathshistory.st-andrews.ac.uk/Extras/Polya_How_to_solve_it/" style="text-underline-offset:4px">Дьёрдь Пойа · «Как решать задачу»</a></figcaption></div></figure>
+<figure class="site-quote" id="site-quote"><span class="quote-mark" aria-hidden="true">“</span><div><blockquote>«В решении любой задачи есть <em>крупица открытия</em>».</blockquote><figcaption><a href="https://mathshistory.st-andrews.ac.uk/Extras/Polya_How_to_solve_it/" style="text-underline-offset:4px">Дьёрдь Пойа · «Как решать задачу»</a></figcaption></div></figure>
 <section class="section" id="directions">
 <p class="eyebrow">С чем можно прийти</p>
 <div class="section-head"><p>Можно забыть правило, запутаться в дробях или совсем не знать, с какой стороны подойти к задаче.</p></div>
@@ -97,6 +97,24 @@ const next=document.getElementById('next-step');
 next.addEventListener('click',()=>{current=(current+1)%steps.length;document.getElementById('step-text').textContent=steps[current][0];document.getElementById('example-result').textContent=steps[current][1];document.getElementById('step-counter').textContent=`Шаг ${current+1} из 4`;next.textContent=current===3?'Ещё раз ↺':'Дальше →';});
 const diagnostics={5:['diagnostika-1-4-klass.html','5 класс · диагностика основ','Программа 1–4 классов · около 45 минут'],6:['diagnostika-6-klass.html','6 класс · диагностика по математике','Математика · около 70 минут'],7:['diagnostika-7-klass.html','7 класс · диагностика по алгебре','Алгебра · около 70 минут'],8:['diagnostika-8-klass.html','8 класс · диагностика по алгебре','Алгебра · около 70 минут'],9:['probnik-oge-1.html','9 класс · пробник ОГЭ','Полный вариант · около 60 минут']};
 document.querySelectorAll('[data-grade]').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('[data-grade]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));const [url,title,note]=diagnostics[button.dataset.grade];document.getElementById('diagnostic-link').href=url;document.getElementById('diagnostic-title').textContent=title;document.getElementById('diagnostic-note').textContent=note;}));
+
+(function(){
+const Q=[
+['Числа не управляют миром, но показывают, как управляется мир.','И. Гёте'],
+['Геометрия наводит порядок в хаосе всего, что нас окружает.','Н. Винер'],
+['Математика полезна тем, что она трудна.','А. Д. Александров'],
+['Если вы хотите научиться плавать, то смело входите в воду, а если хотите научиться решать задачи, то решайте их!','Д. Пойа'],
+['В математике следует помнить не формулы, а процессы мышления.','В. П. Ермаков'],
+['Человек, не знакомый с азами науки чисел, не может преуспеть ни в одном деле.','Р. Бэкон']
+];
+const fig=document.getElementById('site-quote');if(!fig)return;
+const keep=fig.innerHTML;
+let i=Math.floor(Math.random()*(Q.length+1));
+if(i===Q.length)return;
+const q=Q[i];
+fig.querySelector('blockquote').textContent='«'+q[0]+'»';
+fig.querySelector('figcaption').textContent=q[1];
+})();
 </script>
 </body>
 </html>
