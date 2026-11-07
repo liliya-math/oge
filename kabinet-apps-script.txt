@@ -1,6 +1,7 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 7.16
- * (7.16: routeEdits отдаёт mats - у каких квадратиков есть теория, ДЗ, тесты (значки на карте).
+ * Кабинет ученика 25/25 · lili.math — версия 7.17
+ * (7.17: doGet ?schedule=public - свободные окна на 14 дней без имён, для календаря на главной.
+ * 7.16: routeEdits отдаёт mats - у каких квадратиков есть теория, ДЗ, тесты (значки на карте).
  * 7.16: из календаря можно убрать старые квадратики, которых уже нет в маршруте (сервер не проверяет формат id при удалении).
  * 7.15: убраны карта навыков, карта заданий ОГЭ с комментариями и вкладка «План»; остались квадратики: программы ученика и календарь занятий.
  *  Старые листы «Карта», «Комментарии», «Навыки», «Планы» скрипт больше не читает; данные в них не удаляются. После замены кода: «Новая версия».)
@@ -403,6 +404,11 @@ function setPassword() {
 function doGet(e) {
   const p = (e && e.parameter) || {};
   const code = String(p.t || '').trim();
+  if (p.schedule === 'public') {
+    const now = Date.now(), day = lrSamaraDay_(now), end = day + 14 * 86400000;
+    const busy = lrBusy_(SpreadsheetApp.getActive(), day - LR_BREAK_LOOKAROUND_MS, end + LR_BREAK_LOOKAROUND_MS, '', 0);
+    return json_({ok: true, windows: lrWindows_(lrAvailability_(), busy, now, end, 0)});
+  }
   if (p.schedule === 'capabilities') return json_({ok: true, lessonAvailability: 5});
   if (p.schedule === 'options') {
     const st = code && findStudentRow_(code);
