@@ -54,7 +54,7 @@ for(const [t,k] of [['дз','hw'],['сам','self'],['самостоятельн
 assert.throws(()=>Q.parse(kindText('кр')),/Неизвестный тип работы/);
 assert.throws(()=>Q.parse(kindText('дз').replace('fig-1.svg','http://x.ru/a.svg')),/рисунок/);
 assert.deepEqual(['hw','self','exam','free'].map(Q.tries),[2,1,1,Infinity]);
-{const n=Q.parse('Название: А\nРаздел: Б\nУзел: A05, G12\n\nЗадание: x\nУзел: 8G.1.4\nОтвет: 1');assert.deepEqual(n.nodes,['A05','G12']);assert.deepEqual(n.tasks[0].nodes,['8G.1.4']);assert.deepEqual(Q.parse(Q.stringify(n)).nodes,['A05','G12']);assert.throws(()=>Q.parse('Название: А\nРаздел: Б\n\nЗадание: x\nУзел: ZZ\nОтвет: 1'),/узел/);}
+{const n=Q.parse('Название: А\nРаздел: Б\nУзел: A05, G12\n\nЗадание: x\nУзел: 8G.1.4\nОтвет: 1');assert.equal(n.nodes,undefined);assert.equal(n.tasks[0].nodes,undefined);assert.equal(n.tasks.length,1);assert.ok(!/Узел/.test(Q.stringify(n)));}
 assert.throws(()=>Q.parse(kindText('дз').replace('fig-1.svg','../a.svg')),/рисунок/);
 assert.equal(Q.parse(kindText('дз').replace('fig-1.svg','fig-1.png')).tasks[0].figure,'fig-1.png');
 assert.throws(()=>Q.parse(kindText('дз').replace('fig-1.svg','fig-1.gif')),/рисунок/);
