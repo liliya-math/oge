@@ -1639,7 +1639,7 @@ function tFeed(L){const box=document.getElementById('tfeed');if(!box)return;cons
   rows.sort((x,y)=>FEED_ORD[x.h.status]-FEED_ORD[y.h.status]||String(x.s.name).localeCompare(String(y.s.name),'ru'));
   const fails=R.filter(r=>r.fail).length;
   const cnt=k=>rows.filter(r=>r.h.status===k).length;
-  const head=`<h2>Что сдали ученики</h2><p class="klead" style="margin:0 0 8px">${rows.length?`Ждут проверки: <b>${cnt('submitted')}</b> · нужна помощь: <b>${cnt('help')}</b> · на исправлении: <b>${cnt('revise')}</b> · решают сейчас: <b>${cnt('solving')}</b>`:'Новых сдач нет: всё проверено или ещё не начато.'}${fails?` · не удалось загрузить: ${fails}`:''}</p>`;
+  const head=`<p class="klead" style="margin:0 0 8px">${rows.length?`Ждут проверки: <b>${cnt('submitted')}</b> · нужна помощь: <b>${cnt('help')}</b> · на исправлении: <b>${cnt('revise')}</b> · решают сейчас: <b>${cnt('solving')}</b>`:'Новых сдач нет: всё проверено или ещё не начато.'}${fails?` · не удалось загрузить: ${fails}`:''}</p>`;
   results.innerHTML=(cached?'<p class="note">Последние загруженные данные. Нажми «Обновить сдачи», чтобы проверить изменения.</p>':'')+head+(rows.length?`<div class="stus">${rows.map(({s,h})=>{const st=h.status;const note=String(h.studentNote||'').split('\n').slice(0,2).join(' · ');
    return `<a class="stu" href="#lilia-${esc(s.code)}"><div class="stuh"><b>${esc(s.name)}${s.fname?' '+esc(s.fname):''}</b><span class="kchip ${st==='help'||st==='revise'?'new':st==='submitted'?'bbrd':'shaky'}">${esc(WF_LABEL[st])}</span></div>
    <div class="stum"><span>${esc(h.t)}</span>${note?`<span>${esc(note)}</span>`:''}</div></a>`}).join('')}</div>`:'');
