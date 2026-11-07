@@ -1,0 +1,21 @@
+/* общее оформление lili.math: палитра распределена по блокам; только цвета бренда */
+.amb i:nth-child(1){background:#2F5BB5;opacity:.18}
+.amb i:nth-child(2){background:#DD7A3A;opacity:.08}
+.amb i:nth-child(3){background:#E2B04A;opacity:.07}
+.top .brand{display:flex;align-items:center}.top .brand img{height:26px;width:auto;display:block}
+.pill{border-color:#EEE0C838;color:#EEE0C8}
+.pill:hover{border-color:#EEE0C888}
+.card{background:#2B3D2B55;border-color:#EEE0C826;border-top:4px solid #2F5BB5}
+.card:nth-of-type(6n+2){border-top-color:#E2B04A}
+.card:nth-of-type(6n+3){border-top-color:#DD7A3A}
+.card:nth-of-type(6n+4){border-top-color:#B6CBE3}
+.card:nth-of-type(6n+5){border-top-color:#5F7B3F}
+.card:nth-of-type(6n+6){border-top-color:#9C6B40}
+.tcard{background:#16231A99;border-color:#EEE0C826;border-left:3px solid #2F5BB5}
+.tgrid .tcard:nth-child(4n+2){border-left-color:#E2B04A}
+.tgrid .tcard:nth-child(4n+3){border-left-color:#DD7A3A}
+.tgrid .tcard:nth-child(4n+4){border-left-color:#B6CBE3}
+.td,.sub{color:#C9AB82}
+.zachet{border-color:#E2B04A88}
+.navchips a{border-color:#EEE0C838}
+.navchips a:nth-child(3n+1){border-color:#2F5BB5}.navchips a:nth-child(3n+2){border-color:#E2B04A}.navchips a:nth-child(3n+3){border-color:#DD7A3A}
