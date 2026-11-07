@@ -1,0 +1,8 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Скопировать код</title>
+<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#16231A;color:#EEE0C8;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;text-align:center;padding:24px}button{font:inherit;font-size:22px;font-weight:650;padding:22px 44px;border:0;border-radius:60px;background:#E2B04A;color:#16231A;cursor:pointer}p{color:#C9AB82;margin:22px 0 0}#s{margin-top:22px;font-size:18px;min-height:28px}</style></head>
+<body><div><button id="b" type="button">Скопировать код скрипта</button><div id="s"></div><p>Потом в Apps Script: выделить всё, вставить, сохранить, «Новая версия».</p></div>
+<script>
+const b=document.getElementById('b'),s=document.getElementById('s');
+b.onclick=async()=>{s.textContent='Копирую...';try{const t=await (await fetch('kabinet-apps-script.txt?'+Date.now())).text();await navigator.clipboard.writeText(t);s.textContent='Скопировано. Версия: '+(t.match(/версия ([\d.]+)/)||[])[1]}catch(e){s.textContent='Не получилось, напишите Claude'}};
+</script></body></html>
