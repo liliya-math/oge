@@ -180,13 +180,15 @@ async function selectLesson(id){
   panel.insertAdjacentHTML('beforeend','<p class="lead" role="status">Загружаю материалы и список учеников…</p>');
   const pending=panel.lastElementChild;
   try{
-    const [config, roster]=await Promise.all([admin('routeGet',{id}),admin('list')]);
+    const [config, roster, qlist]=await Promise.all([admin('routeGet',{id}),admin('list'),admin('quizList').catch(()=>({works:[]}))]);
+    const works=(qlist&&qlist.works)||[];let qz=[...(config.materials.quizzes||[])];
     if(!panel.isConnected||selectedLesson!==id||!pending.isConnected)return;
     pending.remove();
     panel.insertAdjacentHTML('beforeend',`<div class="lesson-form">
       <label>Название квадратика <input type="text" data-edit="title" maxlength="200" value="${esc(lesson.title)}"></label><label>Школьные уроки (номера) <input type="text" data-edit="school" maxlength="200" value="${esc(lesson.school||'')}"></label>
       <div data-skills></div>
       ${['theory','homework'].map((key,i)=>`<label>${i?'Домашняя работа':'Теория'} <input type="url" data-link="${key}" value="${esc(config.materials[key])}" placeholder="https://…"></label><label>Загрузить PDF до 8 МБ<input type="file" accept=".pdf,application/pdf" data-pdf="${key}"></label>`).join('')}
+      <div data-quizzes></div>
       <button type="button" data-save>Сохранить квадратик</button>
       <label>Ученик<select data-student><option value="">Выбрать ученика</option>${roster.students.filter(s=>s.active!==false).map(s=>`<option value="${esc(s.code)}">${esc([s.name,s.fname].filter(Boolean).join(' '))}</option>`).join('')}</select></label>
       <button type="button" data-assign>Провели сегодня</button>
@@ -203,7 +205,14 @@ async function selectLesson(id){
     const student=form.querySelector('[data-student]');
     if([...student.options].some(o=>o.value===selectedStudent))student.value=selectedStudent;
     student.onchange=()=>{selectedStudent=student.value;try{sessionStorage.setItem('lili-route-student',selectedStudent)}catch(e){}if(!myMode||getId()!=='MY'){if(window.calUse)window.calUse(selectedStudent)}};
-    const links=()=>Object.fromEntries([...form.querySelectorAll('[data-link]')].map(e=>[e.dataset.link,e.value.trim()]));
+    const qBox=form.querySelector('[data-quizzes]');
+    const renderQz=()=>{const free=works.filter(w=>!qz.includes(w.id));
+      qBox.innerHTML='<b>Тесты (из раздела «Тесты»)</b>'+qz.map(q=>{const w=works.find(x=>x.id===q);return `<div class="skrow"><b>${esc(w?w.title:q)}</b> ${w?esc(w.section||''):'(тест не найден)'} <span data-qz-del="${esc(q)}">✕</span></div>`}).join('')
+       +(free.length?`<select data-qz-add><option value="">Добавить тест…</option>${free.map(w=>`<option value="${esc(w.id)}">${esc(w.title)}${w.section?' · '+esc(w.section):''}</option>`).join('')}</select>`:'<p class="lead">Других тестов нет.</p>');
+      qBox.querySelectorAll('[data-qz-del]').forEach(x=>x.onclick=()=>{qz=qz.filter(z=>z!==x.dataset.qzDel);renderQz()});
+      const sel=qBox.querySelector('[data-qz-add]');if(sel)sel.onchange=()=>{if(sel.value){qz.push(sel.value);renderQz()}}};
+    renderQz();
+    const links=()=>({...Object.fromEntries([...form.querySelectorAll('[data-link]')].map(e=>[e.dataset.link,e.value.trim()])),quizzes:[...qz]});
     let saved=JSON.stringify(links());
     const run=async action=>{
       const controls=[...form.querySelectorAll('input,button,select')];
@@ -238,7 +247,7 @@ async function selectLesson(id){
       run(async()=>{
         const result=await admin('routeAssign',{id,t:student.value,title:lesson.title});
         if(myMode&&student.value===myMode.code){lesson.mark='✓ ';refreshTile(lesson);renderCal()}
-        return result.duplicate?'Сегодня это занятие уже отмечено.':result.theory||result.homework?'Занятие отмечено. Прикреплённые материалы появились в кабинете ученика.':'Занятие отмечено. К нему пока нет прикреплённых файлов.';
+        return result.duplicate?'Сегодня это занятие уже отмечено.':result.theory||result.homework||result.quizzes?'Занятие отмечено. Прикреплённые материалы появились в кабинете ученика.':'Занятие отмечено. К нему пока нет прикреплённых файлов.';
       });
     };
   }catch(e){if(pending.isConnected)pending.textContent='Не получилось загрузить материалы и учеников. Нажми на квадратик ещё раз.'}

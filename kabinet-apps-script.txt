@@ -2060,7 +2060,9 @@ function routeId_(id) {
 }
 function routeMaterials_(id) {
   const raw = PropertiesService.getScriptProperties().getProperty('ROUTE_' + routeId_(id));
-  return raw ? JSON.parse(raw) : {theory: '', homework: ''};
+  const m = raw ? JSON.parse(raw) : {theory: '', homework: ''};
+  m.quizzes = Array.isArray(m.quizzes) ? m.quizzes : [];
+  return m;
 }
 function routeSave_(b) {
   const id = routeId_(b.id), cur = routeMaterials_(id), links = {theory: cur.theory || '', homework: cur.homework || ''};
@@ -2076,6 +2078,11 @@ function routeSave_(b) {
     if (v.length > 200 || /^[=+@-]/.test(v)) return {error: 'bad_value'};
     if (v) links[key] = v;
   }
+  if (Array.isArray(b.quizzes)) {
+    const qs = b.quizzes.map(x => String(x).trim()).filter((x, i, a) => x && a.indexOf(x) === i);
+    if (qs.length > 10 || qs.some(x => x.length > 80 || !quizDefinition_(x, 0))) return {error: 'bad_value'};
+    links.quizzes = qs;
+  } else if (Array.isArray(cur.quizzes)) links.quizzes = cur.quizzes;
   if (Array.isArray(b.skills)) {
     const sk = b.skills.map(x => String(x).trim());
     if (sk.length > 60 || sk.some(x => !/^\d[AG]\.\d+(?:\.\d+){0,3}$/.test(x))) return {error: 'bad_value'};
@@ -2162,6 +2169,16 @@ function routeAssign_(ss, st, code, b) {
     const hw = sheet_(ss, 'Домашка');
     hw.appendRow([code, 'Домашняя работа: ' + entry[3], '', '', entry[5], 'Открыть домашнюю работу', false, '', '', '', '', '', '', '', '', '', key]);
   }
+  // Тесты из конструктора: каждый уходит ученику отдельной работой (последняя версия), один раз на занятие.
+  let quizzes = 0;
+  routeMaterials_(id).quizzes.forEach(qid => {
+    const qkey = key + '|q|' + qid;
+    if (findRow_('Домашка', v => String(v[0]).trim() === code && v[16] === qkey)) return;
+    const d = quizDefinition_(qid, 0);
+    if (!d) return;
+    const res = quizAssign_(code, {work: qid, version: d.version});
+    if (res && res.row) { sheet_(ss, 'Домашка').getRange(res.row, 17).setValue(qkey); quizzes++; }
+  });
   journal.getRange(row, 7).setValue(true);
-  return {ok: true, theory: !!entry[4], homework: !!entry[5]};
+  return {ok: true, theory: !!entry[4], homework: !!entry[5], quizzes: quizzes};
 }
