@@ -880,13 +880,7 @@ const stkHTML=(s,cls='')=>`<span class="stk ${s.r} ${cls}" style="--r:${((s.id*3
 
 /* ---------- logo: 25 over 25 as a fraction ---------- */
 let LGN=0;
-function logoMark(size){const id='lg'+(++LGN);return `<svg class="logo" width="${size}" height="${size}" viewBox="0 0 64 64" role="img" aria-label="25/25">
-  <defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2F5BB5"/><stop offset=".55" stop-color="#2F5BB5"/><stop offset="1" stop-color="#2F5BB5"/></linearGradient></defs>
-  <rect x="2" y="2" width="60" height="60" rx="19" fill="url(#${id})"/>
-  <text x="32" y="27" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,SF Pro Display,Inter,system-ui,sans-serif" font-weight="800" font-size="18" fill="#EEE0C8">25</text>
-  <rect x="15" y="32" width="34" height="3.4" rx="1.7" fill="#DD7A3A"/>
-  <text x="32" y="53" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,SF Pro Display,Inter,system-ui,sans-serif" font-weight="800" font-size="18" fill="#EEE0C8">25</text>
-</svg>`}
+function logoMark(size){return `<img class="logo" src="/img/logo/badge-li-ma-512.png" width="${size}" height="${size}" alt="lili.math" style="border-radius:${Math.round(size*.3)}px">`}
 function logoFull(size){return `<span class="lockup">${logoMark(size)}<span class="lw">lili<i>.</i>math</span></span>`}
 let AC=null;
 function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(AC&&AC.state==='suspended')AC.resume();return AC}
@@ -1172,7 +1166,7 @@ function tzName(){try{return Intl.DateTimeFormat().resolvedOptions().timeZone||'
 /* ---------- блоки ---------- */
 const app=document.getElementById('app');
 function topbar(){return `<header class="top"><div class="toprow">
- <div class="brandrow">${logoMark(30)}<span class="brand">25/25 · <b>Кабинет</b></span></div>
+ <div class="brandrow">${logoMark(30)}<span class="brand">lili.math · <b>Кабинет</b></span></div>
  <span class="sp"></span>
  ${D?`<div class="mseg" role="group" aria-label="Режим"><button id="mKid" aria-pressed="${S.mode==='kid'}">Ученик</button><button id="mPar" aria-pressed="${S.mode==='par'}">Родитель</button></div>`:''}
  <button class="icon-btn" id="snd" aria-label="Звук">${S.sound?I.snd:I.mute}</button>
@@ -1566,7 +1560,7 @@ function logout(bad){PASS='';tCacheClear();try{localStorage.removeItem('cab-admi
 function copy(txt,btn){const label=btn.textContent,ok=()=>{btn.textContent='Скопировано';setTimeout(()=>btn.textContent=label,1600)};try{navigator.clipboard.writeText(txt).then(ok,()=>{btn.textContent='Выдели и скопируй'})}catch(e){btn.textContent='Выдели и скопируй'}}
 
 function tTop(){return `<header class="top"><div class="toprow">
- <div class="brandrow">${logoMark(30)}<span class="brand">25/25 · <b>Учитель</b></span></div>
+ <div class="brandrow">${logoMark(30)}<span class="brand">lili.math · <b>Учитель</b></span></div>
  <span class="sp"></span><span class="tbusy" id="tbusy"></span><a class="btn ghost tsm" data-personal-board>Моя доска</a><a class="btn ghost tsm" href="quiz-builder.html">Тесты</a>
  ${D&&CODE?`<div class="mseg" role="group" aria-label="Как видят"><button id="mKid" aria-pressed="${S.mode==='kid'}">Ученик</button><button id="mPar" aria-pressed="${S.mode==='par'}">Родитель</button></div>`:''}
  ${CODE?'<a class="btn ghost tsm" href="#lilia">Сегодня / ученики</a>':PASS?'<button class="btn ghost tsm" id="teacher-settings">Общие настройки</button><button class="btn ghost tsm" id="tout">Выйти</button>':''}

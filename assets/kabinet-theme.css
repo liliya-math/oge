@@ -1,0 +1,18 @@
+/* кабинет: цвета палитры распределены по блокам и кнопкам */
+.btn{box-shadow:none}
+.btn:not(.ghost):nth-of-type(3n+2){background:#DD7A3A;color:#16231A}
+.btn:not(.ghost):nth-of-type(3n+3){background:#E2B04A;color:#16231A}
+.btn:not(.ghost):hover{filter:brightness(1.1)}
+.btn.ghost{background:transparent;border:1.5px solid #EEE0C84d;color:#EEE0C8}
+.btn.ghost:hover{background:#EEE0C814;border-color:#EEE0C899}
+.card{border-top:4px solid #2F5BB5;border-color:#EEE0C826}
+.card:nth-of-type(6n+2){border-top-color:#E2B04A}
+.card:nth-of-type(6n+3){border-top-color:#DD7A3A}
+.card:nth-of-type(6n+4){border-top-color:#B6CBE3}
+.card:nth-of-type(6n+5){border-top-color:#5F7B3F}
+.card:nth-of-type(6n+6){border-top-color:#9C6B40}
+.chip{border-color:#EEE0C838}
+.chip:nth-child(4n+1){border-color:#2F5BB5}.chip:nth-child(4n+2){border-color:#E2B04A}.chip:nth-child(4n+3){border-color:#DD7A3A}.chip:nth-child(4n+4){border-color:#B6CBE3}
+.eyebrow{color:#E2B04A}
+.cabnav button[aria-pressed=true]{background:#2F5BB5}
+.brandrow .logo{border-radius:9px}
