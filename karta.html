@@ -57,6 +57,7 @@ h1{margin:4px 0 6px;font-size:clamp(24px,6vw,34px);line-height:1.15;letter-spaci
 .skres button{display:block;width:100%;text-align:left;font:inherit;color:var(--fg);background:#16231a;border:1px solid var(--line);border-radius:8px;padding:6px 8px;margin:3px 0;cursor:pointer}
 .lesson-grid .cbadge{display:block;width:max-content;max-width:100%;margin-top:8px;padding:3px 9px;border-radius:999px;background:#16231A;color:#EEE0C8;font-size:12px;font-weight:600}
 .lesson-grid .tile small{font-weight:400;color:inherit;opacity:.75}
+.lesson-grid .mbadges{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}.lesson-grid .mbadges span{padding:2px 8px;border-radius:999px;background:#FFFFFF;color:#16231A;font-size:12px;font-weight:600;line-height:1.4}.lesson-grid .mbadges span:before{content:'✓ '}
 .calwrap button[data-cw]{font:inherit;font-weight:600;color:#16231A;background:linear-gradient(115deg,#E2B04A,#DD7A3A);border:0;border-radius:10px;padding:7px 14px;cursor:pointer}
 .lesson-form{display:grid;gap:12px;min-width:0}.lesson-form label{display:grid;gap:5px;min-width:0}.mywrap>*{min-width:0}
 .lesson-form input,.lesson-form select,.lesson-form button{width:100%;min-width:0;box-sizing:border-box;text-overflow:ellipsis;font:inherit;color:var(--fg);background:#16231a;border:1px solid var(--line);border-radius:10px;padding:9px}
@@ -110,7 +111,7 @@ function routeCard(){
   const canEdit=!!(route&&route.key&&!myMode);
   return '<section class="card" id="route-section"><h2>Занятия по программе</h2><p class="lead">Открой квадратик, чтобы прикрепить материалы или отметить занятие.</p>'
     +(canEdit?`<p><button type="button" data-edit-toggle class="rbtn">${editMode?'Готово':'Редактировать порядок, добавить, удалить'}</button></p>${editMode?'<p class="lead">Перетащи квадратик на другой квадратик, чтобы поставить перед ним. Перетащи на заголовок главы, чтобы перенести в её конец. Изменения сохраняются сразу.</p>':''}`:'')
-    +route.chapters.map((name,i)=>`<h3 data-chapter="${i+1}">${esc(name)}</h3>${editMode?`<p><button type="button" class="rbtn" data-add="${i+1}">+ Новый квадратик</button></p>`:''}<div class="grid lesson-grid" data-grid="${i+1}">${route.lessons.filter(x=>x.chapter===i+1).map(x=>`<button class="tile${/^✓/.test(x.mark||'')?' done':/^→/.test(x.mark||'')?' next':''}" style="--c:${x.col||'#E2B04A'};--ink:${INK[x.col]||'#16231A'}" type="button" ${myMode?'draggable="true" ':''}data-lesson="${x.id}" aria-controls="route-detail" aria-pressed="false"><small>${x.tag?esc(x.tag):x.school?'Школьные № '+esc(x.school):'Дополнительно'}</small><br>${x.mark||''}${esc(x.title)}${calBadge(x)}${editMode?`<span class="tdel" data-del="${x.id}" title="Удалить квадратик">✕</span>`:''}</button>`).join('')}</div>`).join('')
+    +route.chapters.map((name,i)=>`<h3 data-chapter="${i+1}">${esc(name)}</h3>${editMode?`<p><button type="button" class="rbtn" data-add="${i+1}">+ Новый квадратик</button></p>`:''}<div class="grid lesson-grid" data-grid="${i+1}">${route.lessons.filter(x=>x.chapter===i+1).map(x=>`<button class="tile${/^✓/.test(x.mark||'')?' done':/^→/.test(x.mark||'')?' next':''}" style="--c:${x.col||'#E2B04A'};--ink:${INK[x.col]||'#16231A'}" type="button" ${myMode?'draggable="true" ':''}data-lesson="${x.id}" aria-controls="route-detail" aria-pressed="false"><small>${x.tag?esc(x.tag):x.school?'Школьные № '+esc(x.school):'Дополнительно'}</small><br>${x.mark||''}${esc(x.title)}${matBadge(x)}${calBadge(x)}${editMode?`<span class="tdel" data-del="${x.id}" title="Удалить квадратик">✕</span>`:''}</button>`).join('')}</div>`).join('')
     +'<div id="route-detail" hidden></div></section>';
 }
 function bindRoute(){
@@ -229,7 +230,7 @@ async function selectLesson(id){
       const ed=Object.fromEntries([...form.querySelectorAll('[data-edit]')].map(e=>[e.dataset.edit,e.value.trim()]));
       if(!ed.title){return 'Название не может быть пустым.'}
       const result=await admin('routeSave',{id,...links(),...ed});if(result&&result.error)throw new Error(result.error);
-      saved=JSON.stringify(links());lesson.title=ed.title;lesson.school=ed.school;refreshTile(lesson);if(lesson.added&&route.key)saveLayout();const h2=panel.querySelector('h2');if(h2)h2.textContent=lesson.title;
+      saved=JSON.stringify(links());{const L=links();lesson.has={t:L.theory?1:0,h:L.homework?1:0,q:L.quizzes.length}}lesson.title=ed.title;lesson.school=ed.school;refreshTile(lesson);if(lesson.added&&route.key)saveLayout();const h2=panel.querySelector('h2');if(h2)h2.textContent=lesson.title;
       return 'Сохранено: название и материалы.';
     });
     form.querySelector('[data-assign]').onclick=()=>{
@@ -256,8 +257,9 @@ function calSet(id,d){
   renderCal();refreshTile(l);
   admin('calSet',{t:m.code,id,d:d||'',title:l.title}).catch(e=>{l.cal=prev;m.st.cal=m.st.cal.filter(y=>y.id!==id);if(prev)m.st.cal.push({d:prev,id,title:l.title});renderCal();refreshTile(l);alert('Не получилось сохранить в календаре. (ответ сервера: '+(e&&e.message||e)+').')});
 }
+function matBadge(l){const h=l.has||{};const a=[];if(h.t)a.push('Теория');if(h.h)a.push('ДЗ');if(h.q)a.push('Тесты'+(h.q>1?' '+h.q:''));return a.length?'<span class="mbadges">'+a.map(x=>'<span>'+x+'</span>').join('')+'</span>':''}
 function calBadge(l){if(!l.cal)return '';const d=new Date(l.cal+'T00:00:00');return '<span class="cbadge">в календаре · '+WD[d.getDay()]+' '+esc(shortD(l.cal))+'</span>'}
-function refreshTile(l){const b=app.querySelector('[data-lesson="'+l.id+'"]');if(b){b.classList.toggle('done',/^✓/.test(l.mark||''));b.classList.toggle('next',/^→/.test(l.mark||''))}if(b)b.innerHTML='<small>'+esc(l.tag||(l.school?'Школьные № '+l.school:''))+'</small><br>'+(l.mark||'')+esc(l.title)+calBadge(l)+(editMode?'<span class="tdel" data-del="'+l.id+'" title="Удалить квадратик">✕</span>':'');const x=b&&b.querySelector('[data-del]');if(x)x.onclick=e=>{e.stopPropagation();delLesson(l.id)}}
+function refreshTile(l){const b=app.querySelector('[data-lesson="'+l.id+'"]');if(b){b.classList.toggle('done',/^✓/.test(l.mark||''));b.classList.toggle('next',/^→/.test(l.mark||''))}if(b)b.innerHTML='<small>'+esc(l.tag||(l.school?'Школьные № '+l.school:''))+'</small><br>'+(l.mark||'')+esc(l.title)+matBadge(l)+calBadge(l)+(editMode?'<span class="tdel" data-del="'+l.id+'" title="Удалить квадратик">✕</span>':'');const x=b&&b.querySelector('[data-del]');if(x)x.onclick=e=>{e.stopPropagation();delLesson(l.id)}}
 function renderCal(){
   const box=document.getElementById('cal');if(!box||!myMode)return;
   const days=(String(myMode.st.days||'').split('|')[0].toLowerCase().match(/пн|вт|ср|чт|пт|сб|вс/g)||[]);
@@ -344,7 +346,7 @@ function go(){
   Promise.all([Promise.all(Object.keys(ROUTE_FILES).map(k=>fetch(ROUTE_FILES[k],{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}).catch(()=>null))),admin('routeEdits').then(j=>j||{},()=>({}))])
   .then(([rs,edAll])=>{const ed=edAll.edits||{},lay=edAll.layouts||{};Object.keys(ROUTE_FILES).forEach((k,i)=>{if(rs[i]&&rs[i].lessons){rs[i].key=k;rs[i].lessons.forEach(l=>{l.prog=k;l.col=PROGCOL[k]||'#E2B04A'});
     const L=lay[k];if(L&&Array.isArray(L.lessons)){const by=Object.fromEntries(rs[i].lessons.map(x=>[x.id,x]));Object.keys(L.added||{}).forEach(id=>{const a=L.added[id];by[id]={id,chapter:a.ch,school:a.school||'',title:a.title,prog:k,col:PROGCOL[k]||'#E2B04A',added:true}});const seen=new Set(),ord=L.lessons.filter(x=>by[x.id]).map(x=>{const l=by[x.id];l.chapter=x.ch;seen.add(x.id);return l});rs[i].lessons=ord.concat(rs[i].lessons.filter(x=>!seen.has(x.id)))}
-    rs[i].lessons.forEach(l=>{const e=ed[l.id];if(e){if(e.title)l.title=e.title;if(e.school)l.school=e.school}});ROUTES[k]=rs[i]}});READY=true;draw()})
+    const mats=edAll.mats||{};rs[i].lessons.forEach(l=>{if(mats[l.id])l.has=mats[l.id];const e=ed[l.id];if(e){if(e.title)l.title=e.title;if(e.school)l.school=e.school}});ROUTES[k]=rs[i]}});READY=true;draw()})
   .catch(()=>fail('Не получилось открыть','Похоже, пропал интернет. Обнови страницу.'));
 }
 addEventListener('hashchange',()=>{if(READY)draw()});
