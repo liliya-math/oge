@@ -270,7 +270,9 @@ const isoD=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+Str
 const shortD=iso=>iso.slice(8,10)+'.'+iso.slice(5,7);
 let calWeek=0;
 function calSet(id,d){
-  const m=myMode,l=m.lessons.find(x=>x.id===id);if(!l)return;
+  const m=myMode,l=m.lessons.find(x=>x.id===id);
+  if(!l){if(d)return;const o=m.st.cal.find(y=>y.id===id),prev=o&&o.d;m.st.cal=m.st.cal.filter(y=>y.id!==id);renderCal();
+    admin('calSet',{t:m.code,id,d:'',title:(o&&o.title)||'x'}).catch(e=>{if(o)m.st.cal.push(o);renderCal();alert('Не получилось убрать из календаря. (ответ сервера: '+(e&&e.message||e)+').')});return}
   const prev=l.cal;l.cal=d||undefined;m.st.cal=m.st.cal.filter(y=>y.id!==id);if(d)m.st.cal.push({d,id,title:l.title});
   renderCal();refreshTile(l);
   admin('calSet',{t:m.code,id,d:d||'',title:l.title}).catch(e=>{l.cal=prev;m.st.cal=m.st.cal.filter(y=>y.id!==id);if(prev)m.st.cal.push({d:prev,id,title:l.title});renderCal();refreshTile(l);alert('Не получилось сохранить в календаре. (ответ сервера: '+(e&&e.message||e)+').')});
