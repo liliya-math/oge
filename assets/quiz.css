@@ -38,7 +38,7 @@ th{color:var(--sand)}th,td{border-bottom-color:#EEE0C826}
 /* акценты: цвета палитры распределены по блокам и кнопкам */
 .panel{border-top:4px solid #2F5BB5}.panel.acc-orange{border-top-color:#DD7A3A}.panel.acc-moss{border-top-color:#5F7B3F}.panel[aria-label]{border-top-color:#B6CBE3}
 .secondary[data-c]{border-width:1.5px}
-[data-c=sand]{color:#C9AB82;border-color:#C9AB82}[data-c=blue]{color:#B6CBE3;border-color:#B6CBE3}[data-c=cream]{color:#EEE0C8;border-color:#EEE0C8}[data-c=orange]{color:#DD7A3A;border-color:#DD7A3A}[data-c=gold]{color:#E2B04A;border-color:#E2B04A}[data-c=caramel]{color:#C9936a;border-color:#9C6B40}
+[data-c=sand]{color:#C9AB82;border-color:#C9AB82}[data-c=blue]{color:#B6CBE3;border-color:#B6CBE3}[data-c=cream]{color:#EEE0C8;border-color:#EEE0C8}[data-c=orange]{color:#DD7A3A;border-color:#DD7A3A}[data-c=gold]{color:#E2B04A;border-color:#E2B04A}[data-c=caramel]{color:#EEE0C8;border-color:#9C6B40}
 #save:not(:disabled){background:#DD7A3A;color:#16231A}#save:not(:disabled):hover{background:#e68b50}
 #assign:not(:disabled){background:#E2B04A;color:#16231A}#assign:not(:disabled):hover{background:#ebbf62}
 #save:disabled,#assign:disabled{background:#2B3D2B;color:#C9AB82}
