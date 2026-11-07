@@ -2083,11 +2083,6 @@ function routeSave_(b) {
     if (qs.length > 10 || qs.some(x => x.length > 80 || !quizDefinition_(x, 0))) return {error: 'bad_value'};
     links.quizzes = qs;
   } else if (Array.isArray(cur.quizzes)) links.quizzes = cur.quizzes;
-  if (Array.isArray(b.skills)) {
-    const sk = b.skills.map(x => String(x).trim());
-    if (sk.length > 60 || sk.some(x => !/^\d[AG]\.\d+(?:\.\d+){0,3}$/.test(x))) return {error: 'bad_value'};
-    links.skills = sk;
-  } else if (Array.isArray(cur.skills)) links.skills = cur.skills;
   PropertiesService.getScriptProperties().setProperty('ROUTE_' + id, JSON.stringify(links));
   return {ok: true, materials: links};
 }
@@ -2107,9 +2102,8 @@ function routeLayoutSave_(b) {
     b.layout.lessons.forEach(x => { lessons.push({id: routeId_(x.id), ch: Math.max(1, Math.min(60, Number(x.ch) || 1))}); });
     Object.keys(b.layout.added || {}).forEach(id => {
       const a = b.layout.added[id], title = String(a.title || '').trim().slice(0, 200), school = String(a.school || '').trim().slice(0, 200);
-      const sk = (Array.isArray(a.skills) ? a.skills : []).map(z => String(z).trim()).filter(z => /^\d[AG]\.\d+(?:\.\d+){0,3}$/.test(z)).slice(0, 60);
       if (/^[=+@-]/.test(title) || /^[=+@-]/.test(school)) throw new Error('bad_value');
-      added[routeId_(id)] = {title: title || 'Новый квадратик', school: school, skills: sk, ch: Math.max(1, Math.min(60, Number(a.ch) || 1))};
+      added[routeId_(id)] = {title: title || 'Новый квадратик', school: school, ch: Math.max(1, Math.min(60, Number(a.ch) || 1))};
     });
   } catch (e) { return {error: 'bad_value'}; }
   const layout = {lessons: lessons, added: added}, raw = JSON.stringify(layout);
@@ -2121,7 +2115,7 @@ function routeEdits_() {
   const out = {}, all = PropertiesService.getScriptProperties().getProperties();
   Object.keys(all).forEach(k => {
     if (k.indexOf('ROUTE_') !== 0) return;
-    try { const o = JSON.parse(all[k]); if (o.title || o.school || Array.isArray(o.skills)) out[k.slice(6)] = {title: o.title || '', school: o.school || '', skills: Array.isArray(o.skills) ? o.skills : null}; } catch (e) {}
+    try { const o = JSON.parse(all[k]); if (o.title || o.school) out[k.slice(6)] = {title: o.title || '', school: o.school || ''}; } catch (e) {}
   });
   return out;
 }

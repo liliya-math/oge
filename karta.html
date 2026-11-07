@@ -86,7 +86,7 @@ function gate(){
   return fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({admin:PASS,op:'ping'})})
    .then(r=>r.json(),()=>{throw 'net'}).then(j=>{if(!j||j.ok!==true)throw 'deny';routeEnabled=j.lessonRoute===1});
 }
-let N,BY,KIDS,route,routeEnabled;
+let READY=false,route,routeEnabled;
 const ROUTE_FILES={'5A':'lesson-route-5.json','6A':'lesson-route-6.json','7A':'lesson-route-7a.json','7G':'lesson-route-7g.json','8A':'lesson-route-8a.json','8G':'lesson-route-8g.json','9A':'lesson-route-9a.json','9G':'lesson-route-9g.json','OGE':'lesson-route-oge.json'},ROUTES={};
 let selectedLesson,myMode=null;
 let selectedStudent='';
@@ -94,22 +94,20 @@ try{selectedStudent=sessionStorage.getItem('lili-route-student')||''}catch(e){}
 const segs=id=>id.split('.');
 function label(id){
   const m=/^(\d)([AG])$/.exec(id);if(m)return m[1]+' класс · '+SUBJ[m[2]];
-  return BY[id]?BY[id].title:id;
+  return id;
 }
 function crumbs(id){
-  const out=['<a href="#">Карта</a>'];
-  if(id){const s=segs(id);let cur=s[0];out.push(`<span>›</span><a href="#${cur}">${esc(label(cur))}</a>`);for(let i=1;i<s.length;i++){cur+='.'+s[i];out.push(`<span>›</span><a href="#${cur}">${esc(BY[cur]?BY[cur].title:cur)}</a>`)}}
-  return `<div class="crumbs">${out.join('')}</div>`;
+  return `<div class="crumbs"><a href="#">Карта</a>${id?`<span>›</span><a href="#${id}">${esc(label(id))}</a>`:''}</div>`;
 }
 function home(){
   const tiles=[];
   for(let g=5;g<=9;g++)['A','G'].forEach(s=>{const id=g+s;tiles.push(`<a class="tile" href="#${id}"><b>${g} ${s==='A'?'алгебра':'геом.'}</b></a>`)});
-  app.innerHTML=`<div class="bar"><span class="id">Карта · только для учителя</span><span class="brand">lili<b>.</b>math</span></div><h1>Карта материалов</h1><p class="lead">Класс → раздел → тема.</p><div class="grid">${tiles.join('')}<a class="tile" href="#OGE"><b>ОГЭ, часть 1</b><small>задания 1-19</small></a></div>`;
+  app.innerHTML=`<div class="bar"><span class="id">Карта · только для учителя</span><span class="brand">lili<b>.</b>math</span></div><h1>Карта материалов</h1><p class="lead">Выбери класс.</p><div class="grid">${tiles.join('')}<a class="tile" href="#OGE"><b>ОГЭ, часть 1</b><small>задания 1-19</small></a></div>`;
 }
 let editMode=false;
 function routeCard(){
   const canEdit=!!(route&&route.key&&!myMode);
-  return '<section class="card" id="route-section"><h2>Занятия по программе</h2><p class="lead">Открой квадратик, чтобы увидеть навыки, прикрепить материалы или отметить занятие.</p>'
+  return '<section class="card" id="route-section"><h2>Занятия по программе</h2><p class="lead">Открой квадратик, чтобы прикрепить материалы или отметить занятие.</p>'
     +(canEdit?`<p><button type="button" data-edit-toggle class="rbtn">${editMode?'Готово':'Редактировать порядок, добавить, удалить'}</button></p>${editMode?'<p class="lead">Перетащи квадратик на другой квадратик, чтобы поставить перед ним. Перетащи на заголовок главы, чтобы перенести в её конец. Изменения сохраняются сразу.</p>':''}`:'')
     +route.chapters.map((name,i)=>`<h3 data-chapter="${i+1}">${esc(name)}</h3>${editMode?`<p><button type="button" class="rbtn" data-add="${i+1}">+ Новый квадратик</button></p>`:''}<div class="grid lesson-grid" data-grid="${i+1}">${route.lessons.filter(x=>x.chapter===i+1).map(x=>`<button class="tile${/^✓/.test(x.mark||'')?' done':/^→/.test(x.mark||'')?' next':''}" style="--c:${x.col||'#E2B04A'};--ink:${INK[x.col]||'#16231A'}" type="button" ${myMode?'draggable="true" ':''}data-lesson="${x.id}" aria-controls="route-detail" aria-pressed="false"><small>${x.tag?esc(x.tag):x.school?'Школьные № '+esc(x.school):'Дополнительно'}</small><br>${x.mark||''}${esc(x.title)}${calBadge(x)}${editMode?`<span class="tdel" data-del="${x.id}" title="Удалить квадратик">✕</span>`:''}</button>`).join('')}</div>`).join('')
     +'<div id="route-detail" hidden></div></section>';
@@ -137,7 +135,7 @@ let layoutTimer=null;
 function saveLayout(){
   clearTimeout(layoutTimer);
   layoutTimer=setTimeout(async()=>{
-    const added={};route.lessons.forEach(x=>{if(x.added)added[x.id]={title:x.title,school:x.school||'',skills:x.skills||[],ch:x.chapter}});
+    const added={};route.lessons.forEach(x=>{if(x.added)added[x.id]={title:x.title,school:x.school||'',ch:x.chapter}});
     try{const r=await admin('routeLayoutSave',{prog:route.key,layout:{lessons:route.lessons.map(x=>({id:x.id,ch:x.chapter})),added}});if(r&&r.error)throw new Error(r.error)}
     catch(e){alert('Не получилось сохранить порядок квадратиков (ответ сервера: '+(e&&e.message||e)+'). Обычно это значит, что в Apps Script не последняя версия: вставь файл целиком и сделай «Новая версия».')}
   },300);
@@ -158,7 +156,7 @@ function addLesson(ch){
   const k=route.key,used=new Set();Object.values(ROUTES).forEach(r=>r.lessons.forEach(x=>used.add(x.id)));
   let id='';for(let n=1;n<100&&!id;n++){const c=k==='OGE'?'OGE-90-'+n:k+'-'+(900+n);if(!used.has(c))id=c}
   if(!id){alert('Слишком много новых квадратиков.');return}
-  const l={id,chapter:ch,school:'',title:'Новый квадратик',skills:[],prog:k,col:PROGCOL[k]||'#E2B04A',added:true};
+  const l={id,chapter:ch,school:'',title:'Новый квадратик',prog:k,col:PROGCOL[k]||'#E2B04A',added:true};
   let last=-1;route.lessons.forEach((x,i)=>{if(x.chapter<=ch)last=i});route.lessons.splice(last+1,0,l);
   rerenderRoute();saveLayout();selectLesson(id);
 }
@@ -170,7 +168,6 @@ async function selectLesson(id){
   app.querySelectorAll('[data-lesson]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.lesson===id)));
   panel.hidden=false;
   panel.innerHTML=`<h2 tabindex="-1">${esc(lesson.title)}</h2>`
-    +(lesson.skills.length?`<ul>${lesson.skills.map(s=>`<li><a style="color:inherit" href="#${s}">${BY[s]?esc(BY[s].title):esc(s)}</a></li>`).join('')}</ul>`:'')
     +(lesson.extra?`<p>${esc(lesson.extra)}</p>`:'');
   panel.querySelector('h2').focus();
   if(!routeEnabled){
@@ -186,7 +183,6 @@ async function selectLesson(id){
     pending.remove();
     panel.insertAdjacentHTML('beforeend',`<div class="lesson-form">
       <label>Название квадратика <input type="text" data-edit="title" maxlength="200" value="${esc(lesson.title)}"></label><label>Школьные уроки (номера) <input type="text" data-edit="school" maxlength="200" value="${esc(lesson.school||'')}"></label>
-      <div data-skills></div>
       ${['theory','homework'].map((key,i)=>`<label>${i?'Домашняя работа':'Теория'} <input type="url" data-link="${key}" value="${esc(config.materials[key])}" placeholder="https://…"></label><label>Загрузить PDF до 8 МБ<input type="file" accept=".pdf,application/pdf" data-pdf="${key}"></label>`).join('')}
       <div data-quizzes></div>
       <button type="button" data-save>Сохранить квадратик</button>
@@ -195,12 +191,6 @@ async function selectLesson(id){
       <p class="lead" role="status"></p></div>`);
     const form=panel.querySelector('.lesson-form');
     const oldList=panel.querySelector('h2 + ul');if(oldList)oldList.remove();
-    let draft=[...(lesson.skills||[])];const skBox=form.querySelector('[data-skills]');
-    const renderSk=()=>{skBox.innerHTML='<b>Навыки квадратика</b>'+draft.map(z=>`<div class="skrow"><b>${esc(z)}</b> ${BY[z]?esc(BY[z].title):''} <span data-sk-del="${esc(z)}">✕</span></div>`).join('')+'<input type="search" data-sk-q placeholder="Добавить навык: начни вводить название или номер"><div class="skres"></div>';
-      skBox.querySelectorAll('[data-sk-del]').forEach(x=>x.onclick=()=>{draft=draft.filter(z=>z!==x.dataset.skDel);renderSk()});
-      const q=skBox.querySelector('[data-sk-q]'),res=skBox.querySelector('.skres');
-      q.oninput=()=>{const v=q.value.trim().toLowerCase();res.innerHTML='';if(v.length<2)return;N.filter(n=>n.leaf&&!draft.includes(n.id)&&(n.id.toLowerCase().startsWith(v)||n.title.toLowerCase().includes(v))).slice(0,8).forEach(n=>{const b=document.createElement('button');b.type='button';b.textContent=n.id+' '+n.title;b.onclick=()=>{draft.push(n.id);renderSk()};res.appendChild(b)})};
-    };renderSk();
     const status=form.querySelector('[role=status]');
     const student=form.querySelector('[data-student]');
     if([...student.options].some(o=>o.value===selectedStudent))student.value=selectedStudent;
@@ -219,7 +209,7 @@ async function selectLesson(id){
       controls.forEach(e=>e.disabled=true);
       status.textContent='Сохраняю…';
       try{status.textContent=await action()}
-      catch(e){status.textContent=e.message==='bad_value'?'Проверь формат ссылки или PDF, название и номера навыков.':'Не получилось сохранить (ответ сервера: '+(e&&e.message||e)+'). Попробуй ещё раз.'}
+      catch(e){status.textContent=e.message==='bad_value'?'Проверь формат ссылки или PDF и название.':'Не получилось сохранить (ответ сервера: '+(e&&e.message||e)+'). Попробуй ещё раз.'}
       finally{controls.forEach(e=>e.disabled=false)}
     };
     form.querySelectorAll('[data-pdf]').forEach(input=>input.onchange=()=>{
@@ -237,9 +227,9 @@ async function selectLesson(id){
     form.querySelector('[data-save]').onclick=()=>run(async()=>{
       const ed=Object.fromEntries([...form.querySelectorAll('[data-edit]')].map(e=>[e.dataset.edit,e.value.trim()]));
       if(!ed.title){return 'Название не может быть пустым.'}
-      const result=await admin('routeSave',{id,...links(),...ed,skills:draft});if(result&&result.error)throw new Error(result.error);
-      saved=JSON.stringify(links());lesson.title=ed.title;lesson.school=ed.school;lesson.skills=[...draft];refreshTile(lesson);if(lesson.added&&route.key)saveLayout();const h2=panel.querySelector('h2');if(h2)h2.textContent=lesson.title;
-      return 'Сохранено: название, номера уроков и материалы.';
+      const result=await admin('routeSave',{id,...links(),...ed});if(result&&result.error)throw new Error(result.error);
+      saved=JSON.stringify(links());lesson.title=ed.title;lesson.school=ed.school;refreshTile(lesson);if(lesson.added&&route.key)saveLayout();const h2=panel.querySelector('h2');if(h2)h2.textContent=lesson.title;
+      return 'Сохранено: название и материалы.';
     });
     form.querySelector('[data-assign]').onclick=()=>{
       if(!student.value){status.textContent='Сначала выбери ученика.';return}
@@ -266,7 +256,7 @@ function calSet(id,d){
   admin('calSet',{t:m.code,id,d:d||'',title:l.title}).catch(e=>{l.cal=prev;m.st.cal=m.st.cal.filter(y=>y.id!==id);if(prev)m.st.cal.push({d:prev,id,title:l.title});renderCal();refreshTile(l);alert('Не получилось сохранить в календаре. (ответ сервера: '+(e&&e.message||e)+').')});
 }
 function calBadge(l){if(!l.cal)return '';const d=new Date(l.cal+'T00:00:00');return '<span class="cbadge">в календаре · '+WD[d.getDay()]+' '+esc(shortD(l.cal))+'</span>'}
-function refreshTile(l){const b=app.querySelector('[data-lesson="'+l.id+'"]');if(b){b.classList.toggle('done',/^✓/.test(l.mark||''));b.classList.toggle('next',/^→/.test(l.mark||''))}if(b)b.innerHTML='<small>'+esc(l.tag||(l.school?'Школьные № '+l.school:'Дополнительно'))+'</small><br>'+(l.mark||'')+esc(l.title)+calBadge(l)+(editMode?'<span class="tdel" data-del="'+l.id+'" title="Удалить квадратик">✕</span>':'');const x=b&&b.querySelector('[data-del]');if(x)x.onclick=e=>{e.stopPropagation();delLesson(l.id)}}
+function refreshTile(l){const b=app.querySelector('[data-lesson="'+l.id+'"]');if(b){b.classList.toggle('done',/^✓/.test(l.mark||''));b.classList.toggle('next',/^→/.test(l.mark||''))}if(b)b.innerHTML='<small>'+esc(l.tag||(l.school?'Школьные № '+l.school:''))+'</small><br>'+(l.mark||'')+esc(l.title)+calBadge(l)+(editMode?'<span class="tdel" data-del="'+l.id+'" title="Удалить квадратик">✕</span>':'');const x=b&&b.querySelector('[data-del]');if(x)x.onclick=e=>{e.stopPropagation();delLesson(l.id)}}
 function renderCal(){
   const box=document.getElementById('cal');if(!box||!myMode)return;
   const days=(String(myMode.st.days||'').split('|')[0].toLowerCase().match(/пн|вт|ср|чт|пт|сб|вс/g)||[]);
@@ -338,20 +328,11 @@ function node(id){
   editMode=false;
   if(id==='MY'){myPage();return}
   if(id==='OGE'){document.title='ОГЭ, часть 1 · lili.math';route=ROUTES.OGE;app.innerHTML=`<div class="bar"><span class="id">ОГЭ</span><span class="brand">lili<b>.</b>math</span></div><div class="crumbs"><a href="#">Карта</a></div><h1>ОГЭ, часть 1</h1>`+(route?'<div class="mywrap"><div>'+routeCard()+'</div><section class="card calwrap"><label class="lead">Ученик <select id="cal-student"><option value="">Выбрать ученика</option></select></label><div id="cal"><p class="lead">Выбери ученика, и появится его календарь.</p></div></section></div>':'<p class="lead">Не получилось загрузить программу ОГЭ.</p>');bindRoute();if(route)initClassCal();scrollTo(0,0);return}
-  const isRoot=/^\d[AG]$/.test(id),n=BY[id];
-  if(!isRoot&&!n){fail('Не нашла такой раздел','Вернись на «Карта» и выбери класс.');return}
-  const kids=isRoot?N.filter(x=>x.grade===+id[0]&&x.subject===(id[1]==='A'?'алгебра':'геометрия')&&!x.parent):KIDS[id]||[];
-  const lvl=segs(id).length;
-  const title=isRoot?label(id):n.title;
+  if(!/^\d[AG]$/.test(id)){fail('Не нашла такой раздел','Вернись на «Карта» и выбери класс.');return}
+  const title=label(id);
   document.title=title+' · lili.math';
   let h=`<div class="bar"><span class="id">${esc(id)}</span><span class="brand">lili<b>.</b>math</span></div>${crumbs(id)}<h1>${esc(title)}</h1>`;
-  if(!isRoot&&n.oge)h+=`<div class="chips"><span class="chip">ОГЭ: ${esc(n.oge)}</span></div>`;
   route=ROUTES[id];if(route)h+='<div class="mywrap"><div>'+routeCard()+'</div><section class="card calwrap"><label class="lead">Ученик <select id="cal-student"><option value="">Выбрать ученика</option></select></label><div id="cal"><p class="lead">Выбери ученика, и появится его календарь.</p></div></section></div>';
-  if(kids.length){
-    h+=`<div class="card"><h2>${isRoot?'Разделы':lvl===2?'Темы':'Навыки'}</h2><ul class="list">${kids.map(k=>{
-     return `<li><a class="row" href="#${k.id}"><span class="n">${esc(k.id)}</span><span>${esc(k.title)}${k.oge?`<span class="t">ОГЭ ${esc(k.oge)}</span>`:''}</span></a></li>`}).join('')}</ul></div>`;
-  }
-  if(!isRoot&&n.prereq&&n.prereq.length){h+=`<div class="card pre"><h2>Что нужно знать до этого</h2>${n.prereq.map(p=>BY[p]?`<a href="#${p}"><b style="font:600 11px var(--mono);color:var(--faint)">${p}</b> ${esc(BY[p].title)}</a>`:'').join('')}</div>`}
   app.innerHTML=h;
   bindRoute();
   if(route)initClassCal();
@@ -359,13 +340,13 @@ function node(id){
 }
 function draw(){const id=getId();if(!id)home();else node(id)}
 function go(){
-  Promise.all([fetch('skills-by-grade.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}),Promise.all(Object.keys(ROUTE_FILES).map(k=>fetch(ROUTE_FILES[k],{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}).catch(()=>null))),admin('routeEdits').then(j=>j||{},()=>({}))])
-  .then(([g,rs,edAll])=>{const ed=edAll.edits||{},lay=edAll.layouts||{};Object.keys(ROUTE_FILES).forEach((k,i)=>{if(rs[i]&&rs[i].lessons){rs[i].key=k;rs[i].lessons.forEach(l=>{l.prog=k;l.col=PROGCOL[k]||'#E2B04A'});
-    const L=lay[k];if(L&&Array.isArray(L.lessons)){const by=Object.fromEntries(rs[i].lessons.map(x=>[x.id,x]));Object.keys(L.added||{}).forEach(id=>{const a=L.added[id];by[id]={id,chapter:a.ch,school:a.school||'',title:a.title,skills:a.skills||[],prog:k,col:PROGCOL[k]||'#E2B04A',added:true}});rs[i].lessons=L.lessons.filter(x=>by[x.id]).map(x=>{const l=by[x.id];l.chapter=x.ch;return l})}
-    rs[i].lessons.forEach(l=>{const e=ed[l.id];if(e){if(e.title)l.title=e.title;if(e.school)l.school=e.school;if(Array.isArray(e.skills))l.skills=e.skills.filter(z=>true)}});ROUTES[k]=rs[i]}});N=g;BY=Object.fromEntries(g.map(x=>[x.id,x]));KIDS={};g.forEach(x=>{if(x.parent)(KIDS[x.parent]=KIDS[x.parent]||[]).push(x)});Object.values(KIDS).forEach(a=>a.sort((p,q)=>p.id.localeCompare(q.id,'en',{numeric:true})));draw()})
+  Promise.all([Promise.all(Object.keys(ROUTE_FILES).map(k=>fetch(ROUTE_FILES[k],{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}).catch(()=>null))),admin('routeEdits').then(j=>j||{},()=>({}))])
+  .then(([rs,edAll])=>{const ed=edAll.edits||{},lay=edAll.layouts||{};Object.keys(ROUTE_FILES).forEach((k,i)=>{if(rs[i]&&rs[i].lessons){rs[i].key=k;rs[i].lessons.forEach(l=>{l.prog=k;l.col=PROGCOL[k]||'#E2B04A'});
+    const L=lay[k];if(L&&Array.isArray(L.lessons)){const by=Object.fromEntries(rs[i].lessons.map(x=>[x.id,x]));Object.keys(L.added||{}).forEach(id=>{const a=L.added[id];by[id]={id,chapter:a.ch,school:a.school||'',title:a.title,prog:k,col:PROGCOL[k]||'#E2B04A',added:true}});const seen=new Set(),ord=L.lessons.filter(x=>by[x.id]).map(x=>{const l=by[x.id];l.chapter=x.ch;seen.add(x.id);return l});rs[i].lessons=ord.concat(rs[i].lessons.filter(x=>!seen.has(x.id)))}
+    rs[i].lessons.forEach(l=>{const e=ed[l.id];if(e){if(e.title)l.title=e.title;if(e.school)l.school=e.school}});ROUTES[k]=rs[i]}});READY=true;draw()})
   .catch(()=>fail('Не получилось открыть','Похоже, пропал интернет. Обнови страницу.'));
 }
-addEventListener('hashchange',()=>{if(N)draw()});
+addEventListener('hashchange',()=>{if(READY)draw()});
 gate().then(go).catch(e=>{if(e==='net')fail('Нет связи','Не получилось проверить доступ. Проверь интернет и обнови страницу.');else fail('Страница только для учителя','Открой кабинет в режиме учителя на этом устройстве и войди с паролем, потом вернись сюда.')});
 })();
 </script>

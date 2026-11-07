@@ -5,9 +5,8 @@ function slice(from,to){const a=src.indexOf(from),b=src.indexOf(to);assert(a>0&&
 const ctx={};vm.createContext(ctx);
 vm.runInContext(slice('function routeId_','function routeMaterials_')+';this.routeId_=routeId_',ctx);
 const files=fs.readdirSync(root).filter(f=>/^lesson-route-.+\.json$/.test(f));
-const graph=new Set(JSON.parse(fs.readFileSync(path.join(root,'skills-by-grade.json'),'utf8')).map(n=>n.id));
 
-test('every lesson id in every route file is accepted by the server, ids are unique, skills exist in the graph',()=>{
+test('every lesson id in every route file is accepted by the server, ids are unique',()=>{
  assert(files.length>=8,'expected route files for 5, 6, 7A, 7G, 8A, 8G, 9A, 9G');
  for(const f of files){
   const d=JSON.parse(fs.readFileSync(path.join(root,f),'utf8'));const seen=new Set();
@@ -15,7 +14,6 @@ test('every lesson id in every route file is accepted by the server, ids are uni
    assert.doesNotThrow(()=>ctx.routeId_(t.id),f+' '+t.id);
    assert(!seen.has(t.id),'duplicate '+f+' '+t.id);seen.add(t.id);
    assert(t.chapter>=1&&t.chapter<=d.chapters.length,f+' chapter '+t.id);
-   for(const s of t.skills)assert(graph.has(s),f+' '+t.id+' unknown skill '+s);
   }
  }
 });
