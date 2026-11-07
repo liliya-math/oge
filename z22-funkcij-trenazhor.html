@@ -1,6 +1,6 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Графики функций: тренажёр</title><style>
 
-:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+:root{--bg:#16231a;--card:#2b3d2b;--line:#2b3d2b;--cream:#eee0c8;--muted:#9bb08a;--blue:#2f5bb5;--apricot:#dd7a3a;--butter:#e2b04a;--sage:#9bb08a;--ok:#9bb08a;--bad:#c9ab82}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
 .wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
@@ -13,24 +13,24 @@ h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
 .q{font-size:18px;margin:0 0 14px}
 .opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
 .opt:hover{border-color:var(--sage)}
-.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
-.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt.ok{border-color:var(--ok);background:rgba(155,176,138,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(201,171,130,.12)}
 .opt[disabled]{cursor:default}
-.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn{background:var(--apricot);color:#16231a;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
 .btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
 .btn[disabled]{opacity:.45;cursor:default}
-.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(47,91,181,.08);border-radius:6px;font-size:15px}
 .hint{color:var(--butter);font-size:14px;margin-top:8px}
 input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
-.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
-.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.cond{background:#16231a;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,176,138,.08);border-radius:6px;font-size:15px}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
 .tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
 .tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
 .big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
 
 
-:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+:root{--bg:#16231a;--card:#2b3d2b;--line:#2b3d2b;--cream:#eee0c8;--muted:#9bb08a;--blue:#2f5bb5;--apricot:#dd7a3a;--butter:#e2b04a;--sage:#9bb08a;--ok:#9bb08a;--bad:#c9ab82}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif}
 .wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
@@ -44,13 +44,13 @@ h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
 .tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
 .cond{font-size:18px;margin:6px 0 14px}
 input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:170px}
-.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin:6px 6px 0 0}
+.btn{background:var(--apricot);color:#16231a;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin:6px 6px 0 0}
 .btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line)}
 .btn[disabled]{opacity:.45;cursor:default}
 .hint{color:var(--butter);font-size:14px;margin-top:8px}
-.ok{border-left:3px solid var(--ok);background:rgba(155,211,160,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
-.bad{border-left:3px solid var(--bad);background:rgba(240,154,138,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
-.sol{border-left:3px solid var(--blue);background:rgba(125,162,255,.08);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:15px}
+.ok{border-left:3px solid var(--ok);background:rgba(155,176,138,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.bad{border-left:3px solid var(--bad);background:rgba(201,171,130,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.sol{border-left:3px solid var(--blue);background:rgba(47,91,181,.08);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:15px}
 .sol p{margin:6px 0}
 .stat{color:var(--muted);font-size:14px}
 
@@ -67,16 +67,16 @@ input.num{background:transparent;color:var(--cream);border:1px solid var(--line)
 
 
 svg.gfig{display:block;width:100%;height:auto;max-width:520px;margin:6px auto}
-.figwrap{background:rgba(15,31,25,.6);border:1px solid #2c4a3d;border-radius:12px;padding:8px;margin:10px 0}
+.figwrap{background:rgba(22,35,26,.6);border:1px solid #2b3d2b;border-radius:12px;padding:8px;margin:10px 0}
 .figs3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
-.figs3>div{text-align:center;font-size:14px;color:#a9b8ac}
-.live{border:1px dashed #2c4a3d;border-radius:12px;padding:12px;margin-top:14px}
-.live input[type=range]{width:100%;accent-color:#f0a35e}
-.live .big2{font-size:18px;color:#f2d675;font-weight:700}
-.ansline{font-size:20px;color:#f2d675;font-weight:700}
+.figs3>div{text-align:center;font-size:14px;color:#9bb08a}
+.live{border:1px dashed #2b3d2b;border-radius:12px;padding:12px;margin-top:14px}
+.live input[type=range]{width:100%;accent-color:#dd7a3a}
+.live .big2{font-size:18px;color:#e2b04a;font-weight:700}
+.ansline{font-size:20px;color:#e2b04a;font-weight:700}
 .opt .mono{font-variant-numeric:tabular-nums}
 @media(max-width:480px){.figs3{grid-template-columns:1fr}}
-</style></head><body><div class="wrap"><p class="sub"><a href="z22-funkcij.html" style="color:#7da2ff">← Графики функций (№22)</a></p><h1>Тренажёр: графики функций</h1><p class="sub">Пять задач уровня №22. На каждом шаге ответьте, затем нажмите «Дальше». График появляется после построения, в конце можно двигать прямую и проверять ответ. Десятичные числа можно писать через запятую.</p><div class="tabs" id="tabs"></div><div class="bar"><i id="pb"></i></div><div id="box"></div></div><script>/* core.js — графики функций: рисование SVG, модель кусочных функций, семейства задач №22.
+</style></head><body><div class="wrap"><p class="sub"><a href="z22-funkcij.html" style="color:#2f5bb5">← Графики функций (№22)</a></p><h1>Тренажёр: графики функций</h1><p class="sub">Пять задач уровня №22. На каждом шаге ответьте, затем нажмите «Дальше». График появляется после построения, в конце можно двигать прямую и проверять ответ. Десятичные числа можно писать через запятую.</p><div class="tabs" id="tabs"></div><div class="bar"><i id="pb"></i></div><div id="box"></div></div><script>/* core.js — графики функций: рисование SVG, модель кусочных функций, семейства задач №22.
    Работает и в Node (module.exports), и в браузере (глобальный CORE). */
 (function (root) {
   'use strict';
@@ -92,8 +92,8 @@ svg.gfig{display:block;width:100%;height:auto;max-width:520px;margin:6px auto}
 
   /* ---------- рисование ---------- */
   var THEMES = {
-    light: { bg: '#fff', grid: '#d4d4d4', gridMain: '#bdbdbd', axis: '#000', curve: '#000', curve2: '#444', aux: '#555', aux2: '#888', pt: '#000', ptHi: '#000', ptBg: '#fff', text: '#000', hi: '#000' },
-    dark: { bg: 'none', grid: '#26443a', gridMain: '#35574a', axis: '#a9b8ac', curve: '#f3ead7', curve2: '#7da2ff', aux: '#f0a35e', aux2: '#9bb59a', pt: '#f3ead7', ptHi: '#f2d675', ptBg: '#1a3329', text: '#a9b8ac', hi: '#f2d675' }
+    light: { bg: '#ffffff', grid: '#eee0c8', gridMain: '#b6cbe3', axis: '#000000', curve: '#000000', curve2: '#2b3d2b', aux: '#2b3d2b', aux2: '#9bb08a', pt: '#000000', ptHi: '#000000', ptBg: '#ffffff', text: '#000000', hi: '#000000' },
+    dark: { bg: 'none', grid: '#2b3d2b', gridMain: '#2b3d2b', axis: '#9bb08a', curve: '#eee0c8', curve2: '#2f5bb5', aux: '#dd7a3a', aux2: '#9bb08a', pt: '#eee0c8', ptHi: '#e2b04a', ptBg: '#2b3d2b', text: '#9bb08a', hi: '#e2b04a' }
   };
 
   function autoStep(range, unitPx) {

@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#212E30">
+<meta name="theme-color" content="#16231A">
 <title>ДЗ: Квадратный корень</title>
 <style>
-:root{--bg:#243033;--card:rgba(245,232,219,.07);--line:rgba(245,232,219,.16);--fg:#F5E8DB;--muted:rgba(245,232,219,.62);--cobalt:#27439B;--yellow:#F0D56E;--mint:#8fd9b0;--miss:#ff8f7d}
+:root{--bg:#16231a;--card:rgba(238,224,200,.07);--line:rgba(238,224,200,.16);--fg:#EEE0C8;--muted:rgba(238,224,200,.62);--cobalt:#2F5BB5;--yellow:#E2B04A;--mint:#9bb08a;--miss:#dd7a3a}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-text-size-adjust:100%}
 #wrap{max-width:760px;margin:0 auto;padding:18px 16px 70px}
@@ -20,20 +20,20 @@ h2{font-size:19px;margin:16px 0 8px}
 .ov{display:inline-block;border-top:2px solid var(--fg);padding:.08em 4px 0 1px}
 .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;font-size:.8em;line-height:1.2;margin:0 3px}
 .fr>span:first-child{border-bottom:2px solid var(--fg);padding:0 4px}
-input.ans,input.nm{font:inherit;font-size:24px;width:100%;max-width:300px;padding:10px 14px;border-radius:10px;border:1.5px solid var(--line);background:rgba(245,232,219,.08);color:var(--fg)}
+input.ans,input.nm{font:inherit;font-size:24px;width:100%;max-width:300px;padding:10px 14px;border-radius:10px;border:1.5px solid var(--line);background:rgba(238,224,200,.08);color:var(--fg)}
 input.nm{font-size:20px;max-width:360px}
 input:focus{outline:2px solid var(--yellow);outline-offset:1px}
-.btn{font:inherit;font-weight:600;padding:12px 20px;border-radius:12px;border:0;background:var(--cobalt);color:#fff;cursor:pointer;margin:10px 8px 0 0}
+.btn{font:inherit;font-weight:600;padding:12px 20px;border-radius:12px;border:0;background:var(--cobalt);color:#ffffff;cursor:pointer;margin:10px 8px 0 0}
 .btn.sec{background:transparent;border:1.5px solid var(--line);color:var(--fg)}
-.opt{font:inherit;font-size:20px;padding:12px 18px;border-radius:12px;border:1.5px solid var(--line);background:rgba(245,232,219,.06);color:var(--fg);cursor:pointer;margin:0 10px 10px 0}
+.opt{font:inherit;font-size:20px;padding:12px 18px;border-radius:12px;border:1.5px solid var(--line);background:rgba(238,224,200,.06);color:var(--fg);cursor:pointer;margin:0 10px 10px 0}
 .chips{margin:6px 0 12px;line-height:2.2}
 .chip{display:inline-block;min-width:28px;text-align:center;padding:0 6px;margin:0 4px 4px 0;border:1.5px solid var(--line);border-radius:8px;font-size:14px}
 .chip.cur{border-color:var(--yellow);color:var(--yellow)}
-.chip.ok{background:var(--mint);border-color:var(--mint);color:#212E30}
-.chip.no{background:var(--miss);border-color:var(--miss);color:#212E30}
+.chip.ok{background:var(--mint);border-color:var(--mint);color:#16231A}
+.chip.no{background:var(--miss);border-color:var(--miss);color:#16231A}
 .ok{color:var(--mint);font-weight:700}
 .bad{color:var(--miss);font-weight:700}
-.hint{border-left:4px solid var(--yellow);background:rgba(240,213,110,.1);padding:10px 14px;border-radius:10px;margin:10px 0}
+.hint{border-left:4px solid var(--yellow);background:rgba(226,176,74,.1);padding:10px 14px;border-radius:10px;margin:10px 0}
 table.rep{width:100%;border-collapse:collapse;font-size:15px}
 table.rep th,table.rep td{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;vertical-align:top}
 .link{font-family:ui-monospace,Menlo,monospace;font-size:13px;word-break:break-all}
@@ -41,11 +41,11 @@ svg{display:block;margin:6px 0}
 .pt{margin:14px 0;break-inside:avoid}
 @media(max-width:520px){body{font-size:17px}.big{font-size:26px}}
 @media print{
- :root{--bg:#fff;--fg:#000;--card:#fff;--line:#999;--muted:#444}
- body{background:#fff;color:#000;font-size:14px}
+ :root{--bg:#ffffff;--fg:#000000;--card:#ffffff;--line:#b6cbe3;--muted:#2b3d2b}
+ body{background:#ffffff;color:#000000;font-size:14px}
  .noprint{display:none!important}
- svg [stroke]{stroke:#000!important}
- svg text{fill:#000!important}
+ svg [stroke]{stroke:#000000!important}
+ svg text{fill:#000000!important}
  .big{font-size:20px;margin:4px 0}
  .card{border:0;padding:0}
 }
@@ -64,7 +64,7 @@ const f=n=>String(Math.round(n*10000)/10000).replace('.',',').replace('-','−')
 const R=x=>`<span class="rad"><svg class="rs" viewBox="0 0 12 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M0.5 60 L3 56 L6.5 99 L11.8 2 L12.5 2"/></svg><span class="ov">${x}</span></span>`;
 const F=(a,b)=>`<span class="fr"><span>${a}</span><span>${b}</span></span>`;
 const gcd=(a,b)=>b?gcd(b,a%b):a;
-const SQ=(a,b)=>`<svg viewBox="0 0 150 140" width="150" height="140" aria-hidden="true"><rect x="22" y="6" width="106" height="106" fill="none" stroke="#F5E8DB" stroke-width="2.5"/><text x="75" y="66" text-anchor="middle" fill="#F5E8DB" font-size="17">${b}</text><text x="75" y="134" text-anchor="middle" fill="#F5E8DB" font-size="14">${a}</text></svg>`;
+const SQ=(a,b)=>`<svg viewBox="0 0 150 140" width="150" height="140" aria-hidden="true"><rect x="22" y="6" width="106" height="106" fill="none" stroke="#EEE0C8" stroke-width="2.5"/><text x="75" y="66" text-anchor="middle" fill="#EEE0C8" font-size="17">${b}</text><text x="75" y="134" text-anchor="middle" fill="#EEE0C8" font-size="14">${a}</text></svg>`;
 function nm(q,ans,why,prompt,hint,x){return Object.assign({q,type:'num',ans,why,prompt:prompt||'Найди значение',hint:hint||''},x||{})}
 function ch(q,options,correct,why,prompt,hint,x){return Object.assign({q,type:'choice',options:shuf(options),correct,why,prompt,hint:hint||''},x||{})}
 const SELF=' Проверка: возведи свой ответ в квадрат, должно получиться подкоренное число.';

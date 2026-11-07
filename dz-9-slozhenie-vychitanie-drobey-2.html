@@ -1,6 +1,6 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>ДЗ №2 · Сложение и вычитание дробей</title>
 <style>
-:root{--bg:#243033;--card:#293538;--line:rgba(245,232,219,.14);--fg:#F5E8DB;--muted:#BDBFAA;--cobalt:#27439B;--apricot:#CF8960;--mint:#BDBFAA;--amber:#F0D56E;--miss:#CF8960;--sky:#CCD0D5;color-scheme:dark}
+:root{--bg:#16231a;--card:#16231a;--line:rgba(238,224,200,.14);--fg:#EEE0C8;--muted:#9BB08A;--cobalt:#2F5BB5;--apricot:#DD7A3A;--mint:#9BB08A;--amber:#E2B04A;--miss:#DD7A3A;--sky:#B6CBE3;color-scheme:dark}
 *{box-sizing:border-box}
 html,body{background:var(--bg);color:var(--fg)}
 body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
@@ -11,8 +11,8 @@ button,input,textarea{font:inherit;color:inherit}button{cursor:pointer}
 .toprow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .lockup{display:inline-flex;align-items:center;gap:8px}.lw{font-weight:700;font-size:14px;letter-spacing:-.01em}.lw i{font-style:normal;color:var(--apricot)}
 .sp{flex:1}.pill{padding:4px 11px;border-radius:999px;border:1px solid var(--line);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}.pill strong{color:var(--fg)}
-.track{display:grid;gap:4px}.track span{height:6px;border-radius:3px;background:rgba(245,232,219,.12)}
-.track .cur{background:rgba(245,232,219,.5)}.track .ok{background:var(--mint)}.track .bad{background:var(--miss)}.track .idk{background:#34444C}.track .th{background:var(--amber)}
+.track{display:grid;gap:4px}.track span{height:6px;border-radius:3px;background:rgba(238,224,200,.12)}
+.track .cur{background:rgba(238,224,200,.5)}.track .ok{background:var(--mint)}.track .bad{background:var(--miss)}.track .idk{background:#2B3D2B}.track .th{background:var(--amber)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px}
 @media(max-width:520px){.card{padding:18px 16px;border-radius:18px}}
 .lvlsep{display:flex;align-items:center;gap:12px;margin:0 0 12px;font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
@@ -25,8 +25,8 @@ button,input,textarea{font:inherit;color:inherit}button{cursor:pointer}
 .m{white-space:nowrap}
 .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:.9em;line-height:1.15;margin:0 2px}
 .fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 3px}
-.theory{margin:0 0 16px;padding:14px 16px;border-radius:16px;background:rgba(39,67,155,.16);border:1px solid rgba(204,208,213,.35);display:grid;gap:8px}
-.theory small{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--sky)}.theory b{font-size:16px}.theory p{margin:0;font-size:15px;color:#ECE1D4}
+.theory{margin:0 0 16px;padding:14px 16px;border-radius:16px;background:rgba(47,91,181,.16);border:1px solid rgba(182,203,227,.35);display:grid;gap:8px}
+.theory small{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--sky)}.theory b{font-size:16px}.theory p{margin:0;font-size:15px;color:#EEE0C8}
 .formula{padding:10px 14px;border:2px solid var(--apricot);border-radius:12px;text-align:center;font-size:18px;background:rgba(0,0,0,.2);overflow-x:auto}
 .ans{margin-top:20px;display:grid;gap:12px}
 .irow{display:flex;gap:10px;flex-wrap:wrap}
@@ -37,14 +37,14 @@ button,input,textarea{font:inherit;color:inherit}button{cursor:pointer}
 .alts{display:flex;gap:8px;flex-wrap:wrap}
 .chip{padding:9px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;font-size:14.5px;color:var(--muted)}
 .chip:hover{color:var(--fg)}.chip.link{text-decoration:none;display:inline-block}
-.hint{padding:12px 15px;border-radius:14px;background:rgba(240,213,110,.08);border:1px solid rgba(240,213,110,.28);font-size:15.5px}
+.hint{padding:12px 15px;border-radius:14px;background:rgba(226,176,74,.08);border:1px solid rgba(226,176,74,.28);font-size:15.5px}
 .hint small,.sol small{display:block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:3px}
 .hints{display:grid;gap:8px}
 textarea{width:100%;min-height:110px;resize:vertical;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.25);line-height:1.5}
 .fb{padding:12px 16px;border-radius:14px;font-weight:600}
-.fb.ok{background:rgba(189,191,170,.12);border:1px solid rgba(189,191,170,.4)}
-.fb.bad{background:rgba(255,143,115,.1);border:1px solid rgba(255,143,115,.35)}
-.fb.neu{background:rgba(245,232,219,.06);border:1px solid var(--line)}
+.fb.ok{background:rgba(155,176,138,.12);border:1px solid rgba(155,176,138,.4)}
+.fb.bad{background:rgba(221,122,58,.1);border:1px solid rgba(221,122,58,.35)}
+.fb.neu{background:rgba(238,224,200,.06);border:1px solid var(--line)}
 .fb span{display:block;font-weight:400;font-size:14.5px;color:var(--muted)}
 .sol{padding:14px 16px;border-radius:14px;background:rgba(0,0,0,.22);border:1px solid var(--line)}
 .sol ol{margin:6px 0;padding-left:22px;display:grid;gap:6px;font-size:15.5px}.sol p{margin:0}
@@ -53,22 +53,22 @@ textarea{width:100%;min-height:110px;resize:vertical;padding:12px 14px;border-ra
 h1{font-size:clamp(30px,7vw,48px);line-height:1.1;margin:0 0 12px;letter-spacing:-.02em;font-weight:800;text-wrap:balance}
 h1 span{color:var(--apricot)}
 .kick{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
-.lead{margin:0 0 18px;color:#ECE1D4;max-width:58ch}
+.lead{margin:0 0 18px;color:#EEE0C8;max-width:58ch}
 .big{font-size:clamp(60px,15vw,96px);font-weight:800;line-height:1;color:var(--amber)}
 .rhead{text-align:center;display:grid;gap:6px;padding-block:6px 4px}
 .quiet{color:var(--muted);font-size:14.5px}
 .cells{display:grid;grid-template-columns:repeat(auto-fill,minmax(48px,1fr));gap:8px;margin-top:16px}
 .cell{height:44px;border-radius:12px;display:grid;place-items:center;font-weight:700;border:1px solid var(--line);color:var(--muted)}
-.cell.ok{background:rgba(189,191,170,.16);border-color:rgba(189,191,170,.45);color:var(--mint)}
-.cell.bad{background:rgba(255,143,115,.1);border-color:rgba(255,143,115,.35);color:var(--miss)}
-.cell.th{background:rgba(240,213,110,.1);border-color:rgba(240,213,110,.35);color:var(--amber)}
+.cell.ok{background:rgba(155,176,138,.16);border-color:rgba(155,176,138,.45);color:var(--mint)}
+.cell.bad{background:rgba(221,122,58,.1);border-color:rgba(221,122,58,.35);color:var(--miss)}
+.cell.th{background:rgba(226,176,74,.1);border-color:rgba(226,176,74,.35);color:var(--amber)}
 .legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:13px;color:var(--muted);margin-top:10px}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
 .blocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:16px}
 .blk{padding:12px 14px;border-radius:14px;background:rgba(0,0,0,.2);border:1px solid var(--line);display:grid;gap:6px}
 .blk .h{display:flex;justify-content:space-between;gap:8px;font-size:14px;color:var(--muted)}.blk .h b{color:var(--fg)}
-.bar{height:6px;border-radius:3px;background:rgba(245,232,219,.12);overflow:hidden}.bar i{display:block;height:100%;background:var(--amber)}
-.weak{margin-top:16px;padding:14px 16px;border-radius:14px;background:rgba(207,137,96,.1);border:1px solid rgba(207,137,96,.35)}
+.bar{height:6px;border-radius:3px;background:rgba(238,224,200,.12);overflow:hidden}.bar i{display:block;height:100%;background:var(--amber)}
+.weak{margin-top:16px;padding:14px 16px;border-radius:14px;background:rgba(221,122,58,.1);border:1px solid rgba(221,122,58,.35)}
 .weak ul{margin:6px 0 0;padding-left:20px;display:grid;gap:4px}.weak p{margin:4px 0 0}
 .send{margin-top:18px;display:grid;gap:10px;justify-items:center}.send .btn{width:100%}
 </style></head><body>
@@ -91,7 +91,7 @@ const app=document.getElementById('app');
 const fmtT=s=>{s=Math.max(0,Math.round(s));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
 const elapsed=()=>S.started?(Date.now()-S.started)/1000:0;
 let tick=null,taskStart=0,mode='ans',shown=0,resolved=false;
-function logo(){return `<span class="lockup"><svg width="28" height="28" viewBox="0 0 64 64" role="img" aria-label="25/25"><rect x="2" y="2" width="60" height="60" rx="19" fill="#27439B"/><text x="32" y="27" text-anchor="middle" font-family="-apple-system,Inter,sans-serif" font-weight="800" font-size="18" fill="#F5E8DB">25</text><rect x="15" y="32" width="34" height="3.4" rx="1.7" fill="#CF8960"/><text x="32" y="53" text-anchor="middle" font-family="-apple-system,Inter,sans-serif" font-weight="800" font-size="18" fill="#F5E8DB">25</text></svg><span class="lw">lili<i>.</i>math</span></span>`}
+function logo(){return `<span class="lockup"><svg width="28" height="28" viewBox="0 0 64 64" role="img" aria-label="25/25"><rect x="2" y="2" width="60" height="60" rx="19" fill="#2F5BB5"/><text x="32" y="27" text-anchor="middle" font-family="-apple-system,Inter,sans-serif" font-weight="800" font-size="18" fill="#EEE0C8">25</text><rect x="15" y="32" width="34" height="3.4" rx="1.7" fill="#DD7A3A"/><text x="32" y="53" text-anchor="middle" font-family="-apple-system,Inter,sans-serif" font-weight="800" font-size="18" fill="#EEE0C8">25</text></svg><span class="lw">lili<i>.</i>math</span></span>`}
 function parseNums(s){return String(s).replace(/[−–—]/g,'-').split(/;|\s+и\s+|\n/).map(x=>x.trim().replace(/\s+/g,'').replace(',','.')).filter(Boolean).map(x=>/^-?\d+(\.\d+)?$/.test(x)?+x:NaN)}
 function same(a,b){if(a.length!==b.length||a.some(isNaN))return false;const x=[...a].sort((p,q)=>p-q),y=[...b].sort((p,q)=>p-q);return x.every((v,i)=>Math.abs(v-y[i])<1e-6)}
 function topbar(){return `<div class="top"><div class="toprow">${logo()}<div class="sp"></div><span class="pill">решено <strong>${T.filter(t=>S.r[t.n]&&S.r[t.n].st==='ok').length}/${T.length}</strong></span><span class="pill"><strong id="tmr">${fmtT(elapsed())}</strong></span></div>
@@ -188,7 +188,7 @@ function finish(){
   app.innerHTML=topbar()+`<article class="card"><div class="rhead"><div class="kick">${esc(S.name)}, работа сдана</div><div class="big">${sc.pct}<span style="font-size:.4em">%</span></div>
   <div class="quiet">верно: ${sc.ok} из ${sc.n} · время ${fmtT(elapsed())}</div></div>
   <div class="cells">${T.map(x=>{const r=S.r[x.n]||{};return `<div class="cell ${r.st||''}" title="${x.topic}">${x.n}</div>`}).join('')}</div>
-  <div class="legend"><span><i style="background:var(--mint)"></i>верно</span><span><i style="background:var(--miss)"></i>не сошлось</span><span><i style="background:var(--amber)"></i>была идея</span><span><i style="background:#34444C"></i>не знаю</span></div>
+  <div class="legend"><span><i style="background:var(--mint)"></i>верно</span><span><i style="background:var(--miss)"></i>не сошлось</span><span><i style="background:var(--amber)"></i>была идея</span><span><i style="background:#2B3D2B"></i>не знаю</span></div>
   <div class="blocks">${blk(1)}${blk(2)}${blk(3)}</div>
   <div class="weak"><div class="kick" style="margin:0">Что подтянуть</div>${weak.length?`<ul>${weak.map(x=>`<li><b>№${x.n}</b> · ${x.topic}</li>`).join('')}</ul>`:'<p>Всё решено. Подтягивать нечего.</p>'}</div>
   <div class="send"><p class="quiet">Результат отправлен Лилии.</p></div></article>`;

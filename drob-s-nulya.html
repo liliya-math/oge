@@ -5,10 +5,10 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
 :root{
-  --bg:#243033; --glass:rgba(245,232,219,.05); --glass2:rgba(245,232,219,.085);
-  --line:rgba(245,232,219,.13); --fg:#F5E8DB; --muted:#BDBFAA; --faint:#AFB3A8;
-  --cobalt:#27439B; --apricot:#CF8960; --mint:#BDBFAA; --amber:#F0D56E; --miss:#CF8960; --lilac:#CCD0D5;
-  --grad:linear-gradient(115deg,#F0D56E 0%,#CF8960 100%);
+  --bg:#16231a; --glass:rgba(238,224,200,.05); --glass2:rgba(238,224,200,.085);
+  --line:rgba(238,224,200,.13); --fg:#EEE0C8; --muted:#9BB08A; --faint:#9BB08A;
+  --cobalt:#2F5BB5; --apricot:#DD7A3A; --mint:#9BB08A; --amber:#E2B04A; --miss:#DD7A3A; --lilac:#B6CBE3;
+  --grad:linear-gradient(115deg,#E2B04A 0%,#DD7A3A 100%);
   --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Inter",system-ui,sans-serif;
   --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,sans-serif;
   color-scheme:dark;
@@ -21,8 +21,8 @@ button{cursor:pointer}
 :focus-visible{outline:2px solid var(--apricot);outline-offset:3px;border-radius:10px}
 .amb{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .amb i{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.26;animation:drift 28s ease-in-out infinite alternate}
-.amb i:nth-child(1){background:#27439B;left:-20vmax;top:-25vmax}
-.amb i:nth-child(2){background:#7a4a2a;right:-25vmax;top:8vmax;opacity:.2;animation-duration:34s}
+.amb i:nth-child(1){background:#2F5BB5;left:-20vmax;top:-25vmax}
+.amb i:nth-child(2){background:#9c6b40;right:-25vmax;top:8vmax;opacity:.2;animation-duration:34s}
 @keyframes drift{to{transform:translate(8vmax,6vmax) scale(1.12)}}
 #fx{position:fixed;inset:0;z-index:50;pointer-events:none;width:100%;height:100%}
 .wrap{position:relative;z-index:1;max-width:720px;margin:0 auto;padding-inline:16px;padding-block:18px 90px}
@@ -45,20 +45,20 @@ h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,7vw,50px);lin
 h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 h2{font-family:var(--display);font-weight:700;font-size:clamp(22px,5vw,32px);margin:6px 0 0;line-height:1.12}
 h3{font-family:var(--display);font-size:20px;margin:12px 0 6px}
-p.txt{font-size:17.5px;line-height:1.65;color:#ece1d6;margin:10px 0}
+p.txt{font-size:17.5px;line-height:1.65;color:#eee0c8;margin:10px 0}
 p.txt b{color:var(--fg)}
 .accent{color:var(--apricot);font-weight:700}
 .mint-t{color:var(--mint);font-weight:700}
-.lead{font-size:17px;color:#ECE1D4;max-width:58ch;margin:0}
+.lead{font-size:17px;color:#EEE0C8;max-width:58ch;margin:0}
 .hero{display:grid;gap:14px;padding-block:18px 8px}
 
 /* big interactive area */
 .stage{display:grid;justify-items:center;gap:10px;margin:14px 0 6px;min-height:200px}
-.photo-pizza{position:relative;border-radius:50%;overflow:hidden;background:rgba(245,232,219,.05);box-shadow:0 24px 60px -32px rgba(0,0,0,.85);flex:none}
+.photo-pizza{position:relative;border-radius:50%;overflow:hidden;background:rgba(238,224,200,.05);box-shadow:0 24px 60px -32px rgba(0,0,0,.85);flex:none}
 .photo-pizza img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
 .photo-pizza svg{position:absolute;inset:0;width:100%;height:100%}
 .photo-pizza .slice{transition:fill .18s}
-.photo-pizza .slice.filled{stroke:rgba(255,240,225,.9);stroke-width:2.5;filter:drop-shadow(0 0 6px rgba(207,137,96,.6))}
+.photo-pizza .slice.filled{stroke:rgba(238,224,200,.9);stroke-width:2.5;filter:drop-shadow(0 0 6px rgba(221,122,58,.6))}
 .pizza{width:min(300px,72vw);height:auto;touch-action:manipulation}
 .pizza .slice{cursor:pointer;transition:filter .15s}
 .pizza .slice:hover{filter:brightness(1.12)}
@@ -71,51 +71,51 @@ p.txt b{color:var(--fg)}
 .fr-big.top>span:first-child{color:var(--apricot)}
 .fr-big.bot>span:last-child{color:var(--lilac)}
 
-.btn{height:52px;padding:0 22px;border-radius:15px;border:0;font-weight:650;font-size:16px;background:var(--cobalt);color:#F5E8DB;box-shadow:0 10px 30px -12px rgba(90,130,255,.55);transition:transform .15s,filter .2s}
+.btn{height:52px;padding:0 22px;border-radius:15px;border:0;font-weight:650;font-size:16px;background:var(--cobalt);color:#EEE0C8;box-shadow:0 10px 30px -12px rgba(47,91,181,.55);transition:transform .15s,filter .2s}
 .btn:hover{filter:brightness(1.06)}
 .btn:active{transform:scale(.97)}
 .btn:disabled{opacity:.4;cursor:default;box-shadow:none}
 .btn.ghost{background:var(--glass2);color:var(--fg);box-shadow:none;border:1px solid var(--line)}
 .btn.small{height:40px;padding:0 16px;font-size:14px;border-radius:11px}
-.btn.apr{background:var(--apricot);color:#212E30;box-shadow:0 10px 30px -12px rgba(255,150,90,.5)}
+.btn.apr{background:var(--apricot);color:#16231A;box-shadow:0 10px 30px -12px rgba(221,122,58,.5)}
 .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:8px}
 
 .opts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));width:100%;margin-top:6px}
 .opt{border:1px solid var(--line);background:rgba(0,0,0,.22);border-radius:18px;padding:10px;display:grid;justify-items:center;gap:4px;font-size:16px;font-weight:600;transition:border-color .2s,background .2s;min-height:64px}
-.opt:hover{border-color:rgba(255,200,160,.4)}
-.opt.ok{border-color:var(--mint);background:rgba(189,191,170,.12)}
-.opt.bad{border-color:var(--miss);background:rgba(255,143,115,.1)}
+.opt:hover{border-color:rgba(201,171,130,.4)}
+.opt.ok{border-color:var(--mint);background:rgba(155,176,138,.12)}
+.opt.bad{border-color:var(--miss);background:rgba(221,122,58,.1)}
 .opt.dis{pointer-events:none}
 .opt .word{font-size:16px}
 .opt svg{width:min(110px,26vw);height:auto}
 
 .fb{border-radius:18px;padding:14px 16px;display:flex;gap:12px;align-items:center;margin-top:14px;animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
 @keyframes pop{from{opacity:.001;transform:scale(.92)}}
-.fb.ok{background:rgba(189,191,170,.1);border:1px solid rgba(189,191,170,.35)}
-.fb.bad{background:rgba(255,154,133,.08);border:1px solid rgba(255,154,133,.3)}
+.fb.ok{background:rgba(155,176,138,.1);border:1px solid rgba(155,176,138,.35)}
+.fb.bad{background:rgba(221,122,58,.08);border:1px solid rgba(221,122,58,.3)}
 .fb .ic{width:38px;height:38px;flex:none;border-radius:50%;display:grid;place-items:center}
-.fb.ok .ic{background:var(--mint);color:#212E30}
-.fb.bad .ic{background:rgba(255,154,133,.2);color:var(--miss)}
+.fb.ok .ic{background:var(--mint);color:#16231A}
+.fb.bad .ic{background:rgba(221,122,58,.2);color:var(--miss)}
 .fb .ic svg{width:19px;height:19px}
 .fb .t{font-weight:650;font-size:15.5px}
 .fb .s{font-size:14px;color:var(--muted)}
 .shake{animation:shake .45s}
 @keyframes shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
 
-.petsay{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:12px 14px;border-radius:16px;background:rgba(207,137,96,.09);border:1px solid rgba(207,137,96,.28)}
+.petsay{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:12px 14px;border-radius:16px;background:rgba(221,122,58,.09);border:1px solid rgba(221,122,58,.28)}
 .petsay img{width:40px;height:40px;border-radius:12px;object-fit:cover;flex:none}
-.petsay .say{font-size:14.5px;color:#f0cdb6}
+.petsay .say{font-size:14.5px;color:#eee0c8}
 .petsay .say b{color:var(--apricot)}
 .navrow{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
 .dots{display:flex;gap:6px;margin-top:14px;justify-content:center}
-.dots i{width:8px;height:8px;border-radius:50%;background:rgba(255,230,210,.14)}
+.dots i{width:8px;height:8px;border-radius:50%;background:rgba(238,224,200,.14)}
 .dots i.on{background:var(--apricot)}
 .dots i.done{background:var(--mint)}
 
 .lessons{display:grid;gap:12px;margin-top:16px}
 .lcard{display:flex;gap:14px;align-items:center;border:1px solid var(--line);border-radius:20px;background:var(--glass);padding:16px 18px;text-align:left;width:100%}
 .lcard .ln{width:44px;height:44px;flex:none;border-radius:14px;background:var(--glass2);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:19px}
-.lcard.done .ln{background:rgba(189,191,170,.15);border-color:rgba(189,191,170,.4);color:var(--mint)}
+.lcard.done .ln{background:rgba(155,176,138,.15);border-color:rgba(155,176,138,.4);color:var(--mint)}
 .lcard .lt b{display:block;font-size:16.5px}
 .lcard .lt span{font-size:13.5px;color:var(--muted)}
 .lcard .go{margin-left:auto;font-size:13px;color:var(--faint)}
@@ -168,7 +168,7 @@ const sfx={tap:()=>tone(880,0,.06,"sine",.03),soft:()=>{tone(440,0,.25,"sine",.0
 
 /* particles */
 const cv=$("#fx"),cx=cv.getContext("2d");let P=[],raf=0;
-const COLS=['#F5E8DB','#27439B','#CF8960','#F0D56E','#BDBFAA','#CCD0D5'];
+const COLS=['#EEE0C8','#2F5BB5','#DD7A3A','#E2B04A','#9BB08A','#B6CBE3'];
 function fit(){const d=devicePixelRatio||1;cv.width=innerWidth*d;cv.height=innerHeight*d;cx.setTransform(d,0,0,d,0,0)}
 addEventListener("resize",fit);fit();
 function burst(x,y,n=70,power=7){for(let i=0;i<n;i++){const a=Math.PI*2*i/n+Math.random()*.4,s=power*(.4+Math.random()*.7);P.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-2,g:.2,life:1,dec:.012+Math.random()*.012,c:COLS[i%COLS.length],sz:2+Math.random()*4,rot:Math.random()*6,vr:(Math.random()-.5)*.3,sh:Math.random()<.5?"rect":"dot"})}if(!raf)loop()}
@@ -183,16 +183,16 @@ function pizzaSVG(d,filled,o={}){
  const n=cuts.length;
  /* тарелка, тень, корочка с бортиком, начинка с бликом */
  let s=`<ellipse cx="${cx0}" cy="${cy0+r*.94}" rx="${r*.92}" ry="${r*.14}" fill="rgba(0,0,0,.35)"/>`;
- s+=`<circle cx="${cx0}" cy="${cy0}" r="${r}" fill="#a05c2c"/>`;
- for(let i=0;i<22;i++){const a=i/22*2*Math.PI;s+=`<circle cx="${(cx0+(r-4)*Math.cos(a)).toFixed(1)}" cy="${(cy0+(r-4)*Math.sin(a)).toFixed(1)}" r="${(size*.021).toFixed(1)}" fill="#a05c2c"/>`}
- s+=`<circle cx="${cx0}" cy="${cy0}" r="${r-8}" fill="#c9853f"/>`;
- s+=`<circle cx="${cx0}" cy="${cy0}" r="${inner+5}" fill="#eeb964"/>`;
- s+=`<circle cx="${cx0}" cy="${cy0}" r="${inner*.62}" fill="#f6cd7d" opacity=".55"/>`;
+ s+=`<circle cx="${cx0}" cy="${cy0}" r="${r}" fill="#9c6b40"/>`;
+ for(let i=0;i<22;i++){const a=i/22*2*Math.PI;s+=`<circle cx="${(cx0+(r-4)*Math.cos(a)).toFixed(1)}" cy="${(cy0+(r-4)*Math.sin(a)).toFixed(1)}" r="${(size*.021).toFixed(1)}" fill="#9c6b40"/>`}
+ s+=`<circle cx="${cx0}" cy="${cy0}" r="${r-8}" fill="#dd7a3a"/>`;
+ s+=`<circle cx="${cx0}" cy="${cy0}" r="${inner+5}" fill="#e2b04a"/>`;
+ s+=`<circle cx="${cx0}" cy="${cy0}" r="${inner*.62}" fill="#e2b04a" opacity=".55"/>`;
  /* куски */
  for(let i=0;i<n;i++){
   const a1=cuts[i]-Math.PI/2,a2=(i<n-1?cuts[i+1]:2*Math.PI)-Math.PI/2;
   const isF=i<filled;
-  if(n>1)s+=`<path class="slice ${isF?"filled":""}" data-i="${i}" d="${wedge(cx0,cy0,inner,a1,a2)}" fill="${isF?"#CF8960":"#f9e2a8"}" fill-opacity="${isF?.95:.75}" stroke="#8a5a2b" stroke-width="2"/>`;
+  if(n>1)s+=`<path class="slice ${isF?"filled":""}" data-i="${i}" d="${wedge(cx0,cy0,inner,a1,a2)}" fill="${isF?"#DD7A3A":"#eee0c8"}" fill-opacity="${isF?.95:.75}" stroke="#9c6b40" stroke-width="2"/>`;
  }
  /* пепперони: 3 на кусок, у целого — рассыпаны по кругу */
  const dots=n>1?n:7;
@@ -200,10 +200,10 @@ function pizzaSVG(d,filled,o={}){
   const a=(n>1?(cuts[i]+(i<n-1?cuts[i+1]:2*Math.PI))/2:i/dots*2*Math.PI)-Math.PI/2;
   for(const [dd,rr,op] of [[.5,.085,1],[.68,.06,.9],[.3,.05,.8]]){
    const px=cx0+inner*dd*Math.cos(a+(dd>.6?.35:-.3)),py=cy0+inner*dd*Math.sin(a+(dd>.6?.35:-.3));
-   s+=`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${(inner*rr).toFixed(1)}" fill="#b03a2e" opacity="${op}"/>`;
+   s+=`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${(inner*rr).toFixed(1)}" fill="#dd7a3a" opacity="${op}"/>`;
   }
  }
- if(o.plate)s=`<circle cx="${cx0}" cy="${cy0}" r="${r+7}" fill="rgba(245,232,219,.07)"/>`+s;
+ if(o.plate)s=`<circle cx="${cx0}" cy="${cy0}" r="${r+7}" fill="rgba(238,224,200,.07)"/>`+s;
  return `<svg class=pizza viewBox="0 0 ${size} ${size}" style="${o.style||""}">${s}</svg>`}
 function twoPizzas(d1,f1,d2,f2){return `<div style="display:flex;gap:18px;flex-wrap:wrap;justify-content:center;align-items:center">${pizzaSVG(d1,f1,{size:200})}<span class=txt style="font-size:26px;margin:0">?</span>${pizzaSVG(d2,f2,{size:200})}</div>`}
 /* фото-пицца (настоящее фото учительницы) + кликабельные доли поверх.
@@ -216,7 +216,7 @@ function photoPizza(d,filled,o={}){
   const a1=cuts[i]-Math.PI/2,a2=(i<n-1?cuts[i+1]:2*Math.PI)-Math.PI/2;
   const isF=i<filled;
   if(n>1)s+=`<path d="${wedge(150,150,R,a1,a2)}" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="3"/>`;
-  s+=`<path class="slice ${isF?"filled":""}" data-i="${i}" d="${wedge(150,150,R,a1,a2)}" fill="${isF?"rgba(207,137,96,.55)":"rgba(255,255,255,0)"}"/>`;
+  s+=`<path class="slice ${isF?"filled":""}" data-i="${i}" d="${wedge(150,150,R,a1,a2)}" fill="${isF?"rgba(221,122,58,.55)":"rgba(255,255,255,0)"}"/>`;
  }
  const img=o.img||"pizza-photo.jpg";
  return `<div class="photo-pizza" style="width:${size}px;height:${size}px;max-width:100%"><img src="img/${img}" alt="Пицца"><svg class=pizza viewBox="0 0 300 300">${s}</svg></div>`}

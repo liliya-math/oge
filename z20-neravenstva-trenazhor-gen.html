@@ -1,5 +1,5 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тренажёр: неравенства, новые числа каждый раз</title><style>
-:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+:root{--bg:#16231a;--card:#2b3d2b;--line:#2b3d2b;--cream:#eee0c8;--muted:#9bb08a;--blue:#2f5bb5;--apricot:#dd7a3a;--butter:#e2b04a;--sage:#9bb08a;--ok:#9bb08a;--bad:#c9ab82}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
 .wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
@@ -12,24 +12,24 @@ h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
 .q{font-size:18px;margin:0 0 14px}
 .opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
 .opt:hover{border-color:var(--sage)}
-.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
-.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt.ok{border-color:var(--ok);background:rgba(155,176,138,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(201,171,130,.12)}
 .opt[disabled]{cursor:default}
-.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn{background:var(--apricot);color:#16231a;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
 .btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
 .btn[disabled]{opacity:.45;cursor:default}
-.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(47,91,181,.08);border-radius:6px;font-size:15px}
 .hint{color:var(--butter);font-size:14px;margin-top:8px}
 input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
-.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
-.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.cond{background:#16231a;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,176,138,.08);border-radius:6px;font-size:15px}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
 .tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
 .tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
 .big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
 
 
-:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+:root{--bg:#16231a;--card:#2b3d2b;--line:#2b3d2b;--cream:#eee0c8;--muted:#9bb08a;--blue:#2f5bb5;--apricot:#dd7a3a;--butter:#e2b04a;--sage:#9bb08a;--ok:#9bb08a;--bad:#c9ab82}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif}
 .wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
@@ -43,13 +43,13 @@ h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
 .tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
 .cond{font-size:18px;margin:6px 0 14px}
 input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:170px}
-.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin:6px 6px 0 0}
+.btn{background:var(--apricot);color:#16231a;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin:6px 6px 0 0}
 .btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line)}
 .btn[disabled]{opacity:.45;cursor:default}
 .hint{color:var(--butter);font-size:14px;margin-top:8px}
-.ok{border-left:3px solid var(--ok);background:rgba(155,211,160,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
-.bad{border-left:3px solid var(--bad);background:rgba(240,154,138,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
-.sol{border-left:3px solid var(--blue);background:rgba(125,162,255,.08);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:15px}
+.ok{border-left:3px solid var(--ok);background:rgba(155,176,138,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.bad{border-left:3px solid var(--bad);background:rgba(201,171,130,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.sol{border-left:3px solid var(--blue);background:rgba(47,91,181,.08);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:15px}
 .sol p{margin:6px 0}
 .stat{color:var(--muted);font-size:14px}
 
@@ -65,7 +65,7 @@ input.num{background:transparent;color:var(--cream);border:1px solid var(--line)
 @media(max-width:480px){.sys .rows span{white-space:normal}}
 
 .opt svg{display:block;margin:0 0 4px;max-width:100%}.opt small{color:var(--muted);font-size:13px}.nv-note{color:var(--muted);font-size:13px}
-</style></head><body><div class="wrap"><p class="sub"><a href="z20-neravenstva.html" style="color:#7da2ff">← Неравенства (№13, №20)</a></p><h1>Тренажёр: неравенства</h1><p class="sub">Каждая задача новая, числа меняются. Шесть типов: линейные, системы, квадратные, дробные, кратные корни, кубические. Ответ выбирается среди рисунков и записей, как в №13.</p><div class="chips" id="chips"></div><div class="card" id="box"></div><p class="stat" id="st"></p></div><script>function rnd(a,b){return a+Math.floor(Math.random()*(b-a+1))}
+</style></head><body><div class="wrap"><p class="sub"><a href="z20-neravenstva.html" style="color:#2f5bb5">← Неравенства (№13, №20)</a></p><h1>Тренажёр: неравенства</h1><p class="sub">Каждая задача новая, числа меняются. Шесть типов: линейные, системы, квадратные, дробные, кратные корни, кубические. Ответ выбирается среди рисунков и записей, как в №13.</p><div class="chips" id="chips"></div><div class="card" id="box"></div><p class="stat" id="st"></p></div><script>function rnd(a,b){return a+Math.floor(Math.random()*(b-a+1))}
 function pick(a){return a[Math.floor(Math.random()*a.length)]}
 function fm(n){return String(n).replace('-','−').replace('.',',')}
 function tm(c,v,first){
@@ -114,7 +114,7 @@ function nline(S,ticks,w){
   var ts=ticks.slice().sort(function(a,b){return a-b});
   var lo=ts[0],hi=ts[ts.length-1],span=Math.max(hi-lo,1),pad=span*0.35+0.8,x0=lo-pad,x1=hi+pad;
   function X(v){return L+(v-x0)/(x1-x0)*(R-L)}
-  var col='#f3ead7',sol='#f0a35e',bg='#1a3329';
+  var col='#eee0c8',sol='#dd7a3a',bg='#2b3d2b';
   var o='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+w+' '+H+'" width="'+w+'" height="'+H+'" style="max-width:100%;height:auto">';
   o+='<line x1="'+(L-6)+'" y1="'+ay+'" x2="'+(R+6)+'" y2="'+ay+'" stroke="'+col+'" stroke-width="1.4"/>';
   o+='<path d="M'+(R+8)+' '+ay+' l-6 -3.5 v7 z" fill="'+col+'"/>';

@@ -1,5 +1,5 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тренажёр: смеси, новые числа каждый раз</title><style>
-:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+:root{--bg:#16231a;--card:#2b3d2b;--line:#2b3d2b;--cream:#eee0c8;--muted:#9bb08a;--blue:#2f5bb5;--apricot:#dd7a3a;--butter:#e2b04a;--sage:#9bb08a;--ok:#9bb08a;--bad:#c9ab82}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif}
 .wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
@@ -13,13 +13,13 @@ h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
 .tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--butter);padding:2px 10px;border-radius:10px;margin-bottom:10px;font-weight:600}
 .cond{font-size:18px;margin:6px 0 14px}
 input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:170px}
-.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin:6px 6px 0 0}
+.btn{background:var(--apricot);color:#16231a;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin:6px 6px 0 0}
 .btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line)}
 .btn[disabled]{opacity:.45;cursor:default}
 .hint{color:var(--butter);font-size:14px;margin-top:8px}
-.ok{border-left:3px solid var(--ok);background:rgba(155,211,160,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
-.bad{border-left:3px solid var(--bad);background:rgba(240,154,138,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
-.sol{border-left:3px solid var(--blue);background:rgba(125,162,255,.08);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:15px}
+.ok{border-left:3px solid var(--ok);background:rgba(155,176,138,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.bad{border-left:3px solid var(--bad);background:rgba(201,171,130,.1);padding:10px 14px;border-radius:6px;margin-top:10px}
+.sol{border-left:3px solid var(--blue);background:rgba(47,91,181,.08);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:15px}
 .sol p{margin:6px 0}
 .stat{color:var(--muted);font-size:14px}
 </style></head><body><div class="wrap"><p class="sub"><a href="z21-smesi.html">← Смеси (задание 21)</a></p><h1>Тренажёр: смеси</h1><p class="sub">Каждая задача новая: числа меняются, ответ целый или с конечной десятичной дробью. В бланк записывают только число, без единиц.</p><div class="chips" id="chips"></div><div class="card" id="box"></div><p class="stat" id="stat"></p></div><script>

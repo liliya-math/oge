@@ -58,7 +58,7 @@ window.addEventListener('pagehide', push);
 // Рисуется заново для каждого экрана и только в свободных местах: под текст, карточки и кнопки ничего не попадает.
 // CFG.board = надписи темы. Дробь {числитель|знаменатель}, корень R[выражение] (рисуется одним знаком).
 var BOARD_TEXTS = ['a² + b² = c²', 'E = mc²', '36 × 42 = 1512', '{1|2} + {2|2} = {3|2}', 'S = {1|2} a · h', '{6|10} + {5|12}', 'D = b² − 4ac', '(a + b)² = a² + 2ab + b²', 'P = 2(a + b)', 'v = {s|t}', '25% = {1|4}', 'sin² A + cos² A = 1', '7 · 8 = 56', 'y = kx + b', 'S = {a b|2}', 'tg A = {a|b}', 'R[a² + b²] = c', 'R[144] = 12', 'x + 5 = 12', '3(x − 2) = 15', 'V = a³'];
-var CHALK = '#efe8d8', boardKey = 'start', boardTimer = 0;
+var CHALK = '#eee0c8', boardKey = 'start', boardTimer = 0;
 var boardEl = document.createElement('div');
 boardEl.className = 'board'; boardEl.setAttribute('aria-hidden', 'true');
 document.body.insertBefore(boardEl, document.body.firstChild);
@@ -178,8 +178,8 @@ function makeBoard(W, H, forb, rnd, mt) {
   });
 
   var sm = '', i, ns = Math.round(H / 240) + 3;
-  for (i = 0; i < ns; i++) sm += '<ellipse cx="' + r1(rnd() * W) + '" cy="' + r1(rnd() * H) + '" rx="' + r1(60 + rnd() * 150) + '" ry="' + r1(24 + rnd() * 60) + '" transform="rotate(' + r1(rnd() * 60 - 30) + ' ' + r1(rnd() * W) + ' ' + r1(rnd() * H) + ')" fill="#f3ece2" opacity="' + r1(.035 + rnd() * .05) + '"/>';
-  for (i = 0; i < 4; i++) { var sx = rnd() * W, sy = rnd() * H, ex = sx + (rnd() - .3) * 360, ey = sy + (rnd() - .5) * 160; sm += '<path d="M' + pt(sx, sy) + 'C' + pt(sx + 90, sy - 70 * rnd()) + ' ' + pt(ex - 90, ey + 70 * rnd()) + ' ' + pt(ex, ey) + '" fill="none" stroke="#f3ece2" stroke-width="' + r1(30 + rnd() * 40) + '" stroke-linecap="round" opacity="' + r1(.03 + rnd() * .035) + '"/>'; }
+  for (i = 0; i < ns; i++) sm += '<ellipse cx="' + r1(rnd() * W) + '" cy="' + r1(rnd() * H) + '" rx="' + r1(60 + rnd() * 150) + '" ry="' + r1(24 + rnd() * 60) + '" transform="rotate(' + r1(rnd() * 60 - 30) + ' ' + r1(rnd() * W) + ' ' + r1(rnd() * H) + ')" fill="#eee0c8" opacity="' + r1(.035 + rnd() * .05) + '"/>';
+  for (i = 0; i < 4; i++) { var sx = rnd() * W, sy = rnd() * H, ex = sx + (rnd() - .3) * 360, ey = sy + (rnd() - .5) * 160; sm += '<path d="M' + pt(sx, sy) + 'C' + pt(sx + 90, sy - 70 * rnd()) + ' ' + pt(ex - 90, ey + 70 * rnd()) + ' ' + pt(ex, ey) + '" fill="none" stroke="#eee0c8" stroke-width="' + r1(30 + rnd() * 40) + '" stroke-linecap="round" opacity="' + r1(.03 + rnd() * .035) + '"/>'; }
 
   var fil = '<filter id="chalk" filterUnits="userSpaceOnUse" x="0" y="0" width="' + W + '" height="' + H + '"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="4" result="w"/><feDisplacementMap in="SourceGraphic" in2="w" scale="3.4" xChannelSelector="R" yChannelSelector="G" result="a"/><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="8" result="g"/><feDisplacementMap in="a" in2="g" scale="1.6" xChannelSelector="R" yChannelSelector="G" result="b"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 2.6 0 0 0 -.42" result="m"/><feComposite in="b" in2="m" operator="in"/></filter>' +
     '<filter id="smudge" filterUnits="userSpaceOnUse" x="0" y="0" width="' + W + '" height="' + H + '"><feGaussianBlur stdDeviation="16"/></filter>' +

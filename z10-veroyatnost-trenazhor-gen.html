@@ -1,5 +1,5 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Вероятность: тренажёр, новые числа</title><style>
-:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+:root{--bg:#16231a;--card:#2b3d2b;--line:#2b3d2b;--cream:#eee0c8;--muted:#9bb08a;--blue:#2f5bb5;--apricot:#dd7a3a;--butter:#e2b04a;--sage:#9bb08a;--ok:#9bb08a;--bad:#c9ab82}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
 .wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
@@ -12,24 +12,24 @@ h1{font-size:26px;margin:10px 0 4px;letter-spacing:-.3px}
 .q{font-size:18px;margin:0 0 14px}
 .opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
 .opt:hover{border-color:var(--sage)}
-.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
-.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt.ok{border-color:var(--ok);background:rgba(155,176,138,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(201,171,130,.12)}
 .opt[disabled]{cursor:default}
-.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn{background:var(--apricot);color:#16231a;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
 .btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
 .btn[disabled]{opacity:.45;cursor:default}
-.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(47,91,181,.08);border-radius:6px;font-size:15px}
 .hint{color:var(--butter);font-size:14px;margin-top:8px}
 input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
-.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
-.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.cond{background:#16231a;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,176,138,.08);border-radius:6px;font-size:15px}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
 .tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
 .tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}
 .big{font-size:44px;font-weight:700;color:var(--butter);margin:4px 0}
 sup{font-size:70%;line-height:0;vertical-align:super;white-space:nowrap}
 .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px}.fr i{display:block;font-style:normal;padding:0 4px;border-bottom:1px solid currentColor;line-height:1.25}.fr b{display:block;font-weight:normal;padding:0 4px;line-height:1.25}
-.dice{border-collapse:collapse;margin:8px 0}.dice td{width:30px;height:28px;text-align:center;border:1px solid var(--line);font-size:13px}.dice td.y{background:rgba(242,214,117,.25);color:var(--butter);font-weight:700}.dice td.h{color:var(--muted)}
+.dice{border-collapse:collapse;margin:8px 0}.dice td{width:30px;height:28px;text-align:center;border:1px solid var(--line);font-size:13px}.dice td.y{background:rgba(226,176,74,.25);color:var(--butter);font-weight:700}.dice td.h{color:var(--muted)}
 </style></head><body><div class="wrap"><a href="z10-veroyatnost.html" style="color:var(--blue);font-size:14px;text-decoration:none">← Вероятность (задание 10)</a><h1>Тренажёр: новые числа каждый раз</h1><p class="sub">Семь типов задания 10. Ответ можно писать десятичной дробью (0,25) или обыкновенной (1/4).</p><div class="tabs" id="tabs"></div><p class="sub" id="stat">Верно с первой попытки: 0 из 0</p><div id="box"></div></div>
 <script>const parse=s=>{s=String(s).trim().replace(/\s+/g,'').replace(',','.');let m;if(m=s.match(/^(\d+)\/(\d+)$/))return +m[2]?(+m[1])/(+m[2]):NaN;if(/^\d+(\.\d+)?$/.test(s))return parseFloat(s);return NaN};
 const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));const pick=a=>a[R(0,a.length-1)];

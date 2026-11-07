@@ -1,5 +1,5 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>График функции: тренажёр с новыми числами</title><style>
-:root{--bg:#12261f;--card:#1a3329;--line:#2c4a3d;--cream:#f3ead7;--muted:#a9b8ac;--blue:#7da2ff;--apricot:#f0a35e;--butter:#f2d675;--sage:#9bb59a;--ok:#9bd3a0;--bad:#f09a8a}
+:root{--bg:#16231a;--card:#2b3d2b;--line:#2b3d2b;--cream:#eee0c8;--muted:#9bb08a;--blue:#2f5bb5;--apricot:#dd7a3a;--butter:#e2b04a;--sage:#9bb08a;--ok:#9bb08a;--bad:#c9ab82}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-style:normal}
 .wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
@@ -12,17 +12,17 @@ h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
 .q{font-size:18px;margin:0 0 14px}
 .opt{display:block;width:100%;text-align:left;background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
 .opt:hover{border-color:var(--sage)}
-.opt.ok{border-color:var(--ok);background:rgba(155,211,160,.12)}
-.opt.bad{border-color:var(--bad);background:rgba(240,154,138,.12)}
+.opt.ok{border-color:var(--ok);background:rgba(155,176,138,.12)}
+.opt.bad{border-color:var(--bad);background:rgba(201,171,130,.12)}
 .opt[disabled]{cursor:default}
-.btn{background:var(--apricot);color:#2a1a08;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn{background:var(--apricot);color:#16231a;border:0;border-radius:12px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
 .btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);margin-left:8px}
 .btn[disabled]{opacity:.45;cursor:default}
-.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(125,162,255,.08);border-radius:6px;font-size:15px}
+.exp{margin-top:12px;padding:12px 14px;border-left:3px solid var(--blue);background:rgba(47,91,181,.08);border-radius:6px;font-size:15px}
 .hint{color:var(--butter);font-size:14px;margin-top:8px}
 input.num{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;width:160px}
-.cond{background:#0f1f19;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
-.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,211,160,.08);border-radius:6px;font-size:15px}
+.cond{background:#16231a;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.done{border-left:3px solid var(--ok);padding:8px 14px;margin:8px 0;background:rgba(155,176,138,.08);border-radius:6px;font-size:15px}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
 .tabs button{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:7px 14px;font:inherit;cursor:pointer}
 .tabs button.on{background:var(--cream);color:var(--bg);font-weight:600}

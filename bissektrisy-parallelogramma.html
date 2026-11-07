@@ -9,16 +9,16 @@
 <style>
 /* Layout: one column — condition, notebook-grid drawing, step caption, controls */
 :root{
-  --paper:#f7f8fb; --sheet:#ffffff; --grid:#dde3ef; --ink:#1f2a44; --muted:#5d6782;
-  --pen:#2346a8; --red:#c8402c; --green:#1c8a5e; --line:#cfd6e4;
+  --paper:#ffffff; --sheet:#ffffff; --grid:#b6cbe3; --ink:#16231a; --muted:#2b3d2b;
+  --pen:#2f5bb5; --red:#dd7a3a; --green:#5f7b3f; --line:#b6cbe3;
   --f-body:"Golos Text",system-ui,sans-serif; --f-math:"PT Serif",Georgia,serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --paper:#13161d; --sheet:#1b1f29; --grid:#262c3a; --ink:#e6e9f2; --muted:#9aa3bb;
-  --pen:#8aa6ff; --red:#ff8a73; --green:#5fd3a2; --line:#323a4c; color-scheme:dark}}
+  --paper:#000000; --sheet:#16231a; --grid:#16231a; --ink:#ffffff; --muted:#b6cbe3;
+  --pen:#2f5bb5; --red:#dd7a3a; --green:#9bb08a; --line:#16231a; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --paper:#13161d; --sheet:#1b1f29; --grid:#262c3a; --ink:#e6e9f2; --muted:#9aa3bb;
-  --pen:#8aa6ff; --red:#ff8a73; --green:#5fd3a2; --line:#323a4c; color-scheme:dark}
+  --paper:#000000; --sheet:#16231a; --grid:#16231a; --ink:#ffffff; --muted:#b6cbe3;
+  --pen:#2f5bb5; --red:#dd7a3a; --green:#9bb08a; --line:#16231a; color-scheme:dark}
 body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:24px 40px}
 .wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
 .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500}

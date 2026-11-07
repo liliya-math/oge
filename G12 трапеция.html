@@ -6,17 +6,17 @@
   <title>Интерактивная геометрия: Трапеция</title>
   <style>
     :root {
-      --bg-dark: #132426;
-      --panel-bg: #1C3134;
-      --panel-inner: #16292b;
-      --accent-blue: #0038A8;
-      --accent-peach: #F08A5D;
-      --accent-yellow: #F7D060;
-      --status-green: #5C7457;
-      --text-white: #F4ECE1;
-      --text-muted: #C8D6DF;
-      --error-red: #E65C5C;
-      --border-color: #284448;
+      --bg-dark: #16231a;
+      --panel-bg: #16231A;
+      --panel-inner: #16231a;
+      --accent-blue: #2F5BB5;
+      --accent-peach: #DD7A3A;
+      --accent-yellow: #E2B04A;
+      --status-green: #5F7B3F;
+      --text-white: #EEE0C8;
+      --text-muted: #B6CBE3;
+      --error-red: #DD7A3A;
+      --border-color: #2b3d2b;
       --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
 
@@ -90,13 +90,13 @@
 
     .tab-btn:hover {
       color: var(--text-white);
-      background: rgba(247, 208, 96, 0.08);
+      background: rgba(226,176,74,0.08);
     }
 
     .tab-btn.active {
       background: var(--accent-blue);
       color: var(--text-white);
-      box-shadow: 0 2px 8px rgba(0, 56, 168, 0.4);
+      box-shadow: 0 2px 8px rgba(47,91,181,0.4);
     }
 
     /* Container Layout */
@@ -139,7 +139,7 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
     }
 
     .canvas-toolbar {
@@ -187,7 +187,7 @@
 
     .pill-btn.active {
       background: var(--accent-peach);
-      color: #132426;
+      color: #16231a;
       border-color: var(--accent-peach);
       font-weight: 700;
     }
@@ -305,7 +305,7 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
     }
 
     .panel-header {
@@ -369,7 +369,7 @@
     }
 
     .metric-value.green {
-      color: #92b88b;
+      color: #9bb08a;
     }
 
     .card-subblock {
@@ -520,7 +520,7 @@
     }
 
     .btn:hover {
-      background: #0047d4;
+      background: #2f5bb5;
       transform: translateY(-1px);
     }
 
@@ -528,7 +528,7 @@
       background: var(--status-green);
     }
     .btn.next-btn:hover {
-      background: #6e8a68;
+      background: #9bb08a;
     }
 
     .feedback-box {
@@ -542,16 +542,16 @@
 
     .feedback-box.correct {
       display: block;
-      background: rgba(92, 116, 87, 0.25);
+      background: rgba(95,123,63,0.25);
       border-left-color: var(--status-green);
-      color: #b7e3b0;
+      color: #9bb08a;
     }
 
     .feedback-box.incorrect {
       display: block;
-      background: rgba(230, 92, 92, 0.2);
+      background: rgba(221,122,58,0.2);
       border-left-color: var(--error-red);
-      color: #ffb4b4;
+      color: #c9ab82;
     }
 
     .feedback-box strong {
@@ -697,8 +697,8 @@
               <!-- Grid background pattern -->
               <defs>
                 <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
-                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1C3134" stroke-width="1.2"/>
-                  <path d="M 20 0 L 20 40 M 0 20 L 40 20" fill="none" stroke="#16292b" stroke-width="0.8"/>
+                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#16231A" stroke-width="1.2"/>
+                  <path d="M 20 0 L 20 40 M 0 20 L 40 20" fill="none" stroke="#16231a" stroke-width="0.8"/>
                 </pattern>
               </defs>
               <rect width="100%" height="100%" fill="url(#gridPattern)" />
@@ -1072,55 +1072,55 @@
       // 1. Diagonal Triangles Color Fills
       if (showDiagonals) {
         // Top triangle BOC (yellowish soft tint)
-        gTriangles.appendChild(createPolygon([pB, pC, pO], 'rgba(247, 208, 96, 0.2)', 'rgba(247, 208, 96, 0.4)'));
+        gTriangles.appendChild(createPolygon([pB, pC, pO], 'rgba(226,176,74,0.2)', 'rgba(226,176,74,0.4)'));
         // Bottom triangle AOD (blue tint)
-        gTriangles.appendChild(createPolygon([pA, pD, pO], 'rgba(0, 56, 168, 0.28)', 'rgba(0, 56, 168, 0.5)'));
+        gTriangles.appendChild(createPolygon([pA, pD, pO], 'rgba(47,91,181,0.28)', 'rgba(47,91,181,0.5)'));
         // Left triangle AOB (peach tint)
-        gTriangles.appendChild(createPolygon([pA, pB, pO], 'rgba(240, 138, 93, 0.25)', 'rgba(240, 138, 93, 0.45)'));
+        gTriangles.appendChild(createPolygon([pA, pB, pO], 'rgba(221,122,58,0.25)', 'rgba(221,122,58,0.45)'));
         // Right triangle COD (peach tint - equal area!)
-        gTriangles.appendChild(createPolygon([pC, pD, pO], 'rgba(240, 138, 93, 0.25)', 'rgba(240, 138, 93, 0.45)'));
+        gTriangles.appendChild(createPolygon([pC, pD, pO], 'rgba(221,122,58,0.25)', 'rgba(221,122,58,0.45)'));
       }
 
       // 2. Altitudes Layer
       if (showAltitudes) {
         // Altitude 1: B -> H1
-        gHelpers.appendChild(createLine(pB, pH1, '#5C7457', 2, '4,4'));
-        gHelpers.appendChild(createSquareMarker(pH1, 10, '#5C7457'));
+        gHelpers.appendChild(createLine(pB, pH1, '#5F7B3F', 2, '4,4'));
+        gHelpers.appendChild(createSquareMarker(pH1, 10, '#5F7B3F'));
         addSafeBadge(gLabels, (pB.x + pH1.x)/2 - 16, (pB.y + pH1.y)/2, 'h=' + state.h.toFixed(1));
 
         // Altitude 2: C -> H2 (if not overlapping)
         if (Math.abs(H2.x - D.x) > 0.8 && Math.abs(H1.x - H2.x) > 1.2) {
-          gHelpers.appendChild(createLine(pC, pH2, '#5C7457', 1.8, '4,4'));
-          gHelpers.appendChild(createSquareMarker(pH2, 10, '#5C7457'));
+          gHelpers.appendChild(createLine(pC, pH2, '#5F7B3F', 1.8, '4,4'));
+          gHelpers.appendChild(createSquareMarker(pH2, 10, '#5F7B3F'));
         }
       }
 
       // 3. Main Trapezoid Polygon & Edges
-      gTrapezoid.appendChild(createPolygon([pA, pB, pC, pD], 'rgba(0, 56, 168, 0.08)', '#0038A8', 3));
+      gTrapezoid.appendChild(createPolygon([pA, pB, pC, pD], 'rgba(47,91,181,0.08)', '#2F5BB5', 3));
 
       // 4. Diagonals
       if (showDiagonals) {
-        gHelpers.appendChild(createLine(pA, pC, '#F7D060', 2, '5,3'));
-        gHelpers.appendChild(createLine(pB, pD, '#F7D060', 2, '5,3'));
+        gHelpers.appendChild(createLine(pA, pC, '#E2B04A', 2, '5,3'));
+        gHelpers.appendChild(createLine(pB, pD, '#E2B04A', 2, '5,3'));
         
         // Point O badge
-        gHelpers.appendChild(createCircle(pO, 4.5, '#F7D060', '#1C3134'));
+        gHelpers.appendChild(createCircle(pO, 4.5, '#E2B04A', '#16231A'));
         addVertexLabel(gLabels, pO.x, pO.y - 12, 'O');
       }
 
       // 5. Midline Layer
       if (showMidline) {
-        gMidline.appendChild(createLine(pM, pN, '#F08A5D', 2.8));
+        gMidline.appendChild(createLine(pM, pN, '#DD7A3A', 2.8));
         // Segment between diagonals (K to L)
         if (showDiagonals && Math.abs(pK.x - pL.x) > 4) {
-          gMidline.appendChild(createLine(pK, pL, '#F7D060', 4.5));
-          gMidline.appendChild(createCircle(pK, 4, '#F7D060', '#1C3134'));
-          gMidline.appendChild(createCircle(pL, 4, '#F7D060', '#1C3134'));
+          gMidline.appendChild(createLine(pK, pL, '#E2B04A', 4.5));
+          gMidline.appendChild(createCircle(pK, 4, '#E2B04A', '#16231A'));
+          gMidline.appendChild(createCircle(pL, 4, '#E2B04A', '#16231A'));
           addSafeBadge(gLabels, (pK.x + pL.x)/2, pK.y - 14, 'k=' + (Math.abs(state.a - state.b)/2).toFixed(1));
         }
 
-        gMidline.appendChild(createCircle(pM, 4.5, '#F08A5D', '#1C3134'));
-        gMidline.appendChild(createCircle(pN, 4.5, '#F08A5D', '#1C3134'));
+        gMidline.appendChild(createCircle(pM, 4.5, '#DD7A3A', '#16231A'));
+        gMidline.appendChild(createCircle(pN, 4.5, '#DD7A3A', '#16231A'));
         addVertexLabel(gLabels, pM.x - 14, pM.y, 'M');
         addVertexLabel(gLabels, pN.x + 14, pN.y, 'N');
 
@@ -1220,8 +1220,8 @@
       rect.setAttribute('width', 18);
       rect.setAttribute('height', 18);
       rect.setAttribute('rx', 4);
-      rect.setAttribute('fill', '#1C3134');
-      rect.setAttribute('stroke', '#0038A8');
+      rect.setAttribute('fill', '#16231A');
+      rect.setAttribute('stroke', '#2F5BB5');
       rect.setAttribute('stroke-width', '1.2');
 
       const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
@@ -1592,26 +1592,26 @@
       const pC = { x: ox + (skew + b) * scale, y: oy - ht * scale };
 
       // Background fill
-      svg.appendChild(createPolygon([pA, pB, pC, pD], 'rgba(0, 56, 168, 0.15)', '#0038A8', 2.5));
+      svg.appendChild(createPolygon([pA, pB, pC, pD], 'rgba(47,91,181,0.15)', '#2F5BB5', 2.5));
 
       // Altitudes
       if (data.showH) {
         const pH = { x: pB.x, y: pA.y };
-        svg.appendChild(createLine(pB, pH, '#5C7457', 2, '4,4'));
-        svg.appendChild(createSquareMarker(pH, 8, '#5C7457'));
+        svg.appendChild(createLine(pB, pH, '#5F7B3F', 2, '4,4'));
+        svg.appendChild(createSquareMarker(pH, 8, '#5F7B3F'));
       }
 
       // Midline
       if (data.showM) {
         const pM = { x: (pA.x + pB.x) / 2, y: (pA.y + pB.y) / 2 };
         const pN = { x: (pD.x + pC.x) / 2, y: (pD.y + pC.y) / 2 };
-        svg.appendChild(createLine(pM, pN, '#F08A5D', 2.5));
+        svg.appendChild(createLine(pM, pN, '#DD7A3A', 2.5));
       }
 
       // Diagonals
       if (data.showDiags) {
-        svg.appendChild(createLine(pA, pC, '#F7D060', 1.8, '5,3'));
-        svg.appendChild(createLine(pB, pD, '#F7D060', 1.8, '5,3'));
+        svg.appendChild(createLine(pA, pC, '#E2B04A', 1.8, '5,3'));
+        svg.appendChild(createLine(pB, pD, '#E2B04A', 1.8, '5,3'));
       }
 
       // Corner tags

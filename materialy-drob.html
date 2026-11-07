@@ -5,10 +5,10 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
 :root{
-  --bg:#243033; --bg2:#293538; --glass:rgba(245,232,219,.05); --glass2:rgba(245,232,219,.085);
-  --line:rgba(245,232,219,.13); --fg:#F5E8DB; --muted:#BDBFAA; --faint:#AFB3A8;
-  --cobalt:#4d7dff; --sky:#CCD0D5; --apricot:#CF8960; --lilac:#CCD0D5; --mint:#BDBFAA; --amber:#F0D56E; --miss:#CF8960;
-  --grad:linear-gradient(115deg,#F0D56E 0%,#CF8960 100%);
+  --bg:#16231a; --bg2:#16231a; --glass:rgba(238,224,200,.05); --glass2:rgba(238,224,200,.085);
+  --line:rgba(238,224,200,.13); --fg:#EEE0C8; --muted:#9BB08A; --faint:#9BB08A;
+  --cobalt:#2f5bb5; --sky:#B6CBE3; --apricot:#DD7A3A; --lilac:#B6CBE3; --mint:#9BB08A; --amber:#E2B04A; --miss:#DD7A3A;
+  --grad:linear-gradient(115deg,#E2B04A 0%,#DD7A3A 100%);
   --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Inter",system-ui,"Segoe UI",Roboto,sans-serif;
   --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,sans-serif;
   color-scheme:dark;
@@ -22,9 +22,9 @@ button{cursor:pointer}
 a{color:var(--lilac)}
 .amb{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .amb i{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.26;animation:drift 26s ease-in-out infinite alternate}
-.amb i:nth-child(1){background:#27439B;left:-20vmax;top:-25vmax}
-.amb i:nth-child(2){background:#5C694F;right:-25vmax;top:10vmax;opacity:.15;animation-duration:32s}
-.amb i:nth-child(3){background:#34444C;left:10vmax;bottom:-35vmax;opacity:.15;animation-duration:38s}
+.amb i:nth-child(1){background:#2F5BB5;left:-20vmax;top:-25vmax}
+.amb i:nth-child(2){background:#2B3D2B;right:-25vmax;top:10vmax;opacity:.15;animation-duration:32s}
+.amb i:nth-child(3){background:#2B3D2B;left:10vmax;bottom:-35vmax;opacity:.15;animation-duration:38s}
 @keyframes drift{to{transform:translate(8vmax,6vmax) scale(1.12)}}
 .wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding-inline:16px;padding-block:20px 90px}
 
@@ -45,23 +45,23 @@ h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;back
 .navchips a:hover{background:var(--glass2);border-color:var(--apricot)}
 
 .step{display:flex;align-items:center;gap:12px;margin:34px 0 10px}
-.step .n{min-width:32px;height:32px;border-radius:11px;display:grid;place-items:center;background:var(--grad);color:#212E30;font-weight:800;font-size:15px}
+.step .n{min-width:32px;height:32px;border-radius:11px;display:grid;place-items:center;background:var(--grad);color:#16231A;font-weight:800;font-size:15px}
 .step h2{font-family:var(--display);font-size:20px;margin:0;font-weight:800;letter-spacing:-.01em}
 .step .ln{flex:1;height:1px;background:var(--line)}
 
 .card{background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:18px 18px 16px;margin:12px 0;backdrop-filter:blur(8px)}
 .card h3{margin:0 0 4px;font-size:17px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.tag{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:rgba(77,125,255,.15);color:var(--lilac);border:1px solid rgba(77,125,255,.3)}
-.tag.o{background:rgba(207,137,96,.13);color:var(--apricot);border-color:rgba(207,137,96,.32)}
-.tag.g{background:rgba(189,191,170,.12);color:var(--mint);border-color:rgba(189,191,170,.3)}
+.tag{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:rgba(47,91,181,.15);color:var(--lilac);border:1px solid rgba(47,91,181,.3)}
+.tag.o{background:rgba(221,122,58,.13);color:var(--apricot);border-color:rgba(221,122,58,.32)}
+.tag.g{background:rgba(155,176,138,.12);color:var(--mint);border-color:rgba(155,176,138,.3)}
 .card .lead{color:var(--muted);font-size:14.5px;margin:2px 0 10px}
 
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:640px){.grid2{grid-template-columns:1fr}}
 
-.def{border-left:3px solid var(--apricot);background:rgba(207,137,96,.07);padding:9px 13px;border-radius:0 12px 12px 0;font-size:14.5px;margin:10px 0}
+.def{border-left:3px solid var(--apricot);background:rgba(221,122,58,.07);padding:9px 13px;border-radius:0 12px 12px 0;font-size:14.5px;margin:10px 0}
 .def b{color:var(--apricot)}
-.gold{border-left:3px solid var(--amber);background:rgba(240,213,110,.08);padding:10px 14px;border-radius:0 12px 12px 0;font-size:14.5px;margin:10px 0}
+.gold{border-left:3px solid var(--amber);background:rgba(226,176,74,.08);padding:10px 14px;border-radius:0 12px 12px 0;font-size:14.5px;margin:10px 0}
 .gold b{color:var(--amber)}
 
 ul.facts{margin:8px 0 0;padding-left:18px;font-size:14.5px}
@@ -124,14 +124,14 @@ ul.facts b{color:var(--amber);font-weight:600}
 <div>
 <div class=fig>
 <svg width="170" height="170" viewBox="0 0 170 170">
-<circle cx="85" cy="85" r="72" fill="#2a2119" stroke="#c98a4d" stroke-width="5"/>
-<g stroke="#c98a4d" stroke-width="3">
+<circle cx="85" cy="85" r="72" fill="#16231a" stroke="#dd7a3a" stroke-width="5"/>
+<g stroke="#dd7a3a" stroke-width="3">
 <line x1="85" y1="85" x2="85" y2="13"/><line x1="85" y1="85" x2="157" y2="85"/><line x1="85" y1="85" x2="85" y2="157"/><line x1="85" y1="85" x2="13" y2="85"/>
 <line x1="85" y1="85" x2="136" y2="34"/><line x1="85" y1="85" x2="136" y2="136"/><line x1="85" y1="85" x2="34" y2="136"/><line x1="85" y1="85" x2="34" y2="34"/>
 </g>
-<path d="M85 85 L85 13 A72 72 0 0 1 136 34 Z" fill="#CF8960" opacity=".8"/>
-<path d="M85 85 L136 34 A72 72 0 0 1 157 85 Z" fill="#CF8960" opacity=".8"/>
-<path d="M85 85 L157 85 A72 72 0 0 1 136 136 Z" fill="#CF8960" opacity=".8"/>
+<path d="M85 85 L85 13 A72 72 0 0 1 136 34 Z" fill="#DD7A3A" opacity=".8"/>
+<path d="M85 85 L136 34 A72 72 0 0 1 157 85 Z" fill="#DD7A3A" opacity=".8"/>
+<path d="M85 85 L157 85 A72 72 0 0 1 136 136 Z" fill="#DD7A3A" opacity=".8"/>
 </svg>
 </div>
 <div class=cap>Пицца разрезана на 8 равных частей, на тарелке 3 куска → <b style="color:var(--amber)">3/8</b></div>
@@ -150,23 +150,23 @@ ul.facts b{color:var(--amber);font-weight:600}
 <p class=lead>Взяли полпиццы (½) и разрезали этот кусок ещё пополам: на тарелке теперь 2 куска из 4 (2/4). Пиццы больше не стало — изменилась только нарезка.</p>
 <div class=fig>
 <svg width="130" height="130" viewBox="0 0 130 130">
-<circle cx="65" cy="65" r="55" fill="#2a2119" stroke="#c98a4d" stroke-width="4"/>
-<line x1="65" y1="65" x2="65" y2="10" stroke="#c98a4d" stroke-width="3"/>
-<path d="M65 65 L65 10 A55 55 0 0 1 120 65 Z" fill="#CF8960" opacity=".8"/>
+<circle cx="65" cy="65" r="55" fill="#16231a" stroke="#dd7a3a" stroke-width="4"/>
+<line x1="65" y1="65" x2="65" y2="10" stroke="#dd7a3a" stroke-width="3"/>
+<path d="M65 65 L65 10 A55 55 0 0 1 120 65 Z" fill="#DD7A3A" opacity=".8"/>
 </svg>
 <svg width="130" height="130" viewBox="0 0 130 130">
-<circle cx="65" cy="65" r="55" fill="#2a2119" stroke="#c98a4d" stroke-width="4"/>
-<line x1="65" y1="65" x2="65" y2="10" stroke="#c98a4d" stroke-width="3"/>
-<line x1="65" y1="65" x2="120" y2="65" stroke="#c98a4d" stroke-width="3"/>
-<path d="M65 65 L65 10 A55 55 0 0 1 120 65 Z" fill="#CF8960" opacity=".8"/>
-<line x1="65" y1="65" x2="92" y2="37" stroke="#CF8960" stroke-width="2" stroke-dasharray="4 3"/>
+<circle cx="65" cy="65" r="55" fill="#16231a" stroke="#dd7a3a" stroke-width="4"/>
+<line x1="65" y1="65" x2="65" y2="10" stroke="#dd7a3a" stroke-width="3"/>
+<line x1="65" y1="65" x2="120" y2="65" stroke="#dd7a3a" stroke-width="3"/>
+<path d="M65 65 L65 10 A55 55 0 0 1 120 65 Z" fill="#DD7A3A" opacity=".8"/>
+<line x1="65" y1="65" x2="92" y2="37" stroke="#DD7A3A" stroke-width="2" stroke-dasharray="4 3"/>
 </svg>
 <svg width="130" height="130" viewBox="0 0 130 130">
-<circle cx="65" cy="65" r="55" fill="#2a2119" stroke="#c98a4d" stroke-width="4"/>
-<g stroke="#c98a4d" stroke-width="2.5">
+<circle cx="65" cy="65" r="55" fill="#16231a" stroke="#dd7a3a" stroke-width="4"/>
+<g stroke="#dd7a3a" stroke-width="2.5">
 <line x1="65" y1="65" x2="65" y2="10"/><line x1="65" y1="65" x2="120" y2="65"/><line x1="65" y1="65" x2="92" y2="37"/><line x1="65" y1="65" x2="92" y2="92"/><line x1="65" y1="65" x2="65" y2="120"/>
 </g>
-<path d="M65 65 L65 10 A55 55 0 0 1 120 65 Z" fill="#CF8960" opacity=".8"/>
+<path d="M65 65 L65 10 A55 55 0 0 1 120 65 Z" fill="#DD7A3A" opacity=".8"/>
 </svg>
 </div>
 <div class=fx><span class="frac"><span class=num>1</span><span class=l></span><span class=den>2</span></span> = <span class="frac"><span class=num>2</span><span class=l></span><span class=den>4</span></span> = <span class="frac"><span class=num>4</span><span class=l></span><span class=den>8</span></span></div>
@@ -194,23 +194,23 @@ ul.facts b{color:var(--amber);font-weight:600}
 </div>
 <div class=fig style="margin-top:12px">
 <svg width="120" height="120" viewBox="0 0 120 120">
-<circle cx="60" cy="60" r="50" fill="#2a2119" stroke="#c98a4d" stroke-width="4"/>
-<line x1="60" y1="60" x2="60" y2="10" stroke="#c98a4d" stroke-width="3"/>
-<path d="M60 60 L60 10 A50 50 0 0 1 110 60 Z" fill="#CF8960" opacity=".85"/>
-<text x="60" y="112" fill="#BDBFAA" font-size="11" text-anchor="middle" font-family="Inter">½</text>
+<circle cx="60" cy="60" r="50" fill="#16231a" stroke="#dd7a3a" stroke-width="4"/>
+<line x1="60" y1="60" x2="60" y2="10" stroke="#dd7a3a" stroke-width="3"/>
+<path d="M60 60 L60 10 A50 50 0 0 1 110 60 Z" fill="#DD7A3A" opacity=".85"/>
+<text x="60" y="112" fill="#9BB08A" font-size="11" text-anchor="middle" font-family="Inter">½</text>
 </svg>
 <svg width="120" height="120" viewBox="0 0 120 120">
-<circle cx="60" cy="60" r="50" fill="#2a2119" stroke="#c98a4d" stroke-width="4"/>
-<g stroke="#c98a4d" stroke-width="3"><line x1="60" y1="60" x2="60" y2="10"/><line x1="60" y1="60" x2="110" y2="60"/></g>
-<path d="M60 60 L60 10 A50 50 0 0 1 110 60 Z" fill="#CF8960" opacity=".85"/>
-<text x="60" y="112" fill="#BDBFAA" font-size="11" text-anchor="middle" font-family="Inter">¼</text>
+<circle cx="60" cy="60" r="50" fill="#16231a" stroke="#dd7a3a" stroke-width="4"/>
+<g stroke="#dd7a3a" stroke-width="3"><line x1="60" y1="60" x2="60" y2="10"/><line x1="60" y1="60" x2="110" y2="60"/></g>
+<path d="M60 60 L60 10 A50 50 0 0 1 110 60 Z" fill="#DD7A3A" opacity=".85"/>
+<text x="60" y="112" fill="#9BB08A" font-size="11" text-anchor="middle" font-family="Inter">¼</text>
 </svg>
 <svg width="120" height="120" viewBox="0 0 120 120">
-<circle cx="60" cy="60" r="50" fill="#2a2119" stroke="#c98a4d" stroke-width="4"/>
-<g stroke="#c98a4d" stroke-width="3"><line x1="60" y1="60" x2="60" y2="10"/><line x1="60" y1="60" x2="110" y2="60"/><line x1="60" y1="60" x2="85" y2="35"/></g>
-<path d="M60 60 L60 10 A50 50 0 0 1 85 35 Z" fill="#F0D56E" opacity=".9"/>
-<path d="M60 60 L85 35 A50 50 0 0 1 110 60 Z" fill="#CF8960" opacity=".85"/>
-<text x="60" y="112" fill="#BDBFAA" font-size="11" text-anchor="middle" font-family="Inter">½ = 2/4, плюс ¼</text>
+<circle cx="60" cy="60" r="50" fill="#16231a" stroke="#dd7a3a" stroke-width="4"/>
+<g stroke="#dd7a3a" stroke-width="3"><line x1="60" y1="60" x2="60" y2="10"/><line x1="60" y1="60" x2="110" y2="60"/><line x1="60" y1="60" x2="85" y2="35"/></g>
+<path d="M60 60 L60 10 A50 50 0 0 1 85 35 Z" fill="#E2B04A" opacity=".9"/>
+<path d="M60 60 L85 35 A50 50 0 0 1 110 60 Z" fill="#DD7A3A" opacity=".85"/>
+<text x="60" y="112" fill="#9BB08A" font-size="11" text-anchor="middle" font-family="Inter">½ = 2/4, плюс ¼</text>
 </svg>
 </div>
 <div class=cap>Дорезали крупный кусок до размера мелкого — теперь честно считаем</div>
@@ -246,18 +246,18 @@ ul.facts b{color:var(--amber);font-weight:600}
 </ul>
 <div class=fig>
 <svg width="120" height="120" viewBox="0 0 120 120">
-<circle cx="60" cy="60" r="50" fill="#2a2119" stroke="#c98a4d" stroke-width="4"/>
-<g stroke="#c98a4d" stroke-width="3"><line x1="60" y1="60" x2="60" y2="10"/><line x1="60" y1="60" x2="110" y2="60"/><line x1="60" y1="60" x2="85" y2="35"/><line x1="60" y1="60" x2="85" y2="85"/><line x1="60" y1="60" x2="60" y2="110"/><line x1="60" y1="60" x2="35" y2="85"/></g>
-<path d="M60 60 L60 10 A50 50 0 0 1 110 60 Z" fill="#CF8960" opacity=".85"/>
-<text x="60" y="113" fill="#BDBFAA" font-size="11" text-anchor="middle" font-family="Inter">целая (4/4)</text>
+<circle cx="60" cy="60" r="50" fill="#16231a" stroke="#dd7a3a" stroke-width="4"/>
+<g stroke="#dd7a3a" stroke-width="3"><line x1="60" y1="60" x2="60" y2="10"/><line x1="60" y1="60" x2="110" y2="60"/><line x1="60" y1="60" x2="85" y2="35"/><line x1="60" y1="60" x2="85" y2="85"/><line x1="60" y1="60" x2="60" y2="110"/><line x1="60" y1="60" x2="35" y2="85"/></g>
+<path d="M60 60 L60 10 A50 50 0 0 1 110 60 Z" fill="#DD7A3A" opacity=".85"/>
+<text x="60" y="113" fill="#9BB08A" font-size="11" text-anchor="middle" font-family="Inter">целая (4/4)</text>
 </svg>
 <svg width="120" height="120" viewBox="0 0 120 120">
-<circle cx="60" cy="60" r="50" fill="#2a2119" stroke="#c98a4d" stroke-width="4"/>
-<g stroke="#c98a4d" stroke-width="3"><line x1="60" y1="60" x2="60" y2="10"/><line x1="60" y1="60" x2="110" y2="60"/><line x1="60" y1="60" x2="85" y2="35"/><line x1="60" y1="60" x2="85" y2="85"/></g>
-<path d="M60 60 L60 10 A50 50 0 0 1 110 60 Z" fill="#CF8960" opacity=".85"/>
-<path d="M60 60 L85 35 A50 50 0 0 1 110 60 Z" fill="#CF8960" opacity=".6"/>
-<path d="M60 60 L60 110 A50 50 0 0 1 35 85 Z" fill="#F0D56E" opacity=".9"/>
-<text x="60" y="113" fill="#BDBFAA" font-size="11" text-anchor="middle" font-family="Inter">+ 3 куска (3/4)</text>
+<circle cx="60" cy="60" r="50" fill="#16231a" stroke="#dd7a3a" stroke-width="4"/>
+<g stroke="#dd7a3a" stroke-width="3"><line x1="60" y1="60" x2="60" y2="10"/><line x1="60" y1="60" x2="110" y2="60"/><line x1="60" y1="60" x2="85" y2="35"/><line x1="60" y1="60" x2="85" y2="85"/></g>
+<path d="M60 60 L60 10 A50 50 0 0 1 110 60 Z" fill="#DD7A3A" opacity=".85"/>
+<path d="M60 60 L85 35 A50 50 0 0 1 110 60 Z" fill="#DD7A3A" opacity=".6"/>
+<path d="M60 60 L60 110 A50 50 0 0 1 35 85 Z" fill="#E2B04A" opacity=".9"/>
+<text x="60" y="113" fill="#9BB08A" font-size="11" text-anchor="middle" font-family="Inter">+ 3 куска (3/4)</text>
 </svg>
 </div>
 <div class=fx><span class="frac"><span class=num>7</span><span class=l></span><span class=den>4</span></span> = 1<span class="frac"><span class=num>3</span><span class=l></span><span class=den>4</span></span></div>

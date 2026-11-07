@@ -5,10 +5,10 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
 :root{
-  --bg:#243033; --bg2:#293538; --glass:rgba(245,232,219,.05); --glass2:rgba(245,232,219,.085);
-  --line:rgba(245,232,219,.13); --fg:#F5E8DB; --muted:#BDBFAA; --faint:#AFB3A8;
-  --cobalt:#27439B; --sky:#CCD0D5; --apricot:#CF8960; --lilac:#CCD0D5; --mint:#BDBFAA; --amber:#F0D56E; --miss:#CF8960;
-  --grad:linear-gradient(115deg,#F0D56E 0%,#CF8960 100%);
+  --bg:#16231a; --bg2:#16231a; --glass:rgba(238,224,200,.05); --glass2:rgba(238,224,200,.085);
+  --line:rgba(238,224,200,.13); --fg:#EEE0C8; --muted:#9BB08A; --faint:#9BB08A;
+  --cobalt:#2F5BB5; --sky:#B6CBE3; --apricot:#DD7A3A; --lilac:#B6CBE3; --mint:#9BB08A; --amber:#E2B04A; --miss:#DD7A3A;
+  --grad:linear-gradient(115deg,#E2B04A 0%,#DD7A3A 100%);
   --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Inter",system-ui,"Segoe UI",Roboto,sans-serif;
   --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,sans-serif;
   color-scheme:dark;
@@ -21,9 +21,9 @@ button{cursor:pointer}
 :focus-visible{outline:2px solid var(--apricot);outline-offset:3px;border-radius:10px}
 .amb{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .amb i{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.28;animation:drift 26s ease-in-out infinite alternate}
-.amb i:nth-child(1){background:#27439B;left:-20vmax;top:-25vmax}
-.amb i:nth-child(2){background:#5C694F;right:-25vmax;top:10vmax;opacity:.16;animation-duration:32s}
-.amb i:nth-child(3){background:#34444C;left:10vmax;bottom:-35vmax;opacity:.16;animation-duration:38s}
+.amb i:nth-child(1){background:#2F5BB5;left:-20vmax;top:-25vmax}
+.amb i:nth-child(2){background:#2B3D2B;right:-25vmax;top:10vmax;opacity:.16;animation-duration:32s}
+.amb i:nth-child(3){background:#2B3D2B;left:10vmax;bottom:-35vmax;opacity:.16;animation-duration:38s}
 @keyframes drift{to{transform:translate(8vmax,6vmax) scale(1.12)}}
 #fx{position:fixed;inset:0;z-index:50;pointer-events:none;width:100%;height:100%}
 .wrap{position:relative;z-index:1;max-width:780px;margin:0 auto;padding-inline:16px;padding-block:20px 90px}
@@ -48,8 +48,8 @@ h1{font-family:var(--display);font-weight:700;font-size:clamp(32px,7vw,54px);lin
 h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 h2{font-family:var(--display);font-weight:700;font-size:clamp(24px,5vw,34px);line-height:1.1;margin:6px 0 0;text-wrap:balance}
 h3{font-family:var(--display);font-size:20px;margin:14px 0 8px}
-.lead{font-size:17px;color:#ECE1D4;max-width:60ch;margin:0}
-p.txt{font-size:16px;line-height:1.65;color:#e9ded4;margin:10px 0}
+.lead{font-size:17px;color:#EEE0C8;max-width:60ch;margin:0}
+p.txt{font-size:16px;line-height:1.65;color:#eee0c8;margin:10px 0}
 p.txt b{color:var(--fg)}
 .accent{color:var(--apricot);font-weight:650}
 .mint{color:var(--mint);font-weight:650}
@@ -66,12 +66,12 @@ p.txt b{color:var(--fg)}
 .mod .ava img{width:100%;height:100%;object-fit:cover;border-radius:20px}
 .mod h4{margin:0;font-family:var(--display);font-size:19px}
 .mod .sub{font-size:13.5px;color:var(--muted);margin-top:3px}
-.mbar{height:8px;border-radius:4px;background:rgba(255,230,210,.1);overflow:hidden;margin-top:10px}
+.mbar{height:8px;border-radius:4px;background:rgba(238,224,200,.1);overflow:hidden;margin-top:10px}
 .mbar i{display:block;height:100%;border-radius:4px;background:var(--grad);transition:width .5s}
 .mrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px}
 .mstats{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
 .mstats b{color:var(--fg);font-weight:600}
-.btn{height:48px;padding:0 20px;border-radius:14px;border:0;font-weight:650;font-size:15px;background:var(--cobalt);color:#F5E8DB;box-shadow:0 10px 30px -12px rgba(90,130,255,.55);transition:transform .15s,filter .2s}
+.btn{height:48px;padding:0 20px;border-radius:14px;border:0;font-weight:650;font-size:15px;background:var(--cobalt);color:#EEE0C8;box-shadow:0 10px 30px -12px rgba(47,91,181,.55);transition:transform .15s,filter .2s}
 .btn:hover{filter:brightness(1.06)}
 .btn:active{transform:scale(.97)}
 .btn:disabled{opacity:.4;cursor:default;box-shadow:none}
@@ -85,7 +85,7 @@ p.txt b{color:var(--fg)}
 .fig{margin:8px 0 2px;display:flex;justify-content:center;overflow-x:auto}
 .fig svg{max-width:100%;height:auto}
 .photo-pie{display:grid;justify-items:center;gap:4px;flex:none}
-.photo-pie .ph{position:relative;width:130px;height:130px;border-radius:50%;overflow:hidden;box-shadow:0 16px 34px -18px rgba(0,0,0,.75);background:rgba(245,232,219,.05)}
+.photo-pie .ph{position:relative;width:130px;height:130px;border-radius:50%;overflow:hidden;box-shadow:0 16px 34px -18px rgba(0,0,0,.75);background:rgba(238,224,200,.05)}
 .photo-pie .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
 .photo-pie .ph svg{position:absolute;inset:0;width:100%;height:100%}
 .photo-pie .plabel{font-size:17px;font-weight:600;font-variant-numeric:tabular-nums}
@@ -97,13 +97,13 @@ svg .acc{stroke:var(--apricot);stroke-width:2.6;fill:none}
 svg .mint-s{stroke:var(--mint);stroke-width:2.6;fill:none}
 .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:.88em;line-height:1.15;margin:0 2px}
 .fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 3px}
-.petsay{display:flex;gap:10px;align-items:flex-start;margin-top:10px;padding:12px 14px;border-radius:16px;background:rgba(207,137,96,.09);border:1px solid rgba(207,137,96,.28)}
+.petsay{display:flex;gap:10px;align-items:flex-start;margin-top:10px;padding:12px 14px;border-radius:16px;background:rgba(221,122,58,.09);border:1px solid rgba(221,122,58,.28)}
 .petsay img{width:40px;height:40px;border-radius:12px;object-fit:cover;flex:none}
-.petsay .say{font-size:14.5px;color:#f0cdb6}
+.petsay .say{font-size:14.5px;color:#eee0c8}
 .petsay .say b{color:var(--apricot)}
 .navrow{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
 .dots{display:flex;gap:6px;margin-top:14px}
-.dots i{width:8px;height:8px;border-radius:50%;background:rgba(255,230,210,.14)}
+.dots i{width:8px;height:8px;border-radius:50%;background:rgba(238,224,200,.14)}
 .dots i.on{background:var(--apricot)}
 .dots i.done{background:var(--mint)}
 
@@ -113,32 +113,32 @@ svg .mint-s{stroke:var(--mint);stroke-width:2.6;fill:none}
 .opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
 .opt{min-height:52px;padding:10px 14px;border-radius:16px;border:1px solid var(--line);background:rgba(0,0,0,.22);font-size:16px;display:flex;align-items:center;gap:10px;text-align:left;transition:border-color .2s,background .2s}
 .opt .k{width:26px;height:26px;flex:none;border-radius:8px;display:grid;place-items:center;background:var(--glass2);font-size:13px;font-weight:700;color:var(--muted)}
-.opt.sel{border-color:var(--apricot);background:rgba(255,160,120,.12)}
-.opt.ok{border-color:var(--mint);background:rgba(189,191,170,.12)}
-.opt.bad{border-color:var(--miss);background:rgba(255,143,115,.1)}
+.opt.sel{border-color:var(--apricot);background:rgba(221,122,58,.12)}
+.opt.ok{border-color:var(--mint);background:rgba(155,176,138,.12)}
+.opt.bad{border-color:var(--miss);background:rgba(221,122,58,.1)}
 .opt.dis{pointer-events:none}
 .fb{border-radius:18px;padding:14px 16px;display:flex;gap:12px;align-items:center;margin-top:14px;animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
 @keyframes pop{from{opacity:.001;transform:scale(.92)}}
-.fb.ok{background:rgba(189,191,170,.1);border:1px solid rgba(189,191,170,.35)}
-.fb.bad{background:rgba(255,154,133,.08);border:1px solid rgba(255,154,133,.3)}
+.fb.ok{background:rgba(155,176,138,.1);border:1px solid rgba(155,176,138,.35)}
+.fb.bad{background:rgba(221,122,58,.08);border:1px solid rgba(221,122,58,.3)}
 .fb .ic{width:38px;height:38px;flex:none;border-radius:50%;display:grid;place-items:center}
-.fb.ok .ic{background:var(--mint);color:#212E30}
-.fb.bad .ic{background:rgba(255,154,133,.2);color:var(--miss)}
+.fb.ok .ic{background:var(--mint);color:#16231A}
+.fb.bad .ic{background:rgba(221,122,58,.2);color:var(--miss)}
 .fb .ic svg{width:19px;height:19px}
 .fb .t{font-weight:650;font-size:15.5px}
 .fb .s{font-size:14px;color:var(--muted)}
 .ans{margin-top:18px;display:grid;gap:12px}
 .irow{display:flex;gap:10px;flex-wrap:wrap}
 .field{flex:1 1 200px;min-width:0;height:54px;padding:0 18px;border-radius:16px;border:1px solid var(--line);background:rgba(0,0,0,.25);font-size:19px;font-variant-numeric:tabular-nums;transition:border-color .2s,box-shadow .2s}
-.field:focus{outline:none;border-color:rgba(255,180,138,.6);box-shadow:0 0 0 4px rgba(255,160,120,.12)}
+.field:focus{outline:none;border-color:rgba(201,171,130,.6);box-shadow:0 0 0 4px rgba(221,122,58,.12)}
 .field::placeholder{color:var(--faint);font-size:15px}
 .hint{margin-top:12px}
-.hintbox{padding:12px 16px;border-radius:14px;background:rgba(255,210,122,.08);border:1px solid rgba(255,210,122,.25);font-size:15px;animation:enter .4s both}
+.hintbox{padding:12px 16px;border-radius:14px;background:rgba(226,176,74,.08);border:1px solid rgba(226,176,74,.25);font-size:15px;animation:enter .4s both}
 .hintbox small{display:block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:3px}
 .stmt{font-size:18.5px;line-height:1.6;text-wrap:pretty;margin-top:14px}
 ol.steps{list-style:none;margin:12px 0 4px;padding:0;display:grid;gap:8px}
-ol.steps li{display:flex;gap:12px;align-items:flex-start;padding:11px 14px;border-radius:14px;background:rgba(245,232,219,.05);border:1px solid var(--line);font-size:15px;line-height:1.5;color:#e9ded4}
-ol.steps .n{flex:none;width:25px;height:25px;border-radius:8px;display:grid;place-items:center;background:var(--grad);color:#212E30;font-weight:800;font-size:13px;margin-top:1px}
+ol.steps li{display:flex;gap:12px;align-items:flex-start;padding:11px 14px;border-radius:14px;background:rgba(238,224,200,.05);border:1px solid var(--line);font-size:15px;line-height:1.5;color:#eee0c8}
+ol.steps .n{flex:none;width:25px;height:25px;border-radius:8px;display:grid;place-items:center;background:var(--grad);color:#16231A;font-weight:800;font-size:13px;margin-top:1px}
 .shake{animation:shake .45s}
 @keyframes shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
 .xp{position:fixed;z-index:60;font-family:var(--display);font-weight:700;font-size:22px;color:var(--mint);pointer-events:none;animation:up 1.1s ease-out forwards}
@@ -210,7 +210,7 @@ const sfx={tap:()=>tone(880,0,.06,"sine",.03),soft:()=>{tone(440,0,.25,"sine",.0
 
 /* ---------- particles ---------- */
 const cv=$("#fx"),cx=cv.getContext("2d");let P=[],raf=0;
-const COLS=['#F5E8DB','#27439B','#CCD0D5','#CF8960','#F0D56E','#BDBFAA'];
+const COLS=['#EEE0C8','#2F5BB5','#B6CBE3','#DD7A3A','#E2B04A','#9BB08A'];
 function fit(){const d=devicePixelRatio||1;cv.width=innerWidth*d;cv.height=innerHeight*d;cx.setTransform(d,0,0,d,0,0)}
 addEventListener("resize",fit);fit();
 function burst(x,y,n=70,power=7){for(let i=0;i<n;i++){const a=Math.PI*2*i/n+Math.random()*.4,s=power*(.4+Math.random()*.7);P.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-2,g:.2,life:1,dec:.012+Math.random()*.012,c:COLS[i%COLS.length],sz:2+Math.random()*4,rot:Math.random()*6,vr:(Math.random()-.5)*.3,sh:Math.random()<.5?"rect":"dot"})}if(!raf)loop()}
@@ -218,32 +218,32 @@ function loop(){cx.clearRect(0,0,innerWidth,innerHeight);P=P.filter(p=>p.life>0)
 function xpFloat(el,n=10){const r=el.getBoundingClientRect();const e=document.createElement("div");e.className="xp";e.textContent="+"+n;e.style.left=r.left+r.width/2+"px";e.style.top=r.top+"px";document.body.appendChild(e);setTimeout(()=>e.remove(),1200)}
 
 /* ---------- SVG figure builders ---------- */
-function stripSVG(n,d,label,color="#CF8960",w=300){const cw=w/d,h=54;let r="";for(let i=0;i<d;i++){r+=`<rect x="${i*cw}" y="6" width="${cw-3}" height="${h-12}" rx="5" fill="${i<n?color:"rgba(245,232,219,.1)"}" stroke="rgba(245,232,219,.25)"/>`}
+function stripSVG(n,d,label,color="#DD7A3A",w=300){const cw=w/d,h=54;let r="";for(let i=0;i<d;i++){r+=`<rect x="${i*cw}" y="6" width="${cw-3}" height="${h-12}" rx="5" fill="${i<n?color:"rgba(238,224,200,.1)"}" stroke="rgba(238,224,200,.25)"/>`}
  return `<svg width="${w}" height="${h+22}" viewBox="0 0 ${w} ${h+22}">${r}${label?`<text class=tm x="${w/2}" y="${h+16}" text-anchor="middle">${label}</text>`:""}</svg>`}
-function twoStrips(a,an,ad,b,bn,bd,color="#CF8960"){return `<div class=fig style="display:grid;gap:4px;justify-items:center">${stripSVG(an,ad,a,"",color)}${stripSVG(bn,bd,b,"",color)}</div>`}
-function pizzaSVG(n,d,label,color="#CF8960"){const C=2*Math.PI*48,f=n/d*C;return `<svg width="130" height="150" viewBox="0 0 130 150"><circle cx="65" cy="65" r="48" fill="rgba(245,232,219,.08)" stroke="rgba(245,232,219,.3)"/><circle cx="65" cy="65" r="48" fill="none" stroke="${color}" stroke-width="13" stroke-dasharray="${f} ${C-f}" transform="rotate(-90 65 65)" stroke-linecap="butt" opacity=".9"/><text class=tx x="65" y="72" text-anchor="middle" style="font-size:19px">${label}</text><text class=tm x="65" y="142" text-anchor="middle">целое разделено на ${d}</text></svg>`}
+function twoStrips(a,an,ad,b,bn,bd,color="#DD7A3A"){return `<div class=fig style="display:grid;gap:4px;justify-items:center">${stripSVG(an,ad,a,"",color)}${stripSVG(bn,bd,b,"",color)}</div>`}
+function pizzaSVG(n,d,label,color="#DD7A3A"){const C=2*Math.PI*48,f=n/d*C;return `<svg width="130" height="150" viewBox="0 0 130 150"><circle cx="65" cy="65" r="48" fill="rgba(238,224,200,.08)" stroke="rgba(238,224,200,.3)"/><circle cx="65" cy="65" r="48" fill="none" stroke="${color}" stroke-width="13" stroke-dasharray="${f} ${C-f}" transform="rotate(-90 65 65)" stroke-linecap="butt" opacity=".9"/><text class=tx x="65" y="72" text-anchor="middle" style="font-size:19px">${label}</text><text class=tm x="65" y="142" text-anchor="middle">целое разделено на ${d}</text></svg>`}
 /* нарисованная пицца: корочка, начинка, честные доли (фото не подходили) */
 function wp(cx,cy,r,a1,a2){const x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1),x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2);return `M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 0 1 ${x2.toFixed(1)},${y2.toFixed(1)} Z`}
-function pieBase(c,r,inner){let s=`<circle cx="${c}" cy="${c}" r="${r}" fill="#a05c2c"/>`;
- for(let i=0;i<18;i++){const a=i/18*2*Math.PI;s+=`<circle cx="${(c+(r-3)*Math.cos(a)).toFixed(1)}" cy="${(c+(r-3)*Math.sin(a)).toFixed(1)}" r="2.6" fill="#a05c2c"/>`}
- s+=`<circle cx="${c}" cy="${c}" r="${r-6}" fill="#c9853f"/><circle cx="${c}" cy="${c}" r="${inner+3}" fill="#eeb964"/><circle cx="${c}" cy="${c}" r="${inner*.6}" fill="#f6cd7d" opacity=".5"/>`;
+function pieBase(c,r,inner){let s=`<circle cx="${c}" cy="${c}" r="${r}" fill="#9c6b40"/>`;
+ for(let i=0;i<18;i++){const a=i/18*2*Math.PI;s+=`<circle cx="${(c+(r-3)*Math.cos(a)).toFixed(1)}" cy="${(c+(r-3)*Math.sin(a)).toFixed(1)}" r="2.6" fill="#9c6b40"/>`}
+ s+=`<circle cx="${c}" cy="${c}" r="${r-6}" fill="#dd7a3a"/><circle cx="${c}" cy="${c}" r="${inner+3}" fill="#e2b04a"/><circle cx="${c}" cy="${c}" r="${inner*.6}" fill="#e2b04a" opacity=".5"/>`;
  return s}
 function pieDots(c,inner,d){let s="";const cnt=d>1?d*2:6;
  for(let i=0;i<cnt;i++){const a=(d>1?(Math.floor(i/2)+.5)*2*Math.PI/d:i*2*Math.PI/cnt)-Math.PI/2,dd=i%2?.72:.5;
   const px=c+inner*dd*Math.cos(a+.28),py=c+inner*dd*Math.sin(a+.28);
-  s+=`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${i%2?3.4:4.6}" fill="#b03a2e" opacity=".9"/>`}
+  s+=`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${i%2?3.4:4.6}" fill="#dd7a3a" opacity=".9"/>`}
  return s}
 function imgPie(img,label,sub){return `<div class=photo-pie><div class=ph><img src="img/${img}" alt=""></div>${label?`<div class=plabel>${label}</div>`:""}${sub?`<div class=psub>${sub}</div>`:""}</div>`}
-function photoPie(n,d,label,color="#CF8960"){
+function photoPie(n,d,label,color="#DD7A3A"){
  const c=65,r=56,inner=r-9;let fills="";
  if(d>1){for(let i=0;i<d;i++){const a1=i*2*Math.PI/d-Math.PI/2,a2=(i+1)*2*Math.PI/d-Math.PI/2;
-  fills+=`<path d="${wp(c,c,inner,a1,a2)}" fill="${i<n?color:"#f9e2a8"}" fill-opacity="${i<n?.95:.75}" stroke="#8a5a2b" stroke-width="1.6"/>`}}
+  fills+=`<path d="${wp(c,c,inner,a1,a2)}" fill="${i<n?color:"#eee0c8"}" fill-opacity="${i<n?.95:.75}" stroke="#9c6b40" stroke-width="1.6"/>`}}
  const s=pieBase(c,r,inner)+fills+pieDots(c,inner,d);
  return `<div class=photo-pie><div class=ph><svg viewBox="0 0 130 130">${s}</svg></div><div class=plabel>${label}</div><div class=psub>целое разделено на ${d}</div></div>`}
 function photoPiePct(p){
  const c=65,r=56,inner=r-9,R=inner-2,C=2*Math.PI*R,f=p/100*C;
  let s=pieBase(c,r,inner)+pieDots(c,inner,5);
- s+=`<circle cx="${c}" cy="${c}" r="${R}" fill="none" stroke="rgba(245,232,219,.25)" stroke-width="10"/><circle cx="${c}" cy="${c}" r="${R}" fill="none" stroke="#CF8960" stroke-width="10" stroke-dasharray="${f} ${C-f}" transform="rotate(-90 ${c} ${c})"/><circle cx="${c}" cy="${c}" r="23" fill="rgba(33,46,48,.62)"/><text x="${c}" y="${c+6}" text-anchor="middle" style="font-size:17px;font-weight:700;fill:#F5E8DB">${p}%</text>`;
+ s+=`<circle cx="${c}" cy="${c}" r="${R}" fill="none" stroke="rgba(238,224,200,.25)" stroke-width="10"/><circle cx="${c}" cy="${c}" r="${R}" fill="none" stroke="#DD7A3A" stroke-width="10" stroke-dasharray="${f} ${C-f}" transform="rotate(-90 ${c} ${c})"/><circle cx="${c}" cy="${c}" r="23" fill="rgba(22,35,26,.62)"/><text x="${c}" y="${c+6}" text-anchor="middle" style="font-size:17px;font-weight:700;fill:#EEE0C8">${p}%</text>`;
  return `<div class=photo-pie><div class=ph><svg viewBox="0 0 130 130">${s}</svg></div></div>`}
 function piesRow(list){return `<div class=fig style="gap:16px;flex-wrap:wrap">${list.map(p=>p[3]?imgPie(p[3],p[2],`целое разделено на ${p[1]}`):photoPie(p[0],p[1],p[2])).join("")}</div>`}
 function nlineSVG(a,b,marks){ /* числовая прямая от a до b, marks — [[val,label,color]] */
@@ -267,10 +267,10 @@ function addArrowsSVG(a,b){ /* a + b на прямой */
  t+=`<circle cx="${x(c)}" cy="${y0}" r="6.5" fill="var(--mint)"/><text class=tx x="${x(c)}" y="${y0-32}" text-anchor="middle" style="fill:var(--mint)">ответ: ${c}</text>`;
  return `<svg width="${W}" height="105" viewBox="0 0 ${W} 105"><defs><marker id="ah" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><polygon points="0,0 9,4.5 0,9" fill="var(--apricot)"/></marker></defs>${t}</svg>`}
 function absSVG(v){return nlineSVG(-v-1.5,v+1.5,[[-v,"−"+v,"var(--lilac)"],[0,"0"],[v,v,"var(--apricot)"]])}
-function pctGridSVG(p,color="#CF8960"){let r="";for(let i=0;i<100;i++){const x=(i%10)*20,y=Math.floor(i/10)*20;r+=`<rect x="${x+1}" y="${y+1}" width="18" height="18" rx="3" fill="${i<p?color:"rgba(245,232,219,.09)"}"/>`}
+function pctGridSVG(p,color="#DD7A3A"){let r="";for(let i=0;i<100;i++){const x=(i%10)*20,y=Math.floor(i/10)*20;r+=`<rect x="${x+1}" y="${y+1}" width="18" height="18" rx="3" fill="${i<p?color:"rgba(238,224,200,.09)"}"/>`}
  return `<svg width="200" height="228" viewBox="0 0 200 228">${r}<text class=tx x="100" y="220" text-anchor="middle">${p} из 100 клеток = ${p}%</text></svg>`}
-function pctBarSVG(p){const W=420;return `<svg width="${W}" height="86" viewBox="0 0 ${W} 86"><rect x="10" y="30" width="${W-20}" height="26" rx="13" fill="rgba(245,232,219,.08)" stroke="rgba(245,232,219,.25)"/><rect x="10" y="30" width="${(W-20)*p/100}" height="26" rx="13" fill="var(--apricot)" opacity=".9"/><text class=tx x="${10+(W-20)*p/100}" y="22" text-anchor="middle" style="fill:var(--apricot)">${p}%</text><text class=tm x="10" y="76">0%</text><text class=tm x="${W-10}" y="76" text-anchor="end">100%</text></svg>`}
-function piePctSVG(p){const C=2*Math.PI*54,f=p/100*C;return `<svg width="150" height="172" viewBox="0 0 150 172"><circle cx="75" cy="72" r="54" fill="rgba(245,232,219,.08)" stroke="rgba(245,232,219,.3)"/><circle cx="75" cy="72" r="54" fill="none" stroke="var(--apricot)" stroke-width="16" stroke-dasharray="${f} ${C-f}" transform="rotate(-90 75 72)"/><text class=tx x="75" y="80" text-anchor="middle" style="font-size:21px">${p}%</text></svg>`}
+function pctBarSVG(p){const W=420;return `<svg width="${W}" height="86" viewBox="0 0 ${W} 86"><rect x="10" y="30" width="${W-20}" height="26" rx="13" fill="rgba(238,224,200,.08)" stroke="rgba(238,224,200,.25)"/><rect x="10" y="30" width="${(W-20)*p/100}" height="26" rx="13" fill="var(--apricot)" opacity=".9"/><text class=tx x="${10+(W-20)*p/100}" y="22" text-anchor="middle" style="fill:var(--apricot)">${p}%</text><text class=tm x="10" y="76">0%</text><text class=tm x="${W-10}" y="76" text-anchor="end">100%</text></svg>`}
+function piePctSVG(p){const C=2*Math.PI*54,f=p/100*C;return `<svg width="150" height="172" viewBox="0 0 150 172"><circle cx="75" cy="72" r="54" fill="rgba(238,224,200,.08)" stroke="rgba(238,224,200,.3)"/><circle cx="75" cy="72" r="54" fill="none" stroke="var(--apricot)" stroke-width="16" stroke-dasharray="${f} ${C-f}" transform="rotate(-90 75 72)"/><text class=tx x="75" y="80" text-anchor="middle" style="font-size:21px">${p}%</text></svg>`}
 function piesPctRow(list){const M={25:["pie-14.jpg","четверть"],50:["pie-12.jpg","половина"],75:["pie-34.jpg","три четверти"]};return `<div class=fig style="gap:18px;flex-wrap:wrap">${list.map(p=>{const e=M[p];return e?imgPie(e[0],p+"%",e[1]):photoPiePct(p)}).join("")}</div>`}
 function eqStrips(){return `<div class=fig style="display:grid;gap:6px;justify-items:center">${stripSVG(1,2,"1/2")}${stripSVG(2,4,"2/4")}${stripSVG(3,6,"3/6")}</div>`}
 function wholePie(label){const c=65,r=56,inner=r-9;const s=pieBase(c,r,inner)+pieDots(c,inner,5);
