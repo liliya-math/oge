@@ -64,6 +64,21 @@ h1{margin:4px 0 6px;font-size:clamp(24px,6vw,34px);line-height:1.15;letter-spaci
 .lesson-form button{cursor:pointer}.lesson-form button:disabled{opacity:.5;cursor:default}
 </style>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<style>
+/* палитра lili.math: цвета по квадратикам и кнопкам */
+.brand img{height:24px;width:auto;display:block}
+.lesson-grid .tile:nth-child(6n+1){--c:#E2B04A;--ink:#16231A}
+.lesson-grid .tile:nth-child(6n+2){--c:#2F5BB5;--ink:#EEE0C8}
+.lesson-grid .tile:nth-child(6n+3){--c:#DD7A3A;--ink:#16231A}
+.lesson-grid .tile:nth-child(6n+4){--c:#B6CBE3;--ink:#16231A}
+.lesson-grid .tile:nth-child(6n+5){--c:#5F7B3F;--ink:#EEE0C8}
+.lesson-grid .tile:nth-child(6n+6){--c:#C9AB82;--ink:#16231A}
+.rbtn{background:#DD7A3A}
+.calwrap button[data-cw]{background:#2F5BB5;color:#EEE0C8}
+.calwrap button[data-cw="0"]{background:#E2B04A;color:#16231A}
+.crumbs a{border-color:#EEE0C838;color:#EEE0C8}
+.card,.panel{border-top:4px solid #2F5BB5}
+</style>
 </head>
 <body>
 <div class="wrap" id="app"><p class="lead">Открываю…</p></div>
@@ -76,7 +91,7 @@ const API='https://script.google.com/macros/s/AKfycbwg68-wqapNubGW4BuTEB_ri38yu4
 let PASS='';try{PASS=localStorage.getItem('cab-admin')||''}catch(e){}
 const getId=()=>decodeURIComponent(location.hash.slice(1)||'').toUpperCase().replace(/[^0-9A-Z.]/g,'');
 const SUBJ={A:'Алгебра',G:'Геометрия'};
-function fail(t,x){app.innerHTML=`<div class="bar"><span></span><span class="brand">lili<b>.</b>math</span></div><h1>${esc(t)}</h1><p class="lead">${esc(x)}</p>`}
+function fail(t,x){app.innerHTML=`<div class="bar"><span></span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184"></span></div><h1>${esc(t)}</h1><p class="lead">${esc(x)}</p>`}
 async function admin(op,fields={}){
   const r=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({admin:PASS,op,...fields})});
   const result=await r.json();
@@ -104,7 +119,7 @@ function crumbs(id){
 function home(){
   const tiles=[];
   for(let g=5;g<=9;g++)['A','G'].forEach(s=>{const id=g+s;tiles.push(`<a class="tile" href="#${id}"><b>${g} ${s==='A'?'алгебра':'геом.'}</b></a>`)});
-  app.innerHTML=`<div class="bar"><span class="id">Карта · только для учителя</span><span class="brand">lili<b>.</b>math</span></div><h1>Карта материалов</h1><p class="lead">Выбери класс.</p><div class="grid">${tiles.join('')}<a class="tile" href="#OGE"><b>ОГЭ, часть 1</b><small>задания 1-19</small></a></div>`;
+  app.innerHTML=`<div class="bar"><span class="id">Карта · только для учителя</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184"></span></div><h1>Карта материалов</h1><p class="lead">Выбери класс.</p><div class="grid">${tiles.join('')}<a class="tile" href="#OGE"><b>ОГЭ, часть 1</b><small>задания 1-19</small></a></div>`;
 }
 let editMode=false;
 function routeCard(){
@@ -271,11 +286,11 @@ function renderCal(){
   const days=(String(myMode.st.days||'').split('|')[0].toLowerCase().match(/пн|вт|ср|чт|пт|сб|вс/g)||[]);
   const lessonWd=new Set(days.map(x=>WD.map(w=>w.toLowerCase()).indexOf(x)));
   const now=new Date();now.setHours(0,0,0,0);const mon=new Date(now);mon.setDate(now.getDate()-((now.getDay()+6)%7)+calWeek*7);
-  let h='<h2>Календарь</h2><p class="lead">Перетащи квадратик на день (дни занятий ученика закрашены оранжево-жёлтым). Или открой квадратик и нажми на день. Занятие можно перетащить на другой день, ✕ убирает из календаря.</p><div style="display:flex;gap:8px;margin-bottom:10px"><button type="button" data-cw="-1">←</button><button type="button" data-cw="0">Сегодня</button><button type="button" data-cw="1">→</button></div><div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px">';
+  let h='<h2>Календарь</h2><p class="lead">Перетащи квадратик на день (дни занятий ученика закрашены оранжевым). Или открой квадратик и нажми на день. Занятие можно перетащить на другой день, ✕ убирает из календаря.</p><div style="display:flex;gap:8px;margin-bottom:10px"><button type="button" data-cw="-1">←</button><button type="button" data-cw="0">Сегодня</button><button type="button" data-cw="1">→</button></div><div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px">';
   for(let w=0;w<4;w++)for(let i=0;i<7;i++){
     const d=new Date(mon);d.setDate(mon.getDate()+w*7+i);const iso=isoD(d),on=lessonWd.has(d.getDay()),today=iso===isoD(now);
     const chips=myMode.st.cal.filter(y=>y.d===iso).map(y=>{const l=myMode.lessons.find(x=>x.id===y.id);const done=l&&/^✓/.test(l.mark||'');return `<div draggable="true" data-chip="${esc(y.id)}" style="font-size:11px;line-height:1.25;overflow-wrap:anywhere;padding:3px 4px;margin-top:3px;border-radius:6px;background:${(l&&l.col)||'#E2B04A'};color:${INK[l&&l.col]||'#16231A'};${done?'opacity:.6;':''};cursor:grab">${done?'✓ ':''}${esc(y.title)} <span data-x="${esc(y.id)}" style="cursor:pointer;opacity:.7">✕</span></div>`}).join('');
-    h+=`<div data-day="${iso}" style="min-height:74px;min-width:0;overflow:hidden;padding:4px;border-radius:8px;border:${on?'0':'1px'} solid ${today?'#E2B04A':'rgba(238,224,200,.28)'};background:${on?'linear-gradient(115deg,#E2B04A,#DD7A3A)':'transparent'};color:${on?'#16231A':'inherit'}"><b style="font-size:11px;white-space:nowrap;display:block">${WD[d.getDay()]} ${shortD(iso)}</b>${chips}</div>`;
+    h+=`<div data-day="${iso}" style="min-height:74px;min-width:0;overflow:hidden;padding:4px;border-radius:8px;border:${on?'0':'1px'} solid ${today?'#E2B04A':'rgba(238,224,200,.28)'};background:${on?'#DD7A3A':'transparent'};color:${on?'#16231A':'inherit'}"><b style="font-size:11px;white-space:nowrap;display:block">${WD[d.getDay()]} ${shortD(iso)}</b>${chips}</div>`;
   }
   box.innerHTML=h+'</div>';
   box.querySelectorAll('[data-cw]').forEach(b=>b.onclick=()=>{calWeek=b.dataset.cw==='0'?0:calWeek+Number(b.dataset.cw);renderCal()});
@@ -312,14 +327,14 @@ async function initClassCal(){
 async function myPage(){
   document.title='Квадратики ученика · lili.math';
   let code='';try{code=sessionStorage.getItem('lili-route-student')||''}catch(e){}
-  app.innerHTML='<div class="bar"><span class="id">Ученик</span><span class="brand">lili<b>.</b>math</span></div><div class="crumbs"><a href="#">Карта</a></div><p class="lead" role="status">Загружаю программу ученика…</p>';
+  app.innerHTML='<div class="bar"><span class="id">Ученик</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184"></span></div><div class="crumbs"><a href="#">Карта</a></div><p class="lead" role="status">Загружаю программу ученика…</p>';
   let st=null;
   try{const j=await admin('list');st=(j.students||[]).find(x=>x.code===code)}catch(e){}
   if(!st){app.innerHTML+='<p class="empty">Не получилось найти ученика. Открой кабинет ученика и нажми «Открыть карту занятий».</p>';return}
   const progs=st.routes||[],done=new Set(st.routeDone||[]);
   const NAMES={'5':'5 класс','6':'6 класс','7A':'7 алгебра','7G':'7 геометрия','8A':'8 алгебра','8G':'8 геометрия','9A':'9 алгебра','9G':'9 геометрия',OGE:'ОГЭ, часть 1'};
   const nm=[st.name,st.fname].filter(Boolean).join(' ');
-  if(!progs.length){app.innerHTML=`<div class="bar"><span class="id">Ученик</span><span class="brand">lili<b>.</b>math</span></div><div class="crumbs"><a href="#">Карта</a></div><h1>${esc(nm)}</h1><p class="empty">Программа не выбрана. В кабинете ученика: настройки, «Программа по квадратикам».</p>`;return}
+  if(!progs.length){app.innerHTML=`<div class="bar"><span class="id">Ученик</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184"></span></div><div class="crumbs"><a href="#">Карта</a></div><h1>${esc(nm)}</h1><p class="empty">Программа не выбрана. В кабинете ученика: настройки, «Программа по квадратикам».</p>`;return}
   const seq=k=>(ROUTES[k]?ROUTES[k].lessons:[]).map(x=>({...x,tag:NAMES[k]}));
   const A=progs.filter(k=>k!=='OGE'&&k.slice(-1)!=='G').flatMap(seq),G=progs.filter(k=>k.slice(-1)==='G').flatMap(seq),O=progs.includes('OGE')?seq('OGE'):[];
   const school=[];let ai=0,gi=0,n=0;const pat=['A','A','G'];
@@ -329,18 +344,18 @@ async function myPage(){
   add('Школьная программа по порядку (алгебра, алгебра, геометрия)',school);
   add('ОГЭ, часть 1',O);
   route={chapters,lessons};myMode={code,st,lessons};selectedStudent=code;st.cal=st.cal||[];lessons.forEach(x=>{const c=st.cal.find(y=>y.id===x.id);if(c)x.cal=c.d});
-  app.innerHTML=`<div class="bar"><span class="id">Ученик</span><span class="brand">lili<b>.</b>math</span></div><div class="crumbs"><a href="#">Карта</a></div><h1>${esc(nm)}</h1><p class="lead">Программы: ${progs.map(k=>NAMES[k]).join(', ')}. ✓ проведено, → следующее.</p>`+'<div class="mywrap"><div>'+routeCard()+'</div><section class="card calwrap"><div id="cal"></div></section></div>';
+  app.innerHTML=`<div class="bar"><span class="id">Ученик</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184"></span></div><div class="crumbs"><a href="#">Карта</a></div><h1>${esc(nm)}</h1><p class="lead">Программы: ${progs.map(k=>NAMES[k]).join(', ')}. ✓ проведено, → следующее.</p>`+'<div class="mywrap"><div>'+routeCard()+'</div><section class="card calwrap"><div id="cal"></div></section></div>';
   bindRoute();renderCal();scrollTo(0,0);
 }
 function node(id){
   if(id!=='MY')myMode=null;
   editMode=false;
   if(id==='MY'){myPage();return}
-  if(id==='OGE'){document.title='ОГЭ, часть 1 · lili.math';route=ROUTES.OGE;app.innerHTML=`<div class="bar"><span class="id">ОГЭ</span><span class="brand">lili<b>.</b>math</span></div><div class="crumbs"><a href="#">Карта</a></div><h1>ОГЭ, часть 1</h1>`+(route?'<div class="mywrap"><div>'+routeCard()+'</div><section class="card calwrap"><label class="lead">Ученик <select id="cal-student"><option value="">Выбрать ученика</option></select></label><div id="cal"><p class="lead">Выбери ученика, и появится его календарь.</p></div></section></div>':'<p class="lead">Не получилось загрузить программу ОГЭ.</p>');bindRoute();if(route)initClassCal();scrollTo(0,0);return}
+  if(id==='OGE'){document.title='ОГЭ, часть 1 · lili.math';route=ROUTES.OGE;app.innerHTML=`<div class="bar"><span class="id">ОГЭ</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184"></span></div><div class="crumbs"><a href="#">Карта</a></div><h1>ОГЭ, часть 1</h1>`+(route?'<div class="mywrap"><div>'+routeCard()+'</div><section class="card calwrap"><label class="lead">Ученик <select id="cal-student"><option value="">Выбрать ученика</option></select></label><div id="cal"><p class="lead">Выбери ученика, и появится его календарь.</p></div></section></div>':'<p class="lead">Не получилось загрузить программу ОГЭ.</p>');bindRoute();if(route)initClassCal();scrollTo(0,0);return}
   if(!/^\d[AG]$/.test(id)){fail('Не нашла такой раздел','Вернись на «Карта» и выбери класс.');return}
   const title=label(id);
   document.title=title+' · lili.math';
-  let h=`<div class="bar"><span class="id">${esc(id)}</span><span class="brand">lili<b>.</b>math</span></div>${crumbs(id)}<h1>${esc(title)}</h1>`;
+  let h=`<div class="bar"><span class="id">${esc(id)}</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184"></span></div>${crumbs(id)}<h1>${esc(title)}</h1>`;
   route=ROUTES[id];if(route)h+='<div class="mywrap"><div>'+routeCard()+'</div><section class="card calwrap"><label class="lead">Ученик <select id="cal-student"><option value="">Выбрать ученика</option></select></label><div id="cal"><p class="lead">Выбери ученика, и появится его календарь.</p></div></section></div>';
   app.innerHTML=h;
   bindRoute();
