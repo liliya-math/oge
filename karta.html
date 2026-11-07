@@ -351,7 +351,7 @@ function draw(){const id=getId();if(!id)home();else node(id)}
 function go(){
   Promise.all([Promise.all(Object.keys(ROUTE_FILES).map(k=>fetch(ROUTE_FILES[k],{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}).catch(()=>null))),admin('routeEdits').then(j=>j||{},()=>({}))])
   .then(([rs,edAll])=>{const ed=edAll.edits||{},lay=edAll.layouts||{};Object.keys(ROUTE_FILES).forEach((k,i)=>{if(rs[i]&&rs[i].lessons){rs[i].key=k;rs[i].lessons.forEach(l=>{l.prog=k;l.col=PROGCOL[k]||'#E2B04A'});
-    const L=lay[k];if(L&&Array.isArray(L.lessons)){const by=Object.fromEntries(rs[i].lessons.map(x=>[x.id,x]));Object.keys(L.added||{}).forEach(id=>{const a=L.added[id];by[id]={id,chapter:a.ch,school:a.school||'',title:a.title,prog:k,col:PROGCOL[k]||'#E2B04A',added:true}});const seen=new Set(),ord=L.lessons.filter(x=>by[x.id]).map(x=>{const l=by[x.id];l.chapter=x.ch;seen.add(x.id);return l});rs[i].lessons=ord.concat(rs[i].lessons.filter(x=>!seen.has(x.id)))}
+    const L=lay[k];if(L&&Array.isArray(L.lessons)){const by=Object.fromEntries(rs[i].lessons.map(x=>[x.id,x]));Object.keys(L.added||{}).forEach(id=>{const a=L.added[id];if(a.school)return;by[id]={id,chapter:a.ch,school:a.school||'',title:a.title,prog:k,col:PROGCOL[k]||'#E2B04A',added:true}});const seen=new Set(),ord=L.lessons.filter(x=>by[x.id]).map(x=>{const l=by[x.id];l.chapter=x.ch;seen.add(x.id);return l});rs[i].lessons=ord.concat(rs[i].lessons.filter(x=>!seen.has(x.id)))}
     const mats=edAll.mats||{};rs[i].lessons.forEach(l=>{if(mats[l.id])l.has=mats[l.id];const e=ed[l.id];if(e){if(e.title)l.title=e.title;if(e.school)l.school=e.school}});ROUTES[k]=rs[i]}});READY=true;draw()})
   .catch(()=>fail('Не получилось открыть','Похоже, пропал интернет. Обнови страницу.'));
 }
