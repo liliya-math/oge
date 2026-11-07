@@ -16,3 +16,17 @@
 .eyebrow{color:#E2B04A}
 .cabnav button[aria-pressed=true]{background:#2F5BB5}
 .brandrow .logo{border-radius:9px}
+/* карточки сдач и статусы */
+.stu{border-top:4px solid #E2B04A;border-color:#EEE0C826}
+.stu:has(.kchip.new){border-top-color:#DD7A3A}
+.stu:has(.kchip.bbrd){border-top-color:#2F5BB5}
+.stu:has(.kchip.shaky){border-top-color:#5F7B3F}
+.stu:hover{border-color:#EEE0C888}
+.kchip{font-weight:700}
+.kchip.new{background:#DD7A3A;color:#16231A;border-color:#DD7A3A}
+.kchip.bbrd{background:#2F5BB5;color:#EEE0C8;border-color:#2F5BB5}
+.kchip.shaky{background:#E2B04A;color:#16231A;border-color:#E2B04A}
+.stuh b{color:#EEE0C8}
+.stum span:first-child{color:#EEE0C8}
+.klead b{color:#E2B04A}
+h2{color:#EEE0C8}
