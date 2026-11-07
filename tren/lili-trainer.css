@@ -82,10 +82,18 @@ body :is(.card, .mode):nth-of-type(6n + 4), body .right-column .support-card:nth
 }
 body :is(.card, .mode):nth-of-type(6n + 5) { --trainer-card-stripe: var(--trainer-moss); }
 body :is(.card, .mode):nth-of-type(6n + 6) { --trainer-card-stripe: var(--trainer-caramel); }
-body :is(.visual-panel, .solution, .why) {
+body :is(.solution, .why) {
   background: var(--trainer-card);
   border-color: var(--trainer-border);
 }
+body .app-shell .visual-panel {
+  background: var(--trainer-cream);
+  color: var(--trainer-bg);
+}
+body .app-shell .visual-panel :is(.visual-description p, .visual-description strong, .visual-foot) {
+  color: var(--trainer-bg);
+}
+body .visual-number { font-family: var(--trainer-font); }
 body dialog { background: var(--trainer-bg); }
 body .mode:hover { border-top-color: var(--trainer-card-stripe); }
 
@@ -213,3 +221,32 @@ body :is(input.ok, input.good) { border-color: var(--trainer-gold); }
 body a:not(:where(.brand, .btn, .secondary, .pill, .chip, .breadcrumb a)) {
   color: var(--trainer-blue) !important;
 }
+
+/* Cycle all six accents through repeated controls. Text stays light on dark. */
+body :is(.stage-link, .tabs button, .segmented button, .chips .chip, .hint-row) { --trainer-item: var(--trainer-cobalt); }
+body :is(.stage-link, .tabs button, .segmented button, .chips .chip, .hint-row):nth-child(6n + 2) { --trainer-item: var(--trainer-gold); }
+body :is(.stage-link, .tabs button, .segmented button, .chips .chip, .hint-row):nth-child(6n + 3) { --trainer-item: var(--trainer-orange); }
+body :is(.stage-link, .tabs button, .segmented button, .chips .chip, .hint-row):nth-child(6n + 4) { --trainer-item: var(--trainer-blue); }
+body :is(.stage-link, .tabs button, .segmented button, .chips .chip, .hint-row):nth-child(6n + 5) { --trainer-item: var(--trainer-moss); }
+body :is(.stage-link, .tabs button, .segmented button, .chips .chip, .hint-row):nth-child(6n + 6) { --trainer-item: var(--trainer-caramel); }
+body :is(.tabs button, .segmented button, .chips .chip):not(.on, .active, [aria-pressed="true"]) {
+  color: var(--trainer-cream);
+  border-color: var(--trainer-item);
+}
+body :is(.stage-link:not(.active, .done) .stage-index, .hint-row .hint-number) {
+  color: var(--trainer-cream);
+  border-color: var(--trainer-item);
+}
+body .mascot-hero img { object-fit: contain; }
+.trainer-identity { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.trainer-identity .trainer-wordmark { margin: 0; }
+.trainer-identity img {
+  display: block;
+  margin-left: auto;
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  border-radius: 18px;
+  border: 1px solid var(--trainer-border);
+}
+.trainer-identity--outer { width: min(100%, 660px); margin: 0 auto; padding: 16px 16px 0; }

@@ -31,8 +31,8 @@ sup{font-size:70%;line-height:0;vertical-align:super;white-space:nowrap}
 .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px}.fr i{display:block;font-style:normal;padding:0 4px;border-bottom:1px solid currentColor;line-height:1.25}.fr b{display:block;font-weight:normal;padding:0 4px;line-height:1.25}
 .dice{border-collapse:collapse;margin:8px 0}.dice td{width:30px;height:28px;text-align:center;border:1px solid var(--line);font-size:13px}.dice td.y{background:rgba(226,176,74,.25);color:var(--butter);font-weight:700}.dice td.h{color:var(--muted)}
 </style><link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="stylesheet" href="tren/lili-trainer.css?v=1">
-<script defer src="tren/lili-trainer.js?v=1"></script>
+<link rel="stylesheet" href="tren/lili-trainer.css?v=2">
+<script defer src="tren/lili-trainer.js?v=2"></script>
 </head><body><div class="wrap"><a href="z10-veroyatnost.html" style="color:var(--blue);font-size:14px;text-decoration:none">← Вероятность (задание 10)</a><h1>Тренажёр: новые числа каждый раз</h1><p class="sub">Семь типов задания 10. Ответ можно писать десятичной дробью (0,25) или обыкновенной (1/4).</p><div class="tabs" id="tabs"></div><p class="sub" id="stat">Верно с первой попытки: 0 из 0</p><div id="box"></div></div>
 <script>const parse=s=>{s=String(s).trim().replace(/\s+/g,'').replace(',','.');let m;if(m=s.match(/^(\d+)\/(\d+)$/))return +m[2]?(+m[1])/(+m[2]):NaN;if(/^\d+(\.\d+)?$/.test(s))return parseFloat(s);return NaN};
 const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));const pick=a=>a[R(0,a.length-1)];

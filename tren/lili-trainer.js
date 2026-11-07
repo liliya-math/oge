@@ -113,15 +113,54 @@
     pending.forEach(formatText);
   }
 
-  const existingBrand = document.querySelector('.brand');
-  if (!existingBrand?.textContent.includes('lili.math')) {
-    const brand = document.createElement('div');
-    brand.className = 'trainer-wordmark';
-    brand.textContent = 'lili.math';
-    const target = document.querySelector('.wrap');
-    if (target && target.id !== 'app') target.prepend(brand);
-    else document.body.insertBefore(brand, document.body.firstChild);
+  const portraits = [
+    ['capy', 'Капибара'], ['rac', 'Енот'], ['axo', 'Аксолотль'],
+    ['otr', 'Выдра'], ['qk', 'Квокка'], ['cat', 'Кот'],
+    ['mer', 'Сурикат'], ['ham', 'Хомяк'], ['bis', 'Крыса'],
+  ];
+  const topicPortraits = {
+    'trenazher-korni-kontrolnaya-8': 'otr',
+    'trenazher-drobi-s-nulya-8-oge': 'capy',
+    'trenazher-delenie-stolbikom': 'mer',
+    'trenazher-stepeni-8': 'rac',
+    'trenazher-procenty-7-klass': 'ham',
+    'trenazher-krugi-eylera-8-oge': 'axo',
+    'trenazher-funktsii-9-oge': 'cat',
+    'trenazher-nod-po-smyslu': 'qk',
+    'trenazher-tekstovye-zadachi-5-po-smyslu': 'bis',
+  };
+
+  function addPortrait() {
+    const topic = location.pathname.split('/').pop().replace(/(?:-gen)?\.html$/, '');
+    let index = 0;
+    for (const char of topic) index = (index * 31 + char.charCodeAt(0)) % portraits.length;
+    const [id, animal] = portraits.find(([id]) => id === topicPortraits[topic]) || portraits[index];
+    const existing = document.querySelector('.mascot-hero img');
+    const image = existing || document.createElement('img');
+    image.src = 'img/forest/' + id + '-idle.jpg';
+    image.alt = animal + ', талисман lili.math';
+    image.decoding = 'async';
+    if (existing) return;
+
+    image.width = image.height = 64;
+    const header = document.createElement('header');
+    header.className = 'trainer-identity';
+    if (!document.querySelector('.brand')?.textContent.includes('lili.math')) {
+      const brand = document.createElement('div');
+      brand.className = 'trainer-wordmark';
+      brand.textContent = 'lili.math';
+      header.append(brand);
+    }
+    header.append(image);
+    const target = document.querySelector('.wrap:not(#app)');
+    if (target) target.prepend(header);
+    else {
+      header.classList.add('trainer-identity--outer');
+      document.body.prepend(header);
+    }
   }
+
+  addPortrait();
   formatTree(document.body);
 
   const observer = new MutationObserver(records => {
