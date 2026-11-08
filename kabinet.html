@@ -549,6 +549,7 @@ a.btn{display:inline-flex;align-items:center;text-decoration:none;height:48px}
 .stat b{display:block;font-family:var(--display);font-weight:800;font-size:28px;letter-spacing:-.03em;line-height:1.1;font-variant-numeric:tabular-nums}
 .stat b em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .stat span{font-size:13px;color:var(--muted)}
+.lhist{display:grid;gap:14px;margin:12px 0 0;padding:0;list-style:none}.lhist li{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}.lh-d{font-size:13px;font-weight:600;color:#16231A;background:var(--apricot);border-radius:999px;padding:4px 10px;white-space:nowrap;margin-top:1px}.lh-t{font-size:15px;line-height:1.4;font-weight:500}.lh-a{display:inline-block;margin-top:8px;font-size:13px;font-weight:600;color:var(--fg);border:1px solid var(--line);border-radius:999px;padding:5px 12px;text-decoration:none}.lh-a:hover{border-color:var(--apricot)}
 .work{display:grid;gap:10px;margin:0;padding:0;list-style:none}
 .work li{display:grid;grid-template-columns:auto 1fr;gap:10px;font-size:15px;line-height:1.45}
 .work li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--apricot);margin-top:8px}
@@ -1449,7 +1450,7 @@ const ROUTE_PROGS=[['5','5 класс'],['6','6 класс'],['7A','7 алгеб
 function routeHistoryCard(){
  const history=D.routeHistory||[];
  if(!history.length)return '';
- return `<section class="card"><h2>Проведённые занятия</h2><ul class="work">${history.slice(0,30).map(item=>`<li><div><strong>${esc(item.title)}</strong> · ${esc(shortDate(item.date))}${/^https:\/\//i.test(item.theory)?` <a href="${esc(item.theory)}" target="_blank" rel="noopener noreferrer">Теория</a>`:''}</div></li>`).join('')}</ul></section>`;
+ return `<section class="card"><h2>Проведённые занятия</h2><ul class="lhist">${history.slice(0,30).map(item=>`<li><span class="lh-d">${esc(shortDate(item.date))}</span><div class="lh-b"><div class="lh-t">${esc(item.title)}</div>${/^https:\/\//i.test(item.theory)?`<a class="lh-a" href="${esc(item.theory)}" target="_blank" rel="noopener noreferrer">Открыть теорию</a>`:''}</div></li>`).join('')}</ul></section>`;
 }
 function openLessonRoute(){
  try{sessionStorage.setItem('lili-route-student',D.code||CODE)}catch(e){}
