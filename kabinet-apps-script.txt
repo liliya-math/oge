@@ -415,7 +415,7 @@ function doGet(e) {
     if (!st || st.row[11] === false) return json_({error: 'not_found'});
     return json_(lrPupilOptions_(SpreadsheetApp.getActive(), code, st, p.kind === 'weekly' ? 'weekly' : 'once', Date.now()));
   }
-  if (p.quiz === 'capabilities') return json_({ok:true,quiz:1,ogeMocks:2});
+  if (p.quiz === 'capabilities') return json_({ok:true,quiz:1,ogeMocks:2,quizTimer:1});
   if (p.quiz === 'load') return json_(quizLoad_(code,{work:p.q,version:p.v,assignment:p.a,row:p.row}));
   if (p.w) return json_(dzLoad_(code, String(p.w).trim(), Number(p.row) || 0));
   return json_(code ? studentDataCached_(code, false) : {error: 'no_code'});
@@ -449,7 +449,7 @@ function doPostRun_(e) {
       const result = lrRequest_(SpreadsheetApp.getActive(), code, st, body.lessonRequest, Date.now());
       return json_(result);
     }
-    if (body.quiz) return json_(quizSubmit_(code, body.quiz));
+    if (body.quiz) return json_(body.quiz.start ? quizStart_(code, body.quiz) : quizSubmit_(code, body.quiz));
     if (body.dz) return json_(dzSubmit_(code, body.dz));
     if (body.telegram === 'connect') return json_(telegramConnect_(code));
     if (body.workflow === true) return json_(workflowHw_(code, body, false));
@@ -1516,6 +1516,7 @@ var LiliQuiz = (function () {
     const kind=d.kind===undefined||d.kind===''?'free':(Object.prototype.hasOwnProperty.call(kinds,String(d.kind).trim().toLowerCase())?kinds[String(d.kind).trim().toLowerCase()]:null);
     if(!kind)fail('Неизвестный тип работы. Допустимо: дз, сам, контр.');
     const out={title:string(d.title,'Название',160),section:string(d.section,'Раздел',160),kind,tasks:[]};
+    if(d.time!==undefined&&d.time!==''&&d.time!==null){const t=Number(String(d.time).trim().replace(/\s*мин\.?$/i,''));if(!Number.isInteger(t)||t<1||t>180)fail('Время: целое число минут от 1 до 180.');out.time=t;}
     if(!Array.isArray(d.tasks)||!d.tasks.length||d.tasks.length>100)fail('Нужно от 1 до 100 заданий.');
     out.tasks=d.tasks.map((q,i)=>{
       if(!q||typeof q!=='object')fail('Некорректное задание '+(i+1));
@@ -1546,14 +1547,14 @@ var LiliQuiz = (function () {
   function parse(src) {
     if(typeof src!=='string'||src.length>80000)fail('Файл слишком большой (максимум 80 000 символов).');
     const d={title:'',section:'',tasks:[]};let q=null,last='';
-    const keys={'название':'title','раздел':'section','задание':'q','ответ':'answer','тип':'type','баллы':'points','подсказка':'hint','варианты':'options','тип работы':'kind','рисунок':'figure'};
+    const keys={'название':'title','раздел':'section','задание':'q','ответ':'answer','тип':'type','баллы':'points','подсказка':'hint','варианты':'options','тип работы':'kind','рисунок':'figure','время':'time'};
     src.replace(/^\uFEFF/,'').replace(/\r/g,'').split('\n').forEach((line,i)=>{
       if(!line.trim())return;
       if(/^\s*узел\s*:/i.test(line))return;
       const m=/^\s*([^:]+):\s*(.*)$/.exec(line), key=m&&Object.prototype.hasOwnProperty.call(keys,m[1].trim().toLowerCase())&&keys[m[1].trim().toLowerCase()];
       if(key){
         if(key==='q'){q={q:m[2]};d.tasks.push(q);last='q';return;}
-        const target=key==='title'||key==='section'||key==='kind'?d:q;
+        const target=key==='title'||key==='section'||key==='kind'||key==='time'?d:q;
         if(!target)fail('Строка '+(i+1)+': сначала напиши «Задание:».');
         if(Object.prototype.hasOwnProperty.call(target,key)&&target[key]!=='')fail('Строка '+(i+1)+': поле повторяется.');
         target[key]=key==='options'?m[2].split('|').map(v=>v.trim()):m[2];last=key;
@@ -1562,8 +1563,8 @@ var LiliQuiz = (function () {
     });
     return validate(d);
   }
-  function stringify(d){return 'Название: '+d.title+'\nРаздел: '+d.section+'\n'+(kindName[d.kind]?'Тип работы: '+kindName[d.kind]+'\n':'')+'\n'+d.tasks.map(q=>'Задание: '+q.q+(q.figure?'\nРисунок: '+q.figure:'')+'\nТип: '+({number:'число',set:'набор',choice:'выбор',text:'текст'}[q.type])+'\n'+(q.options.length?'Варианты: '+q.options.join(' | ')+'\n':'')+'Ответ: '+q.answer+'\nБаллы: '+q.points+(q.hint?'\nПодсказка: '+q.hint:'')).join('\n\n');}
-  function publicWork(d){const kind=d.kind||'free';return {title:d.title,section:d.section,kind,tasks:d.tasks.map(q=>({n:q.n,q:q.q,type:q.type,points:q.points,hint:limited(kind)?'':q.hint,figure:q.figure||'',options:q.options}))};}
+  function stringify(d){return 'Название: '+d.title+'\nРаздел: '+d.section+'\n'+(kindName[d.kind]?'Тип работы: '+kindName[d.kind]+'\n':'')+(d.time?'Время: '+d.time+'\n':'')+'\n'+d.tasks.map(q=>'Задание: '+q.q+(q.figure?'\nРисунок: '+q.figure:'')+'\nТип: '+({number:'число',set:'набор',choice:'выбор',text:'текст'}[q.type])+'\n'+(q.options.length?'Варианты: '+q.options.join(' | ')+'\n':'')+'Ответ: '+q.answer+'\nБаллы: '+q.points+(q.hint?'\nПодсказка: '+q.hint:'')).join('\n\n');}
+  function publicWork(d){const kind=d.kind||'free';return {title:d.title,section:d.section,kind,time:d.time||0,tasks:d.tasks.map(q=>({n:q.n,q:q.q,type:q.type,points:q.points,hint:limited(kind)?'':q.hint,figure:q.figure||'',options:q.options}))};}
   function grade(d,answers){let score=0;const tasks=d.tasks.map(q=>{const ok=same(answers[q.n],q);if(ok)score+=q.points;return {n:q.n,ok,points:ok?q.points:0};});return {score,max:d.tasks.reduce((n,q)=>n+q.points,0),tasks};}
   const sample='Название: Квадратные корни · первая проверка\nРаздел: Алгебра / 8 класс / Квадратные корни\n\nЗадание: Вычисли \\(\\sqrt{81}\\).\nОтвет: 9\nБаллы: 1\n\nЗадание: Вычисли \\(\\frac{3}{4}+\\frac{1}{4}\\).\nОтвет: 1\nБаллы: 1\n\nЗадание: Реши уравнение \\(x^2=25\\). Запиши корни через ;\nТип: набор\nОтвет: -5; 5\nБаллы: 2\nПодсказка: Какие числа при возведении в квадрат дают 25?\n\nЗадание: Выбери верное равенство.\nТип: выбор\nВарианты: √36 = 6 | √36 = -6 | √36 = 18\nОтвет: √36 = 6\nБаллы: 1';
   return {mockSection,isMock,parse,validate,stringify,publicWork,grade,same,number,limited,tries,sample};
@@ -1576,8 +1577,12 @@ if(typeof module!=='undefined')module.exports=LiliQuiz;
 const QUIZ_SHEETS = {
   'Виды тестов': ['Работа', 'Версия', 'Пробник первой части', 'Дата'],
   'Тесты': ['Работа', 'Версия', 'Название', 'Раздел', 'Дата', 'JSON'],
-  'Попытки тестов': ['Код', 'Работа', 'Версия', 'Назначение', 'Отправка', 'Дата', 'Название', 'Раздел', 'Баллы', 'Максимум', 'Секунд', 'JSON']
+  'Попытки тестов': ['Код', 'Работа', 'Версия', 'Назначение', 'Отправка', 'Дата', 'Название', 'Раздел', 'Баллы', 'Максимум', 'Секунд', 'JSON'],
+  'Старты тестов': ['Код', 'Назначение', 'Отправка', 'Работа', 'Версия', 'Старт']
 };
+// Timed works: the server fixes the start of an attempt and the deadline. A late submission is
+// kept (the pupil may have lost connection) but is marked and reported to the teacher.
+const QUIZ_GRACE_MS = 45000;
 function quizSheet_(name) {
   const ss=SpreadsheetApp.getActive();let sh=ss.getSheetByName(name);
   if(!sh){sh=ss.insertSheet(name);sh.getRange(1,1,1,QUIZ_SHEETS[name].length).setValues([QUIZ_SHEETS[name]]);sh.setFrozenRows(1);}
@@ -1671,7 +1676,25 @@ function quizHistory_(code,admin) {
 function quizLoad_(code,b) {
   if(!quizAssigned_(code,b))return {error:'not_assigned'};
   const d=quizDefinition_(String(b.work),Number(b.version));if(!d)return {error:'no_work'};
-  return {ok:true,quiz:1,work:Object.assign(LiliQuiz.publicWork(d),{id:d.id,version:d.version}),history:quizHistory_(code).filter(r=>r.assignment===b.assignment)};
+  const w=Object.assign(LiliQuiz.publicWork(d),{id:d.id,version:d.version});
+  if(d.time){w.count=d.tasks.length;w.max=d.tasks.reduce((n,q)=>n+q.points,0);w.tasks=[];}
+  return {ok:true,quiz:1,work:w,history:quizHistory_(code).filter(r=>r.assignment===b.assignment)};
+}
+// Start of a timed attempt. Repeating the call (page reload) returns the same start, so the clock never resets.
+function quizStart_(code,b) {
+  const a=quizAssigned_(code,b);if(!a)return {error:'not_assigned'};
+  const sid=String(b.submission||'');if(!/^[a-zA-Z0-9-]{16,80}$/.test(sid))return {error:'bad_value'};
+  const d=quizDefinition_(String(b.work),Number(b.version));if(!d)return {error:'no_work'};
+  if(!d.time)return {error:'bad_value'};
+  const done=quizValues_('Попытки тестов');
+  if(done.some(r=>String(r[0])===code&&String(r[4])===sid))return {error:'already_done'};
+  if(done.filter(r=>String(r[0])===code&&String(r[3])===String(b.assignment)).length>=LiliQuiz.tries(d.kind))return {error:'already_done'};
+  const now=Date.now();let start=0;
+  const old=quizValues_('Старты тестов').find(r=>String(r[0])===code&&String(r[1])===String(b.assignment)&&String(r[2])===sid);
+  if(old)start=new Date(old[5]).getTime();
+  else{start=now;quizSheet_('Старты тестов').appendRow([code,String(b.assignment),sid,d.id,d.version,new Date(start)]);}
+  const w=Object.assign(LiliQuiz.publicWork(d),{id:d.id,version:d.version});
+  return {ok:true,started:1,work:w,msLeft:Math.max(0,start+d.time*60000-now),limit:d.time*60};
 }
 function quizMarkHomework_(assignment,result){
   try {
@@ -1692,7 +1715,9 @@ function quizNotifyTeacher_(code,d,result,seconds,attempt){
     const lines=[(st?String(st.row[1]):code)+' · '+(KN[d.kind||'free']||KN.free),String(d.title),'Балл: '+result.score+' из '+result.max+' ('+pct+'%)'];
     if(wrong.length)lines.push('Неверно: '+wrong.join(', '));
     if(!LiliQuiz.limited(d.kind))lines.push('Подсказок: '+result.hints.length+' · «не знаю»: '+result.idk.length+(attempt>1?' · попытка '+attempt:''));
-    if(seconds)lines.push('Время: '+Math.max(1,Math.round(seconds/60))+' мин');
+    if(seconds)lines.push('Время: '+Math.max(1,Math.round(seconds/60))+' мин'+(d.time?' из '+d.time:''));
+    if(result.late)lines.push('Сдано с опозданием на '+result.late+' с. Проверь, прежде чем засчитывать.');
+    if(result.timer==='no_start')lines.push('Отметки о старте нет: время не проверено.');
     telegramNotifyTeacher_(lines.join('\n'),code);
   }catch(e){console.error('Quiz teacher notice: '+e);}
 }
@@ -1715,8 +1740,18 @@ function quizSubmit_(code,b) {
   const pick=v=>[...new Set((Array.isArray(v)?v:[]).map(String))].filter(n=>d.tasks.some(q=>q.n===n));
   const hints=LiliQuiz.limited(d.kind)?[]:pick(b.hints),idk=LiliQuiz.limited(d.kind)?[]:pick(b.idk);
   const result=Object.assign(LiliQuiz.grade(d,answers),{at:new Date().toISOString(),submission:sid,title:d.title,section:d.section,kind:d.kind||'free',hints,idk});
-  quizSheet_('Попытки тестов').appendRow([code,d.id,d.version,b.assignment,sid,new Date(),quizCell_(d.title),quizCell_(d.section),result.score,result.max,Math.max(0,Math.min(86400,Number(b.seconds)||0)),JSON.stringify(Object.assign({},result,{answers}))]);
-  quizNotifyTeacher_(code,d,result,Math.max(0,Math.min(86400,Number(b.seconds)||0)),quizValues_('Попытки тестов').filter(r=>String(r[0])===code&&String(r[3])===String(b.assignment)).length);
+  let seconds=Math.max(0,Math.min(86400,Number(b.seconds)||0));
+  if(d.time){
+    const st=quizValues_('Старты тестов').find(r=>String(r[0])===code&&String(r[1])===String(b.assignment)&&String(r[2])===sid);
+    if(!st)result.timer='no_start';
+    else{
+      const elapsed=Date.now()-new Date(st[5]).getTime();seconds=Math.max(0,Math.min(86400,Math.round(elapsed/1000)));
+      if(elapsed>d.time*60000+QUIZ_GRACE_MS){result.late=Math.round((elapsed-d.time*60000)/1000);}
+    }
+    result.limit=d.time*60;
+  }
+  quizSheet_('Попытки тестов').appendRow([code,d.id,d.version,b.assignment,sid,new Date(),quizCell_(d.title),quizCell_(d.section),result.score,result.max,seconds,JSON.stringify(Object.assign({},result,{answers}))]);
+  quizNotifyTeacher_(code,d,result,seconds,quizValues_('Попытки тестов').filter(r=>String(r[0])===code&&String(r[3])===String(b.assignment)).length);
   return {ok:true,result:quizPupilResult_(result),homeworkSynced:quizMarkHomework_(a,result)};
 }
 

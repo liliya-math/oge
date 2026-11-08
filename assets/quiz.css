@@ -44,3 +44,4 @@ th{color:var(--sand)}th,td{border-bottom-color:#EEE0C826}
 #save:disabled,#assign:disabled{background:#2B3D2B;color:#C9AB82}
 dialog{border-top:4px solid #2F5BB5}
 .panel h2{color:#EEE0C8}
+.timer{font-variant-numeric:tabular-nums;font-size:22px;font-weight:800;color:var(--sage);letter-spacing:-.02em}.timer-low{color:var(--bad)}

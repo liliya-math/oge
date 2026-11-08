@@ -147,3 +147,35 @@ test('classification rejects nonstandard mocks and explicit removal overrides se
 const e=env(),w=e.call('quizSave_',{work:Q.parse(Q.sample)});assert.equal(e.call('quizClassify_',{work:w.id,version:1,enabled:true}).error,'quiz_validation');assert.equal(e.call('quizSave_',{work:Q.parse(Q.sample),ogePart1:true}).error,'quiz_validation');
 const d={title:'Пробник',section:Q.mockSection,kind:'exam',tasks:Array.from({length:19},(_,i)=>({q:'Вычисли '+i,answer:String(i),points:1}))},r=e.call('quizSave_',{work:d});assert(r.ogePart1);assert(e.call('quizClassify_',{work:r.id,version:1,enabled:false}).ok);assert.equal(e.call('quizList_').works.find(t=>t.id===r.id).ogePart1,false);const next=e.call('quizSave_',{id:r.id,baseVersion:1,work:d});assert.equal(next.ogePart1,false);
 });
+
+test('time limit line: parse, roundtrip and bounds',()=>{
+const src=Q.sample.replace('\n\nЗадание','\nТип работы: контр\nВремя: 15\n\nЗадание');const d=Q.parse(src);assert.equal(d.time,15);assert.equal(d.kind,'exam');assert.deepEqual(Q.parse(Q.stringify(d)),d);assert.equal(Q.publicWork(d).time,15);
+assert.equal(Q.publicWork(Q.parse(Q.sample)).time,0);assert(!('time' in Q.parse(Q.sample)));
+for(const bad of ['0','181','1.5','abc','-3'])assert.throws(()=>Q.parse(src.replace('Время: 15','Время: '+bad)),/Время/);
+assert.throws(()=>Q.parse(src.replace('Время: 15','Время: 15\nВремя: 20')));
+assert.equal(Q.parse(src.replace('Время: 15','Время: 25 мин')).time,25);
+});
+test('timed work: tasks withheld until start, clock fixed by server, late is marked',()=>{
+const e=env(),work=Q.parse(Q.sample.replace('\n\nЗадание','\nТип работы: контр\nВремя: 10\n\nЗадание')),r=e.call('quizSave_',{work}),a=e.call('quizAssign_','alice',{work:r.id,version:1});
+const p={work:r.id,version:1,assignment:a.assignment,row:a.row},sid='submission-timed-0001';
+const load=e.call('quizLoad_','alice',p);assert.equal(load.work.time,10);assert.deepEqual(load.work.tasks,[]);assert.equal(load.work.count,4);
+assert.equal(e.call('quizStart_','bob',{...p,submission:sid}).error,'not_assigned');assert.equal(e.call('quizStart_','alice',{...p,submission:'x'}).error,'bad_value');
+const s1=e.call('quizStart_','alice',{...p,submission:sid});assert(s1.ok);assert.equal(s1.work.tasks.length,4);assert(!('answer' in s1.work.tasks[0]));assert(s1.msLeft>590000&&s1.msLeft<=600000);assert.equal(s1.limit,600);
+const s2=e.call('quizStart_','alice',{...p,submission:sid});assert(s2.msLeft<=s1.msLeft);assert.equal(e.sheets.get('Старты тестов').rows.length,2);
+// pupil is over the limit: start moved 20 minutes into the past
+e.sheets.get('Старты тестов').rows[1][5]=new Date(Date.now()-20*60000);
+const late=e.post({t:'alice',quiz:{...p,submission:sid,answers:{'1':'9'},seconds:1}});assert.equal(late.result.score,1);
+const rec=JSON.parse(e.sheets.get('Попытки тестов').rows[1][11]);assert(rec.late>=600&&rec.late<=700);assert.equal(rec.limit,600);assert(e.sheets.get('Попытки тестов').rows[1][10]>=1200);
+assert.equal(e.call('quizStart_','alice',{...p,submission:sid}).error,'already_done');
+});
+test('timed work: on-time submit is clean; submit without start is flagged; untimed work has no start',()=>{
+const e=env(),mk=src=>{const r=e.call('quizSave_',{work:Q.parse(src)}),a=e.call('quizAssign_','alice',{work:r.id,version:1});return {work:r.id,version:1,assignment:a.assignment,row:a.row};};
+const timed=mk(Q.sample.replace('\n\nЗадание','\nТип работы: сам\nВремя: 10\n\nЗадание'));
+assert(e.call('quizStart_','alice',{...timed,submission:'submission-timed-0002'}).ok);
+const ok=e.post({t:'alice',quiz:{...timed,submission:'submission-timed-0002',answers:{'1':'9'}}});assert.equal(ok.result.score,1);
+const rec=JSON.parse(e.sheets.get('Попытки тестов').rows[1][11]);assert(!rec.late);assert(!rec.timer);
+const free=mk(Q.sample);assert.equal(e.call('quizStart_','alice',{...free,submission:'submission-timed-0003'}).error,'bad_value');
+const t2=mk(Q.sample.replace('\n\nЗадание','\nТип работы: контр\nВремя: 5\n\nЗадание').replace('Название: ','Название: Другая '));
+e.post({t:'alice',quiz:{...t2,submission:'submission-timed-0004',answers:{}}});
+assert.equal(JSON.parse(e.sheets.get('Попытки тестов').rows[2][11]).timer,'no_start');
+});
