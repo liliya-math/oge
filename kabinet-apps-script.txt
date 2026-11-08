@@ -2279,6 +2279,8 @@ function routeAssign_(ss, st, code, b) {
   const id = routeId_(b.id);
   const title = String(b.title || '').trim();
   if (!title || title.length > 200 || /^[=+@-]/.test(title)) return {error: 'bad_value'};
+  if (b.due && !/^\d{4}-\d{2}-\d{2}$/.test(String(b.due))) return {error: 'bad_value'};
+  const due = b.due ? String(b.due) : '';
   const date = Utilities.formatDate(new Date(), 'Europe/Samara', 'yyyy-MM-dd');
   const key = date + '|' + id;
   const journal = sheet_(ss, 'Занятия по карте');
@@ -2292,18 +2294,31 @@ function routeAssign_(ss, st, code, b) {
   if (entry[6] === true) return {ok: true, duplicate: true};
   if (entry[5] && !findRow_('Домашка', v => String(v[0]).trim() === code && v[16] === key)) {
     const hw = sheet_(ss, 'Домашка');
-    hw.appendRow([code, 'Домашняя работа: ' + entry[3], '', '', entry[5], 'Открыть домашнюю работу', false, '', '', '', '', '', '', '', '', '', key]);
+    hw.appendRow([code, 'Домашняя работа: ' + entry[3], '', ruDate_(due), entry[5], 'Открыть домашнюю работу', false, '', '', '', '', '', '', '', '', '', key]);
   }
   // Тесты из конструктора: каждый уходит ученику отдельной работой (последняя версия), один раз на занятие.
   let quizzes = 0;
+  const sent = [];
   routeMaterials_(id).quizzes.forEach(qid => {
     const qkey = key + '|q|' + qid;
     if (findRow_('Домашка', v => String(v[0]).trim() === code && v[16] === qkey)) return;
     const d = quizDefinition_(qid, 0);
     if (!d) return;
-    const res = quizAssign_(code, {work: qid, version: d.version});
-    if (res && res.row) { sheet_(ss, 'Домашка').getRange(res.row, 17).setValue(qkey); quizzes++; }
+    const res = quizAssign_(code, {work: qid, version: d.version, due: due});
+    if (res && res.row) { sheet_(ss, 'Домашка').getRange(res.row, 17).setValue(qkey); quizzes++; sent.push(d.title); }
   });
   journal.getRange(row, 7).setValue(true);
-  return {ok: true, theory: !!entry[4], homework: !!entry[5], quizzes: quizzes};
+  // Одно сообщение в Telegram на всё занятие (а не по сообщению на каждую работу).
+  let notification = null;
+  if (b.notify === true && (entry[5] || sent.length)) {
+    try {
+      const lines = ['Тема занятия: ' + entry[3]];
+      if (entry[4]) lines.push('Теория есть в кабинете.');
+      if (entry[5]) lines.push('Домашняя работа: ссылка в кабинете.');
+      sent.forEach(t => lines.push('Работа: ' + t));
+      if (due) lines.push('Срок: ' + ruDate_(due));
+      notification = telegramHomeworkNotice_(code, lines.join('\n'), '');
+    } catch (e) { console.error('routeAssign_ notify: ' + e); notification = {ok: false, error: 'telegram_failed'}; }
+  }
+  return {ok: true, theory: !!entry[4], homework: !!entry[5], quizzes: quizzes, notification: notification};
 }

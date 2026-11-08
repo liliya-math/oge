@@ -59,7 +59,7 @@ h1{margin:4px 0 6px;font-size:clamp(24px,6vw,34px);line-height:1.15;letter-spaci
 .lesson-grid .tile small{font-weight:400;color:inherit;opacity:.75}
 .lesson-grid .mbadges{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}.lesson-grid .mbadges span{padding:2px 8px;border-radius:999px;background:#FFFFFF;color:#16231A;font-size:12px;font-weight:600;line-height:1.4}.lesson-grid .mbadges span:before{content:'✓ '}
 .calwrap button[data-cw]{font:inherit;font-weight:600;color:#16231A;background:linear-gradient(115deg,#E2B04A,#DD7A3A);border:0;border-radius:10px;padding:7px 14px;cursor:pointer}
-.lesson-form{display:grid;gap:12px;min-width:0}.lesson-form label{display:grid;gap:5px;min-width:0}.mywrap>*{min-width:0}
+.lesson-form{display:grid;gap:12px;min-width:0}.lesson-form .pickrow{display:flex;gap:8px;align-items:center}.lesson-form label{display:grid;gap:5px;min-width:0}.mywrap>*{min-width:0}
 .lesson-form input,.lesson-form select,.lesson-form button{width:100%;min-width:0;box-sizing:border-box;text-overflow:ellipsis;font:inherit;color:var(--fg);background:#16231a;border:1px solid var(--line);border-radius:10px;padding:9px}
 .lesson-form button{cursor:pointer}.lesson-form button:disabled{opacity:.5;cursor:default}
 </style>
@@ -204,6 +204,8 @@ async function selectLesson(id){
       <div data-quizzes></div>
       <button type="button" data-save>Сохранить квадратик</button>
       <label>Ученик<select data-student><option value="">Выбрать ученика</option>${roster.students.filter(s=>s.active!==false).map(s=>`<option value="${esc(s.code)}">${esc([s.name,s.fname].filter(Boolean).join(' '))}</option>`).join('')}</select></label>
+      <label>Срок выполнения (необязательно) <input type="date" data-due></label>
+      <label class="pickrow"><input type="checkbox" data-notify checked> Уведомить ученика в Telegram</label>
       <button type="button" data-assign>Провели сегодня</button>
       <p class="lead" role="status"></p></div>`);
     const form=panel.querySelector('.lesson-form');
@@ -255,9 +257,11 @@ async function selectLesson(id){
       if(!student.value){status.textContent='Сначала выбери ученика.';return}
       if(saved!==JSON.stringify(links())){status.textContent='Сначала сохрани изменения квадратика.';return}
       run(async()=>{
-        const result=await admin('routeAssign',{id,t:student.value,title:lesson.title});
+        const due=form.querySelector('[data-due]').value,notify=form.querySelector('[data-notify]').checked;
+        const result=await admin('routeAssign',{id,t:student.value,title:lesson.title,due:due||undefined,notify:notify});
+        const nt=result.notification,tg=!notify||result.duplicate?'':nt&&nt.ok?' Сообщение в Telegram отправлено.':nt&&nt.error==='telegram_not_connected'?' В Telegram не отправлено: у ученика не подключён Telegram.':nt&&nt.error==='telegram_paused'?' В Telegram не отправлено: у ученика уведомления на паузе.':nt?' В Telegram не отправлено.':'';
         if(myMode&&student.value===myMode.code){lesson.mark='✓ ';refreshTile(lesson);renderCal()}
-        return result.duplicate?'Сегодня это занятие уже отмечено.':result.theory||result.homework||result.quizzes?'Занятие отмечено. Прикреплённые материалы появились в кабинете ученика.':'Занятие отмечено. К нему пока нет прикреплённых файлов.';
+        return result.duplicate?'Сегодня это занятие уже отмечено.':(result.theory||result.homework||result.quizzes?'Занятие отмечено. Прикреплённые материалы появились в кабинете ученика'+(due?' со сроком '+due.split('-').reverse().join('.'):'')+'.':'Занятие отмечено. К нему пока нет прикреплённых файлов.')+tg;
       });
     };
   }catch(e){if(pending.isConnected)pending.textContent='Не получилось загрузить материалы и учеников. Нажми на квадратик ещё раз.'}
