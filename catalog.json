@@ -4738,6 +4738,86 @@
       "status": "public",
       "note": "8A-111",
       "auto": false
+    },
+    {
+      "file": "teoriya-8-ratsionalnye-chisla.html",
+      "title": "Теория · 8 класс · Рациональные числа (п. 6.1)",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-109",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8-irratsionalnye-chisla.html",
+      "title": "Теория · 8 класс · Иррациональные числа (п. 6.2)",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-110",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8-uravnenie-x2-a.html",
+      "title": "Теория · 8 класс · Уравнение x² = a (п. 7.2)",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-112",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8-funktsiya-koren-x.html",
+      "title": "Теория · 8 класс · Функция y = √x (п. 7.3)",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-113",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8-svoystva-kornya-proizvedenie-drob.html",
+      "title": "Теория · 8 класс · Корень из произведения и дроби (п. 8.1)",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-115",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8-koren-iz-stepeni.html",
+      "title": "Теория · 8 класс · Корень из степени (п. 8.2)",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-116",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8-vynesenie-vneseniye-mnozhitelya.html",
+      "title": "Теория · 8 класс · Вынесение множителя из-под знака корня и внесение под знак корня (п. 9.1)",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-117",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8-preobrazovanie-vyrazheniy-s-kornyami.html",
+      "title": "Теория · 8 класс · Преобразование выражений с квадратными корнями (п. 9.2)",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-118",
+      "auto": false
     }
   ]
 }

@@ -17,6 +17,7 @@ function item(it){
   if(it.p!==undefined)return '<p>'+rich(it.p)+'</p>';
   if(it.f!==undefined)return '<div class="plate">'+rich(it.f)+'</div>';
   if(it.why!==undefined)return '<div class="why"><span class="label">Почему так</span><p>'+rich(it.why)+'</p></div>';
+  if(it.svg)return '<figure class="fig">'+it.svg+'</figure>';
   if(it.ol)return '<ol>'+it.ol.map(x=>'<li>'+rich(x)+'</li>').join('')+'</ol>';
   if(it.table)return '<div class="tbl"><table>'+it.table.map((r,i)=>'<tr>'+r.map((c,j)=>((it.head?i===0:j===0)?'<th'+(it.head?' scope="col"':' scope="row"')+'>':'<td>')+rich(String(c))+((it.head?i===0:j===0)?'</th>':'</td>')).join('')+'</tr>').join('')+'</table></div>';
   throw new Error('Неизвестный элемент '+JSON.stringify(it).slice(0,60));
@@ -37,7 +38,7 @@ p{margin:0 0 16px;text-indent:1.6em}b.term{font-weight:800;color:#9C6B40}
 .katex{font-size:1.08em;white-space:nowrap;color:var(--ink)}.katex .mathnormal,.katex .mathit{font-family:KaTeX_Main,'Times New Roman',serif;font-style:normal}
 .why{background:#fff;border-radius:14px;padding:12px 16px 2px;margin:8px 0 14px;border-left:6px solid #DD7A3A}.why .label{display:block;font-weight:800;color:#9C6B40;margin-bottom:6px;text-indent:0}.why p{text-indent:1.6em}
 ol{margin:0 0 16px;padding-left:1.4em}li{margin:0 0 12px;padding-left:4px}
-.tbl{overflow-x:auto;margin:6px 0 18px}table{border-collapse:collapse;background:#fff;min-width:100%;font-size:19px}th,td{border:2px solid var(--sand);padding:8px 12px;text-align:center}th{background:var(--cream);font-weight:700}
+.tbl{overflow-x:auto;margin:6px 0 18px}.fig{margin:6px 0 20px;background:#fff;border:2px solid var(--sand);border-radius:14px;padding:10px}.fig svg{display:block;width:100%;height:auto;max-width:460px;margin:auto}table{border-collapse:collapse;background:#fff;min-width:100%;font-size:19px}th,td{border:2px solid var(--sand);padding:8px 12px;text-align:center}th{background:var(--cream);font-weight:700}
 @media print{body{background:#fff}main{padding:0;max-width:none}.top button{display:none}.brand{color:var(--ink)}.brand i{color:#9C6B40}h1{color:var(--ink)}.tag{color:#9C6B40}.blk,.why,.plate,.tbl{break-inside:avoid}@page{margin:14mm}}
 </style></head><body><main><div class="top"><span class="brand">lili<i>.</i>math</span><button onclick="window.print()">Сохранить как PDF</button></div>
 <span class="tag">${esc(spec.tag)}</span><h1>${esc(spec.title)}</h1>
