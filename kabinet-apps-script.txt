@@ -405,9 +405,11 @@ function doGet(e) {
   const p = (e && e.parameter) || {};
   const code = String(p.t || '').trim();
   if (p.schedule === 'public') {
-    const now = Date.now(), day = lrSamaraDay_(now), end = day + 14 * 86400000;
-    const busy = lrBusy_(SpreadsheetApp.getActive(), day - LR_BREAK_LOOKAROUND_MS, end + LR_BREAK_LOOKAROUND_MS, '', 0);
-    return json_({ok: true, windows: lrWindows_(lrAvailability_(), busy, now, end, 0)});
+    return json_(cachedRead_('pubsched', () => {
+      const now = Date.now(), day = lrSamaraDay_(now), end = day + 14 * 86400000;
+      const busy = lrBusy_(SpreadsheetApp.getActive(), day - LR_BREAK_LOOKAROUND_MS, end + LR_BREAK_LOOKAROUND_MS, '', 0);
+      return {ok: true, windows: lrWindows_(lrAvailability_(), busy, now, end, 0)};
+    }));
   }
   if (p.schedule === 'capabilities') return json_({ok: true, lessonAvailability: 5});
   if (p.schedule === 'options') {
