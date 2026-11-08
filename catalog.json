@@ -4818,6 +4818,26 @@
       "status": "public",
       "note": "8A-118",
       "auto": false
+    },
+    {
+      "file": "teoriya-7-funktsiya-kx.html",
+      "title": "Теория · 7 класс · Функция y = kx и её график (§ 26)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-126",
+      "auto": false
+    },
+    {
+      "file": "teoriya-7-linejnaya-funktsiya.html",
+      "title": "Теория · 7 класс · Линейная функция и её график (§ 27)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-127",
+      "auto": false
     }
   ]
 }
