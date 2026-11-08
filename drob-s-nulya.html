@@ -306,7 +306,7 @@ const save=()=>localStorage.setItem(SKEY,JSON.stringify(S));
 function addXP(n,el){S.xp+=n;$("#xp").textContent=S.xp;if(el)xpFloat(el,n);save()}
 const totalSteps=()=>LESSONS.reduce((a,l)=>a+l.steps.length,0);
 const doneSteps=()=>LESSONS.reduce((a,l)=>a+(S.done[l.id]?l.steps.length:0),0);
-function petSay(txt){return `<div class=petsay><img src="img/rat-pizza.jpg" alt=""><div class=say><b>Биссектриса:</b> ${txt}</div></div>`}
+function petSay(txt){return `<div class=petsay><img src="img/rat-pizza.jpg" alt="" loading="lazy"><div class=say><b>Биссектриса:</b> ${txt}</div></div>`}
 function fbHTML(ok,t,s){return `<div class="fb ${ok?"ok":"bad"}"><span class=ic><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">${ok?'<path d="M5 12.5l4.5 4.5L19 7.5"/>':'<path d="M12 7v6M12 17h.01"/>'}</svg></span><div><div class=t>${t}</div><div class=s>${s||""}</div></div></div>`}
 
 /* figure renderer */
@@ -325,7 +325,7 @@ function renderMap(){
   <h1>Дроби <span>с пирогами</span></h1>
   <p class=lead>Пять маленьких уроков. В каждом — настоящие рисунки, кнопки «разрезать» и «взять кусочек», игры «покажи дробь на пицце» и «что больше». Без спешки, по одному шагу.</p>
   <p class=note>Закончишь эту страницу — переходи к <a class=backlink href="ucheba-6-klass.html#frac">полному обучению «Дроби»</a>, там будет легко.</p>
-  <img class=heroimg src="img/rat-desk-wide.jpg" alt="Биссектриса на уроке">
+  <img class=heroimg src="img/rat-desk-wide.jpg" alt="Биссектриса на уроке" loading="lazy">
  </section>
  <div class=lessons>${LESSONS.map((l,i)=>{
    const done=!!S.done[l.id];
@@ -403,7 +403,7 @@ function renderResult(){
  app.innerHTML=`<article class="card enter"><div class=result>
   <div class=kick>Урок пройден</div>
   <div class=big>★</div>
-  <img class=winimg src="img/ham-win.jpg" alt="Хомяк празднует победу">
+  <img class=winimg src="img/ham-win.jpg" alt="Хомяк празднует победу" loading="lazy">
   <h2>${L.t} — готово!</h2>
   <p class=txt style="text-align:center">Ты прошёл весь урок: ${L.steps.length} шагов с пирогами и играми.</p>
   ${petSay(isLast?"Все пять уроков позади! Теперь дроби тебе не страшны — переходи к полному курсу.":"Отлично! Следующий урок уже открыт. Идём дальше?")}
@@ -431,7 +431,7 @@ function winStep(msg,pet,xpN=10,el){
 function loseStep(msg,pet){
  sfx.bad();
  const card=app.querySelector(".card");card.classList.add("shake");setTimeout(()=>card.classList.remove("shake"),500);
- $("#fb").innerHTML=fbHTML(false,msg,pet)+`<div class=petsay><img src="img/rac-calm.jpg" alt=""><div class=say><b>Енот Вайб:</b> Не расстраивайся — ошибка это нормально. Посмотри на пирог ещё раз и попробуй снова, у тебя точно получится.</div></div>`;
+ $("#fb").innerHTML=fbHTML(false,msg,pet)+`<div class=petsay><img src="img/rac-calm.jpg" alt="" loading="lazy"><div class=say><b>Енот Вайб:</b> Не расстраивайся — ошибка это нормально. Посмотри на пирог ещё раз и попробуй снова, у тебя точно получится.</div></div>`;
 }
 function bind(st){
  if(st.k==="exp")return;

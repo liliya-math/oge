@@ -291,7 +291,7 @@ function renderMap(){
   <h1>${CFG.h1}</h1>
   <p class=lead>${CFG.lead}</p>
   <p class=note>${CFG.note}</p>
-  <img class=heroimg src="${CFG.heroImg}">
+  <img class=heroimg src="${CFG.heroImg}" loading="lazy">
  </section>
  <div class=lessons>${LESSONS.map((l,i)=>{
    const done=!!S.done[l.id];
@@ -363,7 +363,7 @@ function renderResult(){
  app.innerHTML=`<article class="card enter"><div class=result>
   <div class=kick>Урок пройден</div>
   <div class=big>★</div>
-  <img class=winimg src="${CFG.winImg}" alt="Победа">
+  <img class=winimg src="${CFG.winImg}" alt="Победа" loading="lazy">
   <h2>${L.t} — готово!</h2>
   <p class=txt style="text-align:center">Все ${L.steps.length} шагов этого урока пройдены.</p>
   ${petSay(isLast?CFG.finalPet:"Отлично! Следующий урок уже открыт. Идём дальше?")}
@@ -390,7 +390,7 @@ function winStep(msg,pet,xpN=10,el){
 function loseStep(msg,pet){
  sfx.bad();
  const card=app.querySelector(".card");card.classList.add("shake");setTimeout(()=>card.classList.remove("shake"),500);
- $("#fb").innerHTML=fbHTML(false,msg,pet)+`<div class=petsay><img src="${CFG.comfortImg}" alt=""><div class=say><b>${CFG.comfortName}:</b> Не расстраивайся — ошибка это нормально. Прочитай подсказку ещё раз и попробуй снова, у тебя точно получится.</div></div>`;
+ $("#fb").innerHTML=fbHTML(false,msg,pet)+`<div class=petsay><img src="${CFG.comfortImg}" alt="" loading="lazy"><div class=say><b>${CFG.comfortName}:</b> Не расстраивайся — ошибка это нормально. Прочитай подсказку ещё раз и попробуй снова, у тебя точно получится.</div></div>`;
 }
 function bind(st){
  if(st.k==="exp")return;

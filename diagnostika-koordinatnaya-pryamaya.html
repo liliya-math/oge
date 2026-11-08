@@ -1103,7 +1103,7 @@ function diploma(sc,okN,own,t){
     <div class="noms">${noms.slice(0,3).map(([a,b])=>`<div class="nom"><b>${a}</b><span>${b}</span></div>`).join('')}</div>
     ${rest.length?`<div class="bomb">${rest.map(s=>stkHTML(s)).join('')}</div>`:''}
     <div class="dfoot">
-      ${t?`<figure class="pola"><span class="tape"></span><img src="${PIMG[t.id][mood]}" alt="${t.n}"><figcaption>${say}</figcaption></figure>`:''}
+      ${t?`<figure class="pola"><span class="tape"></span><img src="${PIMG[t.id][mood]}" alt="${t.n}" loading="lazy"><figcaption>${say}</figcaption></figure>`:''}
       <div class="dside">
         <div class="seal"><svg viewBox="0 0 92 92"><defs><path id="sp" d="M46 46 m-36 0 a36 36 0 1 1 72 0 a36 36 0 1 1 -72 0"/></defs><text><textPath href="#sp">${ring}</textPath></text></svg>${logoMark(44)}</div>
         <div class="sg">${logoFull(28)}<br>${d}</div>
@@ -1139,7 +1139,7 @@ function bonusPick(){let h=2166136261;for(const c of (HASH||'free')+'|'+S.name+'
 function bonusUntil(d){const x=new Date(d+14*864e5);return x.toLocaleDateString('ru-RU',{day:'numeric',month:'long'})}
 function bonusLine(){const b=bonusGet();if(!b)return '';const B=BONUS.find(x=>x.id===b.id);return B?`Бонус: ${B.t} (при записи до ${bonusUntil(b.d)})`:''}
 const GIFTS=[["/img/emb/e-f216c838df.jpg", "/img/emb/e-cd8c8690cf.jpg"], ["/img/emb/e-c589e4caa5.jpg", "/img/emb/e-aa324d1aa5.jpg"], ["/img/emb/e-d9824676fc.jpg", "/img/emb/e-d839b8489f.jpg"]];
-function giftIMG(i){return `<span class="gimg"><img class="c" src="${GIFTS[i][0]}" alt="" draggable="false"><img class="o" src="${GIFTS[i][1]}" alt="" draggable="false"></span>`}
+function giftIMG(i){return `<span class="gimg"><img class="c" src="${GIFTS[i][0]}" alt="" draggable="false" loading="lazy"><img class="o" src="${GIFTS[i][1]}" alt="" draggable="false" loading="lazy"></span>`}
 function giftSVG(c1,c2){return `<svg viewBox="0 0 100 100" aria-hidden="true"><rect x="16" y="40" width="68" height="52" rx="8" fill="${c1}"/><rect x="45" y="40" width="10" height="52" fill="${c2}"/><g class="lid"><rect x="10" y="28" width="80" height="16" rx="6" fill="${c1}" stroke="rgba(0,0,0,.15)"/><rect x="45" y="28" width="10" height="16" fill="${c2}"/><path d="M50 28 C38 10 22 16 30 26 C34 30 44 29 50 28 C56 29 66 30 70 26 C78 16 62 10 50 28Z" fill="${c2}"/></g></svg>`}
 function bonusBlock(){
   const b=bonusGet(),B=b&&BONUS.find(x=>x.id===b.id);

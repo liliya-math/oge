@@ -254,7 +254,7 @@ function signWheelSVG(){return `<svg width="300" height="120" viewBox="0 0 300 1
  <text class=tm x="20" y="105">То же правило работает и для деления.</text></svg>`}
 const FIGS={strip:(a,b,l)=>stripSVG(a,b,l||""),twoStrips,pies:piesRow,nline:p=>nlineSVG(p[0],p[1],p[2]),add:addArrowsSVG,abs:absSVG,pctGrid:pctGridSVG,pctBar:pctBarSVG,piesPct:piesPctRow,eqStrips,mixed:signWheelSVG,fracPie:mixedSVG};
 function figOf(f){if(!f)return"";const[fn,...args]=f;return `<div class=fig>${FIGS[fn](...args)}</div>`}
-function petSay(id,text){const im=PIMG[id];const N={frac:"Биссектриса",sign:"Биссектриса",pct:"Хома Зубрила"};return `<div class=petsay>${im?`<img src="${im}" alt="">`:""}<div class=say><b>${N[id]||"Маскот"}:</b> ${text}</div></div>`}
+function petSay(id,text){const im=PIMG[id];const N={frac:"Биссектриса",sign:"Биссектриса",pct:"Хома Зубрила"};return `<div class=petsay>${im?`<img src="${im}" alt="" loading="lazy">`:""}<div class=say><b>${N[id]||"Маскот"}:</b> ${text}</div></div>`}
 
 /* ---------- content ---------- */
 const MODULES=[
@@ -454,7 +454,7 @@ function renderMap(){
   <div class=kick>Интерактивное обучение · 6 класс</div>
   <h1>Учимся <span>по шагам</span></h1>
   <p class=lead>Три темы, от которых зависит вся шестиклассная математика: дроби, действия с разными знаками и проценты. Каждый модуль — короткие уроки с картинками, мини-проверка и практика с подсказками.</p>
-  <img class=heroimg src="img/ham-desk-wide.jpg" alt="Хома Зубрила на уроке">
+  <img class=heroimg src="img/ham-desk-wide.jpg" alt="Хома Зубрила на уроке" loading="lazy">
  </section>
  <div class=mapa>${MODULES.map(m=>{
    const st=modSt(m.id);
@@ -466,7 +466,7 @@ function renderMap(){
    const locked=i=>i>0&&!modSt(m.id).lessons[i-1];
    const lessonsBtns=m.lessons.map((l,i)=>`<button class="btn small ${st.lessons[i]?'ghost':''}" data-mod="${m.id}" data-lesson="${i}" ${locked(i)?"disabled":""}>${st.lessons[i]?"✓ ":""}${i+1}. ${l.t}</button>`).join(" ");
    return `<div class="mod card">
-    <div class=ava><img src="${PIMG[m.pet]||""}" alt=""></div>
+    <div class=ava><img src="${PIMG[m.pet]||""}" alt="" loading="lazy"></div>
     <div>
       <h4>${m.name}</h4>
       <div class=sub>${m.sub}</div>
@@ -620,7 +620,7 @@ function after(ok,t,el){
   sfx.bad();st.streak=0;save();
   app.querySelector(".card").classList.add("shake");setTimeout(()=>app.querySelector(".card")&&app.querySelector(".card").classList.remove("shake"),500);
  }
- $("#fb").innerHTML=fbHTML(ok,ok?(st.streak>=3?`Серия ×${st.streak}!`:"Можно идти дальше."):`Правильный ответ: ${t.a[0]}. ${t.hint[t.hint.length-1]}`)+(!ok?`<div class=petsay><img src="img/rac-calm.jpg" alt=""><div class=say><b>Енот Вайб:</b> Не расстраивайся — ошибаться нормально. Прочти последнюю подсказку ещё раз и попробуй похожее задание, у тебя получится.</div></div>`:"");
+ $("#fb").innerHTML=fbHTML(ok,ok?(st.streak>=3?`Серия ×${st.streak}!`:"Можно идти дальше."):`Правильный ответ: ${t.a[0]}. ${t.hint[t.hint.length-1]}`)+(!ok?`<div class=petsay><img src="img/rac-calm.jpg" alt="" loading="lazy"><div class=say><b>Енот Вайб:</b> Не расстраивайся — ошибаться нормально. Прочти последнюю подсказку ещё раз и попробуй похожее задание, у тебя получится.</div></div>`:"");
  const nav=app.querySelector(".navrow");
  const isLast=pr.i===modOf(pr.modId).practice.length-1;
  const allDone=Object.keys(st.prac).length===modOf(pr.modId).practice.length;
@@ -656,7 +656,7 @@ function showResult(){
  app.innerHTML=`<article class="card enter"><div class=result>
   <div class=kick>${m.name} · итог практики</div>
   <div class=big>${done}/${total}</div>
-  ${all?'<img class=winimg src="img/ham-win.jpg" alt="Хомяк празднует победу">':""}
+  ${all?'<img class=winimg src="img/ham-win.jpg" alt="Хомяк празднует победу" loading="lazy">':""}
   <p class=txt style="text-align:center">${all?"Все задания решены — тема твоя. Загляни в другие модули.":done>=total/2?"Хороший результат. Загляни в подсказки нерешённых и добей.":"Пройди уроки ещё раз и возвращайся — станет заметно легче."}</p>
   ${petSay(m.pet,all?"Чистая работа. Так держать!":"Главное — не сдаваться. Я в тебя верю.")}
   <div class=mrow style="justify-content:center;margin-top:16px">

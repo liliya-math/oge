@@ -120,7 +120,7 @@ function crumbs(id){
 function home(){
   const tiles=[];
   for(let g=5;g<=9;g++)['A','G'].forEach(s=>{const id=g+s;tiles.push(`<a class="tile" href="#${id}"><b>${g} ${s==='A'?'алгебра':'геом.'}</b></a>`)});
-  app.innerHTML=`<div class="bar"><span class="id">Карта · только для учителя</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184"></span></div><h1>Карта материалов</h1><p class="lead">Выбери класс.</p><div class="grid">${tiles.join('')}<a class="tile" href="#OGE"><b>ОГЭ, часть 1</b><small>задания 1-19</small></a></div>`;
+  app.innerHTML=`<div class="bar"><span class="id">Карта · только для учителя</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184" loading="lazy"></span></div><h1>Карта материалов</h1><p class="lead">Выбери класс.</p><div class="grid">${tiles.join('')}<a class="tile" href="#OGE"><b>ОГЭ, часть 1</b><small>задания 1-19</small></a></div>`;
 }
 let editMode=false;
 function routeCard(){
@@ -361,14 +361,14 @@ async function initClassCal(){
 async function myPage(){
   document.title='Квадратики ученика · lili.math';
   let code='';try{code=sessionStorage.getItem('lili-route-student')||''}catch(e){}
-  app.innerHTML='<div class="bar"><span class="id">Ученик</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184"></span></div><div class="crumbs"><a href="#">Карта</a></div><p class="lead" role="status">Загружаю программу ученика…</p>';
+  app.innerHTML='<div class="bar"><span class="id">Ученик</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184" loading="lazy"></span></div><div class="crumbs"><a href="#">Карта</a></div><p class="lead" role="status">Загружаю программу ученика…</p>';
   let st=null;
   try{const j=await admin('list');st=(j.students||[]).find(x=>x.code===code)}catch(e){}
   if(!st){app.innerHTML+='<p class="empty">Не получилось найти ученика. Открой кабинет ученика и нажми «Открыть карту занятий».</p>';return}
   const progs=st.routes||[],done=new Set(st.routeDone||[]);
   const NAMES={'5':'5 класс','6':'6 класс','7A':'7 алгебра','7G':'7 геометрия','8A':'8 алгебра','8G':'8 геометрия','9A':'9 алгебра','9G':'9 геометрия',OGE:'ОГЭ, часть 1'};
   const nm=[st.name,st.fname].filter(Boolean).join(' ');
-  if(!progs.length){app.innerHTML=`<div class="bar"><span class="id">Ученик</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184"></span></div><div class="crumbs"><a href="#">Карта</a></div><h1>${esc(nm)}</h1><p class="empty">Программа не выбрана. В кабинете ученика: настройки, «Программа по квадратикам».</p>`;return}
+  if(!progs.length){app.innerHTML=`<div class="bar"><span class="id">Ученик</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184" loading="lazy"></span></div><div class="crumbs"><a href="#">Карта</a></div><h1>${esc(nm)}</h1><p class="empty">Программа не выбрана. В кабинете ученика: настройки, «Программа по квадратикам».</p>`;return}
   const seq=k=>(ROUTES[k]?ROUTES[k].lessons:[]).map(x=>({...x,tag:NAMES[k]}));
   const A=progs.filter(k=>k!=='OGE'&&k.slice(-1)!=='G').flatMap(seq),G=progs.filter(k=>k.slice(-1)==='G').flatMap(seq),O=progs.includes('OGE')?seq('OGE'):[];
   const school=[];let ai=0,gi=0,n=0;const pat=['A','A','G'];
@@ -378,18 +378,18 @@ async function myPage(){
   add('Школьная программа по порядку (алгебра, алгебра, геометрия)',school);
   add('ОГЭ, часть 1',O);
   route={chapters,lessons};myMode={code,st,lessons};selectedStudent=code;st.cal=st.cal||[];lessons.forEach(x=>{const c=st.cal.find(y=>y.id===x.id);if(c)x.cal=c.d});
-  app.innerHTML=`<div class="bar"><span class="id">Ученик</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184"></span></div><div class="crumbs"><a href="#">Карта</a></div><h1>${esc(nm)}</h1><p class="lead">Программы: ${progs.map(k=>NAMES[k]).join(', ')}. ✓ проведено, → следующее.</p>`+'<div class="mywrap"><div>'+routeCard()+'</div><section class="card calwrap"><div id="cal"></div></section></div>';
+  app.innerHTML=`<div class="bar"><span class="id">Ученик</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184" loading="lazy"></span></div><div class="crumbs"><a href="#">Карта</a></div><h1>${esc(nm)}</h1><p class="lead">Программы: ${progs.map(k=>NAMES[k]).join(', ')}. ✓ проведено, → следующее.</p>`+'<div class="mywrap"><div>'+routeCard()+'</div><section class="card calwrap"><div id="cal"></div></section></div>';
   bindRoute();renderCal();scrollTo(0,0);
 }
 function node(id){
   if(id!=='MY')myMode=null;
   editMode=false;
   if(id==='MY'){myPage();return}
-  if(id==='OGE'){document.title='ОГЭ, часть 1 · lili.math';route=ROUTES.OGE;app.innerHTML=`<div class="bar"><span class="id">ОГЭ</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184"></span></div><div class="crumbs"><a href="#">Карта</a></div><h1>ОГЭ, часть 1</h1>`+(route?'<div class="mywrap"><div>'+routeCard()+'</div><section class="card calwrap"><label class="lead">Ученик <select id="cal-student"><option value="">Выбрать ученика</option></select></label><div id="cal"><p class="lead">Выбери ученика, и появится его календарь.</p></div></section></div>':'<p class="lead">Не получилось загрузить программу ОГЭ.</p>');bindRoute();if(route)initClassCal();scrollTo(0,0);return}
+  if(id==='OGE'){document.title='ОГЭ, часть 1 · lili.math';route=ROUTES.OGE;app.innerHTML=`<div class="bar"><span class="id">ОГЭ</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184" loading="lazy"></span></div><div class="crumbs"><a href="#">Карта</a></div><h1>ОГЭ, часть 1</h1>`+(route?'<div class="mywrap"><div>'+routeCard()+'</div><section class="card calwrap"><label class="lead">Ученик <select id="cal-student"><option value="">Выбрать ученика</option></select></label><div id="cal"><p class="lead">Выбери ученика, и появится его календарь.</p></div></section></div>':'<p class="lead">Не получилось загрузить программу ОГЭ.</p>');bindRoute();if(route)initClassCal();scrollTo(0,0);return}
   if(!/^\d[AG]$/.test(id)){fail('Не нашла такой раздел','Вернись на «Карта» и выбери класс.');return}
   const title=label(id);
   document.title=title+' · lili.math';
-  let h=`<div class="bar"><span class="id">${esc(id)}</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184"></span></div>${crumbs(id)}<h1>${esc(title)}</h1>`;
+  let h=`<div class="bar"><span class="id">${esc(id)}</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184" loading="lazy"></span></div>${crumbs(id)}<h1>${esc(title)}</h1>`;
   route=ROUTES[id];if(route)h+='<div class="mywrap"><div>'+routeCard()+'</div><section class="card calwrap"><label class="lead">Ученик <select id="cal-student"><option value="">Выбрать ученика</option></select></label><div id="cal"><p class="lead">Выбери ученика, и появится его календарь.</p></div></section></div>';
   app.innerHTML=h;
   bindRoute();

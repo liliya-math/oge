@@ -122,7 +122,7 @@ h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;back
 </div>
 </div>
 
-<div class=mrow><img src="img/rat-joy.jpg" alt=""><img src="img/rat-idle.jpg" alt=""><img src="img/ratpup-joy.jpg" alt=""><img src="img/ham-joy.jpg" alt=""></div>
+<div class=mrow><img src="img/rat-joy.jpg" alt="" loading="lazy"><img src="img/rat-idle.jpg" alt="" loading="lazy"><img src="img/ratpup-joy.jpg" alt="" loading="lazy"><img src="img/ham-joy.jpg" alt="" loading="lazy"></div>
 <p class=note>lili.math · 7 класс · темы и зачёты</p>
 </div>
 <script>
@@ -130,7 +130,7 @@ h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;back
 function quiz(rootId,data){
   const root=document.getElementById(rootId);
   let i=0,score=0,done=false;
-  const pet=(m)=>`<img src="img/${data.pet[m]||data.pet.idle}" alt="">`;
+  const pet=(m)=>`<img src="img/${data.pet[m]||data.pet.idle}" alt="" loading="lazy">`;
   function render(){
     if(done){
       const pct=Math.round(score/data.q.length*100);
