@@ -179,3 +179,14 @@ const t2=mk(Q.sample.replace('\n\nЗадание','\nТип работы: кон
 e.post({t:'alice',quiz:{...t2,submission:'submission-timed-0004',answers:{}}});
 assert.equal(JSON.parse(e.sheets.get('Попытки тестов').rows[2][11]).timer,'no_start');
 });
+test('route defaults from route-links.json: used when nothing stored, manual value wins, bad data and offline are harmless',()=>{
+const e=env(),setup=(body,fail)=>e.call('(function(b,f){const st={};PropertiesService={getScriptProperties:()=>({getProperty:k=>k in st?st[k]:null,setProperty(k,v){st[k]=String(v);},getProperties:()=>({...st}),deleteProperty(k){delete st[k];}})};CacheService={getScriptCache:()=>({get:()=>null,put(){}})};UrlFetchApp={fetch(){if(f)throw new Error("offline");return {getResponseCode:()=>200,getContentText:()=>b};}};return 1;})',body,!!fail);
+setup(JSON.stringify({'8A-111':{theory:'https://lilimath.ru/teoriya-x.html'},'8A-112':{theory:'javascript:alert(1)'},'bad id':{theory:'https://a.b'}}));
+assert.equal(e.call('routeMaterials_','8A-111').theory,'https://lilimath.ru/teoriya-x.html');
+assert.equal(e.call('routeMaterials_','8A-112').theory,'');
+assert.equal(e.call('routeMats_')['8A-111'].t,1);assert(!('bad id' in e.call('routeMats_')));
+assert(e.call('routeSave_',{id:'8A-111',theory:'https://example.com/mine.html'}).ok);
+assert.equal(e.call('routeMaterials_','8A-111').theory,'https://example.com/mine.html');
+setup('not json');assert.equal(e.call('routeMaterials_','8A-113').theory,'');
+setup('{}',true);assert.equal(e.call('routeMaterials_','8A-113').theory,'');assert.deepEqual(e.call('routeMats_'),{});
+});

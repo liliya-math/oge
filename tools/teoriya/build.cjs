@@ -48,5 +48,8 @@ if(require.main===module){
   const f=process.argv[2];const spec=JSON.parse(fs.readFileSync(f,'utf8'));
   const html=build(spec);const out=path.join(path.dirname(f),'..','..','..',spec.file);
   fs.writeFileSync(out,html);console.log('OK',path.resolve(out),html.length+' байт');
+  if(spec.square){const lf=path.join(path.dirname(out),'route-links.json');let L={};try{L=JSON.parse(fs.readFileSync(lf,'utf8'));}catch(e){}
+    L[spec.square]=Object.assign(L[spec.square]||{},{theory:'https://lilimath.ru/'+spec.file});
+    fs.writeFileSync(lf,JSON.stringify(L,null,1)+'\n');console.log('route-links.json:',spec.square);}
 }
 module.exports={build,rich};

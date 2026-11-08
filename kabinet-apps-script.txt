@@ -2101,10 +2101,31 @@ function routeId_(id) {
   if (!/^(?:8A-(?:F\d{1,2}|\d{2,3})|(?:5|6|7A|7G|8G|9A|9G)-\d{2,3}|OGE-\d{2}-\d{1,2})$/.test(id)) throw new Error('bad_value');
   return id;
 }
+// Ссылки по умолчанию лежат в репозитории (route-links.json на сайте): {"8A-111":{"theory":"https://...","homework":"https://..."}}.
+// Ручная правка в карточке квадратика сильнее файла. Если файл недоступен, всё работает как раньше.
+function routeDefaults_() {
+  try {
+    const cache = CacheService.getScriptCache(), hit = cache.get('ROUTE_LINKS');
+    if (hit) return JSON.parse(hit);
+    const r = UrlFetchApp.fetch('https://lilimath.ru/route-links.json', {muteHttpExceptions: true});
+    if (r.getResponseCode() !== 200) return {};
+    const text = r.getContentText(), data = JSON.parse(text);
+    if (!data || typeof data !== 'object' || Array.isArray(data)) return {};
+    if (text.length < 90000) cache.put('ROUTE_LINKS', text, 600);
+    return data;
+  } catch (e) { return {}; }
+}
+function routeDefaultLink_(defs, id, key) {
+  const d = defs && defs[id], v = d && typeof d[key] === 'string' ? d[key].trim() : '';
+  return /^https:\/\/[^\s<>"']+$/i.test(v) && v.length <= 1500 ? v : '';
+}
 function routeMaterials_(id) {
-  const raw = PropertiesService.getScriptProperties().getProperty('ROUTE_' + routeId_(id));
+  id = routeId_(id);
+  const raw = PropertiesService.getScriptProperties().getProperty('ROUTE_' + id);
   const m = raw ? JSON.parse(raw) : {theory: '', homework: ''};
   m.quizzes = Array.isArray(m.quizzes) ? m.quizzes : [];
+  const defs = routeDefaults_();
+  for (const key of ['theory', 'homework']) if (!m[key]) m[key] = routeDefaultLink_(defs, id, key);
   return m;
 }
 function routeSave_(b) {
@@ -2163,12 +2184,18 @@ function routeEdits_() {
   return out;
 }
 function routeMats_() {
-  const out = {}, all = PropertiesService.getScriptProperties().getProperties();
+  const out = {}, all = PropertiesService.getScriptProperties().getProperties(), defs = routeDefaults_();
+  Object.keys(defs).forEach(id => {
+    try { routeId_(id); } catch (e) { return; }
+    const t = routeDefaultLink_(defs, id, 'theory') ? 1 : 0, h = routeDefaultLink_(defs, id, 'homework') ? 1 : 0;
+    if (t || h) out[id] = {t: t, h: h, q: 0};
+  });
   Object.keys(all).forEach(k => {
     if (k.indexOf('ROUTE_') !== 0) return;
     try {
       const o = JSON.parse(all[k]), q = Array.isArray(o.quizzes) ? o.quizzes.length : 0;
-      if (o.theory || o.homework || q) out[k.slice(6)] = {t: o.theory ? 1 : 0, h: o.homework ? 1 : 0, q: q};
+      const id = k.slice(6), d = out[id] || {t: 0, h: 0, q: 0};
+      if (o.theory || o.homework || q || d.t || d.h) out[id] = {t: o.theory || d.t ? 1 : 0, h: o.homework || d.h ? 1 : 0, q: q};
     } catch (e) {}
   });
   return out;
