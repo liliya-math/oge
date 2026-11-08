@@ -4838,6 +4838,46 @@
       "status": "public",
       "note": "7A-127",
       "auto": false
+    },
+    {
+      "file": "teoriya-7-sposob-podstanovki.html",
+      "title": "Теория · 7 класс · Способ подстановки (§ 28)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-128",
+      "auto": false
+    },
+    {
+      "file": "teoriya-7-sposob-slozheniya.html",
+      "title": "Теория · 7 класс · Способ сложения (§ 29)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-129",
+      "auto": false
+    },
+    {
+      "file": "teoriya-7-graficheskiy-sposob.html",
+      "title": "Теория · 7 класс · Графический способ решения систем уравнений (§ 30)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-130",
+      "auto": false
+    },
+    {
+      "file": "teoriya-7-zadachi-sistemy.html",
+      "title": "Теория · 7 класс · Решение задач с помощью систем уравнений (§ 31)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-131",
+      "auto": false
     }
   ]
 }
