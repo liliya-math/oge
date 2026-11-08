@@ -565,6 +565,7 @@ function adminRun_(b) {
       case 'ping': return {ok: true, hwEdit: true, workflow: 1, quiz: 1, boardLibrary: 1, lessonRoute: 1};
       case 'routeGet': return {ok: true, materials: routeMaterials_(b.id)};
       case 'routeSave': return routeSave_(b);
+      case 'routeDedupe': return routeDedupe_();
       case 'routeEdits': { return {ok: true, edits: routeEdits_(), layouts: routeLayouts_(), mats: routeMats_()}; }
       case 'routeLayoutSave': { return routeLayoutSave_(b); }
       case 'routeUpload': return routeUpload_(b);
@@ -2150,6 +2151,31 @@ function routeSave_(b) {
   PropertiesService.getScriptProperties().setProperty('ROUTE_' + id, JSON.stringify(links));
   return {ok: true, materials: links};
 }
+// Одноразовая чистка: на квадратике оставляет по одной работе с одинаковыми названием и видом.
+function routeDedupe_() {
+  const props = PropertiesService.getScriptProperties(), all = props.getProperties(), ids = [];
+  Object.keys(all).forEach(k => {
+    if (k.indexOf('ROUTE_') !== 0) return;
+    try { const o = JSON.parse(all[k]); (Array.isArray(o.quizzes) ? o.quizzes : []).forEach(i => ids.push(String(i))); } catch (e) {}
+  });
+  const info = ids.length ? routeQuizInfo_(ids) : {};
+  let removed = 0;
+  Object.keys(all).forEach(k => {
+    if (k.indexOf('ROUTE_') !== 0) return;
+    try {
+      const o = JSON.parse(all[k]);
+      if (!Array.isArray(o.quizzes) || o.quizzes.length < 2) return;
+      const seen = {}, keep = [];
+      o.quizzes.forEach(i => {
+        const f = info[String(i)], key = f ? f.kind + '|' + f.title : 'id|' + i;
+        if (seen[key]) { removed++; return; }
+        seen[key] = 1; keep.push(i);
+      });
+      if (keep.length !== o.quizzes.length) { o.quizzes = keep; props.setProperty(k, JSON.stringify(o)); }
+    } catch (e) {}
+  });
+  return {ok: true, removed: removed};
+}
 function routeLayouts_() {
   const out = {}, all = PropertiesService.getScriptProperties().getProperties();
   Object.keys(all).forEach(k => {
@@ -2183,8 +2209,25 @@ function routeEdits_() {
   });
   return out;
 }
+// Вид и название работ, прикреплённых к квадратикам: одна выборка из листа, разбираются только нужные id.
+function routeQuizInfo_(ids) {
+  const want = {}, info = {};
+  ids.forEach(i => { want[i] = 1; });
+  quizValues_('Тесты').forEach(r => {
+    const id = String(r[0]);
+    if (!want[id]) return;
+    try { const d = JSON.parse(r[5]); info[id] = {kind: d.kind || 'free', title: d.title || ''}; } catch (e) {}
+  });
+  return info;
+}
 function routeMats_() {
   const out = {}, all = PropertiesService.getScriptProperties().getProperties(), defs = routeDefaults_();
+  const quizIds = [];
+  Object.keys(all).forEach(k => {
+    if (k.indexOf('ROUTE_') !== 0) return;
+    try { const o = JSON.parse(all[k]); (Array.isArray(o.quizzes) ? o.quizzes : []).forEach(i => quizIds.push(String(i))); } catch (e) {}
+  });
+  const qinfo = quizIds.length ? routeQuizInfo_(quizIds) : {};
   Object.keys(defs).forEach(id => {
     try { routeId_(id); } catch (e) { return; }
     const t = routeDefaultLink_(defs, id, 'theory') ? 1 : 0, h = routeDefaultLink_(defs, id, 'homework') ? 1 : 0;
@@ -2195,7 +2238,12 @@ function routeMats_() {
     try {
       const o = JSON.parse(all[k]), q = Array.isArray(o.quizzes) ? o.quizzes.length : 0;
       const id = k.slice(6), d = out[id] || {t: 0, h: 0, q: 0};
-      if (o.theory || o.homework || q || d.t || d.h) out[id] = {t: o.theory || d.t ? 1 : 0, h: o.homework || d.h ? 1 : 0, q: q};
+      let qh = 0, qs = 0, qe = 0;
+      (Array.isArray(o.quizzes) ? o.quizzes : []).forEach(i => {
+        const f = qinfo[String(i)], kd = f ? f.kind : 'free';
+        if (kd === 'hw') qh++; else if (kd === 'exam') qe++; else qs++;
+      });
+      if (o.theory || o.homework || q || d.t || d.h) out[id] = {t: o.theory || d.t ? 1 : 0, h: o.homework || d.h ? 1 : 0, q: q, qh: qh, qs: qs, qe: qe};
     } catch (e) {}
   });
   return out;

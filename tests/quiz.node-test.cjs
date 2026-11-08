@@ -190,3 +190,15 @@ assert.equal(e.call('routeMaterials_','8A-111').theory,'https://example.com/mine
 setup('not json');assert.equal(e.call('routeMaterials_','8A-113').theory,'');
 setup('{}',true);assert.equal(e.call('routeMaterials_','8A-113').theory,'');assert.deepEqual(e.call('routeMats_'),{});
 });
+
+test('route badges split by kind and routeDedupe removes same-title duplicates',()=>{
+const e=env();
+e.call('(function(){const st={};PropertiesService={getScriptProperties:()=>({getProperty:k=>k in st?st[k]:null,setProperty(k,v){st[k]=String(v);},getProperties:()=>({...st}),deleteProperty(k){delete st[k];}})};CacheService={getScriptCache:()=>({get:()=>null,put(){}})};UrlFetchApp={fetch(){throw new Error("offline");}};const rows=[["a",1,"","","",JSON.stringify({kind:"hw",title:"ДЗ 1"})],["b",1,"","","",JSON.stringify({kind:"self",title:"Тест 1"})],["c",1,"","","",JSON.stringify({kind:"self",title:"Тест 1"})],["d",1,"","","",JSON.stringify({kind:"exam",title:"КР 1"})]];quizValues_=()=>rows;st.ROUTE_8A_X=1;PropertiesService.getScriptProperties().setProperty("ROUTE_8A-109",JSON.stringify({theory:"",homework:"",quizzes:["a","b","c"]}));PropertiesService.getScriptProperties().setProperty("ROUTE_8A-952",JSON.stringify({quizzes:["d"]}));})');
+let m=e.call('routeMats_');
+assert.deepEqual([m['8A-109'].q,m['8A-109'].qh,m['8A-109'].qs,m['8A-109'].qe],[3,1,2,0]);
+assert.equal(m['8A-952'].qe,1);
+assert.equal(e.call('routeDedupe_').removed,1);
+m=e.call('routeMats_');
+assert.deepEqual([m['8A-109'].q,m['8A-109'].qh,m['8A-109'].qs],[2,1,1]);
+assert.equal(e.call('routeDedupe_').removed,0);
+});

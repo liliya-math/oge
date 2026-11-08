@@ -277,7 +277,7 @@ function calSet(id,d){
   renderCal();refreshTile(l);
   admin('calSet',{t:m.code,id,d:d||'',title:l.title}).catch(e=>{l.cal=prev;m.st.cal=m.st.cal.filter(y=>y.id!==id);if(prev)m.st.cal.push({d:prev,id,title:l.title});renderCal();refreshTile(l);alert('Не получилось сохранить в календаре. (ответ сервера: '+(e&&e.message||e)+').')});
 }
-function matBadge(l){const h=l.has||{};const a=[];if(h.t)a.push('Теория');if(h.h)a.push('ДЗ');if(h.q)a.push('Тесты'+(h.q>1?' '+h.q:''));return a.length?'<span class="mbadges">'+a.map(x=>'<span>'+x+'</span>').join('')+'</span>':''}
+function matBadge(l){const h=l.has||{};const a=[];if(h.t)a.push('Теория');if(h.h||h.qh)a.push('ДЗ'+(h.qh>1?' '+h.qh:''));if(h.qs)a.push('Тест'+(h.qs>1?' '+h.qs:''));if(h.qe)a.push('Контрольная'+(h.qe>1?' '+h.qe:''));if(h.q&&h.qh===undefined)a.push('Тесты'+(h.q>1?' '+h.q:''));return a.length?'<span class="mbadges">'+a.map(x=>'<span>'+x+'</span>').join('')+'</span>':''}
 function calBadge(l){if(!l.cal)return '';const d=new Date(l.cal+'T00:00:00');return '<span class="cbadge">в календаре · '+WD[d.getDay()]+' '+esc(shortD(l.cal))+'</span>'}
 const NUMRE=/^\s*(§\s*\d+(?:\.\d+)*|\d+(?:\.\d+)+)\.?\s+(.*)$/;
 function tileLabel(x){if(x.tag)return esc(x.tag);if(x.school)return 'Школьные № '+esc(x.school);const o=/^OGE-(\d+)-(\d+)$/.exec(x.id||'');if(o&&o[1]!=='90'){const n=+o[1],k=(route&&route.lessons||[]).filter(y=>String(y.id).indexOf('OGE-'+o[1]+'-')===0).length;return 'Задание '+n+(k>1?' · п. '+(+o[2]):'')}const m=NUMRE.exec(x.title||'');if(m)return esc(m[1].replace(/^§\s*/,'').split('.').map((v,i)=>['§ ','п. ','пп. '][i]+v).join(' · '));return 'Дополнительно'}
@@ -366,7 +366,7 @@ function node(id){
 }
 function draw(){const id=getId();if(!id)home();else node(id)}
 function go(){
-  Promise.all([Promise.all(Object.keys(ROUTE_FILES).map(k=>fetch(ROUTE_FILES[k],{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}).catch(()=>null))),admin('routeEdits').then(j=>j||{},()=>({}))])
+  Promise.all([Promise.all(Object.keys(ROUTE_FILES).map(k=>fetch(ROUTE_FILES[k],{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}).catch(()=>null))),(function(){let done=false;try{done=localStorage.getItem('karta-dedupe-1')==='1'}catch(_){}return(done?Promise.resolve():admin('routeDedupe').then(()=>{try{localStorage.setItem('karta-dedupe-1','1')}catch(_){}},()=>{})).then(()=>admin('routeEdits')).then(j=>j||{},()=>({}))})()])
   .then(([rs,edAll])=>{const ed=edAll.edits||{},lay=edAll.layouts||{};Object.keys(ROUTE_FILES).forEach((k,i)=>{if(rs[i]&&rs[i].lessons){rs[i].key=k;rs[i].lessons.forEach(l=>{l.prog=k;l.col=PROGCOL[k]||'#E2B04A'});
     const L=lay[k];if(L&&Array.isArray(L.lessons)){const by=Object.fromEntries(rs[i].lessons.map(x=>[x.id,x]));Object.keys(L.added||{}).forEach(id=>{const a=L.added[id];if(a.school)return;by[id]={id,chapter:a.ch,school:a.school||'',title:a.title,prog:k,col:PROGCOL[k]||'#E2B04A',added:true}});const seen=new Set(),ord=L.lessons.filter(x=>by[x.id]).map(x=>{const l=by[x.id];l.chapter=x.ch;seen.add(x.id);return l});rs[i].lessons=ord.concat(rs[i].lessons.filter(x=>!seen.has(x.id)))}
     const mats=edAll.mats||{};rs[i].lessons.forEach(l=>{if(mats[l.id])l.has=mats[l.id];const e=ed[l.id];if(e){if(e.title)l.title=e.title;if(e.school)l.school=e.school}});ROUTES[k]=rs[i]}});READY=true;draw()})
