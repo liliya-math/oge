@@ -44,7 +44,7 @@ const source=fs.readFileSync(require.resolve('../kabinet-apps-script.txt'),'utf8
 for(const path of ['../assets/quiz-ui.js','../assets/quiz-builder.js','../assets/quiz-runner.js','../assets/quiz-cabinet.js'])new vm.Script(fs.readFileSync(require.resolve(path),'utf8'));
 const html=fs.readFileSync(require.resolve('../kabinet.html'),'utf8');for(const m of html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g))if(m[1].trim())new vm.Script(m[1]);
 assert(html.includes('quizCabinetCard(D)+'));assert(/src="assets\/quiz-cabinet\.js(?:\?[^"]*)?"/.test(html));assert(html.includes('src="assets/quiz-ui.js"'));
-const ui={window:{addEventListener(){}},URLSearchParams,Date};vm.createContext(ui);vm.runInContext(fs.readFileSync(require.resolve('../assets/quiz-ui.js'),'utf8'),ui);vm.runInContext(fs.readFileSync(require.resolve('../assets/quiz-cabinet.js'),'utf8'),ui);assert.equal(ui.quizCabinetCard({}), '');assert(ui.quizCabinetCard({quiz:1,quizHistory:[]}).includes('Результаты тестов'));assert(source.includes("'Попытки тестов']\n    .forEach"));
+const ui={window:{addEventListener(){}},URLSearchParams,Date};vm.createContext(ui);vm.runInContext(fs.readFileSync(require.resolve('../assets/quiz-ui.js'),'utf8'),ui);vm.runInContext(fs.readFileSync(require.resolve('../assets/quiz-cabinet.js'),'utf8'),ui);assert.equal(ui.quizCabinetCard({}), '');assert(ui.quizCabinetCard({quiz:1,quizHistory:[]}).includes('Результаты тестов'));assert(source.includes("'Попытки тестов', 'Занятия по карте']\n    .forEach"));
 });
 
 const kindText=k=>'Название: Работа\nРаздел: Алгебра / 9 класс\n'+(k?'Тип работы: '+k+'\n':'')+'\nЗадание: Найди x.\nРисунок: fig-1.svg\nОтвет: 5\nБаллы: 2\nПодсказка: Подумай.\n\nЗадание: 2+2\nОтвет: 4';
