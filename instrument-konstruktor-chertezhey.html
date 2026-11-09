@@ -572,7 +572,9 @@ function render(){
  const fig=state.fig;
  inp={};let err=null;
  FIGS[fig].fields.forEach(f=>{const p=parseVal((state.vals[fig]||{})[f[0]]);inp[f[0]]=p;if(p.err)err=p.err;});
- cons=state.cons[fig]||{};
+ cons=Object.assign({},state.cons[fig]||{});
+ const AUTO={tri:{R:'radR'},par:{h:'hA'},rho:{d1:'diag',d2:'diag'},rect:{d:'diag'},sq:{d:'diag'},trap:{h:'hA'}}[fig]||{};
+ Object.keys(AUTO).forEach(k=>{if(inp[k]&&inp[k].text)cons[AUTO[k]]=true;});
  COL=opt.board?{ink:'#EEE0C8',med:'#DD7A3A',alt:'#9BB08A',bis:'#B6CBE3',mid:'#E2B04A',cir:'#B6CBE3',halo:null,bg:null}
               :{ink:'#16231A',med:'#DD7A3A',alt:'#5F7B3F',bis:'#2F5BB5',mid:'#9C6B40',cir:'#2F5BB5',halo:'#ffffff',bg:'#ffffff'};
  els=[];segs=[];circs=[];rects=[];
