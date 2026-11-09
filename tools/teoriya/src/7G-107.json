@@ -1,0 +1,162 @@
+{
+ "file": "teoriya-7g-izmerenie-uglov.html",
+ "title": "Измерение углов",
+ "tag": "7 класс · Геометрия · Глава 1 · § 5",
+ "square": "7G-107",
+ "blocks": [
+  {
+   "color": "moss",
+   "title": "Угол",
+   "items": [
+    {
+     "p": "**Углом** называется геометрическая фигура, образованная двумя лучами, исходящими из одной точки."
+    },
+    {
+     "svg": "<svg viewBox=\"0 0 420 230\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Угол AOB\"><line x1=\"90.0\" y1=\"190.0\" x2=\"390.0\" y2=\"190.0\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linecap=\"round\"/><line x1=\"90.0\" y1=\"190.0\" x2=\"294.8\" y2=\"46.6\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linecap=\"round\"/><path d=\"M134.0,190.0 A44,44 0 0 0 126.0,164.8\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><text x=\"82\" y=\"216\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">O</text><text x=\"394\" y=\"216\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">A</text><text x=\"309.5\" y=\"42.7\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">B</text></svg>"
+    },
+    {
+     "p": "Точка \\(O\\) - **вершина** угла, а лучи \\(OA\\) и \\(OB\\) - **стороны** угла. Обозначение: \\(\\angle AOB\\) или \\(\\angle ab\\)."
+    },
+    {
+     "p": "Если стороны обозначены **заглавными** буквами, то в названии угла три буквы, а вершина всегда пишется в центре: \\(\\angle AOB\\) или \\(\\angle BOA\\). Если стороны обозначены **малыми** буквами, их пишут после значка угла: \\(\\angle ab\\) или \\(\\angle ba\\). Угол можно назвать и одной буквой вершины \\(\\angle O\\), или цифрой \\(\\angle 1\\)."
+    },
+    {
+     "p": "Угол делит плоскость на две части: **внутреннюю** и **внешнюю** области угла."
+    }
+   ]
+  },
+  {
+   "color": "cobalt",
+   "title": "Виды углов",
+   "items": [
+    {
+     "svg": "<svg viewBox=\"0 0 480 200\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Прямой, острый, тупой и развёрнутый углы\"><line x1=\"20.0\" y1=\"150.0\" x2=\"105.0\" y2=\"150.0\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linecap=\"round\"/><line x1=\"20.0\" y1=\"150.0\" x2=\"20.0\" y2=\"65.0\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linecap=\"round\"/><polyline points=\"38.0,150.0 38.0,132.0 20.0,132.0\" fill=\"none\" stroke=\"#2F5BB5\" stroke-width=\"2\"/><text x=\"65\" y=\"188\" font-family=\"STIX Two Text,Times New Roman,serif\" font-size=\"16\" fill=\"#16231A\" text-anchor=\"middle\">прямой</text><line x1=\"140.0\" y1=\"150.0\" x2=\"235.0\" y2=\"150.0\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linecap=\"round\"/><line x1=\"140.0\" y1=\"150.0\" x2=\"212.8\" y2=\"88.9\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linecap=\"round\"/><path d=\"M170.0,150.0 A30,30 0 0 0 163.0,130.7\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><text x=\"185\" y=\"188\" font-family=\"STIX Two Text,Times New Roman,serif\" font-size=\"16\" fill=\"#16231A\" text-anchor=\"middle\">острый</text><line x1=\"305.0\" y1=\"150.0\" x2=\"360.0\" y2=\"150.0\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linecap=\"round\"/><line x1=\"305.0\" y1=\"150.0\" x2=\"256.8\" y2=\"92.5\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linecap=\"round\"/><path d=\"M331.0,150.0 A26,26 0 0 0 288.3,130.1\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><text x=\"305\" y=\"188\" font-family=\"STIX Two Text,Times New Roman,serif\" font-size=\"16\" fill=\"#16231A\" text-anchor=\"middle\">тупой</text><line x1=\"370.0\" y1=\"150.0\" x2=\"480.0\" y2=\"150.0\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linecap=\"round\"/><path d=\"M451.0,150.0 A26,26 0 0 0 399.0,150.0\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><text x=\"425\" y=\"188\" font-family=\"STIX Two Text,Times New Roman,serif\" font-size=\"16\" fill=\"#16231A\" text-anchor=\"middle\">развёрнутый</text></svg>"
+    },
+    {
+     "head": true,
+     "table": [
+      [
+       "Угол",
+       "Градусная мера"
+      ],
+      [
+       "**Прямой**",
+       "равен \\(90^\\circ\\)"
+      ],
+      [
+       "**Острый**",
+       "меньше \\(90^\\circ\\)"
+      ],
+      [
+       "**Тупой**",
+       "больше \\(90^\\circ\\), но меньше \\(180^\\circ\\)"
+      ],
+      [
+       "**Развёрнутый**",
+       "равен \\(180^\\circ\\)"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "color": "orange",
+   "title": "Градус, минута, секунда",
+   "items": [
+    {
+     "p": "Чтобы **измерить** угол, его сравнивают с углом, который принимают за единицу измерения, - с **градусом**. Измеряют углы **транспортиром**."
+    },
+    {
+     "p": "**Градус** - угол, равный \\(\\tfrac1{180}\\) части развёрнутого угла. Записывают так: \\(1^\\circ\\)."
+    },
+    {
+     "p": "**Градусная мера угла** - положительное число, которое показывает, сколько раз градус и его части укладываются в данном угле. Если \\(\\angle AOB\\) содержит \\(130\\) градусов, пишут \\(\\angle AOB=130^\\circ\\)."
+    },
+    {
+     "p": "Для более точных расчётов используют ещё две единицы: **минуту** и **секунду**."
+    },
+    {
+     "f": "\\(1^\\circ=60'\\), \\(\\quad 1'=60''\\), \\(\\quad 1^\\circ=3600''\\)"
+    },
+    {
+     "p": "Например, угол в 30 градусов, 12 минут и 5 секунд записывают так: \\(30^\\circ12'5''\\)."
+    }
+   ]
+  },
+  {
+   "color": "gold",
+   "title": "Свойства углов",
+   "items": [
+    {
+     "p": "1. **Равные** углы имеют равные градусные меры."
+    },
+    {
+     "p": "2. **Меньший** угол имеет меньшую градусную меру."
+    },
+    {
+     "p": "3. Развёрнутый угол равен \\(180^\\circ\\)."
+    },
+    {
+     "p": "4. Неразвёрнутый угол меньше \\(180^\\circ\\)."
+    },
+    {
+     "p": "5. Если луч делит угол на два угла, то градусная мера всего угла равна **сумме** градусных мер этих углов."
+    },
+    {
+     "svg": "<svg viewBox=\"0 0 440 265\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Луч OB делит угол AOC на два угла\"><line x1=\"130.0\" y1=\"230.0\" x2=\"30.0\" y2=\"56.8\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linecap=\"round\"/><line x1=\"130.0\" y1=\"230.0\" x2=\"297.1\" y2=\"30.8\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linecap=\"round\"/><line x1=\"130.0\" y1=\"230.0\" x2=\"390.0\" y2=\"230.0\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linecap=\"round\"/><path d=\"M155.7,199.4 A40,40 0 0 0 110.0,195.4\" fill=\"none\" stroke=\"#2F5BB5\" stroke-width=\"2\"/><path d=\"M182.0,230.0 A52,52 0 0 0 163.4,190.2\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><path d=\"M194.0,230.0 A64,64 0 0 0 98.0,174.6\" fill=\"none\" stroke=\"#16231A\" stroke-width=\"2\"/><text x=\"122\" y=\"256\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">O</text><text x=\"21.0\" y=\"47.6\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">A</text><text x=\"308.7\" y=\"23.4\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">B</text><text x=\"394\" y=\"256\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">C</text></svg>"
+    },
+    {
+     "f": "\\(\\angle AOC=\\angle AOB+\\angle BOC\\)"
+    },
+    {
+     "why": "Луч \\(OB\\) проходит внутри угла \\(AOC\\), поэтому градусы, которые укладываются в \\(\\angle AOB\\) и в \\(\\angle BOC\\), вместе укладываются во всём угле \\(AOC\\). Например, если \\(\\angle AOB=70^\\circ\\) и \\(\\angle BOC=50^\\circ\\), то \\(\\angle AOC=120^\\circ\\)."
+    }
+   ]
+  },
+  {
+   "color": "sage",
+   "title": "Биссектриса угла",
+   "items": [
+    {
+     "p": "Луч, исходящий из вершины угла и делящий угол пополам, называется **биссектрисой** угла."
+    },
+    {
+     "svg": "<svg viewBox=\"0 0 380 260\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"OC - биссектриса угла AOB\"><line x1=\"80.0\" y1=\"225.0\" x2=\"167.7\" y2=\"45.2\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linecap=\"round\"/><line x1=\"80.0\" y1=\"225.0\" x2=\"275.1\" y2=\"103.1\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linecap=\"round\"/><line x1=\"80.0\" y1=\"225.0\" x2=\"310.0\" y2=\"225.0\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linecap=\"round\"/><path d=\"M117.3,201.7 A44,44 0 0 0 99.3,185.5\" fill=\"none\" stroke=\"#2F5BB5\" stroke-width=\"2\"/><path d=\"M122.4,198.5 A50,50 0 0 0 101.9,180.1\" fill=\"none\" stroke=\"#2F5BB5\" stroke-width=\"2\"/><path d=\"M124.0,225.0 A44,44 0 0 0 117.3,201.7\" fill=\"none\" stroke=\"#2F5BB5\" stroke-width=\"2\"/><path d=\"M130.0,225.0 A50,50 0 0 0 122.4,198.5\" fill=\"none\" stroke=\"#2F5BB5\" stroke-width=\"2\"/><text x=\"72\" y=\"251\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">O</text><text x=\"175.6\" y=\"35.5\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">A</text><text x=\"290.3\" y=\"100.0\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">C</text><text x=\"314\" y=\"251\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">B</text></svg>"
+    },
+    {
+     "p": "\\(OC\\) - биссектриса \\(\\angle AOB\\), значит"
+    },
+    {
+     "f": "\\(\\angle AOC=\\angle BOC=\\tfrac12\\angle AOB\\)"
+    }
+   ]
+  },
+  {
+   "color": "caramel",
+   "title": "Как решать задачи",
+   "items": [
+    {
+     "p": "**Угол разбит лучами на части.** Вся величина угла равна сумме его частей. Если в условии даны отношение или связь частей, обозначь меньшую часть буквой \\(x\\), вырази остальные через неё и составь уравнение."
+    },
+    {
+     "p": "Например, \\(\\angle AOB=120^\\circ\\), луч \\(OC\\) внутри угла, \\(\\angle AOC=3\\angle BOC\\). Пусть \\(\\angle BOC=x\\), тогда \\(\\angle AOC=3x\\) и"
+    },
+    {
+     "f": "\\(x+3x=120^\\circ,\\quad 4x=120^\\circ,\\quad x=30^\\circ\\)"
+    },
+    {
+     "p": "Значит, \\(\\angle BOC=30^\\circ\\), \\(\\angle AOC=90^\\circ\\)."
+    },
+    {
+     "p": "**Дана сумма и разность двух углов.** Пусть \\(\\angle AOC=x\\), \\(\\angle BOC=y\\). Тогда \\(x+y=\\angle AOB\\), а разность \\(x-y\\) задана условием. Сложи два равенства: получится удвоенный больший угол."
+    },
+    {
+     "p": "Например, \\(x+y=100^\\circ\\), \\(x-y=20^\\circ\\). Сложим: \\(2x=120^\\circ\\), \\(x=60^\\circ\\), тогда \\(y=100^\\circ-60^\\circ=40^\\circ\\)."
+    },
+    {
+     "p": "**Проценты.** Если один угол составляет \\(25\\%\\) другого, он в 4 раза меньше. Если один угол составляет \\(50\\%\\) другого, он в 2 раза меньше."
+    }
+   ]
+  }
+ ]
+}

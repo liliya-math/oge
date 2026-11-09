@@ -4956,6 +4956,16 @@
       "status": "public",
       "note": "7G-109",
       "auto": false
+    },
+    {
+      "file": "teoriya-7g-izmerenie-uglov.html",
+      "title": "Теория · 7 класс · Измерение углов (§ 5)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7G-107",
+      "auto": false
     }
   ]
 }
