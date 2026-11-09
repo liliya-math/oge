@@ -660,7 +660,7 @@ function adminRun_(b) {
           else if (k === 'pet') v = PETS.indexOf(String(v)) >= 0 ? String(v) : '';
           else if (k === 'nick') v = cleanNick_(v);
           else if (k === 'routes') v = (Array.isArray(v) ? v : String(v).split(',')).map(x => String(x).trim()).filter((x, i, a) => ROUTE_PROGS.indexOf(x) >= 0 && a.indexOf(x) === i).join(',');
-          else if (k === 'note') v = String(v || '').replace(/\s+/g, ' ').trim().slice(0, 300);
+          else if (k === 'note') v = String(v || '').replace(/\r/g, '').replace(/[ \t]+/g, ' ').replace(/\n\s*\n+/g, '\n').trim().slice(0, 300);
           else if (k === 'noteTill') v = /^\d{4}-\d{2}-\d{2}$/.test(String(v || '')) ? new Date(String(v) + 'T00:00:00') : '';
           else v = String(v).trim();
           sh.getRange(st.index, STUDENT_COLS[k]).setValue(v);
