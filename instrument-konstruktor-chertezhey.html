@@ -96,6 +96,8 @@ const FIGS={
  rho:{name:'Ромб',fields:[['a','Сторона a'],['A','Угол A'],['d1','Диагональ AC'],['d2','Диагональ BD']]},
  rect:{name:'Прямоугольник',fields:[['a','Сторона a (AB)'],['b','Сторона b (BC)'],['d','Диагональ']]},
  sq:{name:'Квадрат',fields:[['a','Сторона a'],['d','Диагональ']]},
+ cross:{name:'Пересекающиеся прямые',fields:[['a1','Угол 1 (AOC)'],['a2','Угол 2 (COB)'],['a3','Угол 3 (BOD)'],['a4','Угол 4 (DOA)']]},
+ psec:{name:'Параллельные и секущая',fields:[['a1','Угол 1'],['a2','Угол 2'],['a3','Угол 3'],['a4','Угол 4'],['a5','Угол 5'],['a6','Угол 6'],['a7','Угол 7'],['a8','Угол 8']]},
  trap:{name:'Трапеция',fields:[['a','Нижнее основание a (AB)'],['b','Верхнее основание b (DC)'],['h','Высота h'],['c','Боковая сторона c (AD)'],['d','Боковая сторона d (BC)'],['A','Угол A'],['B','Угол B']]}
 };
 const CONS={
@@ -104,9 +106,11 @@ const CONS={
  rho:[['hA','Высота'],['diag','Диагонали']],
  rect:[['diag','Диагонали']],
  sq:[['diag','Диагонали']],
- trap:[['hA','Высота'],['diag','Диагонали'],['mid','Средняя линия']]
+ trap:[['hA','Высота'],['diag','Диагонали'],['mid','Средняя линия']],
+ cross:[['bis1','Биссектриса угла 1'],['bis2','Биссектриса угла 2'],['bis3','Биссектриса угла 3'],['bis4','Биссектриса угла 4']],
+ psec:[['pts','Подписать точки пересечения P и Q']]
 };
-const state={fig:'tri',kind:{t:'any',v:'B'},vals:{},cons:{},opt:{hl:true,ls:true,la:false,comp:false,obt:false,board:false}};
+const state={fig:'tri',kind:{t:'any',v:'B'},vals:{},cons:{},opt:{num:true,hl:true,ls:true,la:false,comp:false,obt:false,board:false}};
 const $=id=>document.getElementById(id);
 
 let cards=[],cardScale=0.8,cardId=0,selId=null;
@@ -125,7 +129,7 @@ function parseVal(s){
 }
 let inp={},cons={},opt=state.opt;
 function fmt(v){return (Math.round(v*100)/100).toString().replace('.',',');}
-const MK='\u0001',HLC='#DD7A3A';
+const MK='\u0001',NM='\u0002',HLC='#DD7A3A';
 function T(key,val,letter,isAng){
  const i=key?inp[key]:null;
  if(i&&i.text) return (opt.hl&&i.v==null?MK:'')+((isAng&&/^[\d,√]+$/.test(i.text))?i.text+'°':i.text);
@@ -150,7 +154,7 @@ function circle(c,r,col,w){
  circs.push([c[0],c[1],r]);
 }
 function hit(p,q,k,top){(top?hits2:hits).push('<line data-ui="1" data-field="'+k+'" x1="'+ff(p[0])+'" y1="'+ff(p[1])+'" x2="'+ff(q[0])+'" y2="'+ff(q[1])+'" stroke="rgba(0,0,0,0)" stroke-width="18" stroke-linecap="round" style="cursor:pointer"/>');}
-function hitC(V,k){hitsA.push('<circle data-ui="1" data-field="'+k+'" cx="'+ff(V[0])+'" cy="'+ff(V[1])+'" r="24" fill="rgba(0,0,0,0)" style="cursor:pointer"/>');}
+function hitC(V,k,r){hitsA.push('<circle data-ui="1" data-field="'+k+'" cx="'+ff(V[0])+'" cy="'+ff(V[1])+'" r="'+(r||24)+'" fill="rgba(0,0,0,0)" style="cursor:pointer"/>');}
 function hit2(p,q,k){hit(p,q,k,true);}
 function hitPoly(P,sf,af){sf.forEach((k,i)=>{if(k)hit(P[i],P[(i+1)%P.length],k);});af.forEach(a=>hitC(P[a[0]],a[1]));}
 function dot(c,r){els.push('<circle cx="'+ff(c[0])+'" cy="'+ff(c[1])+'" r="'+(r||2.8)+'" fill="'+COL.ink+'"/>');segs.push([c[0],c[1],c[0],c[1]]);}
@@ -220,6 +224,7 @@ function clearance(x,y,hw,hh){
 }
 function place(str,cands,fs){
  if(!str)return;fs=fs||16;
+ if(str[0]===NM)str=str.slice(1);
  const hl=str[0]===MK;if(hl)str=str.slice(1);
  const w=textParts(str,fs).w,hw=w/2+3,hh=fs*0.58+2;
  let best=cands[0],bs=-1e9;
@@ -282,7 +287,7 @@ function angleLab(V,N1,N2,rays,str,rr){
 function angleMark(V,N1,N2,val,txt,rays,halves){
  const u1=U(V,N1),u2=U(V,N2);
  if(Math.abs(val-90)<0.01){rightMark(V,u1,u2);return;}
- if(txt)arc(V,u1,u2,18,COL.ink,1.6);
+ if(txt&&txt[0]!==NM)arc(V,u1,u2,18,COL.ink,1.6);
  return {V:V,N1:N1,N2:N2,txt:txt,rays:rays};
 }
 
@@ -587,6 +592,81 @@ function drawTrap(){
  return null;
 }
 
+
+/* ---------- углы: пересекающиеся прямые, параллельные и секущая ---------- */
+function TA(key,val,num){
+ const i=inp[key];
+ if(i&&i.text)return (opt.hl&&i.v==null?MK:'')+(/^[\d,√]+$/.test(i.text)?i.text+'°':i.text);
+ if(opt.comp&&val!=null)return fmt(val)+'°';
+ return opt.num?NM+String(num):'';
+}
+function midDir(O,N1,N2){const a=U(O,N1),b=U(O,N2);let m=[a[0]+b[0],a[1]+b[1]];const l=Math.hypot(m[0],m[1])||1;return [m[0]/l,m[1]/l];}
+function drawCross(){
+ let th=null;
+ for(let i=1;i<=4;i++){const v=inp['a'+i].v;if(v!=null){if(v>=180)return 'Угол должен быть меньше 180°';if(th==null)th=(i%2===1)?v:180-v;}}
+ if(th==null)th=60;
+ const vals=[th,180-th,th,180-th],td=Math.min(155,Math.max(25,th)),ph=18*rad,dr=a=>[Math.cos(a),Math.sin(a)];
+ const mA=dr(ph),mC=dr(ph+td*rad),mB=[-mA[0],-mA[1]],mD=[-mC[0],-mC[1]];
+ const f=fit([mA,mB,mC,mD],[]);
+ const O=f.P([0,0]),A=f.P(mA),B=f.P(mB),C=f.P(mC),D=f.P(mD);
+ const ends=[[A,C],[C,B],[B,D],[D,A]],rays=[[],[],[],[]];
+ line(A,B,COL.ink,2.4);line(C,D,COL.ink,2.4);dot(O,3);
+ for(let i=0;i<4;i++){
+  if(!cons['bis'+(i+1)])continue;
+  const m=midDir(O,ends[i][0],ends[i][1]);
+  line(O,add(O,m,0.8*Math.hypot(A[0]-O[0],A[1]-O[1])),COL.med,2);
+  arc(O,U(O,ends[i][0]),m,26,COL.med,1.6);arc(O,m,U(O,ends[i][1]),26,COL.med,1.6);rays[i].push(m);
+ }
+ const sec=[],mids=[];
+ for(let i=0;i<4;i++){
+  const m=midDir(O,ends[i][0],ends[i][1]);mids.push(m);
+  const a=angleMark(O,ends[i][0],ends[i][1],vals[i],TA('a'+(i+1),vals[i],i+1),rays[i]);
+  if(a&&a.txt)sec.push(a);
+  hitC(add(O,m,34),'a'+(i+1),15);
+ }
+ ['A','B','C','D'].forEach((n,i)=>vertexLab([A,B,C,D][i],O,n));
+ const oc=[];mids.forEach(m=>{oc.push(add(O,m,15));oc.push(add(O,m,24));});
+ place('O',oc,16);
+ sec.forEach(a=>angleLab(a.V,a.N1,a.N2,a.rays,a.txt));
+ return null;
+}
+function drawPsec(){
+ let th=null;
+ for(let i=1;i<=8;i++){const v=inp['a'+i].v;if(v!=null){if(v>=180)return 'Угол должен быть меньше 180°';if(th==null)th=(i%2===0)?v:180-v;}}
+ if(th==null)th=60;
+ const td=Math.min(150,Math.max(30,th)),c=Math.cos(td*rad),sn=Math.sin(td*rad),h=1.5,e=0.55;
+ const Q=[0,0],P=[h*c/sn,h],xl=Math.min(Q[0],P[0])-1.7,xr=Math.max(Q[0],P[0])+1.7;
+ const mp={a1:[xl,h],a2:[xr,h],b1:[xl,0],b2:[xr,0],c1:[Q[0]-e*c,-e*sn],c2:[P[0]+e*c,h+e*sn]};
+ const f=fit(Object.values(mp),[]),S={};Object.keys(mp).forEach(k=>S[k]=f.P(mp[k]));
+ line(S.a1,S.a2,COL.ink,2.4);line(S.b1,S.b2,COL.ink,2.4);line(S.c1,S.c2,COL.ink,2.4);
+ [S.a2,S.b2].forEach(p=>[34,24].forEach(d=>{
+  const q=[p[0]-d,p[1]];
+  els.push('<polyline points="'+ff(q[0]-6)+','+ff(q[1]-6)+' '+ff(q[0])+','+ff(q[1])+' '+ff(q[0]-6)+','+ff(q[1]+6)+'" fill="none" stroke="'+COL.ink+'" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>');
+  segs.push([q[0]-6,q[1]-6,q[0],q[1]],[q[0],q[1],q[0]-6,q[1]+6]);
+ }));
+ const sec=[],val=i=>(i%2===0)?th:180-th;
+ const mk=(pt,i0)=>{
+  const R=f.P([pt[0]+0.5,pt[1]]),Lf=f.P([pt[0]-0.5,pt[1]]),Up=f.P([pt[0]+0.5*c,pt[1]+0.5*sn]),Dn=f.P([pt[0]-0.5*c,pt[1]-0.5*sn]),Os=f.P(pt);
+  [[i0,Up,Lf],[i0+1,R,Up],[i0+2,Dn,R],[i0+3,Lf,Dn]].forEach(q=>{
+   const m=midDir(Os,q[1],q[2]);
+   const a=angleMark(Os,q[1],q[2],val(q[0]),TA('a'+q[0],val(q[0]),q[0]),[]);
+   if(a&&a.txt)sec.push(a);
+   hitC(add(Os,m,34),'a'+q[0],15);
+  });
+  return Os;
+ };
+ const Ps=mk(P,1),Qs=mk(Q,5);
+ place('a',[[S.a1[0]-14,S.a1[1]-14],[S.a1[0]+16,S.a1[1]-14],[S.a1[0]-14,S.a1[1]+14]],17);
+ place('b',[[S.b1[0]-14,S.b1[1]-14],[S.b1[0]+16,S.b1[1]-14],[S.b1[0]-14,S.b1[1]+14]],17);
+ place('c',[[S.c2[0]+14,S.c2[1]-8],[S.c2[0]-14,S.c2[1]-8],[S.c2[0]+16,S.c2[1]+8]],17);
+ if(cons.pts){
+  [[Ps,'P'],[Qs,'Q']].forEach(pq=>{const cs=[];for(let k=0;k<8;k++){const a=k*Math.PI/4;[14,22].forEach(r=>cs.push([pq[0][0]+r*Math.cos(a),pq[0][1]+r*Math.sin(a)]));}place(pq[1],cs,16);});
+  dot(Ps,3);dot(Qs,3);
+ }
+ sec.forEach(a=>angleLab(a.V,a.N1,a.N2,a.rays,a.txt));
+ return null;
+}
+
 /* ---------- сборка ---------- */
 function render(){
  const fig=state.fig;
@@ -598,7 +678,7 @@ function render(){
  COL=opt.board?{ink:'#EEE0C8',med:'#DD7A3A',alt:'#9BB08A',bis:'#B6CBE3',mid:'#E2B04A',cir:'#B6CBE3',halo:null,bg:null}
               :{ink:'#16231A',med:'#DD7A3A',alt:'#5F7B3F',bis:'#2F5BB5',mid:'#9C6B40',cir:'#2F5BB5',halo:'#ffffff',bg:'#ffffff'};
  els=[];segs=[];circs=[];rects=[];hits=[];hits2=[];hitsA=[];
- if(!err)err={tri:drawTri,par:drawPar,rho:drawRho,rect:()=>drawRect(false),sq:()=>drawRect(true),trap:drawTrap}[fig]();
+ if(!err)err={tri:drawTri,par:drawPar,rho:drawRho,rect:()=>drawRect(false),sq:()=>drawRect(true),trap:drawTrap,cross:drawCross,psec:drawPsec}[fig]();
  if(err){els=[];hits=[];hits2=[];hitsA=[];}
  $('msg').textContent=err||'';
  const cimg=cards.map(c=>'<image data-card="'+c.id+'" x="'+ff(c.x)+'" y="'+ff(c.y)+'" width="'+ff(c.w*c.s)+'" height="'+ff(c.h*c.s)+'" href="'+c.src+'" xlink:href="'+c.src+'" style="cursor:move"/>').join('')+cards.filter(c=>c.id===selId).map(c=>'<rect data-ui="1" x="'+ff(c.x-3)+'" y="'+ff(c.y-3)+'" width="'+ff(c.w*c.s+6)+'" height="'+ff(c.h*c.s+6)+'" rx="10" fill="none" stroke="#2F5BB5" stroke-width="1.6" stroke-dasharray="5 4" pointer-events="none"/>').join('');
@@ -645,7 +725,8 @@ function buildUI(){
   l.appendChild(i);l.appendChild(document.createTextNode(c[1]));$('cons').appendChild(l);
  });
  $('opts').innerHTML='';
- const os=[['hl','Подсвечивать искомое (всё, что обозначено буквой x, y)'],['ls','Неизвестные стороны подписывать буквами'],['la','Неизвестные углы подписывать буквами'],['comp','Показывать вычисленные значения']];
+ let os=[['hl','Подсвечивать искомое (всё, что обозначено буквой x, y)'],['ls','Неизвестные стороны подписывать буквами'],['la','Неизвестные углы подписывать буквами'],['comp','Показывать вычисленные значения']];
+ if(fig==='cross'||fig==='psec')os=[os[0],['num','Подписывать углы номерами (если значение не введено)'],os[3]];
  if(fig==='tri')os.push(['obt','Если угол по синусу неоднозначен: взять тупой']);
  os.push(['board','Мелом для доски (прозрачный фон)']);
  os.forEach(o=>{
@@ -683,6 +764,16 @@ function TBL(){
  return t+'</table>';
 }
 const TH=[
+{g:'Углы и параллельные прямые (7 класс)',k:'lines',items:[
+['Смежные углы',['Два угла называются смежными, если у них одна сторона общая, а две другие стороны этих углов являются продолжениями одна другой.','<b>Теорема.</b> Сумма смежных углов равна 180°.',{f:'∠1 + ∠2 = 180°'},'Если один из смежных углов прямой, то и другой прямой.']],
+['Вертикальные углы',['Два угла называются вертикальными, если стороны одного угла являются продолжениями сторон другого.','<b>Теорема.</b> Вертикальные углы равны.',{f:'∠1 = ∠3,&nbsp;&nbsp; ∠2 = ∠4'},'Нумерация углов в этом справочнике такая же, как на чертеже в конструкторе.']],
+['Биссектриса угла',['Биссектрисой угла называется луч, который исходит из вершины угла и делит его на два равных угла.',{f:'∠1 = ∠2 = '+F('∠AOB','2')}]],
+['Перпендикулярные прямые',['Две пересекающиеся прямые называются перпендикулярными, если они образуют четыре прямых угла.','Если при пересечении двух прямых один из углов прямой, то остальные три угла тоже прямые.']],
+['Накрест лежащие, соответственные и односторонние углы',['Прямая c, пересекающая прямые a и b, называется секущей. При этом образуется восемь углов.','Накрест лежащие углы: ∠3 и ∠5, ∠4 и ∠6.','Соответственные углы: ∠1 и ∠5, ∠2 и ∠6, ∠3 и ∠7, ∠4 и ∠8.','Односторонние углы: ∠4 и ∠5, ∠3 и ∠6.','Нумерация та же, что на чертеже в конструкторе.']],
+['Признаки параллельности прямых',['<b>Теорема.</b> Если при пересечении двух прямых секущей накрест лежащие углы равны, то прямые параллельны.',{f:'∠3 = ∠5  ⇒  a ∥ b'},'<b>Теорема.</b> Если при пересечении двух прямых секущей соответственные углы равны, то прямые параллельны.',{f:'∠1 = ∠5  ⇒  a ∥ b'},'<b>Теорема.</b> Если при пересечении двух прямых секущей сумма односторонних углов равна 180°, то прямые параллельны.',{f:'∠4 + ∠5 = 180°  ⇒  a ∥ b'}]],
+['Свойства параллельных прямых',['<b>Теорема.</b> Если две параллельные прямые пересечены секущей, то накрест лежащие углы равны, соответственные углы равны, а сумма односторонних углов равна 180°.',{f:'a ∥ b  ⇒  ∠3 = ∠5,&nbsp; ∠1 = ∠5,&nbsp; ∠4 + ∠5 = 180°'},'Если прямая перпендикулярна одной из двух параллельных прямых, то она перпендикулярна и другой.']],
+['Аксиома параллельных прямых',['Через точку, не лежащую на данной прямой, проходит только одна прямая, параллельная данной.','Если две прямые параллельны третьей, то они параллельны друг другу.']]
+]},
 {g:'Треугольник',k:'tri',items:[
 ['Сумма углов треугольника',['<b>Теорема.</b> Сумма углов треугольника равна 180°.',{f:'∠A + ∠B + ∠C = 180°'}]],
 ['Внешний угол треугольника',['Внешним углом треугольника называется угол, смежный с каким-либо внутренним углом этого треугольника.','<b>Теорема.</b> Внешний угол треугольника равен сумме двух внутренних углов, не смежных с ним.',{f:'α₁ = ∠B + ∠C'},'Следствие. Внешний угол треугольника больше любого внутреннего угла, не смежного с ним. Сумма внешних углов треугольника, взятых по одному при каждой вершине, равна 360°.']],
@@ -734,7 +825,7 @@ function buildTheory(){
  $('theory').innerHTML=h;
 }
 function theoryOpen(){
- const k=state.fig==='tri'?'tri':'quad';
+ const k=state.fig==='tri'?'tri':((state.fig==='cross'||state.fig==='psec')?'lines':'quad');
  document.querySelectorAll('#theory .tg').forEach(d=>{d.open=(d.dataset.k===k);});
 }
 
