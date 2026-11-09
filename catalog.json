@@ -4759,6 +4759,16 @@
       "auto": false
     },
     {
+      "file": "teoriya-8g-srednyaya-liniya-treugolnika.html",
+      "title": "Теория · 8 класс · Средняя линия треугольника (§ 8, п. 1)",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-113",
+      "auto": false
+    },
+    {
       "file": "teoriya-8-ratsionalnye-chisla.html",
       "title": "Теория · 8 класс · Рациональные числа (п. 6.1)",
       "type": "theory",
