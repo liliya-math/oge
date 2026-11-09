@@ -94,7 +94,7 @@ const CONS={
  sq:[['diag','Диагонали']],
  trap:[['hA','Высота'],['diag','Диагонали'],['mid','Средняя линия']]
 };
-const state={fig:'tri',kind:{t:'any',v:'B'},vals:{},cons:{},opt:{ls:true,la:false,comp:false,obt:false,board:false}};
+const state={fig:'tri',kind:{t:'any',v:'B'},vals:{},cons:{},opt:{hl:true,ls:true,la:false,comp:false,obt:false,board:false}};
 const $=id=>document.getElementById(id);
 
 /* ---------- ввод ---------- */
@@ -112,9 +112,10 @@ function parseVal(s){
 }
 let inp={},cons={},opt=state.opt;
 function fmt(v){return (Math.round(v*100)/100).toString().replace('.',',');}
+const MK='\u0001',HLC='#DD7A3A';
 function T(key,val,letter,isAng){
  const i=key?inp[key]:null;
- if(i&&i.text) return (isAng&&/^[\d,√]+$/.test(i.text))?i.text+'°':i.text;
+ if(i&&i.text) return (opt.hl&&i.v==null?MK:'')+((isAng&&/^[\d,√]+$/.test(i.text))?i.text+'°':i.text);
  if(val!=null&&opt.comp) return fmt(val)+(isAng?'°':'');
  if(letter&&(isAng?opt.la:opt.ls)) return letter;
  return '';
@@ -170,16 +171,16 @@ function textParts(str,fs){
  }
  return {parts:parts,w:w};
 }
-function labelSvg(str,cx,cy,fs){
- const tp=textParts(str,fs);let x=cx-tp.w/2,o='';
+function labelSvg(str,cx,cy,fs,hl){
+ const tp=textParts(str,fs);const IC=hl?HLC:COL.ink,WT=hl?' font-weight="700"':'';let x=cx-tp.w/2,o='';
  const halo=COL.halo?' stroke="'+COL.halo+'" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round"':'';
  for(const p of tp.parts){
   if(p.t!==undefined){
-   o+='<text x="'+ff(x)+'" y="'+ff(cy)+'" font-size="'+fs+'" fill="'+COL.ink+'" dominant-baseline="central" font-family="-apple-system,\'Helvetica Neue\',Arial,sans-serif"'+halo+'>'+p.t.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</text>';
+   o+='<text x="'+ff(x)+'" y="'+ff(cy)+'" font-size="'+fs+'" fill="'+IC+'"'+WT+' dominant-baseline="central" font-family="-apple-system,\'Helvetica Neue\',Arial,sans-serif"'+halo+'>'+p.t.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</text>';
   }else{
    const y=cy;
-   o+='<path d="M'+ff(x)+' '+ff(y+fs*0.1)+' L'+ff(x+fs*0.12)+' '+ff(y)+' L'+ff(x+fs*0.28)+' '+ff(y+fs*0.52)+' L'+ff(x+fs*0.5)+' '+ff(y-fs*0.55)+' H'+ff(x+fs*0.55+p.rw)+'" fill="none" stroke="'+COL.ink+'" stroke-width="1.5" stroke-linejoin="miter"/>';
-   o+='<text x="'+ff(x+fs*0.58)+'" y="'+ff(y+fs*0.05)+'" font-size="'+fs+'" fill="'+COL.ink+'" dominant-baseline="central" font-family="-apple-system,\'Helvetica Neue\',Arial,sans-serif"'+halo+'>'+p.r+'</text>';
+   o+='<path d="M'+ff(x)+' '+ff(y+fs*0.1)+' L'+ff(x+fs*0.12)+' '+ff(y)+' L'+ff(x+fs*0.28)+' '+ff(y+fs*0.52)+' L'+ff(x+fs*0.5)+' '+ff(y-fs*0.55)+' H'+ff(x+fs*0.55+p.rw)+'" fill="none" stroke="'+IC+'" stroke-width="1.5" stroke-linejoin="miter"/>';
+   o+='<text x="'+ff(x+fs*0.58)+'" y="'+ff(y+fs*0.05)+'" font-size="'+fs+'" fill="'+IC+'"'+WT+' dominant-baseline="central" font-family="-apple-system,\'Helvetica Neue\',Arial,sans-serif"'+halo+'>'+p.r+'</text>';
   }
   x+=p.w;
  }
@@ -202,6 +203,7 @@ function clearance(x,y,hw,hh){
 }
 function place(str,cands,fs){
  if(!str)return;fs=fs||16;
+ const hl=str[0]===MK;if(hl)str=str.slice(1);
  const w=textParts(str,fs).w,hw=w/2+3,hh=fs*0.58+2;
  let best=cands[0],bs=-1e9;
  for(const c of cands){
@@ -212,7 +214,12 @@ function place(str,cands,fs){
   if(sc>bs){bs=sc;best=c;}
  }
  rects.push({x:best[0],y:best[1],hw:hw,hh:hh});
- els.push(labelSvg(str,best[0],best[1],fs));
+ els.push(labelSvg(str,best[0],best[1],fs,hl));
+}
+function hiLine(p,q){els.push('<line x1="'+ff(p[0])+'" y1="'+ff(p[1])+'" x2="'+ff(q[0])+'" y2="'+ff(q[1])+'" stroke="'+HLC+'" stroke-width="4.2" stroke-linecap="round"/>');}
+function hiArc(V,u1,u2,r){
+ const a1=Math.atan2(u1[1],u1[0]),d=norm(Math.atan2(u2[1],u2[0])-a1),p1=add(V,u1,r),p2=add(V,u2,r);
+ els.push('<path d="M'+ff(p1[0])+' '+ff(p1[1])+' A'+r+' '+r+' 0 0 '+(d>0?1:0)+' '+ff(p2[0])+' '+ff(p2[1])+'" fill="none" stroke="'+HLC+'" stroke-width="3.4" stroke-linecap="round"/>');
 }
 function vertexLab(V,c,name){
  const d=U(c,V),cands=[];
@@ -221,6 +228,7 @@ function vertexLab(V,c,name){
 }
 function sideLab(p,q,txt,c){
  if(!txt)return;
+ if(txt[0]===MK)hiLine(p,q);
  const m=mid(p,q),u=U(p,q);let n=[-u[1],u[0]];
  if((m[0]-c[0])*n[0]+(m[1]-c[1])*n[1]<0)n=[-n[0],-n[1]];
  const cands=[];
@@ -230,6 +238,7 @@ function sideLab(p,q,txt,c){
 }
 function segLab(p,q,txt){
  if(!txt)return;
+ if(txt[0]===MK)hiLine(p,q);
  const u=U(p,q),n=[-u[1],u[0]],L=Math.hypot(q[0]-p[0],q[1]-p[1]),cands=[];
  for(const t of [0.5,0.35,0.65])for(const o of [13,21,30])for(const s of [1,-1])cands.push(add(add(p,u,L*t),n,o*s));
  place(txt,cands);
@@ -240,7 +249,8 @@ function footLab(H,V,name){
  for(const r of [14,22])for(const a of [0,0.7,-0.7,1.4,-1.4,2.1,-2.1])cands.push(add(H,rot(d,a),r));
  place(name,cands,15);
 }
-function angleLab(V,N1,N2,rays,str){
+function angleLab(V,N1,N2,rays,str,rr){
+ if(str&&str[0]===MK)hiArc(V,U(V,N1),U(V,N2),rr||18);
  const u1=U(V,N1),u2=U(V,N2),a1=Math.atan2(u1[1],u1[0]),d=norm(Math.atan2(u2[1],u2[0])-a1);
  const ps=[0,1];
  for(const ry of rays){const t=norm(Math.atan2(ry[1],ry[0])-a1)/d;if(t>0.02&&t<0.98)ps.push(t);}
@@ -399,9 +409,9 @@ function drawTri(){
  exL.forEach(e=>{
   const Vp=V[e.at],E=f.P(e.E),Q=V[e.ot];
   line(Vp,E,COL.ink,1.6,'6 4');
-  const et=inp['e'+e.at].text,txt=et?(/^[\d,√]+$/.test(et)?et+'°':et):(opt.comp?fmt(e.val)+'°':({A:'α',B:'β',C:'γ'}[e.at]+'₁'));
+  const et=inp['e'+e.at].text,txt=et?((opt.hl&&inp['e'+e.at].v==null?MK:'')+(/^[\d,√]+$/.test(et)?et+'°':et)):(opt.comp?fmt(e.val)+'°':({A:'α',B:'β',C:'γ'}[e.at]+'₁'));
   if(Math.abs(e.val-90)<0.01)rightMark(Vp,U(Vp,E),U(Vp,Q));
-  else{arc(Vp,U(Vp,E),U(Vp,Q),28,COL.ink,1.6);exAngs.push({V:Vp,N1:E,N2:Q,txt:txt,rays:rays[e.at]});}
+  else{arc(Vp,U(Vp,E),U(Vp,Q),28,COL.ink,1.6);exAngs.push({V:Vp,N1:E,N2:Q,txt:txt,rays:rays[e.at],r:28});}
  });
  line(A,B,COL.ink,2.4);line(B,C,COL.ink,2.4);line(C,A,COL.ink,2.4);
  const sPt=[[B,C],[A,C],[A,B]];
@@ -421,7 +431,7 @@ function drawTri(){
  const sT=[T('a',r.a,'a'),T('b',r.b,'b'),T('c',r.c,'c')],sP=[[B,C],[A,C],[A,B]];
  if(eqS.length){const first=sT.filter((t,i)=>eqS.includes(i)&&t)[0]||'';eqS.forEach((i,j)=>{sT[i]=j==0?first:'';});}
  sP.forEach((p,i)=>sideLab(p[0],p[1],sT[i],c0));
- angs.concat(exAngs).forEach(a=>angleLab(a.V,a.N1,a.N2,a.rays,a.txt));
+ angs.concat(exAngs).forEach(a=>angleLab(a.V,a.N1,a.N2,a.rays,a.txt,a.r));
  feet.forEach(x=>footLab(x[0],x[1],x[2]));
  mids.forEach(m=>segLab(m[0],m[1],T(null,m[2]/2,'m')));
  if(radLab)segLab(radLab[0],radLab[1],radLab[2]);
@@ -612,7 +622,7 @@ function buildUI(){
   l.appendChild(i);l.appendChild(document.createTextNode(c[1]));$('cons').appendChild(l);
  });
  $('opts').innerHTML='';
- const os=[['ls','Неизвестные стороны подписывать буквами'],['la','Неизвестные углы подписывать буквами'],['comp','Показывать вычисленные значения']];
+ const os=[['hl','Подсвечивать искомое (всё, что обозначено буквой x, y)'],['ls','Неизвестные стороны подписывать буквами'],['la','Неизвестные углы подписывать буквами'],['comp','Показывать вычисленные значения']];
  if(fig==='tri')os.push(['obt','Если угол по синусу неоднозначен: взять тупой']);
  os.push(['board','Мелом для доски (прозрачный фон)']);
  os.forEach(o=>{
