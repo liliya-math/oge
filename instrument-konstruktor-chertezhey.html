@@ -69,7 +69,7 @@ svg circle[data-field]:hover{fill:rgba(221,122,58,.3)}
   <h3>Фигура</h3><div class="figs" id="figs"></div>
   <div id="kind"></div>
   <h3>Данные</h3><div id="fields"></div>
-  <div class="hint">Можно нажать на сторону или угол на чертеже, и нужное поле выберется само.</div>
+  <div class="hint">Можно нажать на сторону, угол, высоту, диагональ или радиус на чертеже, и нужное поле выберется само.</div>
   <div class="hint">Пустое поле: значение неизвестно. Буква (x, y) вместо числа: на чертеже будет эта буква. Корень пишется так: 5√3.</div>
   <h3 class="g">Построения</h3><div id="cons"></div>
   <h3 class="b">Подписи</h3><div id="opts"></div>
@@ -135,7 +135,7 @@ function T(key,val,letter,isAng){
 }
 
 /* ---------- сцена ---------- */
-let els,segs,circs,rects,COL,hits;
+let els,segs,circs,rects,COL,hits,hits2,hitsA;
 const U=(p,q)=>{const d=Math.hypot(q[0]-p[0],q[1]-p[1])||1;return [(q[0]-p[0])/d,(q[1]-p[1])/d];};
 const add=(p,u,k)=>[p[0]+u[0]*k,p[1]+u[1]*k];
 const mid=(p,q)=>[(p[0]+q[0])/2,(p[1]+q[1])/2];
@@ -149,8 +149,9 @@ function circle(c,r,col,w){
  els.push('<circle cx="'+ff(c[0])+'" cy="'+ff(c[1])+'" r="'+ff(r)+'" fill="none" stroke="'+col+'" stroke-width="'+(w||1.8)+'"/>');
  circs.push([c[0],c[1],r]);
 }
-function hit(p,q,k){hits.push('<line data-ui="1" data-field="'+k+'" x1="'+ff(p[0])+'" y1="'+ff(p[1])+'" x2="'+ff(q[0])+'" y2="'+ff(q[1])+'" stroke="rgba(0,0,0,0)" stroke-width="18" stroke-linecap="round" style="cursor:pointer"/>');}
-function hitC(V,k){hits.push('<circle data-ui="1" data-field="'+k+'" cx="'+ff(V[0])+'" cy="'+ff(V[1])+'" r="24" fill="rgba(0,0,0,0)" style="cursor:pointer"/>');}
+function hit(p,q,k,top){(top?hits2:hits).push('<line data-ui="1" data-field="'+k+'" x1="'+ff(p[0])+'" y1="'+ff(p[1])+'" x2="'+ff(q[0])+'" y2="'+ff(q[1])+'" stroke="rgba(0,0,0,0)" stroke-width="18" stroke-linecap="round" style="cursor:pointer"/>');}
+function hitC(V,k){hitsA.push('<circle data-ui="1" data-field="'+k+'" cx="'+ff(V[0])+'" cy="'+ff(V[1])+'" r="24" fill="rgba(0,0,0,0)" style="cursor:pointer"/>');}
+function hit2(p,q,k){hit(p,q,k,true);}
 function hitPoly(P,sf,af){sf.forEach((k,i)=>{if(k)hit(P[i],P[(i+1)%P.length],k);});af.forEach(a=>hitC(P[a[0]],a[1]));}
 function dot(c,r){els.push('<circle cx="'+ff(c[0])+'" cy="'+ff(c[1])+'" r="'+(r||2.8)+'" fill="'+COL.ink+'"/>');segs.push([c[0],c[1],c[0],c[1]]);}
 function norm(d){while(d>Math.PI)d-=2*Math.PI;while(d<-Math.PI)d+=2*Math.PI;return d;}
@@ -417,7 +418,7 @@ function drawTri(){
  if(cons.midC)mids.push([mid(C,A),mid(C,B),r.c]);
  mids.forEach(m=>line(m[0],m[1],COL.mid,2));
  let radLab=null;
- if(cons.radR){line(O,A,COL.cir,1.8);rays.A.push(U(A,O));radLab=[O,A,T('R',Rr,'R')];}
+ if(cons.radR){hit2(O,A,'R');line(O,A,COL.cir,1.8);rays.A.push(U(A,O));radLab=[O,A,T('R',Rr,'R')];}
  let rinLab=null;
  if(cons.radr){const dx=B[0]-A[0],dy=B[1]-A[1],t=((I[0]-A[0])*dx+(I[1]-A[1])*dy)/(dx*dx+dy*dy),Tp=[A[0]+t*dx,A[1]+t*dy];
   line(I,Tp,COL.cir,1.8);rightMark(Tp,U(Tp,I),U(Tp,B),9);rinLab=[I,Tp,T('r',rin,'r')];}
@@ -484,7 +485,7 @@ function drawPar(){
  const rays={A:[]},feet=[],segsL=[];
  if(cons.diag){line(pA,pC,COL.med,1.8);line(pB,pD,COL.med,1.8);rays.A.push(U(pA,pC));segsL.push([pA,pC,T('d1',Math.hypot(pm.C[0],pm.C[1]),'d₁')],[pB,pD,T('d2',Math.hypot(pm.D[0]-a,pm.D[1]),'d₂')]);}
  let h1=null,h2=null;
- if(cons.hA){const H=drawAlt(pD,pA,pB,COL.alt);h1=[pD,H,T('h',hh,'h')];feet.push([H,pD,'H']);}
+ if(cons.hA){const H=drawAlt(pD,pA,pB,COL.alt);hit2(pD,H,'h');h1=[pD,H,T('h',hh,'h')];feet.push([H,pD,'H']);}
  if(cons.hB){const K=drawAlt(pB,pA,pD,COL.bis);h2=[pB,K,T(null,a*Math.sin(A*rad),'h₂')];feet.push([K,pB,'K']);}
  polyLines(P);hitPoly(P,['a','b','a','b'],[[0,'A']]);
  const angs=cornerAngles(P,[[0,A,T('A',A,'α',true),rays.A]]);
@@ -512,7 +513,7 @@ function drawRho(){
  }
  const arr=[pm.A,pm.B,pm.C,pm.D],f=fit(arr,[]),P=arr.map(f.P);
  const rays=[],feet=[],sl=[];
- if(cons.diag){line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);rays.push(U(P[0],P[2]));
+ if(cons.diag){hit2(P[0],P[2],'d1');hit2(P[1],P[3],'d2');line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);rays.push(U(P[0],P[2]));
   const O=mid(P[0],P[2]);rightMark(O,U(O,P[2]),U(O,P[3]),9);
   sl.push([P[0],P[2],T('d1',Math.hypot(pm.C[0]-pm.A[0],pm.C[1]-pm.A[1]),'d₁')],[P[1],P[3],T('d2',Math.hypot(pm.D[0]-pm.B[0],pm.D[1]-pm.B[1]),'d₂')]);}
  let h1=null;
@@ -541,7 +542,7 @@ function drawRect(sq){
  }
  const arr=[[0,0],[a,0],[a,b],[0,b]],f=fit(arr,[]),P=arr.map(f.P);
  const dg=Math.hypot(a,b),sl=[];
- if(cons.diag){line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);sl.push([P[0],P[2],T('d',dg,'d')]);}
+ if(cons.diag){hit2(P[0],P[2],'d');hit2(P[1],P[3],'d');line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);sl.push([P[0],P[2],T('d',dg,'d')]);}
  polyLines(P);hitPoly(P,sq?['a','a','a','a']:['a','b','a','b'],[]);
  for(let i=0;i<4;i++)rightMark(P[i],U(P[i],P[(i+1)%4]),U(P[i],P[(i+3)%4]),11);
  const c0=centroid(P);
@@ -572,7 +573,7 @@ function drawTrap(){
  const rA=[],rB=[],sl=[],feet=[];
  if(cons.diag){line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);rA.push(U(P[0],P[2]));rB.push(U(P[1],P[3]));}
  let h1=null,m1=null;
- if(cons.hA){const H=drawAlt(P[3],P[0],P[1],COL.alt);h1=[P[3],H,T('h',h,'h')];feet.push([H,P[3],'H']);}
+ if(cons.hA){const H=drawAlt(P[3],P[0],P[1],COL.alt);hit2(P[3],H,'h');h1=[P[3],H,T('h',h,'h')];feet.push([H,P[3],'H']);}
  if(cons.mid){const m=mid(P[0],P[3]),n=mid(P[1],P[2]);line(m,n,COL.mid,2);m1=[m,n,T(null,(a+b)/2,'m')];}
  polyLines(P);hitPoly(P,['a','d','b','c'],[[0,'A'],[1,'B']]);
  const angs=cornerAngles(P,[[0,Aact,T('A',Aact,'α',true),rA],[1,Bact,T('B',Bact,'β',true),rB]]);
@@ -596,12 +597,12 @@ function render(){
  Object.keys(AUTO).forEach(k=>{if(inp[k]&&inp[k].text)cons[AUTO[k]]=true;});
  COL=opt.board?{ink:'#EEE0C8',med:'#DD7A3A',alt:'#9BB08A',bis:'#B6CBE3',mid:'#E2B04A',cir:'#B6CBE3',halo:null,bg:null}
               :{ink:'#16231A',med:'#DD7A3A',alt:'#5F7B3F',bis:'#2F5BB5',mid:'#9C6B40',cir:'#2F5BB5',halo:'#ffffff',bg:'#ffffff'};
- els=[];segs=[];circs=[];rects=[];hits=[];
+ els=[];segs=[];circs=[];rects=[];hits=[];hits2=[];hitsA=[];
  if(!err)err={tri:drawTri,par:drawPar,rho:drawRho,rect:()=>drawRect(false),sq:()=>drawRect(true),trap:drawTrap}[fig]();
- if(err){els=[];hits=[];}
+ if(err){els=[];hits=[];hits2=[];hitsA=[];}
  $('msg').textContent=err||'';
  const cimg=cards.map(c=>'<image data-card="'+c.id+'" x="'+ff(c.x)+'" y="'+ff(c.y)+'" width="'+ff(c.w*c.s)+'" height="'+ff(c.h*c.s)+'" href="'+c.src+'" xlink:href="'+c.src+'" style="cursor:move"/>').join('')+cards.filter(c=>c.id===selId).map(c=>'<rect data-ui="1" x="'+ff(c.x-3)+'" y="'+ff(c.y-3)+'" width="'+ff(c.w*c.s+6)+'" height="'+ff(c.h*c.s+6)+'" rx="10" fill="none" stroke="#2F5BB5" stroke-width="1.6" stroke-dasharray="5 4" pointer-events="none"/>').join('');
- $('svg').innerHTML=(COL.bg?'<rect width="'+W+'" height="'+H+'" fill="'+COL.bg+'"/>':'')+els.join('')+hits.join('')+cimg;
+ $('svg').innerHTML=(COL.bg?'<rect width="'+W+'" height="'+H+'" fill="'+COL.bg+'"/>':'')+els.join('')+hits.join('')+hits2.join('')+hitsA.join('')+cimg;
  $('stage').className='stage'+(opt.board?' board':'');
 }
 
