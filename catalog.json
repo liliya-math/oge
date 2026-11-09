@@ -4887,6 +4887,16 @@
       "status": "public",
       "note": "7A-131",
       "auto": false
+    },
+    {
+      "file": "instrument-konstruktor-chertezhey.html",
+      "title": "Конструктор чертежей (треугольники, четырёхугольники)",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "инструмент репетитора: строит чертёж по данным, картинку копировать на онлайн-доску",
+      "auto": false
     }
   ]
 }

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Конструктор чертежей</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',Arial,sans-serif;background:#16231A;color:#EEE0C8}
+header{background:#2B3D2B;color:#EEE0C8;padding:14px 22px;font-size:20px;font-weight:600;border-bottom:3px solid #DD7A3A}
+header span{color:#C9AB82;font-weight:400;margin-left:8px}
+.wrap{display:flex;gap:22px;padding:18px 22px;align-items:flex-start;flex-wrap:wrap}
+.panel{width:340px;background:#2B3D2B;border-radius:14px;padding:16px 18px}
+.panel h3{margin:16px 0 8px;font-size:15px;font-weight:600;color:#EEE0C8;border-left:4px solid #DD7A3A;padding-left:9px}
+.panel>h3:first-child{margin-top:0}
+.panel h3.g{border-color:#E2B04A}.panel h3.b{border-color:#B6CBE3}.panel h3.m{border-color:#9BB08A}
+.figs{display:flex;flex-wrap:wrap;gap:6px}
+.figs button{font:inherit;font-size:14px;padding:7px 11px;border:0;background:#16231A;color:#EEE0C8;border-radius:9px;cursor:pointer}
+.figs button.on{background:#2F5BB5;color:#EEE0C8}
+.f{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:6px 0;font-size:14px}
+.f input,select{font:inherit;font-size:15px;padding:5px 8px;border:0;border-radius:8px;background:#EEE0C8;color:#16231A}
+.f input{width:92px}
+select{background:#EEE0C8;color:#16231A}
+.c{display:block;margin:5px 0;font-size:14px;cursor:pointer}
+.c input{margin-right:8px;accent-color:#DD7A3A}
+.hint{font-size:12.5px;color:#C9AB82;margin-top:8px;line-height:1.45}
+.main{flex:1;min-width:340px}
+.stage{border-radius:14px;padding:8px;background:#fff;max-width:760px}
+.stage.board{background:#16231A;border:2px solid #2B3D2B}
+svg{width:100%;height:auto;display:block}
+.btns{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+.btns button{font:inherit;font-size:15px;font-weight:600;padding:10px 18px;border:0;border-radius:10px;background:#DD7A3A;color:#16231A;cursor:pointer}
+.btns button.g{background:#E2B04A;color:#16231A}
+#msg{margin-top:10px;font-size:14px;min-height:20px;color:#DD7A3A}
+</style>
+</head>
+<body>
+<header>lili.math<span>конструктор чертежей</span></header>
+<div class="wrap">
+ <div class="panel">
+  <h3>Фигура</h3><div class="figs" id="figs"></div>
+  <div id="kind"></div>
+  <h3>Данные</h3><div id="fields"></div>
+  <div class="hint">Пустое поле: значение неизвестно. Буква (x, y) вместо числа: на чертеже будет эта буква. Корень пишется так: 5√3.</div>
+  <h3 class="g">Построения</h3><div id="cons"></div>
+  <h3 class="b">Подписи</h3><div id="opts"></div>
+ </div>
+ <div class="main">
+  <div class="stage" id="stage"><svg id="svg" viewBox="0 0 640 440" xmlns="http://www.w3.org/2000/svg"></svg></div>
+  <div id="msg"></div>
+  <div class="btns">
+   <button id="copy">Скопировать картинку</button>
+   <button class="g" id="dl">Скачать PNG</button>
+  </div>
+  <div class="hint">Скопированную картинку можно вставить на онлайн-доску через Ctrl+V (Cmd+V). Если даны не все величины, чертёж схематичный, не в масштабе.</div>
+ </div>
+</div>
+<script>
+const W=640,H=440,rad=Math.PI/180,deg=180/Math.PI;
+const FIGS={
+ tri:{name:'Треугольник',fields:[['a','Сторона a (BC)'],['b','Сторона b (AC)'],['c','Сторона c (AB)'],['A','Угол A'],['B','Угол B'],['C','Угол C'],['R','Радиус описанной окр. R']]},
+ par:{name:'Параллелограмм',fields:[['a','Сторона a (AB)'],['b','Сторона b (AD)'],['A','Угол A'],['h','Высота h к стороне a']]},
+ rho:{name:'Ромб',fields:[['a','Сторона a'],['A','Угол A'],['d1','Диагональ AC'],['d2','Диагональ BD']]},
+ rect:{name:'Прямоугольник',fields:[['a','Сторона a (AB)'],['b','Сторона b (BC)'],['d','Диагональ']]},
+ sq:{name:'Квадрат',fields:[['a','Сторона a'],['d','Диагональ']]},
+ trap:{name:'Трапеция',fields:[['a','Нижнее основание a (AB)'],['b','Верхнее основание b (DC)'],['h','Высота h'],['c','Боковая сторона c (AD)'],['d','Боковая сторона d (BC)'],['A','Угол A'],['B','Угол B']]}
+};
+const CONS={
+ tri:[['medA','Медиана из A'],['medB','Медиана из B'],['medC','Медиана из C'],['altA','Высота из A'],['altB','Высота из B'],['altC','Высота из C'],['bisA','Биссектриса из A'],['bisB','Биссектриса из B'],['bisC','Биссектриса из C'],['midA','Средняя линия ∥ a'],['midB','Средняя линия ∥ b'],['midC','Средняя линия ∥ c'],['circ','Описанная окружность'],['radR','Радиус R описанной окружности'],['inc','Вписанная окружность'],['radr','Радиус r вписанной окружности']],
+ par:[['hA','Высота к стороне a'],['hB','Высота к стороне b'],['diag','Диагонали']],
+ rho:[['hA','Высота'],['diag','Диагонали']],
+ rect:[['diag','Диагонали']],
+ sq:[['diag','Диагонали']],
+ trap:[['hA','Высота'],['diag','Диагонали'],['mid','Средняя линия']]
+};
+const state={fig:'tri',kind:{t:'any',v:'B'},vals:{},cons:{},opt:{ls:true,la:false,comp:false,obt:false,board:false}};
+const $=id=>document.getElementById(id);
+
+/* ---------- ввод ---------- */
+function parseVal(s){
+ s=(s||'').trim().replace(/\s+/g,'').replace('°','');
+ if(!s) return {v:null,text:null};
+ if(/^[A-Za-zА-Яа-я?α-ωΑ-Ω][\d₁₂]?$/.test(s)) return {v:null,text:s};
+ const n=s.replace(',','.'), m=n.match(/^(\d*\.?\d*)√(\d+\.?\d*)$/);
+ let v;
+ if(m) v=(m[1]===''?1:parseFloat(m[1]))*Math.sqrt(parseFloat(m[2]));
+ else if(/^\d+\.?\d*$/.test(n)) v=parseFloat(n);
+ else return {err:'Не понимаю значение «'+s+'»'};
+ if(!(v>0)) return {err:'Значение должно быть больше нуля'};
+ return {v:v,text:s.replace('.',',')};
+}
+let inp={},cons={},opt=state.opt;
+function fmt(v){return (Math.round(v*100)/100).toString().replace('.',',');}
+function T(key,val,letter,isAng){
+ const i=key?inp[key]:null;
+ if(i&&i.text) return (isAng&&/^[\d,√]+$/.test(i.text))?i.text+'°':i.text;
+ if(val!=null&&opt.comp) return fmt(val)+(isAng?'°':'');
+ if(letter&&(isAng?opt.la:opt.ls)) return letter;
+ return '';
+}
+
+/* ---------- сцена ---------- */
+let els,segs,circs,rects,COL;
+const U=(p,q)=>{const d=Math.hypot(q[0]-p[0],q[1]-p[1])||1;return [(q[0]-p[0])/d,(q[1]-p[1])/d];};
+const add=(p,u,k)=>[p[0]+u[0]*k,p[1]+u[1]*k];
+const mid=(p,q)=>[(p[0]+q[0])/2,(p[1]+q[1])/2];
+const rot=(u,a)=>[u[0]*Math.cos(a)-u[1]*Math.sin(a),u[0]*Math.sin(a)+u[1]*Math.cos(a)];
+const ff=x=>x.toFixed(1);
+function line(p,q,col,w,dash){
+ els.push('<line x1="'+ff(p[0])+'" y1="'+ff(p[1])+'" x2="'+ff(q[0])+'" y2="'+ff(q[1])+'" stroke="'+col+'" stroke-width="'+(w||2)+'" stroke-linecap="round"'+(dash?' stroke-dasharray="'+dash+'"':'')+'/>');
+ segs.push([p[0],p[1],q[0],q[1]]);
+}
+function circle(c,r,col,w){
+ els.push('<circle cx="'+ff(c[0])+'" cy="'+ff(c[1])+'" r="'+ff(r)+'" fill="none" stroke="'+col+'" stroke-width="'+(w||1.8)+'"/>');
+ circs.push([c[0],c[1],r]);
+}
+function dot(c,r){els.push('<circle cx="'+ff(c[0])+'" cy="'+ff(c[1])+'" r="'+(r||2.8)+'" fill="'+COL.ink+'"/>');segs.push([c[0],c[1],c[0],c[1]]);}
+function norm(d){while(d>Math.PI)d-=2*Math.PI;while(d<-Math.PI)d+=2*Math.PI;return d;}
+function arc(V,u1,u2,r,col,w){
+ const a1=Math.atan2(u1[1],u1[0]),d=norm(Math.atan2(u2[1],u2[0])-a1);
+ const p1=add(V,u1,r),p2=add(V,u2,r);
+ els.push('<path d="M'+ff(p1[0])+' '+ff(p1[1])+' A'+r+' '+r+' 0 0 '+(d>0?1:0)+' '+ff(p2[0])+' '+ff(p2[1])+'" fill="none" stroke="'+col+'" stroke-width="'+(w||1.6)+'"/>');
+ let prev=p1;
+ for(let i=1;i<=6;i++){const a=a1+d*i/6,p=[V[0]+r*Math.cos(a),V[1]+r*Math.sin(a)];segs.push([prev[0],prev[1],p[0],p[1]]);prev=p;}
+}
+function rightMark(V,u1,u2,s){
+ s=s||11;
+ const p1=add(V,u1,s),p3=add(V,u2,s),p2=add(p1,u2,s);
+ els.push('<polyline points="'+ff(p1[0])+','+ff(p1[1])+' '+ff(p2[0])+','+ff(p2[1])+' '+ff(p3[0])+','+ff(p3[1])+'" fill="none" stroke="'+COL.ink+'" stroke-width="1.6"/>');
+ segs.push([p1[0],p1[1],p2[0],p2[1]],[p2[0],p2[1],p3[0],p3[1]]);
+}
+function tick(p,q){
+ const m=mid(p,q),u=U(p,q),n=[-u[1],u[0]];
+ const a=add(m,n,5),b=add(m,n,-5);
+ els.push('<line x1="'+ff(a[0])+'" y1="'+ff(a[1])+'" x2="'+ff(b[0])+'" y2="'+ff(b[1])+'" stroke="'+COL.ink+'" stroke-width="1.8"/>');
+ segs.push([a[0],a[1],b[0],b[1]]);
+}
+
+/* ---------- подписи (корень рисуется одним знаком) ---------- */
+function textParts(str,fs){
+ const parts=[];let re=/√(\d+(?:[.,]\d+)?)/g,last=0,m;
+ while((m=re.exec(str))){if(m.index>last)parts.push({t:str.slice(last,m.index)});parts.push({r:m[1]});last=re.lastIndex;}
+ if(last<str.length)parts.push({t:str.slice(last)});
+ let w=0;
+ for(const p of parts){
+  if(p.t!==undefined)p.w=p.t.length*fs*0.56;
+  else{p.rw=p.r.length*fs*0.56+3;p.w=fs*0.55+p.rw;}
+  w+=p.w;
+ }
+ return {parts:parts,w:w};
+}
+function labelSvg(str,cx,cy,fs){
+ const tp=textParts(str,fs);let x=cx-tp.w/2,o='';
+ const halo=COL.halo?' stroke="'+COL.halo+'" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round"':'';
+ for(const p of tp.parts){
+  if(p.t!==undefined){
+   o+='<text x="'+ff(x)+'" y="'+ff(cy)+'" font-size="'+fs+'" fill="'+COL.ink+'" dominant-baseline="central" font-family="-apple-system,\'Helvetica Neue\',Arial,sans-serif"'+halo+'>'+p.t.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</text>';
+  }else{
+   const y=cy;
+   o+='<path d="M'+ff(x)+' '+ff(y+fs*0.1)+' L'+ff(x+fs*0.12)+' '+ff(y)+' L'+ff(x+fs*0.28)+' '+ff(y+fs*0.52)+' L'+ff(x+fs*0.5)+' '+ff(y-fs*0.55)+' H'+ff(x+fs*0.55+p.rw)+'" fill="none" stroke="'+COL.ink+'" stroke-width="1.5" stroke-linejoin="miter"/>';
+   o+='<text x="'+ff(x+fs*0.58)+'" y="'+ff(y+fs*0.05)+'" font-size="'+fs+'" fill="'+COL.ink+'" dominant-baseline="central" font-family="-apple-system,\'Helvetica Neue\',Arial,sans-serif"'+halo+'>'+p.r+'</text>';
+  }
+  x+=p.w;
+ }
+ return o;
+}
+function segDist(x,y,s){
+ const dx=s[2]-s[0],dy=s[3]-s[1],l2=dx*dx+dy*dy;
+ let t=l2?((x-s[0])*dx+(y-s[1])*dy)/l2:0;t=Math.max(0,Math.min(1,t));
+ const nx=s[0]+t*dx,ny=s[1]+t*dy,d=Math.hypot(x-nx,y-ny);
+ return d<1e-6?[0,0,1]:[d,(x-nx)/d,(y-ny)/d];
+}
+function clearance(x,y,hw,hh){
+ let c=1e9;
+ for(const s of segs){const r=segDist(x,y,s),sup=Math.abs(r[1])*hw+Math.abs(r[2])*hh;c=Math.min(c,r[0]-sup);}
+ for(const k of circs){
+  const dx=x-k[0],dy=y-k[1],dd=Math.hypot(dx,dy)||1e-6,ux=dx/dd,uy=dy/dd;
+  c=Math.min(c,Math.abs(dd-k[2])-(Math.abs(ux)*hw+Math.abs(uy)*hh));
+ }
+ return c;
+}
+function place(str,cands,fs){
+ if(!str)return;fs=fs||16;
+ const w=textParts(str,fs).w,hw=w/2+3,hh=fs*0.58+2;
+ let best=cands[0],bs=-1e9;
+ for(const c of cands){
+  let sc=clearance(c[0],c[1],hw,hh);
+  for(const r of rects)if(Math.abs(c[0]-r.x)<hw+r.hw+1&&Math.abs(c[1]-r.y)<hh+r.hh)sc=Math.min(sc,-50);
+  if(c[0]-hw<4||c[0]+hw>W-4||c[1]-hh<4||c[1]+hh>H-4)sc=Math.min(sc,-60);
+  if(sc>=3){best=c;break;}
+  if(sc>bs){bs=sc;best=c;}
+ }
+ rects.push({x:best[0],y:best[1],hw:hw,hh:hh});
+ els.push(labelSvg(str,best[0],best[1],fs));
+}
+function vertexLab(V,c,name){
+ const d=U(c,V),cands=[];
+ for(const k of [17,25,33])for(const a of [0,0.45,-0.45,0.9,-0.9])cands.push(add(V,rot(d,a),k));
+ place(name,cands,17);
+}
+function sideLab(p,q,txt,c){
+ if(!txt)return;
+ const m=mid(p,q),u=U(p,q);let n=[-u[1],u[0]];
+ if((m[0]-c[0])*n[0]+(m[1]-c[1])*n[1]<0)n=[-n[0],-n[1]];
+ const cands=[];
+ for(const t of [0.5,0.3,0.7])for(const o of [14,23,33])cands.push(add(add(p,u,Math.hypot(q[0]-p[0],q[1]-p[1])*t),n,o));
+ for(const o of [14,23])cands.push(add(m,n,-o));
+ place(txt,cands);
+}
+function segLab(p,q,txt){
+ if(!txt)return;
+ const u=U(p,q),n=[-u[1],u[0]],L=Math.hypot(q[0]-p[0],q[1]-p[1]),cands=[];
+ for(const t of [0.5,0.35,0.65])for(const o of [13,21,30])for(const s of [1,-1])cands.push(add(add(p,u,L*t),n,o*s));
+ place(txt,cands);
+}
+function footLab(H,V,name){
+ if(!name)return;
+ const d=U(V,H),cands=[];
+ for(const r of [14,22])for(const a of [0,0.7,-0.7,1.4,-1.4,2.1,-2.1])cands.push(add(H,rot(d,a),r));
+ place(name,cands,15);
+}
+function angleLab(V,N1,N2,rays,str){
+ const u1=U(V,N1),u2=U(V,N2),a1=Math.atan2(u1[1],u1[0]),d=norm(Math.atan2(u2[1],u2[0])-a1);
+ const ps=[0,1];
+ for(const ry of rays){const t=norm(Math.atan2(ry[1],ry[0])-a1)/d;if(t>0.02&&t<0.98)ps.push(t);}
+ ps.sort((x,y)=>x-y);
+ const gaps=[];for(let i=0;i<ps.length-1;i++)gaps.push({m:(ps[i]+ps[i+1])/2,g:ps[i+1]-ps[i]});
+ gaps.sort((x,y)=>y.g-x.g);
+ const cands=[];
+ for(const r of [36,46,58,70])for(const g of gaps){const a=a1+d*g.m;cands.push([V[0]+r*Math.cos(a),V[1]+r*Math.sin(a)]);}
+ const mA=a1+d/2;cands.push([V[0]-26*Math.cos(mA),V[1]-26*Math.sin(mA)]);
+ place(str,cands,15);
+}
+function angleMark(V,N1,N2,val,txt,rays,halves){
+ const u1=U(V,N1),u2=U(V,N2);
+ if(Math.abs(val-90)<0.01){rightMark(V,u1,u2);return;}
+ if(txt)arc(V,u1,u2,18,COL.ink,1.6);
+ return {V:V,N1:N1,N2:N2,txt:txt,rays:rays};
+}
+
+/* ---------- построения ---------- */
+function drawMedian(V,P,Q,col){const M=mid(P,Q);line(V,M,col,2);tick(P,M);tick(M,Q);return M;}
+function drawAlt(V,P,Q,col){
+ const dx=Q[0]-P[0],dy=Q[1]-P[1],t=((V[0]-P[0])*dx+(V[1]-P[1])*dy)/(dx*dx+dy*dy);
+ const H=[P[0]+t*dx,P[1]+t*dy];
+ if(t<0)line(P,H,COL.ink,1.4,'5 4');
+ if(t>1)line(Q,H,COL.ink,1.4,'5 4');
+ line(V,H,col,2);
+ const toward=t<0?P:(t>1?Q:(t<0.5?Q:P));
+ rightMark(H,U(H,V),U(H,toward),10);
+ return H;
+}
+function drawBis(V,P,Q,col){
+ const lp=Math.hypot(P[0]-V[0],P[1]-V[1]),lq=Math.hypot(Q[0]-V[0],Q[1]-V[1]);
+ const L=[(lq*P[0]+lp*Q[0])/(lp+lq),(lq*P[1]+lp*Q[1])/(lp+lq)];
+ line(V,L,col,2);
+ const uL=U(V,L);arc(V,U(V,P),uL,25,col,1.6);arc(V,uL,U(V,Q),25,col,1.6);
+ return L;
+}
+function fit(points,extra){
+ const xs=[],ys=[];
+ points.forEach(p=>{xs.push(p[0]);ys.push(p[1]);});
+ extra.forEach(k=>{xs.push(k[0]-k[2],k[0]+k[2]);ys.push(k[1]-k[2],k[1]+k[2]);});
+ const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
+ const sc=Math.min((W-150)/((x1-x0)||1),(H-130)/((y1-y0)||1)),ox=(W-sc*(x1-x0))/2,oy=(H-sc*(y1-y0))/2;
+ return {sc:sc,P:p=>[ox+(p[0]-x0)*sc,H-oy-(p[1]-y0)*sc]};
+}
+function centroid(ps){return [ps.reduce((s,p)=>s+p[0],0)/ps.length,ps.reduce((s,p)=>s+p[1],0)/ps.length];}
+
+/* ---------- треугольник ---------- */
+function eqSides(kind){
+ const vi={A:0,B:1,C:2}[kind.v];
+ if(kind.t==='eq')return [0,1,2];
+ if(kind.t==='iso'||kind.t==='riso')return [0,1,2].filter(i=>i!==vi);
+ return [];
+}
+function solveTri(g,obt,kind){
+ const S=[g.a,g.b,g.c],An=[g.A,g.B,g.C],R=g.R;
+ const vi={A:0,B:1,C:2}[kind.v];
+ if(kind.t==='eq'){const s=S.find(v=>v!=null);if(s!=null)S[0]=S[1]=S[2]=s;An[0]=An[1]=An[2]=60;}
+ if(kind.t==='iso'||kind.t==='riso'){
+  const o=[0,1,2].filter(i=>i!==vi);
+  if(kind.t==='riso')An[vi]=90;
+  if(S[o[0]]!=null&&S[o[1]]!=null&&Math.abs(S[o[0]]-S[o[1]])>1e-9)return {err:'В равнобедренном треугольнике две равные стороны должны быть равны'};
+  const s=S[o[0]]!=null?S[o[0]]:S[o[1]];if(s!=null)S[o[0]]=S[o[1]]=s;
+  const bb=An[o[0]]!=null?An[o[0]]:An[o[1]];
+  if(bb!=null){An[o[0]]=An[o[1]]=bb;if(An[vi]==null)An[vi]=180-2*bb;}
+  else if(An[vi]!=null){if(An[vi]>=180)return {err:'Угол должен быть меньше 180°'};An[o[0]]=An[o[1]]=(180-An[vi])/2;}
+ }
+ if(kind.t==='right')An[vi]=90;
+ const cnt=x=>x.filter(v=>v!=null).length;
+ let m=cnt(S),k=cnt(An);
+ if(An.some(v=>v!=null&&v>=180))return {err:'Угол должен быть меньше 180°'};
+ if(k==2){const i=An.indexOf(null);An[i]=180-An.reduce((s,v)=>s+(v||0),0);if(An[i]<=0)return {err:'Сумма двух углов должна быть меньше 180°'};k=3;}
+ if(k==3&&Math.abs(An[0]+An[1]+An[2]-180)>0.01)return {err:'Сумма углов треугольника должна быть 180°'};
+ const sin=x=>Math.sin(x*rad);
+ const sss=()=>{const a=S[0],b=S[1],c=S[2];
+  if(a+b<=c||a+c<=b||b+c<=a)return false;
+  An[0]=Math.acos((b*b+c*c-a*a)/(2*b*c))*deg;An[1]=Math.acos((a*a+c*c-b*b)/(2*a*c))*deg;An[2]=180-An[0]-An[1];return true;};
+ if(k==0&&R!=null&&m>=1){
+  const i=S.findIndex(v=>v!=null),s=S[i]/(2*R);
+  if(s>1+1e-9)return {err:'Сторона не может быть больше 2R'};
+  let a=Math.asin(Math.min(1,s))*deg;if(obt)a=180-a;An[i]=a;k=1;
+ }
+ if(k<3){
+  if(m==3){if(!sss())return {err:'Такого треугольника не существует: нарушено неравенство треугольника'};k=3;}
+  else if(m==2){
+   const kn=[0,1,2].filter(i=>S[i]!=null),p=kn[0],q=kn[1],r=3-p-q;
+   if(k==0)An[r]=65;
+   if(An[r]!=null){
+    S[r]=Math.sqrt(S[p]*S[p]+S[q]*S[q]-2*S[p]*S[q]*Math.cos(An[r]*rad));sss();k=3;
+   }else{
+    const t=An[p]!=null?p:q,u=t==p?q:p,s=S[u]*sin(An[t])/S[t];
+    if(s>1+1e-9)return {err:'По этим данным треугольника нет: синус получился больше 1'};
+    let U_=Math.asin(Math.min(1,s))*deg;if(obt)U_=180-U_;
+    if(U_+An[t]>=180-1e-9)return {err:'При такой сумме углов треугольника нет (попробуйте переключить тупой/острый угол)'};
+    An[u]=U_;An[r]=180-An[t]-U_;k=3;
+   }
+  }else{
+   if(k==0){An[0]=60;An[1]=70;An[2]=50;}
+   else{
+    const t=An.findIndex(v=>v!=null),x=An[t],o=[0,1,2].filter(i=>i!=t),h=(180-x)/2,dl=Math.min(7,h/2);
+    An[o[0]]=h+dl;An[o[1]]=h-dl;
+   }
+   k=3;
+  }
+ }
+ let sc=1;
+ if(R!=null)sc=2*R;else{const i=S.findIndex(v=>v!=null);if(i>=0)sc=S[i]/sin(An[i]);}
+ return {a:sc*sin(An[0]),b:sc*sin(An[1]),c:sc*sin(An[2]),A:An[0],B:An[1],C:An[2]};
+}
+function drawTri(){
+ const r=solveTri({a:inp.a.v,b:inp.b.v,c:inp.c.v,A:inp.A.v,B:inp.B.v,C:inp.C.v,R:inp.R.v},opt.obt,state.kind);
+ if(r.err)return r.err;
+ const eqS=eqSides(state.kind);
+ const Am=[r.c*Math.cos(r.B*rad),r.c*Math.sin(r.B*rad)],Bm=[0,0],Cm=[r.a,0];
+ const circOn=cons.circ||cons.radR,incOn=cons.inc||cons.radr;
+ const ax=Am[0],ay=Am[1],cx=r.a;
+ const D=2*(ax*(0-0)+0*(0-ay)+cx*(ay-0));
+ const ox=((ax*ax+ay*ay)*(0)+0+(cx*cx)*(ay))/D;
+ const oy=((ax*ax+ay*ay)*(cx)+0+(cx*cx)*(0-ax))/D;
+ const Rr=Math.hypot(ax-ox,ay-oy),per=r.a+r.b+r.c;
+ const ix=(r.a*ax+r.c*0+r.b*cx*0+r.b*0)/per;
+ const Ix=(r.a*Am[0]+r.b*Bm[0]+r.c*Cm[0])/per,Iy=(r.a*Am[1]+r.b*Bm[1]+r.c*Cm[1])/per,rin=r.a*Am[1]/per;
+ const cl=[];if(circOn)cl.push([ox,oy,Rr]);if(incOn)cl.push([Ix,Iy,rin]);
+ const f=fit([Am,Bm,Cm],cl);
+ const A=f.P(Am),B=f.P(Bm),C=f.P(Cm),O=f.P([ox,oy]),I=f.P([Ix,Iy]);
+ const V={A:A,B:B,C:C},opp={A:['B','C'],B:['A','C'],C:['A','B']};
+ const rays={A:[],B:[],C:[]},feet=[];
+ if(circOn){circle(O,Rr*f.sc,COL.cir,1.8);dot(O,2.6);}
+ if(incOn){circle(I,rin*f.sc,COL.cir,1.8);}
+ const mn={A:'M',B:'N',C:'K'},hn={A:'H',B:'P',C:'T'},bn={A:'L',B:'E',C:'F'};
+ for(const k of ['A','B','C']){
+  const p=V[opp[k][0]],q=V[opp[k][1]];
+  if(cons['med'+k]){const M=drawMedian(V[k],p,q,COL.med);rays[k].push(U(V[k],M));feet.push([M,V[k],mn[k]]);}
+  if(cons['alt'+k]){const H=drawAlt(V[k],p,q,COL.alt);rays[k].push(U(V[k],H));feet.push([H,V[k],hn[k]]);}
+  if(cons['bis'+k]){const L=drawBis(V[k],p,q,COL.bis);rays[k].push(U(V[k],L));feet.push([L,V[k],bn[k]]);}
+ }
+ const mids=[];
+ if(cons.midA)mids.push([mid(A,B),mid(A,C),r.a]);
+ if(cons.midB)mids.push([mid(B,A),mid(B,C),r.b]);
+ if(cons.midC)mids.push([mid(C,A),mid(C,B),r.c]);
+ mids.forEach(m=>line(m[0],m[1],COL.mid,2));
+ let radLab=null;
+ if(cons.radR){line(O,A,COL.cir,1.8);rays.A.push(U(A,O));radLab=[O,A,T('R',Rr,'R')];}
+ let rinLab=null;
+ if(cons.radr){const dx=C[0]-B[0],dy=C[1]-B[1],t=((I[0]-B[0])*dx+(I[1]-B[1])*dy)/(dx*dx+dy*dy),Tp=[B[0]+t*dx,B[1]+t*dy];
+  line(I,Tp,COL.cir,1.8);rightMark(Tp,U(Tp,I),U(Tp,C),9);rinLab=[I,Tp,T('r',rin,'r')];}
+ line(A,B,COL.ink,2.4);line(B,C,COL.ink,2.4);line(C,A,COL.ink,2.4);
+ const sPt=[[B,C],[A,C],[A,B]];
+ eqS.forEach(i=>tick(sPt[i][0],sPt[i][1]));
+ const nb={A:[B,C],B:[A,C],C:[A,B]},val={A:r.A,B:r.B,C:r.C},gr={A:'α',B:'β',C:'γ'};
+ const angs=[];
+ for(const k of ['A','B','C']){
+  const txt=T(k,val[k],gr[k],true);
+  const a=angleMark(V[k],nb[k][0],nb[k][1],val[k],txt,rays[k]);
+  if(a&&a.txt){angs.push(a);}
+  else if(!a){}
+  if(cons['bis'+k]&&a===undefined){}
+ }
+ const c0=centroid([A,B,C]),cc=circOn?O:c0;
+ vertexLab(A,cc,'A');vertexLab(B,cc,'B');vertexLab(C,cc,'C');
+ if(circOn)footLab(O,A,'O');
+ const sT=[T('a',r.a,'a'),T('b',r.b,'b'),T('c',r.c,'c')],sP=[[B,C],[A,C],[A,B]];
+ if(eqS.length){const first=sT.filter((t,i)=>eqS.includes(i)&&t)[0]||'';eqS.forEach((i,j)=>{sT[i]=j==0?first:'';});}
+ sP.forEach((p,i)=>sideLab(p[0],p[1],sT[i],c0));
+ angs.forEach(a=>angleLab(a.V,a.N1,a.N2,a.rays,a.txt));
+ feet.forEach(x=>footLab(x[0],x[1],x[2]));
+ mids.forEach(m=>segLab(m[0],m[1],T(null,m[2]/2,'m')));
+ if(radLab)segLab(radLab[0],radLab[1],radLab[2]);
+ if(rinLab)segLab(rinLab[0],rinLab[1],rinLab[2]);
+ return null;
+}
+
+/* ---------- четырёхугольники ---------- */
+function polyLines(P){const n=P.length;for(let i=0;i<n;i++)line(P[i],P[(i+1)%n],COL.ink,2.4);}
+function cornerAngles(P,items){
+ // items: [idx, valueDeg, textOrNull, rays]
+ const n=P.length,res=[];
+ items.forEach(it=>{
+  const i=it[0],V=P[i],N1=P[(i+1)%n],N2=P[(i+n-1)%n];
+  const a=angleMark(V,N1,N2,it[1],it[2],it[3]||[]);
+  if(a&&a.txt)res.push(a);
+ });
+ return res;
+}
+function drawPar(){
+ let a=inp.a.v,b=inp.b.v,A=inp.A.v,h=inp.h.v;
+ if(A!=null&&A>=180)return 'Угол должен быть меньше 180°';
+ if(A==null&&h!=null&&b!=null){if(h>b)return 'Высота не может быть больше боковой стороны b';A=Math.asin(h/b)*deg;}
+ if(A==null)A=60;
+ if(b==null)b=h!=null?h/Math.sin(A*rad):(a!=null?a*0.65:4);
+ if(a==null)a=b*1.5;
+ const hh=b*Math.sin(A*rad);
+ const pm={A:[0,0],B:[a,0],C:[a+b*Math.cos(A*rad),hh],D:[b*Math.cos(A*rad),hh]};
+ const f=fit([pm.A,pm.B,pm.C,pm.D],[]);
+ const P=[pm.A,pm.B,pm.C,pm.D].map(f.P),pA=P[0],pB=P[1],pC=P[2],pD=P[3];
+ const rays={A:[]},feet=[],segsL=[];
+ if(cons.diag){line(pA,pC,COL.med,1.8);line(pB,pD,COL.med,1.8);rays.A.push(U(pA,pC));segsL.push([pA,pC,T('d1',Math.hypot(pm.C[0],pm.C[1]),'d₁')],[pB,pD,T('d2',Math.hypot(pm.D[0]-a,pm.D[1]),'d₂')]);}
+ let h1=null,h2=null;
+ if(cons.hA){const H=drawAlt(pD,pA,pB,COL.alt);h1=[pD,H,T('h',hh,'h')];feet.push([H,pD,'H']);}
+ if(cons.hB){const K=drawAlt(pB,pA,pD,COL.bis);h2=[pB,K,T(null,a*Math.sin(A*rad),'h₂')];feet.push([K,pB,'K']);}
+ polyLines(P);
+ const angs=cornerAngles(P,[[0,A,T('A',A,'α',true),rays.A]]);
+ const c0=centroid(P);
+ ['A','B','C','D'].forEach((n,i)=>vertexLab(P[i],c0,n));
+ sideLab(pA,pB,T('a',a,'a'),c0);sideLab(pA,pD,T('b',b,'b'),c0);
+ angs.forEach(x=>angleLab(x.V,x.N1,x.N2,x.rays,x.txt));
+ feet.forEach(x=>footLab(x[0],x[1],x[2]));
+ [h1,h2].forEach(x=>{if(x)segLab(x[0],x[1],x[2]);});
+ segsL.forEach(x=>segLab(x[0],x[1],x[2]));
+ return null;
+}
+function drawRho(){
+ let a=inp.a.v,A=inp.A.v,d1=inp.d1.v,d2=inp.d2.v,pm,ang;
+ if(d1!=null||d2!=null){
+  let p=d1!=null?d1/2:null,q=d2!=null?d2/2:null;
+  if(p==null&&q==null)return 'Задайте диагональ';
+  if(p==null){p=a!=null?(a>q?Math.sqrt(a*a-q*q):null):q*1.5;if(p==null)return 'Сторона должна быть больше половины диагонали';}
+  else if(q==null){q=a!=null?(a>p?Math.sqrt(a*a-p*p):null):p*0.7;if(q==null)return 'Сторона должна быть больше половины диагонали';}
+  pm={A:[-p,0],B:[0,-q],C:[p,0],D:[0,q]};a=Math.hypot(p,q);ang=2*Math.atan2(q,p)*deg;
+ }else{
+  if(A!=null&&A>=180)return 'Угол должен быть меньше 180°';
+  if(a==null)a=5;if(A==null)A=60;ang=A;
+  pm={A:[0,0],B:[a,0],C:[a+a*Math.cos(A*rad),a*Math.sin(A*rad)],D:[a*Math.cos(A*rad),a*Math.sin(A*rad)]};
+ }
+ const arr=[pm.A,pm.B,pm.C,pm.D],f=fit(arr,[]),P=arr.map(f.P);
+ const rays=[],feet=[],sl=[];
+ if(cons.diag){line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);rays.push(U(P[0],P[2]));
+  const O=mid(P[0],P[2]);rightMark(O,U(O,P[2]),U(O,P[3]),9);
+  sl.push([P[0],P[2],T('d1',Math.hypot(pm.C[0]-pm.A[0],pm.C[1]-pm.A[1]),'d₁')],[P[1],P[3],T('d2',Math.hypot(pm.D[0]-pm.B[0],pm.D[1]-pm.B[1]),'d₂')]);}
+ let h1=null;
+ if(cons.hA){const H=drawAlt(P[3],P[0],P[1],COL.alt);h1=[P[3],H,T(null,null,'h')];feet.push([H,P[3],'H']);}
+ polyLines(P);for(let i=0;i<4;i++)tick(P[i],P[(i+1)%4]);
+ const angs=cornerAngles(P,[[0,ang,T('A',ang,'α',true),rays]]);
+ const c0=centroid(P);
+ ['A','B','C','D'].forEach((n,i)=>vertexLab(P[i],c0,n));
+ sideLab(P[0],P[1],T('a',a,'a'),c0);
+ angs.forEach(x=>angleLab(x.V,x.N1,x.N2,x.rays,x.txt));
+ feet.forEach(x=>footLab(x[0],x[1],x[2]));
+ if(h1)segLab(h1[0],h1[1],h1[2]);
+ sl.forEach(x=>segLab(x[0],x[1],x[2]));
+ return null;
+}
+function drawRect(sq){
+ let a=inp.a.v,b=sq?null:inp.b.v,d=inp.d.v;
+ if(sq){if(a==null)a=d!=null?d/Math.SQRT2:5;b=a;}
+ else{
+  if(d!=null){
+   if(a!=null&&b!=null){}
+   else if(a!=null){if(d<=a)return 'Диагональ должна быть больше стороны';b=Math.sqrt(d*d-a*a);}
+   else if(b!=null){if(d<=b)return 'Диагональ должна быть больше стороны';a=Math.sqrt(d*d-b*b);}
+   else{a=d*0.8;b=d*0.6;}
+  }else{if(a==null&&b==null){a=6;b=4;}else if(a==null)a=b*1.5;else if(b==null)b=a*0.65;}
+ }
+ const arr=[[0,0],[a,0],[a,b],[0,b]],f=fit(arr,[]),P=arr.map(f.P);
+ const dg=Math.hypot(a,b),sl=[];
+ if(cons.diag){line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);sl.push([P[0],P[2],T('d',dg,'d')]);}
+ polyLines(P);
+ for(let i=0;i<4;i++)rightMark(P[i],U(P[i],P[(i+1)%4]),U(P[i],P[(i+3)%4]),11);
+ const c0=centroid(P);
+ ['A','B','C','D'].forEach((n,i)=>vertexLab(P[i],c0,n));
+ sideLab(P[0],P[1],T('a',a,'a'),c0);
+ if(!sq)sideLab(P[1],P[2],T('b',b,'b'),c0);else for(let i=0;i<4;i++)tick(P[i],P[(i+1)%4]);
+ sl.forEach(x=>segLab(x[0],x[1],x[2]));
+ return null;
+}
+function drawTrap(){
+ let a=inp.a.v,b=inp.b.v,h=inp.h.v,c=inp.c.v,d=inp.d.v,Ad=inp.A.v,Bd=inp.B.v;
+ if((Ad!=null&&Ad>=180)||(Bd!=null&&Bd>=180))return 'Угол должен быть меньше 180°';
+ if(h==null){if(c!=null&&Ad!=null)h=c*Math.sin(Ad*rad);else if(d!=null&&Bd!=null)h=d*Math.sin(Bd*rad);}
+ if(h==null)h=0.5*(a!=null?a:(b!=null?b:6))*(a!=null&&b!=null?Math.min(1,Math.max(a,b)/Math.max(a,b)):1);
+ let xL=null,xR=null;
+ if(Ad!=null)xL=Math.abs(Ad-90)<1e-9?0:h/Math.tan(Ad*rad);
+ else if(c!=null){if(c<h)return 'Боковая сторона c не может быть меньше высоты';xL=Math.sqrt(c*c-h*h);}
+ if(Bd!=null)xR=Math.abs(Bd-90)<1e-9?0:h/Math.tan(Bd*rad);
+ else if(d!=null){if(d<h)return 'Боковая сторона d не может быть меньше высоты';xR=Math.sqrt(d*d-h*h);}
+ if(a==null&&b==null){if(xL!=null&&xR!=null){b=5;a=b+xL+xR;}else{a=8;b=5;}}
+ else if(a==null){a=(xL!=null&&xR!=null)?b+xL+xR:b*1.6;}
+ else if(b==null){b=(xL!=null&&xR!=null)?a-xL-xR:a*0.6;}
+ if(b<=0||a<=0)return 'Основание получилось не положительным: проверьте данные';
+ if(xL==null&&xR==null){xL=xR=(a-b)/2;}else if(xL==null)xL=a-b-xR;else if(xR==null)xR=a-b-xL;
+ const pm=[[0,0],[a,0],[xL+b,h],[xL,h]],f=fit(pm,[]),P=pm.map(f.P);
+ const Aact=Math.atan2(h,xL)*deg,Bact=Math.atan2(h,a-xL-b)*deg;
+ const cAct=Math.hypot(xL,h),dAct=Math.hypot(a-xL-b,h);
+ const rA=[],rB=[],sl=[],feet=[];
+ if(cons.diag){line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);rA.push(U(P[0],P[2]));rB.push(U(P[1],P[3]));}
+ let h1=null,m1=null;
+ if(cons.hA){const H=drawAlt(P[3],P[0],P[1],COL.alt);h1=[P[3],H,T('h',h,'h')];feet.push([H,P[3],'H']);}
+ if(cons.mid){const m=mid(P[0],P[3]),n=mid(P[1],P[2]);line(m,n,COL.mid,2);m1=[m,n,T(null,(a+b)/2,'m')];}
+ polyLines(P);
+ const angs=cornerAngles(P,[[0,Aact,T('A',Aact,'α',true),rA],[1,Bact,T('B',Bact,'β',true),rB]]);
+ const c0=centroid(P);
+ ['A','B','C','D'].forEach((n,i)=>vertexLab(P[i],c0,n));
+ sideLab(P[0],P[1],T('a',a,'a'),c0);sideLab(P[3],P[2],T('b',b,'b'),c0);
+ sideLab(P[0],P[3],T('c',cAct,'c'),c0);sideLab(P[1],P[2],T('d',dAct,'d'),c0);
+ angs.forEach(x=>angleLab(x.V,x.N1,x.N2,x.rays,x.txt));
+ feet.forEach(x=>footLab(x[0],x[1],x[2]));
+ if(h1)segLab(h1[0],h1[1],h1[2]);if(m1)segLab(m1[0],m1[1],m1[2]);
+ return null;
+}
+
+/* ---------- сборка ---------- */
+function render(){
+ const fig=state.fig;
+ inp={};let err=null;
+ FIGS[fig].fields.forEach(f=>{const p=parseVal((state.vals[fig]||{})[f[0]]);inp[f[0]]=p;if(p.err)err=p.err;});
+ cons=state.cons[fig]||{};
+ COL=opt.board?{ink:'#EEE0C8',med:'#DD7A3A',alt:'#9BB08A',bis:'#B6CBE3',mid:'#E2B04A',cir:'#B6CBE3',halo:null,bg:null}
+              :{ink:'#16231A',med:'#DD7A3A',alt:'#5F7B3F',bis:'#2F5BB5',mid:'#9C6B40',cir:'#2F5BB5',halo:'#ffffff',bg:'#ffffff'};
+ els=[];segs=[];circs=[];rects=[];
+ if(!err)err={tri:drawTri,par:drawPar,rho:drawRho,rect:()=>drawRect(false),sq:()=>drawRect(true),trap:drawTrap}[fig]();
+ if(err){els=[];}
+ $('msg').textContent=err||'';
+ $('svg').innerHTML=(COL.bg?'<rect width="'+W+'" height="'+H+'" fill="'+COL.bg+'"/>':'')+els.join('');
+ $('stage').className='stage'+(opt.board?' board':'');
+}
+
+/* ---------- интерфейс ---------- */
+function buildUI(){
+ const fig=state.fig;
+ $('figs').innerHTML='';
+ Object.keys(FIGS).forEach(k=>{
+  const b=document.createElement('button');b.textContent=FIGS[k].name;b.className=k==fig?'on':'';
+  b.onclick=()=>{state.fig=k;buildUI();};$('figs').appendChild(b);
+ });
+ state.vals[fig]=state.vals[fig]||{};state.cons[fig]=state.cons[fig]||{};
+ $('kind').innerHTML='';
+ if(fig==='tri'){
+  const K=state.kind,types=[['any','Произвольный'],['iso','Равнобедренный'],['eq','Равносторонний'],['right','Прямоугольный'],['riso','Прямоугольный равнобедренный']];
+  const h=document.createElement('h3');h.textContent='Вид треугольника';h.className='m';$('kind').appendChild(h);
+  const s1=document.createElement('select');s1.style.cssText='width:100%';
+  types.forEach(t=>{const o=document.createElement('option');o.value=t[0];o.textContent=t[1];if(K.t===t[0])o.selected=true;s1.appendChild(o);});
+  s1.onchange=()=>{K.t=s1.value;buildUI();};$('kind').appendChild(s1);
+  if(K.t==='iso'||K.t==='right'||K.t==='riso'){
+   const s2=document.createElement('select');s2.style.cssText='width:100%;margin-top:6px';
+   const lab=K.t==='right'?'Прямой угол при вершине ':(K.t==='riso'?'Прямой угол при вершине ':'Вершина (угол между равными сторонами) ');
+   ['A','B','C'].forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=lab+v;if(K.v===v)o.selected=true;s2.appendChild(o);});
+   s2.onchange=()=>{K.v=s2.value;render();};$('kind').appendChild(s2);
+  }
+ }
+ $('fields').innerHTML='';
+ FIGS[fig].fields.forEach(f=>{
+  const d=document.createElement('div');d.className='f';
+  d.innerHTML='<label>'+f[1]+'</label>';
+  const i=document.createElement('input');i.value=state.vals[fig][f[0]]||'';i.autocomplete='off';
+  i.oninput=()=>{state.vals[fig][f[0]]=i.value;render();};
+  d.appendChild(i);$('fields').appendChild(d);
+ });
+ $('cons').innerHTML='';
+ CONS[fig].forEach(c=>{
+  const l=document.createElement('label');l.className='c';
+  const i=document.createElement('input');i.type='checkbox';i.checked=!!state.cons[fig][c[0]];
+  i.onchange=()=>{state.cons[fig][c[0]]=i.checked;render();};
+  l.appendChild(i);l.appendChild(document.createTextNode(c[1]));$('cons').appendChild(l);
+ });
+ $('opts').innerHTML='';
+ const os=[['ls','Неизвестные стороны подписывать буквами'],['la','Неизвестные углы подписывать буквами'],['comp','Показывать вычисленные значения']];
+ if(fig==='tri')os.push(['obt','Если угол по синусу неоднозначен: взять тупой']);
+ os.push(['board','Мелом для доски (прозрачный фон)']);
+ os.forEach(o=>{
+  const l=document.createElement('label');l.className='c';
+  const i=document.createElement('input');i.type='checkbox';i.checked=!!opt[o[0]];
+  i.onchange=()=>{opt[o[0]]=i.checked;render();};
+  l.appendChild(i);l.appendChild(document.createTextNode(o[1]));$('opts').appendChild(l);
+ });
+ render();
+}
+function toCanvas(cb){
+ const svg=$('svg').cloneNode(true);svg.setAttribute('width',W*2);svg.setAttribute('height',H*2);
+ const url=URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(svg)],{type:'image/svg+xml'}));
+ const img=new Image();
+ img.onload=()=>{const c=document.createElement('canvas');c.width=W*2;c.height=H*2;c.getContext('2d').drawImage(img,0,0);URL.revokeObjectURL(url);c.toBlob(cb,'image/png');};
+ img.src=url;
+}
+$('dl').onclick=()=>toCanvas(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='chertezh.png';a.click();});
+$('copy').onclick=()=>toCanvas(b=>{
+ if(navigator.clipboard&&window.ClipboardItem){
+  navigator.clipboard.write([new ClipboardItem({'image/png':b})]).then(()=>{$('msg').style.color='#B6CBE3';$('msg').textContent='Картинка скопирована. Вставьте на доску: Ctrl+V.';setTimeout(()=>{$('msg').style.color='';render();},2500);}).catch(()=>{$('msg').textContent='Браузер не дал скопировать. Нажмите «Скачать PNG».';});
+ }else $('msg').textContent='Копирование не поддерживается. Нажмите «Скачать PNG».';
+});
+buildUI();
+</script>
+</body>
+</html>
