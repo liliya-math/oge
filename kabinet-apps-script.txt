@@ -559,7 +559,7 @@ function adminRun_(b) {
   } finally { guard.releaseLock(); }
   if (denied) { Utilities.sleep(700); return denied; }
   const lock = LockService.getScriptLock();
-  lock.waitLock(15000);
+  lock.waitLock(30000);
   try {
     const ss = SpreadsheetApp.getActive();
     const code = String(b.t || '').trim();
