@@ -66,7 +66,7 @@ const FIGS={
  trap:{name:'Трапеция',fields:[['a','Нижнее основание a (AB)'],['b','Верхнее основание b (DC)'],['h','Высота h'],['c','Боковая сторона c (AD)'],['d','Боковая сторона d (BC)'],['A','Угол A'],['B','Угол B']]}
 };
 const CONS={
- tri:[['medA','Медиана из A'],['medB','Медиана из B'],['medC','Медиана из C'],['altA','Высота из A'],['altB','Высота из B'],['altC','Высота из C'],['bisA','Биссектриса из A'],['bisB','Биссектриса из B'],['bisC','Биссектриса из C'],['midA','Средняя линия ∥ a'],['midB','Средняя линия ∥ b'],['midC','Средняя линия ∥ c'],['circ','Описанная окружность'],['radR','Радиус R описанной окружности'],['inc','Вписанная окружность'],['radr','Радиус r вписанной окружности']],
+ tri:[['medA','Медиана из A'],['medB','Медиана из B'],['medC','Медиана из C'],['altA','Высота из A'],['altB','Высота из B'],['altC','Высота из C'],['bisA','Биссектриса из A'],['bisB','Биссектриса из B'],['bisC','Биссектриса из C'],['midA','Средняя линия ∥ a'],['midB','Средняя линия ∥ b'],['midC','Средняя линия ∥ c'],['circ','Описанная окружность'],['radR','Радиус R описанной окружности'],['inc','Вписанная окружность'],['radr','Радиус r вписанной окружности'],['exAB','Внешний угол при A (продолжить BA)'],['exAC','Внешний угол при A (продолжить CA)'],['exBA','Внешний угол при B (продолжить AB)'],['exBC','Внешний угол при B (продолжить CB)'],['exCA','Внешний угол при C (продолжить AC)'],['exCB','Внешний угол при C (продолжить BC)']],
  par:[['hA','Высота к стороне a'],['hB','Высота к стороне b'],['diag','Диагонали']],
  rho:[['hA','Высота'],['diag','Диагонали']],
  rect:[['diag','Диагонали']],
@@ -342,7 +342,12 @@ function drawTri(){
  const Rr=Math.hypot(Am[0]-ox,Am[1]-oy),per=r.a+r.b+r.c;
  const Ix=(r.a*Am[0]+r.b*Bm[0]+r.c*Cm[0])/per,Iy=(r.a*Am[1]+r.b*Bm[1]+r.c*Cm[1])/per,rin=r.c*Cm[1]/per;
  const cl=[];if(circOn)cl.push([ox,oy,Rr]);if(incOn)cl.push([Ix,Iy,rin]);
- const f=fit([Am,Bm,Cm],cl);
+ const M3={A:Am,B:Bm,C:Cm},Lx=0.3*Math.max(r.a,r.b,r.c),exL=[];
+ Object.keys(cons).filter(k=>/^ex[ABC][ABC]$/.test(k)&&cons[k]).forEach(k=>{
+  const at=k[2],fr=k[3],ot='ABC'.replace(at,'').replace(fr,''),a=M3[at],b=M3[fr],d=Math.hypot(a[0]-b[0],a[1]-b[1]);
+  exL.push({at:at,ot:ot,E:[a[0]+(a[0]-b[0])/d*Lx,a[1]+(a[1]-b[1])/d*Lx],val:180-r[at]});
+ });
+ const f=fit([Am,Bm,Cm].concat(exL.map(e=>e.E)),cl);
  const A=f.P(Am),B=f.P(Bm),C=f.P(Cm),O=f.P([ox,oy]),I=f.P([Ix,Iy]);
  const V={A:A,B:B,C:C},opp={A:['B','C'],B:['A','C'],C:['A','B']};
  const rays={A:[],B:[],C:[]},feet=[];
@@ -365,6 +370,14 @@ function drawTri(){
  let rinLab=null;
  if(cons.radr){const dx=B[0]-A[0],dy=B[1]-A[1],t=((I[0]-A[0])*dx+(I[1]-A[1])*dy)/(dx*dx+dy*dy),Tp=[A[0]+t*dx,A[1]+t*dy];
   line(I,Tp,COL.cir,1.8);rightMark(Tp,U(Tp,I),U(Tp,B),9);rinLab=[I,Tp,T('r',rin,'r')];}
+ const exAngs=[];
+ exL.forEach(e=>{
+  const Vp=V[e.at],E=f.P(e.E),Q=V[e.ot];
+  line(Vp,E,COL.ink,1.6,'6 4');
+  const txt=opt.comp?fmt(e.val)+'°':({A:'α',B:'β',C:'γ'}[e.at]+'₁');
+  if(Math.abs(e.val-90)<0.01)rightMark(Vp,U(Vp,E),U(Vp,Q));
+  else{arc(Vp,U(Vp,E),U(Vp,Q),28,COL.ink,1.6);exAngs.push({V:Vp,N1:E,N2:Q,txt:txt,rays:rays[e.at]});}
+ });
  line(A,B,COL.ink,2.4);line(B,C,COL.ink,2.4);line(C,A,COL.ink,2.4);
  const sPt=[[B,C],[A,C],[A,B]];
  eqS.forEach(i=>tick(sPt[i][0],sPt[i][1]));
@@ -383,7 +396,7 @@ function drawTri(){
  const sT=[T('a',r.a,'a'),T('b',r.b,'b'),T('c',r.c,'c')],sP=[[B,C],[A,C],[A,B]];
  if(eqS.length){const first=sT.filter((t,i)=>eqS.includes(i)&&t)[0]||'';eqS.forEach((i,j)=>{sT[i]=j==0?first:'';});}
  sP.forEach((p,i)=>sideLab(p[0],p[1],sT[i],c0));
- angs.forEach(a=>angleLab(a.V,a.N1,a.N2,a.rays,a.txt));
+ angs.concat(exAngs).forEach(a=>angleLab(a.V,a.N1,a.N2,a.rays,a.txt));
  feet.forEach(x=>footLab(x[0],x[1],x[2]));
  mids.forEach(m=>segLab(m[0],m[1],T(null,m[2]/2,'m')));
  if(radLab)segLab(radLab[0],radLab[1],radLab[2]);
