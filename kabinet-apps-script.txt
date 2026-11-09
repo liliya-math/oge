@@ -1,6 +1,7 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 7.18
- * (7.18: в списке талисманов добавлены Крыса, Крысёнок, Выдра, Акси, Квокка - их выбор теперь сохраняется на сервере.
+ * Кабинет ученика 25/25 · lili.math — версия 7.19
+ * (7.19: напоминалка от талисмана: учитель пишет текст (и срок показа) в карточке ученика, ученик видит его в облачке талисмана.
+ * 7.18: в списке талисманов добавлены Крыса, Крысёнок, Выдра, Акси, Квокка - их выбор теперь сохраняется на сервере.
  * 7.17: doGet ?schedule=public - свободные окна на 14 дней без имён, для календаря на главной.
  * 7.16: routeEdits отдаёт mats - у каких квадратиков есть теория, ДЗ, тесты (значки на карте).
  * 7.16: из календаря можно убрать старые квадратики, которых уже нет в маршруте (сервер не проверяет формат id при удалении).
@@ -45,7 +46,7 @@ const SHEETS = {
   'Ученики': ['Код', 'Имя', 'Кому (дательный)', 'Цель, баллов', 'Дни занятий', 'Время (по Самаре)',
               'Тема следующего занятия', 'Ссылка на доску', 'Над чем работаем (через ;)',
               'Занятий в месяце по плану', 'Проведено в этом месяце', 'Активен', 'Ссылка на кабинет',
-              'Программа', 'Фамилия', 'Дата рождения', 'Родитель', 'Телефон родителя', 'Класс', 'Показывать', 'Талисман', 'Как обращаться (выбрал ученик)', 'Программы по карте'],
+              'Программа', 'Фамилия', 'Дата рождения', 'Родитель', 'Телефон родителя', 'Класс', 'Показывать', 'Талисман', 'Как обращаться (выбрал ученик)', 'Программы по карте', 'Напоминалка от талисмана', 'Показывать напоминалку до'],
   'Разборы': ['Код', 'Ссылка', 'Название', 'Подпись'],
   'Материалы': ['Ссылка', 'Название'],
   'Занятия по карте': ['Код', 'Ключ', 'Дата', 'Занятие', 'Теория', 'Домашняя работа', 'Выдано'],
@@ -108,8 +109,8 @@ const MATERIALS = [
 const C = {bg: '#14211e', bg2: '#1b2b28', fg: '#f3ece2', muted: '#a9b6ad', cobalt: '#1747c9', apricot: '#f2905e',
            amber: '#f5dc6a', sage: '#a9d18e', miss: '#ff8f73', none: '#2a3a36'};
 const STUDENT_COLS = {name: 2, dat: 3, goal: 4, days: 5, time: 6, topic: 7, board: 8, work: 9, lessonsPlan: 10, lessonsDone: 11, active: 12, prog: 14,
-                      fname: 15, bdate: 16, parent: 17, phone: 18, cls: 19, show: 20, pet: 21, nick: 22, routes: 23};
-const STUDENT_NCOL = 23;
+                      fname: 15, bdate: 16, parent: 17, phone: 18, cls: 19, show: 20, pet: 21, nick: 22, routes: 23, note: 24, noteTill: 25};
+const STUDENT_NCOL = 25;
 const ROUTE_PROGS = ['5', '6', '7A', '7G', '8A', '8G', '9A', '9G', 'OGE'];
 function routesOf_(r) { return String(r[22] || '').split(',').map(x => x.trim()).filter(x => ROUTE_PROGS.indexOf(x) >= 0); }
 const SHOW_KEYS = ['work', 'grades', 'exams', 'notebook', 'rewards', 'letter', 'library'];
@@ -645,6 +646,7 @@ function adminRun_(b) {
         const st = need(), sh = ss.getSheetByName('Ученики'), f = b.fields || {};
         const pr = progOf_(st.row, f);
         if (f.nick !== undefined || f.routes !== undefined) ensureNickCol_(sh, f.routes !== undefined ? STUDENT_COLS.routes : STUDENT_COLS.nick);
+        if (f.note !== undefined || f.noteTill !== undefined) { ensureNickCol_(sh, STUDENT_COLS.note); ensureNickCol_(sh, STUDENT_COLS.noteTill); }
         Object.keys(f).forEach(k => {
           if (!STUDENT_COLS[k]) return;
           let v = f[k];
@@ -658,6 +660,8 @@ function adminRun_(b) {
           else if (k === 'pet') v = PETS.indexOf(String(v)) >= 0 ? String(v) : '';
           else if (k === 'nick') v = cleanNick_(v);
           else if (k === 'routes') v = (Array.isArray(v) ? v : String(v).split(',')).map(x => String(x).trim()).filter((x, i, a) => ROUTE_PROGS.indexOf(x) >= 0 && a.indexOf(x) === i).join(',');
+          else if (k === 'note') v = String(v || '').replace(/\s+/g, ' ').trim().slice(0, 300);
+          else if (k === 'noteTill') v = /^\d{4}-\d{2}-\d{2}$/.test(String(v || '')) ? new Date(String(v) + 'T00:00:00') : '';
           else v = String(v).trim();
           sh.getRange(st.index, STUDENT_COLS[k]).setValue(v);
         });
@@ -915,7 +919,9 @@ function studentData_(code, admin) {
   const pet = PETS.indexOf(String(r[20] || '').trim()) >= 0 ? String(r[20]).trim() : '';
   const nick = String(r[21] || '').trim();
   const rj = rows('Занятия по карте').filter(x => x.v[6] === true);
+  const noteTillS = day_(r[24]), todayS = Utilities.formatDate(new Date(), 'Europe/Samara', 'yyyy-MM-dd'), noteRaw = String(r[23] || '').trim(), noteLive = !!noteRaw && (!noteTillS || noteTillS >= todayS);
   const out = {
+    noteEdit: true, note: admin ? noteRaw : (noteLive ? noteRaw : ''), noteTill: admin ? noteTillS : '',
     lessonRoute: 1, routeHistory: rj.slice().reverse().map(x => ({date: day_(x.v[2]), title: String(x.v[3]), theory: String(x.v[4] || '')})),
     routes: admin ? routesOf_(r) : [], routeDone: admin ? rj.map(x => String(x.v[1]).split('|')[1]) : [],
     quiz: 1, ogeMocks: 2, quizHistory: quizHistory_(code, admin), workflow: 1, nickEdit: true, name: admin ? String(r[1]) : (nick || String(r[1])), nick: nick, dat: admin ? String(r[2] || r[1]) : (nick || String(r[1])), goal: Number(r[3]) || Math.round(goalMax_(prog) * 0.8),
