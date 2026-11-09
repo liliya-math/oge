@@ -1,0 +1,101 @@
+{
+ "file": "teoriya-7g-smezhnye-ugly.html",
+ "title": "Смежные углы",
+ "tag": "7 класс · Геометрия · Глава 1 · § 6.1",
+ "square": "7G-108",
+ "blocks": [
+  {
+   "color": "moss",
+   "title": "Смежные углы",
+   "items": [
+    {
+     "p": "Два угла называются **смежными**, если у них одна сторона общая, а две другие составляют прямую линию."
+    },
+    {
+     "svg": "<svg viewBox=\"0 0 480 215\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Смежные углы AOC и BOC\"><line x1=\"30.0\" y1=\"176.0\" x2=\"450.0\" y2=\"176.0\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linecap=\"round\"/><line x1=\"240.0\" y1=\"176.0\" x2=\"310.4\" y2=\"43.6\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linecap=\"round\"/><path d=\"M258.8,140.7 A40,40 0 0 0 200.0,176.0\" fill=\"none\" stroke=\"#2F5BB5\" stroke-width=\"2\"/><path d=\"M280.0,176.0 A40,40 0 0 0 258.8,140.7\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><text x=\"30\" y=\"200\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">A</text><text x=\"450\" y=\"200\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">B</text><text x=\"240\" y=\"204\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">O</text><text x=\"317.9\" y=\"35.8\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">C</text></svg>"
+    },
+    {
+     "p": "\\(\\angle AOC\\) и \\(\\angle BOC\\) - смежные."
+    },
+    {
+     "p": "Так как лучи \\(OA\\) и \\(OB\\) образуют развёрнутый угол, то"
+    },
+    {
+     "f": "\\(\\angle AOC+\\angle BOC=\\angle AOB=180^\\circ\\)"
+    },
+    {
+     "p": "**Сумма смежных углов** равна \\(180^\\circ\\)."
+    },
+    {
+     "why": "Две другие стороны смежных углов лежат на одной прямой, поэтому вместе смежные углы составляют развёрнутый угол, а развёрнутый угол равен \\(180^\\circ\\). Значит, если один из смежных углов равен \\(x\\), то другой равен \\(180^\\circ-x\\)."
+    }
+   ]
+  },
+  {
+   "color": "cobalt",
+   "title": "Свойства смежных углов",
+   "items": [
+    {
+     "p": "Угол, смежный с прямым углом, является **прямым**; угол, смежный с острым углом, - **тупым**; угол, смежный с тупым углом, - **острым**."
+    },
+    {
+     "p": "Если два угла равны, то смежные с ними углы также равны."
+    },
+    {
+     "f": "если \\(\\angle 1=\\angle 2\\), то \\(\\angle 3=\\angle 4\\)"
+    },
+    {
+     "p": "Чем больше угол, тем меньше смежный с ним угол, и наоборот."
+    },
+    {
+     "f": "если \\(\\angle 1<\\angle 2\\), то \\(\\angle 4>\\angle 3\\)"
+    },
+    {
+     "p": "Если смежные углы равны, то они прямые."
+    },
+    {
+     "f": "\\(\\angle AOC=\\angle BOC=90^\\circ\\)"
+    },
+    {
+     "why": "Если смежные углы равны, то каждый из них равен половине развёрнутого угла: \\(180^\\circ:2=90^\\circ\\)."
+    },
+    {
+     "p": "**Биссектрисы смежных углов** образуют прямой угол."
+    },
+    {
+     "svg": "<svg viewBox=\"0 0 480 235\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Биссектрисы смежных углов образуют прямой угол\"><line x1=\"30.0\" y1=\"186.0\" x2=\"450.0\" y2=\"186.0\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linecap=\"round\"/><line x1=\"240.0\" y1=\"186.0\" x2=\"305.8\" y2=\"51.2\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linecap=\"round\"/><line x1=\"240.0\" y1=\"186.0\" x2=\"173.8\" y2=\"80.0\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-dasharray=\"7 6\"/><line x1=\"240.0\" y1=\"186.0\" x2=\"346.0\" y2=\"119.8\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-dasharray=\"7 6\"/><path d=\"M215.6,147.0 A46,46 0 0 0 194.0,186.0\" fill=\"none\" stroke=\"#2F5BB5\" stroke-width=\"2\"/><path d=\"M260.2,144.7 A46,46 0 0 0 215.6,147.0\" fill=\"none\" stroke=\"#2F5BB5\" stroke-width=\"2\"/><path d=\"M289.2,155.3 A58,58 0 0 0 265.4,133.9\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><path d=\"M294.3,152.1 A64,64 0 0 0 268.1,128.5\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><path d=\"M298.0,186.0 A58,58 0 0 0 289.2,155.3\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><path d=\"M304.0,186.0 A64,64 0 0 0 294.3,152.1\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><polyline points=\"257.0,175.4 246.4,158.4 229.4,169.0\" fill=\"none\" stroke=\"#2F5BB5\" stroke-width=\"2\"/><text x=\"30\" y=\"210\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">A</text><text x=\"450\" y=\"210\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">B</text><text x=\"240\" y=\"214\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">O</text><text x=\"312.8\" y=\"43.2\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">C</text><text x=\"165.3\" y=\"72.8\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">M</text><text x=\"359.6\" y=\"117.7\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">N</text></svg>"
+    },
+    {
+     "p": "\\(OM\\) - биссектриса \\(\\angle AOC\\), \\(ON\\) - биссектриса \\(\\angle BOC\\), тогда"
+    },
+    {
+     "f": "\\(\\angle MON=90^\\circ\\)"
+    },
+    {
+     "why": "Биссектриса делит угол пополам: \\(\\angle MOC=\\tfrac12\\angle AOC\\), \\(\\angle CON=\\tfrac12\\angle BOC\\). Тогда \\(\\angle MON=\\tfrac12(\\angle AOC+\\angle BOC)=\\tfrac12\\cdot180^\\circ=90^\\circ\\)."
+    }
+   ]
+  },
+  {
+   "color": "orange",
+   "title": "Как найти смежный угол",
+   "items": [
+    {
+     "p": "Если угол равен \\(x\\), то смежный с ним угол равен"
+    },
+    {
+     "f": "\\(180^\\circ-x\\)"
+    },
+    {
+     "p": "Если смежные углы относятся как \\(m:n\\), то один из них обозначают \\(mx\\), а другой \\(nx\\) и составляют уравнение:"
+    },
+    {
+     "f": "\\(mx+nx=180^\\circ\\)"
+    },
+    {
+     "p": "Например, углы относятся как \\(3:7\\): \\(3x+7x=180^\\circ\\), \\(10x=180^\\circ\\), \\(x=18^\\circ\\). Углы равны \\(54^\\circ\\) и \\(126^\\circ\\)."
+    }
+   ]
+  }
+ ]
+}

@@ -4936,6 +4936,26 @@
       "status": "hidden",
       "note": "инструмент репетитора: строит чертёж по данным, картинку копировать на онлайн-доску",
       "auto": false
+    },
+    {
+      "file": "teoriya-7g-smezhnye-ugly.html",
+      "title": "Теория · 7 класс · Смежные углы (§ 6, п. 1)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7G-108",
+      "auto": false
+    },
+    {
+      "file": "teoriya-7g-vertikalnye-ugly.html",
+      "title": "Теория · 7 класс · Вертикальные углы (§ 6, п. 2)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7G-109",
+      "auto": false
     }
   ]
 }
