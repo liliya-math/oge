@@ -4849,6 +4849,16 @@
       "auto": false
     },
     {
+      "file": "teoriya-8-formula-korney-kvadratnogo-uravneniya.html",
+      "title": "Теория · 8 класс · Формула корней, свойства коэффициентов, биквадратные уравнения (п. 10.2-10.4)",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-120",
+      "auto": false
+    },
+    {
       "file": "teoriya-7-funktsiya-kx.html",
       "title": "Теория · 7 класс · Функция y = kx и её график (§ 26)",
       "type": "theory",
