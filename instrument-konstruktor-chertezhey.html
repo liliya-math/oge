@@ -78,8 +78,8 @@ svg{width:100%;height:auto;display:block}
    <button class="g" id="dl">Скачать PNG</button>
    <button class="o" id="clr">Убрать формулы с чертежа</button>
   </div>
-  <div class="szr">Размер формул на чертеже<input type="range" id="csz" min="0.4" max="1.4" step="0.1" value="0.8"></div>
-  <div class="hint">Формулу из справочника внизу можно перетащить мышью на чертёж (или дважды щёлкнуть по ней). На чертеже её можно двигать, двойной щелчок убирает её. Формулы попадают и в скопированную картинку.</div>
+  <div class="szr">Размер формулы (нажми на неё на чертеже)<input type="range" id="csz" min="0.3" max="1.6" step="0.05" value="0.8"></div>
+  <div class="hint">Формулу из справочника внизу можно перетащить мышью на чертёж (или дважды щёлкнуть по ней). На чертеже её можно двигать, а размер у каждой свой: нажми на формулу и тяни ползунок или крути колёсико мыши над ней. Двойной щелчок убирает формулу. Формулы попадают и в скопированную картинку.</div>
   <div class="hint">Скопированную картинку можно вставить на онлайн-доску через Ctrl+V (Cmd+V). Если даны не все величины, чертёж схематичный, не в масштабе.</div>
  <div id="theory"></div>
  </div>
@@ -105,7 +105,7 @@ const CONS={
 const state={fig:'tri',kind:{t:'any',v:'B'},vals:{},cons:{},opt:{hl:true,ls:true,la:false,comp:false,obt:false,board:false}};
 const $=id=>document.getElementById(id);
 
-let cards=[],cardScale=0.8,cardId=0;
+let cards=[],cardScale=0.8,cardId=0,selId=null;
 /* ---------- ввод ---------- */
 function parseVal(s){
  s=(s||'').trim().replace(/\s+/g,'').replace('°','');
@@ -592,7 +592,7 @@ function render(){
  if(!err)err={tri:drawTri,par:drawPar,rho:drawRho,rect:()=>drawRect(false),sq:()=>drawRect(true),trap:drawTrap}[fig]();
  if(err){els=[];}
  $('msg').textContent=err||'';
- const cimg=cards.map(c=>'<image data-card="'+c.id+'" x="'+ff(c.x)+'" y="'+ff(c.y)+'" width="'+ff(c.w*cardScale)+'" height="'+ff(c.h*cardScale)+'" href="'+c.src+'" xlink:href="'+c.src+'" style="cursor:move"/>').join('');
+ const cimg=cards.map(c=>'<image data-card="'+c.id+'" x="'+ff(c.x)+'" y="'+ff(c.y)+'" width="'+ff(c.w*c.s)+'" height="'+ff(c.h*c.s)+'" href="'+c.src+'" xlink:href="'+c.src+'" style="cursor:move"/>').join('')+cards.filter(c=>c.id===selId).map(c=>'<rect data-ui="1" x="'+ff(c.x-3)+'" y="'+ff(c.y-3)+'" width="'+ff(c.w*c.s+6)+'" height="'+ff(c.h*c.s+6)+'" rx="10" fill="none" stroke="#2F5BB5" stroke-width="1.6" stroke-dasharray="5 4" pointer-events="none"/>').join('');
  $('svg').innerHTML=(COL.bg?'<rect width="'+W+'" height="'+H+'" fill="'+COL.bg+'"/>':'')+els.join('')+cimg;
  $('stage').className='stage'+(opt.board?' board':'');
 }
@@ -649,7 +649,7 @@ function buildUI(){
  if(window.theoryOpen)theoryOpen();
 }
 function toCanvas(cb){
- const svg=$('svg').cloneNode(true);svg.setAttribute('width',W*2);svg.setAttribute('height',H*2);
+ const svg=$('svg').cloneNode(true);svg.querySelectorAll('[data-ui]').forEach(n=>n.remove());svg.setAttribute('width',W*2);svg.setAttribute('height',H*2);
  const url=URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(svg)],{type:'image/svg+xml'}));
  const img=new Image();
  img.onload=()=>{const c=document.createElement('canvas');c.width=W*2;c.height=H*2;c.getContext('2d').drawImage(img,0,0);URL.revokeObjectURL(url);c.toBlob(cb,'image/png');};
@@ -741,10 +741,10 @@ function svgPt(e){const p=new DOMPoint(e.clientX,e.clientY).matrixTransform($('s
 function addCard(i,x,y,center){
  const f=FMS[i];if(!f||!window.html2canvas)return;
  makeCard(f.t,f.h,(src,w,h)=>{
-  const k={id:++cardId,src:src,w:w,h:h,x:x,y:y};
-  if(center){k.x=x-w*cardScale/2;k.y=y-h*cardScale/2;}
-  k.x=Math.max(0,Math.min(W-w*cardScale,k.x));k.y=Math.max(0,Math.min(H-h*cardScale,k.y));
-  cards.push(k);render();
+  const k={id:++cardId,src:src,w:w,h:h,x:x,y:y,s:cardScale};
+  if(center){k.x=x-w*k.s/2;k.y=y-h*k.s/2;}
+  k.x=Math.max(0,Math.min(W-w*k.s,k.x));k.y=Math.max(0,Math.min(H-h*k.s,k.y));
+  cards.push(k);selId=k.id;render();
  });
 }
 $('theory').addEventListener('dragstart',e=>{const el=e.target.closest&&e.target.closest('.fm');if(el)e.dataTransfer.setData('text/plain',el.dataset.i);});
@@ -753,19 +753,35 @@ $('stage').addEventListener('dragover',e=>e.preventDefault());
 $('stage').addEventListener('drop',e=>{e.preventDefault();const i=e.dataTransfer.getData('text/plain');if(i==='')return;const p=svgPt(e);addCard(+i,p.x,p.y,true);});
 let drag=null;
 $('svg').addEventListener('pointerdown',e=>{
- const id=e.target.dataset&&e.target.dataset.card;if(!id)return;
- const c=cards.find(k=>k.id==id),p=svgPt(e);drag={c:c,dx:p.x-c.x,dy:p.y-c.y,el:e.target};
+ const id=e.target.dataset&&e.target.dataset.card;
+ if(!id){if(selId!==null){selId=null;render();}return;}
+ const c=cards.find(k=>k.id==id),p=svgPt(e);
+ $('csz').value=c.s;
+ if(selId!==c.id){selId=c.id;render();}
+ drag={c:c,dx:p.x-c.x,dy:p.y-c.y,el:document.querySelector('image[data-card="'+c.id+'"]')};
  $('svg').setPointerCapture(e.pointerId);e.preventDefault();
 });
 $('svg').addEventListener('pointermove',e=>{
  if(!drag)return;const p=svgPt(e),c=drag.c;
- c.x=Math.max(0,Math.min(W-c.w*cardScale,p.x-drag.dx));c.y=Math.max(0,Math.min(H-c.h*cardScale,p.y-drag.dy));
+ c.x=Math.max(0,Math.min(W-c.w*c.s,p.x-drag.dx));c.y=Math.max(0,Math.min(H-c.h*c.s,p.y-drag.dy));
  drag.el.setAttribute('x',ff(c.x));drag.el.setAttribute('y',ff(c.y));
 });
 $('svg').addEventListener('pointerup',()=>{drag=null;});
 $('svg').addEventListener('dblclick',e=>{const id=e.target.dataset&&e.target.dataset.card;if(!id)return;cards=cards.filter(k=>k.id!=id);render();});
-$('clr').onclick=()=>{cards=[];render();};
-$('csz').oninput=e=>{cardScale=parseFloat(e.target.value);render();};
+$('clr').onclick=()=>{cards=[];selId=null;render();};
+function setSize(v){
+ v=Math.max(0.3,Math.min(1.6,v));
+ const c=cards.find(k=>k.id===selId);
+ if(c){c.s=v;c.x=Math.min(c.x,W-c.w*v);c.y=Math.min(c.y,H-c.h*v);}else cardScale=v;
+ $('csz').value=v;render();
+}
+$('csz').oninput=e=>setSize(parseFloat(e.target.value));
+$('svg').addEventListener('wheel',e=>{
+ const id=e.target.dataset&&e.target.dataset.card;if(!id)return;
+ e.preventDefault();const c=cards.find(k=>k.id==id);
+ if(selId!==c.id)selId=c.id;
+ setSize(c.s+(e.deltaY<0?0.05:-0.05));
+},{passive:false});
 buildTheory();
 buildUI();
 </script>
