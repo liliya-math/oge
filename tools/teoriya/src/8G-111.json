@@ -1,0 +1,83 @@
+{
+ "file": "teoriya-8g-opredelenie-podobnyh-treugolnikov.html",
+ "title": "Определение подобных треугольников",
+ "tag": "8 класс · Геометрия · Глава 3 · § 6",
+ "square": "8G-111",
+ "blocks": [
+  {
+   "color": "moss",
+   "title": "Подобные треугольники",
+   "items": [
+    {
+     "p": "Два треугольника, у которых углы соответственно равны, а стороны одного соответственно пропорциональны сторонам другого треугольника, называются **подобными**."
+    },
+    {
+     "svg": "<svg viewBox=\"0 0 490 215\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Подобные треугольники\"><polygon points=\"40,170 120,30 250,170\" fill=\"none\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linejoin=\"round\"/><polygon points=\"326,170 366,100.0 431,170\" fill=\"none\" stroke=\"#16231A\" stroke-width=\"3\" stroke-linejoin=\"round\"/><path d=\"M62.0,170.0 A22,22 0 0 0 50.9,150.9\" fill=\"none\" stroke=\"#2F5BB5\" stroke-width=\"2\"/><path d=\"M109.1,49.1 A22,22 0 0 0 135.0,46.1\" fill=\"none\" stroke=\"#2F5BB5\" stroke-width=\"2\"/><path d=\"M106.1,54.3 A28,28 0 0 0 139.1,50.5\" fill=\"none\" stroke=\"#2F5BB5\" stroke-width=\"2\"/><path d=\"M232.0,170.0 A18,18 0 0 1 237.8,156.8\" fill=\"none\" stroke=\"#2F5BB5\" stroke-width=\"2\"/><path d=\"M227.0,170.0 A23,23 0 0 1 234.3,153.1\" fill=\"none\" stroke=\"#2F5BB5\" stroke-width=\"2\"/><path d=\"M222.0,170.0 A28,28 0 0 1 230.9,149.5\" fill=\"none\" stroke=\"#2F5BB5\" stroke-width=\"2\"/><path d=\"M340.0,170.0 A14,14 0 0 0 332.9,157.8\" fill=\"none\" stroke=\"#2F5BB5\" stroke-width=\"2\"/><path d=\"M359.1,112.2 A14,14 0 0 0 375.5,110.3\" fill=\"none\" stroke=\"#2F5BB5\" stroke-width=\"2\"/><path d=\"M356.6,116.5 A19,19 0 0 0 378.9,113.9\" fill=\"none\" stroke=\"#2F5BB5\" stroke-width=\"2\"/><path d=\"M419.0,170.0 A12,12 0 0 1 422.8,161.2\" fill=\"none\" stroke=\"#2F5BB5\" stroke-width=\"2\"/><path d=\"M415.0,170.0 A16,16 0 0 1 420.1,158.3\" fill=\"none\" stroke=\"#2F5BB5\" stroke-width=\"2\"/><path d=\"M411.0,170.0 A20,20 0 0 1 417.4,155.3\" fill=\"none\" stroke=\"#2F5BB5\" stroke-width=\"2\"/><text x=\"26\" y=\"192\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">A</text><text x=\"120\" y=\"20\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">B</text><text x=\"266\" y=\"192\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">C</text><text x=\"312\" y=\"192\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">A<tspan font-size=\"13\" dy=\"5\">1</tspan></text><text x=\"366\" y=\"88.0\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">B<tspan font-size=\"13\" dy=\"5\">1</tspan></text><text x=\"449\" y=\"192\" font-family=\"STIX Two Text,Times New Roman,serif\" font-style=\"italic\" font-size=\"20\" fill=\"#16231A\" text-anchor=\"middle\">C<tspan font-size=\"13\" dy=\"5\">1</tspan></text></svg>"
+    },
+    {
+     "f": "\\(\\angle A=\\angle A_1,\\ \\angle B=\\angle B_1,\\ \\angle C=\\angle C_1\\)"
+    },
+    {
+     "f": "\\(\\dfrac{AB}{A_1B_1}=\\dfrac{BC}{B_1C_1}=\\dfrac{AC}{A_1C_1}=k\\)"
+    },
+    {
+     "p": "Число \\(k\\) называют **коэффициентом подобия**. Оно равно отношению сходственных сторон подобных треугольников."
+    },
+    {
+     "p": "Подобие треугольников записывают так:"
+    },
+    {
+     "f": "\\(\\triangle ABC\\sim\\triangle A_1B_1C_1\\)"
+    },
+    {
+     "p": "**Сходственными** (или соответственными) сторонами подобных треугольников называют стороны, лежащие против равных углов."
+    },
+    {
+     "why": "Сравнивать нужно именно стороны, лежащие против равных углов. Порядок букв в записи подобия показывает, какие вершины соответствуют друг другу: в записи \\(\\triangle ABC\\sim\\triangle A_1B_1C_1\\) вершине \\(A\\) соответствует \\(A_1\\), вершине \\(B\\) соответствует \\(B_1\\), вершине \\(C\\) соответствует \\(C_1\\)."
+    }
+   ]
+  },
+  {
+   "color": "cobalt",
+   "title": "Свойства подобных треугольников",
+   "items": [
+    {
+     "p": "**Отношение периметров** подобных треугольников равно коэффициенту подобия."
+    },
+    {
+     "f": "\\(P_{ABC}:P_{A_1B_1C_1}=k\\)"
+    },
+    {
+     "p": "**Отношение площадей** подобных треугольников равно квадрату коэффициента подобия."
+    },
+    {
+     "f": "\\(S_{ABC}:S_{A_1B_1C_1}=k^2\\)"
+    },
+    {
+     "p": "Отношение длин соответствующих элементов подобных треугольников (в частности, биссектрис, медиан, высот и серединных перпендикуляров) равно коэффициенту подобия."
+    },
+    {
+     "why": "Каждая сторона одного треугольника в \\(k\\) раз больше сходственной стороны другого, поэтому и сумма сторон (периметр) больше в \\(k\\) раз. У площади две «длины»: основание и высота, каждая увеличивается в \\(k\\) раз, поэтому площадь увеличивается в \\(k\\cdot k=k^2\\) раз."
+    }
+   ]
+  },
+  {
+   "color": "orange",
+   "title": "Площади треугольников с равным углом",
+   "items": [
+    {
+     "p": "Если угол одного треугольника равен углу другого треугольника, то площади этих треугольников относятся как произведения сторон, заключающих равные углы."
+    },
+    {
+     "p": "Например, если \\(\\angle A=\\angle A_1\\), то"
+    },
+    {
+     "f": "\\(\\dfrac{S_{ABC}}{S_{A_1B_1C_1}}=\\dfrac{AB\\cdot AC}{A_1B_1\\cdot A_1C_1}\\)"
+    },
+    {
+     "why": "Площадь треугольника равна половине произведения двух сторон на синус угла между ними. Углы равны, значит, синусы равны и при делении сокращаются, а остаются только произведения сторон."
+    }
+   ]
+  }
+ ]
+}
