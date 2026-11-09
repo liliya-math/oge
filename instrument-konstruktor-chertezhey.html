@@ -35,6 +35,9 @@ svg{width:100%;height:auto;display:block}
 .btns button.o{background:#2B3D2B;color:#EEE0C8}
 .szr{margin-top:10px;font-size:13.5px;color:#C9AB82}.szr input{vertical-align:middle;accent-color:#DD7A3A;width:150px;margin-left:8px}
 .fm{cursor:grab}
+svg line[data-field]:hover{stroke:rgba(221,122,58,.45)}
+svg circle[data-field]:hover{fill:rgba(221,122,58,.3)}
+.f input.flash{outline:3px solid #DD7A3A}
 #msg{margin-top:10px;font-size:14px;min-height:20px;color:#DD7A3A}
 
 #theory{margin-top:26px;max-width:760px}
@@ -66,6 +69,7 @@ svg{width:100%;height:auto;display:block}
   <h3>Фигура</h3><div class="figs" id="figs"></div>
   <div id="kind"></div>
   <h3>Данные</h3><div id="fields"></div>
+  <div class="hint">Можно нажать на сторону или угол на чертеже, и нужное поле выберется само.</div>
   <div class="hint">Пустое поле: значение неизвестно. Буква (x, y) вместо числа: на чертеже будет эта буква. Корень пишется так: 5√3.</div>
   <h3 class="g">Построения</h3><div id="cons"></div>
   <h3 class="b">Подписи</h3><div id="opts"></div>
@@ -131,7 +135,7 @@ function T(key,val,letter,isAng){
 }
 
 /* ---------- сцена ---------- */
-let els,segs,circs,rects,COL;
+let els,segs,circs,rects,COL,hits;
 const U=(p,q)=>{const d=Math.hypot(q[0]-p[0],q[1]-p[1])||1;return [(q[0]-p[0])/d,(q[1]-p[1])/d];};
 const add=(p,u,k)=>[p[0]+u[0]*k,p[1]+u[1]*k];
 const mid=(p,q)=>[(p[0]+q[0])/2,(p[1]+q[1])/2];
@@ -145,6 +149,9 @@ function circle(c,r,col,w){
  els.push('<circle cx="'+ff(c[0])+'" cy="'+ff(c[1])+'" r="'+ff(r)+'" fill="none" stroke="'+col+'" stroke-width="'+(w||1.8)+'"/>');
  circs.push([c[0],c[1],r]);
 }
+function hit(p,q,k){hits.push('<line data-ui="1" data-field="'+k+'" x1="'+ff(p[0])+'" y1="'+ff(p[1])+'" x2="'+ff(q[0])+'" y2="'+ff(q[1])+'" stroke="rgba(0,0,0,0)" stroke-width="18" stroke-linecap="round" style="cursor:pointer"/>');}
+function hitC(V,k){hits.push('<circle data-ui="1" data-field="'+k+'" cx="'+ff(V[0])+'" cy="'+ff(V[1])+'" r="24" fill="rgba(0,0,0,0)" style="cursor:pointer"/>');}
+function hitPoly(P,sf,af){sf.forEach((k,i)=>{if(k)hit(P[i],P[(i+1)%P.length],k);});af.forEach(a=>hitC(P[a[0]],a[1]));}
 function dot(c,r){els.push('<circle cx="'+ff(c[0])+'" cy="'+ff(c[1])+'" r="'+(r||2.8)+'" fill="'+COL.ink+'"/>');segs.push([c[0],c[1],c[0],c[1]]);}
 function norm(d){while(d>Math.PI)d-=2*Math.PI;while(d<-Math.PI)d+=2*Math.PI;return d;}
 function arc(V,u1,u2,r,col,w){
@@ -447,6 +454,7 @@ function drawTri(){
  mids.forEach(m=>segLab(m[0],m[1],T(null,m[2]/2,'m')));
  if(radLab)segLab(radLab[0],radLab[1],radLab[2]);
  if(rinLab)segLab(rinLab[0],rinLab[1],rinLab[2]);
+ hit(B,C,'a');hit(A,C,'b');hit(A,B,'c');hitC(A,'A');hitC(B,'B');hitC(C,'C');
  return null;
 }
 
@@ -478,7 +486,7 @@ function drawPar(){
  let h1=null,h2=null;
  if(cons.hA){const H=drawAlt(pD,pA,pB,COL.alt);h1=[pD,H,T('h',hh,'h')];feet.push([H,pD,'H']);}
  if(cons.hB){const K=drawAlt(pB,pA,pD,COL.bis);h2=[pB,K,T(null,a*Math.sin(A*rad),'h₂')];feet.push([K,pB,'K']);}
- polyLines(P);
+ polyLines(P);hitPoly(P,['a','b','a','b'],[[0,'A']]);
  const angs=cornerAngles(P,[[0,A,T('A',A,'α',true),rays.A]]);
  const c0=centroid(P);
  ['A','B','C','D'].forEach((n,i)=>vertexLab(P[i],c0,n));
@@ -509,7 +517,7 @@ function drawRho(){
   sl.push([P[0],P[2],T('d1',Math.hypot(pm.C[0]-pm.A[0],pm.C[1]-pm.A[1]),'d₁')],[P[1],P[3],T('d2',Math.hypot(pm.D[0]-pm.B[0],pm.D[1]-pm.B[1]),'d₂')]);}
  let h1=null;
  if(cons.hA){const H=drawAlt(P[3],P[0],P[1],COL.alt);h1=[P[3],H,T(null,null,'h')];feet.push([H,P[3],'H']);}
- polyLines(P);for(let i=0;i<4;i++)tick(P[i],P[(i+1)%4]);
+ polyLines(P);hitPoly(P,['a','a','a','a'],[[0,'A']]);for(let i=0;i<4;i++)tick(P[i],P[(i+1)%4]);
  const angs=cornerAngles(P,[[0,ang,T('A',ang,'α',true),rays]]);
  const c0=centroid(P);
  ['A','B','C','D'].forEach((n,i)=>vertexLab(P[i],c0,n));
@@ -534,7 +542,7 @@ function drawRect(sq){
  const arr=[[0,0],[a,0],[a,b],[0,b]],f=fit(arr,[]),P=arr.map(f.P);
  const dg=Math.hypot(a,b),sl=[];
  if(cons.diag){line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);sl.push([P[0],P[2],T('d',dg,'d')]);}
- polyLines(P);
+ polyLines(P);hitPoly(P,sq?['a','a','a','a']:['a','b','a','b'],[]);
  for(let i=0;i<4;i++)rightMark(P[i],U(P[i],P[(i+1)%4]),U(P[i],P[(i+3)%4]),11);
  const c0=centroid(P);
  ['A','B','C','D'].forEach((n,i)=>vertexLab(P[i],c0,n));
@@ -566,7 +574,7 @@ function drawTrap(){
  let h1=null,m1=null;
  if(cons.hA){const H=drawAlt(P[3],P[0],P[1],COL.alt);h1=[P[3],H,T('h',h,'h')];feet.push([H,P[3],'H']);}
  if(cons.mid){const m=mid(P[0],P[3]),n=mid(P[1],P[2]);line(m,n,COL.mid,2);m1=[m,n,T(null,(a+b)/2,'m')];}
- polyLines(P);
+ polyLines(P);hitPoly(P,['a','d','b','c'],[[0,'A'],[1,'B']]);
  const angs=cornerAngles(P,[[0,Aact,T('A',Aact,'α',true),rA],[1,Bact,T('B',Bact,'β',true),rB]]);
  const c0=centroid(P);
  ['A','B','C','D'].forEach((n,i)=>vertexLab(P[i],c0,n));
@@ -588,12 +596,12 @@ function render(){
  Object.keys(AUTO).forEach(k=>{if(inp[k]&&inp[k].text)cons[AUTO[k]]=true;});
  COL=opt.board?{ink:'#EEE0C8',med:'#DD7A3A',alt:'#9BB08A',bis:'#B6CBE3',mid:'#E2B04A',cir:'#B6CBE3',halo:null,bg:null}
               :{ink:'#16231A',med:'#DD7A3A',alt:'#5F7B3F',bis:'#2F5BB5',mid:'#9C6B40',cir:'#2F5BB5',halo:'#ffffff',bg:'#ffffff'};
- els=[];segs=[];circs=[];rects=[];
+ els=[];segs=[];circs=[];rects=[];hits=[];
  if(!err)err={tri:drawTri,par:drawPar,rho:drawRho,rect:()=>drawRect(false),sq:()=>drawRect(true),trap:drawTrap}[fig]();
- if(err){els=[];}
+ if(err){els=[];hits=[];}
  $('msg').textContent=err||'';
  const cimg=cards.map(c=>'<image data-card="'+c.id+'" x="'+ff(c.x)+'" y="'+ff(c.y)+'" width="'+ff(c.w*c.s)+'" height="'+ff(c.h*c.s)+'" href="'+c.src+'" xlink:href="'+c.src+'" style="cursor:move"/>').join('')+cards.filter(c=>c.id===selId).map(c=>'<rect data-ui="1" x="'+ff(c.x-3)+'" y="'+ff(c.y-3)+'" width="'+ff(c.w*c.s+6)+'" height="'+ff(c.h*c.s+6)+'" rx="10" fill="none" stroke="#2F5BB5" stroke-width="1.6" stroke-dasharray="5 4" pointer-events="none"/>').join('');
- $('svg').innerHTML=(COL.bg?'<rect width="'+W+'" height="'+H+'" fill="'+COL.bg+'"/>':'')+els.join('')+cimg;
+ $('svg').innerHTML=(COL.bg?'<rect width="'+W+'" height="'+H+'" fill="'+COL.bg+'"/>':'')+els.join('')+hits.join('')+cimg;
  $('stage').className='stage'+(opt.board?' board':'');
 }
 
@@ -624,7 +632,7 @@ function buildUI(){
  FIGS[fig].fields.forEach(f=>{
   const d=document.createElement('div');d.className='f';
   d.innerHTML='<label>'+f[1]+'</label>';
-  const i=document.createElement('input');i.value=state.vals[fig][f[0]]||'';i.autocomplete='off';
+  const i=document.createElement('input');i.value=state.vals[fig][f[0]]||'';i.autocomplete='off';i.dataset.k=f[0];
   i.oninput=()=>{state.vals[fig][f[0]]=i.value;render();};
   d.appendChild(i);$('fields').appendChild(d);
  });
@@ -751,8 +759,15 @@ $('theory').addEventListener('dragstart',e=>{const el=e.target.closest&&e.target
 $('theory').addEventListener('dblclick',e=>{const el=e.target.closest('.fm');if(el)addCard(+el.dataset.i,14+cards.length*14,14+cards.length*14,false);});
 $('stage').addEventListener('dragover',e=>e.preventDefault());
 $('stage').addEventListener('drop',e=>{e.preventDefault();const i=e.dataTransfer.getData('text/plain');if(i==='')return;const p=svgPt(e);addCard(+i,p.x,p.y,true);});
+function focusField(k){
+ const el=document.querySelector('#fields input[data-k="'+k+'"]');if(!el)return;
+ el.scrollIntoView({block:'center',behavior:'smooth'});el.focus();el.select();
+ el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),1200);
+}
 let drag=null;
 $('svg').addEventListener('pointerdown',e=>{
+ const fk=e.target.dataset&&e.target.dataset.field;
+ if(fk){e.preventDefault();focusField(fk);return;}
  const id=e.target.dataset&&e.target.dataset.card;
  if(!id){if(selId!==null){selId=null;render();}return;}
  const c=cards.find(k=>k.id==id),p=svgPt(e);
