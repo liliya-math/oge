@@ -1,6 +1,7 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 7.17
- * (7.17: doGet ?schedule=public - свободные окна на 14 дней без имён, для календаря на главной.
+ * Кабинет ученика 25/25 · lili.math — версия 7.18
+ * (7.18: в списке талисманов добавлены Крыса, Крысёнок, Выдра, Акси, Квокка - их выбор теперь сохраняется на сервере.
+ * 7.17: doGet ?schedule=public - свободные окна на 14 дней без имён, для календаря на главной.
  * 7.16: routeEdits отдаёт mats - у каких квадратиков есть теория, ДЗ, тесты (значки на карте).
  * 7.16: из календаря можно убрать старые квадратики, которых уже нет в маршруте (сервер не проверяет формат id при удалении).
  * 7.15: убраны карта навыков, карта заданий ОГЭ с комментариями и вкладка «План»; остались квадратики: программы ученика и календарь занятий.
@@ -112,7 +113,7 @@ const STUDENT_NCOL = 23;
 const ROUTE_PROGS = ['5', '6', '7A', '7G', '8A', '8G', '9A', '9G', 'OGE'];
 function routesOf_(r) { return String(r[22] || '').split(',').map(x => x.trim()).filter(x => ROUTE_PROGS.indexOf(x) >= 0); }
 const SHOW_KEYS = ['work', 'grades', 'exams', 'notebook', 'rewards', 'letter', 'library'];
-const PETS = ['cat', 'meer', 'rac', 'lab', 'capy', 'ham'];
+const PETS = ['cat', 'meer', 'rac', 'lab', 'capy', 'ham', 'bis', 'rad', 'otr', 'axo', 'qk'];
 const CATALOG_URL = 'https://lilimath.ru/catalog.json';
 const HW_SECS = ['разборы', 'теория', 'устный опрос', 'огэ'];
 const HW_SEC_KEY = {'разборы': 'raz', 'теория': 'theor', 'устный опрос': 'oral', 'огэ': 'oge'};
