@@ -1564,7 +1564,7 @@ function adm(op,x,options={}){
 function logout(bad){PASS='';tCacheClear();try{localStorage.removeItem('cab-admin')}catch(e){}tLogin(bad?'Пароль не подошёл. Введи ещё раз.':'')}
 function copy(txt,btn){const label=btn.textContent,ok=()=>{btn.textContent='Скопировано';setTimeout(()=>btn.textContent=label,1600)};try{navigator.clipboard.writeText(txt).then(ok,()=>{btn.textContent='Выдели и скопируй'})}catch(e){btn.textContent='Выдели и скопируй'}}
 
-function tTop(){return `<header class="top"><div class="toprow">
+function tTop(){try{document.title=CODE?'Кабинет ученика':'Кабинет учителя'}catch(e){}return `<header class="top"><div class="toprow">
  <div class="brandrow">${logoMark(30)}<span class="brand">lili.math · <b>Учитель</b></span></div>
  <span class="sp"></span><span class="tbusy" id="tbusy"></span><a class="btn ghost tsm" data-personal-board>Моя доска</a><a class="btn ghost tsm" href="quiz-builder.html">Тесты</a><a class="btn ghost tsm" href="karta.html">Квадратики</a><a class="btn ghost tsm" href="instrument-konstruktor-chertezhey.html">Конструктор чертежей</a>
  ${D&&CODE?`<div class="mseg" role="group" aria-label="Как видят"><button id="mKid" aria-pressed="${S.mode==='kid'}">Ученик</button><button id="mPar" aria-pressed="${S.mode==='par'}">Родитель</button></div>`:''}
