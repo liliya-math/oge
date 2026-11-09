@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Конструктор чертежей</title>
+<script src="tools/html2canvas.min.js"></script>
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',Arial,sans-serif;background:#16231A;color:#EEE0C8}
@@ -31,6 +32,9 @@ svg{width:100%;height:auto;display:block}
 .btns{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
 .btns button{font:inherit;font-size:15px;font-weight:600;padding:10px 18px;border:0;border-radius:10px;background:#DD7A3A;color:#16231A;cursor:pointer}
 .btns button.g{background:#E2B04A;color:#16231A}
+.btns button.o{background:#2B3D2B;color:#EEE0C8}
+.szr{margin-top:10px;font-size:13.5px;color:#C9AB82}.szr input{vertical-align:middle;accent-color:#DD7A3A;width:150px;margin-left:8px}
+.fm{cursor:grab}
 #msg{margin-top:10px;font-size:14px;min-height:20px;color:#DD7A3A}
 
 #theory{margin-top:26px;max-width:760px}
@@ -45,6 +49,7 @@ svg{width:100%;height:auto;display:block}
 .th[open]>summary{font-weight:600}
 .th p{text-indent:1.6em;margin:6px 0;line-height:1.55;font-size:14.5px}
 .fm{background:#EEE0C8;color:#16231A;border-radius:10px;padding:10px 14px;margin:9px 0;text-align:center;font-size:18px;white-space:nowrap;overflow-x:auto}
+.tbl{border-collapse:collapse;margin:0 auto;font-size:17px}.tbl td,.tbl th{border:1px solid #9C6B40;padding:4px 12px;text-align:center}.tbl th{font-weight:600;background:#C9AB82}
 .fm sup{font-size:.65em}
 .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 .25em;line-height:1.3}
 .fr .n{padding:0 .35em;border-bottom:1.4px solid currentColor}.fr .d{padding:0 .35em}
@@ -66,12 +71,15 @@ svg{width:100%;height:auto;display:block}
   <h3 class="b">Подписи</h3><div id="opts"></div>
  </div>
  <div class="main">
-  <div class="stage" id="stage"><svg id="svg" viewBox="0 0 640 440" xmlns="http://www.w3.org/2000/svg"></svg></div>
+  <div class="stage" id="stage"><svg id="svg" viewBox="0 0 640 440" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg></div>
   <div id="msg"></div>
   <div class="btns">
    <button id="copy">Скопировать картинку</button>
    <button class="g" id="dl">Скачать PNG</button>
+   <button class="o" id="clr">Убрать формулы с чертежа</button>
   </div>
+  <div class="szr">Размер формул на чертеже<input type="range" id="csz" min="0.4" max="1.4" step="0.1" value="0.8"></div>
+  <div class="hint">Формулу из справочника внизу можно перетащить мышью на чертёж (или дважды щёлкнуть по ней). На чертеже её можно двигать, двойной щелчок убирает её. Формулы попадают и в скопированную картинку.</div>
   <div class="hint">Скопированную картинку можно вставить на онлайн-доску через Ctrl+V (Cmd+V). Если даны не все величины, чертёж схематичный, не в масштабе.</div>
  <div id="theory"></div>
  </div>
@@ -97,6 +105,7 @@ const CONS={
 const state={fig:'tri',kind:{t:'any',v:'B'},vals:{},cons:{},opt:{hl:true,ls:true,la:false,comp:false,obt:false,board:false}};
 const $=id=>document.getElementById(id);
 
+let cards=[],cardScale=0.8,cardId=0;
 /* ---------- ввод ---------- */
 function parseVal(s){
  s=(s||'').trim().replace(/\s+/g,'').replace('°','');
@@ -583,7 +592,8 @@ function render(){
  if(!err)err={tri:drawTri,par:drawPar,rho:drawRho,rect:()=>drawRect(false),sq:()=>drawRect(true),trap:drawTrap}[fig]();
  if(err){els=[];}
  $('msg').textContent=err||'';
- $('svg').innerHTML=(COL.bg?'<rect width="'+W+'" height="'+H+'" fill="'+COL.bg+'"/>':'')+els.join('');
+ const cimg=cards.map(c=>'<image data-card="'+c.id+'" x="'+ff(c.x)+'" y="'+ff(c.y)+'" width="'+ff(c.w*cardScale)+'" height="'+ff(c.h*cardScale)+'" href="'+c.src+'" xlink:href="'+c.src+'" style="cursor:move"/>').join('');
+ $('svg').innerHTML=(COL.bg?'<rect width="'+W+'" height="'+H+'" fill="'+COL.bg+'"/>':'')+els.join('')+cimg;
  $('stage').className='stage'+(opt.board?' board':'');
 }
 
@@ -656,6 +666,13 @@ $('copy').onclick=()=>toCanvas(b=>{
 const F=(n,d)=>'<span class="fr"><span class="n">'+n+'</span><span class="d">'+d+'</span></span>';
 const Q=x=>x+'<sup>2</sup>';
 const RD=x=>'<span class="rad"><svg viewBox="0 0 10 20" preserveAspectRatio="none"><path d="M0.5 12 L2.5 10.5 L5 18.5 L9.5 0.8 H10"/></svg><span class="rd">'+x+'</span></span>';
+function TBL(){
+ const r2=F(RD('2'),'2'),r3=F(RD('3'),'2'),h=F('1','2'),t3=F(RD('3'),'3');
+ const rows=[['0°','0','1','0'],['30°',h,r3,t3],['45°',r2,r2,'1'],['60°',r3,h,RD('3')],['90°','1','0','-'],['120°',r3,'- '+h,'- '+RD('3')],['135°',r2,'- '+r2,'- 1'],['150°',h,'- '+r3,'- '+t3],['180°','0','- 1','0']];
+ let t='<table class="tbl"><tr><th>α</th><th>sin α</th><th>cos α</th><th>tg α</th></tr>';
+ rows.forEach(r=>{t+='<tr><td>'+r.join('</td><td>')+'</td></tr>';});
+ return t+'</table>';
+}
 const TH=[
 {g:'Треугольник',k:'tri',items:[
 ['Сумма углов треугольника',['<b>Теорема.</b> Сумма углов треугольника равна 180°.',{f:'∠A + ∠B + ∠C = 180°'}]],
@@ -670,6 +687,7 @@ const TH=[
 ['Средняя линия треугольника',['Средней линией треугольника называется отрезок, соединяющий середины двух его сторон.','<b>Теорема.</b> Средняя линия треугольника параллельна одной из его сторон и равна половине этой стороны.',{f:'MN ∥ AB,&nbsp;&nbsp;MN = '+F('1','2')+' AB'}]],
 ['Теорема Пифагора',['<b>Теорема.</b> В прямоугольном треугольнике квадрат гипотенузы равен сумме квадратов катетов.',{f:Q('a')+' + '+Q('b')+' = '+Q('c')},'Обратная теорема. Если квадрат одной стороны треугольника равен сумме квадратов двух других сторон, то треугольник прямоугольный.','Катет, лежащий против угла 30°, равен половине гипотенузы.','Медиана прямоугольного треугольника, проведённая к гипотенузе, равна половине гипотенузы.']],
 ['Синус, косинус, тангенс острого угла',['В прямоугольном треугольнике:',{f:'sin α = '+F('противолежащий катет','гипотенуза')},{f:'cos α = '+F('прилежащий катет','гипотенуза')},{f:'tg α = '+F('противолежащий катет','прилежащий катет')+' = '+F('sin α','cos α')},'Основное тригонометрическое тождество:',{f:'sin<sup>2</sup>α + cos<sup>2</sup>α = 1'},'Значения для углов 30°, 45°, 60°:',{f:'sin 30° = '+F('1','2')+',&nbsp; sin 45° = '+F(RD('2'),'2')+',&nbsp; sin 60° = '+F(RD('3'),'2')},{f:'cos 30° = '+F(RD('3'),'2')+',&nbsp; cos 45° = '+F(RD('2'),'2')+',&nbsp; cos 60° = '+F('1','2')}]],
+['Таблица значений sin, cos, tg',[{f:TBL()},'Для тупых углов (формулы приведения):',{f:'sin(180° - α) = sin α,&nbsp;&nbsp; cos(180° - α) = - cos α'},'Поэтому синус тупого угла положителен, а косинус отрицателен. Значение tg α равно отношению sin α к cos α.']],
 ['Теорема синусов',['<b>Теорема.</b> Стороны треугольника пропорциональны синусам противолежащих углов, и отношение стороны к синусу противолежащего угла равно диаметру описанной окружности.',{f:F('a','sin A')+' = '+F('b','sin B')+' = '+F('c','sin C')+' = 2R'},'Здесь R - радиус окружности, описанной около треугольника.']],
 ['Теорема косинусов',['<b>Теорема.</b> Квадрат стороны треугольника равен сумме квадратов двух других сторон без удвоенного произведения этих сторон на косинус угла между ними.',{f:Q('a')+' = '+Q('b')+' + '+Q('c')+' - 2bc cos A'},'Отсюда косинус угла через стороны:',{f:'cos A = '+F(Q('b')+' + '+Q('c')+' - '+Q('a'),'2bc')},'Если '+'a<sup>2</sup> &lt; b<sup>2</sup> + c<sup>2</sup>, угол A острый; если равно - прямой; если больше - тупой (a - наибольшая сторона).']],
 ['Площадь треугольника',['Площадь треугольника равна половине произведения стороны на проведённую к ней высоту:',{f:'S = '+F('1','2')+' a h'+'<sub>a</sub>'},'Площадь треугольника равна половине произведения двух сторон на синус угла между ними:',{f:'S = '+F('1','2')+' ab sin C'},'Через радиус вписанной окружности r и полупериметр p:',{f:'S = p r,&nbsp;&nbsp; p = '+F('a + b + c','2')},'Через радиус описанной окружности R:',{f:'S = '+F('abc','4R')},'Площадь прямоугольного треугольника равна половине произведения катетов.',{f:'S = '+F('1','2')+' ab'},'Для равностороннего треугольника со стороной a:',{f:'h = '+F('a'+RD('3'),'2')+',&nbsp;&nbsp; S = '+F(Q('a')+RD('3'),'4')}]]
@@ -692,13 +710,14 @@ const TH=[
 ['Длина окружности и площадь круга',[{f:'C = 2πR,&nbsp;&nbsp; S = π'+Q('R')},'Длина дуги в n°:',{f:'l = '+F('πR n','180')},'Площадь сектора в n°:',{f:'S = '+F('π'+Q('R')+' n','360')}]]
 ]}];
 const COLS=['#DD7A3A','#E2B04A','#B6CBE3','#9BB08A'];
+const FMS=[];
 function buildTheory(){
- let h='<h2>Теория: основные теоремы</h2>';
+ FMS.length=0;let h='<h2>Теория: основные теоремы</h2>';
  TH.forEach(g=>{
   h+='<details class="tg" data-k="'+g.k+'"><summary>'+g.g+'</summary>';
   g.items.forEach((it,i)=>{
    h+='<details class="th" style="--c:'+COLS[i%4]+'"><summary>'+it[0]+'</summary>';
-   it[1].forEach(x=>{h+=typeof x==='string'?'<p>'+x+'</p>':'<div class="fm">'+x.f+'</div>';});
+   it[1].forEach(x=>{if(typeof x==='string')h+='<p>'+x+'</p>';else{FMS.push({t:it[0],h:x.f});h+='<div class="fm" draggable="true" data-i="'+(FMS.length-1)+'">'+x.f+'</div>';}});
    h+='</details>';
   });
   h+='</details>';
@@ -709,6 +728,44 @@ function theoryOpen(){
  const k=state.fig==='tri'?'tri':'quad';
  document.querySelectorAll('#theory .tg').forEach(d=>{d.open=(d.dataset.k===k);});
 }
+
+/* ---------- формулы на чертеже ---------- */
+function makeCard(title,html,cb){
+ const w=document.createElement('div');
+ w.style.cssText="position:fixed;left:-9999px;top:0;background:#EEE0C8;color:#16231A;border-radius:12px;padding:8px 16px 10px;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',Arial,sans-serif;font-size:19px;white-space:nowrap;text-align:center;border-left:6px solid #DD7A3A";
+ w.innerHTML='<div style="font-size:12px;color:#9C6B40;margin-bottom:4px;font-weight:600">'+title+'</div>'+html;
+ document.body.appendChild(w);
+ html2canvas(w,{backgroundColor:null,scale:3}).then(c=>{document.body.removeChild(w);cb(c.toDataURL('image/png'),c.width/3,c.height/3);});
+}
+function svgPt(e){const p=new DOMPoint(e.clientX,e.clientY).matrixTransform($('svg').getScreenCTM().inverse());return {x:p.x,y:p.y};}
+function addCard(i,x,y,center){
+ const f=FMS[i];if(!f||!window.html2canvas)return;
+ makeCard(f.t,f.h,(src,w,h)=>{
+  const k={id:++cardId,src:src,w:w,h:h,x:x,y:y};
+  if(center){k.x=x-w*cardScale/2;k.y=y-h*cardScale/2;}
+  k.x=Math.max(0,Math.min(W-w*cardScale,k.x));k.y=Math.max(0,Math.min(H-h*cardScale,k.y));
+  cards.push(k);render();
+ });
+}
+$('theory').addEventListener('dragstart',e=>{const el=e.target.closest&&e.target.closest('.fm');if(el)e.dataTransfer.setData('text/plain',el.dataset.i);});
+$('theory').addEventListener('dblclick',e=>{const el=e.target.closest('.fm');if(el)addCard(+el.dataset.i,14+cards.length*14,14+cards.length*14,false);});
+$('stage').addEventListener('dragover',e=>e.preventDefault());
+$('stage').addEventListener('drop',e=>{e.preventDefault();const i=e.dataTransfer.getData('text/plain');if(i==='')return;const p=svgPt(e);addCard(+i,p.x,p.y,true);});
+let drag=null;
+$('svg').addEventListener('pointerdown',e=>{
+ const id=e.target.dataset&&e.target.dataset.card;if(!id)return;
+ const c=cards.find(k=>k.id==id),p=svgPt(e);drag={c:c,dx:p.x-c.x,dy:p.y-c.y,el:e.target};
+ $('svg').setPointerCapture(e.pointerId);e.preventDefault();
+});
+$('svg').addEventListener('pointermove',e=>{
+ if(!drag)return;const p=svgPt(e),c=drag.c;
+ c.x=Math.max(0,Math.min(W-c.w*cardScale,p.x-drag.dx));c.y=Math.max(0,Math.min(H-c.h*cardScale,p.y-drag.dy));
+ drag.el.setAttribute('x',ff(c.x));drag.el.setAttribute('y',ff(c.y));
+});
+$('svg').addEventListener('pointerup',()=>{drag=null;});
+$('svg').addEventListener('dblclick',e=>{const id=e.target.dataset&&e.target.dataset.card;if(!id)return;cards=cards.filter(k=>k.id!=id);render();});
+$('clr').onclick=()=>{cards=[];render();};
+$('csz').oninput=e=>{cardScale=parseFloat(e.target.value);render();};
 buildTheory();
 buildUI();
 </script>
