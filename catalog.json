@@ -4975,6 +4975,26 @@
       "oge_task": null,
       "status": "public",
       "note": "26 заданий, 7 этапов на 60 минут. Делители и кратные, разложение на простые множители, связь НОК и НОД, текстовые задачи и самопроверка. Подсказки, пошаговые разборы, прогресс в браузере."
+    },
+    {
+      "file": "teoriya-6-razlozhenie-na-prostye-mnozhiteli.html",
+      "title": "Теория · 6 класс · Разложение на простые множители (п. 9.5)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-105",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-nod-vzaimno-prostye-chisla.html",
+      "title": "Теория · 6 класс · Наибольший общий делитель. Взаимно простые числа (п. 9.6)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-106",
+      "auto": false
     }
   ]
 }
