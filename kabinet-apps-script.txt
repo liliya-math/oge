@@ -1,6 +1,6 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 7.19
- * (7.19: напоминалка от талисмана: учитель пишет текст (и срок показа) в карточке ученика, ученик видит его в облачке талисмана.
+ * Кабинет ученика 25/25 · lili.math — версия 7.20
+ * (7.20: если очередь занята, напоминалка всё равно сохраняется; 7.19: напоминалка от талисмана: учитель пишет текст (и срок показа) в карточке ученика, ученик видит его в облачке талисмана.
  * 7.18: в списке талисманов добавлены Крыса, Крысёнок, Выдра, Акси, Квокка - их выбор теперь сохраняется на сервере.
  * 7.17: doGet ?schedule=public - свободные окна на 14 дней без имён, для календаря на главной.
  * 7.16: routeEdits отдаёт mats - у каких квадратиков есть теория, ДЗ, тесты (значки на карте).
@@ -545,7 +545,7 @@ function adminRun_(b) {
   if (!pass) return {error: 'no_password'};
   const props = PropertiesService.getScriptProperties();
   const guard = LockService.getScriptLock();
-  guard.waitLock(10000);
+  try { guard.waitLock(10000); } catch (e) { /* очередь занята: проверяем пароль без неё */ }
   let denied = null;
   try {
     const now = Date.now(), until = Number(props.getProperty('ADM_LOCK_UNTIL') || 0);
@@ -559,7 +559,8 @@ function adminRun_(b) {
   } finally { guard.releaseLock(); }
   if (denied) { Utilities.sleep(700); return denied; }
   const lock = LockService.getScriptLock();
-  lock.waitLock(30000);
+  const noteOnly = b.op === 'student' && b.fields && Object.keys(b.fields).every(k => k === 'note' || k === 'noteTill');
+  try { lock.waitLock(30000); } catch (e) { if (!noteOnly) throw e; /* напоминалка пишется в отдельные ячейки, очередь не нужна */ }
   try {
     const ss = SpreadsheetApp.getActive();
     const code = String(b.t || '').trim();

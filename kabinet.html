@@ -2051,7 +2051,7 @@ function adminCard(){const url=BASE+'kabinet.html#'+D.code;const W=(D.work||[]).
  </div>
  </details>
  ${boardRow()}
- ${D.noteEdit?`<section class="formbox"><h3>Напоминалка от талисмана</h3><label class="fld"><span>Что талисман скажет ученику в облачке при входе. Пусто - обычные фразы. Новая строка (Enter) = новый абзац с красной строкой.</span><textarea id="f-note" rows="4" maxlength="300" data-fresh="1">${esc(D.note||'')}</textarea></label><label class="fld"><span>Показывать до (пусто - пока не сотрёшь текст)</span><input id="f-notetill" type="date" value="${esc(D.noteTill||'')}" data-fresh="1"></label></section>`:''}
+ ${D.noteEdit?`<section class="formbox"><h3>Напоминалка от талисмана</h3><label class="fld"><span>Что талисман скажет ученику в облачке при входе. Пусто - обычные фразы. Новая строка (Enter) = новый абзац с красной строкой.</span><textarea id="f-note" rows="4" maxlength="300" data-fresh="1">${esc(D.note||'')}</textarea></label><label class="fld"><span>Показывать до (пусто - пока не сотрёшь текст)</span><input id="f-notetill" type="date" value="${esc(D.noteTill||'')}" data-fresh="1"></label><button class="btn" type="button" id="f-notesave">Сохранить напоминалку</button><div class="ferr" id="f-noteerr"></div></section>`:''}
  <section class="formbox"><h3>Уроки и напоминания</h3>
  ${schedEditor()}
  ${D.lessonReminders===undefined?'<p class="note">Сроки напоминаний и перенос урока доступны после обновления скрипта таблицы.</p>':`
@@ -2274,6 +2274,8 @@ function tBind(){
  document.getElementById('f-save').onclick=e=>{const b=e.currentTarget,v=id=>{const el=document.getElementById(id);return el?el.value:''};b.disabled=true;
   adm('student',{fields:{name:v('f-name'),fname:v('f-fname'),nick:v('f-nick'),dat:v('f-dat'),bdate:v('f-bdate'),parent:v('f-parent'),phone:v('f-phone'),cls:v('f-cls'),prog:document.getElementById('f-prog').value,goal:v('f-goal'),days:serSched(SL,STZ,STC),time:SL.length?hhmm(sortSlots(SL.slice())[0].h,sortSlots(SL.slice())[0].m):'',...(!routeActive()?{topic:topicVal()}:{}),work:v('f-work'),lessonsPlan:v('f-lp'),lessonsDone:v('f-ld'),show:[...document.querySelectorAll('.f-show:checked')].map(e=>e.dataset.k),routes:[...document.querySelectorAll('.f-routes:checked')].map(e=>e.dataset.k),...(D.noteEdit?{note:v('f-note'),noteTill:v('f-notetill')}:{})}})
    .then(j=>{apply(j,false);toast('Настройки сохранены')}).catch(err=>{b.disabled=false;const e2=document.getElementById('f-err');if(e2)e2.textContent=errText(err)})};
+ const ns=document.getElementById('f-notesave');if(ns)ns.onclick=()=>{const g=id=>{const el=document.getElementById(id);return el?el.value:''},er=document.getElementById('f-noteerr');ns.disabled=true;if(er)er.textContent='';
+  adm('student',{fields:{note:g('f-note'),noteTill:g('f-notetill')}}).then(j=>{ns.disabled=false;apply(j,false);toast('Напоминалка сохранена')}).catch(err=>{ns.disabled=false;if(er)er.textContent=errText(err)})};
  const hp=document.getElementById('hpet');if(hp)hp.onclick=()=>react('neu','',pick(sayList()));
  document.querySelectorAll('[data-hedit]').forEach(b=>b.onclick=()=>{const h=D.hw.find(x=>String(x.id)===b.dataset.hedit);if(h)openHwEditor(h)});
  document.querySelectorAll('#hwcard .chk').forEach(b=>b.onclick=()=>{const h=D.hw.find(x=>String(x.id)===b.dataset.hw);if(!h)return;h.done=!h.done;tRender();
