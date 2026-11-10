@@ -111,12 +111,17 @@ const CONS={
  cross:[['bis1','Биссектриса угла 1'],['bis2','Биссектриса угла 2'],['bis3','Биссектриса угла 3'],['bis4','Биссектриса угла 4']],
  psec:[['pts','Подписать точки пересечения P и Q']]
 };
-const state={fig:'tri',kind:{t:'any',v:'B'},pk:{t:'reg',n:0,m:5},vals:{},cons:{},opt:{num:true,hl:true,ls:true,la:false,comp:false,obt:false,board:false}};
+const state={fig:'tri',kind:{t:'any',v:'B'},pk:{t:'reg',n:0,m:5},cl:{p:'ABCDO',b:''},vals:{},cons:{},opt:{num:true,hl:true,ls:true,la:false,comp:false,obt:false,board:false}};
 const $=id=>document.getElementById(id);
 
 /* ---------- многоугольники: поля и построения зависят от вида ---------- */
 const PL='ABCDEFGHIJKL',GR=['α','β','γ','δ','ε','ζ','η','θ','ι','κ','λ','μ'];
 function fieldsOf(fig){
+ if(fig==='cross'){
+  const L=crossL(),f=[['a1','Угол 1 ('+L[0]+L[4]+L[2]+')'],['a2','Угол 2 ('+L[2]+L[4]+L[1]+')'],['a3','Угол 3 ('+L[1]+L[4]+L[3]+')'],['a4','Угол 4 ('+L[3]+L[4]+L[0]+')']];
+  for(let i=1;i<=4;i++)f.push(['h'+i,'Угол между биссектрисой угла '+i+' и его стороной']);
+  return f;
+ }
  if(fig!=='poly')return FIGS[fig].fields;
  const pk=state.pk;
  if(pk.t==='reg')return [['a','Сторона a (AB)'],['R','Радиус описанной окружности R'],['r','Радиус вписанной окружности r (апофема)'],['A','Угол многоугольника (при вершине A)'],['cA','Центральный угол AOB'],['eB','Внешний угол при вершине B']];
@@ -126,6 +131,11 @@ function consOf(fig){
  if(fig!=='poly')return CONS[fig];
  if(state.pk.t==='reg')return [['diagA','Диагонали из вершины A'],['diag','Все диагонали'],['circ','Описанная окружность'],['radR','Радиус R (из центра O в вершину A)'],['inc','Вписанная окружность'],['radr','Апофема r (из центра O к середине AB)'],['cen','Центральный угол AOB'],['ext','Внешний угол при B (продолжить AB)']];
  return [['diagA','Диагонали из вершины A'],['diag','Все диагонали']];
+}
+function crossL(){
+ const d='ABCDO',t=(state.cl.p||'').replace(/\s+/g,'').toUpperCase(),L=[];
+ for(let i=0;i<5;i++)L.push(t[i]||d[i]);
+ return L;
 }
 function vkey(fig){return fig==='poly'?'poly'+state.pk.t:fig;}
 
@@ -730,33 +740,51 @@ function TA(key,val,num){
  return opt.num?NM+String(num):'';
 }
 function midDir(O,N1,N2){const a=U(O,N1),b=U(O,N2);let m=[a[0]+b[0],a[1]+b[1]];const l=Math.hypot(m[0],m[1])||1;return [m[0]/l,m[1]/l];}
+function TH2(key,val){
+ const i=inp[key];
+ if(i&&i.text)return (opt.hl&&i.v==null?MK:'')+(/^[\d,√]+$/.test(i.text)?i.text+'°':i.text);
+ return opt.comp&&val!=null?fmt(val)+'°':'';
+}
 function drawCross(){
- let th=null;
+ const L=crossL();let th=null;
  for(let i=1;i<=4;i++){const v=inp['a'+i].v;if(v!=null){if(v>=180)return 'Угол должен быть меньше 180°';if(th==null)th=(i%2===1)?v:180-v;}}
  if(th==null)th=60;
  const vals=[th,180-th,th,180-th],td=Math.min(155,Math.max(25,th)),ph=18*rad,dr=a=>[Math.cos(a),Math.sin(a)];
  const mA=dr(ph),mC=dr(ph+td*rad),mB=[-mA[0],-mA[1]],mD=[-mC[0],-mC[1]];
  const f=fit([mA,mB,mC,mD],[]);
  const O=f.P([0,0]),A=f.P(mA),B=f.P(mB),C=f.P(mC),D=f.P(mD);
- const ends=[[A,C],[C,B],[B,D],[D,A]],rays=[[],[],[],[]];
+ const ends=[[A,C],[C,B],[B,D],[D,A]],rays=[[],[],[],[]],bl=[];
  line(A,B,COL.ink,2.4);line(C,D,COL.ink,2.4);dot(O,3);
  for(let i=0;i<4;i++){
   if(!cons['bis'+(i+1)])continue;
   const m=midDir(O,ends[i][0],ends[i][1]);
   line(O,add(O,m,0.8*Math.hypot(A[0]-O[0],A[1]-O[1])),COL.med,2);
   arc(O,U(O,ends[i][0]),m,26,COL.med,1.6);arc(O,m,U(O,ends[i][1]),26,COL.med,1.6);rays[i].push(m);
+  const bt=(state.cl.b||'').replace(/\s+/g,'');
+  const bi=[1,2,3,4].filter(k=>cons['bis'+k]).indexOf(i+1);
+  if(bt[bi]){const e=add(O,m,0.8*Math.hypot(A[0]-O[0],A[1]-O[1]));dot(e,2.8);bl.push([e,bt[bi],m]);}
  }
- const sec=[],mids=[];
+ const sec=[],mids=[],hh=[];
  for(let i=0;i<4;i++){
   const m=midDir(O,ends[i][0],ends[i][1]);mids.push(m);
   const a=angleMark(O,ends[i][0],ends[i][1],vals[i],TA('a'+(i+1),vals[i],i+1),rays[i]);
   if(a&&a.txt)sec.push(a);
   hitC(add(O,m,34),'a'+(i+1),15);
+  if(cons['bis'+(i+1)]){
+   const v2=TH2('h'+(i+1),vals[i]/2);
+   if(v2){
+    const mp=add(O,m,60);hh.push([O,ends[i][1],mp,v2]);
+    if(!(inp['h'+(i+1)].text)&&vals[i]>=60)hh.push([O,mp,ends[i][0],v2]);
+    hitC(add(O,midDir(O,ends[i][1],m),40),'h'+(i+1),14);
+   }
+  }
  }
- ['A','B','C','D'].forEach((n,i)=>vertexLab([A,B,C,D][i],O,n));
+ [A,B,C,D].forEach((P0,i)=>vertexLab(P0,O,L[i]));
+ bl.forEach(x=>{const cs=[];[14,22].forEach(r=>[0,0.6,-0.6].forEach(a=>cs.push(add(x[0],rot(x[2],a),r))));place(x[1],cs,17);});
  const oc=[];mids.forEach(m=>{oc.push(add(O,m,15));oc.push(add(O,m,24));});
- place('O',oc,16);
+ place(L[4],oc,16);
  sec.forEach(a=>angleLab(a.V,a.N1,a.N2,a.rays,a.txt));
+ hh.forEach(x=>angleLab(x[0],x[1],x[2],[],x[3],26));
  return null;
 }
 function drawPsec(){
@@ -802,7 +830,7 @@ function render(){
  inp={};let err=null;
  fieldsOf(fig).forEach(f=>{const p=parseVal((state.vals[vkey(fig)]||{})[f[0]]);inp[f[0]]=p;if(p.err)err=p.err;});
  cons=Object.assign({},state.cons[vkey(fig)]||{});
- const AUTO={tri:{R:'radR'},par:{h:'hA'},rho:{d1:'diag',d2:'diag'},rect:{d:'diag'},sq:{d:'diag'},trap:{h:'hA'},poly:{R:'radR',r:'radr',cA:'cen',eB:'ext'}}[fig]||{};
+ const AUTO={tri:{R:'radR'},par:{h:'hA'},rho:{d1:'diag',d2:'diag'},rect:{d:'diag'},sq:{d:'diag'},trap:{h:'hA'},poly:{R:'radR',r:'radr',cA:'cen',eB:'ext'},cross:{h1:'bis1',h2:'bis2',h3:'bis3',h4:'bis4'}}[fig]||{};
  Object.keys(AUTO).forEach(k=>{if(inp[k]&&inp[k].text)cons[AUTO[k]]=true;});
  COL=opt.board?{ink:'#EEE0C8',med:'#DD7A3A',alt:'#9BB08A',bis:'#B6CBE3',mid:'#E2B04A',cir:'#B6CBE3',halo:null,bg:null}
               :{ink:'#16231A',med:'#DD7A3A',alt:'#5F7B3F',bis:'#2F5BB5',mid:'#9C6B40',cir:'#2F5BB5',halo:'#ffffff',bg:'#ffffff'};
@@ -837,6 +865,15 @@ function buildUI(){
    ['A','B','C'].forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=lab+v;if(K.v===v)o.selected=true;s2.appendChild(o);});
    s2.onchange=()=>{K.v=s2.value;render();};$('kind').appendChild(s2);
   }
+ }
+ if(fig==='cross'){
+  const h=document.createElement('h3');h.textContent='Буквы на чертеже';h.className='m';$('kind').appendChild(h);
+  [['p','Точки: концы первой прямой, концы второй, центр (по умолчанию ABCDO)','ABCDO'],['b','Буква конца биссектрисы (например T)','']].forEach(x=>{
+   const lb=document.createElement('label');lb.textContent=x[1];lb.style.cssText='display:block;font-size:12px;margin:6px 0 2px';
+   const i=document.createElement('input');i.value=state.cl[x[0]]||'';i.placeholder=x[2];i.style.cssText='width:100%';i.autocomplete='off';
+   i.oninput=()=>{state.cl[x[0]]=i.value;render();};i.onchange=()=>{if(x[0]==='p')buildUI();};
+   $('kind').appendChild(lb);$('kind').appendChild(i);
+  });
  }
  if(fig==='poly'){
   const pk=state.pk;
@@ -910,6 +947,7 @@ const TH=[
 ['Смежные углы',['Два угла называются смежными, если у них одна сторона общая, а две другие стороны этих углов являются продолжениями одна другой.','<b>Теорема.</b> Сумма смежных углов равна 180°.',{f:'∠1 + ∠2 = 180°'},'Если один из смежных углов прямой, то и другой прямой.']],
 ['Вертикальные углы',['Два угла называются вертикальными, если стороны одного угла являются продолжениями сторон другого.','<b>Теорема.</b> Вертикальные углы равны.',{f:'∠1 = ∠3,&nbsp;&nbsp; ∠2 = ∠4'},'Нумерация углов в этом справочнике такая же, как на чертеже в конструкторе.']],
 ['Биссектриса угла',['Биссектрисой угла называется луч, который исходит из вершины угла и делит его на два равных угла.',{f:'∠1 = ∠2 = '+F('∠AOB','2')}]],
+['Биссектрисы смежных углов',['Биссектрисы двух смежных углов перпендикулярны.',{f:'∠1 + ∠2 = 180°  ⇒  '+F('∠1','2')+' + '+F('∠2','2')+' = 90°'},'Если один из смежных углов в k раз меньше другого, то меньший угол равен 180° : (k + 1).']],
 ['Перпендикулярные прямые',['Две пересекающиеся прямые называются перпендикулярными, если они образуют четыре прямых угла.','Если при пересечении двух прямых один из углов прямой, то остальные три угла тоже прямые.']],
 ['Накрест лежащие, соответственные и односторонние углы',['Прямая c, пересекающая прямые a и b, называется секущей. При этом образуется восемь углов.','Накрест лежащие углы: ∠3 и ∠5, ∠4 и ∠6.','Соответственные углы: ∠1 и ∠5, ∠2 и ∠6, ∠3 и ∠7, ∠4 и ∠8.','Односторонние углы: ∠4 и ∠5, ∠3 и ∠6.','Нумерация та же, что на чертеже в конструкторе.']],
 ['Признаки параллельности прямых',['<b>Теорема.</b> Если при пересечении двух прямых секущей накрест лежащие углы равны, то прямые параллельны.',{f:'∠3 = ∠5  ⇒  a ∥ b'},'<b>Теорема.</b> Если при пересечении двух прямых секущей соответственные углы равны, то прямые параллельны.',{f:'∠1 = ∠5  ⇒  a ∥ b'},'<b>Теорема.</b> Если при пересечении двух прямых секущей сумма односторонних углов равна 180°, то прямые параллельны.',{f:'∠4 + ∠5 = 180°  ⇒  a ∥ b'}]],
@@ -948,6 +986,7 @@ const TH=[
 {g:'Многоугольники',k:'poly',items:[
 ['Выпуклый многоугольник',['Многоугольник называется выпуклым, если он лежит по одну сторону от каждой прямой, проходящей через его сторону.','Диагональ - отрезок, соединяющий две несоседние вершины. Число диагоналей выпуклого n-угольника:',{f:'d = '+F('n(n - 3)','2')}]],
 ['Сумма углов выпуклого многоугольника',['<b>Теорема.</b> Сумма углов выпуклого n-угольника равна (n - 2) · 180°.',{f:'(n - 2) · 180°'},'Из одной вершины n-угольника можно провести n - 3 диагонали, они делят его на n - 2 треугольника.']],
+['Число сторон по сумме углов',['Если сумма углов выпуклого многоугольника равна S, то число его сторон находится из уравнения (n - 2) · 180° = S.',{f:'n = '+F('S','180°')+' + 2'},'Например, S = 1080°: n = 6 + 2 = 8. Если n получилось не натуральным числом, такого многоугольника нет.']],
 ['Сумма внешних углов',['<b>Теорема.</b> Сумма внешних углов выпуклого многоугольника, взятых по одному при каждой вершине, равна 360°.',{f:'360°'},'Внешний угол при вершине дополняет внутренний угол до 180°.']],
 ['Правильный многоугольник',['Многоугольник называется правильным, если у него все стороны равны и все углы равны.','Угол, внешний угол и центральный угол правильного n-угольника:',{f:'∠ = '+F('(n - 2) · 180°','n')},{f:'внешний угол = центральный угол = '+F('360°','n')}]],
 ['Окружности, связанные с правильным многоугольником',['Около любого правильного многоугольника можно описать окружность и в любой правильный многоугольник можно вписать окружность. Центры этих окружностей совпадают.','Апофема r - радиус вписанной окружности, R - радиус описанной.',{f:'a = 2R · sin '+F('180°','n')},{f:'r = R · cos '+F('180°','n')},'Стороны правильных многоугольников через R:',{f:'a'+'<sub>3</sub> = R'+RD('3')+',&nbsp;&nbsp; a'+'<sub>4</sub> = R'+RD('2')+',&nbsp;&nbsp; a'+'<sub>6</sub> = R'}]],
