@@ -4995,6 +4995,24 @@
       "status": "public",
       "note": "6-106",
       "auto": false
+    },
+    {
+      "file": "trenazher-ugly-i-diagonali-7.html",
+      "title": "Углы и диагонали · Часть 1 · 7 класс",
+      "type": "trenazher",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "32 задания по геометрии. Выпуклость, диагонали, смежные и вертикальные углы, биссектриса и уравнения."
+    },
+    {
+      "file": "trenazher-ugly-i-diagonali-7-chast-2.html",
+      "title": "Углы и диагонали · Часть 2 · Подготовка к контрольной · 7 класс",
+      "type": "trenazher",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "38 заданий по геометрии, включая два варианта самопроверки."
     }
   ]
 }
