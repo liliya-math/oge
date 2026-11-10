@@ -98,6 +98,7 @@ const FIGS={
  sq:{name:'Квадрат',fields:[['a','Сторона a'],['d','Диагональ']]},
  cross:{name:'Пересекающиеся прямые',fields:[['a1','Угол 1 (AOC)'],['a2','Угол 2 (COB)'],['a3','Угол 3 (BOD)'],['a4','Угол 4 (DOA)']]},
  psec:{name:'Параллельные и секущая',fields:[['a1','Угол 1'],['a2','Угол 2'],['a3','Угол 3'],['a4','Угол 4'],['a5','Угол 5'],['a6','Угол 6'],['a7','Угол 7'],['a8','Угол 8']]},
+ poly:{name:'Многоугольник',fields:[]},
  trap:{name:'Трапеция',fields:[['a','Нижнее основание a (AB)'],['b','Верхнее основание b (DC)'],['h','Высота h'],['c','Боковая сторона c (AD)'],['d','Боковая сторона d (BC)'],['A','Угол A'],['B','Угол B']]}
 };
 const CONS={
@@ -110,8 +111,23 @@ const CONS={
  cross:[['bis1','Биссектриса угла 1'],['bis2','Биссектриса угла 2'],['bis3','Биссектриса угла 3'],['bis4','Биссектриса угла 4']],
  psec:[['pts','Подписать точки пересечения P и Q']]
 };
-const state={fig:'tri',kind:{t:'any',v:'B'},vals:{},cons:{},opt:{num:true,hl:true,ls:true,la:false,comp:false,obt:false,board:false}};
+const state={fig:'tri',kind:{t:'any',v:'B'},pk:{t:'reg',n:0,m:5},vals:{},cons:{},opt:{num:true,hl:true,ls:true,la:false,comp:false,obt:false,board:false}};
 const $=id=>document.getElementById(id);
+
+/* ---------- многоугольники: поля и построения зависят от вида ---------- */
+const PL='ABCDEFGHIJKL',GR=['α','β','γ','δ','ε','ζ','η','θ','ι','κ','λ','μ'];
+function fieldsOf(fig){
+ if(fig!=='poly')return FIGS[fig].fields;
+ const pk=state.pk;
+ if(pk.t==='reg')return [['a','Сторона a (AB)'],['R','Радиус описанной окружности R'],['r','Радиус вписанной окружности r (апофема)'],['A','Угол многоугольника (при вершине A)'],['cA','Центральный угол AOB'],['eB','Внешний угол при вершине B']];
+ const f=[];for(let i=0;i<pk.m;i++)f.push([PL[i],'Угол '+PL[i]]);return f;
+}
+function consOf(fig){
+ if(fig!=='poly')return CONS[fig];
+ if(state.pk.t==='reg')return [['diagA','Диагонали из вершины A'],['diag','Все диагонали'],['circ','Описанная окружность'],['radR','Радиус R (из центра O в вершину A)'],['inc','Вписанная окружность'],['radr','Апофема r (из центра O к середине AB)'],['cen','Центральный угол AOB'],['ext','Внешний угол при B (продолжить AB)']];
+ return [['diagA','Диагонали из вершины A'],['diag','Все диагонали']];
+}
+function vkey(fig){return fig==='poly'?'poly'+state.pk.t:fig;}
 
 let cards=[],cardScale=0.8,cardId=0,selId=null;
 /* ---------- ввод ---------- */
@@ -593,6 +609,119 @@ function drawTrap(){
 }
 
 
+/* ---------- многоугольники ---------- */
+function polyDiags(n){
+ const d=[];
+ if(cons.diag){for(let i=0;i<n;i++)for(let j=i+2;j<n;j++){if(i===0&&j===n-1)continue;d.push([i,j]);}}
+ else if(cons.diagA){for(let j=2;j<=n-2;j++)d.push([0,j]);}
+ return d;
+}
+function raysAt(P,dg,i){return dg.filter(d=>d[0]===i||d[1]===i).map(d=>U(P[i],P[d[0]===i?d[1]:d[0]]));}
+function drawPolyReg(){
+ let n=state.pk.n||0;
+ const cand=[];
+ if(inp.A.v!=null){if(inp.A.v>=180)return 'Угол многоугольника должен быть меньше 180°';cand.push(360/(180-inp.A.v));}
+ if(inp.cA.v!=null)cand.push(360/inp.cA.v);
+ if(inp.eB.v!=null)cand.push(360/inp.eB.v);
+ const info=k=>'У правильного '+k+'-угольника угол равен '+fmt((k-2)*180/k)+'°, центральный и внешний угол по '+fmt(360/k)+'°';
+ for(const c of cand){
+  const r=Math.round(c);
+  if(!(Math.abs(c-r)<1e-6)||r<3||r>12)return 'Такой угол не бывает у правильного многоугольника с 3 до 12 сторонами';
+  if(n&&n!==r)return info(n);
+  n=r;
+ }
+ if(!n)n=5;
+ const sn=Math.sin(Math.PI/n),cs=Math.cos(Math.PI/n);
+ const Rs=[];
+ if(inp.R.v!=null)Rs.push(inp.R.v);
+ if(inp.r.v!=null)Rs.push(inp.r.v/cs);
+ if(inp.a.v!=null)Rs.push(inp.a.v/(2*sn));
+ const R=Rs.length?Rs[0]:5;
+ if(Rs.some(x=>Math.abs(x-R)>0.015*R))return 'Данные не согласуются: у правильного '+n+'-угольника стороны, R и r связаны. Проверьте значения';
+ const r=R*cs,a=2*R*sn,Aint=(n-2)*180/n,cen=360/n;
+ const th=i=>-Math.PI/2-Math.PI/n+i*2*Math.PI/n;
+ const M=[];for(let i=0;i<n;i++)M.push([R*Math.cos(th(i)),R*Math.sin(th(i))]);
+ const f=fit(M,cons.circ?[[0,0,R]]:[]),P=M.map(f.P),O=f.P([0,0]),sc=f.sc;
+ const dg=polyDiags(n),Mab=mid(P[0],P[1]);
+ const showO=cons.circ||cons.inc||cons.radR||cons.radr||cons.cen;
+ dg.forEach(d=>line(P[d[0]],P[d[1]],COL.med,1.6));
+ if(cons.circ)circle(O,R*sc,COL.cir,1.8);
+ if(cons.inc)circle(O,r*sc,COL.cir,1.8);
+ if(cons.radR||cons.cen)line(O,P[0],COL.med,2);
+ if(cons.cen)line(O,P[1],COL.med,2);
+ if(cons.radr){line(O,Mab,COL.alt,2);rightMark(Mab,U(Mab,O),U(Mab,P[0]),9);}
+ if(showO)dot(O,3);
+ polyLines(P);
+ for(let i=0;i<n;i++)tick(P[i],P[(i+1)%n]);
+ if(cons.radR)hit2(O,P[0],'R');
+ if(cons.radr)hit2(O,Mab,'r');
+ hitPoly(P,Array(n).fill('a'),[[0,'A']].concat(cons.ext?[[1,'eB']]:[]));
+ if(cons.cen)hitC(O,'cA',20);
+ const rA=raysAt(P,dg,0);
+ if(cons.radR||cons.cen)rA.push(U(P[0],O));
+ const angs=cornerAngles(P,[[0,Aint,T('A',Aint,'α',true),rA]]);
+ let ex=null;
+ if(cons.ext){
+  const E=add(P[1],U(P[0],P[1]),48);
+  line(P[1],E,COL.ink,1.6);
+  ex=angleMark(P[1],E,P[2],cen,T('eB',cen,'γ',true),[]);
+ }
+ let ca=null;
+ if(cons.cen)ca=angleMark(O,P[0],P[1],cen,T('cA',cen,'φ',true),[]);
+ PL.slice(0,n).split('').forEach((nm,i)=>vertexLab(P[i],O,nm));
+ if(showO)place('O',[[O[0]+14,O[1]+14],[O[0]-14,O[1]+14],[O[0]+14,O[1]-14],[O[0]-14,O[1]-14],[O[0],O[1]+20],[O[0],O[1]-20]],17);
+ sideLab(P[0],P[1],T('a',a,'a'),O);
+ if(cons.radR)segLab(O,P[0],T('R',R,'R'));
+ if(cons.radr)segLab(O,Mab,T('r',r,'r'));
+ angs.forEach(x=>angleLab(x.V,x.N1,x.N2,x.rays,x.txt));
+ if(ex)angleLab(ex.V,ex.N1,ex.N2,ex.rays,ex.txt);
+ if(ca)angleLab(ca.V,ca.N1,ca.N2,ca.rays,ca.txt);
+ return null;
+}
+function closeSides(phi){
+ const n=phi.length,c=phi.map(Math.cos),s=phi.map(Math.sin);
+ let a=0,b=0,d=0;for(let i=0;i<n;i++){a+=c[i]*c[i];b+=c[i]*s[i];d+=s[i]*s[i];}
+ const det=a*d-b*b;if(Math.abs(det)<1e-9)return null;
+ const proj=l=>{let sx=0,sy=0;for(let i=0;i<n;i++){sx+=l[i]*c[i];sy+=l[i]*s[i];}
+  const u=(d*sx-b*sy)/det,v=(-b*sx+a*sy)/det;return l.map((x,i)=>x-(c[i]*u+s[i]*v));};
+ let l=Array(n).fill(1);
+ for(let it=0;it<400;it++){
+  l=proj(l);const mean=l.reduce((x,y)=>x+y,0)/n;
+  if(Math.min(...l)>=0.12*mean)break;
+  l=l.map(x=>Math.max(x,0.12*mean));
+ }
+ l=proj(l);const mean=l.reduce((x,y)=>x+y,0)/n;
+ return Math.min(...l)>0.04*mean?l:null;
+}
+function drawPolyAny(){
+ const n=state.pk.m,sum=(n-2)*180,ang=[],unk=[];
+ let known=0;
+ for(let i=0;i<n;i++){
+  const v=inp[PL[i]].v;
+  if(v!=null){if(v>=180)return 'Угол выпуклого многоугольника меньше 180°';ang.push(v);known+=v;}
+  else{ang.push(null);unk.push(i);}
+ }
+ if(!unk.length){if(Math.abs(known-sum)>0.01)return 'Сумма углов '+n+'-угольника равна '+sum+'°, а введено '+fmt(known)+'°';}
+ else{
+  const rem=(sum-known)/unk.length;
+  if(!(rem>0&&rem<180))return 'Сумма углов '+n+'-угольника равна '+sum+'°: оставшиеся углы не помещаются, проверьте данные';
+  unk.forEach(i=>ang[i]=rem);
+ }
+ const phi=[0];for(let i=1;i<n;i++)phi.push(phi[i-1]+(180-ang[i])*rad);
+ const l=closeSides(phi);
+ if(!l)return 'Не получилось построить такой многоугольник: проверьте углы';
+ const M=[[0,0]];for(let i=0;i<n-1;i++)M.push([M[i][0]+l[i]*Math.cos(phi[i]),M[i][1]+l[i]*Math.sin(phi[i])]);
+ const f=fit(M,[]),P=M.map(f.P),c0=centroid(P),dg=polyDiags(n);
+ dg.forEach(d=>line(P[d[0]],P[d[1]],COL.med,1.6));
+ polyLines(P);
+ hitPoly(P,Array(n).fill(null),PL.slice(0,n).split('').map((k,i)=>[i,k]));
+ const angs=cornerAngles(P,ang.map((v,i)=>[i,v,T(PL[i],v,GR[i],true),raysAt(P,dg,i)]));
+ PL.slice(0,n).split('').forEach((nm,i)=>vertexLab(P[i],c0,nm));
+ angs.forEach(x=>angleLab(x.V,x.N1,x.N2,x.rays,x.txt));
+ return null;
+}
+function drawPoly(){return state.pk.t==='reg'?drawPolyReg():drawPolyAny();}
+
 /* ---------- углы: пересекающиеся прямые, параллельные и секущая ---------- */
 function TA(key,val,num){
  const i=inp[key];
@@ -671,14 +800,14 @@ function drawPsec(){
 function render(){
  const fig=state.fig;
  inp={};let err=null;
- FIGS[fig].fields.forEach(f=>{const p=parseVal((state.vals[fig]||{})[f[0]]);inp[f[0]]=p;if(p.err)err=p.err;});
- cons=Object.assign({},state.cons[fig]||{});
- const AUTO={tri:{R:'radR'},par:{h:'hA'},rho:{d1:'diag',d2:'diag'},rect:{d:'diag'},sq:{d:'diag'},trap:{h:'hA'}}[fig]||{};
+ fieldsOf(fig).forEach(f=>{const p=parseVal((state.vals[vkey(fig)]||{})[f[0]]);inp[f[0]]=p;if(p.err)err=p.err;});
+ cons=Object.assign({},state.cons[vkey(fig)]||{});
+ const AUTO={tri:{R:'radR'},par:{h:'hA'},rho:{d1:'diag',d2:'diag'},rect:{d:'diag'},sq:{d:'diag'},trap:{h:'hA'},poly:{R:'radR',r:'radr',cA:'cen',eB:'ext'}}[fig]||{};
  Object.keys(AUTO).forEach(k=>{if(inp[k]&&inp[k].text)cons[AUTO[k]]=true;});
  COL=opt.board?{ink:'#EEE0C8',med:'#DD7A3A',alt:'#9BB08A',bis:'#B6CBE3',mid:'#E2B04A',cir:'#B6CBE3',halo:null,bg:null}
               :{ink:'#16231A',med:'#DD7A3A',alt:'#5F7B3F',bis:'#2F5BB5',mid:'#9C6B40',cir:'#2F5BB5',halo:'#ffffff',bg:'#ffffff'};
  els=[];segs=[];circs=[];rects=[];hits=[];hits2=[];hitsA=[];
- if(!err)err={tri:drawTri,par:drawPar,rho:drawRho,rect:()=>drawRect(false),sq:()=>drawRect(true),trap:drawTrap,cross:drawCross,psec:drawPsec}[fig]();
+ if(!err)err={tri:drawTri,par:drawPar,rho:drawRho,rect:()=>drawRect(false),sq:()=>drawRect(true),trap:drawTrap,poly:drawPoly,cross:drawCross,psec:drawPsec}[fig]();
  if(err){els=[];hits=[];hits2=[];hitsA=[];}
  $('msg').textContent=err||'';
  const cimg=cards.map(c=>'<image data-card="'+c.id+'" x="'+ff(c.x)+'" y="'+ff(c.y)+'" width="'+ff(c.w*c.s)+'" height="'+ff(c.h*c.s)+'" href="'+c.src+'" xlink:href="'+c.src+'" style="cursor:move"/>').join('')+cards.filter(c=>c.id===selId).map(c=>'<rect data-ui="1" x="'+ff(c.x-3)+'" y="'+ff(c.y-3)+'" width="'+ff(c.w*c.s+6)+'" height="'+ff(c.h*c.s+6)+'" rx="10" fill="none" stroke="#2F5BB5" stroke-width="1.6" stroke-dasharray="5 4" pointer-events="none"/>').join('');
@@ -694,7 +823,7 @@ function buildUI(){
   const b=document.createElement('button');b.textContent=FIGS[k].name;b.className=k==fig?'on':'';
   b.onclick=()=>{state.fig=k;buildUI();};$('figs').appendChild(b);
  });
- state.vals[fig]=state.vals[fig]||{};state.cons[fig]=state.cons[fig]||{};
+ const vk=vkey(fig);state.vals[vk]=state.vals[vk]||{};state.cons[vk]=state.cons[vk]||{};
  $('kind').innerHTML='';
  if(fig==='tri'){
   const K=state.kind,types=[['any','Произвольный'],['iso','Равнобедренный'],['eq','Равносторонний'],['right','Прямоугольный'],['riso','Прямоугольный равнобедренный']];
@@ -709,24 +838,37 @@ function buildUI(){
    s2.onchange=()=>{K.v=s2.value;render();};$('kind').appendChild(s2);
   }
  }
+ if(fig==='poly'){
+  const pk=state.pk;
+  const h=document.createElement('h3');h.textContent='Вид многоугольника';h.className='m';$('kind').appendChild(h);
+  const s1=document.createElement('select');s1.style.cssText='width:100%';
+  [['reg','Правильный многоугольник'],['any','Выпуклый многоугольник (по углам)']].forEach(t=>{const o=document.createElement('option');o.value=t[0];o.textContent=t[1];if(pk.t===t[0])o.selected=true;s1.appendChild(o);});
+  s1.onchange=()=>{pk.t=s1.value;buildUI();};$('kind').appendChild(s1);
+  const s2=document.createElement('select');s2.style.cssText='width:100%;margin-top:6px';
+  const opts=pk.t==='reg'?[[0,'Число сторон: по углу (если угла нет, 5)']].concat([3,4,5,6,7,8,9,10,11,12].map(k=>[k,'Число сторон: '+k])):[3,4,5,6,7,8].map(k=>[k,'Число сторон: '+k]);
+  const cur=pk.t==='reg'?pk.n:pk.m;
+  opts.forEach(t=>{const o=document.createElement('option');o.value=t[0];o.textContent=t[1];if(cur===t[0])o.selected=true;s2.appendChild(o);});
+  s2.onchange=()=>{if(pk.t==='reg')pk.n=+s2.value;else pk.m=+s2.value;buildUI();};$('kind').appendChild(s2);
+ }
  $('fields').innerHTML='';
- FIGS[fig].fields.forEach(f=>{
+ fieldsOf(fig).forEach(f=>{
   const d=document.createElement('div');d.className='f';
   d.innerHTML='<label>'+f[1]+'</label>';
-  const i=document.createElement('input');i.value=state.vals[fig][f[0]]||'';i.autocomplete='off';i.dataset.k=f[0];
-  i.oninput=()=>{state.vals[fig][f[0]]=i.value;render();};
+  const i=document.createElement('input');i.value=state.vals[vk][f[0]]||'';i.autocomplete='off';i.dataset.k=f[0];
+  i.oninput=()=>{state.vals[vk][f[0]]=i.value;render();};
   d.appendChild(i);$('fields').appendChild(d);
  });
  $('cons').innerHTML='';
- CONS[fig].forEach(c=>{
+ consOf(fig).forEach(c=>{
   const l=document.createElement('label');l.className='c';
-  const i=document.createElement('input');i.type='checkbox';i.checked=!!state.cons[fig][c[0]];
-  i.onchange=()=>{state.cons[fig][c[0]]=i.checked;render();};
+  const i=document.createElement('input');i.type='checkbox';i.checked=!!state.cons[vk][c[0]];
+  i.onchange=()=>{state.cons[vk][c[0]]=i.checked;render();};
   l.appendChild(i);l.appendChild(document.createTextNode(c[1]));$('cons').appendChild(l);
  });
  $('opts').innerHTML='';
  let os=[['hl','Подсвечивать искомое (всё, что обозначено буквой x, y)'],['ls','Неизвестные стороны подписывать буквами'],['la','Неизвестные углы подписывать буквами'],['comp','Показывать вычисленные значения']];
  if(fig==='cross'||fig==='psec')os=[os[0],['num','Подписывать углы номерами (если значение не введено)'],os[3]];
+ if(fig==='poly')os=state.pk.t==='reg'?[os[0],os[1],os[2],os[3]]:[os[0],os[2],os[3]];
  if(fig==='tri')os.push(['obt','Если угол по синусу неоднозначен: взять тупой']);
  os.push(['board','Мелом для доски (прозрачный фон)']);
  os.forEach(o=>{
@@ -803,6 +945,14 @@ const TH=[
 ['Трапеция',['Трапецией называется четырёхугольник, у которого две стороны параллельны, а две другие стороны не параллельны. Параллельные стороны называются основаниями, а непараллельные - боковыми сторонами.','Средней линией трапеции называется отрезок, соединяющий середины боковых сторон.','<b>Теорема.</b> Средняя линия трапеции параллельна основаниям и равна их полусумме.',{f:'m = '+F('a + b','2')},'Площадь трапеции равна произведению полусуммы оснований на высоту.',{f:'S = '+F('a + b','2')+' h = m h'},'Сумма углов, прилежащих к боковой стороне, равна 180°.']],
 ['Равнобедренная трапеция',['Трапеция называется равнобедренной, если её боковые стороны равны.','<b>Свойства.</b> В равнобедренной трапеции углы при основании равны, диагонали равны.','Высота, проведённая из вершины верхнего основания, отсекает на нижнем основании отрезок, равный полуразности оснований.',{f:'x = '+F('a - b','2')}]]
 ]},
+{g:'Многоугольники',k:'poly',items:[
+['Выпуклый многоугольник',['Многоугольник называется выпуклым, если он лежит по одну сторону от каждой прямой, проходящей через его сторону.','Диагональ - отрезок, соединяющий две несоседние вершины. Число диагоналей выпуклого n-угольника:',{f:'d = '+F('n(n - 3)','2')}]],
+['Сумма углов выпуклого многоугольника',['<b>Теорема.</b> Сумма углов выпуклого n-угольника равна (n - 2) · 180°.',{f:'(n - 2) · 180°'},'Из одной вершины n-угольника можно провести n - 3 диагонали, они делят его на n - 2 треугольника.']],
+['Сумма внешних углов',['<b>Теорема.</b> Сумма внешних углов выпуклого многоугольника, взятых по одному при каждой вершине, равна 360°.',{f:'360°'},'Внешний угол при вершине дополняет внутренний угол до 180°.']],
+['Правильный многоугольник',['Многоугольник называется правильным, если у него все стороны равны и все углы равны.','Угол, внешний угол и центральный угол правильного n-угольника:',{f:'∠ = '+F('(n - 2) · 180°','n')},{f:'внешний угол = центральный угол = '+F('360°','n')}]],
+['Окружности, связанные с правильным многоугольником',['Около любого правильного многоугольника можно описать окружность и в любой правильный многоугольник можно вписать окружность. Центры этих окружностей совпадают.','Апофема r - радиус вписанной окружности, R - радиус описанной.',{f:'a = 2R · sin '+F('180°','n')},{f:'r = R · cos '+F('180°','n')},'Стороны правильных многоугольников через R:',{f:'a'+'<sub>3</sub> = R'+RD('3')+',&nbsp;&nbsp; a'+'<sub>4</sub> = R'+RD('2')+',&nbsp;&nbsp; a'+'<sub>6</sub> = R'}]],
+['Площадь правильного многоугольника',['Площадь равна половине произведения периметра на радиус вписанной окружности.',{f:'S = '+F('1','2')+' P r'}]]
+]},
 {g:'Окружность',k:'circ',items:[
 ['Центральный и вписанный углы',['Центральным углом называется угол с вершиной в центре окружности. Он равен дуге, на которую опирается.','Вписанным углом называется угол, вершина которого лежит на окружности, а стороны пересекают окружность.','<b>Теорема.</b> Вписанный угол измеряется половиной дуги, на которую он опирается.','Вписанные углы, опирающиеся на одну и ту же дугу, равны. Вписанный угол, опирающийся на диаметр, - прямой.']],
 ['Касательная к окружности',['Касательная к окружности перпендикулярна к радиусу, проведённому в точку касания.','Отрезки касательных, проведённых из одной точки к окружности, равны.']],
@@ -825,7 +975,7 @@ function buildTheory(){
  $('theory').innerHTML=h;
 }
 function theoryOpen(){
- const k=state.fig==='tri'?'tri':((state.fig==='cross'||state.fig==='psec')?'lines':'quad');
+ const k=state.fig==='tri'?'tri':((state.fig==='cross'||state.fig==='psec')?'lines':(state.fig==='poly'?'poly':'quad'));
  document.querySelectorAll('#theory .tg').forEach(d=>{d.open=(d.dataset.k===k);});
 }
 
