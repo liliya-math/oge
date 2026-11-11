@@ -863,7 +863,7 @@ function drawTrap(){
  }
  let h1=null,m1=null;
  if(cons.hA){const H=drawAlt(P[3],P[0],P[1],COL.alt);hit2(P[3],H,'h');h1=[P[3],H,T('h',h,'h')];feet.push([H,P[3],fl('alt',0,'H')]);}
- if(cons.mid){const m=mid(P[0],P[3]),n=mid(P[1],P[2]);halves(P[0],P[3],1);halves(P[1],P[2],2);line(m,n,COL.ink,2);dot(m);dot(n);XL.push([m,n]);feet.push([m,n,fl('mid',0,'M'),1],[n,m,fl('mid',1,'N'),1]);hit2(m,n,'m');m1=[m,n,T('m',(a+b)/2,'m')];}
+ if(cons.mid){const m=mid(P[0],P[3]),n=mid(P[1],P[2]);const mE=[fl('mid',0,'M').toUpperCase(),fl('mid',1,'N').toUpperCase()],own=EQG((state.eq[vkey('trap')]||{}).s).some(g=>g.some(it=>it.length===2&&mE.some(x=>it.indexOf(x)>=0)));if(!own){halves(P[0],P[3],1);halves(P[1],P[2],2);}line(m,n,COL.ink,2);dot(m);dot(n);XL.push([m,n]);feet.push([m,n,fl('mid',0,'M'),1],[n,m,fl('mid',1,'N'),1]);hit2(m,n,'m');m1=[m,n,T('m',(a+b)/2,'m')];}
  polyLines(P);hitPoly(P,['a','d','b','c'],[[0,'A'],[1,'B'],[2,'C'],[3,'D']]);
  const angs=cornerAngles(P,[[0,Aact,T('A',Aact,'α',true),rA],[1,Bact,T('B',Bact,'β',true),rB],[2,180-Bact,T('C',180-Bact,'γ',true),rC],[3,180-Aact,T('D',180-Aact,'δ',true),rD]]);
  const c0=centroid(P);
