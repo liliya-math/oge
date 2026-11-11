@@ -152,10 +152,9 @@ function hasEqS(){const e=state.eq[vkey(state.fig)]||{};return !!(e.s&&e.s.trim(
 const EQG=t=>(t||'').toUpperCase().split(/[;,\n]+/).map(g=>g.split('=').map(x=>x.replace(/[\s∠]/g,'')).filter(Boolean)).filter(g=>g.length);
 let PT={},EQV=[],PT0={};
 function hasSegs(){const e=state.eq[vkey(state.fig)]||{};return !!(e.l&&e.l.trim());}
-let USEG=[];
-function midX(m,n){USEG.forEach(([p,q])=>{const r=[q[0]-p[0],q[1]-p[1]],t=[n[0]-m[0],n[1]-m[1]],den=r[0]*t[1]-r[1]*t[0];if(Math.abs(den)<1e-9)return;const u=((m[0]-p[0])*t[1]-(m[1]-p[1])*t[0])/den,v=((m[0]-p[0])*r[1]-(m[1]-p[1])*r[0])/den;if(u>0.01&&u<0.99&&v>0.01&&v<0.99)dot([p[0]+u*r[0],p[1]+u*r[1]],2.8);});}
+let USEG=[],XL=[];
 function drawSegs(){
- USEG=[];const e=state.eq[vkey(state.fig)]||{};
+ USEG=[];XL=[];const e=state.eq[vkey(state.fig)]||{};
  (e.l||'').toUpperCase().split(/[;,\n]+/).forEach(g=>{
   const L=g.replace(/[\s-]/g,'').split('');
   for(let i=0;i+1<L.length;i++){const p=PT0[L[i]],q=PT0[L[i+1]];if(p&&q&&L[i]!==L[i+1]){line(p,q,COL.med,1.8);USEG.push([p,q]);}}
@@ -179,7 +178,27 @@ function regEq(P){
   for(let k=0;k<=gi;k++)arc(V,U(V,N1),U(V,N2),25+k*5,COL.ink,1.6);
  }));
 }
+function xLate(){
+ const segs2=USEG.concat(XL),pts=[];
+ for(let a=0;a<segs2.length;a++)for(let b=a+1;b<segs2.length;b++){
+  if(a>=USEG.length&&b>=USEG.length)continue;
+  const [p,q]=segs2[a],[m,n]=segs2[b];
+  const r=[q[0]-p[0],q[1]-p[1]],t=[n[0]-m[0],n[1]-m[1]],den=r[0]*t[1]-r[1]*t[0];if(Math.abs(den)<1e-9)continue;
+  const u=((m[0]-p[0])*t[1]-(m[1]-p[1])*t[0])/den,v=((m[0]-p[0])*r[1]-(m[1]-p[1])*r[0])/den;
+  if(u>0.01&&u<0.99&&v>0.01&&v<0.99){const X=[p[0]+u*r[0],p[1]+u*r[1]];if(!pts.some(z=>Math.hypot(z[0]-X[0],z[1]-X[1])<2))pts.push(X);}
+ }
+ const used=EQV.slice();let k=0;
+ pts.forEach((X,i)=>{
+  dot(X,2.8);
+  let nm=fl('x',i,'');
+  if(!nm){const def='OPQRSTUVWZ';for(;k<def.length;k++)if(used.indexOf(def[k])<0){nm=def[k];k++;break;}}
+  if(!nm)return;nm=nm.toUpperCase();used.push(nm);PT[nm]=X;
+  const c=[];for(const r of [14,22])for(let a=0;a<8;a++){const an=-0.6+a*Math.PI/4;c.push([X[0]+r*Math.cos(an),X[1]+r*Math.sin(an)]);}
+  cplace(COL.cir,nm,c,17);
+ });
+}
 function eqLate(){
+ xLate();
  const e=state.eq[vkey(state.fig)]||{},n=EQV.length;
  EQG(e.s).forEach((g,gi)=>g.forEach(it=>{
   if(it.length!==2||!PT[it[0]]||!PT[it[1]]||it[0]===it[1])return;
@@ -828,7 +847,7 @@ function drawTrap(){
  }
  let h1=null,m1=null;
  if(cons.hA){const H=drawAlt(P[3],P[0],P[1],COL.alt);hit2(P[3],H,'h');h1=[P[3],H,T('h',h,'h')];feet.push([H,P[3],fl('alt',0,'H')]);}
- if(cons.mid){const m=mid(P[0],P[3]),n=mid(P[1],P[2]);halves(P[0],P[3],1);halves(P[1],P[2],2);line(m,n,COL.ink,2);dot(m);dot(n);midX(m,n);feet.push([m,n,fl('mid',0,'M'),1],[n,m,fl('mid',1,'N'),1]);hit2(m,n,'m');m1=[m,n,T('m',(a+b)/2,'m')];}
+ if(cons.mid){const m=mid(P[0],P[3]),n=mid(P[1],P[2]);halves(P[0],P[3],1);halves(P[1],P[2],2);line(m,n,COL.ink,2);dot(m);dot(n);XL.push([m,n]);feet.push([m,n,fl('mid',0,'M'),1],[n,m,fl('mid',1,'N'),1]);hit2(m,n,'m');m1=[m,n,T('m',(a+b)/2,'m')];}
  polyLines(P);hitPoly(P,['a','d','b','c'],[[0,'A'],[1,'B'],[2,'C'],[3,'D']]);
  const angs=cornerAngles(P,[[0,Aact,T('A',Aact,'α',true),rA],[1,Bact,T('B',Bact,'β',true),rB],[2,180-Bact,T('C',180-Bact,'γ',true),rC],[3,180-Aact,T('D',180-Aact,'δ',true),rD]]);
  const c0=centroid(P);
@@ -1131,6 +1150,7 @@ function buildUI(){
   };
   if(fig==='tri'){mf('Основания медиан из A, B, C (по умолчанию MNK)','med','MNK');mf('Основания высот из A, B, C (по умолчанию HPT)','alt','HPT');mf('Основания биссектрис из A, B, C (по умолчанию LEF)','bis','LEF');}
   if(fig==='par'||fig==='rho'||fig==='trap')mf('Основание высоты (по умолчанию H)','alt','H');
+  if(fig!=='cross'&&fig!=='psec')mf('Буквы точек пересечения нарисованных отрезков и средней линии (по умолчанию O, P, Q...)','x','O');
   if(fig==='trap')mf('Концы средней линии: на AD и на BC (по умолчанию MN)','mid','MN');
   const eq=state.eq[vk]=state.eq[vk]||{};
   const h2=document.createElement('h3');h2.textContent='Равные стороны и углы';h2.className='g';$('kind').appendChild(h2);
