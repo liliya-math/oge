@@ -99,7 +99,7 @@ const FIGS={
  cross:{name:'Пересекающиеся прямые',fields:[['a1','Угол 1 (AOC)'],['a2','Угол 2 (COB)'],['a3','Угол 3 (BOD)'],['a4','Угол 4 (DOA)']]},
  psec:{name:'Параллельные и секущая',fields:[['a1','Угол 1'],['a2','Угол 2'],['a3','Угол 3'],['a4','Угол 4'],['a5','Угол 5'],['a6','Угол 6'],['a7','Угол 7'],['a8','Угол 8']]},
  poly:{name:'Многоугольник',fields:[]},
- trap:{name:'Трапеция',fields:[['a','Нижнее основание a (AB)'],['b','Верхнее основание b (DC)'],['h','Высота h'],['c','Боковая сторона c (AD)'],['d','Боковая сторона d (BC)'],['A','Угол A'],['B','Угол B']]}
+ trap:{name:'Трапеция',fields:[['a','Нижнее основание a (AB)'],['b','Верхнее основание b (DC)'],['h','Высота h'],['c','Боковая сторона c (AD)'],['d','Боковая сторона d (BC)'],['A','Угол A'],['B','Угол B'],['m','Средняя линия m']]}
 };
 const CONS={
  tri:[['medA','Медиана из A'],['medB','Медиана из B'],['medC','Медиана из C'],['altA','Высота из A'],['altB','Высота из B'],['altC','Высота из C'],['bisA','Биссектриса из A'],['bisB','Биссектриса из B'],['bisC','Биссектриса из C'],['midA','Средняя линия ∥ a'],['midB','Средняя линия ∥ b'],['midC','Средняя линия ∥ c'],['circ','Описанная окружность'],['radR','Радиус R описанной окружности'],['inc','Вписанная окружность'],['radr','Радиус r вписанной окружности'],['exAB','Внешний угол при A: продолжить BA, влево'],['exAC','Внешний угол при A: продолжить CA, вниз-влево'],['exBA','Внешний угол при B: продолжить AB, вправо'],['exBC','Внешний угол при B: продолжить CB, вниз-вправо'],['exCA','Внешний угол при C: продолжить AC, вверх-вправо'],['exCB','Внешний угол при C: продолжить BC, вверх-влево']],
@@ -300,12 +300,12 @@ function sideLab(p,q,txt,c){
  for(const o of [14,23])cands.push(add(m,n,-o));
  place(txt,cands);
 }
-function segLab(p,q,txt){
+function segLab(p,q,txt,col){
  if(!txt)return;
  if(txt[0]===MK)hiLine(p,q);
  const u=U(p,q),n=[-u[1],u[0]],L=Math.hypot(q[0]-p[0],q[1]-p[1]),cands=[];
  for(const t of [0.5,0.35,0.65])for(const o of [13,21,30])for(const s of [1,-1])cands.push(add(add(p,u,L*t),n,o*s));
- place(txt,cands);
+ if(col)cplace(col,txt,cands);else place(txt,cands);
 }
 function footLab(H,V,name){
  if(!name)return;
@@ -600,7 +600,8 @@ function drawRect(sq){
  return null;
 }
 function drawTrap(){
- let a=inp.a.v,b=inp.b.v,h=inp.h.v,c=inp.c.v,d=inp.d.v,Ad=inp.A.v,Bd=inp.B.v;
+ let a=inp.a.v,b=inp.b.v,h=inp.h.v,c=inp.c.v,d=inp.d.v,Ad=inp.A.v,Bd=inp.B.v;const mm=inp.m.v;
+ if(mm!=null){if(a!=null&&b==null)b=2*mm-a;else if(b!=null&&a==null)a=2*mm-b;if((a!=null&&a<=0)||(b!=null&&b<=0))return 'Средняя линия не согласуется с основанием';}
  if((Ad!=null&&Ad>=180)||(Bd!=null&&Bd>=180))return 'Угол должен быть меньше 180°';
  if(h==null){if(c!=null&&Ad!=null)h=c*Math.sin(Ad*rad);else if(d!=null&&Bd!=null)h=d*Math.sin(Bd*rad);}
  if(h==null)h=0.5*(a!=null?a:(b!=null?b:6))*(a!=null&&b!=null?Math.min(1,Math.max(a,b)/Math.max(a,b)):1);
@@ -621,7 +622,7 @@ function drawTrap(){
  if(cons.diag){line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);rA.push(U(P[0],P[2]));rB.push(U(P[1],P[3]));}
  let h1=null,m1=null;
  if(cons.hA){const H=drawAlt(P[3],P[0],P[1],COL.alt);hit2(P[3],H,'h');h1=[P[3],H,T('h',h,'h')];feet.push([H,P[3],fl('alt',0,'H')]);}
- if(cons.mid){const m=mid(P[0],P[3]),n=mid(P[1],P[2]);line(m,n,COL.mid,2);dot(m);dot(n);feet.push([m,n,fl('mid',0,'M')],[n,m,fl('mid',1,'N')]);m1=[m,n,T(null,(a+b)/2,'m')];}
+ if(cons.mid){const m=mid(P[0],P[3]),n=mid(P[1],P[2]);line(m,n,COL.mid,2);dot(m);dot(n);feet.push([m,n,fl('mid',0,'M')],[n,m,fl('mid',1,'N')]);hit2(m,n,'m');m1=[m,n,T('m',(a+b)/2,'m')];}
  polyLines(P);hitPoly(P,['a','d','b','c'],[[0,'A'],[1,'B']]);
  const angs=cornerAngles(P,[[0,Aact,T('A',Aact,'α',true),rA],[1,Bact,T('B',Bact,'β',true),rB]]);
  const c0=centroid(P);
@@ -630,7 +631,7 @@ function drawTrap(){
  sideLab(P[0],P[3],T('c',cAct,'c'),c0);sideLab(P[1],P[2],T('d',dAct,'d'),c0);
  angs.forEach(x=>angleLab(x.V,x.N1,x.N2,x.rays,x.txt));
  feet.forEach(x=>footLab(x[0],x[1],x[2]));
- if(h1)segLab(h1[0],h1[1],h1[2]);if(m1)segLab(m1[0],m1[1],m1[2]);
+ if(h1)segLab(h1[0],h1[1],h1[2]);if(m1)segLab(m1[0],m1[1],m1[2],COL.mid);
  return null;
 }
 
@@ -846,7 +847,7 @@ function render(){
  inp={};let err=null;
  fieldsOf(fig).forEach(f=>{const p=parseVal((state.vals[vkey(fig)]||{})[f[0]]);inp[f[0]]=p;if(p.err)err=p.err;});
  cons=Object.assign({},state.cons[vkey(fig)]||{});
- const AUTO={tri:{R:'radR'},par:{h:'hA'},rho:{d1:'diag',d2:'diag'},rect:{d:'diag'},sq:{d:'diag'},trap:{h:'hA'},poly:{R:'radR',r:'radr',cA:'cen',eB:'ext'},cross:{h1:'bis1',h2:'bis2',h3:'bis3',h4:'bis4'}}[fig]||{};
+ const AUTO={tri:{R:'radR'},par:{h:'hA'},rho:{d1:'diag',d2:'diag'},rect:{d:'diag'},sq:{d:'diag'},trap:{h:'hA',m:'mid'},poly:{R:'radR',r:'radr',cA:'cen',eB:'ext'},cross:{h1:'bis1',h2:'bis2',h3:'bis3',h4:'bis4'}}[fig]||{};
  Object.keys(AUTO).forEach(k=>{if(inp[k]&&inp[k].text)cons[AUTO[k]]=true;});
  COL=opt.board?{ink:'#EEE0C8',med:'#DD7A3A',alt:'#9BB08A',bis:'#B6CBE3',mid:'#E2B04A',cir:'#B6CBE3',halo:null,bg:null}
               :{ink:'#16231A',med:'#DD7A3A',alt:'#5F7B3F',bis:'#2F5BB5',mid:'#9C6B40',cir:'#2F5BB5',halo:'#ffffff',bg:'#ffffff'};
