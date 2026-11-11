@@ -226,6 +226,7 @@ function customLate(){
    nm=nm.toUpperCase();
    if(nm.length===2&&PT[nm[0]]&&PT[nm[1]])segLab(PT[nm[0]],PT[nm[1]],hl+pv.text);
    else if(nm.length===1&&EQV.indexOf(nm)>=0){
+    if(state.fig==='trap'&&pv.v===90)return;
     const i=EQV.indexOf(nm),n=EQV.length,V=PT[nm],N1=PT[EQV[(i+1)%n]],N2=PT[EQV[(i+n-1)%n]];
     const t=hl+pv.text+(/^[\d,√]+$/.test(pv.text)?'°':'');
     arc(V,U(V,N1),U(V,N2),18,COL.ink,1.6);
@@ -759,6 +760,20 @@ function drawRect(sq){
  sl.forEach(x=>segLab(x[0],x[1],x[2]));
  areaCap(arr);return null;
 }
+function trapBasic(){
+ const e=state.eq[vkey('trap')]||{},nm=['A','B','C','D'].map(mapL),o={};
+ (e.c||'').split(/[;\n]+/).forEach(g=>{
+  const parts=g.split('=').map(x=>x.replace(/[\s∠]/g,'')).filter(Boolean);
+  if(parts.length<2)return;
+  const pv=parseVal(parts[parts.length-1]);if(pv.err||pv.v==null)return;
+  parts.slice(0,-1).forEach(t=>{
+   t=t.toUpperCase();const i=t.split('').map(ch=>nm.indexOf(ch));if(i.some(x=>x<0))return;
+   if(t.length===1)o['ang'+'ABCD'[i[0]]]=pv.v;
+   else if(t.length===2){const k=i.slice().sort().join('');const m={'01':'a','23':'b','03':'c','12':'d'}[k];if(m)o[m]=pv.v;}
+  });
+ });
+ return o;
+}
 function trapCustom(Ad,Bd){
  const e=state.eq[vkey('trap')]||{},nm=['A','B','C','D'].map(mapL),out={};
  const Av=Ad,Bv=Bd,Cv=Bd==null?null:180-Bd,Dv=Ad==null?null:180-Ad;
@@ -777,7 +792,8 @@ function trapCustom(Ad,Bd){
  return out;
 }
 function drawTrap(){
- let a=inp.a.v,b=inp.b.v,h=inp.h.v,c=inp.c.v,d=inp.d.v,Ad=inp.A.v,Bd=inp.B.v;const mm=inp.m.v,Cd=inp.C.v,Dd=inp.D.v;
+ const tb=trapBasic();
+ let a=inp.a.v!=null?inp.a.v:tb.a,b=inp.b.v!=null?inp.b.v:tb.b,h=inp.h.v,c=inp.c.v!=null?inp.c.v:tb.c,d=inp.d.v!=null?inp.d.v:tb.d,Ad=inp.A.v!=null?inp.A.v:tb.angA,Bd=inp.B.v!=null?inp.B.v:tb.angB;const mm=inp.m.v,Cd=inp.C.v!=null?inp.C.v:tb.angC,Dd=inp.D.v!=null?inp.D.v:tb.angD;
  if(Cd!=null&&Cd>=180||Dd!=null&&Dd>=180)return 'Угол должен быть меньше 180°';
  if(Ad!=null&&Dd!=null&&Math.abs(Ad+Dd-180)>0.01)return 'Углы A и D при боковой стороне AD в сумме дают 180°';
  if(Bd!=null&&Cd!=null&&Math.abs(Bd+Cd-180)>0.01)return 'Углы B и C при боковой стороне BC в сумме дают 180°';
@@ -813,14 +829,14 @@ function drawTrap(){
   if(b!=null&&xL==null)xL=t-b;
   else if(xL==null){xL=0.3*h;b=t-xL;}
   else if(b==null)b=t-xL;
-  else if(Math.abs(xL+b-t)>0.01*Math.max(1,Math.abs(t)))return 'Угол ∠CAB не согласуется с остальными данными трапеции';
+  else if(Math.abs(xL+b-t)>0.01*Math.max(1,Math.abs(t)))return 'Данные не согласуются: угол ∠'+mapL('C')+mapL('A')+mapL('B')+' получается из других углов и сторон. Уберите лишнюю сторону или угол';
   if(b<=0)return 'С такой диагональю верхнее основание не получается: проверьте углы';
  }
  if(gB!=null){
   const t=h*cot(gB);
   if(a!=null&&xL==null)xL=a-t;
   else if(xL!=null&&a==null)a=xL+t;
-  else if(a!=null&&xL!=null&&Math.abs(a-xL-t)>0.01*Math.max(1,Math.abs(t)))return 'Угол ∠DBA не согласуется с остальными данными трапеции';
+  else if(a!=null&&xL!=null&&Math.abs(a-xL-t)>0.01*Math.max(1,Math.abs(t)))return 'Данные не согласуются: угол ∠'+mapL('D')+mapL('B')+mapL('A')+' получается из других углов и сторон. Уберите лишнюю сторону или угол';
  }
  if(a==null&&b==null){if(xL!=null&&xR!=null){b=5;a=b+xL+xR;}else{a=8;b=5;}}
  else if(a==null){a=(xL!=null&&xR!=null)?b+xL+xR:b*1.6;}
