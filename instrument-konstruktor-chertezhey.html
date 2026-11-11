@@ -136,7 +136,7 @@ const CONS={
  cross:[['bis1','Биссектриса угла 1'],['bis2','Биссектриса угла 2'],['bis3','Биссектриса угла 3'],['bis4','Биссектриса угла 4']],
  psec:[['pts','Подписать точки пересечения P и Q']]
 };
-const state={fig:'tri',kind:{t:'any',v:'B'},pk:{t:'reg',n:0,m:5},cl:{p:'ABCDO',b:''},lt:{},lo:{},lf:{},eq:{},vals:{},cons:{},opt:{cl:true,num:true,hl:true,ls:true,la:false,comp:false,obt:false,board:false}};
+const state={fig:'tri',kind:{t:'any',v:'B'},pk:{t:'reg',n:0,m:5},cl:{p:'ABCDO',b:''},lt:{},lo:{},lf:{},eq:{},ttl:{},vals:{},cons:{},opt:{cl:true,num:true,hl:true,ls:true,la:false,comp:false,obt:false,board:false}};
 const $=id=>document.getElementById(id);
 
 /* ---------- равные стороны и равные углы ---------- */
@@ -207,6 +207,20 @@ function customLate(){
   for(const dx of [0,-30,-60,-100,-150])cs.push([W-14-w/2+dx,y]);
   cplace(COL.mid,t,cs,17);
  });
+}
+function titleLate(){
+ if(!opt.ttl)return;
+ const f=state.fig,custom=(state.ttl[vkey(f)]||'').trim(),nm=EQV.join('');
+ let t=custom;
+ if(!t){
+  if(f==='cross'){const L=crossL();t='Пересекающиеся прямые '+L[0]+L[1]+' и '+L[2]+L[3];}
+  else if(f==='psec')t='Параллельные прямые и секущая';
+  else if(f==='poly')t=(state.pk.t==='reg'?'Правильный '+EQV.length+'-угольник ':'Многоугольник ')+nm;
+  else t=({tri:'Треугольник',par:'Параллелограмм',rho:'Ромб',rect:'Прямоугольник',sq:'Квадрат',trap:'Трапеция'}[f]||'')+' '+nm;
+ }
+ t=t.trim();if(!t)return;
+ const cs=[];for(const y of [20,42,64])for(const dx of [0,-70,70,-140,140])cs.push([W/2+dx,y]);
+ place(t,cs,19);
 }
 function isect(a,b,c,d){
  const x1=a[0],y1=a[1],x2=b[0],y2=b[1],x3=c[0],y3=c[1],x4=d[0],y4=d[1],den=(x1-x2)*(y3-y4)-(y1-y2)*(x3-x4)||1e-9;
@@ -990,7 +1004,7 @@ function render(){
               :{ink:'#16231A',med:'#DD7A3A',alt:'#5F7B3F',bis:'#2F5BB5',mid:'#9C6B40',cir:'#2F5BB5',halo:'#ffffff',bg:'#ffffff'};
  els=[];segs=[];circs=[];rects=[];hits=[];hits2=[];hitsA=[];PT={};EQV=[];
  if(!err)err={tri:drawTri,par:drawPar,rho:drawRho,rect:()=>drawRect(false),sq:()=>drawRect(true),trap:drawTrap,poly:drawPoly,cross:drawCross,psec:drawPsec}[fig]();
- if(!err){eqLate();customLate();}
+ if(!err){eqLate();customLate();titleLate();}
  if(err){els=[];hits=[];hits2=[];hitsA=[];}
  $('msg').textContent=err||'';
  const cimg=cards.map(c=>'<image data-card="'+c.id+'" x="'+ff(c.x)+'" y="'+ff(c.y)+'" width="'+ff(c.w*c.s)+'" height="'+ff(c.h*c.s)+'" href="'+c.src+'" xlink:href="'+c.src+'" style="cursor:move"/>').join('')+cards.filter(c=>c.id===selId).map(c=>'<rect data-ui="1" x="'+ff(c.x-3)+'" y="'+ff(c.y-3)+'" width="'+ff(c.w*c.s+6)+'" height="'+ff(c.h*c.s+6)+'" rx="10" fill="none" stroke="#2F5BB5" stroke-width="1.6" stroke-dasharray="5 4" pointer-events="none"/>').join('');
@@ -1095,6 +1109,7 @@ function buildUI(){
  if(fig==='poly')os=state.pk.t==='reg'?[os[0],os[1],os[2],os[3]]:[os[0],os[2],os[3]];
  if(fig==='tri')os.push(['obt','Если угол по синусу неоднозначен: взять тупой']);
  os.push(['cl','Цветные буквы точек']);
+ os.push(['ttl','Название на чертеже']);
  os.push(['board','Мелом для доски (прозрачный фон)']);
  os.forEach(o=>{
   const l=document.createElement('label');l.className='c';
@@ -1102,6 +1117,11 @@ function buildUI(){
   i.onchange=()=>{opt[o[0]]=i.checked;render();};
   l.appendChild(i);l.appendChild(document.createTextNode(o[1]));$('opts').appendChild(l);
  });
+ {
+  const ti=document.createElement('input');ti.type='text';ti.value=state.ttl[vk]||'';ti.placeholder='Своё название (иначе подставится само)';ti.style.cssText='width:100%;margin-top:6px;font:inherit;font-size:14px;padding:6px 9px;border:0;border-radius:8px;background:#EEE0C8;color:#16231A';ti.autocomplete='off';
+  ti.oninput=()=>{state.ttl[vk]=ti.value;if(ti.value.trim()&&!opt.ttl){opt.ttl=true;buildUI();return;}render();};
+  $('opts').appendChild(ti);
+ }
  render();
  if(window.theoryOpen)theoryOpen();
 }
@@ -1276,12 +1296,12 @@ let lib=libLoad();
 function libSave(){try{localStorage.setItem(LIBK,JSON.stringify(lib));return true;}catch(e){$('lmsg').textContent='Браузер не дал сохранить. Скачайте копию файлом.';return false;}}
 function snap(){
  const vk=vkey(state.fig),cp=o=>JSON.parse(JSON.stringify(o===undefined?null:o));
- return {fig:state.fig,pk:cp(state.pk),kind:cp(state.kind),opt:cp(state.opt),cl:cp(state.cl),vals:cp(state.vals[vk]||{}),cons:cp(state.cons[vk]||{}),lt:state.lt[vk]||'',lo:state.lo[vk]||'',lf:cp(state.lf[vk]||{}),eq:cp(state.eq[vk]||{})};
+ return {fig:state.fig,pk:cp(state.pk),kind:cp(state.kind),opt:cp(state.opt),cl:cp(state.cl),vals:cp(state.vals[vk]||{}),cons:cp(state.cons[vk]||{}),lt:state.lt[vk]||'',lo:state.lo[vk]||'',lf:cp(state.lf[vk]||{}),eq:cp(state.eq[vk]||{}),ttl:state.ttl[vk]||''};
 }
 function restore(d){
  state.fig=d.fig;state.pk=d.pk||state.pk;state.kind=d.kind||state.kind;Object.assign(state.opt,d.opt||{});state.cl=d.cl||state.cl;
  const vk=vkey(d.fig);
- state.vals[vk]=d.vals||{};state.cons[vk]=d.cons||{};state.lt[vk]=d.lt||'';state.lo[vk]=d.lo||'';state.lf[vk]=d.lf||{};state.eq[vk]=d.eq||{};
+ state.vals[vk]=d.vals||{};state.cons[vk]=d.cons||{};state.lt[vk]=d.lt||'';state.lo[vk]=d.lo||'';state.lf[vk]=d.lf||{};state.eq[vk]=d.eq||{};state.ttl[vk]=d.ttl||'';
  cards=[];selId=null;buildUI();window.scrollTo({top:0,behavior:'smooth'});
 }
 function thumb(cb){
