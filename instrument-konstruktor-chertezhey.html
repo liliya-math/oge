@@ -111,7 +111,7 @@ const CONS={
  cross:[['bis1','Биссектриса угла 1'],['bis2','Биссектриса угла 2'],['bis3','Биссектриса угла 3'],['bis4','Биссектриса угла 4']],
  psec:[['pts','Подписать точки пересечения P и Q']]
 };
-const state={fig:'tri',kind:{t:'any',v:'B'},pk:{t:'reg',n:0,m:5},cl:{p:'ABCDO',b:''},vals:{},cons:{},opt:{num:true,hl:true,ls:true,la:false,comp:false,obt:false,board:false}};
+const state={fig:'tri',kind:{t:'any',v:'B'},pk:{t:'reg',n:0,m:5},cl:{p:'ABCDO',b:''},lt:{},lo:{},vals:{},cons:{},opt:{num:true,hl:true,ls:true,la:false,comp:false,obt:false,board:false}};
 const $=id=>document.getElementById(id);
 
 /* ---------- многоугольники: поля и построения зависят от вида ---------- */
@@ -137,6 +137,15 @@ function crossL(){
  for(let i=0;i<5;i++)L.push(t[i]||d[i]);
  return L;
 }
+function mapL(ch){
+ const f=state.fig;if(f==='cross'||f==='psec')return ch;
+ const vk=vkey(f),t=(state.lt[vk]||'').replace(/[\s,;]+/g,''),i='ABCDEFGHIJKL'.indexOf(ch);
+ if(i>=0&&t[i])return t[i];
+ const o=(state.lo[vk]||'').replace(/\s+/g,'');
+ if(ch==='O'&&o)return o[0];
+ return ch;
+}
+function mapLab(str){return str.replace(/\b[A-LO]{1,4}\b/g,m=>m.split('').map(mapL).join(''));}
 function vkey(fig){return fig==='poly'?'poly'+state.pk.t:fig;}
 
 let cards=[],cardScale=0.8,cardId=0,selId=null;
@@ -270,6 +279,7 @@ function hiArc(V,u1,u2,r){
  els.push('<path d="M'+ff(p1[0])+' '+ff(p1[1])+' A'+r+' '+r+' 0 0 '+(d>0?1:0)+' '+ff(p2[0])+' '+ff(p2[1])+'" fill="none" stroke="'+HLC+'" stroke-width="3.4" stroke-linecap="round"/>');
 }
 function vertexLab(V,c,name){
+ name=mapL(name);
  const d=U(c,V),cands=[];
  for(const k of [17,25,33])for(const a of [0,0.45,-0.45,0.9,-0.9])cands.push(add(V,rot(d,a),k));
  place(name,cands,17);
@@ -476,7 +486,7 @@ function drawTri(){
  }
  const c0=centroid([A,B,C]),cc=circOn?O:c0;
  vertexLab(A,cc,'A');vertexLab(B,cc,'B');vertexLab(C,cc,'C');
- if(circOn)footLab(O,A,'O');
+ if(circOn)footLab(O,A,mapL('O'));
  const sT=[T('a',r.a,'a'),T('b',r.b,'b'),T('c',r.c,'c')],sP=[[B,C],[A,C],[A,B]];
  if(eqS.length){const first=sT.filter((t,i)=>eqS.includes(i)&&t)[0]||'';eqS.forEach((i,j)=>{sT[i]=j==0?first:'';});}
  sP.forEach((p,i)=>sideLab(p[0],p[1],sT[i],c0));
@@ -679,7 +689,7 @@ function drawPolyReg(){
  let ca=null;
  if(cons.cen)ca=angleMark(O,P[0],P[1],cen,T('cA',cen,'φ',true),[]);
  PL.slice(0,n).split('').forEach((nm,i)=>vertexLab(P[i],O,nm));
- if(showO)place('O',[[O[0]+14,O[1]+14],[O[0]-14,O[1]+14],[O[0]+14,O[1]-14],[O[0]-14,O[1]-14],[O[0],O[1]+20],[O[0],O[1]-20]],17);
+ if(showO)place(mapL('O'),[[O[0]+14,O[1]+14],[O[0]-14,O[1]+14],[O[0]+14,O[1]-14],[O[0]-14,O[1]-14],[O[0],O[1]+20],[O[0],O[1]-20]],17);
  sideLab(P[0],P[1],T('a',a,'a'),O);
  if(cons.radR)segLab(O,P[0],T('R',R,'R'));
  if(cons.radr)segLab(O,Mab,T('r',r,'r'));
@@ -866,6 +876,19 @@ function buildUI(){
    s2.onchange=()=>{K.v=s2.value;render();};$('kind').appendChild(s2);
   }
  }
+ if(fig!=='cross'&&fig!=='psec'){
+  const h=document.createElement('h3');h.textContent='Буквы точек';h.className='m';$('kind').appendChild(h);
+  const nn={tri:3,poly:state.pk.t==='reg'?state.pk.n||5:state.pk.m}[fig]||4;
+  const defs='ABCDEFGHIJKL'.slice(0,nn);
+  const mk=(lbl,key,ph,store)=>{
+   const lb=document.createElement('label');lb.textContent=lbl;lb.style.cssText='display:block;font-size:12px;margin:6px 0 2px';
+   const i=document.createElement('input');i.value=store[vk]||'';i.placeholder=ph;i.style.cssText='width:100%';i.autocomplete='off';
+   i.oninput=()=>{store[vk]=i.value;render();};i.onchange=()=>buildUI();
+   $('kind').appendChild(lb);$('kind').appendChild(i);
+  };
+  mk('Вершины по порядку (по умолчанию '+defs+'), например MNKP','lt',defs,state.lt);
+  if(fig==='tri'||(fig==='poly'&&state.pk.t==='reg'))mk('Буква центра (по умолчанию O)','lo','O',state.lo);
+ }
  if(fig==='cross'){
   const h=document.createElement('h3');h.textContent='Буквы на чертеже';h.className='m';$('kind').appendChild(h);
   [['p','Точки: концы первой прямой, концы второй, центр (по умолчанию ABCDO)','ABCDO'],['b','Буква конца биссектрисы (например T)','']].forEach(x=>{
@@ -890,7 +913,7 @@ function buildUI(){
  $('fields').innerHTML='';
  fieldsOf(fig).forEach(f=>{
   const d=document.createElement('div');d.className='f';
-  d.innerHTML='<label>'+f[1]+'</label>';
+  d.innerHTML='<label>'+mapLab(f[1])+'</label>';
   const i=document.createElement('input');i.value=state.vals[vk][f[0]]||'';i.autocomplete='off';i.dataset.k=f[0];
   i.oninput=()=>{state.vals[vk][f[0]]=i.value;render();};
   d.appendChild(i);$('fields').appendChild(d);
@@ -900,7 +923,7 @@ function buildUI(){
   const l=document.createElement('label');l.className='c';
   const i=document.createElement('input');i.type='checkbox';i.checked=!!state.cons[vk][c[0]];
   i.onchange=()=>{state.cons[vk][c[0]]=i.checked;render();};
-  l.appendChild(i);l.appendChild(document.createTextNode(c[1]));$('cons').appendChild(l);
+  l.appendChild(i);l.appendChild(document.createTextNode(mapLab(c[1])));$('cons').appendChild(l);
  });
  $('opts').innerHTML='';
  let os=[['hl','Подсвечивать искомое (всё, что обозначено буквой x, y)'],['ls','Неизвестные стороны подписывать буквами'],['la','Неизвестные углы подписывать буквами'],['comp','Показывать вычисленные значения']];
