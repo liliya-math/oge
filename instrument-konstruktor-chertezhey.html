@@ -332,11 +332,11 @@ function segLab(p,q,txt,col){
  for(const t of [0.5,0.35,0.65])for(const o of [13,21,30])for(const s of [1,-1])cands.push(add(add(p,u,L*t),n,o*s));
  if(col)cplace(col,txt,cands);else place(txt,cands);
 }
-function footLab(H,V,name){
+function footLab(H,V,name,plain){
  if(!name)return;
  const d=U(V,H),cands=[];
  for(const r of [14,22])for(const a of [0,0.7,-0.7,1.4,-1.4,2.1,-2.1])cands.push(add(H,rot(d,a),r));
- cplace(COL.med,name,cands,15);
+ if(plain)place(name,cands,15);else cplace(COL.med,name,cands,15);
 }
 function angleLab(V,N1,N2,rays,str,rr){
  if(str&&str[0]===MK)hiArc(V,U(V,N1),U(V,N2),rr||18);
@@ -647,7 +647,7 @@ function drawTrap(){
  if(cons.diag){line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);rA.push(U(P[0],P[2]));rB.push(U(P[1],P[3]));}
  let h1=null,m1=null;
  if(cons.hA){const H=drawAlt(P[3],P[0],P[1],COL.alt);hit2(P[3],H,'h');h1=[P[3],H,T('h',h,'h')];feet.push([H,P[3],fl('alt',0,'H')]);}
- if(cons.mid){const m=mid(P[0],P[3]),n=mid(P[1],P[2]);line(m,n,COL.mid,2);dot(m);dot(n);feet.push([m,n,fl('mid',0,'M')],[n,m,fl('mid',1,'N')]);hit2(m,n,'m');m1=[m,n,T('m',(a+b)/2,'m')];}
+ if(cons.mid){const m=mid(P[0],P[3]),n=mid(P[1],P[2]);line(m,n,COL.ink,2);dot(m);dot(n);feet.push([m,n,fl('mid',0,'M'),1],[n,m,fl('mid',1,'N'),1]);hit2(m,n,'m');m1=[m,n,T('m',(a+b)/2,'m')];}
  polyLines(P);hitPoly(P,['a','d','b','c'],[[0,'A'],[1,'B']]);
  const angs=cornerAngles(P,[[0,Aact,T('A',Aact,'α',true),rA],[1,Bact,T('B',Bact,'β',true),rB]]);
  const c0=centroid(P);
@@ -655,8 +655,8 @@ function drawTrap(){
  sideLab(P[0],P[1],T('a',a,'a'),c0);sideLab(P[3],P[2],T('b',b,'b'),c0);
  sideLab(P[0],P[3],T('c',cAct,'c'),c0);sideLab(P[1],P[2],T('d',dAct,'d'),c0);
  angs.forEach(x=>angleLab(x.V,x.N1,x.N2,x.rays,x.txt));
- feet.forEach(x=>footLab(x[0],x[1],x[2]));
- if(h1)segLab(h1[0],h1[1],h1[2]);if(m1)segLab(m1[0],m1[1],m1[2],COL.mid);
+ feet.forEach(x=>footLab(x[0],x[1],x[2],x[3]));
+ if(h1)segLab(h1[0],h1[1],h1[2]);if(m1)segLab(m1[0],m1[1],m1[2]);
  areaCap(pm);return null;
 }
 
