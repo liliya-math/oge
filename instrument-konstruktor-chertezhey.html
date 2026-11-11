@@ -91,15 +91,15 @@ svg circle[data-field]:hover{fill:rgba(221,122,58,.3)}
 <script>
 const W=640,H=440,rad=Math.PI/180,deg=180/Math.PI;
 const FIGS={
- tri:{name:'Треугольник',fields:[['a','Сторона a (BC)'],['b','Сторона b (AC)'],['c','Сторона c (AB)'],['A','Угол A'],['B','Угол B'],['C','Угол C'],['R','Радиус описанной окр. R'],['eA','Внешний угол при A'],['eB','Внешний угол при B'],['eC','Внешний угол при C'],['pA','Точка на продолжении при A'],['pB','Точка на продолжении при B'],['pC','Точка на продолжении при C']]},
- par:{name:'Параллелограмм',fields:[['a','Сторона a (AB)'],['b','Сторона b (AD)'],['A','Угол A'],['h','Высота h к стороне a']]},
- rho:{name:'Ромб',fields:[['a','Сторона a'],['A','Угол A'],['d1','Диагональ AC'],['d2','Диагональ BD']]},
- rect:{name:'Прямоугольник',fields:[['a','Сторона a (AB)'],['b','Сторона b (BC)'],['d','Диагональ']]},
- sq:{name:'Квадрат',fields:[['a','Сторона a'],['d','Диагональ']]},
+ tri:{name:'Треугольник',fields:[['a','Сторона a (BC)'],['b','Сторона b (AC)'],['c','Сторона c (AB)'],['A','Угол A'],['B','Угол B'],['C','Угол C'],['R','Радиус описанной окр. R'],['eA','Внешний угол при A'],['eB','Внешний угол при B'],['eC','Внешний угол при C'],['pA','Точка на продолжении при A'],['pB','Точка на продолжении при B'],['pC','Точка на продолжении при C'],['S','Площадь S'],['P','Периметр P']]},
+ par:{name:'Параллелограмм',fields:[['a','Сторона a (AB)'],['b','Сторона b (AD)'],['A','Угол A'],['h','Высота h к стороне a'],['S','Площадь S'],['P','Периметр P']]},
+ rho:{name:'Ромб',fields:[['a','Сторона a'],['A','Угол A'],['d1','Диагональ AC'],['d2','Диагональ BD'],['S','Площадь S'],['P','Периметр P']]},
+ rect:{name:'Прямоугольник',fields:[['a','Сторона a (AB)'],['b','Сторона b (BC)'],['d','Диагональ'],['S','Площадь S'],['P','Периметр P']]},
+ sq:{name:'Квадрат',fields:[['a','Сторона a'],['d','Диагональ'],['S','Площадь S'],['P','Периметр P']]},
  cross:{name:'Пересекающиеся прямые',fields:[['a1','Угол 1 (AOC)'],['a2','Угол 2 (COB)'],['a3','Угол 3 (BOD)'],['a4','Угол 4 (DOA)']]},
  psec:{name:'Параллельные и секущая',fields:[['a1','Угол 1'],['a2','Угол 2'],['a3','Угол 3'],['a4','Угол 4'],['a5','Угол 5'],['a6','Угол 6'],['a7','Угол 7'],['a8','Угол 8']]},
  poly:{name:'Многоугольник',fields:[]},
- trap:{name:'Трапеция',fields:[['a','Нижнее основание a (AB)'],['b','Верхнее основание b (DC)'],['h','Высота h'],['c','Боковая сторона c (AD)'],['d','Боковая сторона d (BC)'],['A','Угол A'],['B','Угол B'],['m','Средняя линия m']]}
+ trap:{name:'Трапеция',fields:[['a','Нижнее основание a (AB)'],['b','Верхнее основание b (DC)'],['h','Высота h'],['c','Боковая сторона c (AD)'],['d','Боковая сторона d (BC)'],['A','Угол A'],['B','Угол B'],['m','Средняя линия m'],['S','Площадь S'],['P','Периметр P']]}
 };
 const CONS={
  tri:[['medA','Медиана из A'],['medB','Медиана из B'],['medC','Медиана из C'],['altA','Высота из A'],['altB','Высота из B'],['altC','Высота из C'],['bisA','Биссектриса из A'],['bisB','Биссектриса из B'],['bisC','Биссектриса из C'],['midA','Средняя линия ∥ a'],['midB','Средняя линия ∥ b'],['midC','Средняя линия ∥ c'],['circ','Описанная окружность'],['radR','Радиус R описанной окружности'],['inc','Вписанная окружность'],['radr','Радиус r вписанной окружности'],['exAB','Внешний угол при A: продолжить BA, влево'],['exAC','Внешний угол при A: продолжить CA, вниз-влево'],['exBA','Внешний угол при B: продолжить AB, вправо'],['exBC','Внешний угол при B: продолжить CB, вниз-вправо'],['exCA','Внешний угол при C: продолжить AC, вверх-вправо'],['exCB','Внешний угол при C: продолжить BC, вверх-влево']],
@@ -124,7 +124,7 @@ function fieldsOf(fig){
  }
  if(fig!=='poly')return FIGS[fig].fields;
  const pk=state.pk;
- if(pk.t==='reg')return [['a','Сторона a (AB)'],['R','Радиус описанной окружности R'],['r','Радиус вписанной окружности r (апофема)'],['A','Угол многоугольника (при вершине A)'],['cA','Центральный угол AOB'],['eB','Внешний угол при вершине B']];
+ if(pk.t==='reg')return [['a','Сторона a (AB)'],['R','Радиус описанной окружности R'],['r','Радиус вписанной окружности r (апофема)'],['A','Угол многоугольника (при вершине A)'],['cA','Центральный угол AOB'],['eB','Внешний угол при вершине B'],['S','Площадь S'],['P','Периметр P']];
  const f=[];for(let i=0;i<pk.m;i++)f.push([PL[i],'Угол '+PL[i]]);return f;
 }
 function consOf(fig){
@@ -503,7 +503,7 @@ function drawTri(){
  if(radLab)segLab(radLab[0],radLab[1],radLab[2]);
  if(rinLab)segLab(rinLab[0],rinLab[1],rinLab[2]);
  hit(B,C,'a');hit(A,C,'b');hit(A,B,'c');hitC(A,'A');hitC(B,'B');hitC(C,'C');
- return null;
+ areaCap([Am,Bm,Cm]);return null;
 }
 
 /* ---------- четырёхугольники ---------- */
@@ -543,7 +543,7 @@ function drawPar(){
  feet.forEach(x=>footLab(x[0],x[1],x[2]));
  [h1,h2].forEach(x=>{if(x)segLab(x[0],x[1],x[2]);});
  segsL.forEach(x=>segLab(x[0],x[1],x[2]));
- return null;
+ areaCap([pm.A,pm.B,pm.C,pm.D]);return null;
 }
 function drawRho(){
  let a=inp.a.v,A=inp.A.v,d1=inp.d1.v,d2=inp.d2.v,pm,ang;
@@ -574,7 +574,7 @@ function drawRho(){
  feet.forEach(x=>footLab(x[0],x[1],x[2]));
  if(h1)segLab(h1[0],h1[1],h1[2]);
  sl.forEach(x=>segLab(x[0],x[1],x[2]));
- return null;
+ areaCap(arr);return null;
 }
 function drawRect(sq){
  let a=inp.a.v,b=sq?null:inp.b.v,d=inp.d.v;
@@ -597,7 +597,7 @@ function drawRect(sq){
  sideLab(P[0],P[1],T('a',a,'a'),c0);
  if(!sq)sideLab(P[1],P[2],T('b',b,'b'),c0);else for(let i=0;i<4;i++)tick(P[i],P[(i+1)%4]);
  sl.forEach(x=>segLab(x[0],x[1],x[2]));
- return null;
+ areaCap(arr);return null;
 }
 function drawTrap(){
  let a=inp.a.v,b=inp.b.v,h=inp.h.v,c=inp.c.v,d=inp.d.v,Ad=inp.A.v,Bd=inp.B.v;const mm=inp.m.v;
@@ -632,7 +632,7 @@ function drawTrap(){
  angs.forEach(x=>angleLab(x.V,x.N1,x.N2,x.rays,x.txt));
  feet.forEach(x=>footLab(x[0],x[1],x[2]));
  if(h1)segLab(h1[0],h1[1],h1[2]);if(m1)segLab(m1[0],m1[1],m1[2],COL.mid);
- return null;
+ areaCap(pm);return null;
 }
 
 
@@ -703,7 +703,7 @@ function drawPolyReg(){
  angs.forEach(x=>angleLab(x.V,x.N1,x.N2,x.rays,x.txt));
  if(ex)angleLab(ex.V,ex.N1,ex.N2,ex.rays,ex.txt);
  if(ca)angleLab(ca.V,ca.N1,ca.N2,ca.rays,ca.txt);
- return null;
+ areaCap(M);return null;
 }
 function closeSides(phi){
  const n=phi.length,c=phi.map(Math.cos),s=phi.map(Math.sin);
@@ -750,6 +750,18 @@ function drawPolyAny(){
 function drawPoly(){return state.pk.t==='reg'?drawPolyReg():drawPolyAny();}
 
 /* ---------- углы: пересекающиеся прямые, параллельные и секущая ---------- */
+
+function areaCap(pts){
+ const n=pts.length;let S=0,Pm=0;
+ for(let i=0;i<n;i++){const a=pts[i],b=pts[(i+1)%n];S+=a[0]*b[1]-b[0]*a[1];Pm+=Math.hypot(b[0]-a[0],b[1]-a[1]);}
+ S=Math.abs(S)/2;
+ const cap=(nm,t)=>{if(!t)return '';const hl=t[0]===MK;return (hl?MK:'')+nm+' = '+(hl?t.slice(1):t);};
+ [cap('S',T('S',S,null)),cap('P',T('P',Pm,null))].forEach((t,k)=>{
+  if(!t)return;
+  const y=22+k*24,cs=[];for(const x of [75,105,135,170,210,260])cs.push([x,y]);
+  cplace(COL.mid,t,cs,17);
+ });
+}
 function TA(key,val,num){
  const i=inp[key];
  if(i&&i.text)return (opt.hl&&i.v==null?MK:'')+(/^[\d,√]+$/.test(i.text)?i.text+'°':i.text);
