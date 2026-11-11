@@ -150,12 +150,21 @@ function tickN(p,q,k){
 }
 function hasEqS(){const e=state.eq[vkey(state.fig)]||{};return !!(e.s&&e.s.trim());}
 const EQG=t=>(t||'').toUpperCase().split(/[;,\n]+/).map(g=>g.split('=').map(x=>x.replace(/[\s∠]/g,'')).filter(Boolean)).filter(g=>g.length);
-let PT={},EQV=[];
+let PT={},EQV=[],PT0={};
+function hasSegs(){const e=state.eq[vkey(state.fig)]||{};return !!(e.l&&e.l.trim());}
+function drawSegs(){
+ const e=state.eq[vkey(state.fig)]||{};
+ (e.l||'').toUpperCase().split(/[;,\n]+/).forEach(g=>{
+  const L=g.replace(/[\s-]/g,'').split('');
+  for(let i=0;i+1<L.length;i++){const p=PT0[L[i]],q=PT0[L[i+1]];if(p&&q&&L[i]!==L[i+1])line(p,q,COL.med,1.8);}
+ });
+}
 function halves(P,Q,k){const M=mid(P,Q);tickN(P,M,k);tickN(M,Q,k);}
 function regEq(P){
  const e=state.eq[vkey(state.fig)]||{},n=P.length;
  const names=P.map((_,i)=>mapL('ABCDEFGHIJKL'[i]));
  EQV=names;names.forEach((nm,i)=>{PT[nm]=P[i];});
+ drawSegs();
  EQG(e.s).forEach((g,gi)=>g.forEach(it=>{
   if(it.length!==2)return;
   const i=names.indexOf(it[0]),j=names.indexOf(it[1]);
@@ -1003,7 +1012,12 @@ function render(){
  COL=opt.board?{ink:'#EEE0C8',med:'#DD7A3A',alt:'#9BB08A',bis:'#B6CBE3',mid:'#E2B04A',cir:'#B6CBE3',halo:null,bg:null}
               :{ink:'#16231A',med:'#DD7A3A',alt:'#5F7B3F',bis:'#2F5BB5',mid:'#9C6B40',cir:'#2F5BB5',halo:'#ffffff',bg:'#ffffff'};
  els=[];segs=[];circs=[];rects=[];hits=[];hits2=[];hitsA=[];PT={};EQV=[];
- if(!err)err={tri:drawTri,par:drawPar,rho:drawRho,rect:()=>drawRect(false),sq:()=>drawRect(true),trap:drawTrap,poly:drawPoly,cross:drawCross,psec:drawPsec}[fig]();
+ if(!err){
+  const fn={tri:drawTri,par:drawPar,rho:drawRho,rect:()=>drawRect(false),sq:()=>drawRect(true),trap:drawTrap,poly:drawPoly,cross:drawCross,psec:drawPsec}[fig];
+  PT0={};
+  if(hasSegs()&&fig!=='cross'&&fig!=='psec'){fn();PT0=PT;els=[];segs=[];circs=[];rects=[];hits=[];hits2=[];hitsA=[];PT={};EQV=[];}
+  err=fn();
+ }
  if(!err){eqLate();customLate();titleLate();}
  if(err){els=[];hits=[];hits2=[];hitsA=[];}
  $('msg').textContent=err||'';
@@ -1059,7 +1073,7 @@ function buildUI(){
   if(fig==='trap')mf('Концы средней линии: на AD и на BC (по умолчанию MN)','mid','MN');
   const eq=state.eq[vk]=state.eq[vk]||{};
   const h2=document.createElement('h3');h2.textContent='Равные стороны и углы';h2.className='g';$('kind').appendChild(h2);
-  [['s','Равные стороны и отрезки: пары букв через =, группы через ; (например AB=CD; AO=OC). O - точка пересечения диагоналей','AB=CD; BC=AD'],['a','Равные углы: например A=C; B=D','A=C; B=D'],['c','Длины и углы по буквам: AO=5; OC=x; AO=OC=5; ∠AOB=40; QR-SM=8 (буквы - вершины, O, основания высот и медиан). Выражения с + - · : выводятся в правом верхнем углу','AO=5; QR-SM=8']].forEach(x=>{
+  [['s','Равные стороны и отрезки: пары букв через =, группы через ; (например AB=CD; AO=OC). O - точка пересечения диагоналей','AB=CD; BC=AD'],['a','Равные углы: например A=C; B=D','A=C; B=D'],['l','Отрезки между точками (рисует только указанные): AC; BD; AO; HM. Буквы - вершины, O, основания высот и медиан','AC; BD'],['c','Длины и углы по буквам: AO=5; OC=x; AO=OC=5; ∠AOB=40; QR-SM=8 (буквы - вершины, O, основания высот и медиан). Выражения с + - · : выводятся в правом верхнем углу','AO=5; QR-SM=8']].forEach(x=>{
    const lb=document.createElement('label');lb.textContent=x[1];lb.style.cssText='display:block;font-size:12px;margin:6px 0 2px';
    const i=document.createElement('input');i.value=eq[x[0]]||'';i.placeholder=x[2];i.style.cssText='width:100%';i.autocomplete='off';
    i.oninput=()=>{eq[x[0]]=i.value;render();};
