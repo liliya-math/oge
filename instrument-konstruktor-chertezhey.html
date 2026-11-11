@@ -178,7 +178,14 @@ function eqLate(){
 }
 function customLate(){
  const e=state.eq[vkey(state.fig)]||{};
+ const caps=[];
  (e.c||'').split(/[;\n]+/).forEach(g=>{
+  if(/[+\-*\/:·×]/.test(g.replace(/^\s*-/,''))){
+   const txt=g.trim().replace(/\s*([+\-*\/:·×=])\s*/g,' $1 ').replace(/\*/g,'·').replace(/\s+/g,' ').trim();
+   const last=txt.split('=').pop().trim(),pl=parseVal(last);
+   if(txt)caps.push(((opt.hl&&pl&&!pl.err&&pl.v==null&&pl.text)?MK:'')+txt.toUpperCase().replace(/\bX\b/g,'x').replace(/\bY\b/g,'y'));
+   return;
+  }
   const parts=g.split('=').map(x=>x.replace(/[\s∠]/g,'')).filter(Boolean);
   if(parts.length<2)return;
   const pv=parseVal(parts[parts.length-1]);
@@ -193,6 +200,11 @@ function customLate(){
     angleLab(V,PT[nm[0]],PT[nm[2]],[],t,18);
    }
   });
+ });
+ caps.forEach((t,k)=>{
+  const w=textParts(t[0]===MK?t.slice(1):t,17).w,y=22+k*24,cs=[];
+  for(const dx of [0,-30,-60,-100,-150])cs.push([W-14-w/2+dx,y]);
+  cplace(COL.mid,t,cs,17);
  });
 }
 function isect(a,b,c,d){
@@ -1028,7 +1040,7 @@ function buildUI(){
   if(fig==='trap')mf('Концы средней линии: на AD и на BC (по умолчанию MN)','mid','MN');
   const eq=state.eq[vk]=state.eq[vk]||{};
   const h2=document.createElement('h3');h2.textContent='Равные стороны и углы';h2.className='g';$('kind').appendChild(h2);
-  [['s','Равные стороны и отрезки: пары букв через =, группы через ; (например AB=CD; AO=OC). O - точка пересечения диагоналей','AB=CD; BC=AD'],['a','Равные углы: например A=C; B=D','A=C; B=D'],['c','Длины и углы по буквам: AO=5; OC=x; AO=OC=5; ∠AOB=40 (буквы - вершины, O, основания высот и медиан)','AO=5; ∠AOB=40']].forEach(x=>{
+  [['s','Равные стороны и отрезки: пары букв через =, группы через ; (например AB=CD; AO=OC). O - точка пересечения диагоналей','AB=CD; BC=AD'],['a','Равные углы: например A=C; B=D','A=C; B=D'],['c','Длины и углы по буквам: AO=5; OC=x; AO=OC=5; ∠AOB=40; QR-SM=8 (буквы - вершины, O, основания высот и медиан). Выражения с + - · : выводятся в правом верхнем углу','AO=5; QR-SM=8']].forEach(x=>{
    const lb=document.createElement('label');lb.textContent=x[1];lb.style.cssText='display:block;font-size:12px;margin:6px 0 2px';
    const i=document.createElement('input');i.value=eq[x[0]]||'';i.placeholder=x[2];i.style.cssText='width:100%';i.autocomplete='off';
    i.oninput=()=>{eq[x[0]]=i.value;render();};
