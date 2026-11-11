@@ -336,7 +336,7 @@ function footLab(H,V,name,plain){
  if(!name)return;
  const d=U(V,H),cands=[];
  for(const r of [14,22])for(const a of [0,0.7,-0.7,1.4,-1.4,2.1,-2.1])cands.push(add(H,rot(d,a),r));
- if(plain)place(name,cands,15);else cplace(COL.med,name,cands,15);
+ if(plain)cplace(COL.cir,name,cands,17);else cplace(COL.med,name,cands,15);
 }
 function angleLab(V,N1,N2,rays,str,rr){
  if(str&&str[0]===MK)hiArc(V,U(V,N1),U(V,N2),rr||18);
