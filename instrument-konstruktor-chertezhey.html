@@ -111,7 +111,7 @@ const CONS={
  cross:[['bis1','Биссектриса угла 1'],['bis2','Биссектриса угла 2'],['bis3','Биссектриса угла 3'],['bis4','Биссектриса угла 4']],
  psec:[['pts','Подписать точки пересечения P и Q']]
 };
-const state={fig:'tri',kind:{t:'any',v:'B'},pk:{t:'reg',n:0,m:5},cl:{p:'ABCDO',b:''},lt:{},lo:{},lf:{},vals:{},cons:{},opt:{num:true,hl:true,ls:true,la:false,comp:false,obt:false,board:false}};
+const state={fig:'tri',kind:{t:'any',v:'B'},pk:{t:'reg',n:0,m:5},cl:{p:'ABCDO',b:''},lt:{},lo:{},lf:{},vals:{},cons:{},opt:{cl:true,num:true,hl:true,ls:true,la:false,comp:false,obt:false,board:false}};
 const $=id=>document.getElementById(id);
 
 /* ---------- многоугольники: поля и построения зависят от вида ---------- */
@@ -231,8 +231,10 @@ function textParts(str,fs){
  }
  return {parts:parts,w:w};
 }
+let LC=null;
+function cplace(col,str,cands,fs){LC=opt.cl?col:null;place(str,cands,fs);LC=null;}
 function labelSvg(str,cx,cy,fs,hl){
- const tp=textParts(str,fs);const IC=hl?HLC:COL.ink,WT=hl?' font-weight="700"':'';let x=cx-tp.w/2,o='';
+ const tp=textParts(str,fs);const IC=hl?HLC:(LC||COL.ink),WT=(hl||LC)?' font-weight="700"':'';let x=cx-tp.w/2,o='';
  const halo=COL.halo?' stroke="'+COL.halo+'" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round"':'';
  for(const p of tp.parts){
   if(p.t!==undefined){
@@ -286,7 +288,7 @@ function vertexLab(V,c,name){
  name=mapL(name);
  const d=U(c,V),cands=[];
  for(const k of [17,25,33])for(const a of [0,0.45,-0.45,0.9,-0.9])cands.push(add(V,rot(d,a),k));
- place(name,cands,17);
+ cplace(COL.cir,name,cands,17);
 }
 function sideLab(p,q,txt,c){
  if(!txt)return;
@@ -309,7 +311,7 @@ function footLab(H,V,name){
  if(!name)return;
  const d=U(V,H),cands=[];
  for(const r of [14,22])for(const a of [0,0.7,-0.7,1.4,-1.4,2.1,-2.1])cands.push(add(H,rot(d,a),r));
- place(name,cands,15);
+ cplace(COL.med,name,cands,15);
 }
 function angleLab(V,N1,N2,rays,str,rr){
  if(str&&str[0]===MK)hiArc(V,U(V,N1),U(V,N2),rr||18);
@@ -693,7 +695,7 @@ function drawPolyReg(){
  let ca=null;
  if(cons.cen)ca=angleMark(O,P[0],P[1],cen,T('cA',cen,'φ',true),[]);
  PL.slice(0,n).split('').forEach((nm,i)=>vertexLab(P[i],O,nm));
- if(showO)place(mapL('O'),[[O[0]+14,O[1]+14],[O[0]-14,O[1]+14],[O[0]+14,O[1]-14],[O[0]-14,O[1]-14],[O[0],O[1]+20],[O[0],O[1]-20]],17);
+ if(showO)cplace(COL.mid,mapL('O'),[[O[0]+14,O[1]+14],[O[0]-14,O[1]+14],[O[0]+14,O[1]-14],[O[0]-14,O[1]-14],[O[0],O[1]+20],[O[0],O[1]-20]],17);
  sideLab(P[0],P[1],T('a',a,'a'),O);
  if(cons.radR)segLab(O,P[0],T('R',R,'R'));
  if(cons.radr)segLab(O,Mab,T('r',r,'r'));
@@ -794,9 +796,9 @@ function drawCross(){
   }
  }
  [A,B,C,D].forEach((P0,i)=>vertexLab(P0,O,L[i]));
- bl.forEach(x=>{const cs=[];[14,22].forEach(r=>[0,0.6,-0.6].forEach(a=>cs.push(add(x[0],rot(x[2],a),r))));place(x[1],cs,17);});
+ bl.forEach(x=>{const cs=[];[14,22].forEach(r=>[0,0.6,-0.6].forEach(a=>cs.push(add(x[0],rot(x[2],a),r))));cplace(COL.med,x[1],cs,17);});
  const oc=[];mids.forEach(m=>{oc.push(add(O,m,15));oc.push(add(O,m,24));});
- place(L[4],oc,16);
+ cplace(COL.mid,L[4],oc,16);
  sec.forEach(a=>angleLab(a.V,a.N1,a.N2,a.rays,a.txt));
  hh.forEach(x=>angleLab(x[0],x[1],x[2],[],x[3],26));
  return null;
@@ -944,6 +946,7 @@ function buildUI(){
  if(fig==='cross'||fig==='psec')os=[os[0],['num','Подписывать углы номерами (если значение не введено)'],os[3]];
  if(fig==='poly')os=state.pk.t==='reg'?[os[0],os[1],os[2],os[3]]:[os[0],os[2],os[3]];
  if(fig==='tri')os.push(['obt','Если угол по синусу неоднозначен: взять тупой']);
+ os.push(['cl','Цветные буквы точек']);
  os.push(['board','Мелом для доски (прозрачный фон)']);
  os.forEach(o=>{
   const l=document.createElement('label');l.className='c';
