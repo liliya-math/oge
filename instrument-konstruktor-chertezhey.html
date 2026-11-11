@@ -152,11 +152,13 @@ function hasEqS(){const e=state.eq[vkey(state.fig)]||{};return !!(e.s&&e.s.trim(
 const EQG=t=>(t||'').toUpperCase().split(/[;,\n]+/).map(g=>g.split('=').map(x=>x.replace(/[\s∠]/g,'')).filter(Boolean)).filter(g=>g.length);
 let PT={},EQV=[],PT0={};
 function hasSegs(){const e=state.eq[vkey(state.fig)]||{};return !!(e.l&&e.l.trim());}
+let USEG=[];
+function midX(m,n){USEG.forEach(([p,q])=>{const r=[q[0]-p[0],q[1]-p[1]],t=[n[0]-m[0],n[1]-m[1]],den=r[0]*t[1]-r[1]*t[0];if(Math.abs(den)<1e-9)return;const u=((m[0]-p[0])*t[1]-(m[1]-p[1])*t[0])/den,v=((m[0]-p[0])*r[1]-(m[1]-p[1])*r[0])/den;if(u>0.01&&u<0.99&&v>0.01&&v<0.99)dot([p[0]+u*r[0],p[1]+u*r[1]],2.8);});}
 function drawSegs(){
- const e=state.eq[vkey(state.fig)]||{};
+ USEG=[];const e=state.eq[vkey(state.fig)]||{};
  (e.l||'').toUpperCase().split(/[;,\n]+/).forEach(g=>{
   const L=g.replace(/[\s-]/g,'').split('');
-  for(let i=0;i+1<L.length;i++){const p=PT0[L[i]],q=PT0[L[i+1]];if(p&&q&&L[i]!==L[i+1])line(p,q,COL.med,1.8);}
+  for(let i=0;i+1<L.length;i++){const p=PT0[L[i]],q=PT0[L[i+1]];if(p&&q&&L[i]!==L[i+1]){line(p,q,COL.med,1.8);USEG.push([p,q]);}}
  });
 }
 function halves(P,Q,k){const M=mid(P,Q);tickN(P,M,k);tickN(M,Q,k);}
@@ -748,7 +750,7 @@ function trapCustom(Ad,Bd){
   const th=pv.v,t=parts[0].toUpperCase();if(t.length!==3)return;
   const i=t.split('').map(ch=>nm.indexOf(ch));if(i.some(x=>x<0))return;
   const v=i[1],pr=[i[0],i[2]].sort().join('');
-  if(v===2){if(pr==='01'&&Cv!=null)out.gA=Cv-th;else if(pr==='03')out.gA=th;}
+  if(v===2){if(pr==='01'&&th===90)out.perp=1;if(pr==='01'&&Cv!=null)out.gA=Cv-th;else if(pr==='03')out.gA=th;}
   else if(v===0){if(pr==='23'&&Av!=null)out.gA=Av-th;else if(pr==='12')out.gA=th;}
   else if(v===3){if(pr==='12')out.gB=th;else if(pr==='01'&&Dv!=null)out.gB=Dv-th;}
   else if(v===1){if(pr==='03')out.gB=th;else if(pr==='23'&&Bv!=null)out.gB=Bv-th;}
@@ -766,6 +768,8 @@ function drawTrap(){
  if((Ad!=null&&Ad>=180)||(Bd!=null&&Bd>=180))return 'Угол должен быть меньше 180°';
  if(h==null){if(c!=null&&Ad!=null)h=c*Math.sin(Ad*rad);else if(d!=null&&Bd!=null)h=d*Math.sin(Bd*rad);}
  const inc=cons.inc||cons.radr,rr=inp.r.v;
+ const cu=trapCustom(Ad,Bd);
+ if(cu.perp&&h==null&&a==null&&b!=null&&c==null&&d==null)h=b;
  if(h==null&&a!=null&&b!=null&&c!=null&&d!=null&&Ad==null&&Bd==null&&a>b){
   const g=x=>Math.sqrt(c*c-x*x)+Math.sqrt(d*d-x*x)-(a-b),top=Math.min(c,d);
   if(g(0)>0&&g(top)<0){let lo=0,hi=top;for(let i=0;i<60;i++){const m=(lo+hi)/2;if(g(m)>0)lo=m;else hi=m;}h=(lo+hi)/2;}
@@ -779,7 +783,7 @@ function drawTrap(){
  else if(c!=null){if(c<h)return 'Боковая сторона c не может быть меньше высоты';xL=Math.sqrt(c*c-h*h);}
  if(Bd!=null)xR=Math.abs(Bd-90)<1e-9?0:h/Math.tan(Bd*rad);
  else if(d!=null){if(d<h)return 'Боковая сторона d не может быть меньше высоты';xR=Math.sqrt(d*d-h*h);}
- const cu=trapCustom(Ad,Bd);
+ if(cu.perp&&a==null&&b!=null&&xL!=null&&h>0)a=xL+b+h*h/(xL+b);
  let gA=inp.dA.v,gB=inp.dB.v;
  if(gA==null&&cu.gA>0&&cu.gA<180)gA=cu.gA;
  if(gB==null&&cu.gB>0&&cu.gB<180)gB=cu.gB;
@@ -824,7 +828,7 @@ function drawTrap(){
  }
  let h1=null,m1=null;
  if(cons.hA){const H=drawAlt(P[3],P[0],P[1],COL.alt);hit2(P[3],H,'h');h1=[P[3],H,T('h',h,'h')];feet.push([H,P[3],fl('alt',0,'H')]);}
- if(cons.mid){const m=mid(P[0],P[3]),n=mid(P[1],P[2]);halves(P[0],P[3],1);halves(P[1],P[2],2);line(m,n,COL.ink,2);dot(m);dot(n);feet.push([m,n,fl('mid',0,'M'),1],[n,m,fl('mid',1,'N'),1]);hit2(m,n,'m');m1=[m,n,T('m',(a+b)/2,'m')];}
+ if(cons.mid){const m=mid(P[0],P[3]),n=mid(P[1],P[2]);halves(P[0],P[3],1);halves(P[1],P[2],2);line(m,n,COL.ink,2);dot(m);dot(n);midX(m,n);feet.push([m,n,fl('mid',0,'M'),1],[n,m,fl('mid',1,'N'),1]);hit2(m,n,'m');m1=[m,n,T('m',(a+b)/2,'m')];}
  polyLines(P);hitPoly(P,['a','d','b','c'],[[0,'A'],[1,'B'],[2,'C'],[3,'D']]);
  const angs=cornerAngles(P,[[0,Aact,T('A',Aact,'α',true),rA],[1,Bact,T('B',Bact,'β',true),rB],[2,180-Bact,T('C',180-Bact,'γ',true),rC],[3,180-Aact,T('D',180-Aact,'δ',true),rD]]);
  const c0=centroid(P);
