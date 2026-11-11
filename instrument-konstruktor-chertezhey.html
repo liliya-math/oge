@@ -136,7 +136,7 @@ const CONS={
  cross:[['bis1','Биссектриса угла 1'],['bis2','Биссектриса угла 2'],['bis3','Биссектриса угла 3'],['bis4','Биссектриса угла 4']],
  psec:[['pts','Подписать точки пересечения P и Q']]
 };
-const state={fig:'tri',kind:{t:'any',v:'B'},pk:{t:'reg',n:0,m:5},cl:{p:'ABCDO',b:''},lt:{},lo:{},lf:{},eq:{},ttl:{},vals:{},cons:{},opt:{cl:true,num:true,hl:true,ls:true,la:false,comp:false,obt:false,board:false}};
+const state={fig:'tri',kind:{t:'any',v:'B'},pk:{t:'reg',n:0,m:5},cl:{p:'ABCDO',b:''},lt:{},lo:{},lf:{},eq:{},ttl:{},vals:{},cons:{},opt:{cl:true,num:true,hl:true,ls:false,la:false,comp:false,obt:false,board:false}};
 const $=id=>document.getElementById(id);
 
 /* ---------- равные стороны и равные углы ---------- */
@@ -212,6 +212,8 @@ function customLate(){
    }
    else if(nm.length===3&&PT[nm[0]]&&PT[nm[1]]&&PT[nm[2]]){
     const V=PT[nm[1]],t=hl+pv.text+(/^[\d,√]+$/.test(pv.text)?'°':'');
+    if(rects.some(r=>r.t===t.replace(MK,'')&&Math.hypot(r.x-V[0],r.y-V[1])<85))return;
+    if(pv.v===90){rightMark(V,U(V,PT[nm[0]]),U(V,PT[nm[2]]));return;}
     arc(V,U(V,PT[nm[0]]),U(V,PT[nm[2]]),18,COL.ink,1.6);
     angleLab(V,PT[nm[0]],PT[nm[2]],[],t,18);
    }
@@ -408,7 +410,7 @@ function place(str,cands,fs){
   if(sc>=3){best=c;break;}
   if(sc>bs){bs=sc;best=c;}
  }
- rects.push({x:best[0],y:best[1],hw:hw,hh:hh});
+ rects.push({x:best[0],y:best[1],hw:hw,hh:hh,t:str});
  els.push(labelSvg(str,best[0],best[1],fs,hl));
 }
 function hiLine(p,q){els.push('<line x1="'+ff(p[0])+'" y1="'+ff(p[1])+'" x2="'+ff(q[0])+'" y2="'+ff(q[1])+'" stroke="'+HLC+'" stroke-width="4.2" stroke-linecap="round"/>');}
@@ -455,7 +457,7 @@ function angleLab(V,N1,N2,rays,str,rr){
  const gaps=[];for(let i=0;i<ps.length-1;i++)gaps.push({m:(ps[i]+ps[i+1])/2,g:ps[i+1]-ps[i]});
  gaps.sort((x,y)=>y.g-x.g);
  const cands=[];
- for(const r of [36,46,58,70])for(const g of gaps){const a=a1+d*g.m;cands.push([V[0]+r*Math.cos(a),V[1]+r*Math.sin(a)]);}
+ for(const r of [36,46,58,70,84,100])for(const g of gaps){const a=a1+d*g.m;cands.push([V[0]+r*Math.cos(a),V[1]+r*Math.sin(a)]);}
  const mA=a1+d/2;cands.push([V[0]-26*Math.cos(mA),V[1]-26*Math.sin(mA)]);
  place(str,cands,15);
 }
@@ -736,6 +738,23 @@ function drawRect(sq){
  sl.forEach(x=>segLab(x[0],x[1],x[2]));
  areaCap(arr);return null;
 }
+function trapCustom(Ad,Bd){
+ const e=state.eq[vkey('trap')]||{},nm=['A','B','C','D'].map(mapL),out={};
+ const Av=Ad,Bv=Bd,Cv=Bd==null?null:180-Bd,Dv=Ad==null?null:180-Ad;
+ (e.c||'').split(/[;\n]+/).forEach(g=>{
+  const parts=g.split('=').map(x=>x.replace(/[\s∠]/g,'')).filter(Boolean);
+  if(parts.length!==2)return;
+  const pv=parseVal(parts[1]);if(pv.err||pv.v==null)return;
+  const th=pv.v,t=parts[0].toUpperCase();if(t.length!==3)return;
+  const i=t.split('').map(ch=>nm.indexOf(ch));if(i.some(x=>x<0))return;
+  const v=i[1],pr=[i[0],i[2]].sort().join('');
+  if(v===2){if(pr==='01'&&Cv!=null)out.gA=Cv-th;else if(pr==='03')out.gA=th;}
+  else if(v===0){if(pr==='23'&&Av!=null)out.gA=Av-th;else if(pr==='12')out.gA=th;}
+  else if(v===3){if(pr==='12')out.gB=th;else if(pr==='01'&&Dv!=null)out.gB=Dv-th;}
+  else if(v===1){if(pr==='03')out.gB=th;else if(pr==='23'&&Bv!=null)out.gB=Bv-th;}
+ });
+ return out;
+}
 function drawTrap(){
  let a=inp.a.v,b=inp.b.v,h=inp.h.v,c=inp.c.v,d=inp.d.v,Ad=inp.A.v,Bd=inp.B.v;const mm=inp.m.v,Cd=inp.C.v,Dd=inp.D.v;
  if(Cd!=null&&Cd>=180||Dd!=null&&Dd>=180)return 'Угол должен быть меньше 180°';
@@ -760,7 +779,10 @@ function drawTrap(){
  else if(c!=null){if(c<h)return 'Боковая сторона c не может быть меньше высоты';xL=Math.sqrt(c*c-h*h);}
  if(Bd!=null)xR=Math.abs(Bd-90)<1e-9?0:h/Math.tan(Bd*rad);
  else if(d!=null){if(d<h)return 'Боковая сторона d не может быть меньше высоты';xR=Math.sqrt(d*d-h*h);}
- const gA=inp.dA.v,gB=inp.dB.v;
+ const cu=trapCustom(Ad,Bd);
+ let gA=inp.dA.v,gB=inp.dB.v;
+ if(gA==null&&cu.gA>0&&cu.gA<180)gA=cu.gA;
+ if(gB==null&&cu.gB>0&&cu.gB<180)gB=cu.gB;
  if((gA!=null&&gA>=180)||(gB!=null&&gB>=180))return 'Угол должен быть меньше 180°';
  const cot=g=>Math.abs(g-90)<1e-9?0:1/Math.tan(g*rad);
  if(gA!=null){
