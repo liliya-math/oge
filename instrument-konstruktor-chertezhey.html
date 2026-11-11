@@ -124,7 +124,7 @@ const FIGS={
  cross:{name:'Пересекающиеся прямые',fields:[['a1','Угол 1 (AOC)'],['a2','Угол 2 (COB)'],['a3','Угол 3 (BOD)'],['a4','Угол 4 (DOA)']]},
  psec:{name:'Параллельные и секущая',fields:[['a1','Угол 1'],['a2','Угол 2'],['a3','Угол 3'],['a4','Угол 4'],['a5','Угол 5'],['a6','Угол 6'],['a7','Угол 7'],['a8','Угол 8']]},
  poly:{name:'Многоугольник',fields:[]},
- trap:{name:'Трапеция',fields:[['a','Нижнее основание a (AB)'],['b','Верхнее основание b (DC)'],['h','Высота h'],['c','Боковая сторона c (AD)'],['d','Боковая сторона d (BC)'],['A','Угол A'],['B','Угол B'],['m','Средняя линия m'],['r','Радиус вписанной окружности r'],['S','Площадь S'],['P','Периметр P']]}
+ trap:{name:'Трапеция',fields:[['a','Нижнее основание a (AB)'],['b','Верхнее основание b (DC)'],['h','Высота h'],['c','Боковая сторона c (AD)'],['d','Боковая сторона d (BC)'],['A','Угол A'],['B','Угол B'],['C','Угол C'],['D','Угол D'],['m','Средняя линия m'],['r','Радиус вписанной окружности r'],['S','Площадь S'],['P','Периметр P']]}
 };
 const CONS={
  tri:[['medA','Медиана из A'],['medB','Медиана из B'],['medC','Медиана из C'],['altA','Высота из A'],['altB','Высота из B'],['altC','Высота из C'],['bisA','Биссектриса из A'],['bisB','Биссектриса из B'],['bisC','Биссектриса из C'],['midA','Средняя линия ∥ a'],['midB','Средняя линия ∥ b'],['midC','Средняя линия ∥ c'],['circ','Описанная окружность'],['radR','Радиус R описанной окружности'],['inc','Вписанная окружность'],['radr','Радиус r вписанной окружности'],['exAB','Внешний угол при A: продолжить BA, влево'],['exAC','Внешний угол при A: продолжить CA, вниз-влево'],['exBA','Внешний угол при B: продолжить AB, вправо'],['exBC','Внешний угол при B: продолжить CB, вниз-вправо'],['exCA','Внешний угол при C: продолжить AC, вверх-вправо'],['exCB','Внешний угол при C: продолжить BC, вверх-влево']],
@@ -731,7 +731,12 @@ function drawRect(sq){
  areaCap(arr);return null;
 }
 function drawTrap(){
- let a=inp.a.v,b=inp.b.v,h=inp.h.v,c=inp.c.v,d=inp.d.v,Ad=inp.A.v,Bd=inp.B.v;const mm=inp.m.v;
+ let a=inp.a.v,b=inp.b.v,h=inp.h.v,c=inp.c.v,d=inp.d.v,Ad=inp.A.v,Bd=inp.B.v;const mm=inp.m.v,Cd=inp.C.v,Dd=inp.D.v;
+ if(Cd!=null&&Cd>=180||Dd!=null&&Dd>=180)return 'Угол должен быть меньше 180°';
+ if(Ad!=null&&Dd!=null&&Math.abs(Ad+Dd-180)>0.01)return 'Углы A и D при боковой стороне AD в сумме дают 180°';
+ if(Bd!=null&&Cd!=null&&Math.abs(Bd+Cd-180)>0.01)return 'Углы B и C при боковой стороне BC в сумме дают 180°';
+ if(Ad==null&&Dd!=null)Ad=180-Dd;
+ if(Bd==null&&Cd!=null)Bd=180-Cd;
  if(mm!=null){if(a!=null&&b==null)b=2*mm-a;else if(b!=null&&a==null)a=2*mm-b;if((a!=null&&a<=0)||(b!=null&&b<=0))return 'Средняя линия не согласуется с основанием';}
  if((Ad!=null&&Ad>=180)||(Bd!=null&&Bd>=180))return 'Угол должен быть меньше 180°';
  if(h==null){if(c!=null&&Ad!=null)h=c*Math.sin(Ad*rad);else if(d!=null&&Bd!=null)h=d*Math.sin(Bd*rad);}
@@ -758,19 +763,19 @@ function drawTrap(){
  const Aact=Math.atan2(h,xL)*deg,Bact=Math.atan2(h,a-xL-b)*deg;
  const cAct=Math.hypot(xL,h),dAct=Math.hypot(a-xL-b,h);
  if(inc&&Math.abs(a+b-cAct-dAct)>0.01*(a+b+cAct+dAct))return 'Окружность можно вписать в трапецию, только если сумма оснований равна сумме боковых сторон (a + b = c + d). Сейчас '+fmt(a+b)+' и '+fmt(cAct+dAct);
- const rA=[],rB=[],sl=[],feet=[];
+ const rA=[],rB=[],rC=[],rD=[],sl=[],feet=[];
  let rl=null,Oc=null;
  if(inc){
   const x0=(xL+cAct)/2,rI=h/2;Oc=f.P([x0,h/2]);const Tp=f.P([x0,0]);
   circle(Oc,rI*f.sc,COL.cir,1.8);dot(Oc,2.6);
   if(cons.radr){line(Oc,Tp,COL.med,2);rightMark(Tp,U(Tp,Oc),U(Tp,P[1]),9);hit2(Oc,Tp,'r');rl=[Oc,Tp,T('r',rI,'r')];}
  }
- if(cons.diag){centerO(isect(P[0],P[2],P[1],P[3]));line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);rA.push(U(P[0],P[2]));rB.push(U(P[1],P[3]));}
+ if(cons.diag){centerO(isect(P[0],P[2],P[1],P[3]));line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);rA.push(U(P[0],P[2]));rB.push(U(P[1],P[3]));rC.push(U(P[2],P[0]));rD.push(U(P[3],P[1]));}
  let h1=null,m1=null;
  if(cons.hA){const H=drawAlt(P[3],P[0],P[1],COL.alt);hit2(P[3],H,'h');h1=[P[3],H,T('h',h,'h')];feet.push([H,P[3],fl('alt',0,'H')]);}
  if(cons.mid){const m=mid(P[0],P[3]),n=mid(P[1],P[2]);halves(P[0],P[3],1);halves(P[1],P[2],2);line(m,n,COL.ink,2);dot(m);dot(n);feet.push([m,n,fl('mid',0,'M'),1],[n,m,fl('mid',1,'N'),1]);hit2(m,n,'m');m1=[m,n,T('m',(a+b)/2,'m')];}
- polyLines(P);hitPoly(P,['a','d','b','c'],[[0,'A'],[1,'B']]);
- const angs=cornerAngles(P,[[0,Aact,T('A',Aact,'α',true),rA],[1,Bact,T('B',Bact,'β',true),rB]]);
+ polyLines(P);hitPoly(P,['a','d','b','c'],[[0,'A'],[1,'B'],[2,'C'],[3,'D']]);
+ const angs=cornerAngles(P,[[0,Aact,T('A',Aact,'α',true),rA],[1,Bact,T('B',Bact,'β',true),rB],[2,180-Bact,T('C',180-Bact,'γ',true),rC],[3,180-Aact,T('D',180-Aact,'δ',true),rD]]);
  const c0=centroid(P);
  ['A','B','C','D'].forEach((n,i)=>vertexLab(P[i],c0,n));
  sideLab(P[0],P[1],T('a',a,'a'),c0);sideLab(P[3],P[2],T('b',b,'b'),c0);
