@@ -124,7 +124,7 @@ const FIGS={
  cross:{name:'Пересекающиеся прямые',fields:[['a1','Угол 1 (AOC)'],['a2','Угол 2 (COB)'],['a3','Угол 3 (BOD)'],['a4','Угол 4 (DOA)']]},
  psec:{name:'Параллельные и секущая',fields:[['a1','Угол 1'],['a2','Угол 2'],['a3','Угол 3'],['a4','Угол 4'],['a5','Угол 5'],['a6','Угол 6'],['a7','Угол 7'],['a8','Угол 8']]},
  poly:{name:'Многоугольник',fields:[]},
- trap:{name:'Трапеция',fields:[['a','Нижнее основание a (AB)'],['b','Верхнее основание b (DC)'],['h','Высота h'],['c','Боковая сторона c (AD)'],['d','Боковая сторона d (BC)'],['A','Угол A'],['B','Угол B'],['m','Средняя линия m'],['S','Площадь S'],['P','Периметр P']]}
+ trap:{name:'Трапеция',fields:[['a','Нижнее основание a (AB)'],['b','Верхнее основание b (DC)'],['h','Высота h'],['c','Боковая сторона c (AD)'],['d','Боковая сторона d (BC)'],['A','Угол A'],['B','Угол B'],['m','Средняя линия m'],['r','Радиус вписанной окружности r'],['S','Площадь S'],['P','Периметр P']]}
 };
 const CONS={
  tri:[['medA','Медиана из A'],['medB','Медиана из B'],['medC','Медиана из C'],['altA','Высота из A'],['altB','Высота из B'],['altC','Высота из C'],['bisA','Биссектриса из A'],['bisB','Биссектриса из B'],['bisC','Биссектриса из C'],['midA','Средняя линия ∥ a'],['midB','Средняя линия ∥ b'],['midC','Средняя линия ∥ c'],['circ','Описанная окружность'],['radR','Радиус R описанной окружности'],['inc','Вписанная окружность'],['radr','Радиус r вписанной окружности'],['exAB','Внешний угол при A: продолжить BA, влево'],['exAC','Внешний угол при A: продолжить CA, вниз-влево'],['exBA','Внешний угол при B: продолжить AB, вправо'],['exBC','Внешний угол при B: продолжить CB, вниз-вправо'],['exCA','Внешний угол при C: продолжить AC, вверх-вправо'],['exCB','Внешний угол при C: продолжить BC, вверх-влево']],
@@ -132,7 +132,7 @@ const CONS={
  rho:[['hA','Высота'],['diag','Диагонали']],
  rect:[['diag','Диагонали']],
  sq:[['diag','Диагонали']],
- trap:[['hA','Высота'],['diag','Диагонали'],['mid','Средняя линия']],
+ trap:[['hA','Высота'],['diag','Диагонали'],['mid','Средняя линия'],['inc','Вписанная окружность'],['radr','Радиус r вписанной окружности']],
  cross:[['bis1','Биссектриса угла 1'],['bis2','Биссектриса угла 2'],['bis3','Биссектриса угла 3'],['bis4','Биссектриса угла 4']],
  psec:[['pts','Подписать точки пересечения P и Q']]
 };
@@ -629,6 +629,14 @@ function drawTrap(){
  if(mm!=null){if(a!=null&&b==null)b=2*mm-a;else if(b!=null&&a==null)a=2*mm-b;if((a!=null&&a<=0)||(b!=null&&b<=0))return 'Средняя линия не согласуется с основанием';}
  if((Ad!=null&&Ad>=180)||(Bd!=null&&Bd>=180))return 'Угол должен быть меньше 180°';
  if(h==null){if(c!=null&&Ad!=null)h=c*Math.sin(Ad*rad);else if(d!=null&&Bd!=null)h=d*Math.sin(Bd*rad);}
+ const inc=cons.inc||cons.radr,rr=inp.r.v;
+ if(h==null&&a!=null&&b!=null&&c!=null&&d!=null&&Ad==null&&Bd==null&&a>b){
+  const g=x=>Math.sqrt(c*c-x*x)+Math.sqrt(d*d-x*x)-(a-b),top=Math.min(c,d);
+  if(g(0)>0&&g(top)<0){let lo=0,hi=top;for(let i=0;i<60;i++){const m=(lo+hi)/2;if(g(m)>0)lo=m;else hi=m;}h=(lo+hi)/2;}
+ }
+ if(rr!=null){if(h!=null&&Math.abs(h-2*rr)>0.01*h)return 'У трапеции с вписанной окружностью высота равна 2r';h=2*rr;}
+ if(inc&&a==null&&b==null&&h==null&&c==null&&d==null&&Ad==null&&Bd==null){a=8;b=2;h=4;}
+ if(inc&&h==null&&a!=null&&b!=null&&c==null&&d==null&&Ad==null&&Bd==null)h=Math.sqrt(a*b);
  if(h==null)h=0.5*(a!=null?a:(b!=null?b:6))*(a!=null&&b!=null?Math.min(1,Math.max(a,b)/Math.max(a,b)):1);
  let xL=null,xR=null;
  if(Ad!=null)xL=Math.abs(Ad-90)<1e-9?0:h/Math.tan(Ad*rad);
@@ -643,7 +651,14 @@ function drawTrap(){
  const pm=[[0,0],[a,0],[xL+b,h],[xL,h]],f=fit(pm,[]),P=pm.map(f.P);
  const Aact=Math.atan2(h,xL)*deg,Bact=Math.atan2(h,a-xL-b)*deg;
  const cAct=Math.hypot(xL,h),dAct=Math.hypot(a-xL-b,h);
+ if(inc&&Math.abs(a+b-cAct-dAct)>0.01*(a+b+cAct+dAct))return 'Окружность можно вписать в трапецию, только если сумма оснований равна сумме боковых сторон (a + b = c + d). Сейчас '+fmt(a+b)+' и '+fmt(cAct+dAct);
  const rA=[],rB=[],sl=[],feet=[];
+ let rl=null,Oc=null;
+ if(inc){
+  const x0=(xL+cAct)/2,rI=h/2;Oc=f.P([x0,h/2]);const Tp=f.P([x0,0]);
+  circle(Oc,rI*f.sc,COL.cir,1.8);dot(Oc,2.6);
+  if(cons.radr){line(Oc,Tp,COL.med,2);rightMark(Tp,U(Tp,Oc),U(Tp,P[1]),9);hit2(Oc,Tp,'r');rl=[Oc,Tp,T('r',rI,'r')];}
+ }
  if(cons.diag){line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);rA.push(U(P[0],P[2]));rB.push(U(P[1],P[3]));}
  let h1=null,m1=null;
  if(cons.hA){const H=drawAlt(P[3],P[0],P[1],COL.alt);hit2(P[3],H,'h');h1=[P[3],H,T('h',h,'h')];feet.push([H,P[3],fl('alt',0,'H')]);}
@@ -657,6 +672,8 @@ function drawTrap(){
  angs.forEach(x=>angleLab(x.V,x.N1,x.N2,x.rays,x.txt));
  feet.forEach(x=>footLab(x[0],x[1],x[2],x[3]));
  if(h1)segLab(h1[0],h1[1],h1[2]);if(m1)segLab(m1[0],m1[1],m1[2]);
+ if(rl)segLab(rl[0],rl[1],rl[2]);
+ if(Oc)cplace(COL.mid,mapL('O'),[[Oc[0]+13,Oc[1]-13],[Oc[0]-13,Oc[1]-13],[Oc[0]+13,Oc[1]+13],[Oc[0]-13,Oc[1]+13]],16);
  areaCap(pm);return null;
 }
 
@@ -884,7 +901,7 @@ function render(){
  inp={};let err=null;
  fieldsOf(fig).forEach(f=>{const p=parseVal((state.vals[vkey(fig)]||{})[f[0]]);inp[f[0]]=p;if(p.err)err=p.err;});
  cons=Object.assign({},state.cons[vkey(fig)]||{});
- const AUTO={tri:{R:'radR'},par:{h:'hA'},rho:{d1:'diag',d2:'diag'},rect:{d:'diag'},sq:{d:'diag'},trap:{h:'hA',m:'mid'},poly:{R:'radR',r:'radr',cA:'cen',eB:'ext'},cross:{h1:'bis1',h2:'bis2',h3:'bis3',h4:'bis4'}}[fig]||{};
+ const AUTO={tri:{R:'radR'},par:{h:'hA'},rho:{d1:'diag',d2:'diag'},rect:{d:'diag'},sq:{d:'diag'},trap:{h:'hA',m:'mid',r:'radr'},poly:{R:'radR',r:'radr',cA:'cen',eB:'ext'},cross:{h1:'bis1',h2:'bis2',h3:'bis3',h4:'bis4'}}[fig]||{};
  Object.keys(AUTO).forEach(k=>{if(inp[k]&&inp[k].text)cons[AUTO[k]]=true;});
  COL=opt.board?{ink:'#EEE0C8',med:'#DD7A3A',alt:'#9BB08A',bis:'#B6CBE3',mid:'#E2B04A',cir:'#B6CBE3',halo:null,bg:null}
               :{ink:'#16231A',med:'#DD7A3A',alt:'#5F7B3F',bis:'#2F5BB5',mid:'#9C6B40',cir:'#2F5BB5',halo:'#ffffff',bg:'#ffffff'};
