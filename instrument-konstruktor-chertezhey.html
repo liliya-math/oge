@@ -149,21 +149,59 @@ function tickN(p,q,k){
  }
 }
 function hasEqS(){const e=state.eq[vkey(state.fig)]||{};return !!(e.s&&e.s.trim());}
+const EQG=t=>(t||'').toUpperCase().split(/[;,\n]+/).map(g=>g.split('=').map(x=>x.replace(/[\s∠]/g,'')).filter(Boolean)).filter(g=>g.length);
+let PT={},EQV=[];
 function regEq(P){
  const e=state.eq[vkey(state.fig)]||{},n=P.length;
  const names=P.map((_,i)=>mapL('ABCDEFGHIJKL'[i]));
- const groups=t=>(t||'').toUpperCase().split(/[;,\n]+/).map(g=>g.split('=').map(x=>x.replace(/[\s∠]/g,'')).filter(Boolean)).filter(g=>g.length);
- groups(e.s).forEach((g,gi)=>g.forEach(it=>{
+ EQV=names;names.forEach((nm,i)=>{PT[nm]=P[i];});
+ EQG(e.s).forEach((g,gi)=>g.forEach(it=>{
   if(it.length!==2)return;
   const i=names.indexOf(it[0]),j=names.indexOf(it[1]);
   if(i<0||j<0||i===j)return;
   if((i+1)%n===j)tickN(P[i],P[j],gi+1);else if((j+1)%n===i)tickN(P[j],P[i],gi+1);
  }));
- groups(e.a).forEach((g,gi)=>g.forEach(it=>{
+ EQG(e.a).forEach((g,gi)=>g.forEach(it=>{
   const i=names.indexOf(it);if(it.length!==1||i<0)return;
   const V=P[i],N1=P[(i+1)%n],N2=P[(i+n-1)%n];
   for(let k=0;k<=gi;k++)arc(V,U(V,N1),U(V,N2),25+k*5,COL.ink,1.6);
  }));
+}
+function eqLate(){
+ const e=state.eq[vkey(state.fig)]||{},n=EQV.length;
+ EQG(e.s).forEach((g,gi)=>g.forEach(it=>{
+  if(it.length!==2||!PT[it[0]]||!PT[it[1]]||it[0]===it[1])return;
+  const i=EQV.indexOf(it[0]),j=EQV.indexOf(it[1]);
+  if(i>=0&&j>=0&&((i+1)%n===j||(j+1)%n===i))return;
+  tickN(PT[it[0]],PT[it[1]],gi+1);
+ }));
+}
+function customLate(){
+ const e=state.eq[vkey(state.fig)]||{};
+ (e.c||'').split(/[;\n]+/).forEach(g=>{
+  const parts=g.split('=').map(x=>x.replace(/[\s∠]/g,'')).filter(Boolean);
+  if(parts.length<2)return;
+  const pv=parseVal(parts[parts.length-1]);
+  if(pv.err||!pv.text)return;
+  const hl=opt.hl&&pv.v==null?MK:'';
+  parts.slice(0,-1).forEach(nm=>{
+   nm=nm.toUpperCase();
+   if(nm.length===2&&PT[nm[0]]&&PT[nm[1]])segLab(PT[nm[0]],PT[nm[1]],hl+pv.text);
+   else if(nm.length===3&&PT[nm[0]]&&PT[nm[1]]&&PT[nm[2]]){
+    const V=PT[nm[1]],t=hl+pv.text+(/^[\d,√]+$/.test(pv.text)?'°':'');
+    arc(V,U(V,PT[nm[0]]),U(V,PT[nm[2]]),18,COL.ink,1.6);
+    angleLab(V,PT[nm[0]],PT[nm[2]],[],t,18);
+   }
+  });
+ });
+}
+function isect(a,b,c,d){
+ const x1=a[0],y1=a[1],x2=b[0],y2=b[1],x3=c[0],y3=c[1],x4=d[0],y4=d[1],den=(x1-x2)*(y3-y4)-(y1-y2)*(x3-x4)||1e-9;
+ const t=((x1-x3)*(y3-y4)-(y1-y3)*(x3-x4))/den;return [x1+t*(x2-x1),y1+t*(y2-y1)];
+}
+function centerO(pt){
+ PT[mapL('O')]=pt;dot(pt,2.6);
+ cplace(COL.mid,mapL('O'),[[pt[0]+12,pt[1]-12],[pt[0]-12,pt[1]-12],[pt[0]+12,pt[1]+12],[pt[0]-12,pt[1]+12],[pt[0],pt[1]-18],[pt[0],pt[1]+18]],16);
 }
 
 /* ---------- многоугольники: поля и построения зависят от вида ---------- */
@@ -192,9 +230,9 @@ function crossL(){
 function mapL(ch){
  const f=state.fig;if(f==='cross'||f==='psec')return ch;
  const vk=vkey(f),t=(state.lt[vk]||'').replace(/[\s,;]+/g,''),i='ABCDEFGHIJKL'.indexOf(ch);
- if(i>=0&&t[i])return t[i];
+ if(i>=0&&t[i])return t[i].toUpperCase();
  const o=(state.lo[vk]||'').replace(/\s+/g,'');
- if(ch==='O'&&o)return o[0];
+ if(ch==='O'&&o)return o[0].toUpperCase();
  return ch;
 }
 function fl(type,idx,def){
@@ -361,6 +399,7 @@ function segLab(p,q,txt,col){
 }
 function footLab(H,V,name,plain){
  if(!name)return;
+ PT[name]=H;
  const d=U(V,H),cands=[];
  for(const r of [14,22])for(const a of [0,0.7,-0.7,1.4,-1.4,2.1,-2.1])cands.push(add(H,rot(d,a),r));
  if(plain)cplace(COL.cir,name,cands,17);else cplace(COL.med,name,cands,15);
@@ -582,7 +621,7 @@ function drawPar(){
  const f=fit([pm.A,pm.B,pm.C,pm.D],[]);
  const P=[pm.A,pm.B,pm.C,pm.D].map(f.P),pA=P[0],pB=P[1],pC=P[2],pD=P[3];regEq(P);
  const rays={A:[]},feet=[],segsL=[];
- if(cons.diag){line(pA,pC,COL.med,1.8);line(pB,pD,COL.med,1.8);rays.A.push(U(pA,pC));segsL.push([pA,pC,T('d1',Math.hypot(pm.C[0],pm.C[1]),'d₁')],[pB,pD,T('d2',Math.hypot(pm.D[0]-a,pm.D[1]),'d₂')]);}
+ if(cons.diag){centerO(mid(pA,pC));line(pA,pC,COL.med,1.8);line(pB,pD,COL.med,1.8);rays.A.push(U(pA,pC));segsL.push([pA,pC,T('d1',Math.hypot(pm.C[0],pm.C[1]),'d₁')],[pB,pD,T('d2',Math.hypot(pm.D[0]-a,pm.D[1]),'d₂')]);}
  let h1=null,h2=null;
  if(cons.hA){const H=drawAlt(pD,pA,pB,COL.alt);hit2(pD,H,'h');h1=[pD,H,T('h',hh,'h')];feet.push([H,pD,fl('alt',0,'H')]);}
  if(cons.hB){const K=drawAlt(pB,pA,pD,COL.bis);h2=[pB,K,T(null,a*Math.sin(A*rad),'h₂')];feet.push([K,pB,fl('alt',1,'K')]);}
@@ -612,7 +651,7 @@ function drawRho(){
  }
  const arr=[pm.A,pm.B,pm.C,pm.D],f=fit(arr,[]),P=arr.map(f.P);regEq(P);
  const rays=[],feet=[],sl=[];
- if(cons.diag){hit2(P[0],P[2],'d1');hit2(P[1],P[3],'d2');line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);rays.push(U(P[0],P[2]));
+ if(cons.diag){centerO(mid(P[0],P[2]));hit2(P[0],P[2],'d1');hit2(P[1],P[3],'d2');line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);rays.push(U(P[0],P[2]));
   const O=mid(P[0],P[2]);rightMark(O,U(O,P[2]),U(O,P[3]),9);
   sl.push([P[0],P[2],T('d1',Math.hypot(pm.C[0]-pm.A[0],pm.C[1]-pm.A[1]),'d₁')],[P[1],P[3],T('d2',Math.hypot(pm.D[0]-pm.B[0],pm.D[1]-pm.B[1]),'d₂')]);}
  let h1=null;
@@ -641,7 +680,7 @@ function drawRect(sq){
  }
  const arr=[[0,0],[a,0],[a,b],[0,b]],f=fit(arr,[]),P=arr.map(f.P);regEq(P);
  const dg=Math.hypot(a,b),sl=[];
- if(cons.diag){hit2(P[0],P[2],'d');hit2(P[1],P[3],'d');line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);sl.push([P[0],P[2],T('d',dg,'d')]);}
+ if(cons.diag){centerO(mid(P[0],P[2]));hit2(P[0],P[2],'d');hit2(P[1],P[3],'d');line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);sl.push([P[0],P[2],T('d',dg,'d')]);}
  polyLines(P);hitPoly(P,sq?['a','a','a','a']:['a','b','a','b'],[]);
  for(let i=0;i<4;i++)rightMark(P[i],U(P[i],P[(i+1)%4]),U(P[i],P[(i+3)%4]),11);
  const c0=centroid(P);
@@ -686,7 +725,7 @@ function drawTrap(){
   circle(Oc,rI*f.sc,COL.cir,1.8);dot(Oc,2.6);
   if(cons.radr){line(Oc,Tp,COL.med,2);rightMark(Tp,U(Tp,Oc),U(Tp,P[1]),9);hit2(Oc,Tp,'r');rl=[Oc,Tp,T('r',rI,'r')];}
  }
- if(cons.diag){line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);rA.push(U(P[0],P[2]));rB.push(U(P[1],P[3]));}
+ if(cons.diag){centerO(isect(P[0],P[2],P[1],P[3]));line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);rA.push(U(P[0],P[2]));rB.push(U(P[1],P[3]));}
  let h1=null,m1=null;
  if(cons.hA){const H=drawAlt(P[3],P[0],P[1],COL.alt);hit2(P[3],H,'h');h1=[P[3],H,T('h',h,'h')];feet.push([H,P[3],fl('alt',0,'H')]);}
  if(cons.mid){const m=mid(P[0],P[3]),n=mid(P[1],P[2]);line(m,n,COL.ink,2);dot(m);dot(n);feet.push([m,n,fl('mid',0,'M'),1],[n,m,fl('mid',1,'N'),1]);hit2(m,n,'m');m1=[m,n,T('m',(a+b)/2,'m')];}
@@ -746,7 +785,7 @@ function drawPolyReg(){
  if(cons.radR||cons.cen)line(O,P[0],COL.med,2);
  if(cons.cen)line(O,P[1],COL.med,2);
  if(cons.radr){line(O,Mab,COL.alt,2);rightMark(Mab,U(Mab,O),U(Mab,P[0]),9);}
- if(showO)dot(O,3);
+ if(showO)dot(O,3);PT[mapL('O')]=O;
  polyLines(P);
  if(!hasEqS())for(let i=0;i<n;i++)tick(P[i],P[(i+1)%n]);
  if(cons.radR)hit2(O,P[0],'R');
@@ -932,8 +971,9 @@ function render(){
  Object.keys(AUTO).forEach(k=>{if(inp[k]&&inp[k].text)cons[AUTO[k]]=true;});
  COL=opt.board?{ink:'#EEE0C8',med:'#DD7A3A',alt:'#9BB08A',bis:'#B6CBE3',mid:'#E2B04A',cir:'#B6CBE3',halo:null,bg:null}
               :{ink:'#16231A',med:'#DD7A3A',alt:'#5F7B3F',bis:'#2F5BB5',mid:'#9C6B40',cir:'#2F5BB5',halo:'#ffffff',bg:'#ffffff'};
- els=[];segs=[];circs=[];rects=[];hits=[];hits2=[];hitsA=[];
+ els=[];segs=[];circs=[];rects=[];hits=[];hits2=[];hitsA=[];PT={};EQV=[];
  if(!err)err={tri:drawTri,par:drawPar,rho:drawRho,rect:()=>drawRect(false),sq:()=>drawRect(true),trap:drawTrap,poly:drawPoly,cross:drawCross,psec:drawPsec}[fig]();
+ if(!err){eqLate();customLate();}
  if(err){els=[];hits=[];hits2=[];hitsA=[];}
  $('msg').textContent=err||'';
  const cimg=cards.map(c=>'<image data-card="'+c.id+'" x="'+ff(c.x)+'" y="'+ff(c.y)+'" width="'+ff(c.w*c.s)+'" height="'+ff(c.h*c.s)+'" href="'+c.src+'" xlink:href="'+c.src+'" style="cursor:move"/>').join('')+cards.filter(c=>c.id===selId).map(c=>'<rect data-ui="1" x="'+ff(c.x-3)+'" y="'+ff(c.y-3)+'" width="'+ff(c.w*c.s+6)+'" height="'+ff(c.h*c.s+6)+'" rx="10" fill="none" stroke="#2F5BB5" stroke-width="1.6" stroke-dasharray="5 4" pointer-events="none"/>').join('');
@@ -988,13 +1028,13 @@ function buildUI(){
   if(fig==='trap')mf('Концы средней линии: на AD и на BC (по умолчанию MN)','mid','MN');
   const eq=state.eq[vk]=state.eq[vk]||{};
   const h2=document.createElement('h3');h2.textContent='Равные стороны и углы';h2.className='g';$('kind').appendChild(h2);
-  [['s','Равные стороны: группы через точку с запятой, например AB=CD; BC=AD','AB=CD; BC=AD'],['a','Равные углы: например A=C; B=D','A=C; B=D']].forEach(x=>{
+  [['s','Равные стороны и отрезки: пары букв через =, группы через ; (например AB=CD; AO=OC). O - точка пересечения диагоналей','AB=CD; BC=AD'],['a','Равные углы: например A=C; B=D','A=C; B=D'],['c','Длины и углы по буквам: AO=5; OC=x; AO=OC=5; ∠AOB=40 (буквы - вершины, O, основания высот и медиан)','AO=5; ∠AOB=40']].forEach(x=>{
    const lb=document.createElement('label');lb.textContent=x[1];lb.style.cssText='display:block;font-size:12px;margin:6px 0 2px';
    const i=document.createElement('input');i.value=eq[x[0]]||'';i.placeholder=x[2];i.style.cssText='width:100%';i.autocomplete='off';
    i.oninput=()=>{eq[x[0]]=i.value;render();};
    $('kind').appendChild(lb);$('kind').appendChild(i);
   });
-  const hn=document.createElement('div');hn.className='hint';hn.textContent='Первая группа получит одну чёрточку (одну дугу), вторая две, третья три.';$('kind').appendChild(hn);
+  const hn=document.createElement('div');hn.className='hint';hn.textContent='В поле равенств первая группа получит одну чёрточку (одну дугу), вторая две, третья три.';$('kind').appendChild(hn);
  }
  if(fig==='cross'){
   const h=document.createElement('h3');h.textContent='Буквы на чертеже';h.className='m';$('kind').appendChild(h);
