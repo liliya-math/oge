@@ -285,13 +285,13 @@ body, body .sidebar {
 }
 
 body .lesson-intro .intro-content > p {
-  font-size: clamp(21px, 1.9vw, 25px);
+  font-size: clamp(16px, 1.35vw, 18px);
   line-height: 1.65;
   color: var(--trainer-cream);
 }
-body .question { font-size: clamp(19px, 1.8vw, 23px); }
+body .question { font-size: clamp(17px, 1.5vw, 20px); }
 .math-nowrap { display: inline-block; max-width: 100%; white-space: nowrap; overflow-x: auto; vertical-align: bottom; }
-body :is(.hint-text, .solution ol, .feedback, .anchor-card p) { font-size: clamp(17px, 1.35vw, 19px); line-height: 1.6; }
+body :is(.hint-text, .solution ol, .feedback, .anchor-card p) { font-size: clamp(15px, 1.25vw, 17px); line-height: 1.6; }
 body .anchor-card small { font-size: 15px; line-height: 1.5; }
 body .intro-content > p { min-width: 0; }
 body .lesson-intro .math-definition { color: var(--trainer-gold); font-weight: 750; }
@@ -303,16 +303,24 @@ body .visual-panel .math-var-y { color: #16231A; }
 
 body .math-var-k { color: #E2B04A; font-weight: 800; }
 body .math-var-b { color: #EEE0C8; font-weight: 800; text-decoration: underline; text-decoration-color: #9C6B40; text-underline-offset: .16em; }
-body :is(.math-var-k, .math-var-b) { font-size: 1.38em; line-height: 1; }
+body :is(.math-var-k, .math-var-b) { font-size: 1.14em; line-height: 1; }
 body .visual-panel .math-var-k { color: #9C6B40; }
 body .visual-panel .math-var-b { color: #2B3D2B; }
-.coordinate-graph { width: 100%; max-width: 420px; min-width: 0; margin: 0 auto; }
+.coordinate-graph { width: 100%; max-width: 500px; min-width: 0; margin: 0 auto; }
 .coordinate-graph svg { display: block; height: auto; }
 .coordinate-graph figcaption { color: #16231A; font-size: 1.15rem; font-weight: 800; }
 .intro-content .coordinate-graph figcaption { color: var(--trainer-cream); }
-.coordinate-group { display: flex; flex-wrap: wrap; gap: 16px; width: 100%; }
-.coordinate-group .coordinate-graph { flex: 1 1 200px; max-width: 420px; }
-.intro-content > .coordinate-graph { flex: 1 1 290px; }
+.coordinate-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 285px), 1fr)); gap: 18px; width: 100%; }
+.coordinate-group .coordinate-graph { max-width: 500px; }
+body .intro-content > p, .intro-content > .coordinate-graph { flex: 0 0 100%; }
+.coordinate-graph svg text { font-weight: 650; }
+@media (min-width: 951px) and (max-width: 1350px) {
+  .exercise-layout:has(.coordinate-graph) { grid-template-columns: minmax(0, 1fr); }
+  .exercise-layout:has(.coordinate-graph) .right-column { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 650px) {
+  .coordinate-group { grid-template-columns: minmax(0,1fr); }
+}
 </style>
 </head>
 <body>
