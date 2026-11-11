@@ -111,7 +111,7 @@ const CONS={
  cross:[['bis1','Биссектриса угла 1'],['bis2','Биссектриса угла 2'],['bis3','Биссектриса угла 3'],['bis4','Биссектриса угла 4']],
  psec:[['pts','Подписать точки пересечения P и Q']]
 };
-const state={fig:'tri',kind:{t:'any',v:'B'},pk:{t:'reg',n:0,m:5},cl:{p:'ABCDO',b:''},lt:{},lo:{},vals:{},cons:{},opt:{num:true,hl:true,ls:true,la:false,comp:false,obt:false,board:false}};
+const state={fig:'tri',kind:{t:'any',v:'B'},pk:{t:'reg',n:0,m:5},cl:{p:'ABCDO',b:''},lt:{},lo:{},lf:{},vals:{},cons:{},opt:{num:true,hl:true,ls:true,la:false,comp:false,obt:false,board:false}};
 const $=id=>document.getElementById(id);
 
 /* ---------- многоугольники: поля и построения зависят от вида ---------- */
@@ -144,6 +144,10 @@ function mapL(ch){
  const o=(state.lo[vk]||'').replace(/\s+/g,'');
  if(ch==='O'&&o)return o[0];
  return ch;
+}
+function fl(type,idx,def){
+ const o=state.lf[vkey(state.fig)]||{},t=(o[type]||'').replace(/[\s,;]+/g,'');
+ return t[idx]||def;
 }
 function mapLab(str){return str.replace(/\b[A-LO]{1,4}\b/g,m=>m.split('').map(mapL).join(''));}
 function vkey(fig){return fig==='poly'?'poly'+state.pk.t:fig;}
@@ -446,7 +450,7 @@ function drawTri(){
  const rays={A:[],B:[],C:[]},feet=[];
  if(circOn){circle(O,Rr*f.sc,COL.cir,1.8);dot(O,2.6);}
  if(incOn){circle(I,rin*f.sc,COL.cir,1.8);}
- const mn={A:'M',B:'N',C:'K'},hn={A:'H',B:'P',C:'T'},bn={A:'L',B:'E',C:'F'};
+ const mn={A:fl('med',0,'M'),B:fl('med',1,'N'),C:fl('med',2,'K')},hn={A:fl('alt',0,'H'),B:fl('alt',1,'P'),C:fl('alt',2,'T')},bn={A:fl('bis',0,'L'),B:fl('bis',1,'E'),C:fl('bis',2,'F')};
  for(const k of ['A','B','C']){
   const p=V[opp[k][0]],q=V[opp[k][1]];
   if(cons['med'+k]){const M=drawMedian(V[k],p,q,COL.med);rays[k].push(U(V[k],M));feet.push([M,V[k],mn[k]]);}
@@ -526,8 +530,8 @@ function drawPar(){
  const rays={A:[]},feet=[],segsL=[];
  if(cons.diag){line(pA,pC,COL.med,1.8);line(pB,pD,COL.med,1.8);rays.A.push(U(pA,pC));segsL.push([pA,pC,T('d1',Math.hypot(pm.C[0],pm.C[1]),'d₁')],[pB,pD,T('d2',Math.hypot(pm.D[0]-a,pm.D[1]),'d₂')]);}
  let h1=null,h2=null;
- if(cons.hA){const H=drawAlt(pD,pA,pB,COL.alt);hit2(pD,H,'h');h1=[pD,H,T('h',hh,'h')];feet.push([H,pD,'H']);}
- if(cons.hB){const K=drawAlt(pB,pA,pD,COL.bis);h2=[pB,K,T(null,a*Math.sin(A*rad),'h₂')];feet.push([K,pB,'K']);}
+ if(cons.hA){const H=drawAlt(pD,pA,pB,COL.alt);hit2(pD,H,'h');h1=[pD,H,T('h',hh,'h')];feet.push([H,pD,fl('alt',0,'H')]);}
+ if(cons.hB){const K=drawAlt(pB,pA,pD,COL.bis);h2=[pB,K,T(null,a*Math.sin(A*rad),'h₂')];feet.push([K,pB,fl('alt',1,'K')]);}
  polyLines(P);hitPoly(P,['a','b','a','b'],[[0,'A']]);
  const angs=cornerAngles(P,[[0,A,T('A',A,'α',true),rays.A]]);
  const c0=centroid(P);
@@ -558,7 +562,7 @@ function drawRho(){
   const O=mid(P[0],P[2]);rightMark(O,U(O,P[2]),U(O,P[3]),9);
   sl.push([P[0],P[2],T('d1',Math.hypot(pm.C[0]-pm.A[0],pm.C[1]-pm.A[1]),'d₁')],[P[1],P[3],T('d2',Math.hypot(pm.D[0]-pm.B[0],pm.D[1]-pm.B[1]),'d₂')]);}
  let h1=null;
- if(cons.hA){const H=drawAlt(P[3],P[0],P[1],COL.alt);h1=[P[3],H,T(null,null,'h')];feet.push([H,P[3],'H']);}
+ if(cons.hA){const H=drawAlt(P[3],P[0],P[1],COL.alt);h1=[P[3],H,T(null,null,'h')];feet.push([H,P[3],fl('alt',0,'H')]);}
  polyLines(P);hitPoly(P,['a','a','a','a'],[[0,'A']]);for(let i=0;i<4;i++)tick(P[i],P[(i+1)%4]);
  const angs=cornerAngles(P,[[0,ang,T('A',ang,'α',true),rays]]);
  const c0=centroid(P);
@@ -614,7 +618,7 @@ function drawTrap(){
  const rA=[],rB=[],sl=[],feet=[];
  if(cons.diag){line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);rA.push(U(P[0],P[2]));rB.push(U(P[1],P[3]));}
  let h1=null,m1=null;
- if(cons.hA){const H=drawAlt(P[3],P[0],P[1],COL.alt);hit2(P[3],H,'h');h1=[P[3],H,T('h',h,'h')];feet.push([H,P[3],'H']);}
+ if(cons.hA){const H=drawAlt(P[3],P[0],P[1],COL.alt);hit2(P[3],H,'h');h1=[P[3],H,T('h',h,'h')];feet.push([H,P[3],fl('alt',0,'H')]);}
  if(cons.mid){const m=mid(P[0],P[3]),n=mid(P[1],P[2]);line(m,n,COL.mid,2);m1=[m,n,T(null,(a+b)/2,'m')];}
  polyLines(P);hitPoly(P,['a','d','b','c'],[[0,'A'],[1,'B']]);
  const angs=cornerAngles(P,[[0,Aact,T('A',Aact,'α',true),rA],[1,Bact,T('B',Bact,'β',true),rB]]);
@@ -888,6 +892,15 @@ function buildUI(){
   };
   mk('Вершины по порядку (по умолчанию '+defs+'), например MNKP','lt',defs,state.lt);
   if(fig==='tri'||(fig==='poly'&&state.pk.t==='reg'))mk('Буква центра (по умолчанию O)','lo','O',state.lo);
+  const lf=state.lf[vk]=state.lf[vk]||{};
+  const mf=(lbl,type,ph)=>{
+   const lb=document.createElement('label');lb.textContent=lbl;lb.style.cssText='display:block;font-size:12px;margin:6px 0 2px';
+   const i=document.createElement('input');i.value=lf[type]||'';i.placeholder=ph;i.style.cssText='width:100%';i.autocomplete='off';
+   i.oninput=()=>{lf[type]=i.value;render();};
+   $('kind').appendChild(lb);$('kind').appendChild(i);
+  };
+  if(fig==='tri'){mf('Основания медиан из A, B, C (по умолчанию MNK)','med','MNK');mf('Основания высот из A, B, C (по умолчанию HPT)','alt','HPT');mf('Основания биссектрис из A, B, C (по умолчанию LEF)','bis','LEF');}
+  if(fig==='par'||fig==='rho'||fig==='trap')mf('Основание высоты (по умолчанию H)','alt','H');
  }
  if(fig==='cross'){
   const h=document.createElement('h3');h.textContent='Буквы на чертеже';h.className='m';$('kind').appendChild(h);
