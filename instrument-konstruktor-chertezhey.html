@@ -60,6 +60,22 @@ svg circle[data-field]:hover{fill:rgba(221,122,58,.3)}
 .rad svg{width:.8em;min-height:1.3em;fill:none;stroke:currentColor;stroke-width:1.4}
 .rad svg path{vector-effect:non-scaling-stroke}
 .rd{border-top:1.4px solid currentColor;padding:1px 3px 0 0}
+#lib{margin-top:26px;max-width:760px;background:#2B3D2B;border-radius:14px;padding:14px 18px}
+#lib h2{font-size:18px;margin:0 0 10px;border-left:4px solid #9BB08A;padding-left:9px}
+#lib .row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0;align-items:center}
+#lib input[type=text],#lib select{font:inherit;font-size:14px;padding:6px 9px;border:0;border-radius:8px;background:#EEE0C8;color:#16231A}
+#lib input[type=text]{flex:1;min-width:150px}
+#lib button{font:inherit;font-size:14px;font-weight:600;padding:7px 14px;border:0;border-radius:9px;background:#DD7A3A;color:#16231A;cursor:pointer}
+#lib button.o{background:#16231A;color:#EEE0C8}
+#lib details button.o{background:#2B3D2B}
+#lib details{background:#16231A;border-radius:10px;padding:4px 12px;margin:8px 0}
+#lib summary{cursor:pointer;font-size:15px;font-weight:600;padding:7px 0}
+.li{display:flex;gap:10px;align-items:center;padding:7px 0;border-top:1px solid #2B3D2B;flex-wrap:wrap}
+.li img{width:96px;height:66px;border-radius:6px;background:#fff;cursor:pointer;object-fit:cover}
+.li .nm{flex:1;min-width:110px;font-size:14px}
+.li select{font-size:12.5px;padding:4px 6px}
+.li button{font-size:12.5px;padding:5px 10px}
+#lmsg{font-size:13px;color:#C9AB82;min-height:18px}
 </style>
 </head>
 <body>
@@ -85,6 +101,15 @@ svg circle[data-field]:hover{fill:rgba(221,122,58,.3)}
   <div class="szr">Размер формулы (нажми на неё на чертеже)<input type="range" id="csz" min="0.3" max="1.6" step="0.05" value="0.8"></div>
   <div class="hint">Формулу из справочника внизу можно перетащить мышью на чертёж (или дважды щёлкнуть по ней). На чертеже её можно двигать, а размер у каждой свой: нажми на формулу и тяни ползунок или крути колёсико мыши над ней. Двойной щелчок убирает формулу. Формулы попадают и в скопированную картинку.</div>
   <div class="hint">Скопированную картинку можно вставить на онлайн-доску через Ctrl+V (Cmd+V). Если даны не все величины, чертёж схематичный, не в масштабе.</div>
+ <div id="lib">
+  <h2>Мои чертежи</h2>
+  <div class="row"><input type="text" id="lname" placeholder="Название чертежа"><select id="lfold"></select><button id="lsave">Сохранить</button></div>
+  <div class="row"><input type="text" id="lnew" placeholder="Новая папка, например: Теорема синусов"><button class="o" id="lmk">Создать папку</button></div>
+  <div id="lmsg"></div>
+  <div id="llist"></div>
+  <div class="row"><button class="o" id="lexp">Скачать копию (файл)</button><button class="o" id="limp">Загрузить копию</button><input type="file" id="lfile" accept=".json" style="display:none"></div>
+  <div class="hint">Чертежи хранятся в этом браузере на этом компьютере. Чтобы перенести на другой компьютер или не потерять при очистке браузера, скачайте копию и загрузите её там. Формулы, добавленные на чертёж, в сохранение не входят.</div>
+ </div>
  <div id="theory"></div>
  </div>
 </div>
@@ -1133,6 +1158,78 @@ $('svg').addEventListener('wheel',e=>{
 },{passive:false});
 buildTheory();
 buildUI();
+
+/* ---------- сохранённые чертежи по папкам ---------- */
+const LIBK='lilimath_konstruktor_lib_v1';
+function libLoad(){try{const j=JSON.parse(localStorage.getItem(LIBK)||'null');if(j&&Array.isArray(j.folders))return j;}catch(e){}return {folders:[{id:'f0',name:'Без папки',items:[]}]};}
+let lib=libLoad();
+function libSave(){try{localStorage.setItem(LIBK,JSON.stringify(lib));return true;}catch(e){$('lmsg').textContent='Браузер не дал сохранить. Скачайте копию файлом.';return false;}}
+function snap(){
+ const vk=vkey(state.fig),cp=o=>JSON.parse(JSON.stringify(o===undefined?null:o));
+ return {fig:state.fig,pk:cp(state.pk),kind:cp(state.kind),opt:cp(state.opt),cl:cp(state.cl),vals:cp(state.vals[vk]||{}),cons:cp(state.cons[vk]||{}),lt:state.lt[vk]||'',lo:state.lo[vk]||'',lf:cp(state.lf[vk]||{})};
+}
+function restore(d){
+ state.fig=d.fig;state.pk=d.pk||state.pk;state.kind=d.kind||state.kind;Object.assign(state.opt,d.opt||{});state.cl=d.cl||state.cl;
+ const vk=vkey(d.fig);
+ state.vals[vk]=d.vals||{};state.cons[vk]=d.cons||{};state.lt[vk]=d.lt||'';state.lo[vk]=d.lo||'';state.lf[vk]=d.lf||{};
+ cards=[];selId=null;buildUI();window.scrollTo({top:0,behavior:'smooth'});
+}
+function thumb(cb){
+ toCanvas(b=>{
+  const img=new Image(),u=URL.createObjectURL(b);
+  img.onload=()=>{const c=document.createElement('canvas');c.width=240;c.height=165;const g=c.getContext('2d');g.fillStyle=opt.board?'#16231A':'#fff';g.fillRect(0,0,240,165);g.drawImage(img,0,0,240,165);URL.revokeObjectURL(u);cb(c.toDataURL('image/jpeg',0.72));};
+  img.src=u;
+ });
+}
+function libRender(){
+ const sel=$('lfold'),cur=sel.value;
+ sel.innerHTML='';lib.folders.forEach(f=>{const o=document.createElement('option');o.value=f.id;o.textContent=f.name;sel.appendChild(o);});
+ if(lib.folders.some(f=>f.id===cur))sel.value=cur;
+ const L=$('llist');L.innerHTML='';
+ lib.folders.forEach(f=>{
+  const d=document.createElement('details');d.open=f.open!==false&&f.items.length>0;
+  d.ontoggle=()=>{f.open=d.open;};
+  const sm=document.createElement('summary');sm.textContent=f.name+' ('+f.items.length+')';d.appendChild(sm);
+  f.items.forEach(it=>{
+   const r=document.createElement('div');r.className='li';
+   const im=document.createElement('img');im.src=it.th;im.onclick=()=>restore(it.d);
+   const nm=document.createElement('div');nm.className='nm';nm.textContent=it.name;
+   const ob=document.createElement('button');ob.textContent='Открыть';ob.onclick=()=>restore(it.d);
+   const mv=document.createElement('select');
+   const o0=document.createElement('option');o0.textContent='Перенести в...';o0.value='';mv.appendChild(o0);
+   lib.folders.filter(x=>x.id!==f.id).forEach(x=>{const o=document.createElement('option');o.value=x.id;o.textContent=x.name;mv.appendChild(o);});
+   mv.onchange=()=>{if(!mv.value)return;const t=lib.folders.find(x=>x.id===mv.value);f.items=f.items.filter(x=>x!==it);t.items.push(it);libSave();libRender();};
+   const rb=document.createElement('button');rb.className='o';rb.textContent='Переименовать';rb.onclick=()=>{const n=prompt('Новое название',it.name);if(n&&n.trim()){it.name=n.trim();libSave();libRender();}};
+   const db=document.createElement('button');db.className='o';db.textContent='Удалить';db.onclick=()=>{if(confirm('Удалить чертёж «'+it.name+'»?')){f.items=f.items.filter(x=>x!==it);libSave();libRender();}};
+   [im,nm,ob,mv,rb,db].forEach(x=>r.appendChild(x));d.appendChild(r);
+  });
+  const fr=document.createElement('div');fr.className='row';
+  const fb=document.createElement('button');fb.className='o';fb.textContent='Переименовать папку';fb.onclick=()=>{const n=prompt('Название папки',f.name);if(n&&n.trim()){f.name=n.trim();libSave();libRender();}};
+  fr.appendChild(fb);
+  if(lib.folders.length>1){const xb=document.createElement('button');xb.className='o';xb.textContent='Удалить папку';xb.onclick=()=>{if(confirm('Удалить папку «'+f.name+'» вместе с чертежами ('+f.items.length+')?')){lib.folders=lib.folders.filter(x=>x!==f);libSave();libRender();}};fr.appendChild(xb);}
+  d.appendChild(fr);L.appendChild(d);
+ });
+}
+$('lmk').onclick=()=>{const n=$('lnew').value.trim();if(!n)return;lib.folders.push({id:'f'+Date.now(),name:n,items:[]});$('lnew').value='';libSave();libRender();$('lfold').value=lib.folders[lib.folders.length-1].id;$('lmsg').textContent='Папка «'+n+'» создана.';};
+$('lsave').onclick=()=>{
+ const f=lib.folders.find(x=>x.id===$('lfold').value)||lib.folders[0];
+ let nm=$('lname').value.trim();if(!nm)nm=FIGS[state.fig].name+' '+(f.items.length+1);
+ const d=snap();
+ thumb(th=>{f.items.push({name:nm,th:th,d:d});f.open=true;if(libSave()){$('lname').value='';$('lmsg').textContent='Сохранено в папку «'+f.name+'».';}libRender();});
+};
+$('lexp').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(lib)],{type:'application/json'}));a.download='chertezhi-kopiya.json';a.click();};
+$('limp').onclick=()=>$('lfile').click();
+$('lfile').onchange=e=>{
+ const fl=e.target.files[0];if(!fl)return;
+ fl.text().then(t=>{
+  try{const j=JSON.parse(t);if(!j||!Array.isArray(j.folders))throw 0;
+   j.folders.forEach(nf=>{let f=lib.folders.find(x=>x.name===nf.name);if(!f){f={id:'f'+Date.now()+Math.random().toString(36).slice(2,6),name:nf.name,items:[]};lib.folders.push(f);}(nf.items||[]).forEach(it=>f.items.push(it));});
+   libSave();libRender();$('lmsg').textContent='Копия загружена, чертежи добавлены к имеющимся.';
+  }catch(err){$('lmsg').textContent='Это не файл копии чертежей.';}
+  e.target.value='';
+ });
+};
+libRender();
 </script>
 </body>
 </html>
