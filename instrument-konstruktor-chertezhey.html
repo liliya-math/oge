@@ -619,7 +619,7 @@ function drawTrap(){
  if(cons.diag){line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);rA.push(U(P[0],P[2]));rB.push(U(P[1],P[3]));}
  let h1=null,m1=null;
  if(cons.hA){const H=drawAlt(P[3],P[0],P[1],COL.alt);hit2(P[3],H,'h');h1=[P[3],H,T('h',h,'h')];feet.push([H,P[3],fl('alt',0,'H')]);}
- if(cons.mid){const m=mid(P[0],P[3]),n=mid(P[1],P[2]);line(m,n,COL.mid,2);m1=[m,n,T(null,(a+b)/2,'m')];}
+ if(cons.mid){const m=mid(P[0],P[3]),n=mid(P[1],P[2]);line(m,n,COL.mid,2);dot(m);dot(n);feet.push([m,n,fl('mid',0,'M')],[n,m,fl('mid',1,'N')]);m1=[m,n,T(null,(a+b)/2,'m')];}
  polyLines(P);hitPoly(P,['a','d','b','c'],[[0,'A'],[1,'B']]);
  const angs=cornerAngles(P,[[0,Aact,T('A',Aact,'α',true),rA],[1,Bact,T('B',Bact,'β',true),rB]]);
  const c0=centroid(P);
@@ -901,6 +901,7 @@ function buildUI(){
   };
   if(fig==='tri'){mf('Основания медиан из A, B, C (по умолчанию MNK)','med','MNK');mf('Основания высот из A, B, C (по умолчанию HPT)','alt','HPT');mf('Основания биссектрис из A, B, C (по умолчанию LEF)','bis','LEF');}
   if(fig==='par'||fig==='rho'||fig==='trap')mf('Основание высоты (по умолчанию H)','alt','H');
+  if(fig==='trap')mf('Концы средней линии: на AD и на BC (по умолчанию MN)','mid','MN');
  }
  if(fig==='cross'){
   const h=document.createElement('h3');h.textContent='Буквы на чертеже';h.className='m';$('kind').appendChild(h);
