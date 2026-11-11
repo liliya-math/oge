@@ -136,8 +136,35 @@ const CONS={
  cross:[['bis1','Биссектриса угла 1'],['bis2','Биссектриса угла 2'],['bis3','Биссектриса угла 3'],['bis4','Биссектриса угла 4']],
  psec:[['pts','Подписать точки пересечения P и Q']]
 };
-const state={fig:'tri',kind:{t:'any',v:'B'},pk:{t:'reg',n:0,m:5},cl:{p:'ABCDO',b:''},lt:{},lo:{},lf:{},vals:{},cons:{},opt:{cl:true,num:true,hl:true,ls:true,la:false,comp:false,obt:false,board:false}};
+const state={fig:'tri',kind:{t:'any',v:'B'},pk:{t:'reg',n:0,m:5},cl:{p:'ABCDO',b:''},lt:{},lo:{},lf:{},eq:{},vals:{},cons:{},opt:{cl:true,num:true,hl:true,ls:true,la:false,comp:false,obt:false,board:false}};
 const $=id=>document.getElementById(id);
+
+/* ---------- равные стороны и равные углы ---------- */
+function tickN(p,q,k){
+ const m=mid(p,q),u=U(p,q),n=[-u[1],u[0]];
+ for(let i=0;i<k;i++){
+  const c=add(m,u,(i-(k-1)/2)*6),a=add(c,n,6),b=add(c,n,-6);
+  els.push('<line x1="'+ff(a[0])+'" y1="'+ff(a[1])+'" x2="'+ff(b[0])+'" y2="'+ff(b[1])+'" stroke="'+COL.ink+'" stroke-width="1.8"/>');
+  segs.push([a[0],a[1],b[0],b[1]]);
+ }
+}
+function hasEqS(){const e=state.eq[vkey(state.fig)]||{};return !!(e.s&&e.s.trim());}
+function regEq(P){
+ const e=state.eq[vkey(state.fig)]||{},n=P.length;
+ const names=P.map((_,i)=>mapL('ABCDEFGHIJKL'[i]));
+ const groups=t=>(t||'').toUpperCase().split(/[;,\n]+/).map(g=>g.split('=').map(x=>x.replace(/[\s∠]/g,'')).filter(Boolean)).filter(g=>g.length);
+ groups(e.s).forEach((g,gi)=>g.forEach(it=>{
+  if(it.length!==2)return;
+  const i=names.indexOf(it[0]),j=names.indexOf(it[1]);
+  if(i<0||j<0||i===j)return;
+  if((i+1)%n===j)tickN(P[i],P[j],gi+1);else if((j+1)%n===i)tickN(P[j],P[i],gi+1);
+ }));
+ groups(e.a).forEach((g,gi)=>g.forEach(it=>{
+  const i=names.indexOf(it);if(it.length!==1||i<0)return;
+  const V=P[i],N1=P[(i+1)%n],N2=P[(i+n-1)%n];
+  for(let k=0;k<=gi;k++)arc(V,U(V,N1),U(V,N2),25+k*5,COL.ink,1.6);
+ }));
+}
 
 /* ---------- многоугольники: поля и построения зависят от вида ---------- */
 const PL='ABCDEFGHIJKL',GR=['α','β','γ','δ','ε','ζ','η','θ','ι','κ','λ','μ'];
@@ -472,7 +499,7 @@ function drawTri(){
   exL.push({at:at,ot:ot,E:[a[0]+(a[0]-b[0])/d*Lx,a[1]+(a[1]-b[1])/d*Lx],val:180-r[at]});
  });
  const f=fit([Am,Bm,Cm].concat(exL.map(e=>e.E)),cl);
- const A=f.P(Am),B=f.P(Bm),C=f.P(Cm),O=f.P([ox,oy]),I=f.P([Ix,Iy]);
+ const A=f.P(Am),B=f.P(Bm),C=f.P(Cm),O=f.P([ox,oy]),I=f.P([Ix,Iy]);regEq([A,B,C]);
  const V={A:A,B:B,C:C},opp={A:['B','C'],B:['A','C'],C:['A','B']};
  const rays={A:[],B:[],C:[]},feet=[];
  if(circOn){circle(O,Rr*f.sc,COL.cir,1.8);dot(O,2.6);}
@@ -553,7 +580,7 @@ function drawPar(){
  const hh=b*Math.sin(A*rad);
  const pm={A:[0,0],B:[a,0],C:[a+b*Math.cos(A*rad),hh],D:[b*Math.cos(A*rad),hh]};
  const f=fit([pm.A,pm.B,pm.C,pm.D],[]);
- const P=[pm.A,pm.B,pm.C,pm.D].map(f.P),pA=P[0],pB=P[1],pC=P[2],pD=P[3];
+ const P=[pm.A,pm.B,pm.C,pm.D].map(f.P),pA=P[0],pB=P[1],pC=P[2],pD=P[3];regEq(P);
  const rays={A:[]},feet=[],segsL=[];
  if(cons.diag){line(pA,pC,COL.med,1.8);line(pB,pD,COL.med,1.8);rays.A.push(U(pA,pC));segsL.push([pA,pC,T('d1',Math.hypot(pm.C[0],pm.C[1]),'d₁')],[pB,pD,T('d2',Math.hypot(pm.D[0]-a,pm.D[1]),'d₂')]);}
  let h1=null,h2=null;
@@ -583,14 +610,14 @@ function drawRho(){
   if(a==null)a=5;if(A==null)A=60;ang=A;
   pm={A:[0,0],B:[a,0],C:[a+a*Math.cos(A*rad),a*Math.sin(A*rad)],D:[a*Math.cos(A*rad),a*Math.sin(A*rad)]};
  }
- const arr=[pm.A,pm.B,pm.C,pm.D],f=fit(arr,[]),P=arr.map(f.P);
+ const arr=[pm.A,pm.B,pm.C,pm.D],f=fit(arr,[]),P=arr.map(f.P);regEq(P);
  const rays=[],feet=[],sl=[];
  if(cons.diag){hit2(P[0],P[2],'d1');hit2(P[1],P[3],'d2');line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);rays.push(U(P[0],P[2]));
   const O=mid(P[0],P[2]);rightMark(O,U(O,P[2]),U(O,P[3]),9);
   sl.push([P[0],P[2],T('d1',Math.hypot(pm.C[0]-pm.A[0],pm.C[1]-pm.A[1]),'d₁')],[P[1],P[3],T('d2',Math.hypot(pm.D[0]-pm.B[0],pm.D[1]-pm.B[1]),'d₂')]);}
  let h1=null;
  if(cons.hA){const H=drawAlt(P[3],P[0],P[1],COL.alt);h1=[P[3],H,T(null,null,'h')];feet.push([H,P[3],fl('alt',0,'H')]);}
- polyLines(P);hitPoly(P,['a','a','a','a'],[[0,'A']]);for(let i=0;i<4;i++)tick(P[i],P[(i+1)%4]);
+ polyLines(P);hitPoly(P,['a','a','a','a'],[[0,'A']]);if(!hasEqS())for(let i=0;i<4;i++)tick(P[i],P[(i+1)%4]);
  const angs=cornerAngles(P,[[0,ang,T('A',ang,'α',true),rays]]);
  const c0=centroid(P);
  ['A','B','C','D'].forEach((n,i)=>vertexLab(P[i],c0,n));
@@ -612,7 +639,7 @@ function drawRect(sq){
    else{a=d*0.8;b=d*0.6;}
   }else{if(a==null&&b==null){a=6;b=4;}else if(a==null)a=b*1.5;else if(b==null)b=a*0.65;}
  }
- const arr=[[0,0],[a,0],[a,b],[0,b]],f=fit(arr,[]),P=arr.map(f.P);
+ const arr=[[0,0],[a,0],[a,b],[0,b]],f=fit(arr,[]),P=arr.map(f.P);regEq(P);
  const dg=Math.hypot(a,b),sl=[];
  if(cons.diag){hit2(P[0],P[2],'d');hit2(P[1],P[3],'d');line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);sl.push([P[0],P[2],T('d',dg,'d')]);}
  polyLines(P);hitPoly(P,sq?['a','a','a','a']:['a','b','a','b'],[]);
@@ -620,7 +647,7 @@ function drawRect(sq){
  const c0=centroid(P);
  ['A','B','C','D'].forEach((n,i)=>vertexLab(P[i],c0,n));
  sideLab(P[0],P[1],T('a',a,'a'),c0);
- if(!sq)sideLab(P[1],P[2],T('b',b,'b'),c0);else for(let i=0;i<4;i++)tick(P[i],P[(i+1)%4]);
+ if(!sq)sideLab(P[1],P[2],T('b',b,'b'),c0);else if(!hasEqS())for(let i=0;i<4;i++)tick(P[i],P[(i+1)%4]);
  sl.forEach(x=>segLab(x[0],x[1],x[2]));
  areaCap(arr);return null;
 }
@@ -648,7 +675,7 @@ function drawTrap(){
  else if(b==null){b=(xL!=null&&xR!=null)?a-xL-xR:a*0.6;}
  if(b<=0||a<=0)return 'Основание получилось не положительным: проверьте данные';
  if(xL==null&&xR==null){xL=xR=(a-b)/2;}else if(xL==null)xL=a-b-xR;else if(xR==null)xR=a-b-xL;
- const pm=[[0,0],[a,0],[xL+b,h],[xL,h]],f=fit(pm,[]),P=pm.map(f.P);
+ const pm=[[0,0],[a,0],[xL+b,h],[xL,h]],f=fit(pm,[]),P=pm.map(f.P);regEq(P);
  const Aact=Math.atan2(h,xL)*deg,Bact=Math.atan2(h,a-xL-b)*deg;
  const cAct=Math.hypot(xL,h),dAct=Math.hypot(a-xL-b,h);
  if(inc&&Math.abs(a+b-cAct-dAct)>0.01*(a+b+cAct+dAct))return 'Окружность можно вписать в трапецию, только если сумма оснований равна сумме боковых сторон (a + b = c + d). Сейчас '+fmt(a+b)+' и '+fmt(cAct+dAct);
@@ -710,7 +737,7 @@ function drawPolyReg(){
  const r=R*cs,a=2*R*sn,Aint=(n-2)*180/n,cen=360/n;
  const th=i=>-Math.PI/2-Math.PI/n+i*2*Math.PI/n;
  const M=[];for(let i=0;i<n;i++)M.push([R*Math.cos(th(i)),R*Math.sin(th(i))]);
- const f=fit(M,cons.circ?[[0,0,R]]:[]),P=M.map(f.P),O=f.P([0,0]),sc=f.sc;
+ const f=fit(M,cons.circ?[[0,0,R]]:[]),P=M.map(f.P),O=f.P([0,0]),sc=f.sc;regEq(P);
  const dg=polyDiags(n),Mab=mid(P[0],P[1]);
  const showO=cons.circ||cons.inc||cons.radR||cons.radr||cons.cen;
  dg.forEach(d=>line(P[d[0]],P[d[1]],COL.med,1.6));
@@ -721,7 +748,7 @@ function drawPolyReg(){
  if(cons.radr){line(O,Mab,COL.alt,2);rightMark(Mab,U(Mab,O),U(Mab,P[0]),9);}
  if(showO)dot(O,3);
  polyLines(P);
- for(let i=0;i<n;i++)tick(P[i],P[(i+1)%n]);
+ if(!hasEqS())for(let i=0;i<n;i++)tick(P[i],P[(i+1)%n]);
  if(cons.radR)hit2(O,P[0],'R');
  if(cons.radr)hit2(O,Mab,'r');
  hitPoly(P,Array(n).fill('a'),[[0,'A']].concat(cons.ext?[[1,'eB']]:[]));
@@ -780,7 +807,7 @@ function drawPolyAny(){
  const l=closeSides(phi);
  if(!l)return 'Не получилось построить такой многоугольник: проверьте углы';
  const M=[[0,0]];for(let i=0;i<n-1;i++)M.push([M[i][0]+l[i]*Math.cos(phi[i]),M[i][1]+l[i]*Math.sin(phi[i])]);
- const f=fit(M,[]),P=M.map(f.P),c0=centroid(P),dg=polyDiags(n);
+ const f=fit(M,[]),P=M.map(f.P),c0=centroid(P),dg=polyDiags(n);regEq(P);
  dg.forEach(d=>line(P[d[0]],P[d[1]],COL.med,1.6));
  polyLines(P);
  hitPoly(P,Array(n).fill(null),PL.slice(0,n).split('').map((k,i)=>[i,k]));
@@ -959,6 +986,15 @@ function buildUI(){
   if(fig==='tri'){mf('Основания медиан из A, B, C (по умолчанию MNK)','med','MNK');mf('Основания высот из A, B, C (по умолчанию HPT)','alt','HPT');mf('Основания биссектрис из A, B, C (по умолчанию LEF)','bis','LEF');}
   if(fig==='par'||fig==='rho'||fig==='trap')mf('Основание высоты (по умолчанию H)','alt','H');
   if(fig==='trap')mf('Концы средней линии: на AD и на BC (по умолчанию MN)','mid','MN');
+  const eq=state.eq[vk]=state.eq[vk]||{};
+  const h2=document.createElement('h3');h2.textContent='Равные стороны и углы';h2.className='g';$('kind').appendChild(h2);
+  [['s','Равные стороны: группы через точку с запятой, например AB=CD; BC=AD','AB=CD; BC=AD'],['a','Равные углы: например A=C; B=D','A=C; B=D']].forEach(x=>{
+   const lb=document.createElement('label');lb.textContent=x[1];lb.style.cssText='display:block;font-size:12px;margin:6px 0 2px';
+   const i=document.createElement('input');i.value=eq[x[0]]||'';i.placeholder=x[2];i.style.cssText='width:100%';i.autocomplete='off';
+   i.oninput=()=>{eq[x[0]]=i.value;render();};
+   $('kind').appendChild(lb);$('kind').appendChild(i);
+  });
+  const hn=document.createElement('div');hn.className='hint';hn.textContent='Первая группа получит одну чёрточку (одну дугу), вторая две, третья три.';$('kind').appendChild(hn);
  }
  if(fig==='cross'){
   const h=document.createElement('h3');h.textContent='Буквы на чертеже';h.className='m';$('kind').appendChild(h);
@@ -1183,12 +1219,12 @@ let lib=libLoad();
 function libSave(){try{localStorage.setItem(LIBK,JSON.stringify(lib));return true;}catch(e){$('lmsg').textContent='Браузер не дал сохранить. Скачайте копию файлом.';return false;}}
 function snap(){
  const vk=vkey(state.fig),cp=o=>JSON.parse(JSON.stringify(o===undefined?null:o));
- return {fig:state.fig,pk:cp(state.pk),kind:cp(state.kind),opt:cp(state.opt),cl:cp(state.cl),vals:cp(state.vals[vk]||{}),cons:cp(state.cons[vk]||{}),lt:state.lt[vk]||'',lo:state.lo[vk]||'',lf:cp(state.lf[vk]||{})};
+ return {fig:state.fig,pk:cp(state.pk),kind:cp(state.kind),opt:cp(state.opt),cl:cp(state.cl),vals:cp(state.vals[vk]||{}),cons:cp(state.cons[vk]||{}),lt:state.lt[vk]||'',lo:state.lo[vk]||'',lf:cp(state.lf[vk]||{}),eq:cp(state.eq[vk]||{})};
 }
 function restore(d){
  state.fig=d.fig;state.pk=d.pk||state.pk;state.kind=d.kind||state.kind;Object.assign(state.opt,d.opt||{});state.cl=d.cl||state.cl;
  const vk=vkey(d.fig);
- state.vals[vk]=d.vals||{};state.cons[vk]=d.cons||{};state.lt[vk]=d.lt||'';state.lo[vk]=d.lo||'';state.lf[vk]=d.lf||{};
+ state.vals[vk]=d.vals||{};state.cons[vk]=d.cons||{};state.lt[vk]=d.lt||'';state.lo[vk]=d.lo||'';state.lf[vk]=d.lf||{};state.eq[vk]=d.eq||{};
  cards=[];selId=null;buildUI();window.scrollTo({top:0,behavior:'smooth'});
 }
 function thumb(cb){
