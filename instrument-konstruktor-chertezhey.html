@@ -151,6 +151,7 @@ function tickN(p,q,k){
 function hasEqS(){const e=state.eq[vkey(state.fig)]||{};return !!(e.s&&e.s.trim());}
 const EQG=t=>(t||'').toUpperCase().split(/[;,\n]+/).map(g=>g.split('=').map(x=>x.replace(/[\s∠]/g,'')).filter(Boolean)).filter(g=>g.length);
 let PT={},EQV=[];
+function halves(P,Q,k){const M=mid(P,Q);tickN(P,M,k);tickN(M,Q,k);}
 function regEq(P){
  const e=state.eq[vkey(state.fig)]||{},n=P.length;
  const names=P.map((_,i)=>mapL('ABCDEFGHIJKL'[i]));
@@ -567,6 +568,10 @@ function drawTri(){
  if(cons.midB)mids.push([mid(B,A),mid(B,C),r.b]);
  if(cons.midC)mids.push([mid(C,A),mid(C,B),r.c]);
  mids.forEach(m=>line(m[0],m[1],COL.mid,2));
+ const hv=(X,Y,k)=>halves(X,Y,k);
+ if(cons.midA){hv(A,B,1);hv(A,C,3);}
+ if(cons.midB){hv(A,B,1);hv(B,C,2);}
+ if(cons.midC){hv(B,C,2);hv(A,C,3);}
  let radLab=null;
  if(cons.radR){hit2(O,A,'R');line(O,A,COL.cir,1.8);rays.A.push(U(A,O));radLab=[O,A,T('R',Rr,'R')];}
  let rinLab=null;
@@ -740,7 +745,7 @@ function drawTrap(){
  if(cons.diag){centerO(isect(P[0],P[2],P[1],P[3]));line(P[0],P[2],COL.med,1.8);line(P[1],P[3],COL.med,1.8);rA.push(U(P[0],P[2]));rB.push(U(P[1],P[3]));}
  let h1=null,m1=null;
  if(cons.hA){const H=drawAlt(P[3],P[0],P[1],COL.alt);hit2(P[3],H,'h');h1=[P[3],H,T('h',h,'h')];feet.push([H,P[3],fl('alt',0,'H')]);}
- if(cons.mid){const m=mid(P[0],P[3]),n=mid(P[1],P[2]);line(m,n,COL.ink,2);dot(m);dot(n);feet.push([m,n,fl('mid',0,'M'),1],[n,m,fl('mid',1,'N'),1]);hit2(m,n,'m');m1=[m,n,T('m',(a+b)/2,'m')];}
+ if(cons.mid){const m=mid(P[0],P[3]),n=mid(P[1],P[2]);halves(P[0],P[3],1);halves(P[1],P[2],2);line(m,n,COL.ink,2);dot(m);dot(n);feet.push([m,n,fl('mid',0,'M'),1],[n,m,fl('mid',1,'N'),1]);hit2(m,n,'m');m1=[m,n,T('m',(a+b)/2,'m')];}
  polyLines(P);hitPoly(P,['a','d','b','c'],[[0,'A'],[1,'B']]);
  const angs=cornerAngles(P,[[0,Aact,T('A',Aact,'α',true),rA],[1,Bact,T('B',Bact,'β',true),rB]]);
  const c0=centroid(P);
