@@ -25,7 +25,7 @@ files.forEach(function (file) {
       if (t.input.type === "choice") {
         const vs = t.input.options.map(o => o.v);
         if (new Set(vs).size !== vs.length) fail(tag + ": повтор вариантов");
-        if (new Set(t.input.options.map(o => strip(o.html))).size !== vs.length) fail(tag + ": одинаковый вид вариантов");
+        if (new Set(t.input.options.map(o => /<svg/.test(o.html) ? o.html : strip(o.html))).size !== vs.length) fail(tag + ": одинаковый вид вариантов");
         if (!vs.includes(String(t.ans))) fail(tag + ": верного ответа нет среди вариантов " + t.ans);
         if (vs.length < 2) fail(tag + ": меньше двух вариантов");
       } else {
