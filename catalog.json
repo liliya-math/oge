@@ -5187,6 +5187,15 @@
       "status": "public",
       "note": "9A-128",
       "auto": false
+    },
+    {
+      "file": "trenazher-formuly-sokrashchennogo-umnozheniya.html",
+      "title": "Увидеть формулу · Формулы сокращённого умножения",
+      "type": "trenazher",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "76 заданий на 12 этапах. Распознавание формул, примеры с ловушками, дроби, степени, кубы и уравнения. Подсказки, разборы и прогресс в браузере."
     }
   ]
 }
