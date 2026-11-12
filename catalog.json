@@ -5177,6 +5177,16 @@
       "status": "public",
       "note": "добавлено 2026-11-12; общий движок tren/staged.js (содержание tren/grafiki-oge11.js); точка и координаты, прямая y=kx+b, гипербола, парабола, соответствие графиков и формул как в №11; рисунки SVG в самом файле; серия 7 подряд, отправка в таблицу, режим учителя #lilia",
       "auto": true
+    },
+    {
+      "file": "teoriya-9-zadachi-sistemy-uravneniy.html",
+      "title": "Теория · 9 класс · Решение задач с помощью систем уравнений второй степени (п. 7.5)",
+      "type": "theory",
+      "class": 9,
+      "oge_task": null,
+      "status": "public",
+      "note": "9A-128",
+      "auto": false
     }
   ]
 }
