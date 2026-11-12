@@ -3958,6 +3958,16 @@
       "auto": true
     },
     {
+      "file": "trenazher-neravenstva13.html",
+      "title": "ОГЭ №13 · Тренажёр · Неравенства и системы, выбор рисунка, 13 ступеней",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 13,
+      "status": "public",
+      "note": "добавлено 2026-11-12; общий движок tren/staged.js (содержание tren/neravenstva13.js); числовая прямая SVG, линейные неравенства, системы, квадратные (скобки и x² и число); серия 7 подряд, отправка в таблицу, режим учителя #lilia",
+      "auto": true
+    },
+    {
       "file": "trenazher-tekstovye-zadachi-5.html",
       "title": "5A.3.6 · Тренажёр · Текстовые задачи, совместная работа, 13 ступеней",
       "type": "trenazher",
