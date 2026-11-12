@@ -365,8 +365,9 @@ body .intro-content > p, .intro-content > .coordinate-graph { flex: 0 0 100%; }
 .math-fraction{display:inline-grid;grid-template-rows:auto auto;vertical-align:middle;min-width:1.12em;margin:.12em .12em;padding:0 .06em;text-align:center;line-height:1.14;font-size:1em;white-space:nowrap;color:inherit}
 .math-fraction>span{display:block;padding:.1em .24em}
 .math-fraction>span:first-child{border-bottom:2px solid currentColor}
-.choice:has(.math-fraction){font-size:clamp(21px,1.8vw,27px);min-height:3.15em}
-.choice .math-fraction{font-size:1em;font-weight:700}
+.choices .choice{font-size:clamp(21px,1.65vw,24px);font-weight:600;line-height:1.35}
+.choices .choice .math-fraction{font-size:inherit;font-weight:inherit}
+body .choices .choice :is(.math-var-k,.math-var-b){font-size:inherit;line-height:inherit}
 .question .math-fraction{font-size:1em}
 </style>
 </head>
