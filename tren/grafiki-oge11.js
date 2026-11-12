@@ -46,6 +46,7 @@ function G(items, o) {
   s += '<defs><clipPath id="' + id + '"><rect x="24" y="24" width="200" height="200"/></clipPath></defs>';
   var i;
   for (i = -5; i <= 5; i++) {
+    if (o.quad) break;
     s += '<line x1="' + X(i) + '" y1="' + M + '" x2="' + X(i) + '" y2="' + (M + N) + '" stroke="#d6cdbb" stroke-width=".7"/>';
     s += '<line x1="' + M + '" y1="' + Y(i) + '" x2="' + (M + N) + '" y2="' + Y(i) + '" stroke="#d6cdbb" stroke-width=".7"/>';
   }
@@ -59,6 +60,12 @@ function G(items, o) {
   }
   s += '<text x="' + (M + N + 6) + '" y="' + (Y(0) + 4) + '" font-size="14" font-style="italic" fill="#14211e" font-family="Georgia,serif">x</text>';
   s += '<text x="' + X(0) + '" y="16" font-size="14" font-style="italic" text-anchor="middle" fill="#14211e" font-family="Georgia,serif">y</text>';
+  if (o.quad) {
+    [[2.5, 2.5, 'I', '+; +'], [-2.5, 2.5, 'II', MIN + '; +'], [-2.5, -2.5, 'III', MIN + '; ' + MIN], [2.5, -2.5, 'IV', '+; ' + MIN]].forEach(function (q) {
+      s += '<text x="' + X(q[0]) + '" y="' + (Y(q[1]) - 2) + '" font-size="30" font-weight="700" text-anchor="middle" fill="#1747c9" font-family="Georgia,serif">' + q[2] + '</text>';
+      s += '<text x="' + X(q[0]) + '" y="' + (Y(q[1]) + 20) + '" font-size="16" text-anchor="middle" fill="#14211e" font-family="Arial,sans-serif">(' + q[3] + ')</text>';
+    });
+  }
   var cur = '';
   items.forEach(function (it) {
     var d = '', x, y;
@@ -269,7 +276,7 @@ var STEPS = [
   { id: 1, title: 'Координатная плоскость', sub: 'Точка и её координаты', gen: gen1, teach: [
     { t: '<p>Две перпендикулярные числовые прямые образуют <span class="key">координатную плоскость</span>. Горизонтальная ось — ось <span class="key">x</span>, вертикальная — ось <span class="key">y</span>. Точка, где оси пересекаются, называется началом координат.</p>', v: G([{ t: 'dot', x: 0, y: 0 }]) },
     { t: '<p>Положение точки задают двумя числами в скобках: сначала <span class="key">x</span>, потом <span class="key">y</span>.</p>' + fx('(3; ' + MIN + '2)') + '<p>Из начала координат идём на 3 вправо (плюс — вправо, минус — влево), потом на 2 вниз (плюс — вверх, минус — вниз).</p>', v: G([{ t: 'dot', x: 3, y: -2 }]) },
-    { t: '<p>Оси делят плоскость на четыре четверти. Их нумеруют против часовой стрелки, начиная с верхней правой: I (+; +), II (' + MIN + '; +), III (' + MIN + '; ' + MIN + '), IV (+; ' + MIN + ').</p>', v: '' },
+    { t: '<p>Оси делят плоскость на четыре четверти. Их нумеруют против часовой стрелки, начиная с верхней правой: I (+; +), II (' + MIN + '; +), III (' + MIN + '; ' + MIN + '), IV (+; ' + MIN + ').</p>', v: G([], { quad: true, w: 260 }) },
     { t: '<p>Какие координаты у отмеченной точки?</p>', v: G([{ t: 'dot', x: -2, y: 1 }]), ask: ask('Выбери', [['a', '(' + MIN + '2; 1)'], ['b', '(1; ' + MIN + '2)'], ['c', '(2; 1)']], 'a', 'Верно. Влево на 2, вверх на 1: (' + MIN + '2; 1).', 'Нет. Сначала x: влево на 2, это ' + MIN + '2. Потом y: вверх на 1. Получается (' + MIN + '2; 1).') }
   ] },
   { id: 2, title: 'Значение функции', sub: 'Подставляем x в формулу', gen: gen2, teach: [
