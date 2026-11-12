@@ -414,14 +414,15 @@ window.TrainerData={"id":"line-match-zero","version":1,"title":"Линейная
     save();render();if(!done()&&$('#answer')){$('#answer').focus();$('#answer').select();$('#answer').setAttribute('aria-invalid','true');}else if(done())$('#next-task').focus({preventScroll:true});
   }
   function scrollToLesson(){const el=$('#workspace');if(el&&el.getBoundingClientRect().top<0)el.scrollIntoView({behavior:'smooth',block:'start'});}
-  function goStage(i){view='lesson';state.stage=i;const j=C.stages[i].tasks.findIndex((_,n)=>!state.solved.includes(`${i}-${n}`));state.task=j<0?0:j;feedback=null;hints.clear();save();render();scrollToLesson();}
-  function goTask(i){state.task=i;feedback=null;hints.clear();save();render();scrollToLesson();}
+  function scrollToExercise(){const el=$('#workspace .visual-panel')||$('#question-text');if(el)el.scrollIntoView({behavior:'instant',block:'start'});}
+  function goStage(i, fromNext=false){view='lesson';state.stage=i;const j=C.stages[i].tasks.findIndex((_,n)=>!state.solved.includes(`${i}-${n}`));state.task=j<0?0:j;feedback=null;hints.clear();save();render();if(fromNext)scrollToExercise();else scrollToLesson();}
+  function goTask(i, fromNext=false){state.task=i;feedback=null;hints.clear();save();render();if(fromNext)scrollToExercise();else scrollToLesson();}
   function next(){
     if(!done())return;
     if(state.solved.length===TOTAL){view='complete';feedback=null;render();scrollToLesson();return;}
-    if(state.task<C.stages[state.stage].tasks.length-1){goTask(state.task+1);return;}
-    if(state.stage<C.stages.length-1){goStage(state.stage+1);return;}
-    for(let i=0;i<C.stages.length;i++)if(C.stages[i].tasks.some((_,j)=>!state.solved.includes(`${i}-${j}`))){goStage(i);return;}
+    if(state.task<C.stages[state.stage].tasks.length-1){goTask(state.task+1,true);return;}
+    if(state.stage<C.stages.length-1){goStage(state.stage+1,true);return;}
+    for(let i=0;i<C.stages.length;i++)if(C.stages[i].tasks.some((_,j)=>!state.solved.includes(`${i}-${j}`))){goStage(i,true);return;}
   }
   function renderLab(){
  const lab=C.lab,c=lab.cases[labIndex];
