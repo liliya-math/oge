@@ -4878,6 +4878,16 @@
       "auto": false
     },
     {
+      "file": "teoriya-8-teorema-vieta.html",
+      "title": "Теория · 8 класс · Теорема Виета и её применение (п. 10.5)",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-123",
+      "auto": false
+    },
+    {
       "file": "teoriya-oge-9-lineynye-uravneniya.html",
       "title": "Теория · ОГЭ · Задание 9 · Линейные уравнения (п. 1)",
       "type": "theory",
