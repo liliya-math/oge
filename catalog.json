@@ -4868,6 +4868,36 @@
       "auto": false
     },
     {
+      "file": "teoriya-oge-9-lineynye-uravneniya.html",
+      "title": "Теория · ОГЭ · Задание 9 · Линейные уравнения (п. 1)",
+      "type": "theory",
+      "class": 9,
+      "oge_task": 9,
+      "status": "public",
+      "note": "OGE-09-1",
+      "auto": false
+    },
+    {
+      "file": "teoriya-oge-9-kvadratnye-uravneniya.html",
+      "title": "Теория · ОГЭ · Задание 9 · Квадратные уравнения (п. 2)",
+      "type": "theory",
+      "class": 9,
+      "oge_task": 9,
+      "status": "public",
+      "note": "OGE-09-2",
+      "auto": false
+    },
+    {
+      "file": "teoriya-oge-9-sistemy-uravneniy.html",
+      "title": "Теория · ОГЭ · Задание 9 · Системы уравнений (п. 3)",
+      "type": "theory",
+      "class": 9,
+      "oge_task": 9,
+      "status": "public",
+      "note": "OGE-09-3",
+      "auto": false
+    },
+    {
       "file": "teoriya-7-funktsiya-kx.html",
       "title": "Теория · 7 класс · Функция y = kx и её график (§ 26)",
       "type": "theory",
