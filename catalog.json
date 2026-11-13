@@ -5107,6 +5107,66 @@
       "auto": false
     },
     {
+      "file": "teoriya-7-vynesenie-obschego-mnozhitelya.html",
+      "title": "Теория · 7 класс · Вынесение общего множителя (§ 16)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-116",
+      "auto": false
+    },
+    {
+      "file": "teoriya-7-sposob-gruppirovki.html",
+      "title": "Теория · 7 класс · Способ группировки (§ 17)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-117",
+      "auto": false
+    },
+    {
+      "file": "teoriya-7-raznost-kvadratov.html",
+      "title": "Теория · 7 класс · Разность квадратов (§ 18)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-118",
+      "auto": false
+    },
+    {
+      "file": "teoriya-7-kvadrat-summy-i-raznosti.html",
+      "title": "Теория · 7 класс · Квадрат суммы и разности (§ 19)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-119",
+      "auto": false
+    },
+    {
+      "file": "teoriya-7-summa-i-raznost-kubov.html",
+      "title": "Теория · 7 класс · Сумма и разность кубов, куб суммы и разности (§ 20)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-120",
+      "auto": false
+    },
+    {
+      "file": "teoriya-7-razlozhenie-razlichnymi-sposobami.html",
+      "title": "Теория · 7 класс · Разложение различными способами (§ 21)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-121",
+      "auto": false
+    },
+    {
       "file": "instrument-konstruktor-chertezhey.html",
       "title": "Конструктор чертежей (треугольники, четырёхугольники)",
       "type": "sluzhebnoe",
