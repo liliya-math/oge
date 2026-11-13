@@ -5167,6 +5167,46 @@
       "auto": false
     },
     {
+      "file": "teoriya-7-algebraicheskaya-drob.html",
+      "title": "Теория · 7 класс · Алгебраическая дробь. Сокращение (§ 22)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-122",
+      "auto": false
+    },
+    {
+      "file": "teoriya-7-slozhenie-vychitanie-drobey.html",
+      "title": "Теория · 7 класс · Сложение и вычитание дробей (§ 23)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-123",
+      "auto": false
+    },
+    {
+      "file": "teoriya-7-umnozhenie-delenie-drobey.html",
+      "title": "Теория · 7 класс · Умножение и деление дробей (§ 24)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-124",
+      "auto": false
+    },
+    {
+      "file": "teoriya-7-sovmestnye-deystviya-drobi.html",
+      "title": "Теория · 7 класс · Совместные действия над дробями (§ 25)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-125",
+      "auto": false
+    },
+    {
       "file": "instrument-konstruktor-chertezhey.html",
       "title": "Конструктор чертежей (треугольники, четырёхугольники)",
       "type": "sluzhebnoe",
