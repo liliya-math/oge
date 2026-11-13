@@ -5047,6 +5047,66 @@
       "auto": false
     },
     {
+      "file": "teoriya-7-odnochlen.html",
+      "title": "Теория · 7 класс · Одночлен. Стандартный вид (§ 9)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-109",
+      "auto": false
+    },
+    {
+      "file": "teoriya-7-umnozhenie-odnochlenov.html",
+      "title": "Теория · 7 класс · Умножение одночленов (§ 10)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-110",
+      "auto": false
+    },
+    {
+      "file": "teoriya-7-mnogochleny.html",
+      "title": "Теория · 7 класс · Многочлены (§ 11)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-111",
+      "auto": false
+    },
+    {
+      "file": "teoriya-7-slozhenie-vychitanie-mnogochlenov.html",
+      "title": "Теория · 7 класс · Сложение и вычитание многочленов (§ 12)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-112",
+      "auto": false
+    },
+    {
+      "file": "teoriya-7-umnozhenie-mnogochlena-na-odnochlen.html",
+      "title": "Теория · 7 класс · Умножение многочлена на одночлен (§ 13)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-113",
+      "auto": false
+    },
+    {
+      "file": "teoriya-7-umnozhenie-mnogochlena-na-mnogochlen.html",
+      "title": "Теория · 7 класс · Умножение многочлена на многочлен (§ 14)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-114",
+      "auto": false
+    },
+    {
       "file": "instrument-konstruktor-chertezhey.html",
       "title": "Конструктор чертежей (треугольники, четырёхугольники)",
       "type": "sluzhebnoe",
