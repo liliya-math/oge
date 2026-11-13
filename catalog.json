@@ -5008,6 +5008,16 @@
       "auto": false
     },
     {
+      "file": "teoriya-7-chisla-i-vyrazheniya.html",
+      "title": "Теория · 7 класс · Числа и выражения (§ 1)",
+      "type": "theory",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "7A-101",
+      "auto": false
+    },
+    {
       "file": "teoriya-7-pravila-raskrytiya-skobok.html",
       "title": "Теория · 7 класс · Правила раскрытия скобок (§ 5)",
       "type": "theory",
