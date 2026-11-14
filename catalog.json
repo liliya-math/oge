@@ -5512,6 +5512,16 @@
       "status": "public",
       "note": "добавлено 2026-11-14; общий движок tren/staged.js (содержание tren/veroyatnost10.js); серия 7 подряд (5 на ступенях 1-3), отправка в таблицу, режим учителя #lilia",
       "auto": true
+    },
+    {
+      "file": "trenazher-progressii14.html",
+      "title": "ОГЭ №14 · Тренажёр · Арифметическая и геометрическая прогрессии, 14 ступеней",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 14,
+      "status": "public",
+      "note": "добавлено 2026-11-14; общий движок tren/staged.js (содержание tren/progressii14.js); d, q, n-й член, суммы, задачи словами; серия 7 подряд, отправка в таблицу, режим учителя #lilia",
+      "auto": true
     }
   ]
 }
