@@ -33,7 +33,7 @@ return '<div class="overall"><h3>Динамика по всем работам</
 function detailHTML(a){
 if(!a.some(r=>r.detail))return '';
 return '<details><summary>Разбор по заданиям (только преподавателю)</summary>'+a.filter(r=>r.detail).map((r,i)=>{const d=r.detail;
-return '<p class="note"><b>'+esc(new Date(r.at).toLocaleString('ru-RU'))+'</b> · '+r.score+'/'+r.max+(d.seconds?' · '+Math.round(d.seconds/60)+' мин':'')+'<br>'+d.tasks.map(t=>(t.ok?'✓':'○')+' '+esc(t.n)+(d.hints.includes(t.n)?' (подсказка)':'')+(d.idk.includes(t.n)?' (не знаю)':'')).join(' · ')+'</p>';}).join('')+'</details>';
+return '<p class="note"><b>'+esc(new Date(r.at).toLocaleString('ru-RU'))+'</b> · '+r.score+'/'+r.max+(d.seconds?' · '+Math.round(d.seconds/60)+' мин':'')+'<br>'+d.tasks.map(t=>(t.ok?'✓':'○')+' '+esc(t.n)+(d.hints.includes(t.n)?' (подсказка)':'')+(d.idk.includes(t.n)?' (не знаю)':'')).join(' · ')+d.tasks.filter(t=>!t.ok&&typeof t.a==='string').map(t=>'<br>○ '+esc(t.n)+' — ответ ученика: '+(t.a.trim()?'<b>'+esc(t.a)+'</b>':'пусто')).join('')+'</p>';}).join('')+'</details>';
 }
 function historyHTML(records){
 if(!records||!records.length)return '<section class="quiz-history"><h2>Результаты тестов</h2><p class="note">После прохождения теста здесь появятся баллы и история попыток.</p></section>';

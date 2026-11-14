@@ -68,7 +68,7 @@ const out=e.post({t:'alice',quiz:b});assert.equal(out.result.score,2);assert.dee
 assert.equal(e.post({t:'alice',quiz:b}).duplicate,true);assert.deepEqual(e.post({t:'alice',quiz:b}).result.tasks,[]);
 assert.equal(e.post({t:'alice',quiz:{...b,submission:'submission-000000002'}}).error,'already_done');assert.equal(e.sheets.get('Попытки тестов').rows.length,2);
 const pupil=e.call('quizHistory_','alice')[0];assert.equal(pupil.kind,'exam');assert(!('detail' in pupil));assert.equal(pupil.hints,0);
-const teacher=e.call('quizHistory_','alice',true)[0];assert.deepEqual(teacher.detail.tasks,[{n:'1',ok:true},{n:'2',ok:false}]);
+const teacher=e.call('quizHistory_','alice',true)[0];assert.deepEqual(teacher.detail.tasks,[{n:'1',ok:true},{n:'2',ok:false,a:'0'}]);
 assert.equal(e.call('quizLoad_','alice',{work:r.id,version:1,assignment:a.assignment,row:a.row}).work.tasks[0].hint,'');
 });
 test('дз: retries allowed, hints and «не знаю» recorded, detail only for teacher',()=>{

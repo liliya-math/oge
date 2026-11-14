@@ -1680,7 +1680,7 @@ function quizHistory_(code,admin) {
     h.ogePart1=quizMockFlag_(h.work,h.version,h.section,flags);
     if(h.ogePart1)h.mock={tasks:(j.tasks||[]).map(t=>({n:String(t.n),ok:!!t.ok})),seconds:Number(r[10])||0};
     // Other per-task detail remains teacher-only.
-    if(admin)h.detail={tasks:(j.tasks||[]).map(t=>({n:String(t.n),ok:!!t.ok})),hints:j.hints||[],idk:j.idk||[],seconds:Number(r[10])||0};
+    if(admin)h.detail={tasks:(j.tasks||[]).map(t=>t.ok?{n:String(t.n),ok:true}:{n:String(t.n),ok:false,a:String((j.answers||{})[t.n]||'').slice(0,160)}),hints:j.hints||[],idk:j.idk||[],seconds:Number(r[10])||0};
     return h;
   });
 }
