@@ -290,7 +290,7 @@ body .lesson-intro .intro-content > p {
   color: var(--trainer-cream);
 }
 body .question { font-size: clamp(17px, 1.5vw, 20px); }
-.math-nowrap { display: inline-block; max-width: 100%; white-space: nowrap; overflow-x: auto; vertical-align: bottom; }
+.math-nowrap { display: inline-block; max-width: 100%; vertical-align: baseline; overflow-wrap: anywhere; }
 body :is(.hint-text, .solution ol, .feedback, .anchor-card p) { font-size: clamp(15px, 1.25vw, 17px); line-height: 1.6; }
 body .anchor-card small { font-size: 15px; line-height: 1.5; }
 body .intro-content > p { min-width: 0; }
@@ -478,19 +478,19 @@ window.TrainerData={"id":"oge-22-grafiki","version":1,"title":"ОГЭ №22 · �
   const fractionSymbols={ '¼':[1,4],'½':[1,2],'¾':[3,4],'⅐':[1,7],'⅑':[1,9],'⅒':[1,10],
     '⅓':[1,3],'⅔':[2,3],'⅕':[1,5],'⅖':[2,5],'⅗':[3,5],'⅘':[4,5],'⅙':[1,6],'⅚':[5,6],
     '⅛':[1,8],'⅜':[3,8],'⅝':[5,8],'⅞':[7,8],'↉':[0,3] };
-  const fractionAtom=String.raw`(?:\([^()\n]+\)|[−-]?(?:\d+(?:[.,]\d+)?[a-zA-Zа-яА-ЯёЁ⁰¹²³⁴⁵⁶⁷⁸⁹⁻]*|[a-zA-Zа-яА-ЯёЁ][a-zA-Zа-яА-ЯёЁ\d⁰¹²³⁴⁵⁶⁷⁸⁹⁻]*))`;
+  const fractionAtom=String.raw`(?:\((?:[^()\n]|\([^()\n]+\))+\)|[−-]?(?:\d+(?:[.,]\d+)?[a-zA-Zа-яА-ЯёЁ⁰¹²³⁴⁵⁶⁷⁸⁹⁻]*|[a-zA-Zа-яА-ЯёЁ][a-zA-Zа-яА-ЯёЁ\d⁰¹²³⁴⁵⁶⁷⁸⁹⁻]*))`;
   const fractionPattern=new RegExp(`([${Object.keys(fractionSymbols).join('')}])|(${fractionAtom})\\s*[/⁄∕]\\s*(${fractionAtom})`,'g');
-  function fractionMarkup(top,bottom,format){
+  function fractionMarkup(top,bottom){
     const unpack=text=>String(text).replace(/^\((.*)\)$/,'$1');
     const numerator=unpack(top),denominator=unpack(bottom);
-    return `<span class="math-fraction" role="math" aria-label="Дробь: числитель ${esc(numerator)}, знаменатель ${esc(denominator)}"><span aria-hidden="true">${format(numerator)}</span><span aria-hidden="true">${format(denominator)}</span></span>`;
+    return `<span class="math-fraction" role="math" aria-label="Дробь: числитель ${esc(numerator)}, знаменатель ${esc(denominator)}"><span aria-hidden="true">${colorVariables(numerator)}</span><span aria-hidden="true">${colorVariables(denominator)}</span></span>`;
   }
-  function formatFractions(value,format,formatPart=format){
+  function formatFractions(value,format){
     const text=String(value);
     let result='',end=0;
     for(const match of text.matchAll(fractionPattern)){
       const parts=match[1]?fractionSymbols[match[1]]:[match[2],match[3]];
-      result+=format(text.slice(end,match.index))+fractionMarkup(...parts,formatPart);
+      result+=format(text.slice(end,match.index))+fractionMarkup(...parts);
       end=match.index+match[0].length;
     }
     return result+format(text.slice(end));
@@ -498,7 +498,7 @@ window.TrainerData={"id":"oge-22-grafiki","version":1,"title":"ОГЭ №22 · �
   function mathText(value){return formatFractions(value,plainMath);}
   function mathMarkup(markup){
     return markup.split(/(<svg\b[\s\S]*?<\/svg\s*>|<!--[^]*?-->|<[^>]*>)/gi)
-      .map((piece,i)=>i%2?piece:formatFractions(piece,text=>text,plainMath)).join('');
+      .map((piece,i)=>i%2?piece:formatFractions(piece,text=>text)).join('');
   }
   const key=()=>`${state.stage}-${state.task}`,task=()=>C.stages[state.stage].tasks[state.task],done=()=>state.solved.includes(key());
   function save(){try{localStorage.setItem(KEY,JSON.stringify(state));storageOK=true;}catch(e){storageOK=false;}window.LiliStudy?.report({current:state.solved.length,total:TOTAL,label:'Этап '+(state.stage+1)+' · задание '+(state.task+1),done:state.solved.length===TOTAL});updateStorage();}
