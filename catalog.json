@@ -5398,7 +5398,7 @@
     },
     {
       "file": "balayan-grafiki.html",
-      "title": "Графики функций · Тренажёр по Балаяну",
+      "title": "Графики функций · Тренажёр",
       "type": "trenazher",
       "class": 9,
       "oge_task": 11,
@@ -5407,7 +5407,7 @@
     },
     {
       "file": "balayan-formuly.html",
-      "title": "Расчёты по формулам · Тренажёр по Балаяну",
+      "title": "Расчёты по формулам · Тренажёр",
       "type": "trenazher",
       "class": 9,
       "oge_task": 12,
@@ -5416,7 +5416,7 @@
     },
     {
       "file": "balayan-neravenstva.html",
-      "title": "Неравенства и системы неравенств · Тренажёр по Балаяну",
+      "title": "Неравенства и системы неравенств · Тренажёр",
       "type": "trenazher",
       "class": 9,
       "oge_task": 13,
@@ -5425,7 +5425,7 @@
     },
     {
       "file": "balayan-progressii.html",
-      "title": "Задачи на прогрессии · Тренажёр по Балаяну",
+      "title": "Задачи на прогрессии · Тренажёр",
       "type": "trenazher",
       "class": 9,
       "oge_task": 14,
