@@ -577,6 +577,17 @@ a.btn{display:inline-flex;align-items:center;text-decoration:none;height:48px}
 
 @media (max-width:480px){.brandrow .brand{display:none}}
 
+/* подготовка к занятию */
+.prep-h{margin:16px 0 6px;font-size:14px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.prep-l{margin:0;padding-left:20px;display:grid;gap:4px;font-size:15px}
+.prep-w{margin:8px 0;padding:10px 12px;border:1px solid var(--line);border-radius:14px}.prep-w p{margin:0 0 6px}
+.prep-t{margin:8px 0;font-size:15px;line-height:1.6}
+.prep-box{display:inline-block;width:14px;height:14px;border:1.5px solid currentColor;border-radius:3px;margin-right:8px;vertical-align:-2px}
+.prep-po{display:none}.prep-lines{height:96px;background:repeating-linear-gradient(transparent 0 31px,#999 31px 32px)}
+@media print{body.prep-print *{visibility:hidden!important}body.prep-print #prep-card,body.prep-print #prep-card *{visibility:visible!important}
+body.prep-print #prep-card{position:absolute;left:0;top:0;width:100%;margin:0;padding:0;border:0;box-shadow:none;background:#fff!important;color:#000!important}
+body.prep-print #prep-card *{color:#000!important;background-color:transparent}body.prep-print .prep-np{display:none!important}body.prep-print .prep-po{display:block!important}
+body.prep-print .prep-w{border-color:#999;break-inside:avoid}body.prep-print .amb{display:none}}
 /* teacher */
 .tsm{height:36px;padding:0 14px;font-size:14px;display:inline-flex;align-items:center;text-decoration:none;border-radius:12px}
 .tbusy{font-size:12.5px;color:var(--amber);font-weight:600}
@@ -1461,6 +1472,33 @@ function contactLine(){return `<p class="contactline">Вопросы по зад
 function routeActive(){return D.lessonRoute===1&&(((D.routes||[]).length>0)||clsOf()===8)}
 function bindLabel(s,PG){const R=(s.routes||[]).map(k=>k==='OGE'?'ОГЭ':(ROUTE_PROGS.find(x=>x[0]===k)||[0,k])[1]);if(R.length)return R.join(' · ');return PG.oge?'ОГЭ':(s.cls||'')+' класс'}
 const ROUTE_PROGS=[['5','5 класс'],['6','6 класс'],['7A','7 алгебра'],['7G','7 геометрия'],['8A','8 алгебра'],['8G','8 геометрия'],['9A','9 алгебра'],['9G','9 геометрия'],['OGE','ОГЭ, часть 1']];
+/* ===== Подготовка к занятию: собирается сама из календаря, домашки и ошибок; печатается как лист занятия ===== */
+function prepWrong(){return (D.quizHistory||[]).filter(r=>r.detail&&r.detail.tasks.some(t=>!t.ok)).slice().sort((a,b)=>a.at<b.at?1:-1).slice(0,3)}
+function prepCard(){
+ if(!D||!D.prep)return '';
+ const cal=D.calendar||[],first=cal.length?cal[0].date:'',plan=cal.filter(x=>x.date===first),last=(D.routeHistory||[])[0];
+ const hw=(D.hw||[]).filter(h=>!h.done),wrong=prepWrong(),memo=D.memo||[];
+ const li=a=>a.length?'<ul class="prep-l">'+a.map(x=>'<li>'+x+'</li>').join('')+'</ul>':'';
+ return `<section class="card" id="prep-card"><div class="sh"><h2>Подготовка к занятию</h2><span class="sub prep-np">собирается сама</span></div>
+ <p class="prep-po"><b>${esc(fullName()||D.name)}</b> · лист занятия · дата: ____________</p>
+ <h3 class="prep-h">По плану${first?' · '+esc(longDate(first)):''}</h3>${plan.length?li(plan.map(x=>esc(x.title||x.id))):'<p class="note">В календаре на карте ничего не стоит.</p>'}
+ <h3 class="prep-h">Прошлое занятие</h3>${last?li([esc(longDate(last.date))+' · '+esc(last.title)]):'<p class="note">Проведённых занятий по карте пока нет.</p>'}
+ <h3 class="prep-h">Не сдано · ${hw.length}</h3>${hw.length?li(hw.slice(0,8).map(h=>esc(h.t)+(h.due?' <span class="note">· срок '+esc(longDate(h.due))+'</span>':''))):'<p class="note">Всё сдано.</p>'}
+ <h3 class="prep-h">Блиц из ошибок · последние работы</h3>${wrong.length?wrong.map((r,i)=>`<div class="prep-w"><p><b>${esc(r.title)}</b> · ${r.score}/${r.max}</p>${li(r.detail.tasks.filter(t=>!t.ok).map(t=>'№ '+esc(t.n)+(typeof t.a==='string'?' · ответ ученика: '+(t.a.trim()?'<b>'+esc(t.a)+'</b>':'пусто'):'')))}<button class="chip prep-np" type="button" data-prep-tasks="${i}">Показать условия</button><div class="prep-q" id="prep-q-${i}"></div></div>`).join(''):'<p class="note">Ошибок в последних работах нет или работы ещё не сданы.</p>'}
+ <h3 class="prep-h">Учить наизусть · спросить в начале</h3>${memo.length?li(memo.map(x=>'<span class="prep-box"></span>'+esc(x))):'<p class="note prep-np">Список пуст.</p>'}
+ <details class="prep-np"><summary>Изменить список «наизусть»</summary><label class="fld"><span>Каждый пункт с новой строки</span><textarea id="prep-memo" rows="4" maxlength="1500">${esc(memo.join('\n'))}</textarea></label><div class="focus-actions"><button class="btn ghost" type="button" data-prep-save>Сохранить список</button></div></details>
+ <div class="prep-po"><h3 class="prep-h">Что прошли</h3><div class="prep-lines"></div><h3 class="prep-h">Ошибки сегодня (что именно)</h3><div class="prep-lines"></div><h3 class="prep-h">Домашка и что повторить</h3><div class="prep-lines"></div></div>
+ <div class="focus-actions prep-np"><button class="btn ghost" type="button" data-prep-print>Печать листа занятия</button></div></section>`;
+}
+document.addEventListener('click',e=>{
+ const b=e.target.closest&&e.target.closest('[data-prep-print],[data-prep-save],[data-prep-tasks]');if(!b||!TEACH)return;
+ if(b.hasAttribute('data-prep-print')){document.body.classList.add('prep-print');const off=()=>{document.body.classList.remove('prep-print');removeEventListener('afterprint',off)};addEventListener('afterprint',off);print();return}
+ if(b.hasAttribute('data-prep-save')){b.disabled=true;adm('student',{fields:{memo:document.getElementById('prep-memo').value}}).then(j=>{apply(j);toast('Список сохранён')}).catch(err=>{b.disabled=false;toast(errText(err))});return}
+ const i=+b.dataset.prepTasks,r=prepWrong()[i],box=document.getElementById('prep-q-'+i);if(!r||!box)return;b.disabled=true;
+ adm('quizGet',{work:r.work,version:r.version}).then(j=>{const bad=new Set(r.detail.tasks.filter(t=>!t.ok).map(t=>String(t.n)));const T=((j.work&&j.work.tasks)||[]).filter(q=>bad.has(String(q.n)));
+  box.innerHTML=T.length?T.map(q=>`<div class="prep-t"><b>№ ${esc(q.n)}</b> ${esc(q.q||'')}${q.options&&q.options.length?'<br><span class="note">Варианты: '+q.options.map(esc).join(' · ')+'</span>':''}${q.figure?'<br><span class="note">К заданию есть рисунок, он в самой работе.</span>':''}<br><span class="note">Верный ответ: ${esc(q.answer==null?'':q.answer)}</span></div>`).join(''):'<p class="note">Условия не найдены.</p>';
+  if(window.LiliQuizUI)LiliQuizUI.math(box);b.remove()}).catch(err=>{b.disabled=false;toast(errText(err))});
+});
 function routeHistoryCard(){
  const history=D.routeHistory||[];
  if(!history.length)return '';
@@ -1700,7 +1738,7 @@ function tRender(keep){LiliTeaching.preserveDraft(document,D.code||CODE);const y
  const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
  app.innerHTML=tTop()+`<div class="cab enter"><section class="card"><div class="sh"><h1>${esc(fullName()||D.name)}</h1><span class="sub">${D.active?'':'В архиве'}</span></div>
  <div class="boardrow"><button class="btn ghost" id="lnkc" type="button">Скопировать ссылку ученика</button><button class="btn" type="button" id="assign-shortcut">Назначить задание</button>${routeActive()?'<button class="btn" id="lesson-route" type="button">Календарь и квадратики</button>':''}<button class="btn ghost" id="open-settings" type="button">Настройки</button></div></section>
- ${lessonCard(true)}${lessonRequestCard(true)}${routeHistoryCard()}`+(kid
+ ${lessonCard(true)}${prepCard()}${lessonRequestCard(true)}${routeHistoryCard()}`+(kid
   ? quizCabinetCard(D)+tHwCard()+journalCard()+tMatCard()+`<div class="two">${chartCard()}${probCard()}</div>`+tGradesCard()+tLettersCard()+bday
   : heroPar()+quizCabinetCard(D)+`<div class="two">${chartCard()}${workCard()}</div>`+tGradesCard()+tLettersCard())+adminCard()+foot()+`</div>`;
  Object.keys(dr).forEach(id=>{const i=document.getElementById(id);if(!i)return;if(i.type==='checkbox')i.checked=dr[id];else i.value=dr[id]});
