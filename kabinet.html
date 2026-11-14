@@ -1490,6 +1490,12 @@ function prepCard(){
  <div class="prep-po"><h3 class="prep-h">Что прошли</h3><div class="prep-lines"></div><h3 class="prep-h">Ошибки сегодня (что именно)</h3><div class="prep-lines"></div><h3 class="prep-h">Домашка и что повторить</h3><div class="prep-lines"></div></div>
  <div class="focus-actions prep-np"><button class="btn ghost" type="button" data-prep-print>Печать листа занятия</button></div></section>`;
 }
+let prepKatex=null;
+function prepMath(el){if(!el||!window.LiliQuizUI)return;
+ if(!prepKatex)prepKatex=new Promise((ok,no)=>{const B='https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/',l=document.createElement('link');l.rel='stylesheet';l.href=B+'katex.min.css';document.head.appendChild(l);
+  const add=(u,next)=>{const sc=document.createElement('script');sc.src=B+u;sc.onload=next;sc.onerror=no;document.head.appendChild(sc)};add('katex.min.js',()=>add('contrib/auto-render.min.js',ok))});
+ prepKatex.then(()=>LiliQuizUI.math(el)).catch(()=>{})}
+if(TEACH){let prepT=0;new MutationObserver(()=>{clearTimeout(prepT);prepT=setTimeout(()=>{document.querySelectorAll('#prep-card,#prep-card~* details,details').forEach(el=>{if((el.id==='prep-card'||/Разбор по заданиям/.test((el.firstElementChild||{}).textContent||''))&&el.textContent.includes('\\(')&&!el.querySelector('textarea:focus'))prepMath(el.id==='prep-card'?el.querySelector('.prep-w')?el:null:el)})},400)}).observe(document.body,{childList:true,subtree:true})}
 document.addEventListener('click',e=>{
  const b=e.target.closest&&e.target.closest('[data-prep-print],[data-prep-save],[data-prep-tasks]');if(!b||!TEACH)return;
  if(b.hasAttribute('data-prep-print')){document.body.classList.add('prep-print');const off=()=>{document.body.classList.remove('prep-print');removeEventListener('afterprint',off)};addEventListener('afterprint',off);print();return}
@@ -1497,7 +1503,7 @@ document.addEventListener('click',e=>{
  const i=+b.dataset.prepTasks,r=prepWrong()[i],box=document.getElementById('prep-q-'+i);if(!r||!box)return;b.disabled=true;
  adm('quizGet',{work:r.work,version:r.version}).then(j=>{const bad=new Set(r.detail.tasks.filter(t=>!t.ok).map(t=>String(t.n)));const T=((j.work&&j.work.tasks)||[]).filter(q=>bad.has(String(q.n)));
   box.innerHTML=T.length?T.map(q=>`<div class="prep-t"><b>№ ${esc(q.n)}</b> ${esc(q.q||'')}${q.options&&q.options.length?'<br><span class="note">Варианты: '+q.options.map(esc).join(' · ')+'</span>':''}${q.figure?'<br><span class="note">К заданию есть рисунок, он в самой работе.</span>':''}<br><span class="note">Верный ответ: ${esc(q.answer==null?'':q.answer)}</span></div>`).join(''):'<p class="note">Условия не найдены.</p>';
-  if(window.LiliQuizUI)LiliQuizUI.math(box);b.remove()}).catch(err=>{b.disabled=false;toast(errText(err))});
+  prepMath(box);b.remove()}).catch(err=>{b.disabled=false;toast(errText(err))});
 });
 function routeHistoryCard(){
  const history=D.routeHistory||[];
