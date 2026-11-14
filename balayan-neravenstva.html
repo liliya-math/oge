@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#122a24">
+  <meta name="description" content="Решай по шагам, отмечай границы на прямой и находи общую часть.">
+  <title>Неравенства и системы · lili.math</title>
+  <link rel="icon" type="image/svg+xml" href="https://lilimath.ru/favicon.svg">
+  <style>:root{--bg:#16231a;--panel:#2b3d2b;--card:#2b3d2b;--line:#2b3d2b;--text:#ffffff;--muted:#c9ab82;--lime:#c9ab82;--orange:#c9ab82;--blue:#b6cbe3;--ink:#2b3d2b;--radius:23px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color-scheme:dark}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-size:15px;line-height:1.55}button,input{font:inherit}button,a,input{-webkit-tap-highlight-color:transparent}button{cursor:pointer}button:disabled{cursor:default}a{color:inherit}button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--blue);outline-offset:4px}button{transition:background .16s,transform .16s,border-color .16s}button:hover:not(:disabled){filter:brightness(1.07)}button:active:not(:disabled){transform:translateY(1px)}.app-shell{display:flex;min-height:100vh}.sidebar{width:249px;flex-shrink:0;border-right:1px solid var(--line);padding:34px 23px 25px;display:flex;flex-direction:column;position:fixed;inset:0 auto 0 0;background:#16231a;overflow-y:auto}.brand{font-size:23px;letter-spacing:-1px;text-decoration:none;font-weight:650;display:flex;align-items:center;gap:10px}.brand-icon{background:var(--lime);color:var(--ink);border-radius:11px;width:35px;height:35px;text-align:center;line-height:34px;font-family:Georgia,serif;font-style:italic;font-size:25px}.sidebar-title{font-size:10px;font-weight:700;letter-spacing:1.8px;color:var(--muted);margin:54px 10px 18px}.stage-link{border:1px solid transparent;background:none;color:var(--muted);display:flex;align-items:center;width:100%;gap:12px;padding:12px 11px;margin-bottom:5px;border-radius:13px;text-align:left}.stage-link.active{background:#2b3d2b;border-color:#2b3d2b;color:var(--text)}.stage-index{width:29px;height:29px;border-radius:50%;border:1px solid #2b3d2b;display:grid;place-items:center;font-size:11px;flex-shrink:0}.stage-link.active .stage-index{background:var(--lime);border-color:var(--lime);color:var(--ink)}.stage-link.done .stage-index{color:var(--lime);border-color:var(--lime)}.stage-name{font-size:13px;font-weight:550;line-height:1.4}.stage-name small{display:block;font-size:10px;font-weight:400;color:#c9ab82;margin-top:3px}.lab-nav{margin-top:22px;padding:16px 10px;border:0;border-top:1px solid var(--line);background:none;display:flex;gap:11px;color:var(--text);text-align:left;font-size:12px}.lab-nav small{display:block;color:var(--muted);font-size:10px;margin-top:5px}.lab-symbol{color:var(--orange);font-size:24px;line-height:1.1}.sidebar-bottom{margin-top:auto;padding:45px 10px 5px;display:flex;align-items:flex-start;gap:8px;font-size:10px;color:var(--muted)}.save-dot{height:6px;width:6px;background:var(--lime);border-radius:50%;margin-top:6px;flex-shrink:0}.reset{background:none;color:var(--muted);font-size:10px;border:0;padding:8px 10px;text-align:left;text-decoration:underline;text-underline-offset:4px}.main-shell{margin-left:249px;width:calc(100% - 249px)}.topbar{height:78px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 47px;gap:15px}.breadcrumb{font-size:11px;color:var(--muted)}.breadcrumb span{margin:0 13px;color:#c9ab82}.grade-tag{font-size:11px;border:1px solid #2b3d2b;padding:6px 12px;border-radius:100px;white-space:nowrap}main{max-width:1270px;margin:auto;padding:40px 47px 20px}.page-heading{display:flex;justify-content:space-between;gap:15px;align-items:center}.eyebrow{font-size:9px;font-weight:650;letter-spacing:1.8px;color:var(--orange)}h1{font-size:clamp(31px,3.1vw,47px);line-height:1.15;font-weight:500;letter-spacing:-1.8px;margin:14px 0 13px}h1 em{font-family:Georgia,serif;font-weight:400;color:var(--lime)}.page-heading p{color:var(--muted);font-size:13px;margin:0}.percent-mark{font-size:74px;color:var(--lime);line-height:1;font-family:Georgia,serif;transform:rotate(12deg);margin-right:18px}.route-progress{margin:31px 0 26px}.route-progress>div:first-child{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-bottom:9px}.progress-track{height:4px;background:#2b3d2b;border-radius:5px;overflow:hidden}.progress-track>div{height:100%;background:var(--lime);transition:width .3s}.exercise-layout{display:grid;grid-template-columns:minmax(0,1fr) 275px;gap:20px;align-items:start}.lesson-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}.lesson-top{padding:22px 27px 0;display:flex;justify-content:space-between;gap:10px;align-items:center}.lesson-label{color:var(--lime);font-size:10px;font-weight:650;letter-spacing:1px}.exercise-count{font-size:10px;color:var(--muted)}.lesson-intro{padding:14px 27px 19px}h2{font-size:26px;font-weight:500;letter-spacing:-.6px;line-height:1.25;margin:0 0 12px}.lesson-intro p{font-size:13px;color:var(--muted);margin:0}.lesson-intro strong{font-weight:550;color:var(--text)}.visual-panel{background:#eee0c8;color:var(--ink);margin:0 20px;border-radius:16px;padding:22px 24px}.visual-header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:17px}.visual-header>span:first-child{font-size:11px;font-weight:600}.visual-pill{font-size:10px;white-space:nowrap;background:#eee0c8;border-radius:20px;padding:5px 10px}.visual-body{display:flex;gap:23px;align-items:center;justify-content:center}.grid-100{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;width:160px;flex-shrink:0}.cell{aspect-ratio:1;border-radius:2px;background:#eee0c8}.cell.filled{background:#2b3d2b}.visual-description{max-width:190px}.visual-number{font-family:Georgia,serif;font-size:45px;line-height:1.05;letter-spacing:-2px}.visual-description p{font-size:11px;color:#2b3d2b;margin:10px 0 0}.visual-description strong{color:#2b3d2b}.visual-foot{font-size:10px;margin-top:17px;color:#2b3d2b;border-top:1px solid #eee0c8;padding-top:10px}.answer-area{padding:24px 27px 25px}.task-kicker{font-size:9px;letter-spacing:1.2px;color:var(--orange);font-weight:600;margin-bottom:8px}.question{font-size:19px;line-height:1.45;font-weight:500;letter-spacing:-.25px;margin:0 0 19px}.answer-form{display:flex;gap:10px;align-items:stretch}.input-wrap{flex:1;min-width:0;display:flex;align-items:center;background:#16231a;border:1px solid #2b3d2b;border-radius:11px;padding:0 13px}.input-wrap:focus-within{border-color:var(--lime)}.input-wrap input{width:100%;border:0;outline:0!important;background:none;color:var(--text);padding:12px 0;min-width:0;font-size:18px}.input-wrap input::placeholder{font-size:12px;color:#c9ab82}.answer-unit{color:var(--muted);font-size:12px;margin-left:8px}.primary{background:var(--lime);color:var(--ink);border:1px solid var(--lime);border-radius:11px;font-size:12px;font-weight:650;padding:13px 20px}.secondary{background:transparent;color:var(--text);border:1px solid #c9ab82;border-radius:10px;padding:10px 14px;font-size:11px}.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.choice{background:#16231a;border:1px solid #2b3d2b;color:var(--text);border-radius:10px;min-height:46px;padding:11px 14px;text-align:left;font-size:13px}.choice.selected{border-color:var(--lime);background:#2b3d2b}.choice.wrong{border-color:var(--orange)}.feedback{margin-top:15px;padding:12px 14px;border-radius:10px;font-size:12px;line-height:1.65}.feedback.good{background:#2b3d2b;color:#eee0c8;border:1px solid #5f7b3f}.feedback.retry{background:#2b3d2b;color:#eee0c8;border:1px solid #9c6b40}.feedback.neutral{background:#2b3d2b;color:var(--blue)}.feedback strong{display:block;font-weight:650;margin-bottom:2px}.next-row{margin-top:16px;display:flex;justify-content:space-between;align-items:center;gap:12px}.next-row small{color:var(--muted);font-size:10px}.right-column{display:flex;flex-direction:column;gap:17px}.support-card{border:1px solid var(--line);border-radius:20px;padding:22px 21px;background:#2b3d2b}.support-card h3{font-size:15px;font-weight:550;margin:0 0 4px}.support-caption{font-size:11px;color:var(--muted);margin:0 0 17px}.hint-row{border-top:1px solid var(--line);padding:13px 0}.hint-row:last-of-type{padding-bottom:3px}.hint-trigger{display:flex;align-items:center;gap:9px;background:none;border:0;width:100%;text-align:left;color:var(--text);padding:0;font-size:11px}.hint-number{font-size:9px;border:1px solid #5f7b3f;width:21px;height:21px;display:grid;place-items:center;border-radius:50%;color:var(--lime);flex-shrink:0}.hint-arrow{margin-left:auto;color:var(--muted)}.hint-text{font-size:11px;color:var(--muted);line-height:1.7;margin:10px 0 0 30px}.anchor-card{background:#b6cbe3;color:#16231a;border:0}.anchor-card .anchor-label{font-size:9px;font-weight:650;letter-spacing:1.5px}.anchor-card p{font-size:15px;line-height:1.5;letter-spacing:-.2px;margin:13px 0}.anchor-card small{font-size:10px;color:#2b3d2b}.solution{border-top:1px solid var(--line);margin-top:18px;padding-top:13px}.solution summary{font-size:11px;color:var(--muted);cursor:pointer}.solution ol{padding-left:20px;font-size:12px;color:var(--muted);line-height:1.8}.formula-strip{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.formula-strip span{font-size:10px;border:1px solid #2b3d2b;padding:5px 8px;border-radius:6px;color:var(--lime)}.question-dots{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}.question-dot{width:25px;height:25px;border:1px solid #2b3d2b;border-radius:7px;background:none;color:var(--muted);font-size:10px;padding:0}.question-dot.current{border-color:var(--lime);color:var(--lime)}.question-dot.solved{background:#5f7b3f;color:#eee0c8;border-color:#5f7b3f}.bar-visual{width:100%}.segment-bar{height:76px;display:flex;gap:5px;margin-bottom:10px}.segment{flex:1;border-radius:7px;background:#eee0c8}.segment.filled{background:#2b3d2b}.segment-labels{display:flex;justify-content:space-between;font-size:11px;color:#2b3d2b}.bar-equation{font-size:27px;text-align:center;font-family:Georgia,serif;letter-spacing:-.5px;margin:17px 0 3px}.bar-equation small{font-family:inherit;font-size:18px}.part-caption{text-align:center;font-size:11px;color:#2b3d2b}.page-footer{display:flex;justify-content:space-between;gap:10px;color:#c9ab82;font-size:9px;margin-top:25px}.lab-card{padding:27px}.lab-card .visual-panel{margin:22px 0 0}.lab-toolbar{display:flex;gap:25px;flex-wrap:wrap;margin-top:22px}.lab-toolbar fieldset{border:0;margin:0;padding:0}.lab-toolbar legend{font-size:11px;color:var(--muted);margin-bottom:9px}.segmented{display:flex;gap:6px;flex-wrap:wrap}.segmented button{background:#16231a;border:1px solid #2b3d2b;color:var(--muted);border-radius:8px;padding:9px 15px;font-size:12px}.segmented button[aria-pressed=true]{background:var(--lime);border-color:var(--lime);color:var(--ink)}.lab-equation{font-size:20px;color:var(--lime);margin-top:21px}.lab-note{font-size:12px;color:var(--muted)}.completion-card{padding:36px;max-width:800px;margin:auto;text-align:center}.completion-icon{font-size:35px;color:var(--lime)}.completion-card h2{font-size:33px;margin-top:14px}.completion-card>p{color:var(--muted);font-size:14px}.recap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:28px 0}.recap-item{background:#2b3d2b;border:1px solid #2b3d2b;border-radius:14px;padding:20px 10px}.recap-item strong{display:block;font-size:28px;color:var(--lime);font-family:Georgia,serif;font-weight:400}.recap-item span{font-size:11px;color:var(--muted)}.end-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.review-list{text-align:left;margin:24px 0;padding:18px;border:1px solid var(--line);border-radius:12px}.review-list p{font-size:12px;margin:7px 0;color:var(--muted)}dialog{background:var(--panel);color:var(--text);border:1px solid #c9ab82;border-radius:20px;max-width:450px;width:calc(100% - 32px);padding:28px}dialog::backdrop{background:#16231adb}dialog h2{font-size:23px}dialog p{color:var(--muted);font-size:13px}.dialog-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:23px}[hidden]{display:none!important}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(min-width:1500px){main{padding-top:52px}.visual-panel{padding-top:28px;padding-bottom:24px}.grid-100{width:190px}.answer-area{padding-top:28px;padding-bottom:30px}.lesson-intro{padding-bottom:24px}}
+@media(max-width:1180px){.sidebar{width:220px;padding:28px 15px}.main-shell{margin-left:220px;width:calc(100% - 220px)}main{padding:32px 28px 20px}.topbar{padding:0 28px}.exercise-layout{grid-template-columns:minmax(0,1fr) 240px;gap:15px}.support-card{padding:19px 17px}.visual-body{gap:17px}.grid-100{width:137px}.visual-panel{padding:19px 17px}.visual-number{font-size:38px}.lesson-intro,.answer-area{padding-left:22px;padding-right:22px}.lesson-top{padding-left:22px;padding-right:22px}.answer-form{flex-wrap:wrap}.answer-form .primary{flex-shrink:0}}
+@media(max-width:950px){.sidebar{width:195px;padding-left:12px;padding-right:12px}.main-shell{margin-left:195px;width:calc(100% - 195px)}.stage-link{padding:11px 7px;gap:8px}.stage-name{font-size:11px}.exercise-layout{grid-template-columns:minmax(0,1fr)}.right-column{display:grid;grid-template-columns:1.25fr 1fr}.percent-mark{font-size:60px}.visual-body{gap:30px}.grid-100{width:160px}.visual-description{max-width:220px}.hint-row{padding:10px 0}.sidebar-title{margin-top:40px}.sidebar-bottom{padding-top:30px}}
+@media(max-width:650px){.app-shell{display:block}.sidebar{position:static;width:100%;padding:17px 19px 13px;border-right:0;border-bottom:1px solid var(--line);display:block;overflow:visible}.brand{font-size:19px}.brand-icon{width:29px;height:29px;font-size:21px;line-height:28px;border-radius:8px}.sidebar-title,.sidebar-bottom,.sidebar .reset,.lab-nav small{display:none}#stage-nav{display:flex;overflow-x:auto;gap:7px;margin:18px -1px 0;padding-bottom:7px;scrollbar-width:thin}.stage-link{width:auto;flex-shrink:0;padding:8px 10px;margin:0;gap:7px;border-color:var(--line);border-radius:10px}.stage-index{width:22px;height:22px;font-size:9px}.stage-name{font-size:10px;white-space:nowrap}.stage-name small{display:none}.lab-nav{position:absolute;top:17px;right:19px;border:1px solid var(--line);border-radius:8px;padding:5px 9px;margin:0;font-size:9px;align-items:center;gap:5px}.lab-symbol{font-size:15px}.main-shell{margin:0;width:100%}.topbar{height:49px;padding:0 21px}.breadcrumb{font-size:9px}.breadcrumb span{margin:0 7px}.grade-tag{font-size:9px;padding:3px 8px}main{padding:25px 18px 20px}.page-heading{gap:0}.eyebrow{font-size:7px;letter-spacing:1.25px}h1{font-size:34px;letter-spacing:-1.3px;max-width:270px;margin:12px 0 10px}.percent-mark{font-size:48px;margin-right:2px}.page-heading p{font-size:11px;max-width:260px}.route-progress{margin:24px 0 19px}.lesson-top{padding:19px 18px 0}.lesson-intro{padding:12px 18px 18px}.lesson-label{font-size:9px}h2{font-size:23px}.lesson-intro p{font-size:12px}.visual-panel{margin:0 12px;padding:17px 14px}.visual-header>span:first-child{font-size:10px}.visual-pill{font-size:9px;padding:4px 8px}.visual-body{gap:17px}.grid-100{width:138px;gap:3px}.visual-description{max-width:132px}.visual-number{font-size:37px}.visual-description p{font-size:10px}.visual-foot{font-size:9px}.answer-area{padding:20px 18px}.question{font-size:18px}.answer-form{flex-wrap:nowrap;gap:7px}.answer-form .primary{padding:12px 13px;font-size:11px}.input-wrap{padding:0 11px}.input-wrap input{font-size:17px}.right-column{display:flex}.support-card{padding:20px}.anchor-card{display:none}.page-footer{font-size:8px}.page-footer>span:last-child{display:none}.next-row small{max-width:130px}.segment-bar{height:65px}.bar-equation{font-size:25px}.lab-card{padding:22px 18px}.lab-toolbar{gap:18px}.segmented button{padding:8px 11px}.completion-card{padding:27px 18px}.completion-card h2{font-size:28px}.recap-grid{gap:7px}.recap-item{padding:16px 5px}.recap-item strong{font-size:25px}.recap-item span{font-size:10px}.dialog-actions{flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* Site mascot */
+.page-heading>div:first-child{flex:1;min-width:0}
+.mascot-hero{flex:0 0 132px;width:132px;margin:0 0 0 20px;text-align:center}
+.mascot-hero img{display:block;width:132px;height:132px;object-fit:cover;border-radius:25px;border:1px solid #2b3d2b}
+.mascot-hero figcaption{font-size:10px;color:var(--muted);margin-top:9px;line-height:1.4}
+@media(max-width:950px){.mascot-hero{flex-basis:112px;width:112px;margin-left:12px}.mascot-hero img{width:112px;height:112px;border-radius:21px}}
+@media(max-width:650px){.page-heading{gap:12px}.mascot-hero{flex-basis:88px;width:88px;margin-left:0;align-self:center}.mascot-hero img{width:88px;height:88px;border-radius:19px}.mascot-hero figcaption{font-size:8px;margin-top:7px}.page-heading h1{font-size:clamp(25px,7vw,34px)}.page-heading p{max-width:245px}}
+.factor-list{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 14px}.factor{border:1px solid #c9ab82;border-radius:7px;padding:4px 9px}.factor.common{background:#2b3d2b;color:#ffffff}.div-label{font-size:12px;font-weight:600}.nod-inputs{display:flex;gap:14px;flex-wrap:wrap}.nod-inputs label{font-size:12px}.nod-inputs input{display:block;width:110px;margin-top:6px;padding:9px;border:1px solid #c9ab82;border-radius:9px;background:#16231a;color:var(--text)}
+/* Shared visual language for lili.math trainers. */
+:root {
+  --trainer-bg: #16231A;
+  --trainer-panel: #2B3D2B;
+  --trainer-cream: #EEE0C8;
+  --trainer-sand: #C9AB82;
+  --trainer-cobalt: #2F5BB5;
+  --trainer-orange: #DD7A3A;
+  --trainer-gold: #E2B04A;
+  --trainer-blue: #B6CBE3;
+  --trainer-moss: #5F7B3F;
+  --trainer-caramel: #9C6B40;
+  --trainer-border: #EEE0C826;
+  --trainer-card: #2B3D2B66;
+  --trainer-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, system-ui, sans-serif;
+  --bg: var(--trainer-bg);
+  --fg: var(--trainer-cream);
+  --text: var(--trainer-cream);
+  --cream: var(--trainer-cream);
+  --muted: var(--trainer-sand);
+  --faint: var(--trainer-sand);
+  --line: var(--trainer-border);
+  --mint: var(--trainer-gold);
+  --ok: var(--trainer-gold);
+  --bad: var(--trainer-orange);
+  --miss: var(--trainer-orange);
+  --sans: var(--trainer-font);
+  --display: var(--trainer-font);
+  color-scheme: dark;
+}
+html, body {
+  background: var(--trainer-bg) !important;
+  color: var(--trainer-cream);
+  font-family: var(--trainer-font) !important;
+}
+body *, body *::before, body *::after {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  font-style: normal !important;
+}
+h1, h2, h3, .page-heading h1 { font-family: var(--trainer-font); }
+h1, h2, .page-heading h1 { color: var(--trainer-cream); font-weight: 800; }
+:where(.sub, .lead, .caption, .muted, .small, figcaption) { color: var(--trainer-sand); }
+body :is(.eyebrow, .sidebar-title, .lesson-label, .task-kicker, .anchor-label, .visual-kicker, .sect) {
+  color: var(--trainer-gold);
+}
+body :is(.sidebar, .topbar) { background-image: none; }
+body .sidebar { background-color: var(--trainer-bg); }
+body .board text { font-family: var(--trainer-font); }
+body :is(.amb, .board) { background-image: none; }
+body :is(.mascot-hero, .mascot-hero img) { mask-image: none; }
+body svg.fig text {
+  paint-order: stroke;
+  stroke: var(--trainer-bg);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+body :is(.brand, .brand b, .trainer-wordmark) {
+  color: var(--trainer-cream);
+  font-family: var(--trainer-font);
+}
+.brand .brand-icon { display: none; }
+.trainer-wordmark { font-size: 1.2rem; font-weight: 800; letter-spacing: -.045em; margin: 0 0 1.2rem; }
+
+body :is(.card, .lesson-card, .support-card, .route-progress, .mode, dialog) {
+  --trainer-card-stripe: var(--trainer-cobalt);
+  color: var(--trainer-cream);
+  background: var(--trainer-card);
+  border: 1px solid var(--trainer-border);
+  border-top: 4px solid var(--trainer-card-stripe);
+  border-radius: 24px;
+}
+body :is(.card, .mode):nth-of-type(6n + 2), body .route-progress {
+  --trainer-card-stripe: var(--trainer-gold);
+}
+body :is(.card, .mode):nth-of-type(6n + 3), body .right-column .support-card:first-child {
+  --trainer-card-stripe: var(--trainer-orange);
+}
+body :is(.card, .mode):nth-of-type(6n + 4), body .right-column .support-card:nth-child(2) {
+  --trainer-card-stripe: var(--trainer-blue);
+}
+body :is(.card, .mode):nth-of-type(6n + 5) { --trainer-card-stripe: var(--trainer-moss); }
+body :is(.card, .mode):nth-of-type(6n + 6) { --trainer-card-stripe: var(--trainer-caramel); }
+body :is(.solution, .why) {
+  background: var(--trainer-card);
+  border-color: var(--trainer-border);
+}
+body .app-shell .visual-panel {
+  background: var(--trainer-cream);
+  color: var(--trainer-bg);
+}
+body .app-shell .visual-panel :is(.visual-description p, .visual-description strong, .visual-foot) {
+  color: var(--trainer-bg);
+}
+body .visual-number { font-family: var(--trainer-font); }
+body dialog { background: var(--trainer-bg); }
+body .mode:hover { border-top-color: var(--trainer-card-stripe); }
+
+body :is(button.primary, button.btn, a.btn, input[type="submit"]) {
+  color: var(--trainer-cream);
+  background: var(--trainer-cobalt);
+  border: 1.5px solid transparent;
+  border-radius: 18px;
+  filter: none;
+}
+body :is(.primary, .btn):is(.apr, .accent),
+body :is(.primary:not(.secondary), .btn:not(.sec, .ghost, .alt, .secondary)) +
+  :is(.primary:not(.secondary), .btn:not(.sec, .ghost, .alt, .secondary)) {
+  color: var(--trainer-bg);
+  background: var(--trainer-orange);
+}
+body :is(.primary, .btn):is(.gold, .yellow),
+body :is(.primary:not(.secondary), .btn:not(.sec, .ghost, .alt, .secondary)) +
+  :is(.primary:not(.secondary), .btn:not(.sec, .ghost, .alt, .secondary)) +
+  :is(.primary:not(.secondary), .btn:not(.sec, .ghost, .alt, .secondary)) {
+  color: var(--trainer-bg);
+  background: var(--trainer-gold);
+}
+body :is(button.secondary, a.secondary, button.ghost, .btn.sec, .btn.ghost, .btn.alt, .btn.secondary) {
+  color: var(--trainer-cream);
+  background: transparent;
+  border: 1.5px solid var(--trainer-cream);
+  border-radius: 18px;
+}
+body :is(.primary, .btn, .secondary):hover:not(:disabled) { filter: none; border-color: var(--trainer-cream); }
+body :is(button, a, input, summary, select):focus-visible {
+  outline: 2px solid var(--trainer-blue);
+  outline-offset: 3px;
+}
+body :is(.chip, .tag, .grade-tag, .pill, .visual-pill, .tile, .tabs button, .segmented button) {
+  color: var(--trainer-blue);
+  background: transparent;
+  border-color: var(--trainer-blue);
+}
+body :is(.chip, .tabs button, .segmented button):is(.on, .active, [aria-pressed="true"]) {
+  color: var(--trainer-gold);
+  background: transparent;
+  border-color: var(--trainer-gold);
+}
+body :is(.stage-link, .row, .choice, .opt) { color: var(--trainer-cream); }
+body :is(.stage-link.active, .row.run, .choice.selected, .opt.sel) {
+  border-color: var(--trainer-gold);
+}
+body :is(.stage-link.done, .row.ok, .row.passed, .row.pass) {
+  border-color: var(--trainer-moss);
+}
+body :is(.row.help, .choice.wrong, .opt.bad, input.bad, [aria-invalid="true"]) {
+  border-color: var(--trainer-orange);
+}
+body :is(.feedback.good, .fb.ok, .msg.good, .done:not(button, .stage-link), .ok:not(input, .row, .opt)) {
+  color: var(--trainer-gold);
+}
+body :is(.feedback.retry, .fb.bad, .msg.bad, .bad:not(input, .opt)) {
+  color: var(--trainer-orange);
+}
+body :is(.feedback.good, .fb.ok) {
+  border-color: var(--trainer-gold);
+  background: #E2B04A15;
+}
+body :is(.feedback.retry, .fb.bad) {
+  border-color: var(--trainer-orange);
+  background: #DD7A3A15;
+}
+body :is(.stage-link.done .stage-index, .row.ok .num) {
+  background: var(--trainer-moss);
+  color: var(--trainer-cream);
+}
+body :is(#progress-fill, .progress-fill, .progress-track > i) { background: var(--trainer-gold); }
+
+body :is(.qbig, .question, .expr, .fx, .cond, .stmt, .bar-equation) {
+  font-family: var(--trainer-font);
+  font-variant-numeric: tabular-nums;
+}
+body :is(.qbig, .expr, .fx, .bar-equation, .question:has(> .trainer-math, > .formula), .cond, .stmt):not(:has(svg:not(.trainer-root-mark, .radical-mark, .rs), canvas)) {
+  background: var(--trainer-cream);
+  color: var(--trainer-bg);
+  border: 1px solid transparent;
+  border-radius: 18px;
+  padding: .45em .65em;
+}
+body :is(.qbig, .expr, .fx, .bar-equation, .question:has(> .trainer-math), .question:has(> .formula), .cond, .stmt)
+  :is(.fr, .rad, .ov, .formula, .rs, .rs path, .rt, .ro, .q, .mid, .ex, .key, .trainer-math) {
+  color: inherit;
+}
+body :is(.qbig, .expr, .fx, .cond, .stmt) .rs path { stroke: currentColor; }
+body :is(.qbig, .expr, .fx, .cond, .stmt) .ov { border-top-color: currentColor; }
+body .rad .ov { padding-top: .16em; }
+.trainer-math, .trainer-root { display: inline-block; white-space: nowrap; }
+.trainer-root, .rt:has(> .trainer-root-mark) { position: relative; display: inline-block; padding-left: .74em; }
+.trainer-root-mark { position: absolute; left: 0; top: 0; width: .77em; height: 100%; overflow: visible; }
+.trainer-radicand, .rt:has(> .trainer-root-mark) > .ro {
+  display: inline-block;
+  padding: .16em .12em 0;
+  margin: 0;
+  border-top: .075em solid currentColor;
+  line-height: 1.15;
+}
+.trainer-frac {
+  display: inline-grid;
+  vertical-align: middle;
+  text-align: center;
+  font-size: .92em;
+  line-height: 1.12;
+}
+.trainer-frac > span { padding: .07em .18em; }
+.trainer-frac > span:first-child { border-bottom: .075em solid currentColor; }
+
+body .route-progress { padding: 10px 16px; }
+body :is(.anchor-card small, .route-progress small) { color: var(--trainer-sand); }
+body .row.run .stt { color: var(--trainer-gold); }
+body .row.help .stt { color: var(--trainer-orange); }
+body :is(input:not([type]), input[type="text"], input[type="number"], input[type="search"], textarea, select) {
+  background-color: var(--trainer-bg);
+  color: var(--trainer-cream);
+  border-color: var(--trainer-border);
+}
+body :is(input, textarea)::placeholder { color: var(--trainer-sand); opacity: 1; }
+body :is(input.bad, [aria-invalid="true"]) { border-color: var(--trainer-orange); }
+body :is(input.ok, input.good) { border-color: var(--trainer-gold); }
+body a:not(:where(.brand, .btn, .secondary, .pill, .chip, .breadcrumb a)) {
+  color: var(--trainer-blue) !important;
+}
+
+/* Cycle all six accents through repeated controls. Text stays light on dark. */
+body :is(.stage-link, .tabs button, .segmented button, .chips .chip, .hint-row) { --trainer-item: var(--trainer-cobalt); }
+body :is(.stage-link, .tabs button, .segmented button, .chips .chip, .hint-row):nth-child(6n + 2) { --trainer-item: var(--trainer-gold); }
+body :is(.stage-link, .tabs button, .segmented button, .chips .chip, .hint-row):nth-child(6n + 3) { --trainer-item: var(--trainer-orange); }
+body :is(.stage-link, .tabs button, .segmented button, .chips .chip, .hint-row):nth-child(6n + 4) { --trainer-item: var(--trainer-blue); }
+body :is(.stage-link, .tabs button, .segmented button, .chips .chip, .hint-row):nth-child(6n + 5) { --trainer-item: var(--trainer-moss); }
+body :is(.stage-link, .tabs button, .segmented button, .chips .chip, .hint-row):nth-child(6n + 6) { --trainer-item: var(--trainer-caramel); }
+body :is(.tabs button, .segmented button, .chips .chip):not(.on, .active, [aria-pressed="true"]) {
+  color: var(--trainer-cream);
+  border-color: var(--trainer-item);
+}
+body :is(.stage-link:not(.active, .done) .stage-index, .hint-row .hint-number) {
+  color: var(--trainer-cream);
+  border-color: var(--trainer-item);
+}
+body .mascot-hero img { object-fit: contain; }
+.trainer-identity { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.trainer-identity .trainer-wordmark { margin: 0; }
+.trainer-identity img {
+  display: block;
+  margin-left: auto;
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  border-radius: 18px;
+  border: 1px solid var(--trainer-border);
+}
+.trainer-identity--outer { width: min(100%, 660px); margin: 0 auto; padding: 16px 16px 0; }
+
+.intro-content{display:flex;gap:18px;align-items:center;flex-wrap:wrap}.intro-content>p{flex:1 1 240px}
+.identity-mark{display:block;object-fit:contain;flex:none;border-radius:7px}.identity-label{display:inline-flex;align-items:center;gap:9px}.identity-brand{width:36px;height:36px}.identity-progress,.identity-hint,.identity-footer{width:26px;height:26px}.page-footer .identity-label{gap:7px}
+body, body .sidebar {
+  background-image: linear-gradient(#C9AB8233 1px, transparent 1px),
+                    linear-gradient(90deg, #C9AB8233 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+body .lesson-intro .intro-content > p {
+  font-size: clamp(16px, 1.35vw, 18px);
+  line-height: 1.65;
+  color: var(--trainer-cream);
+}
+body .question { font-size: clamp(17px, 1.5vw, 20px); }
+.math-nowrap { display: inline-block; max-width: 100%; white-space: nowrap; overflow-x: auto; vertical-align: bottom; }
+body :is(.hint-text, .solution ol, .feedback, .anchor-card p) { font-size: clamp(15px, 1.25vw, 17px); line-height: 1.6; }
+body .anchor-card small { font-size: 15px; line-height: 1.5; }
+body .intro-content > p { min-width: 0; }
+body .lesson-intro .math-definition { color: var(--trainer-cream); font-weight: 400; }
+body .lesson-intro .math-definition > strong { color: var(--trainer-gold); font-weight: 750; }
+
+body .math-var-x { color: #B6CBE3; font-weight: 800; font-style: normal; }
+body .math-var-y { color: #DD7A3A; font-weight: 800; font-style: normal; }
+body .visual-panel .math-var-x { color: #2F5BB5; }
+body .visual-panel .math-var-y { color: #16231A; }
+
+body .math-var-k { color: #E2B04A; font-weight: 800; }
+body .math-var-b { color: #EEE0C8; font-weight: 800; text-decoration: underline; text-decoration-color: #9C6B40; text-underline-offset: .16em; }
+body :is(.math-var-k, .math-var-b) { font-size: 1.14em; line-height: 1; }
+body .visual-panel .math-var-k { color: #9C6B40; }
+body .visual-panel .math-var-b { color: #2B3D2B; }
+.coordinate-graph { width: 100%; max-width: 500px; min-width: 0; margin: 0 auto; }
+.coordinate-graph svg { display: block; height: auto; }
+.coordinate-graph figcaption { color: #16231A; font-size: 1.15rem; font-weight: 800; }
+.intro-content .coordinate-graph figcaption { color: var(--trainer-cream); }
+.coordinate-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 285px), 1fr)); gap: 18px; width: 100%; }
+.coordinate-group .coordinate-graph { max-width: 500px; }
+body .intro-content > p, .intro-content > .coordinate-graph { flex: 0 0 100%; }
+.coordinate-graph svg text { font-weight: 650; }
+@media (min-width: 951px) and (max-width: 1350px) {
+  .exercise-layout:has(.coordinate-graph) { grid-template-columns: minmax(0, 1fr); }
+  .exercise-layout:has(.coordinate-graph) .right-column { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 650px) {
+  .coordinate-group { grid-template-columns: minmax(0,1fr); }
+}
+</style>
+<style>
+.intro-content .theory-figure{flex:0 0 100%;min-width:0;display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:0 0 7px;padding:11px;border:1px solid var(--trainer-gold);border-radius:14px;background:var(--trainer-dark,#16231A)}
+.theory-row{display:flex;flex-wrap:wrap;gap:6px;min-width:0;max-width:100%}
+.theory-cell{display:grid;align-content:start;gap:3px;min-width:0;padding:7px 10px;border-radius:9px;background:var(--panel);border-left:3px solid var(--trainer-gold);color:var(--trainer-cream)}
+.theory-cell:nth-child(even){border-left-color:var(--trainer-cobalt,#2F5BB5)}
+.theory-cell b{font-size:clamp(15px,2vw,20px);line-height:1.35;overflow-wrap:anywhere}
+.theory-note{font-size:12px;line-height:1.35}
+.theory-arrow{color:var(--trainer-gold);font-size:20px;font-weight:750}
+.theory-grid{width:min(100%,28rem);border-collapse:separate;border-spacing:4px;text-align:center;color:var(--trainer-cream)}
+.theory-grid caption{padding:0 0 5px;font-size:13px;text-align:left}
+.theory-grid :is(th,td){padding:6px 10px;border-radius:6px;background:var(--panel)}
+.theory-grid th{color:var(--trainer-gold)}
+@media(max-width:520px){.theory-arrow{flex:0 0 100%;line-height:1;text-align:left}.theory-arrow::before{content:'↓'}.theory-arrow{font-size:0}.theory-arrow::before{font-size:17px}}
+</style>
+<style>
+.worked-example{scroll-margin-top:20px;margin:0 0 20px;padding:13px 16px;background:var(--panel);border:1px solid var(--trainer-gold);border-radius:14px}
+.worked-example h3{margin:0 0 6px;color:var(--trainer-gold);font-size:1rem}
+.worked-example p{margin:0;color:var(--trainer-cream);line-height:1.55}
+</style>
+<style>
+.intro-content .definition-parts{flex:0 0 100%;min-width:0}
+.definition-parts .definition-parts-label{margin:0 0 7px;color:var(--trainer-cream);font-weight:700}
+.definition-parts ol{margin:0;padding:0 0 0 26px;display:grid;gap:8px}
+.definition-parts li{padding:8px 10px;border:1px solid var(--panel);border-radius:9px;background:var(--trainer-dark,#16231A);overflow-wrap:anywhere}
+.definition-parts li::marker,.definition-parts li strong{color:var(--trainer-gold);font-weight:700}
+.definition-parts li p{margin:3px 0 7px;color:var(--trainer-cream);line-height:1.5}
+.definition-parts li .theory-cell{width:fit-content;max-width:100%}
+.definition-parts li .theory-cell b{font-size:clamp(15px,1.65vw,18px)}
+</style>
+<style>
+.intro-content .theory-topic{flex:0 0 100%;min-width:0;display:grid;gap:12px;padding:0 0 16px}
+.intro-content .theory-topic + .theory-topic{border-top:1px solid var(--trainer-gold);padding-top:17px}
+.theory-topic > h3{margin:0;color:var(--trainer-cream);font-size:clamp(18px,1.8vw,23px);line-height:1.3}
+.theory-topic > p{margin:0;color:var(--trainer-cream);font-size:clamp(16px,1.35vw,18px);line-height:1.6}
+.theory-topic > .math-definition{padding:9px 12px;border-left:2px solid var(--trainer-gold)}
+.theory-topic .definition-parts h4{margin:0;color:var(--trainer-cream);font-size:1rem;font-weight:700;line-height:1.35}
+.theory-topic .definition-parts li .theory-note{color:var(--trainer-cream)}
+</style>
+<style>
+.math-fraction{display:inline-grid;grid-template-rows:auto auto;vertical-align:middle;min-width:1.12em;margin:.12em .12em;padding:0 .06em;text-align:center;line-height:1.14;font-size:1em;white-space:nowrap;color:inherit}
+.math-fraction>span{display:block;padding:.1em .24em}
+.math-fraction>span:first-child{border-bottom:2px solid currentColor}
+.choices .choice{font-size:clamp(21px,1.65vw,24px);font-weight:600;line-height:1.35}
+.choices .choice .math-fraction{font-size:inherit;font-weight:inherit}
+body .choices .choice :is(.math-var-k,.math-var-b){font-size:inherit;line-height:inherit}
+.question .math-fraction{font-size:1em}
+</style>
+<style>
+.book-figures{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:14px;width:100%;align-items:start}
+.book-figures figure{margin:0;min-width:0}
+.book-figures figcaption{font-weight:750;margin-bottom:5px}
+.book-graph,.book-axis{display:block;width:100%;max-width:460px;height:auto;margin:0 auto}
+.book-source{font-size:14px;max-width:65ch}
+.theory-cell{min-width:0;overflow-wrap:anywhere}
+</style></head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Маршрут обучения">
+      <a class="brand" href="#" aria-label="lili.math — начало"><img src="data:image/webp;base64,UklGRuIEAABXRUJQVlA4INYEAADQGQCdASpwAHAAPj0ci0OiIaEWOUU0IAPEoAzmgQfLcpT0j4R5neY/Ni47/4H25doD7Zt8z5gP16/U31bvab6AH7Vdar6AH63emV7Jn7q+lBd8f4e0Auud9XX33oDjH9I/wHgh/wFZm57foT0Zt85P0YicEhHjYgiW+CExr040n+MyT4eX3AYNZoH8P+3HfYcC2ZLaB9HTippRoAW6snjC0xk8QTUZhFSJNI6q6QPtf1/tEQJUdnXKqBjY3vPUcGF9FXHanBl3p3LPmewrouvpJxwVzP/2wAD+/Y4fU3DnwE85NCiSvdNC+c7ID6zFSFG8FbYqDYwldTvxpzp5rTsG3mznUOTYa2qoQpKC5bZrwi0xNuQQ8QhzrkBjyAw0Lijlb1JEEGUFngjpMIsphV8AdrWCsz/iWlQWb58ogfHd15h4s/OmgLZq2woBU8mp7iJh/+6+eY9u2ocf8Z4uo2ga2fp9Kh4JCRM8owzdQD8E3DztqhJrlf215Ci3sjzeZ9Vj82nQctxLx+/s6Ilv0/Ft+pMemviermos4K9V5x1TL0L0StXjJnqP+4/L/P/1r6lQPvS76tbN0Sv2/pSOuw+YErDqLmHqYfg36WGGj0d/BkoFGHhgrLX81+BAA/jJVlyohN+cG747erTe9g0mXLJ1zcgCoANvCdzu/0rf1BfnqlabI0OVgsHIKZoECH5u88XDl7YRP/FLDcFX6IexuGZq98I7zU6r4Vfr/+LC+Eg3MXEPt6ELm+RF8RVdvXpxxXg9yA7zX9Fz1k/7epy43XnjJOiqCnS4megWU4f47wLLyLXf8gC/XrGDqUAMcohgSeydnBImFH6UWfqowJnUJe/M5fzNQlQElMAnCwZwz9aJk158g+GCiPyhVUthJ71neJSKzRjY+wTANqwQqXFNjey8ClsCp+kh8av/iMwgSod2wx93AcrSHdkE4bctA9JYclg3ZOfdeZ0salPbSfUymqaWdOidsHxFyAKBnq/cFuJopMuQLM3oEgOyJucVNSdlZ44XXEnhV1fQQxiMbq8ZIl8Wmj4v/dDX/dSZPpCs8YcdPa/cKqGizYY+BLYBMoX8iJ7Bix+hp7mIBPPB4XRMRQr81bllUrcRdmHmnzimz3cIXMITIHmxb+19C3lmMAzfQX7ThPY6yLYSW0s5R1jb6RnVxerjeyOCW7ieXSLzCtlqYOSaXszH3TtyJbnF/9apf/7lP6N19xJurzyYT+GDPbqg6z7cnCUaUOpb4oimfypL551rgP+6BcCp+iaYxltdDSp2DFWU22+x/qVrDlUGTfnuV2QNu9TGi+Du8yUyqCECvUPHFzJAOQxWYXtssqRbDXE4245G8VPLqodMpL3tQGrCwS5MArWIpe9TVVwttFdKOK9DxdRURSnNAXT8x3cGE/yLwgtOgelOAyOfO24CprgXdO0hqCtOemeWx+hNkpXhouzOr+I6Ct/l7xArBM/BArv62vpKgkXSFljMEC8Ymfku1zX4AgXokN5VGegIv79P0PU8o7bAiMNsttQ0dlwOPUomME3OSQINH3y7fkASawST0cmr86TIafOwg42ocd7naFyU3Xe3z6mYApa8DB3ItU2gI/PtQo3oUMT9ZhdR0Nn8UD8kte357UzGqCwGVKqK0ITrdiAAAA==" class="identity-mark identity-brand" width="32" height="32" alt=""> lili.math</a>
+      <div class="sidebar-title">ТВОЙ МАРШРУТ</div>
+      <nav id="stage-nav"></nav>
+      <button class="lab-nav" id="open-lab"><span class="lab-symbol">↗</span><span>Лаборатория<small>Посмотри, что меняется</small></span></button>
+      <div class="sidebar-bottom"><div class="save-dot"></div><span id="save-status">Прогресс сохраняется<br>в этом браузере</span></div>
+      <button class="reset" id="reset-progress">Начать заново</button>
+    </aside>
+    <div class="main-shell">
+      <header class="topbar"><span class="breadcrumb"><a href="https://lilimath.ru/materialy.html" style="text-decoration:none">← Все материалы</a></span><span class="grade-tag">7–9 класс · ОГЭ</span></header>
+      <main id="main-content">
+        <section class="page-heading"><div><h1>Неравенства и системы</h1><p>Решай по шагам, отмечай границы на прямой и находи общую часть.</p></div><figure class="mascot-hero"><img src="data:image/jpeg;base64,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" width="132" height="132" alt="Кот, маскот тренажёра" decoding="async"></figure></section>
+        <section class="route-progress" aria-label="Общий прогресс"><div><span class="identity-label"><img src="data:image/webp;base64,UklGRtQEAABXRUJQVlA4IMgEAABQGwCdASpwAHAAPj0Yi0OiIaEW2q1IIAPEswbdD8AqQLmsHH8r2XniOo/kX0b+/3eXpNUS9On8r+i+4D0GeYB+hn6Vf1nsMfyf0Afbd70voz9AD+Z9RN6AHloft38GX7h/tp7RzlMdgMoHgBpApj37B+az8j/d33A+iN+5HsPIfpvVvNgIA9NkdXws0/bBiKRCKOAnxjAfuydv5XrZRIWKF5wiaKtlyArYiUTd4XU927pWVYHLGu50Y3yoJ1Sco1YcuLGFrrsEFderwTL8cTZmMgrTR5EZVNx5fXmsQroRhGsiQAD+88hY0+PibOaW9LkZuwTN5bSPZ2cNEJeQh7Hhlw1Qa3+EBUJxh9x9e/92L3S3sKDPdJLv8qdmYLGNpLR+UB28CHsvArUycMNmA9mq0nIh0mGdeutp1iO26WYDL6p1p//LbCJwvVUoZFvZLpNEAweQi2A0LWRlge0a9wAmzXRnj0lxuGqP1ZpD1JU9zY8Nqk8pNwNmrxJ0ETAzuj7W/xP3av+JV4rBcLThhlPWRw1qpYeRi6w9cJqGWqdXjEsIBjuuXXdwKi/KQz2EyEJYQYp1VJO0RhZCBmKzg5q40knVTAS3i4i42ELJNNio8N4OujCMM2+PAvNDrrq6BfwKoOt3TRiPCkLHEtBbPgvnONOMiORR1Qxwa4oiXB029h09+9UnlJqqcPIvmTnMUaM/QTZrpbmOU6NJSZX+uKHVr1P73lbsXA9NAn2e3ICdr68PTEQBVkwG3h392OoP9BL+hvd6IICjUwJxr6lSaGVITM91KGBzmXwRRFoVxVlvQXUm9h5KqM/oo78WfxvBNUev/5V4dNbjUpHGRvOmZDL2rthDXJ4HsKWH/P/Br1dkyS7n+NMkE61TKaTpQtLxtldJFeKiJw1ZmKBn4c+wimray0FKJY7SizpscRY7mGRm1eLu4/wH1wAYSfaiGfVUcyYS202nkGSozf+s+Iz14fggFcZYx0amrbm8Riz8gxnAlL3Wndq1PRnF95VQDPkMTDK6cvqdKBj+p1feCTKxQ53X/L4zWsVAkzhLva1H5pYDtBgrlksuUw911XYArcWo1CACxvzZs1hUCzDdnuFDlNn7PsTn6Pn7wql9OouWhxqhihYfp6uIgP4VfcvTbfLrEe/wBxZQI6sYJdk7eEuMmEvb1qPqoBe9cPDTXfeuHhpsJLYdHGHkmA7Oh7kwHZ0VCLDxehobk2LeAuHnSak4KftCzEPyEU+su4AfmMWAZYi3BaDYbPwSiV1ckPoyGajRDB0QjM01oRatR995DkcNb4fxFf9ANbe7pfzE/tsJ6Qj+P+WBIT68y+Vezex0P+bcaI46GaYWAh+UmztbCbGTHNETtx1UmNE5qPX4N/y/tn9qHecl9nYpoVZ/g/654x0V1T/atcTTA5Aht3OMJXykbqyBklpq1Z1lHzJZ6ZsTopWaKmqD6Ax6/zpBJSePrgb+laIK/7msMhEfhImpcaxJ8osI9B5+31BqHJr+tlhLCwiI/exC9hqDxHCDq9DC+ml+X9flL2b5IBKN7/CF8d2LM1jfuwXwxdeCqWi/3oXRvyDUu4P/gCXGgmFkeHagfPh3hk1yQhGNdj1GOG6Pkyvueed7n0gRgfMAAAA=" class="identity-mark identity-progress" width="32" height="32" alt=""><span id="progress-caption">Загрузка заданий</span></span><span id="progress-percent">0%</span></div><div class="progress-track"><div id="progress-fill"></div></div></section>
+        <div id="workspace"></div>
+        <footer class="page-footer"><span class="identity-label"><img src="data:image/webp;base64,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" class="identity-mark identity-footer" width="32" height="32" alt="">lili.math</span></footer>
+      </main>
+    </div>
+  </div>
+  <dialog id="reset-dialog"><h2>Начать с первого шага?</h2><p>Сохранённые ответы и прогресс в этом браузере будут удалены.</p><div class="dialog-actions"><button class="secondary" id="cancel-reset">Продолжить учиться</button><button class="primary" id="confirm-reset">Начать заново</button></div></dialog>
+  <script>
+window.TrainerData={"id":"balayan-neravenstva","version":1,"title":"Неравенства и системы · lili.math","heading":"Неравенства и системы","subtitle":"Решай по шагам, отмечай границы на прямой и находи общую часть.","description":"Решай по шагам, отмечай границы на прямой и находи общую часть.","grade":"7–9 класс · ОГЭ","stages":[{"name":"Линейные неравенства","subtitle":"Теория и практика","title":"Линейные неравенства","intro":"\u003csection class=\"theory-topic\">\u003ch3>Линейные неравенства\u003c/h3>\u003cp class=\"math-definition\">\u003cstrong>Решение неравенства\u003c/strong> — значение переменной, при котором сравнение верно.\u003c/p>\u003cdiv class=\"definition-parts\">\u003col>\u003cli>\u003ch4>Собираем неизвестные\u003c/h4>\u003cp class=\"theory-note\">Прибавляй или вычитай одно и то же выражение в обеих частях.\u003c/p>\u003cdiv class=\"theory-cell\">3x + 4 ≤ x + 10 → 2x ≤ 6 → x ≤ 3.\u003c/div>\u003c/li>\u003cli>\u003ch4>Делим на отрицательное\u003c/h4>\u003cp class=\"theory-note\">Умножение или деление обеих частей на отрицательное число меняет знак сравнения на противоположный.\u003c/p>\u003cdiv class=\"theory-cell\">−2x \u003c 6 → x > −3.\u003c/div>\u003c/li>\u003cli>\u003ch4>Показываем границу\u003c/h4>\u003cp class=\"theory-note\">При \u003c или > ставь пустую точку. При ≤ или ≥ ставь закрашенную. У бесконечности всегда круглая скобка.\u003c/p>\u003cdiv class=\"theory-cell\">x > −3 → (−3; +∞).\u003c/div>\u003c/li>\u003c/ol>\u003c/div>\u003csvg class=\"book-axis\" viewBox=\"0 0 380 77\" role=\"img\" aria-label=\"Числовая прямая с отмеченным промежутком\">\u003crect width=\"380\" height=\"77\" rx=\"10\" fill=\"#EEE0C8\"/>\u003cpath d=\"M18 32 H365 l-7 -4 m7 4 l-7 4\" fill=\"none\" stroke=\"#16231A\" stroke-width=\"2\"/>\u003cpath d=\"M116.81818181818181 32 H351\" stroke=\"#B95220\" stroke-width=\"6\"/>\u003ccircle cx=\"116.81818181818181\" cy=\"32\" r=\"5\" fill=\"#EEE0C8\" stroke=\"#B95220\" stroke-width=\"2\"/>\u003ctext x=\"116.81818181818181\" y=\"57\" text-anchor=\"middle\" fill=\"#16231A\" font-size=\"15\">-3\u003c/text>\u003cpath d=\"M204.63636363636363 27 v10\" stroke=\"#16231A\"/>\u003ctext x=\"204.63636363636363\" y=\"57\" text-anchor=\"middle\" fill=\"#16231A\" font-size=\"14\">0\u003c/text>\u003c/svg>\u003c/section>","anchor":"Прибавляй или вычитай одно и то же выражение в обеих частях.","anchorNote":"При \u003c или > ставь пустую точку. При ≤ или ≥ ставь закрашенную. У бесконечности всегда круглая скобка.","tasks":[{"kind":"choice","q":"Реши 4 − 3x ≥ 9x − 2. (Балаян, § 3, № 1)","answer":"(−∞; 0,5]","before":"7 − 2x ≥ 3x + 2 → 5 ≥ 5x → x ≤ 1.","see":"Прибавь 3x и 2 к обеим частям.","similar":"7 − 2x ≥ 3x + 2 → 5 ≥ 5x → x ≤ 1.","algorithm":"Получаем 6 ≥ 12x.","retry":"Прибавь 3x и 2 к обеим частям.","steps":["Получаем 6 ≥ 12x.","Делим на 12: 0,5 ≥ x.","Граница включена: (−∞; 0,5]."],"options":["[0,5; +∞)","(−∞; 2]","(−∞; 0,5]","(−∞; 0,5)"],"unit":""},{"kind":"choice","q":"Реши 5x − 5 ≥ 10x + 7. (Балаян, § 3, № 2)","answer":"(−∞; −2,4]","before":"2x − 3 ≥ 5x + 6 → −3x ≥ 9 → x ≤ −3.","see":"После переноса коэффициент при x будет отрицательным.","similar":"2x − 3 ≥ 5x + 6 → −3x ≥ 9 → x ≤ −3.","algorithm":"Вычитаем 10x и прибавляем 5: −5x ≥ 12.","retry":"После переноса коэффициент при x будет отрицательным.","steps":["Вычитаем 10x и прибавляем 5: −5x ≥ 12.","Делим на −5 и меняем знак: x ≤ −2,4.","Ответ (−∞; −2,4]."],"options":["[−2,4; +∞)","(−∞; −2,4]","(−∞; 2,4]","(−2,4; +∞)"],"unit":""},{"kind":"choice","q":"Реши 9x − 4(x + 10) ≥ −10. (Балаян, § 3, № 5)","answer":"[6; +∞)","before":"8x − 2(x + 3) ≥ 0 → 8x − 2x − 6 ≥ 0 → x ≥ 1.","see":"Умножь −4 на каждое слагаемое в скобках.","similar":"8x − 2(x + 3) ≥ 0 → 8x − 2x − 6 ≥ 0 → x ≥ 1.","algorithm":"9x − 4x − 40 ≥ −10.","retry":"Умножь −4 на каждое слагаемое в скобках.","steps":["9x − 4x − 40 ≥ −10.","5x ≥ 30.","x ≥ 6, ответ [6; +∞)."],"options":["(−∞; 6]","[6; +∞)","(6; +∞)","[10; +∞)"],"unit":""},{"kind":"choice","q":"Какое неравенство изображено?","answer":"x > −2","before":"Пустая точка в 3 и луч влево означают x \u003c 3.","see":"Проверь направление луча и заполнение точки.","similar":"Пустая точка в 3 и луч влево означают x \u003c 3.","algorithm":"Луч вправо даёт значения больше −2.","retry":"Проверь направление луча и заполнение точки.","steps":["Луч вправо даёт значения больше −2.","Пустая точка исключает −2.","Получаем x > −2."],"options":["x ≥ −2","x \u003c −2","x > −2","x ≤ −2"],"visual":"\u003csvg class=\"book-axis\" viewBox=\"0 0 380 77\" role=\"img\" aria-label=\"Числовая прямая с отмеченным промежутком\">\u003crect width=\"380\" height=\"77\" rx=\"10\" fill=\"#EEE0C8\"/>\u003cpath d=\"M18 32 H365 l-7 -4 m7 4 l-7 4\" fill=\"none\" stroke=\"#16231A\" stroke-width=\"2\"/>\u003cpath d=\"M125.6 32 H351\" stroke=\"#B95220\" stroke-width=\"6\"/>\u003ccircle cx=\"125.6\" cy=\"32\" r=\"5\" fill=\"#EEE0C8\" stroke=\"#B95220\" stroke-width=\"2\"/>\u003ctext x=\"125.6\" y=\"57\" text-anchor=\"middle\" fill=\"#16231A\" font-size=\"15\">-2\u003c/text>\u003cpath d=\"M190.0 27 v10\" stroke=\"#16231A\"/>\u003ctext x=\"190.0\" y=\"57\" text-anchor=\"middle\" fill=\"#16231A\" font-size=\"14\">0\u003c/text>\u003c/svg>","unit":""}]},{"name":"Квадратные неравенства","subtitle":"Теория и практика","title":"Квадратные неравенства","intro":"\u003csection class=\"theory-topic\">\u003ch3>Квадратные неравенства\u003c/h3>\u003cp class=\"math-definition\">\u003cstrong>Квадратное неравенство\u003c/strong> — неравенство, которое после переноса в одну сторону сравнивает ax² + bx + c с нулём, где a ≠ 0.\u003c/p>\u003cdiv class=\"definition-parts\">\u003col>\u003cli>\u003ch4>Находим нули\u003c/h4>\u003cp class=\"theory-note\">Решаем уравнение с тем же выражением. Его корни делят прямую на интервалы.\u003c/p>\u003cdiv class=\"theory-cell\">x² − 9 = (x − 3)(x + 3), нули −3 и 3.\u003c/div>\u003c/li>\u003cli>\u003ch4>Проверяем знак\u003c/h4>\u003cp class=\"theory-note\">У параболы с ветвями вверх и двумя корнями выражение отрицательно между корнями и положительно снаружи. При ветвях вниз знаки противоположны.\u003c/p>\u003cdiv class=\"theory-cell\">x² − 9 \u003c 0 при −3 \u003c x \u003c 3.\u003c/div>\u003c/li>\u003cli>\u003ch4>Учитываем особые случаи\u003c/h4>\u003cp class=\"theory-note\">Если нулей нет, знак постоянный. Если корень один и повторяется, график касается оси, знак через корень не меняется.\u003c/p>\u003cdiv class=\"theory-cell\">x² + 4 > 0 при любом x. Для (x − 2)² ≤ 0 подходит только x = 2.\u003c/div>\u003c/li>\u003c/ol>\u003c/div>\u003csvg class=\"book-graph\" viewBox=\"0 0 211.33333333333331 293.0\" role=\"img\" aria-label=\"Координатная плоскость\">\u003crect width=\"211.33333333333331\" height=\"293.0\" rx=\"12\" fill=\"#EEE0C8\"/>\u003cline x1=\"24.0\" y1=\"269.0\" x2=\"24.0\" y2=\"24.0\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"19.0\" y=\"138.0\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">-5\u003c/text>\u003cline x1=\"40.33333333333333\" y1=\"269.0\" x2=\"40.33333333333333\" y2=\"24.0\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"35.33333333333333\" y=\"138.0\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">-4\u003c/text>\u003cline x1=\"56.666666666666664\" y1=\"269.0\" x2=\"56.666666666666664\" y2=\"24.0\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"51.666666666666664\" y=\"138.0\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">-3\u003c/text>\u003cline x1=\"73.0\" y1=\"269.0\" x2=\"73.0\" y2=\"24.0\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"68.0\" y=\"138.0\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">-2\u003c/text>\u003cline x1=\"89.33333333333333\" y1=\"269.0\" x2=\"89.33333333333333\" y2=\"24.0\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"84.33333333333333\" y=\"138.0\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">-1\u003c/text>\u003cline x1=\"105.66666666666666\" y1=\"269.0\" x2=\"105.66666666666666\" y2=\"24.0\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003cline x1=\"122.0\" y1=\"269.0\" x2=\"122.0\" y2=\"24.0\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"117.0\" y=\"138.0\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">1\u003c/text>\u003cline x1=\"138.33333333333331\" y1=\"269.0\" x2=\"138.33333333333331\" y2=\"24.0\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"133.33333333333331\" y=\"138.0\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">2\u003c/text>\u003cline x1=\"154.66666666666666\" y1=\"269.0\" x2=\"154.66666666666666\" y2=\"24.0\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"149.66666666666666\" y=\"138.0\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">3\u003c/text>\u003cline x1=\"171.0\" y1=\"269.0\" x2=\"171.0\" y2=\"24.0\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"166.0\" y=\"138.0\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">4\u003c/text>\u003cline x1=\"187.33333333333331\" y1=\"269.0\" x2=\"187.33333333333331\" y2=\"24.0\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"182.33333333333331\" y=\"138.0\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">5\u003c/text>\u003cline x1=\"24.0\" y1=\"269.0\" x2=\"187.33333333333331\" y2=\"269.0\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"85.66666666666666\" y=\"273.0\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">-9\u003c/text>\u003cline x1=\"24.0\" y1=\"252.66666666666666\" x2=\"187.33333333333331\" y2=\"252.66666666666666\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"85.66666666666666\" y=\"256.66666666666663\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">-8\u003c/text>\u003cline x1=\"24.0\" y1=\"236.33333333333331\" x2=\"187.33333333333331\" y2=\"236.33333333333331\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"85.66666666666666\" y=\"240.33333333333331\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">-7\u003c/text>\u003cline x1=\"24.0\" y1=\"220.0\" x2=\"187.33333333333331\" y2=\"220.0\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"85.66666666666666\" y=\"224.0\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">-6\u003c/text>\u003cline x1=\"24.0\" y1=\"203.66666666666666\" x2=\"187.33333333333331\" y2=\"203.66666666666666\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"85.66666666666666\" y=\"207.66666666666666\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">-5\u003c/text>\u003cline x1=\"24.0\" y1=\"187.33333333333331\" x2=\"187.33333333333331\" y2=\"187.33333333333331\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"85.66666666666666\" y=\"191.33333333333331\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">-4\u003c/text>\u003cline x1=\"24.0\" y1=\"171.0\" x2=\"187.33333333333331\" y2=\"171.0\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"85.66666666666666\" y=\"175.0\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">-3\u003c/text>\u003cline x1=\"24.0\" y1=\"154.66666666666666\" x2=\"187.33333333333331\" y2=\"154.66666666666666\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"85.66666666666666\" y=\"158.66666666666666\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">-2\u003c/text>\u003cline x1=\"24.0\" y1=\"138.33333333333331\" x2=\"187.33333333333331\" y2=\"138.33333333333331\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"85.66666666666666\" y=\"142.33333333333331\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">-1\u003c/text>\u003cline x1=\"24.0\" y1=\"122.0\" x2=\"187.33333333333331\" y2=\"122.0\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003cline x1=\"24.0\" y1=\"105.66666666666666\" x2=\"187.33333333333331\" y2=\"105.66666666666666\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"85.66666666666666\" y=\"109.66666666666666\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">1\u003c/text>\u003cline x1=\"24.0\" y1=\"89.33333333333333\" x2=\"187.33333333333331\" y2=\"89.33333333333333\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"85.66666666666666\" y=\"93.33333333333333\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">2\u003c/text>\u003cline x1=\"24.0\" y1=\"73.0\" x2=\"187.33333333333331\" y2=\"73.0\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"85.66666666666666\" y=\"77.0\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">3\u003c/text>\u003cline x1=\"24.0\" y1=\"56.666666666666664\" x2=\"187.33333333333331\" y2=\"56.666666666666664\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"85.66666666666666\" y=\"60.666666666666664\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">4\u003c/text>\u003cline x1=\"24.0\" y1=\"40.33333333333333\" x2=\"187.33333333333331\" y2=\"40.33333333333333\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"85.66666666666666\" y=\"44.33333333333333\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">5\u003c/text>\u003cline x1=\"24.0\" y1=\"24.0\" x2=\"187.33333333333331\" y2=\"24.0\" stroke=\"#C9AB82\" stroke-width=\"1\"/>\u003ctext x=\"85.66666666666666\" y=\"28.0\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">6\u003c/text>\u003cline x1=\"12\" y1=\"122.0\" x2=\"199.33333333333331\" y2=\"122.0\" stroke=\"#16231A\" stroke-width=\"2\"/>\u003cline x1=\"105.66666666666666\" y1=\"281.0\" x2=\"105.66666666666666\" y2=\"12\" stroke=\"#16231A\" stroke-width=\"2\"/>\u003cpath d=\"M 193.33333333333331 118.0 L 200.33333333333331 122.0 L 193.33333333333331 126.0 M 101.66666666666666 18 L 105.66666666666666 11 L 109.66666666666666 18\" fill=\"none\" stroke=\"#16231A\" stroke-width=\"2\"/>\u003ctext x=\"197.33333333333331\" y=\"115.0\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">x\u003c/text>\u003ctext x=\"113.66666666666666\" y=\"17\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">y\u003c/text>\u003ctext x=\"91.66666666666666\" y=\"137.0\" fill=\"#16231A\" font-size=\"13\" font-weight=\"650\">0\u003c/text>\u003cpath d=\"M42.58,25.32 L42.78,26.90 L42.99,28.47 L43.19,30.03 L43.40,31.59 L43.60,33.15 L43.80,34.70 L44.01,36.24 L44.21,37.78 L44.42,39.31 L44.62,40.84 L44.82,42.36 L45.03,43.88 L45.23,45.40 L45.44,46.90 L45.64,48.41 L45.85,49.91 L46.05,51.40 L46.25,52.89 L46.46,54.37 L46.66,55.85 L46.87,57.32 L47.07,58.79 L47.27,60.25 L47.48,61.71 L47.68,63.16 L47.89,64.61 L48.09,66.05 L48.30,67.48 L48.50,68.92 L48.70,70.34 L48.91,71.76 L49.11,73.18 L49.32,74.59 L49.52,76.00 L49.73,77.40 L49.93,78.80 L50.13,80.19 L50.34,81.57 L50.54,82.95 L50.75,84.33 L50.95,85.70 L51.15,87.06 L51.36,88.42 L51.56,89.78 L51.77,91.13 L51.97,92.47 L52.17,93.81 L52.38,95.15 L52.58,96.48 L52.79,97.80 L52.99,99.12 L53.20,100.44 L53.40,101.75 L53.60,103.05 L53.81,104.35 L54.01,105.64 L54.22,106.93 L54.42,108.22 L54.62,109.49 L54.83,110.77 L55.03,112.04 L55.24,113.30 L55.44,114.56 L55.65,115.81 L55.85,117.06 L56.05,118.30 L56.26,119.54 L56.46,120.77 L56.67,122.00 L56.87,123.22 L57.07,124.44 L57.28,125.65 L57.48,126.86 L57.69,128.06 L57.89,129.26 L58.10,130.45 L58.30,131.64 L58.50,132.82 L58.71,133.99 L58.91,135.17 L59.12,136.33 L59.32,137.49 L59.52,138.65 L59.73,139.80 L59.93,140.95 L60.14,142.09 L60.34,143.22 L60.55,144.35 L60.75,145.48 L60.95,146.60 L61.16,147.71 L61.36,148.82 L61.57,149.93 L61.77,151.03 L61.98,152.12 L62.18,153.21 L62.38,154.30 L62.59,155.38 L62.79,156.45 L63.00,157.52 L63.20,158.59 L63.40,159.65 L63.61,160.70 L63.81,161.75 L64.02,162.79 L64.22,163.83 L64.42,164.86 L64.63,165.89 L64.83,166.92 L65.04,167.93 L65.24,168.95 L65.45,169.96 L65.65,170.96 L65.85,171.96 L66.06,172.95 L66.26,173.94 L66.47,174.92 L66.67,175.90 L66.88,176.87 L67.08,177.84 L67.28,178.80 L67.49,179.76 L67.69,180.71 L67.90,181.65 L68.10,182.60 L68.30,183.53 L68.51,184.46 L68.71,185.39 L68.92,186.31 L69.12,187.23 L69.32,188.14 L69.53,189.05 L69.73,189.95 L69.94,190.84 L70.14,191.73 L70.35,192.62 L70.55,193.50 L70.75,194.37 L70.96,195.24 L71.16,196.11 L71.37,196.97 L71.57,197.82 L71.77,198.67 L71.98,199.52 L72.18,200.36 L72.39,201.19 L72.59,202.02 L72.80,202.85 L73.00,203.67 L73.20,204.48 L73.41,205.29 L73.61,206.09 L73.82,206.89 L74.02,207.69 L74.22,208.47 L74.43,209.26 L74.63,210.04 L74.84,210.81 L75.04,211.58 L75.25,212.34 L75.45,213.10 L75.65,213.85 L75.86,214.60 L76.06,215.34 L76.27,216.08 L76.47,216.81 L76.67,217.54 L76.88,218.26 L77.08,218.98 L77.29,219.69 L77.49,220.40 L77.70,221.10 L77.90,221.80 L78.10,222.49 L78.31,223.17 L78.51,223.86 L78.72,224.53 L78.92,225.20 L79.12,225.87 L79.33,226.53 L79.53,227.19 L79.74,227.84 L79.94,228.48 L80.15,229.12 L80.35,229.76 L80.55,230.39 L80.76,231.01 L80.96,231.63 L81.17,232.25 L81.37,232.86 L81.57,233.46 L81.78,234.06 L81.98,234.66 L82.19,235.25 L82.39,235.83 L82.60,236.41 L82.80,236.99 L83.00,237.56 L83.21,238.12 L83.41,238.68 L83.62,239.23 L83.82,239.78 L84.02,240.32 L84.23,240.86 L84.43,241.40 L84.64,241.92 L84.84,242.45 L85.05,242.97 L85.25,243.48 L85.45,243.99 L85.66,244.49 L85.86,244.99 L86.07,245.48 L86.27,245.97 L86.47,246.45 L86.68,246.93 L86.88,247.40 L87.09,247.87 L87.29,248.33 L87.50,248.78 L87.70,249.24 L87.90,249.68 L88.11,250.12 L88.31,250.56 L88.52,250.99 L88.72,251.42 L88.92,251.84 L89.13,252.26 L89.33,252.67 L89.54,253.07 L89.74,253.47 L89.95,253.87 L90.15,254.26 L90.35,254.64 L90.56,255.02 L90.76,255.40 L90.97,255.77 L91.17,256.13 L91.38,256.49 L91.58,256.85 L91.78,257.20 L91.99,257.54 L92.19,257.88 L92.40,258.22 L92.60,258.55 L92.80,258.87 L93.01,259.19 L93.21,259.50 L93.42,259.81 L93.62,260.12 L93.83,260.41 L94.03,260.71 L94.23,261.00 L94.44,261.28 L94.64,261.56 L94.85,261.83 L95.05,262.10 L95.25,262.36 L95.46,262.62 L95.66,262.87 L95.87,263.12 L96.07,263.36 L96.27,263.60 L96.48,263.83 L96.68,264.06 L96.89,264.28 L97.09,264.50 L97.30,264.71 L97.50,264.92 L97.70,265.12 L97.91,265.31 L98.11,265.51 L98.32,265.69 L98.52,265.87 L98.72,266.05 L98.93,266.22 L99.13,266.39 L99.34,266.55 L99.54,266.70 L99.75,266.85 L99.95,267.00 L100.15,267.14 L100.36,267.27 L100.56,267.40 L100.77,267.53 L100.97,267.65 L101.17,267.76 L101.38,267.87 L101.58,267.98 L101.79,268.08 L101.99,268.17 L102.20,268.26 L102.40,268.35 L102.60,268.43 L102.81,268.50 L103.01,268.57 L103.22,268.63 L103.42,268.69 L103.62,268.74 L103.83,268.79 L104.03,268.84 L104.24,268.87 L104.44,268.91 L104.65,268.94 L104.85,268.96 L105.05,268.98 L105.26,268.99 L105.46,269.00 L105.67,269.00 L105.87,269.00 L106.08,268.99 L106.28,268.98 L106.48,268.96 L106.69,268.94 L106.89,268.91 L107.10,268.87 L107.30,268.84 L107.50,268.79 L107.71,268.74 L107.91,268.69 L108.12,268.63 L108.32,268.57 L108.52,268.50 L108.73,268.43 L108.93,268.35 L109.14,268.26 L109.34,268.17 L109.55,268.08 L109.75,267.98 L109.95,267.87 L110.16,267.76 L110.36,267.65 L110.57,267.53 L110.77,267.40 L110.97,267.27 L111.18,267.14 L111.38,267.00 L111.59,266.85 L111.79,266.70 L112.00,266.55 L112.20,266.39 L112.40,266.22 L112.61,266.05 L112.81,265.87 L113.02,265.69 L113.22,265.51 L113.42,265.31 L113.63,265.12 L113.83,264.92 L114.04,264.71 L114.24,264.50 L114.45,264.28 L114.65,264.06 L114.85,263.83 L115.06,263.60 L115.26,263.36 L115.47,263.12 L115.67,262.87 L115.88,262.62 L116.08,262.36 L116.28,262.10 L116.49,261.83 L116.69,261.56 L116.90,261.28 L117.10,261.00 L117.30,260.71 L117.51,260.41 L117.71,260.12 L117.92,259.81 L118.12,259.50 L118.33,259.19 L118.53,258.87 L118.73,258.55 L118.94,258.22 L119.14,257.88 L119.35,257.54 L119.55,257.20 L119.75,256.85 L119.96,256.49 L120.16,256.13 L120.37,255.77 L120.57,255.40 L120.77,255.02 L120.98,254.64 L121.18,254.26 L121.39,253.87 L121.59,253.47 L121.80,253.07 L122.00,252.67 L122.20,252.26 L122.41,251.84 L122.61,251.42 L122.82,250.99 L123.02,250.56 L123.22,250.12 L123.43,249.68 L123.63,249.24 L123.84,248.78 L124.04,248.33 L124.25,247.87 L124.45,247.40 L124.65,246.93 L124.86,246.45 L125.06,245.97 L125.27,245.48 L125.47,244.99 L125.67,244.49 L125.88,243.99 L126.08,243.48 L126.29,242.97 L126.49,242.45 L126.70,241.92 L126.90,241.40 L127.10,240.86 L127.31,240.32 L127.51,239.78 L127.72,239.23 L127.92,238.68 L128.12,238.12 L128.33,237.56 L128.53,236.99 L128.74,236.41 L128.94,235.83 L129.15,235.25 L129.35,234.66 L129.55,234.06 L129.76,233.46 L129.96,232.86 L130.17,232.25 L130.37,231.63 L130.57,231.01 L130.78,230.39 L130.98,229.76 L131.19,229.12 L131.39,228.48 L131.60,227.84 L131.80,227.19 L132.00,226.53 L132.21,225.87 L132.41,225.20 L132.62,224.53 L132.82,223.86 L133.02,223.17 L133.23,222.49 L133.43,221.80 L133.64,221.10 L133.84,220.40 L134.05,219.69 L134.25,218.98 L134.45,218.26 L134.66,217.54 L134.86,216.81 L135.07,216.08 L135.27,215.34 L135.47,214.60 L135.68,213.85 L135.88,213.10 L136.09,212.34 L136.29,211.58 L136.50,210.81 L136.70,210.04 L136.90,209.26 L137.11,208.47 L137.31,207.69 L137.52,206.89 L137.72,206.09 L137.92,205.29 L138.13,204.48 L138.33,203.67 L138.54,202.85 L138.74,202.02 L138.95,201.19 L139.15,200.36 L139.35,199.52 L139.56,198.67 L139.76,197.82 L139.97,196.97 L140.17,196.11 L140.38,195.24 L140.58,194.37 L140.78,193.50 L140.99,192.62 L141.19,191.73 L141.40,190.84 L141.60,189.95 L141.80,189.05 L142.01,188.14 L142.21,187.23 L142.42,186.31 L142.62,185.39 L142.82,184.46 L143.03,183.53 L143.23,182.60 L143.44,181.65 L143.64,180.71 L143.85,179.76 L144.05,178.80 L144.25,177.84 L144.46,176.87 L144.66,175.90 L144.87,174.92 L145.07,173.94 L145.27,172.95 L145.48,171.96 L145.68,170.96 L145.89,169.96 L146.09,168.95 L146.30,167.93 L146.50,166.92 L146.70,165.89 L146.91,164.86 L147.11,163.83 L147.32,162.79 L147.52,161.75 L147.72,160.70 L147.93,159.65 L148.13,158.59 L148.34,157.52 L148.54,156.45 L148.75,155.38 L148.95,154.30 L149.15,153.21 L149.36,152.12 L149.56,151.03 L149.77,149.93 L149.97,148.82 L150.17,147.71 L150.38,146.60 L150.58,145.48 L150.79,144.35 L150.99,143.22 L151.20,142.09 L151.40,140.95 L151.60,139.80 L151.81,138.65 L152.01,137.49 L152.22,136.33 L152.42,135.17 L152.62,133.99 L152.83,132.82 L153.03,131.64 L153.24,130.45 L153.44,129.26 L153.65,128.06 L153.85,126.86 L154.05,125.65 L154.26,124.44 L154.46,123.22 L154.67,122.00 L154.87,120.77 L155.07,119.54 L155.28,118.30 L155.48,117.06 L155.69,115.81 L155.89,114.56 L156.10,113.30 L156.30,112.04 L156.50,110.77 L156.71,109.49 L156.91,108.22 L157.12,106.93 L157.32,105.64 L157.53,104.35 L157.73,103.05 L157.93,101.75 L158.14,100.44 L158.34,99.12 L158.55,97.80 L158.75,96.48 L158.95,95.15 L159.16,93.81 L159.36,92.47 L159.57,91.13 L159.77,89.78 L159.97,88.42 L160.18,87.06 L160.38,85.70 L160.59,84.33 L160.79,82.95 L161.00,81.57 L161.20,80.19 L161.40,78.80 L161.61,77.40 L161.81,76.00 L162.02,74.59 L162.22,73.18 L162.42,71.76 L162.63,70.34 L162.83,68.92 L163.04,67.48 L163.24,66.05 L163.45,64.61 L163.65,63.16 L163.85,61.71 L164.06,60.25 L164.26,58.79 L164.47,57.32 L164.67,55.85 L164.88,54.37 L165.08,52.89 L165.28,51.40 L165.49,49.91 L165.69,48.41 L165.90,46.90 L166.10,45.40 L166.30,43.88 L166.51,42.36 L166.71,40.84 L166.92,39.31 L167.12,37.78 L167.32,36.24 L167.53,34.70 L167.73,33.15 L167.94,31.59 L168.14,30.03 L168.35,28.47 L168.55,26.90 L168.75,25.32\" fill=\"none\" stroke=\"#B95220\" stroke-width=\"3.4\" stroke-linecap=\"round\"/>\u003ccircle cx=\"56.666666666666664\" cy=\"122.0\" r=\"4.4\" fill=\"#16231A\" stroke=\"#EEE0C8\" stroke-width=\"1.3\"/>\u003ccircle cx=\"154.66666666666666\" cy=\"122.0\" r=\"4.4\" fill=\"#16231A\" stroke=\"#EEE0C8\" stroke-width=\"1.3\"/>\u003c/svg>\u003c/section>","anchor":"Решаем уравнение с тем же выражением. Его корни делят прямую на интервалы.","anchorNote":"Если нулей нет, знак постоянный. Если корень один и повторяется, график касается оси, знак через корень не меняется.","tasks":[{"kind":"choice","q":"Реши x² − 16 \u003c 0. (Балаян, § 3, № 8)","answer":"(−4; 4)","before":"x² − 9 \u003c 0: корни −3 и 3, ветви вверх, ниже оси между корнями.","see":"Разложи разность квадратов или найди корни уравнения x² = 16.","similar":"x² − 9 \u003c 0: корни −3 и 3, ветви вверх, ниже оси между корнями.","algorithm":"Корни −4 и 4.","retry":"Разложи разность квадратов или найди корни уравнения x² = 16.","steps":["Корни −4 и 4.","Между ними выражение отрицательно, например при x = 0 имеем −16.","Знак строгий: (−4; 4)."],"options":["(−∞; +∞)","(−4; 4)","[−4; 4]","(−∞; −4) ∪ (4; +∞)"],"unit":""},{"kind":"choice","q":"Реши (x + 4)(x − 9) ≥ 0. (Балаян, § 3, № 10)","answer":"(−∞; −4] ∪ [9; +∞)","before":"(x + 2)(x − 3) ≥ 0: вне корней множители одного знака, корни включаем.","see":"Проверь произведение при x = 0.","similar":"(x + 2)(x − 3) ≥ 0: вне корней множители одного знака, корни включаем.","algorithm":"Нули −4 и 9.","retry":"Проверь произведение при x = 0.","steps":["Нули −4 и 9.","Между нулями знаки разные, снаружи совпадают.","Границы включаем: (−∞; −4] ∪ [9; +∞)."],"options":["[−4; 9]","[9; +∞)","(−∞; −4] ∪ [9; +∞)","(−∞; −4) ∪ (9; +∞)"],"unit":""},{"kind":"choice","q":"Реши x² + 25 > 0. (Балаян, § 3, № 9)","answer":"Все действительные числа","before":"x² + 7 ≥ 7 при любом x, значит выражение всегда строго положительно.","see":"Квадрат действительного числа всегда ≥ 0.","similar":"x² + 7 ≥ 7 при любом x, значит выражение всегда строго положительно.","algorithm":"x² ≥ 0.","retry":"Квадрат действительного числа всегда ≥ 0.","steps":["x² ≥ 0.","x² + 25 ≥ 25 > 0.","Подходит любое действительное число."],"options":["Нет решений","Только x ≠ 0","Все действительные числа","Только x > 0"],"unit":""},{"kind":"choice","q":"Реши (x + 1)² ≤ 0.","answer":"Только x = −1","before":"(x − 3)² ≤ 0 возможно только когда квадрат равен нулю: x = 3.","see":"Квадрат не может быть отрицательным.","similar":"(x − 3)² ≤ 0 возможно только когда квадрат равен нулю: x = 3.","algorithm":"Требуется (x + 1)² = 0.","retry":"Квадрат не может быть отрицательным.","steps":["Требуется (x + 1)² = 0.","x + 1 = 0.","Единственное решение x = −1."],"options":["Только x = 1","Только x = −1","(−∞; −1]","Нет решений"],"unit":""}]},{"name":"Дробь и метод интервалов","subtitle":"Теория и практика","title":"Дробь и метод интервалов","intro":"\u003csection class=\"theory-topic\">\u003ch3>Дробь и метод интервалов\u003c/h3>\u003cp class=\"math-definition\">\u003cstrong>Метод интервалов\u003c/strong> — способ определить знак выражения на промежутках между его нулями и точками, где выражение не определено.\u003c/p>\u003cdiv class=\"definition-parts\">\u003col>\u003cli>\u003ch4>Границы\u003c/h4>\u003cp class=\"theory-note\">Приравняй к нулю числитель и знаменатель отдельно. Корень знаменателя никогда не включай.\u003c/p>\u003cdiv class=\"theory-cell\">(x − 1)/(x + 2) → границы −2 и 1.\u003c/div>\u003c/li>\u003cli>\u003ch4>Знаки\u003c/h4>\u003cp class=\"theory-note\">Возьми по одному числу в каждом промежутке и проверь знаки числителя и знаменателя.\u003c/p>\u003cdiv class=\"theory-cell\">Для x = −3, 0, 2 знаки дроби соответственно +, −, +.\u003c/div>\u003c/li>\u003cli>\u003ch4>Сбор ответа\u003c/h4>\u003cp class=\"theory-note\">Возьми интервалы нужного знака. Нуль числителя при ≤ или ≥ включается, если знаменатель в нём не равен нулю.\u003c/p>\u003cdiv class=\"theory-cell\">(x − 1)/(x + 2) ≤ 0 → (−2; 1].\u003c/div>\u003c/li>\u003c/ol>\u003c/div>\u003csvg class=\"book-axis\" viewBox=\"0 0 380 77\" role=\"img\" aria-label=\"Числовая прямая с отмеченным промежутком\">\u003crect width=\"380\" height=\"77\" rx=\"10\" fill=\"#EEE0C8\"/>\u003cpath d=\"M18 32 H365 l-7 -4 m7 4 l-7 4\" fill=\"none\" stroke=\"#16231A\" stroke-width=\"2\"/>\u003cpath d=\"M125.6 32 H222.2\" stroke=\"#B95220\" stroke-width=\"6\"/>\u003ccircle cx=\"125.6\" cy=\"32\" r=\"5\" fill=\"#EEE0C8\" stroke=\"#B95220\" stroke-width=\"2\"/>\u003ctext x=\"125.6\" y=\"57\" text-anchor=\"middle\" fill=\"#16231A\" font-size=\"15\">-2\u003c/text>\u003ccircle cx=\"222.2\" cy=\"32\" r=\"5\" fill=\"#B95220\" stroke=\"#B95220\" stroke-width=\"2\"/>\u003ctext x=\"222.2\" y=\"57\" text-anchor=\"middle\" fill=\"#16231A\" font-size=\"15\">1\u003c/text>\u003cpath d=\"M190.0 27 v10\" stroke=\"#16231A\"/>\u003ctext x=\"190.0\" y=\"57\" text-anchor=\"middle\" fill=\"#16231A\" font-size=\"14\">0\u003c/text>\u003c/svg>\u003c/section>","anchor":"Приравняй к нулю числитель и знаменатель отдельно. Корень знаменателя никогда не включай.","anchorNote":"Возьми интервалы нужного знака. Нуль числителя при ≤ или ≥ включается, если знаменатель в нём не равен нулю.","tasks":[{"kind":"choice","q":"Реши (2x − 1)/(3 − x) ≥ 0. (Балаян, § 3, пример 20)","answer":"[0,5; 3)","before":"Для (x − 2)/(5 − x) ≥ 0 границы 2 и 5. При x = 3 дробь положительна, поэтому берём [2; 5).","see":"Точка x = 3 запрещена знаменателем.","similar":"Для (x − 2)/(5 − x) ≥ 0 границы 2 и 5. При x = 3 дробь положительна, поэтому берём [2; 5).","algorithm":"Границы 0,5 и 3.","retry":"Точка x = 3 запрещена знаменателем.","steps":["Границы 0,5 и 3.","Слева знаки − и +, между границами + и +, справа + и −.","0,5 включаем, 3 исключаем."],"options":["(0,5; 3]","[0,5; 3)","(−∞; 0,5] ∪ (3; +∞)","[0,5; 3]"],"unit":""},{"kind":"choice","q":"Реши (x − 4)/(x + 1) > 0.","answer":"(−∞; −1) ∪ (4; +∞)","before":"(x − 2)/(x + 3) > 0, когда оба множителя отрицательны или оба положительны: x \u003c −3 или x > 2.","see":"Дробь положительна, если знаки её частей совпадают.","similar":"(x − 2)/(x + 3) > 0, когда оба множителя отрицательны или оба положительны: x \u003c −3 или x > 2.","algorithm":"Исключаем x = −1 и x = 4.","retry":"Дробь положительна, если знаки её частей совпадают.","steps":["Исключаем x = −1 и x = 4.","Слева от −1 обе части отрицательны, между границами знаки разные, справа от 4 обе положительны.","Берём крайние интервалы."],"options":["(−1; 4)","(−∞; −1) ∪ (4; +∞)","(−∞; −1] ∪ [4; +∞)"],"unit":""},{"kind":"choice","q":"Реши (x² − 9)/(x + 3) ≤ 0.","answer":"(−∞; −3) ∪ (−3; 3]","before":"(x² − 4)/(x + 2) ≤ 0 упрощается до x − 2 ≤ 0 при x ≠ −2. Ответ (−∞; −2) ∪ (−2; 2].","see":"Запиши запрет x ≠ −3 до сокращения.","similar":"(x² − 4)/(x + 2) ≤ 0 упрощается до x − 2 ≤ 0 при x ≠ −2. Ответ (−∞; −2) ∪ (−2; 2].","algorithm":"x² − 9 = (x − 3)(x + 3).","retry":"Запиши запрет x ≠ −3 до сокращения.","steps":["x² − 9 = (x − 3)(x + 3).","При x ≠ −3 сокращаем до x − 3 ≤ 0.","Берём x ≤ 3 и вырезаем −3."],"options":["(−∞; 3]","(−∞; −3) ∪ (−3; 3]","[−3; 3]"],"unit":""},{"kind":"choice","q":"Реши 1/(x − 2) ≤ 0.","answer":"(−∞; 2)","before":"1/(x + 1) ≤ 0 только при x \u003c −1. Числитель 1 никогда не равен нулю.","see":"При числителе 1 знак дроби задаёт знаменатель.","similar":"1/(x + 1) ≤ 0 только при x \u003c −1. Числитель 1 никогда не равен нулю.","algorithm":"Числитель положительный и не обнуляется.","retry":"При числителе 1 знак дроби задаёт знаменатель.","steps":["Числитель положительный и не обнуляется.","Дробь отрицательна при x − 2 \u003c 0.","Ответ (−∞; 2)."],"options":["(−∞; 2]","(−∞; 2)","(2; +∞)"],"unit":""}]},{"name":"Системы и целые решения","subtitle":"Теория и практика","title":"Системы и целые решения","intro":"\u003csection class=\"theory-topic\">\u003ch3>Системы и целые решения\u003c/h3>\u003cp class=\"math-definition\">\u003cstrong>Решение системы неравенств\u003c/strong> — значение, которое удовлетворяет каждому из её неравенств одновременно.\u003c/p>\u003cdiv class=\"definition-parts\">\u003col>\u003cli>\u003ch4>Решаем по отдельности\u003c/h4>\u003cp class=\"theory-note\">Получаем для каждого условия отдельный промежуток.\u003c/p>\u003cdiv class=\"theory-cell\">x + 2 ≥ 0 → x ≥ −2. 2x \u003c 6 → x \u003c 3.\u003c/div>\u003c/li>\u003cli>\u003ch4>Ищем общую часть\u003c/h4>\u003cp class=\"theory-note\">На числовой прямой оставь числа, которые входят в оба промежутка.\u003c/p>\u003cdiv class=\"theory-cell\">x ≥ −2 и x \u003c 3 → [−2; 3).\u003c/div>\u003c/li>\u003cli>\u003ch4>Выбираем целое число\u003c/h4>\u003cp class=\"theory-note\">Проверь, входит ли граница в ответ. Если граница исключена, бери следующее допустимое целое.\u003c/p>\u003cdiv class=\"theory-cell\">В [−2; 3) целые числа −2, −1, 0, 1, 2. Самое большое — 2.\u003c/div>\u003c/li>\u003c/ol>\u003c/div>\u003csvg class=\"book-axis\" viewBox=\"0 0 380 77\" role=\"img\" aria-label=\"Числовая прямая с отмеченным промежутком\">\u003crect width=\"380\" height=\"77\" rx=\"10\" fill=\"#EEE0C8\"/>\u003cpath d=\"M18 32 H365 l-7 -4 m7 4 l-7 4\" fill=\"none\" stroke=\"#16231A\" stroke-width=\"2\"/>\u003cpath d=\"M125.6 32 H286.6\" stroke=\"#B95220\" stroke-width=\"6\"/>\u003ccircle cx=\"125.6\" cy=\"32\" r=\"5\" fill=\"#B95220\" stroke=\"#B95220\" stroke-width=\"2\"/>\u003ctext x=\"125.6\" y=\"57\" text-anchor=\"middle\" fill=\"#16231A\" font-size=\"15\">-2\u003c/text>\u003ccircle cx=\"286.6\" cy=\"32\" r=\"5\" fill=\"#EEE0C8\" stroke=\"#B95220\" stroke-width=\"2\"/>\u003ctext x=\"286.6\" y=\"57\" text-anchor=\"middle\" fill=\"#16231A\" font-size=\"15\">3\u003c/text>\u003cpath d=\"M190.0 27 v10\" stroke=\"#16231A\"/>\u003ctext x=\"190.0\" y=\"57\" text-anchor=\"middle\" fill=\"#16231A\" font-size=\"14\">0\u003c/text>\u003c/svg>\u003c/section>\u003cp class=\"book-source\">Источник: Э. Н. Балаян, «Математика. Подготовка к ОГЭ», § 3, с. 43–63. Условия выбранных упражнений сокращены. Остальные задачи составлены по тем же типам.\u003c/p>","anchor":"Получаем для каждого условия отдельный промежуток.","anchorNote":"Проверь, входит ли граница в ответ. Если граница исключена, бери следующее допустимое целое.","tasks":[{"kind":"choice","q":"Реши систему x + 0,8 ≤ 0 и x − 2 ≥ −5. (Балаян, § 3, № 30)","answer":"[−3; −0,8]","before":"Из x + 1 ≤ 0 и x − 2 ≥ −6 получаем x ≤ −1 и x ≥ −4. Общая часть [−4; −1].","see":"Одна граница снизу, другая сверху.","similar":"Из x + 1 ≤ 0 и x − 2 ≥ −6 получаем x ≤ −1 и x ≥ −4. Общая часть [−4; −1].","algorithm":"Первое условие даёт x ≤ −0,8.","retry":"Одна граница снизу, другая сверху.","steps":["Первое условие даёт x ≤ −0,8.","Второе даёт x ≥ −3.","Общая часть [−3; −0,8]."],"options":["[−3; +∞)","[−3; −0,8]","(−∞; −0,8]","(−∞; −3] ∪ [−0,8; +∞)"],"unit":""},{"kind":"choice","q":"Реши систему x − 16,5 > 0 и x + 8 > 10. (Балаян, § 3, № 31)","answer":"(16,5; +∞)","before":"При x > 7 и x > 3 одновременно нужно x > 7.","see":"Когда оба ограничения снизу, возьми более строгую границу.","similar":"При x > 7 и x > 3 одновременно нужно x > 7.","algorithm":"Первое условие даёт x > 16,5.","retry":"Когда оба ограничения снизу, возьми более строгую границу.","steps":["Первое условие даёт x > 16,5.","Второе даёт x > 2.","Все x > 16,5 удовлетворяют обоим."],"options":["(2; +∞)","(2; 16,5)","(16,5; +∞)","[16,5; +∞)"],"unit":""},{"kind":"choice","q":"Реши систему 2x > 6 и x + 1 ≤ 4.","answer":"Нет решений","before":"Для x > 2 и x \u003c 1 общих чисел нет.","see":"Проверь, подходит ли число 3 обоим условиям.","similar":"Для x > 2 и x \u003c 1 общих чисел нет.","algorithm":"Первое требует x > 3.","retry":"Проверь, подходит ли число 3 обоим условиям.","steps":["Первое требует x > 3.","Второе требует x ≤ 3.","Промежутки не пересекаются."],"options":["Только x = 3","(−∞; 3]","Нет решений","(3; +∞)"],"unit":""},{"kind":"number","q":"Найди наибольшее целое решение системы 3 − 2x \u003c 13, x − 1 > 0, 5x − 35 ≤ 0. (Балаян, § 3, пример 34)","answer":7,"before":"Если после решения системы получилось 0 \u003c x ≤ 6, целая правая граница 6 подходит.","see":"У первого условия при делении на −2 поменяй знак.","similar":"Если после решения системы получилось 0 \u003c x ≤ 6, целая правая граница 6 подходит.","algorithm":"Из первого условия x > −5.","retry":"У первого условия при делении на −2 поменяй знак.","steps":["Из первого условия x > −5.","Из второго x > 1, из третьего x ≤ 7.","Пересечение (1; 7]. Наибольшее целое решение 7."],"unit":""}]}],"recap":["При делении на отрицательное число разверни знак сравнения.","У квадратичного выражения проверь корни и знаки. У дроби исключи нули знаменателя.","В системе выбирай только общие решения всех условий."]};
+(function(){
+ const d=window.TrainerData;
+ const parseNumber=raw=>{let s=String(raw).trim().replace(/\s+/g,'').replace(/,/g,'.').replace(/−/g,'-');if(!/^[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:\/[+-]?(?:\d+(?:\.\d+)?|\.\d+))?$/.test(s))return null;let p=s.split('/').map(Number),n=p.length===2?p[0]/p[1]:p[0];return Number.isFinite(n)?n:null;};
+
+ // Compare terms in standard form, allowing reordering of terms and variables.
+ function standardForm(raw) {
+   const digits = '⁰¹²³⁴⁵⁶⁷⁸⁹';
+   let expression = String(raw).toLowerCase().replace(/\s+/g,'').replace(/−/g,'-')
+     .replace(/[ахувс]/g, letter => ({а:'a',х:'x',у:'y',в:'b',с:'c'})[letter])
+     .replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]+/g, power => '^'+[...power].map(d => digits.indexOf(d)).join(''))
+     .replace(/,/g,'.').replace(/([0-9a-z])[·*](?=[a-z])/g,'$1');
+   if (!expression || expression.length > 200) return null;
+   if (!/^[+-]/.test(expression)) expression = '+'+expression;
+   const terms = expression.match(/[+-][^+-]+/g) || [];
+   if (terms.join('') !== expression) return null;
+   const standard = [];
+   const seen = new Set();
+   for (const term of terms) {
+     const match = term.match(/^([+-])((?:\d+(?:\.\d+)?|\.\d+)?)([a-z].*)?$/);
+     if (!match || (!match[2] && !match[3])) return null;
+     const letters = match[3] || '';
+     const factors = letters.match(/[a-z](?:\^[1-9]\d*)?/g) || [];
+     if (factors.join('') !== letters) return null;
+     const variables = factors.map(factor => factor.replace(/\^1$/,'')).sort();
+     if (new Set(variables.map(variable => variable[0])).size !== variables.length) return null;
+     const literal = variables.join('');
+     const coefficient = Number(match[1]+(match[2] || '1'));
+     if (!Number.isFinite(coefficient) || seen.has(literal) || (coefficient === 0 && (literal || terms.length > 1))) return null;
+     seen.add(literal);
+     standard.push(coefficient+':'+literal);
+   }
+   return standard.sort().join('|');
+ }
+ window.TrainerCourse={...d,fmt:String,parseNumber,total:d.stages.reduce((n,s)=>n+s.tasks.length,0),isCorrect:(t,r)=>{if(t.expressionInput)return standardForm(r)===standardForm(t.answer);if(t.kind==='choice')return String(t.answer)===String(r);let n=parseNumber(r);return n!==null&&Math.abs(n-t.answer)<=1e-9*Math.max(1,Math.abs(t.answer));}};
+})();
+</script>
+  <script>(function(){
+  'use strict';
+  const C=window.TrainerCourse,KEY='lili-trainer-'+C.id+'-'+(C.version||1)+(window.LiliStudy?.suffix||''),TOTAL=C.total;
+  let storageOK=true,view='lesson',hints=new Set(),feedback=null,labIndex=0;
+  const blank=()=>({stage:0,task:0,solved:[],attempts:{},answers:{}});
+
+  function readState(){try{const s=JSON.parse(localStorage.getItem(KEY));if(!s||!Number.isInteger(s.stage)||s.stage<0||s.stage>=C.stages.length)return blank();return {stage:s.stage,task:Number.isInteger(s.task)&&s.task>=0&&s.task<C.stages[s.stage].tasks.length?s.task:0,solved:Array.isArray(s.solved)?s.solved.filter(k=>validKey(k)):[],attempts:s.attempts&&typeof s.attempts==='object'?s.attempts:{},answers:s.answers&&typeof s.answers==='object'?s.answers:{}};}catch(e){storageOK=false;return blank();}}
+  function validKey(k){if(typeof k!=='string')return false;const a=k.split('-').map(Number);return a.length===2&&Number.isInteger(a[0])&&Number.isInteger(a[1])&&C.stages[a[0]]&&C.stages[a[0]].tasks[a[1]];}
+  let state=readState();state.solved=[...new Set(state.solved)];
+  const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  const number = /\d+(?:[.,]\d+)?/.source;
+  const coefficient = `(?:${number}(?:\\s*/\\s*[−-]?${number})?)`;
+  const scalar = `[+−-]?(?:${coefficient}(?:[xykb]|kx)?|kx|[xykb])`;
+  const term = `(?:\\(${scalar}\\)|${scalar})`;
+  const point = `\\(\\s*[−-]?${number}\\s*;\\s*[−-]?${number}\\s*\\)`;
+  const expression = new RegExp(`(?<![A-Za-z0-9])(?:${point}|${term}(?:\\s*[=<>≤≥+−·×:/÷*-]\\s*${term})+)(?![A-Za-z0-9])`,'g');
+  const colorVariables = text => esc(text).replace(/(?<![A-Za-z])(?:kx|[xykb])(?![A-Za-z])/g, token =>
+    [...token].map(letter => `<span class="math-var-${letter}">${letter}</span>`).join(''));
+  function plainMath(value) {
+    const text = String(value);
+    let result = '', end = 0;
+    for (const match of text.matchAll(expression)) {
+      result += colorVariables(text.slice(end,match.index));
+      result += `<span class="math-nowrap">${colorVariables(match[0])}</span>`;
+      end = match.index + match[0].length;
+    }
+    return result + colorVariables(text.slice(end));
+  }
+  const fractionSymbols={ '¼':[1,4],'½':[1,2],'¾':[3,4],'⅐':[1,7],'⅑':[1,9],'⅒':[1,10],
+    '⅓':[1,3],'⅔':[2,3],'⅕':[1,5],'⅖':[2,5],'⅗':[3,5],'⅘':[4,5],'⅙':[1,6],'⅚':[5,6],
+    '⅛':[1,8],'⅜':[3,8],'⅝':[5,8],'⅞':[7,8],'↉':[0,3] };
+  const fractionAtom=String.raw`(?:\([^()\n]+\)|[−-]?(?:\d+(?:[.,]\d+)?[a-zA-Zа-яА-ЯёЁ⁰¹²³⁴⁵⁶⁷⁸⁹⁻]*|[a-zA-Zа-яА-ЯёЁ][a-zA-Zа-яА-ЯёЁ\d⁰¹²³⁴⁵⁶⁷⁸⁹⁻]*))`;
+  const fractionPattern=new RegExp(`([${Object.keys(fractionSymbols).join('')}])|(${fractionAtom})\\s*[/⁄∕]\\s*(${fractionAtom})`,'g');
+  function fractionMarkup(top,bottom,format){
+    const unpack=text=>String(text).replace(/^\((.*)\)$/,'$1');
+    const numerator=unpack(top),denominator=unpack(bottom);
+    return `<span class="math-fraction" role="math" aria-label="Дробь: числитель ${esc(numerator)}, знаменатель ${esc(denominator)}"><span aria-hidden="true">${format(numerator)}</span><span aria-hidden="true">${format(denominator)}</span></span>`;
+  }
+  function formatFractions(value,format,formatPart=format){
+    const text=String(value);
+    let result='',end=0;
+    for(const match of text.matchAll(fractionPattern)){
+      const parts=match[1]?fractionSymbols[match[1]]:[match[2],match[3]];
+      result+=format(text.slice(end,match.index))+fractionMarkup(...parts,formatPart);
+      end=match.index+match[0].length;
+    }
+    return result+format(text.slice(end));
+  }
+  function mathText(value){return formatFractions(value,plainMath);}
+  function mathMarkup(markup){
+    return markup.split(/(<svg\b[\s\S]*?<\/svg\s*>|<!--[^]*?-->|<[^>]*>)/gi)
+      .map((piece,i)=>i%2?piece:formatFractions(piece,text=>text,plainMath)).join('');
+  }
+  const key=()=>`${state.stage}-${state.task}`,task=()=>C.stages[state.stage].tasks[state.task],done=()=>state.solved.includes(key());
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(state));storageOK=true;}catch(e){storageOK=false;}window.LiliStudy?.report({current:state.solved.length,total:TOTAL,label:'Этап '+(state.stage+1)+' · задание '+(state.task+1),done:state.solved.length===TOTAL});updateStorage();}
+  function updateStorage(){ $('#save-status').innerHTML=storageOK?'Прогресс сохраняется<br>в этом браузере':'Прогресс доступен<br>пока открыта страница';}
+  function nav(){
+    $('#stage-nav').innerHTML=C.stages.map((s,i)=>{const n=s.tasks.filter((_,j)=>state.solved.includes(`${i}-${j}`)).length;return `<button class="stage-link ${i===state.stage&&view==='lesson'?'active':''} ${n===s.tasks.length?'done':''}" data-stage="${i}" ${i===state.stage&&view==='lesson'?'aria-current="step"':''}><span class="stage-index">${n===s.tasks.length?'✓':String(i+1).padStart(2,'0')}</span><span class="stage-name">${mathText(s.name)}<small>${n} / ${s.tasks.length} · ${mathText(s.subtitle)}</small></span></button>`;}).join('');
+    const n=state.solved.length,p=Math.round(n/TOTAL*100);$('#progress-caption').textContent=`${n} из ${TOTAL} заданий`;$('#progress-percent').textContent=p+'%';$('#progress-fill').style.width=p+'%';
+    document.querySelectorAll('[data-stage]').forEach(b=>b.addEventListener('click',()=>goStage(Number(b.dataset.stage))));updateStorage();
+  }
+  function visual(t){return t.visual?`<div class="visual-panel">${mathMarkup(t.visual)}</div>`:'';}
+  function hintsHtml(t){return ['Что видим','Как решаем подобное','Алгоритм'].map((title,i)=>`<div class="hint-row"><button class="hint-trigger" data-hint="${i}" aria-expanded="${hints.has(i)}" aria-controls="hint-${i}"><span class="hint-number">${i+1}</span><span>${title}</span><span class="hint-arrow">${hints.has(i)?'−':'+'}</span></button><p class="hint-text" id="hint-${i}" ${hints.has(i)?'':'hidden'}>${mathText([t.see,t.similar,t.algorithm][i])}</p></div>`).join('');}
+  function render(){nav();if(view==='lab')return renderLab();if(view==='complete')return renderComplete();renderLesson();}
+  function renderLesson(){
+    window.LiliStudy?.task(state.stage+'-'+state.task,{current:state.solved.length,total:TOTAL,label:'Этап '+(state.stage+1)+' · задание '+(state.task+1),done:state.solved.length===TOTAL});
+    const s=C.stages[state.stage],t=task(),solved=done();
+    if(solved&&!feedback)feedback={type:'good',title:'Задание уже решено.',text:'Можно посмотреть разбор или перейти дальше.'};
+    $('#workspace').innerHTML=`<div class="exercise-layout"><section class="lesson-card" aria-labelledby="lesson-title"><div class="lesson-top"><span class="lesson-label">ШАГ ${String(state.stage+1).padStart(2,'0')} из ${String(C.stages.length).padStart(2,'0')}</span><span class="exercise-count">Задание ${state.task+1} из ${s.tasks.length}</span></div><div class="lesson-intro"><h2 id="lesson-title">${mathText(s.title)}</h2><div class="intro-content">${mathMarkup(s.intro)}</div><div class="question-dots" aria-label="Задания этого шага">${s.tasks.map((_,i)=>`<button class="question-dot ${i===state.task?'current':''} ${state.solved.includes(`${state.stage}-${i}`)?'solved':''}" data-task="${i}" aria-label="Задание ${i+1}${state.solved.includes(`${state.stage}-${i}`)?', решено':''}" ${i===state.task?'aria-current="true"':''}>${i+1}</button>`).join('')}</div></div><div class="answer-area"><section id="worked-example" class="worked-example" tabindex="-1" aria-labelledby="worked-title"><h3 id="worked-title">Сначала разбери пример</h3><p>${mathText(t.before || t.similar)}</p></section><div class="task-kicker">ТЕПЕРЬ ПОПРОБУЙ</div><h3 class="question" id="question-text">${mathText(t.q)}</h3>${visual(t)}${t.kind==='choice'&&!t.expressionInput?`<div class="choices" role="group" aria-labelledby="question-text">${t.options.map((o,i)=>`<button class="choice ${state.answers[key()]===String(o)?(solved?'selected':'wrong'):''}" data-option="${i}" ${solved?'disabled':''}>${mathText(o)}${t.unit==='%'?'%':''}</button>`).join('')}</div>`:`<form class="answer-form" novalidate><div class="input-wrap"><label class="sr-only" for="answer">Твой ответ${t.unit?', '+t.unit:''}</label><input id="answer" type="text" inputmode="${t.expressionInput?'text':'decimal'}" autocomplete="off" placeholder="${t.expressionInput?'Например, 2x^2 - 3x':'Твой ответ'}" aria-describedby="feedback" value="${esc(state.answers[key()]||'')}" ${solved?'readonly':''}><span class="answer-unit">${esc(t.unit)}</span></div><button class="primary" type="submit" ${solved?'disabled':''}>Проверить</button></form>`}<div id="feedback" role="status" aria-live="polite" aria-atomic="true">${feedbackHtml()}</div><div class="next-row"><small>${solved?'Можно двигаться дальше.':'Ответ можно пробовать снова.'}</small><button class="primary" id="next-task" ${solved?'':'hidden'}>${nextLabel()} <span aria-hidden="true">→</span></button></div><details class="solution"><summary>Показать подробный разбор</summary><ol>${t.steps.map(x=>`<li>${mathText(x)}</li>`).join('')}</ol></details></div></section><aside class="right-column" aria-label="Помощь"><section class="support-card"><h3 class="identity-label"><img src="data:image/webp;base64,UklGRnQEAABXRUJQVlA4IGgEAADwFwCdASpwAHAAPj0cjUQiIaGTSm0EIAPEsoBqntdfX/buWqBe+85i9AHot2ynPM+jveKt5x+4Cwtcm6kR+o/4DhZ2sN2xgV3FX+V42GNj0JP+Dy7/QPsF/y7+o/73sUfsZ7Gf7AFMm/AtSkSv/35YrCHbO5SjW7bGWQHuBb3b+ayELs67GOAZpjDJj/BmfIGRaaOgE1tXPmoa2pjnlVBzn7WlkjjYX5M+/AJnaMe0/Q/GpUeM/qTLdRUrSAC5W64n4FvxatVqAAD+/HCf/klS5Sfz2uTmepwoJ98XjCVV3pPwh+5IzgX0U1Nw54gpp69w/wh2fobkLgv1gQe7Y6eJMjgMpuhJ7Ykgln3yqJ5PrpJWyfrcuFqxm45HVC2d5rCuvwIvd38NPKyht9V4NgxwB7M1+3RGGcrvecyp5d1vWIKV5sNyRqhlKcPJ2M/mPjwMlseW7mc1LbKnyTj7FRMIkcK9s34egm2mUKlk3r9nx8yj3bXO0ijfTF43Ey1up28TvkUgvY7iAukYD7/ypHbdpy767JyAG7a/EXy3SRgx5UleHMNqCsk8/zP6aUpPS92vfjwFauTYjevCE0zP+mK44Qq5MfMrUceKjW/572zgbv8AfxkZ2nEiExWcB9xB4aAyABOeT7qnIk0ENA3TSkakH/5LODtIojCrsKAVFdY9UZrJWpeDDEHOGbm7/j8t4y+CqFLA7FvlmkUCvUYfWZa0OBgCdcGDL6i9Lx6fK/MYPTjCdnip+eY/VtcqrcPaQEIfub3J+Afo2hE+nx46dYnJVW7rnZiIZT3ZtfKt9rMzYgDzdlmd48Sv9gr/W3zeNOuM2j4mXidH9YxG/bfvxJIJgy07w/PtjFFMdth4w06bCEiuydb0UkScIXlGjio09sA5btgzbbaavPfRxfGALDmkS0irvm6yrJoaaa+nf/SdkniAkL67teKwF5+G7zGNOMhw6aa+ZAfuGvDd+UxTVG4bbVqv0CL1ADCEP27cjK4520X6UXZ2uMzAOGc8oMj86Erks5Mom811cxWa7zhNY39WvzGvto2UPU9yPe0AJx16zflnlfI0XS6wtVWLWKFZpm5fQWTdqGU/Gn0HBMJThsRqZp9BVsYEHtmISgi3waR/pKVb0ilbcqv/ElFB34efMcQbVp5VgDHL+Z67YYmbpvgUxYr564eiaXsbLArKNNQ2zSHKNgvhv+IegZxSrmVf5V//eu6HAPJ3c2Kwn33ds+VMw/O7smKcBEVe3MB1R9AwzRGjEJ+kAXbxMhbipgM7l+/hvaxaGesDz8WBsdXC/KptJlbDWbf92lkYx78ARp180wAwqACGxj/ieCMQaIdwjPiDi8r/sELXpf12L6fss6VvyNGTCA+NMoHBs30n/m7BraHeg6S5yEfUbne+UzOQrUGX1HRazd4gnomZ+SdyTzyv3ZPnR8DhYjLT5U7Zn6/5eyVii1IZiIn+ZD6Q+AOqgghzxlzyLKrUiHDNe8KggXKRGRt4AAAAAAA=" class="identity-mark identity-hint" width="32" height="32" alt="">Если нужен ориентир</h3><p class="support-caption">Открывай по одному шагу.</p><div id="hint-list">${hintsHtml(t)}</div></section><section class="support-card anchor-card"><p>${mathText(s.anchor)}</p><small>${mathText(s.anchorNote)}</small></section></aside></div>`;
+    document.querySelectorAll('[data-task]').forEach(b=>b.addEventListener('click',()=>goTask(Number(b.dataset.task))));
+    document.querySelectorAll('[data-option]').forEach(b=>b.addEventListener('click',()=>check(String(t.options[Number(b.dataset.option)]))));
+    const form=$('.answer-form');if(form)form.addEventListener('submit',e=>{e.preventDefault();check($('#answer').value);});
+    $('#next-task').addEventListener('click',next);bindHints();
+  }
+  function feedbackHtml(){return feedback?`<div class="feedback ${feedback.type}"><strong>${esc(feedback.title)}</strong>${mathText(feedback.text)}</div>`:'';}
+  function bindHints(){document.querySelectorAll('[data-hint]').forEach(b=>b.addEventListener('click',()=>{const i=Number(b.dataset.hint);hints.has(i)?hints.delete(i):hints.add(i);$('#hint-list').innerHTML=hintsHtml(task());bindHints();}));}
+  function nextLabel(){if(state.solved.length===TOTAL)return 'К итогу';if(state.task===C.stages[state.stage].tasks.length-1)return state.stage===C.stages.length-1?'К оставшимся заданиям':'Следующий шаг';return 'Дальше';}
+  function check(raw){
+    const t=task();if(done())return;
+    if(t.kind==='number'&&C.parseNumber(raw)===null){feedback={type:'neutral',title:raw.trim()?'Нужно только число.':'Введи свой ответ.',text:'Введи число. Для десятичной дроби можно использовать запятую или точку.'};$('#feedback').innerHTML=feedbackHtml();$('#answer').setAttribute('aria-invalid','true');return;}
+    state.answers[key()]=raw;state.attempts[key()]=(Number(state.attempts[key()])||0)+1;
+    if(C.isCorrect(t,raw)){
+ state.solved.push(key());feedback={type:'good',title:'Верно.',text:t.steps[t.steps.length-1]};
+ }else{feedback={type:'retry',title:'Пока не совпало. Давай ещё раз.',text:t.expressionInput?(t.retry+' Введи ответ в стандартном виде. Степень можно записать как x^2.'):t.retry||t.similar};hints.add(0);}
+    save();render();if(!done()&&$('#answer')){$('#answer').focus();$('#answer').select();$('#answer').setAttribute('aria-invalid','true');}else if(done())$('#next-task').focus({preventScroll:true});
+  }
+  function scrollToLesson(){const el=$('#workspace');if(el&&el.getBoundingClientRect().top<0)el.scrollIntoView({behavior:'smooth',block:'start'});}
+  function goStage(i, showExample=false){view='lesson';state.stage=i;const j=C.stages[i].tasks.findIndex((_,n)=>!state.solved.includes(`${i}-${n}`));state.task=j<0?0:j;feedback=null;hints.clear();save();render();if(showExample) focusExample();else scrollToLesson();}
+  function goTask(i){
+    state.task=i;feedback=null;hints.clear();save();render();focusExample();
+  }
+  function focusExample(){
+    const example=$('#worked-example');
+    example.focus({preventScroll:true});
+    if(example.getBoundingClientRect().top < 16 || example.getBoundingClientRect().bottom > window.innerHeight){
+      example.scrollIntoView({block:'start'});
+    }
+  }
+  function next(){
+    if(!done())return;
+    if(state.solved.length===TOTAL){view='complete';feedback=null;render();scrollToLesson();return;}
+    if(state.task<C.stages[state.stage].tasks.length-1){goTask(state.task+1);return;}
+    if(state.stage<C.stages.length-1){goStage(state.stage+1,true);return;}
+    for(let i=0;i<C.stages.length;i++)if(C.stages[i].tasks.some((_,j)=>!state.solved.includes(`${i}-${j}`))){goStage(i,true);return;}
+  }
+  function renderLab(){
+ const lab=C.lab,c=lab.cases[labIndex];
+ $('#workspace').innerHTML=`<section class="lesson-card lab-card"><div class="lesson-label">ЛАБОРАТОРИЯ</div><h2>${mathText(lab.title)}</h2><p class="lab-note">${mathText(lab.intro)}</p><div class="segmented">${lab.cases.map((x,i)=>`<button data-case="${i}" aria-pressed="${i===labIndex}">${mathText(x.label)}</button>`).join('')}</div><div class="visual-panel" aria-live="polite">${mathMarkup(c.html)}</div><button class="secondary" id="back-to-route">← Вернуться к заданию</button></section>`;
+ document.querySelectorAll('[data-case]').forEach(b=>b.addEventListener('click',()=>{labIndex=Number(b.dataset.case);renderLab();}));$('#back-to-route').addEventListener('click',()=>{view='lesson';render();});
+ }
+  function renderComplete(){
+    const unresolved=TOTAL-state.solved.length;
+    $('#workspace').innerHTML=`<section class="lesson-card completion-card"><div class="completion-icon" aria-hidden="true">✧</div><div class="eyebrow">${unresolved?'МАРШРУТ ПРОДОЛЖАЕТСЯ':'МАРШРУТ ПРОЙДЕН'}</div><h2>${unresolved?'Уже многое получилось.':'Маршрут пройден!'}</h2><p>${unresolved?`Решено ${state.solved.length} из ${TOTAL} заданий. Осталось ${unresolved}.`:`Решено ${TOTAL} из ${TOTAL} заданий.`}</p><div class="review-list">${C.recap.map(x=>`<p>${mathText(x)}</p>`).join('')}</div><div class="end-actions"><button class="primary" id="review-stories">${unresolved?'Продолжить маршрут':'Посмотреть задачи'}</button>${C.lab?'<button class="secondary" id="finish-lab">В лабораторию</button>':''}<button class="secondary" id="finish-reset">Пройти заново</button></div></section>`;
+    $('#review-stories').addEventListener('click',()=>{if(unresolved){for(let i=0;i<C.stages.length;i++)if(C.stages[i].tasks.some((_,j)=>!state.solved.includes(`${i}-${j}`))){goStage(i);return;}}goStage(C.stages.length-1);});$('#finish-lab')?.addEventListener('click',openLab);$('#finish-reset').addEventListener('click',askReset);
+  }
+  function openLab(){if(!C.lab)return;view='lab';render();scrollToLesson();}
+  function askReset(){$('#reset-dialog').showModal();}
+  $('#open-lab').addEventListener('click',openLab);$('#reset-progress').addEventListener('click',askReset);$('#cancel-reset').addEventListener('click',()=>$('#reset-dialog').close());$('#confirm-reset').addEventListener('click',()=>{state=blank();feedback=null;hints.clear();view='lesson';save();$('#reset-dialog').close();render();});$('.brand').addEventListener('click',e=>{e.preventDefault();goStage(0);});
+  $('#open-lab').hidden=!C.lab;
+  render();
+})();
+</script>
+</body>
+</html>
