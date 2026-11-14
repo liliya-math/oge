@@ -291,7 +291,7 @@ body .lesson-intro .intro-content > p {
 }
 body .question { font-size: clamp(17px, 1.5vw, 20px); }
 .math-nowrap { display: inline-block; max-width: 100%; vertical-align: baseline; overflow-wrap: anywhere; }
-.math-root{display:inline-block;white-space:nowrap}.math-root-bar{border-top:1.5px solid currentColor;padding-inline:.09em}
+.math-root{display:inline math;white-space:nowrap;font-size:inherit;color:inherit}.math-root [mathvariant="bold-italic"]{color:#B6CBE3}
 body :is(.hint-text, .solution ol, .feedback, .anchor-card p) { font-size: clamp(15px, 1.25vw, 17px); line-height: 1.6; }
 body .anchor-card small { font-size: 15px; line-height: 1.5; }
 body .intro-content > p { min-width: 0; }
@@ -458,8 +458,21 @@ window.TrainerData={"id":"balayan-formuly","version":1,"title":"Расчёты �
     [...token].map(letter => `<span class="math-var-${letter}">${letter}</span>`).join(''));
   const inlineGroup = content => `<span class="math-nowrap">${content}</span>`;
   function mathTokens(text) {
-    return colorVariables(text).replace(/√\(([^()]+)\)/g, (_, radicand) =>
-      `<span class="math-root">√<span class="math-root-bar">${radicand}</span></span>`);
+    const rootPattern = /√\(([^()]+)\)|√([a-zA-Z]|\d+(?:[.,]\d+)?)/g;
+    let result = '', end = 0;
+    for (const match of text.matchAll(rootPattern)) {
+      result += colorVariables(text.slice(end, match.index));
+      const radicand = match[1] || match[2];
+      const tokens = radicand.match(/[\p{L}]|\d+(?:[.,]\d+)?|[^\s]/gu);
+      const markup = tokens.map(token => {
+        const tag = /^\p{L}$/u.test(token) ? 'mi' : /^\d/.test(token) ? 'mn' : 'mo';
+        const style = token === 'x' ? ' mathvariant="bold-italic"' : '';
+        return `<${tag}${style}>${esc(token)}</${tag}>`;
+      }).join('');
+      result += `<math class="math-root" aria-label="Квадратный корень из ${esc(radicand)}"><msqrt><mrow>${markup}</mrow></msqrt></math>`;
+      end = match.index + match[0].length;
+    }
+    return result + colorVariables(text.slice(end));
   }
   function plainMath(value) {
     const text = String(value);
