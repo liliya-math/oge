@@ -5385,6 +5385,16 @@
       "oge_task": null,
       "status": "public",
       "note": "76 заданий на 12 этапах. Распознавание формул, примеры с ловушками, дроби, степени, кубы и уравнения. Подсказки, разборы и прогресс в браузере."
+    },
+    {
+      "file": "teoriya-8-stepen-s-celym-otricatelnym-pokazatelem.html",
+      "title": "8A.6 · Теория · Степень с целым отрицательным показателем",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-145",
+      "auto": false
     }
   ]
 }
