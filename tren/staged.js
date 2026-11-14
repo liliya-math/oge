@@ -274,8 +274,8 @@ function rTask() {
   return h + '</div>';
 }
 
-function frac3(key, kind) {
-  var f = function (c, dec) { return '<input class="num' + (dec ? ' dec' : '') + '" inputmode="' + (dec ? 'decimal' : 'numeric') + '" maxlength="' + (dec ? 7 : 3) + '" data-k="' + key + '" data-p="' + c + '" autocomplete="off">'; };
+function frac3(key, kind, neg) {
+  var f = function (c, dec) { return '<input class="num' + (dec ? ' dec' : '') + '" inputmode="' + (dec || neg ? 'text' : 'numeric') + '" maxlength="' + (dec ? 7 : neg ? 4 : 3) + '" data-k="' + key + '" data-p="' + c + '" autocomplete="off">'; };
   if (kind === 'int') return f('x');
   if (kind === 'num') return f('x', true);
   if (kind === 'ratio') return '<span class="rat">' + f('a') + '<span class="colon">:</span>' + f('b') + '</span>';
@@ -288,7 +288,7 @@ function inputHtml(T) {
     return '<div class="opts">' + I.options.map(function (o) { return '<button class="opt" data-a="pick" data-v="' + esc(o.v) + '">' + o.html + '</button>'; }).join('') + '</div>';
   }
   if (I.type === 'shade' && C.bar) return '<div id="shade">' + C.bar(I.n, Array.from(P.sel), { click: true }) + '</div>';
-  return '<div class="rows">' + I.rows.map(function (r) { return '<div class="irow"><span class="lb">' + r.label + '</span>' + frac3(r.key, r.kind) + '</div>'; }).join('') + '</div>';
+  return '<div class="rows">' + I.rows.map(function (r) { return '<div class="irow"><span class="lb">' + r.label + '</span>' + frac3(r.key, r.kind, r.neg) + '</div>'; }).join('') + '</div>';
 }
 
 function rDone() {
@@ -367,7 +367,7 @@ function readVals() {
   if (I.type === 'shade') return P.sel.size ? Array.from(P.sel) : null;
   var vals = {}, ok = true;
   I.rows.forEach(function (r) {
-    var get = function (p) { var el = app.querySelector('input[data-k="' + r.key + '"][data-p="' + p + '"]'); var v = el ? (r.kind === 'num' ? parseFloat(el.value.replace(',', '.')) : parseInt(el.value, 10)) : NaN; if (isNaN(v)) ok = false; return v; };
+    var get = function (p) { var el = app.querySelector('input[data-k="' + r.key + '"][data-p="' + p + '"]'); var v = el ? (r.kind === 'num' ? parseFloat(el.value.replace(',', '.').replace(/[\u2212\u2013\u2014]/g, '-')) : parseInt(el.value.replace(/[\u2212\u2013\u2014]/g, '-'), 10)) : NaN; if (isNaN(v)) ok = false; return v; };
     if (r.kind === 'int' || r.kind === 'num') vals[r.key] = get('x');
     else if (r.kind === 'ratio') vals[r.key] = { a: get('a'), b: get('b') };
     else if (r.kind === 'frac') vals[r.key] = { n: get('n'), d: get('d') };
