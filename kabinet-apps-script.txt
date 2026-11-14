@@ -1,6 +1,6 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 7.20
- * (7.20: если очередь занята, напоминалка всё равно сохраняется; 7.19: напоминалка от талисмана: учитель пишет текст (и срок показа) в карточке ученика, ученик видит его в облачке талисмана.
+ * Кабинет ученика 25/25 · lili.math — версия 7.21
+ * (7.21: у квадратика отметка «Проверено мной» (routeSave: checked, routeMats_: c); 7.20: если очередь занята, напоминалка всё равно сохраняется; 7.19: напоминалка от талисмана: учитель пишет текст (и срок показа) в карточке ученика, ученик видит его в облачке талисмана.
  * 7.18: в списке талисманов добавлены Крыса, Крысёнок, Выдра, Акси, Квокка - их выбор теперь сохраняется на сервере.
  * 7.17: doGet ?schedule=public - свободные окна на 14 дней без имён, для календаря на главной.
  * 7.16: routeEdits отдаёт mats - у каких квадратиков есть теория, ДЗ, тесты (значки на карте).
@@ -2158,6 +2158,8 @@ function routeSave_(b) {
     if (qs.length > 10 || qs.some(x => x.length > 80 || !quizDefinition_(x, 0))) return {error: 'bad_value'};
     links.quizzes = qs;
   } else if (Array.isArray(cur.quizzes)) links.quizzes = cur.quizzes;
+  if (b.checked !== undefined) links.checked = b.checked === true ? Utilities.formatDate(new Date(), 'Europe/Samara', 'yyyy-MM-dd') : '';
+  else if (cur.checked) links.checked = cur.checked;
   PropertiesService.getScriptProperties().setProperty('ROUTE_' + id, JSON.stringify(links));
   return {ok: true, materials: links};
 }
@@ -2253,7 +2255,7 @@ function routeMats_() {
         const f = qinfo[String(i)], kd = f ? f.kind : 'free';
         if (kd === 'hw') qh++; else if (kd === 'exam') qe++; else qs++;
       });
-      if (o.theory || o.homework || q || d.t || d.h) out[id] = {t: o.theory || d.t ? 1 : 0, h: o.homework || d.h ? 1 : 0, q: q, qh: qh, qs: qs, qe: qe};
+      if (o.theory || o.homework || q || d.t || d.h || o.checked) out[id] = {t: o.theory || d.t ? 1 : 0, h: o.homework || d.h ? 1 : 0, q: q, qh: qh, qs: qs, qe: qe, c: o.checked ? 1 : 0};
     } catch (e) {}
   });
   return out;

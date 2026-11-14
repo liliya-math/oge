@@ -1,0 +1,36 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#16231A"><meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer"><title>Комплект квадратика · lili.math</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#16231a;color:#EEE0C8;font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;display:flex;flex-direction:column;height:100vh}
+header{padding:12px 16px;border-bottom:1px solid rgba(238,224,200,.13)}h1{margin:0 0 8px;font-size:18px}
+nav{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+button,a.b{font:inherit;padding:8px 14px;border-radius:12px;border:1px solid rgba(238,224,200,.25);background:rgba(238,224,200,.06);color:#EEE0C8;cursor:pointer;text-decoration:none}
+button[aria-current=true]{background:#E2B04A;color:#16231A;border-color:#E2B04A;font-weight:600}
+iframe{flex:1;width:100%;border:0;background:#fff}p.m{padding:16px;margin:0}a{color:#E2B04A}
+</style></head><body>
+<header><h1 id="ttl">Комплект квадратика</h1><nav id="nav"></nav></header>
+<main style="flex:1;display:flex;flex-direction:column;min-height:0"><p class="m" id="msg">Загружаю…</p><iframe id="fr" hidden title="Материал"></iframe></main>
+<script defer src="assets/quiz-ui.js"></script>
+<script defer>
+addEventListener('DOMContentLoaded',async()=>{
+const U=LiliQuizUI,$=i=>document.getElementById(i),p=new URLSearchParams(location.search),id=(p.get('id')||'').replace(/[^\w-]/g,''),t=p.get('t')||id;
+$('ttl').textContent='Комплект: '+t;let pass='';try{pass=localStorage.getItem('cab-admin')||''}catch(_){}
+if(!id){$('msg').textContent='Не указан квадратик.';return}
+if(!pass){$('msg').innerHTML='Нужен вход преподавателя: открой <a href="quiz-builder.html">конструктор тестов</a>, войди и вернись сюда.';return}
+try{
+const [g,l]=await Promise.all([U.request({admin:pass,op:'routeGet',id}),U.request({admin:pass,op:'quizList'})]);
+const m=g.materials||{},works=l.works||[],items=[];
+if(m.theory)items.push({n:'Теория',u:m.theory});
+const rank=w=>w.kind==='exam'?3:w.kind==='hw'?2:1,kindName=w=>({exam:'Контрольная',hw:'ДЗ',self:'Самостоятельная'}[w.kind]||'Тест');
+(m.quizzes||[]).map(q=>works.find(w=>w.id===q)).filter(Boolean).sort((a,b)=>rank(a)-rank(b)).forEach(w=>items.push({n:kindName(w)+': '+w.title,u:'quiz.html?demo=1&work='+encodeURIComponent(w.id)}));
+if(m.homework)items.push({n:'Домашняя работа (ссылка)',u:m.homework});
+if(!items.length){$('msg').textContent='К этому квадратику ничего не прикреплено.';return}
+let cur=0;const nav=$('nav');
+const show=i=>{cur=i;$('fr').src=items[i].u;$('fr').hidden=false;$('msg').hidden=true;[...nav.querySelectorAll('[data-i]')].forEach(b=>b.setAttribute('aria-current',String(+b.dataset.i===i)));nxt.disabled=i>=items.length-1;prv.disabled=i<=0};
+const prv=document.createElement('button');prv.textContent='← Назад';prv.onclick=()=>show(cur-1);nav.append(prv);
+items.forEach((it,i)=>{const b=document.createElement('button');b.dataset.i=i;b.textContent=(i+1)+'. '+it.n;b.onclick=()=>show(i);nav.append(b)});
+const nxt=document.createElement('button');nxt.textContent='Далее →';nxt.onclick=()=>show(cur+1);nav.append(nxt);
+const op=document.createElement('a');op.className='b';op.textContent='Открыть отдельно';op.target='_blank';op.rel='noopener';op.onclick=()=>{op.href=items[cur].u};nav.append(op);
+show(0);
+}catch(e){$('msg').textContent='Не получилось загрузить: '+e.message}
+});
+</script></body></html>

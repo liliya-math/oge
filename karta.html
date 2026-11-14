@@ -6,6 +6,7 @@
 <meta name="robots" content="noindex">
 <title>Карта · lili.math</title>
 <style>
+[hidden]{display:none!important}
 :root{--bg:#16231a;--glass:rgba(238,224,200,.05);--line:rgba(238,224,200,.13);--fg:#EEE0C8;--muted:#C9AB82;--faint:#C9AB82;--apricot:#DD7A3A;--mint:#C9AB82;--amber:#E2B04A;--cobalt:#2F5BB5;
 --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,"Segoe UI",Roboto,Arial,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color-scheme:dark}
 *{box-sizing:border-box}html,body{background:var(--bg);color:var(--fg)}
@@ -127,6 +128,7 @@ function routeCard(){
   const canEdit=!!(route&&route.key&&!myMode);
   return '<section class="card" id="route-section"><h2>Занятия по программе</h2><p class="lead">Открой квадратик, чтобы прикрепить материалы или отметить занятие.</p>'
     +(canEdit?`<p><button type="button" data-edit-toggle class="rbtn">${editMode?'Готово':'Редактировать порядок, добавить, удалить'}</button></p>${editMode?'<p class="lead">Перетащи квадратик на другой квадратик, чтобы поставить перед ним. Перетащи на заголовок главы, чтобы перенести в её конец. Изменения сохраняются сразу.</p>':''}`:'')
+    +(canEdit?'<p><label>Показать: <select data-mfilter><option value="">все квадратики</option><option value="incomplete">комплект неполный</option><option value="theory">нет теории</option><option value="test">нет теста</option><option value="hw">нет ДЗ</option><option value="kr">нет контрольной</option><option value="unchecked">не проверено мной</option></select></label> <span class="lead" data-mcount></span></p>':'')
     +route.chapters.map((name,i)=>`<h3 data-chapter="${i+1}">${esc(name)}</h3>${editMode?`<p><button type="button" class="rbtn" data-add="${i+1}">+ Новый квадратик</button></p>`:''}<div class="grid lesson-grid" data-grid="${i+1}">${route.lessons.filter(x=>x.chapter===i+1).map(x=>`<button class="tile${/^✓/.test(x.mark||'')?' done':/^→/.test(x.mark||'')?' next':''}" style="--c:${x.col||'#E2B04A'};--ink:${INK[x.col]||'#16231A'}" type="button" ${myMode?'draggable="true" ':''}data-lesson="${x.id}" aria-controls="route-detail" aria-pressed="false"><small>${tileLabel(x)}</small><br>${x.mark||''}${esc(tileTitle(x))}${matBadge(x)}${calBadge(x)}${editMode?`<span class="tdel" data-del="${x.id}" title="Удалить квадратик">✕</span>`:''}</button>`).join('')}</div>`).join('')
     +'<div id="route-detail" hidden></div></section>';
 }
@@ -144,7 +146,16 @@ function bindRoute(){
   app.querySelectorAll('[data-add]').forEach(x=>x.onclick=()=>addLesson(Number(x.dataset.add)));
   app.querySelectorAll('h3[data-chapter]').forEach(h=>{h.ondragover=e=>{if(editMode)e.preventDefault()};h.ondrop=e=>{e.preventDefault();const t=e.dataTransfer.getData('text/plain');if(editMode&&/^r:/.test(t))moveLesson(t.slice(2),null,Number(h.dataset.chapter))}});
   const tg=app.querySelector('[data-edit-toggle]');if(tg)tg.onclick=()=>{editMode=!editMode;rerenderRoute()};
+  const mf=app.querySelector('[data-mfilter]');if(mf){mf.value=matFilter;mf.onchange=()=>{matFilter=mf.value;applyMatFilter()};applyMatFilter()}
 }
+let matFilter='';
+function matMissing(l){const h=l.has||{},blind=h.qh===undefined&&h.q>0;if(l.tag==='Контрольная')return h.qe||blind?[]:['kr'];const m=[];if(!h.t)m.push('theory');if(!h.qs&&!blind)m.push('test');if(!h.h&&!h.qh&&!blind)m.push('hw');return m}
+function applyMatFilter(){
+  if(!route)return;let shown=0;
+  route.lessons.forEach(l=>{const b=app.querySelector('[data-lesson="'+l.id+'"]');if(!b)return;const m=matMissing(l);
+    const ok=!matFilter||(matFilter==='incomplete'?m.length>0:matFilter==='unchecked'?!(l.has&&l.has.c):m.includes(matFilter));b.hidden=!ok;if(ok)shown++});
+  app.querySelectorAll('h3[data-chapter]').forEach(h=>{const g=app.querySelector('[data-grid="'+h.dataset.chapter+'"]');const any=g&&[...g.children].some(x=>!x.hidden);h.hidden=!any&&!!matFilter;if(g)g.hidden=!any&&!!matFilter});
+  const c=app.querySelector('[data-mcount]');if(c)c.textContent=matFilter?'Найдено: '+shown:''}
 function rerenderRoute(){
   const sec=document.getElementById('route-section');if(!sec)return;
   sec.outerHTML=routeCard();bindRoute();selectedLesson=null;
@@ -200,6 +211,8 @@ async function selectLesson(id){
     if(!panel.isConnected||selectedLesson!==id||!pending.isConnected)return;
     pending.remove();
     panel.insertAdjacentHTML('beforeend',`<div class="lesson-form">
+      <p><a href="komplekt.html?id=${encodeURIComponent(id)}&t=${encodeURIComponent(lesson.title)}" target="_blank" rel="noopener">Открыть весь комплект по порядку</a></p>
+      <label class="pickrow"><input type="checkbox" data-checked ${config.materials.checked?'checked':''}> Проверено мной${config.materials.checked?' ('+esc(config.materials.checked.split('-').reverse().join('.'))+')':''}</label>
       <label>Название квадратика <input type="text" data-edit="title" maxlength="200" value="${esc(lesson.title)}"></label><label>Школьные уроки (номера) <input type="text" data-edit="school" maxlength="200" value="${esc(lesson.school||'')}"></label>
       ${['theory','homework'].map((key,i)=>`<label>${i?'Домашняя работа':'Теория'}${config.materials[key]?' · <a href="'+esc(config.materials[key])+'" target="_blank" rel="noopener">Открыть</a>':''} <input type="url" data-link="${key}" value="${esc(config.materials[key])}" placeholder="https://…"></label><label>Загрузить PDF до 8 МБ<input type="file" accept=".pdf,application/pdf" data-pdf="${key}"></label>`).join('')}
       <div data-quizzes></div>
@@ -247,11 +260,13 @@ async function selectLesson(id){
         return 'PDF загружен. Нажми «Сохранить материалы занятия».';
       });
     });
+    const chk=form.querySelector('[data-checked]');
+    chk.onchange=async()=>{const want=chk.checked;chk.disabled=true;try{const r=await admin('routeSave',{id,checked:want});if(!r||r.error||!r.materials||!('checked' in r.materials))throw new Error('old');lesson.has=Object.assign({},lesson.has,{c:want?1:0});refreshTile(lesson);status.textContent=want?'Отмечено: проверено.':'Отметка снята.'}catch(e){chk.checked=!want;status.textContent=e.message==='old'?'Отметка работает после обновления Apps Script: вставь kabinet-apps-script.txt целиком и сделай «Новая версия».':'Не получилось сохранить отметку.'}finally{chk.disabled=false}};
     form.querySelector('[data-save]').onclick=()=>run(async()=>{
       const ed=Object.fromEntries([...form.querySelectorAll('[data-edit]')].map(e=>[e.dataset.edit,e.value.trim()]));
       if(!ed.title){return 'Название не может быть пустым.'}
       const result=await admin('routeSave',{id,...links(),...ed});if(result&&result.error)throw new Error(result.error);
-      saved=JSON.stringify(links());{const L=links();lesson.has={t:L.theory?1:0,h:L.homework?1:0,q:L.quizzes.length}}lesson.title=ed.title;lesson.school=ed.school;refreshTile(lesson);if(lesson.added&&route.key)saveLayout();const h2=panel.querySelector('h2');if(h2)h2.textContent=lesson.title;
+      saved=JSON.stringify(links());{const L=links(),cn={qh:0,qs:0,qe:0};L.quizzes.forEach(i=>{const w=works.find(x=>x.id===i),k=(w&&w.kind)||'free';if(k==='hw')cn.qh++;else if(k==='exam')cn.qe++;else cn.qs++});lesson.has=Object.assign({},lesson.has,{t:L.theory?1:0,h:L.homework?1:0,q:L.quizzes.length},cn)}lesson.title=ed.title;lesson.school=ed.school;refreshTile(lesson);if(lesson.added&&route.key)saveLayout();const h2=panel.querySelector('h2');if(h2)h2.textContent=lesson.title;
       return 'Сохранено: название и материалы.';
     });
     form.querySelector('[data-assign]').onclick=()=>{
@@ -282,12 +297,12 @@ function calSet(id,d){
   renderCal();refreshTile(l);
   admin('calSet',{t:m.code,id,d:d||'',title:l.title}).catch(e=>{l.cal=prev;m.st.cal=m.st.cal.filter(y=>y.id!==id);if(prev)m.st.cal.push({d:prev,id,title:l.title});renderCal();refreshTile(l);alert('Не получилось сохранить в календаре. (ответ сервера: '+(e&&e.message||e)+').')});
 }
-function matBadge(l){const h=l.has||{};const a=[];if(h.t)a.push('Теория');if(h.h||h.qh)a.push('ДЗ'+(h.qh>1?' '+h.qh:''));if(h.qs)a.push('Тест'+(h.qs>1?' '+h.qs:''));if(h.qe)a.push('Контрольная'+(h.qe>1?' '+h.qe:''));if(h.q&&h.qh===undefined)a.push('Тесты'+(h.q>1?' '+h.q:''));return a.length?'<span class="mbadges">'+a.map(x=>'<span>'+x+'</span>').join('')+'</span>':''}
+function matBadge(l){const h=l.has||{};const a=[];if(h.c)a.push('✓ проверено');if(h.t)a.push('Теория');if(h.h||h.qh)a.push('ДЗ'+(h.qh>1?' '+h.qh:''));if(h.qs)a.push('Тест'+(h.qs>1?' '+h.qs:''));if(h.qe)a.push('Контрольная'+(h.qe>1?' '+h.qe:''));if(h.q&&h.qh===undefined)a.push('Тесты'+(h.q>1?' '+h.q:''));return a.length?'<span class="mbadges">'+a.map(x=>'<span>'+x+'</span>').join('')+'</span>':''}
 function calBadge(l){if(!l.cal)return '';const d=new Date(l.cal+'T00:00:00');return '<span class="cbadge">в календаре · '+WD[d.getDay()]+' '+esc(shortD(l.cal))+'</span>'}
 const NUMRE=/^\s*(§\s*\d+(?:\.\d+)*|\d+(?:\.\d+)+)\.?\s+(.*)$/;
 function tileLabel(x){if(x.tag)return esc(x.tag);if(x.school)return 'Школьные № '+esc(x.school);const o=/^OGE-(\d+)-(\d+)$/.exec(x.id||'');if(o&&o[1]!=='90'){const n=+o[1],k=(route&&route.lessons||[]).filter(y=>String(y.id).indexOf('OGE-'+o[1]+'-')===0).length;return 'Задание '+n+(k>1?' · п. '+(+o[2]):'')}const m=NUMRE.exec(x.title||'');if(m)return esc(m[1].replace(/^§\s*/,'').split('.').map((v,i)=>['§ ','п. ','пп. '][i]+v).join(' · '));return 'Дополнительно'}
 function tileTitle(x){if(x.tag||x.school)return x.title;const m=NUMRE.exec(x.title||'');return m?m[2]:x.title}
-function refreshTile(l){const b=app.querySelector('[data-lesson="'+l.id+'"]');if(b){b.classList.toggle('done',/^✓/.test(l.mark||''));b.classList.toggle('next',/^→/.test(l.mark||''))}if(b)b.innerHTML='<small>'+tileLabel(l)+'</small><br>'+(l.mark||'')+esc(tileTitle(l))+matBadge(l)+calBadge(l)+(editMode?'<span class="tdel" data-del="'+l.id+'" title="Удалить квадратик">✕</span>':'');const x=b&&b.querySelector('[data-del]');if(x)x.onclick=e=>{e.stopPropagation();delLesson(l.id)}}
+function refreshTile(l){const b=app.querySelector('[data-lesson="'+l.id+'"]');if(b){b.classList.toggle('done',/^✓/.test(l.mark||''));b.classList.toggle('next',/^→/.test(l.mark||''))}if(b)b.innerHTML='<small>'+tileLabel(l)+'</small><br>'+(l.mark||'')+esc(tileTitle(l))+matBadge(l)+calBadge(l)+(editMode?'<span class="tdel" data-del="'+l.id+'" title="Удалить квадратик">✕</span>':'');const x=b&&b.querySelector('[data-del]');if(x)x.onclick=e=>{e.stopPropagation();delLesson(l.id)};if(matFilter)applyMatFilter()}
 let dayDue='',dayNotify=true;
 function nextLessonIso(){
   const days=(String(myMode.st.days||'').split('|')[0].toLowerCase().match(/пн|вт|ср|чт|пт|сб|вс/g)||[]);
