@@ -1,0 +1,17 @@
+# Служебные файлы: остаются в репозитории, но не публикуются на lilimath.ru
+exclude:
+  - STATE.md
+  - STATE-log.md
+  - docs
+  - tests
+  - tools/teoriya
+  - tools/urok
+  - tools/__pycache__
+  - "tools/*.py"
+  - "tools/*.cjs"
+  - "tools/make_dz.js"
+  - "tools/dz_shablon.html"
+  - node_modules
+  - vendor
+  - Gemfile
+  - Gemfile.lock
