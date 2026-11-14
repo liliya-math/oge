@@ -290,7 +290,7 @@ body .lesson-intro .intro-content > p {
   color: var(--trainer-cream);
 }
 body .question { font-size: clamp(17px, 1.5vw, 20px); }
-.math-nowrap { display: inline-block; max-width: 100%; white-space: nowrap; overflow-x: auto; vertical-align: bottom; }
+.math-nowrap { display: inline-block; width: max-content; max-width: 100%; white-space: normal; overflow-wrap: anywhere; vertical-align: baseline; }
 body :is(.hint-text, .solution ol, .feedback, .anchor-card p) { font-size: clamp(15px, 1.25vw, 17px); line-height: 1.6; }
 body .anchor-card small { font-size: 15px; line-height: 1.5; }
 body .intro-content > p { min-width: 0; }
