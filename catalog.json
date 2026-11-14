@@ -4027,6 +4027,16 @@
       "auto": true
     },
     {
+      "file": "trenazher-sistemy-oge20.html",
+      "title": "9A.2.1 · Тренажёр · Системы уравнений второй степени, ОГЭ №20, 8 ступеней",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 20,
+      "status": "public",
+      "note": "добавлено 2026-11-14; общий движок tren/staged.js, ступени с нуля, разбор ошибки, школьная доска, режим учителя #lilia",
+      "auto": true
+    },
+    {
       "file": "trenazher-formuly-oge12.html",
       "title": "9A.8.1 · Тренажёр · Расчёты по формулам, ОГЭ №12, 9 ступеней",
       "type": "trenazher",
