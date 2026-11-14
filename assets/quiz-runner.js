@@ -71,7 +71,7 @@ state.completed=j.result;state.pending=null;save();result(j.result,j.homeworkSyn
 }catch(e){$('error').textContent=e.message+' Ответы сохранены, повторная отправка не создаст вторую попытку.';$('submit').disabled=false;$('submit').textContent='Повторить отправку';}finally{submitting=false;}
 }
 try{
-if(demo){d=Object.assign(LiliQuiz.parse(LiliQuiz.sample),{id:'demo',version:1});const dt=Number(p.get('t'));if(Number.isInteger(dt)&&dt>=1&&dt<=180)d.time=dt;}
+if(demo){const dw=(p.get('work')||'').replace(/[^\w-]/g,'');if(dw){let pw='';try{pw=localStorage.getItem('cab-admin')||''}catch(_){}if(!pw)return notice('Нужен вход преподавателя','Открой конструктор тестов, войди как преподаватель и вернись сюда.');const g=await U.request({admin:pw,op:'quizGet',work:dw});if(!g.work)throw new Error('Работа не найдена.');d=g.work;}else d=Object.assign(LiliQuiz.parse(LiliQuiz.sample),{id:'demo',version:1});const dt=Number(p.get('t'));if(Number.isInteger(dt)&&dt>=1&&dt<=180)d.time=dt;}
 else{if(!code||!work||!assignment||!Number.isInteger(row)||row<2||!Number.isInteger(version)||version<1)return notice('Открой тест из кабинета','Для сохранения результата нужна личная ссылка назначенной работы.');
 const j=await U.request(null,{quiz:'load',t:code,q:work,v:version,a:assignment,row});if(j.quiz!==1)throw new Error('Сервер тестов ещё не подключён. Сообщи преподавателю.');d=j.work;history=j.history;}
 if(!demo)try{const v=JSON.parse(localStorage.getItem(key));if(v&&v.answers&&typeof v.answers==='object')state=v;}catch(_){}
