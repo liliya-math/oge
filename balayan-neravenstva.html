@@ -290,7 +290,8 @@ body .lesson-intro .intro-content > p {
   color: var(--trainer-cream);
 }
 body .question { font-size: clamp(17px, 1.5vw, 20px); }
-.math-nowrap { display: inline-block; width: max-content; max-width: 100%; white-space: normal; overflow-wrap: anywhere; vertical-align: baseline; }
+.math-nowrap { display: inline-block; max-width: 100%; vertical-align: baseline; overflow-wrap: anywhere; }
+.math-root{display:inline-block;white-space:nowrap}.math-root-bar{border-top:1.5px solid currentColor;padding-inline:.09em}
 body :is(.hint-text, .solution ol, .feedback, .anchor-card p) { font-size: clamp(15px, 1.25vw, 17px); line-height: 1.6; }
 body .anchor-card small { font-size: 15px; line-height: 1.5; }
 body .intro-content > p { min-width: 0; }
@@ -304,7 +305,7 @@ body .visual-panel .math-var-y { color: #16231A; }
 
 body .math-var-k { color: #E2B04A; font-weight: 800; }
 body .math-var-b { color: #EEE0C8; font-weight: 800; text-decoration: underline; text-decoration-color: #9C6B40; text-underline-offset: .16em; }
-body :is(.math-var-k, .math-var-b) { font-size: 1.14em; line-height: 1; }
+body :is(.math-var-k, .math-var-b) { font-size: inherit; line-height: inherit; }
 body .visual-panel .math-var-k { color: #9C6B40; }
 body .visual-panel .math-var-b { color: #2B3D2B; }
 .coordinate-graph { width: 100%; max-width: 500px; min-width: 0; margin: 0 auto; }
@@ -452,18 +453,23 @@ window.TrainerData={"id":"balayan-neravenstva","version":1,"title":"Нераве
   const scalar = `[+−-]?(?:${coefficient}(?:[xykb]|kx)?|kx|[xykb])`;
   const term = `(?:\\(${scalar}\\)|${scalar})`;
   const point = `\\(\\s*[−-]?${number}\\s*;\\s*[−-]?${number}\\s*\\)`;
-  const expression = new RegExp(`(?<![A-Za-z0-9])(?:${point}|${term}(?:\\s*[=<>≤≥+−·×:/÷*-]\\s*${term})+)(?![A-Za-z0-9])`,'g');
+  const expression = new RegExp(`(?<![A-Za-z0-9])(?:√\\([^()]+\\)|${point}|${term}(?:\\s*[=<>≤≥≠+−·×/÷*-]\\s*${term})+)(?![A-Za-z0-9])`,'g');
   const colorVariables = text => esc(text).replace(/(?<![A-Za-z])(?:kx|[xykb])(?![A-Za-z])/g, token =>
     [...token].map(letter => `<span class="math-var-${letter}">${letter}</span>`).join(''));
+  const inlineGroup = content => `<span class="math-nowrap">${content}</span>`;
+  function mathTokens(text) {
+    return colorVariables(text).replace(/√\(([^()]+)\)/g, (_, radicand) =>
+      `<span class="math-root">√<span class="math-root-bar">${radicand}</span></span>`);
+  }
   function plainMath(value) {
     const text = String(value);
     let result = '', end = 0;
     for (const match of text.matchAll(expression)) {
-      result += colorVariables(text.slice(end,match.index));
-      result += `<span class="math-nowrap">${colorVariables(match[0])}</span>`;
+      result += mathTokens(text.slice(end,match.index));
+      result += inlineGroup(mathTokens(match[0]));
       end = match.index + match[0].length;
     }
-    return result + colorVariables(text.slice(end));
+    return result + mathTokens(text.slice(end));
   }
   const fractionSymbols={ '¼':[1,4],'½':[1,2],'¾':[3,4],'⅐':[1,7],'⅑':[1,9],'⅒':[1,10],
     '⅓':[1,3],'⅔':[2,3],'⅕':[1,5],'⅖':[2,5],'⅗':[3,5],'⅘':[4,5],'⅙':[1,6],'⅚':[5,6],
@@ -480,15 +486,24 @@ window.TrainerData={"id":"balayan-neravenstva","version":1,"title":"Нераве
     let result='',end=0;
     for(const match of text.matchAll(fractionPattern)){
       const parts=match[1]?fractionSymbols[match[1]]:[match[2],match[3]];
-      result+=format(text.slice(end,match.index))+fractionMarkup(...parts,formatPart);
-      end=match.index+match[0].length;
+      const start=match.index, stop=start+match[0].length;
+      if (/^(?:км\/ч|м\/с)$/u.test(match[0])) continue;
+      const left=text.slice(end,start);
+      const right=text.slice(stop);
+      const leading=left.match(/(?:[a-zA-Zαωπ][a-zA-Zαωπ₀-₉]*\s*[=<>≤≥≠]\s*|\()$/u)?.[0] || '';
+      const trailing=leading==='(' && right.startsWith(')') ? ')' :
+        right.match(/^\s*[=<>≤≥≠]\s*[+−-]?\d+(?:[.,]\d+)?(?![\d₀-₉])/u)?.[0] || '';
+      const fraction=fractionMarkup(...parts,formatPart);
+      result+=format(leading ? left.slice(0,-leading.length) : left);
+      result+=inlineGroup(format(leading)+fraction+format(trailing));
+      end=stop+trailing.length;
     }
     return result+format(text.slice(end));
   }
   function mathText(value){return formatFractions(value,plainMath);}
   function mathMarkup(markup){
     return markup.split(/(<svg\b[\s\S]*?<\/svg\s*>|<!--[^]*?-->|<[^>]*>)/gi)
-      .map((piece,i)=>i%2?piece:formatFractions(piece,text=>text,plainMath)).join('');
+      .map((piece,i)=>i%2?piece:formatFractions(piece,plainMath)).join('');
   }
   const key=()=>`${state.stage}-${state.task}`,task=()=>C.stages[state.stage].tasks[state.task],done=()=>state.solved.includes(key());
   function save(){try{localStorage.setItem(KEY,JSON.stringify(state));storageOK=true;}catch(e){storageOK=false;}window.LiliStudy?.report({current:state.solved.length,total:TOTAL,label:'Этап '+(state.stage+1)+' · задание '+(state.task+1),done:state.solved.length===TOTAL});updateStorage();}
