@@ -4787,6 +4787,46 @@
       "auto": false
     },
     {
+      "file": "teoriya-8g-mnogougolniki.html",
+      "title": "Теория · 8 класс · Многоугольники",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-101",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-svoystva-parallelogramma.html",
+      "title": "Теория · 8 класс · Некоторые свойства параллелограмма",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-102",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-priznaki-parallelogramma.html",
+      "title": "Теория · 8 класс · Признаки параллелограмма",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-103",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-pryamougolnik-romb-kvadrat.html",
+      "title": "Теория · 8 класс · Прямоугольник, ромб, квадрат",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-104",
+      "auto": false
+    },
+    {
       "file": "teoriya-8g-opredelenie-podobnyh-treugolnikov.html",
       "title": "Теория · 8 класс · Определение подобных треугольников (§ 6)",
       "type": "theory",
