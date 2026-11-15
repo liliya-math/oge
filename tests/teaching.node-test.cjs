@@ -41,3 +41,12 @@ test('changing the pupil cabinet code keeps lesson history under the new code',(
  const s=storage();teaching.saveCard(s,'alice',card());teaching.saveCard(s,'newalice',card('two'));
  teaching.moveJournal(s,'alice','newalice');assert.equal(teaching.cards(s,'newalice').length,2);assert.equal(teaching.cards(s,'alice').length,1);
 });
+
+test('mergeCards: server cards fill gaps and newer card wins, older does not overwrite',()=>{
+const T=require('../assets/lili-teaching.js'),mem=new Map(),st={getItem:k=>mem.has(k)?mem.get(k):null,setItem:(k,v)=>mem.set(k,v)};
+const c=(id,topic,updated)=>({id,date:'2026-11-10',time:'',topic,plan:'',materials:'',summary:'',closedAt:0,updated});
+assert.equal(T.mergeCards(st,'a1',[c('x1','с сервера',5)]),1);
+assert.equal(T.mergeCards(st,'a1',[c('x1','старее',3)]),0);
+assert.equal(T.mergeCards(st,'a1',[c('x1','новее',9),{id:'плохой id!'}]),1);
+assert.equal(T.cards(st,'a1')[0].topic,'новее');assert.equal(T.cards(st,'b2').length,0);
+});

@@ -51,6 +51,7 @@ const SHEETS = {
   'Материалы': ['Ссылка', 'Название'],
   'Занятия по карте': ['Код', 'Ключ', 'Дата', 'Занятие', 'Теория', 'Домашняя работа', 'Выдано'],
   'Календарь занятий': ['Код', 'Дата', 'Квадратик', 'Название'],
+  'Журнал занятий': ['Код', 'Id', 'Обновлено (мс)', 'Данные карточки'],
   'Домашка': ['Код', 'Что сделать', 'Задания ОГЭ', 'Срок', 'Ссылка', 'Подпись ссылки', 'Сделано', 'Отмечено', 'Файл (PDF)', 'Раздел', 'Статус работы', 'Сообщение ученика', 'Комментарий учителя', 'Решение ученика', 'Обновлено', 'Версия работы', 'Ключ занятия'],
   'Файлы': ['Код', 'Строка ДЗ', 'Название', 'Ссылка'],
   'Пробники': ['Код', 'Дата', 'Название', 'Баллы'],
@@ -156,7 +157,7 @@ function sheet_(ss, name) {
    Любая запись (doPost, admin-операции кроме чтения, ручная правка таблицы) меняет «версию данных»,
    и старый кэш перестаёт использоваться. Если кэш недоступен или не влез, скрипт работает как раньше. */
 const CACHE_TTL_ = 120;
-const READ_OPS_ = ['ping', 'list', 'get', 'boardLibraryGet', 'quizList', 'quizGet', 'lessonDefaultsGet', 'lessonWindows', 'routeGet'];
+const READ_OPS_ = ['ping', 'list', 'get', 'boardLibraryGet', 'quizList', 'quizGet', 'lessonDefaultsGet', 'lessonWindows', 'routeGet', 'routeEdits'];
 
 function cacheVer_() {
   const c = CacheService.getScriptCache();
@@ -575,6 +576,7 @@ function adminRun_(b) {
       case 'routeLayoutSave': { return routeLayoutSave_(b); }
       case 'routeUpload': return routeUpload_(b);
       case 'calSet': { need(); return calSet_(ss, code, b); }
+      case 'journalSync': { need(); return journalSync_(ss, code, b); }
       case 'routeAssign': { const st = need(); return routeAssign_(ss, st, code, b); }
       case 'boardLibraryGet': return {ok:true,library:boardLibraryGet_()};
       case 'boardLibraryPut': return boardLibraryPut_(b);
@@ -2275,6 +2277,24 @@ function routeUpload_(b) {
   return {ok: true, url: file.getUrl()};
 }
 function calDay_(v) { return /^\d{4}-\d{2}-\d{2}$/.test(String(v)) ? String(v) : day_(v); }
+/* Журнал занятий на сервере: браузер присылает свои карточки, сервер оставляет более новые по полю updated
+   и возвращает полный список ученика. Так журнал не теряется при очистке браузера и виден с другого устройства. */
+function journalSync_(ss, code, b) {
+  if (!/^[a-z0-9]{1,100}$/i.test(code)) return {error: 'bad_value'};
+  const sh = sheet_(ss, 'Журнал занятий'), last = sh.getLastRow();
+  const vals = last >= 2 ? sh.getRange(2, 1, last - 1, 4).getValues() : [], have = {};
+  vals.forEach((r, i) => { if (String(r[0]).trim() === code) have[String(r[1])] = {row: i + 2, updated: Number(r[2]) || 0, data: String(r[3] || '')}; });
+  (Array.isArray(b.cards) ? b.cards.slice(0, 500) : []).forEach(c => {
+    if (!c || typeof c !== 'object' || !/^[a-z0-9-]{1,100}$/i.test(String(c.id || ''))) return;
+    const u = Number(c.updated) || 0, data = JSON.stringify(c), cur = have[c.id];
+    if (data.length > 45000) return;
+    if (cur) { if (u > cur.updated) { sh.getRange(cur.row, 3, 1, 2).setValues([[u, data]]); cur.updated = u; cur.data = data; } }
+    else { sh.appendRow([code, c.id, u, data]); have[c.id] = {row: sh.getLastRow(), updated: u, data: data}; }
+  });
+  const cards = Object.keys(have).map(id => { try { return JSON.parse(have[id].data); } catch (e) { return null; } }).filter(Boolean);
+  return {ok: true, cards: cards};
+}
+
 function calSet_(ss, code, b) {
   const d = String(b.d || '').trim();
   const id = d ? routeId_(b.id) : String(b.id || '').trim().slice(0, 40);

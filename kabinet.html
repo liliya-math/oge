@@ -792,7 +792,7 @@ a.gc{text-decoration:none}
 <script src="assets/lili-board-cloud.js?v=20261031-recovery"></script>
 <script src="assets/lili-personal-board.js?v=20261031-personal"></script>
 <script src="assets/lili-board-window.js?v=20261031-stage3"></script>
-<script src="assets/lili-teaching.js?v=20261106-schedule"></script>
+<script src="assets/lili-teaching.js?v=20261115-journal"></script>
 <script src="assets/lili-lesson-flow.js?v=20261031-stage3"></script>
 <script>
 (() => {
@@ -1472,8 +1472,22 @@ function contactLine(){return `<p class="contactline">Вопросы по зад
 function routeActive(){return D.lessonRoute===1&&(((D.routes||[]).length>0)||clsOf()===8)}
 function bindLabel(s,PG){const R=(s.routes||[]).map(k=>k==='OGE'?'ОГЭ':(ROUTE_PROGS.find(x=>x[0]===k)||[0,k])[1]);if(R.length)return R.join(' · ');return PG.oge?'ОГЭ':(s.cls||'')+' класс'}
 const ROUTE_PROGS=[['5','5 класс'],['6','6 класс'],['7A','7 алгебра'],['7G','7 геометрия'],['8A','8 алгебра'],['8G','8 геометрия'],['9A','9 алгебра'],['9G','9 геометрия'],['OGE','ОГЭ, часть 1']];
+/* ===== Журнал занятий: синхронизация браузера с сервером ===== */
+const jSync={hash:{},busy:false};
+function journalSync(force){
+ if(!TEACH||!D||jSync.busy||Date.now()<(jSync.pause||0))return;const code=D.code||CODE;if(!code)return;
+ const h=LiliTeaching.hash(localStorage,code);if(!force&&jSync.hash[code]===h)return;
+ let cards;try{cards=LiliTeaching.cards(localStorage,code)}catch(e){return}
+ jSync.busy=true;
+ adm('journalSync',{t:code,cards}).then(j=>{const n=LiliTeaching.mergeCards(localStorage,code,j&&j.cards||[]);jSync.hash[code]=LiliTeaching.hash(localStorage,code);if(n>0&&(D.code||CODE)===code){const el=document.getElementById('teaching-journal');if(el&&!(document.getElementById('jl-form')||{dataset:{}}).dataset.dirty){el.outerHTML=journalCard();bindJournalCard()}const pc=document.getElementById('prep-card');if(pc)pc.outerHTML=prepCard()}}).catch(()=>{jSync.pause=Date.now()+300000}).finally(()=>{jSync.busy=false});
+}
+if(TEACH){setInterval(()=>journalSync(false),20000);document.addEventListener('visibilitychange',()=>{if(document.hidden)journalSync(false)})}
 /* ===== Подготовка к занятию: собирается сама из календаря, домашки и ошибок; печатается как лист занятия ===== */
 function prepWrong(){return (D.quizHistory||[]).filter(r=>r.detail&&r.detail.tasks.some(t=>!t.ok)).slice().sort((a,b)=>a.at<b.at?1:-1).slice(0,3)}
+function prevSummary(){
+ let c=null;try{const t=LiliTeaching.dayKey();c=LiliTeaching.cards(localStorage,D.code||CODE).find(x=>x.date<t&&((x.close&&(x.close.summary||x.close.nextTopic))||x.summary))}catch(e){}
+ if(!c)return '';const sm=(c.close&&c.close.summary)||c.summary||'',nx=(c.close&&c.close.nextTopic)||'';
+ return `<h3 class="prep-h">Итог прошлого раза · ${esc(longDate(c.date))}</h3><p class="prep-sum">${esc(sm).replace(/\n/g,'<br>')}</p>${nx?'<p class="note">Дальше: '+esc(nx)+'</p>':''}`}
 function prepCard(){
  if(!D||!D.prep)return '';
  const cal=D.calendar||[],first=cal.length?cal[0].date:'',plan=cal.filter(x=>x.date===first),last=(D.routeHistory||[])[0];
@@ -1483,6 +1497,7 @@ function prepCard(){
  <p class="prep-po"><b>${esc(fullName()||D.name)}</b> · лист занятия · дата: ____________</p>
  <h3 class="prep-h">По плану${first?' · '+esc(longDate(first)):''}</h3>${plan.length?li(plan.map(x=>esc(x.title||x.id))):'<p class="note">В календаре на карте ничего не стоит.</p>'}
  <h3 class="prep-h">Прошлое занятие</h3>${last?li([esc(longDate(last.date))+' · '+esc(last.title)]):'<p class="note">Проведённых занятий по карте пока нет.</p>'}
+ ${prevSummary()}
  <h3 class="prep-h">Не сдано · ${hw.length}</h3>${hw.length?li(hw.slice(0,8).map(h=>esc(h.t)+(h.due?' <span class="note">· срок '+esc(longDate(h.due))+'</span>':''))):'<p class="note">Всё сдано.</p>'}
  <h3 class="prep-h">Блиц из ошибок · последние работы</h3>${wrong.length?wrong.map((r,i)=>`<div class="prep-w"><p><b>${esc(r.title)}</b> · ${r.score}/${r.max}</p>${li(r.detail.tasks.filter(t=>!t.ok).map(t=>'№ '+esc(t.n)+(typeof t.a==='string'?' · ответ ученика: '+(t.a.trim()?'<b>'+esc(t.a)+'</b>':'пусто'):'')))}<button class="chip prep-np" type="button" data-prep-tasks="${i}">Показать условия</button><div class="prep-q" id="prep-q-${i}"></div></div>`).join(''):'<p class="note">Ошибок в последних работах нет или работы ещё не сданы.</p>'}
  <h3 class="prep-h">Учить наизусть · спросить в начале</h3>${memo.length?li(memo.map(x=>'<span class="prep-box"></span>'+esc(x))):'<p class="note prep-np">Список пуст.</p>'}
@@ -1502,7 +1517,7 @@ document.addEventListener('click',e=>{
  if(b.hasAttribute('data-prep-save')){b.disabled=true;adm('student',{fields:{memo:document.getElementById('prep-memo').value}}).then(j=>{apply(j);toast('Список сохранён')}).catch(err=>{b.disabled=false;toast(errText(err))});return}
  const i=+b.dataset.prepTasks,r=prepWrong()[i],box=document.getElementById('prep-q-'+i);if(!r||!box)return;b.disabled=true;
  adm('quizGet',{work:r.work,version:r.version}).then(j=>{const bad=new Set(r.detail.tasks.filter(t=>!t.ok).map(t=>String(t.n)));const T=((j.work&&j.work.tasks)||[]).filter(q=>bad.has(String(q.n)));
-  box.innerHTML=T.length?T.map(q=>`<div class="prep-t"><b>№ ${esc(q.n)}</b> ${esc(q.q||'')}${q.options&&q.options.length?'<br><span class="note">Варианты: '+q.options.map(esc).join(' · ')+'</span>':''}${q.figure?'<br><span class="note">К заданию есть рисунок, он в самой работе.</span>':''}<br><span class="note">Верный ответ: ${esc(q.answer==null?'':q.answer)}</span></div>`).join(''):'<p class="note">Условия не найдены.</p>';
+  box.innerHTML=T.length?T.map(q=>`<div class="prep-t"><b>№ ${esc(q.n)}</b> ${esc(q.q||'')}${q.options&&q.options.length?'<br><span class="note">Варианты: '+q.options.map(esc).join(' · ')+'</span>':''}${q.figure?'<br><img class="qfig" src="quiz-fig/'+encodeURIComponent(q.figure)+'" alt="Рисунок к заданию '+esc(q.n)+'" style="max-width:100%;max-height:260px;background:#fff;border-radius:8px">':''}<br><span class="note">Верный ответ: ${esc(q.answer==null?'':q.answer)}</span></div>`).join(''):'<p class="note">Условия не найдены.</p>';
   prepMath(box);b.remove()}).catch(err=>{b.disabled=false;toast(errText(err))});
 });
 function routeHistoryCard(){
@@ -1656,6 +1671,18 @@ function tList(){
   LIST=j.students;if(!typing)tListRender()
  }).catch(err=>{if(String(err.message)!=='bad_password'&&!shown)tFail(err,tList)});
 }
+/* ===== Сводка недели: квадратики ближайших 14 дней по всем ученикам, с пометкой чего не хватает ===== */
+function weekCard(L){
+ const box=document.getElementById('week-card');if(!box)return;
+ const today=LiliTeaching.dayKey(),e=new Date(today+'T12:00:00Z');e.setUTCDate(e.getUTCDate()+14);const to=e.toISOString().slice(0,10),map=new Map();
+ (L||[]).filter(s=>s.active).forEach(s=>(s.cal||[]).forEach(c=>{if(c.d>=today&&c.d<=to){const m=map.get(c.id)||{id:c.id,title:c.title,first:c.d,who:[]};if(c.d<m.first)m.first=c.d;m.who.push({name:s.name,d:c.d});map.set(c.id,m)}}));
+ const items=[...map.values()].sort((a,b)=>a.first<b.first?-1:a.first>b.first?1:a.id<b.id?-1:1);
+ if(!items.length){box.innerHTML='';return}
+ const paint=mats=>{
+  const miss=m=>{if(!mats)return '';const x=mats[m.id]||{},a=[];if(!x.t)a.push('нет теории');if(!x.h&&!x.q)a.push('нет работ');return a},bad=mats?items.filter(m=>miss(m).length).length:null;
+  box.innerHTML=`<section class="card"><div class="sh"><h2>Что готовить · 14 дней</h2><span class="sub">${items.length} кв.${bad==null?'':bad?' · не хватает у '+bad:' · всё готово'}</span></div><ul class="prep-l">${items.map(m=>{const a=miss(m);return `<li><b>${esc(m.title||m.id)}</b> <span class="note">${esc(m.id)}</span> ${mats?(a.length?`<span class="kchip gap">${a.join(' · ')}</span>`:'<span class="kchip solid">комплект есть</span>'):''}<br><span class="note">${m.who.map(w=>esc(w.name)+' · '+esc(longDate(w.d))).join(', ')}</span></li>`}).join('')}</ul></section>`};
+ paint(null);adm('routeEdits',{}).then(j=>paint(j&&j.mats||{})).catch(()=>{});
+}
 function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
  app.innerHTML=tTop()+`<div class="cab enter">
  <section style="display:grid;gap:8px;padding-block:6px 4px"><span class="eyebrow">Режим учителя</span>
@@ -1663,6 +1690,7 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
  <p class="klead" style="margin:0">Нажми на ученика, чтобы открыть и редактировать его кабинет.</p><p><a class="btn" href="quiz-builder.html">Конструктор тестов</a></p></section>
  <div id="personal-board-transfer"></div>
  ${LiliTeaching.todayHTML(L,parseSched)}
+ <div id="week-card"></div>
  ${L.some(s=>s.lessonRequestPending)?`<section class="card"><h2>Запросы на перенос</h2><div class="stus">${L.filter(s=>s.lessonRequestPending).map(s=>`<a class="stu" href="#lilia-${esc(s.code)}">${esc([s.name,s.fname].filter(Boolean).join(' '))}</a>`).join('')}</div></section>`:''}
  <div id="tfeed"></div>
  <h2 id="teacher-students">Ученики</h2>
@@ -1679,7 +1707,7 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
   <label class="fld"><span>Программа — зависит от класса</span><select id="ns-p">${progOptions(5,'school5')}</select></label></div>
   <div class="ferr" id="ns-e"></div><button class="btn" id="ns-b">Добавить и открыть</button></form>
  ${foot()}</div>`;
- bindTopT();tFeed(L);if(GOSTU)setTimeout(()=>{const e=document.getElementById('teacher-students');if(e)e.scrollIntoView({block:'start'})},60);
+ bindTopT();tFeed(L);weekCard(L);if(GOSTU)setTimeout(()=>{const e=document.getElementById('teacher-students');if(e)e.scrollIntoView({block:'start'})},60);
  LiliPersonalBoard.chooser(document,L,LiliBoardLinks,LiliTeaching.boardURL,toast);
  LiliTeaching.bindToday(document, L, {getStudent:code=>adm('get',{t:code}).then(j=>j.d),parse:parseSched,notify:toast,reviewQueue:()=>LiliLessonFlow.bindQueue(document,L,{getStudent:code=>adm('get',{t:code}).then(j=>j.d),saveReview:(code,payload)=>adm('hwReview',{t:code,...payload}).then(j=>j.d)})});
  document.querySelectorAll('.bbrd').forEach(el=>el.onclick=e=>{e.preventDefault();e.stopPropagation();const code=el.dataset.b||'',u=LiliBoardLinks.savedTeacherURL(localStorage,code);if(u)openBoardTab(LiliTeaching.boardURL(u,{code,name:(L.find(x=>x.code===code)||{}).name,teacher:true}));else{location.hash='lilia-'+code;toast('Открой настройки ученика и добавь свою ссылку учителя.')}});
@@ -1740,7 +1768,7 @@ let journalRequested;
 function journalCard(){try{return LiliTeaching.journalHTML(localStorage,D.code||CODE,D,journalRequested)}catch(e){return '<div class="card"><h2>Карточка занятия</h2><p>Браузер запретил доступ к личному журналу. Разреши хранение данных для сайта.</p></div>'}}
 function openLessonFinish(card){if(routeActive()){openLessonRoute();return}LiliLessonFlow.showFinish(document,{code:D.code||CODE,card,student:D,storage:localStorage,getStudent:code=>adm('get',{t:code}).then(j=>j.d),assignHomework:(code,payload)=>adm('hwAdd',{t:code,...payload}).then(j=>(D=j.d)),setTopic:(code,topic)=>adm('student',{t:code,fields:{topic}}).then(j=>(D=j.d)),onSaved:card=>{journalRequested=card.id;tRender(false)},onDismiss:card=>{journalRequested=card.id;tRender(false)},notify:toast})}
 function bindJournalCard(){LiliTeaching.bindJournal(document,D.code||CODE,D,{teacherURL:myBoardURL,finish:openLessonFinish,refresh:id=>{journalRequested=id;const el=document.getElementById('teaching-journal');if(el){el.outerHTML=journalCard();bindJournalCard()}},notify:toast})}
-function tRender(keep){LiliTeaching.preserveDraft(document,D.code||CODE);const y=scrollY,dr=keep===false?{}:drafts(),foc=document.activeElement&&document.activeElement.id;
+function tRender(keep){setTimeout(()=>journalSync(false),800);LiliTeaching.preserveDraft(document,D.code||CODE);const y=scrollY,dr=keep===false?{}:drafts(),foc=document.activeElement&&document.activeElement.id;
  const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
  app.innerHTML=tTop()+`<div class="cab enter"><section class="card"><div class="sh"><h1>${esc(fullName()||D.name)}</h1><span class="sub">${D.active?'':'В архиве'}</span></div>
  <div class="boardrow"><button class="btn ghost" id="lnkc" type="button">Скопировать ссылку ученика</button><button class="btn" type="button" id="assign-shortcut">Назначить задание</button>${routeActive()?'<button class="btn" id="lesson-route" type="button">Календарь и квадратики</button>':''}<button class="btn ghost" id="open-settings" type="button">Настройки</button></div></section>
