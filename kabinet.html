@@ -792,7 +792,7 @@ a.gc{text-decoration:none}
 <script src="assets/lili-board-cloud.js?v=20261031-recovery"></script>
 <script src="assets/lili-personal-board.js?v=20261031-personal"></script>
 <script src="assets/lili-board-window.js?v=20261031-stage3"></script>
-<script src="assets/lili-teaching.js?v=20261115-journal"></script>
+<script src="assets/lili-teaching.js?v=20261115-prefill"></script>
 <script src="assets/lili-lesson-flow.js?v=20261031-stage3"></script>
 <script>
 (() => {
@@ -1683,14 +1683,49 @@ function weekCard(L){
   box.innerHTML=`<section class="card"><div class="sh"><h2>Что готовить · 14 дней</h2><span class="sub">${items.length} кв.${bad==null?'':bad?' · не хватает у '+bad:' · всё готово'}</span></div><ul class="prep-l">${items.map(m=>{const a=miss(m);return `<li><b>${esc(m.title||m.id)}</b> <span class="note">${esc(m.id)}</span> ${mats?(a.length?`<span class="kchip gap">${a.join(' · ')}</span>`:'<span class="kchip solid">комплект есть</span>'):''}<br><span class="note">${m.who.map(w=>esc(w.name)+' · '+esc(longDate(w.d))).join(', ')}</span></li>`}).join('')}</ul></section>`};
  paint(null);adm('routeEdits',{}).then(j=>paint(j&&j.mats||{})).catch(()=>{});
 }
+/* ===== Версия сервера, устаревший календарь, результаты старых страниц ===== */
+const REQ_SERVER='8.1';
+function srvVersion(){const el=document.getElementById('srv-ver');if(!el)return;
+ adm('ping').then(j=>{const v=j&&j.ver;el.innerHTML=v===REQ_SERVER?'<span class="note">Сервер кабинета '+REQ_SERVER+': актуален.</span>':'<span style="color:var(--amber);font-size:14px">Сервер кабинета: '+(v?esc(v):'старый, без номера')+', на сайте нужен '+REQ_SERVER+'. Скопируй код со страницы kabinet-code.html и вставь в Apps Script.</span>'}).catch(()=>{})}
+function calStaleCard(L){
+ const box=document.getElementById('cal-stale');if(!box)return;
+ const files=['5','6','7a','7g','8a','8g','9a','9g','oge'];
+ Promise.all([adm('routeEdits',{}),...files.map(f=>fetch('lesson-route-'+f+'.json').then(r=>r.ok?r.json():null).catch(()=>null))]).then(([e,...rs])=>{
+  if(rs.some(x=>!x))return;
+  const ok=new Set(),walk=o=>{if(Array.isArray(o))o.forEach(walk);else if(o&&typeof o==='object'){if(typeof o.id==='string')ok.add(o.id);Object.values(o).forEach(walk)}else if(typeof o==='string'&&/^[A-Za-z0-9]+-\d+(-\d+)?$/.test(o))ok.add(o)};
+  rs.forEach(walk);walk(e.layouts||{});Object.keys(e.edits||{}).forEach(x=>ok.add(x));Object.keys(e.mats||{}).forEach(x=>ok.add(x));
+  const stale=[];(L||[]).forEach(s=>(s.cal||[]).forEach(c=>{if(!ok.has(c.id))stale.push({code:s.code,name:s.name,id:c.id,d:c.d,title:c.title})}));
+  if(!stale.length){box.innerHTML='';return}
+  box.innerHTML=`<details class="card"><summary><b>Устаревшие записи календаря · ${stale.length}</b></summary><p class="note">Этих номеров квадратиков уже нет в картах программ, скорее всего это остатки старой раскладки. Они не попадают в сводку недели.</p><ul class="prep-l">${stale.map(x=>`<li>${esc(x.name)} · ${esc(longDate(x.d))} · <span class="note">${esc(x.id)}</span> ${esc(x.title||'')}</li>`).join('')}</ul><div class="focus-actions"><button class="btn ghost" type="button" id="cal-clean">Удалить эти ${stale.length} записей</button></div></details>`;
+  document.getElementById('cal-clean').onclick=async()=>{if(!confirm('Удалить '+stale.length+' записей из календаря занятий? Это нельзя отменить.'))return;const b=document.getElementById('cal-clean');b.disabled=true;let n=0;
+   for(const x of stale){try{await adm('calSet',{t:x.code,id:x.id,d:''});n++;b.textContent='Удалено '+n+' из '+stale.length}catch(err){toast(errText(err));break}}
+   toast('Удалено записей: '+n);setTimeout(()=>location.reload(),700)};
+ }).catch(()=>{});
+}
+function diagCard(){
+ const box=document.getElementById('diag-card');if(!box)return;
+ adm('diagResults',{}).then(j=>{
+  if(!j.linked){box.innerHTML='<section class="card"><div class="sh"><h2>Результаты диагностик</h2></div><p class="note">Старые страницы диагностик и ДЗ пишут результат в таблицу «Результаты 25/25». Вставь ссылку на неё один раз, и последние результаты будут видны здесь.</p><div class="boardrow"><input id="dg-url" class="hwsearch" placeholder="https://docs.google.com/spreadsheets/d/…" style="flex:1 1 280px"><button class="btn ghost" type="button" id="dg-link">Подключить</button></div><div class="ferr" id="dg-err"></div></section>';
+   document.getElementById('dg-link').onclick=()=>{const b=document.getElementById('dg-link');b.disabled=true;adm('resultsLink',{url:document.getElementById('dg-url').value}).then(()=>diagCard()).catch(err=>{b.disabled=false;document.getElementById('dg-err').textContent=String(err.message)==='no_access'?'Нет доступа к этой таблице с аккаунта, на котором стоит Apps Script.':errText(err)})};return}
+  const H=(j.head||[]).map(h=>String(h||'')),ix=re=>H.findIndex(h=>re.test(h)),iD=ix(/врем|дат|stamp|time/i),iN=ix(/имя|ученик|name|фио/i),iT=ix(/тест|работ|страниц|диагн|test/i),iS=ix(/балл|score|верно/i),iM=ix(/макс|max/i),iR=ix(/отч[её]т|report/i);
+  const g=(r,i)=>i>=0?String(r[i]||'').trim():'',rows=(j.rows||[]).slice(0,15);
+  if(!rows.length){box.innerHTML='<section class="card"><h2>Результаты диагностик</h2><p class="note">В таблице пока нет строк.</p></section>';return}
+  box.innerHTML=`<section class="card"><div class="sh"><h2>Результаты диагностик и старых ДЗ</h2><span class="sub">последние ${rows.length}</span></div><ul class="prep-l">${rows.map((r,i)=>{const nm=g(r,iN),sc=g(r,iS),mx=g(r,iM);return `<li><b>${esc(nm||'без имени')}</b> · ${esc(g(r,iT)||r.slice(0,3).filter(Boolean).join(' · '))}${sc?' · '+esc(sc)+(mx?'/'+esc(mx):''):''} <span class="note">${esc(g(r,iD))}</span> ${nm?`<button class="chip" type="button" data-dg-new="${i}">Создать ученика</button>`:''}${iR>=0&&g(r,iR)?`<details><summary class="note">Отчёт</summary><p class="note" style="white-space:pre-wrap">${esc(g(r,iR))}</p></details>`:''}</li>`}).join('')}</ul></section>`;
+  box.querySelectorAll('[data-dg-new]').forEach(b=>b.onclick=()=>{const r=rows[+b.dataset.dgNew],nm=g(r,iN),t=r.join(' '),m=/(\d)\s*класс/i.exec(t)||/(?:^|[^\d])([5-9])[-\s]*кл/i.exec(t),c=document.getElementById('ns-c');
+   document.getElementById('ns-n').value=nm;if(m&&[5,6,7,8,9].includes(+m[1])){c.value=m[1];if(c.onchange)c.onchange()}
+   document.getElementById('nsf').scrollIntoView({block:'center'});document.getElementById('ns-d').focus()});
+ }).catch(err=>{if(String(err&&err.message)!=='unknown_op'&&box)box.innerHTML=''});
+}
 function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
  app.innerHTML=tTop()+`<div class="cab enter">
  <section style="display:grid;gap:8px;padding-block:6px 4px"><span class="eyebrow">Режим учителя</span>
  <h1 class="big1">Рабочий день · <em>${act.length}</em></h1>
- <p class="klead" style="margin:0">Нажми на ученика, чтобы открыть и редактировать его кабинет.</p><p><a class="btn" href="quiz-builder.html">Конструктор тестов</a></p></section>
+ <p class="klead" style="margin:0">Нажми на ученика, чтобы открыть и редактировать его кабинет.</p><p id="srv-ver" style="margin:0"></p><p><a class="btn" href="quiz-builder.html">Конструктор тестов</a></p></section>
  <div id="personal-board-transfer"></div>
  ${LiliTeaching.todayHTML(L,parseSched)}
  <div id="week-card"></div>
+ <div id="cal-stale"></div>
+ <div id="diag-card"></div>
  ${L.some(s=>s.lessonRequestPending)?`<section class="card"><h2>Запросы на перенос</h2><div class="stus">${L.filter(s=>s.lessonRequestPending).map(s=>`<a class="stu" href="#lilia-${esc(s.code)}">${esc([s.name,s.fname].filter(Boolean).join(' '))}</a>`).join('')}</div></section>`:''}
  <div id="tfeed"></div>
  <h2 id="teacher-students">Ученики</h2>
@@ -1707,7 +1742,7 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
   <label class="fld"><span>Программа — зависит от класса</span><select id="ns-p">${progOptions(5,'school5')}</select></label></div>
   <div class="ferr" id="ns-e"></div><button class="btn" id="ns-b">Добавить и открыть</button></form>
  ${foot()}</div>`;
- bindTopT();tFeed(L);weekCard(L);if(GOSTU)setTimeout(()=>{const e=document.getElementById('teacher-students');if(e)e.scrollIntoView({block:'start'})},60);
+ bindTopT();tFeed(L);weekCard(L);calStaleCard(L);diagCard();srvVersion();if(GOSTU)setTimeout(()=>{const e=document.getElementById('teacher-students');if(e)e.scrollIntoView({block:'start'})},60);
  LiliPersonalBoard.chooser(document,L,LiliBoardLinks,LiliTeaching.boardURL,toast);
  LiliTeaching.bindToday(document, L, {getStudent:code=>adm('get',{t:code}).then(j=>j.d),parse:parseSched,notify:toast,reviewQueue:()=>LiliLessonFlow.bindQueue(document,L,{getStudent:code=>adm('get',{t:code}).then(j=>j.d),saveReview:(code,payload)=>adm('hwReview',{t:code,...payload}).then(j=>j.d)})});
  document.querySelectorAll('.bbrd').forEach(el=>el.onclick=e=>{e.preventDefault();e.stopPropagation();const code=el.dataset.b||'',u=LiliBoardLinks.savedTeacherURL(localStorage,code);if(u)openBoardTab(LiliTeaching.boardURL(u,{code,name:(L.find(x=>x.code===code)||{}).name,teacher:true}));else{location.hash='lilia-'+code;toast('Открой настройки ученика и добавь свою ссылку учителя.')}});

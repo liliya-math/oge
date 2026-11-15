@@ -112,6 +112,7 @@ const C = {bg: '#14211e', bg2: '#1b2b28', fg: '#f3ece2', muted: '#a9b6ad', cobal
 const STUDENT_COLS = {name: 2, dat: 3, goal: 4, days: 5, time: 6, topic: 7, board: 8, work: 9, lessonsPlan: 10, lessonsDone: 11, active: 12, prog: 14,
                       fname: 15, bdate: 16, parent: 17, phone: 18, cls: 19, show: 20, pet: 21, nick: 22, routes: 23, note: 24, noteTill: 25, memo: 26};
 const STUDENT_NCOL = 26;
+const SERVER_VERSION = '8.1'; /* поднимать вместе с REQ_SERVER в kabinet.html, когда меняется серверная часть */
 const ROUTE_PROGS = ['5', '6', '7A', '7G', '8A', '8G', '9A', '9G', 'OGE'];
 function routesOf_(r) { return String(r[22] || '').split(',').map(x => x.trim()).filter(x => ROUTE_PROGS.indexOf(x) >= 0); }
 const SHOW_KEYS = ['work', 'grades', 'exams', 'notebook', 'rewards', 'letter', 'library'];
@@ -157,7 +158,7 @@ function sheet_(ss, name) {
    Любая запись (doPost, admin-операции кроме чтения, ручная правка таблицы) меняет «версию данных»,
    и старый кэш перестаёт использоваться. Если кэш недоступен или не влез, скрипт работает как раньше. */
 const CACHE_TTL_ = 120;
-const READ_OPS_ = ['ping', 'list', 'get', 'boardLibraryGet', 'quizList', 'quizGet', 'lessonDefaultsGet', 'lessonWindows', 'routeGet', 'routeEdits'];
+const READ_OPS_ = ['ping', 'list', 'get', 'boardLibraryGet', 'quizList', 'quizGet', 'lessonDefaultsGet', 'lessonWindows', 'routeGet', 'routeEdits', 'diagResults'];
 
 function cacheVer_() {
   const c = CacheService.getScriptCache();
@@ -568,7 +569,7 @@ function adminRun_(b) {
     const need = () => { const st = findStudentRow_(code); if (!st) throw new Error('not_found'); return st; };
     const fresh = () => ({ok: true, d: studentData_(code, true)});
     switch (b.op) {
-      case 'ping': return {ok: true, hwEdit: true, workflow: 1, quiz: 1, boardLibrary: 1, lessonRoute: 1};
+      case 'ping': return {ok: true, ver: SERVER_VERSION, hwEdit: true, workflow: 1, quiz: 1, boardLibrary: 1, lessonRoute: 1};
       case 'routeGet': return {ok: true, materials: routeMaterials_(b.id)};
       case 'routeSave': return routeSave_(b);
       case 'routeDedupe': return routeDedupe_();
@@ -577,6 +578,8 @@ function adminRun_(b) {
       case 'routeUpload': return routeUpload_(b);
       case 'calSet': { need(); return calSet_(ss, code, b); }
       case 'journalSync': { need(); return journalSync_(ss, code, b); }
+      case 'resultsLink': return resultsLink_(b);
+      case 'diagResults': return diagResults_(b);
       case 'routeAssign': { const st = need(); return routeAssign_(ss, st, code, b); }
       case 'boardLibraryGet': return {ok:true,library:boardLibraryGet_()};
       case 'boardLibraryPut': return boardLibraryPut_(b);
@@ -924,6 +927,9 @@ function studentData_(code, admin) {
   const pet = PETS.indexOf(String(r[20] || '').trim()) >= 0 ? String(r[20]).trim() : '';
   const nick = String(r[21] || '').trim();
   const rj = rows('Занятия по карте').filter(x => x.v[6] === true);
+  const monthKey = Utilities.formatDate(new Date(), 'Europe/Samara', 'yyyy-MM'), doneDays = {};
+  rj.forEach(x => { const dd = day_(x.v[2]); if (dd && String(dd).slice(0, 7) === monthKey) doneDays[dd] = 1; });
+  const autoDone = Object.keys(doneDays).length;
   const noteTillS = day_(r[24]), todayS = Utilities.formatDate(new Date(), 'Europe/Samara', 'yyyy-MM-dd'), noteRaw = String(r[23] || '').trim(), noteLive = !!noteRaw && (!noteTillS || noteTillS >= todayS);
   const out = {
     noteEdit: true, note: admin ? noteRaw : (noteLive ? noteRaw : ''), noteTill: admin ? noteTillS : '',
@@ -934,7 +940,7 @@ function studentData_(code, admin) {
     quiz: 1, ogeMocks: 2, quizHistory: quizHistory_(code, admin), workflow: 1, nickEdit: true, name: admin ? String(r[1]) : (nick || String(r[1])), nick: nick, dat: admin ? String(r[2] || r[1]) : (nick || String(r[1])), goal: Number(r[3]) || Math.round(goalMax_(prog) * 0.8),
     lessonMoves: lrConfig_(code).moves, lessonRequest: lrPublicRequest_(lrConfig_(code).request), days: String(r[4] || ''), time: st.time, topic: String(r[6] || ''), board: String(r[7] || ''),
     work: String(r[8] || '').split(';').map(s => s.trim()).filter(Boolean),
-    lessonsPlan: Number(r[9]) || 0, lessonsDone: Number(r[10]) || 0,
+    lessonsPlan: Number(r[9]) || 0, lessonsDone: Math.max(autoDone, Number(r[10]) || 0), lessonsDoneAuto: autoDone,
     hw: hw,
     hist: has('exams') ? hist : hist.slice(-2), mats: mats, matsAll: matsAll, prog: prog, show: show, pet: pet,
     // Без пароля (публичная ссылка ученика) родитель, телефон и год рождения не отдаются:
@@ -2277,6 +2283,27 @@ function routeUpload_(b) {
   return {ok: true, url: file.getUrl()};
 }
 function calDay_(v) { return /^\d{4}-\d{2}-\d{2}$/.test(String(v)) ? String(v) : day_(v); }
+/* Результаты старых страниц (диагностики, ДЗ с cabinet-report.js) лежат в отдельной таблице «Результаты 25/25».
+   Её id хранится в свойствах скрипта (RESULTS_SS), вставляется один раз ссылкой из кабинета учителя. */
+function resultsLink_(b) {
+  const raw = String(b.url || '').trim(), m = /\/d\/([a-zA-Z0-9_-]{20,})/.exec(raw) || /^([a-zA-Z0-9_-]{30,})$/.exec(raw);
+  if (!m) return {error: 'bad_value'};
+  let name; try { name = SpreadsheetApp.openById(m[1]).getName(); } catch (e) { return {error: 'no_access'}; }
+  PropertiesService.getScriptProperties().setProperty('RESULTS_SS', m[1]);
+  return {ok: true, name: name};
+}
+function diagResults_(b) {
+  const id = PropertiesService.getScriptProperties().getProperty('RESULTS_SS');
+  if (!id) return {ok: true, linked: false};
+  let ss; try { ss = SpreadsheetApp.openById(id); } catch (e) { return {error: 'no_access'}; }
+  const all = ss.getSheets(), sh = all.filter(x => /результат/i.test(x.getName()))[0] || all[0], last = sh.getLastRow(), cols = Math.min(sh.getLastColumn(), 30);
+  if (last < 2 || cols < 1) return {ok: true, linked: true, name: ss.getName(), head: [], rows: []};
+  const n = Math.min(40, last - 1), cell = v => v instanceof Date ? Utilities.formatDate(v, 'Europe/Samara', 'dd.MM HH:mm') : String(v == null ? '' : v).slice(0, 600);
+  const head = sh.getRange(1, 1, 1, cols).getValues()[0].map(cell);
+  const rows = sh.getRange(last - n + 1, 1, n, cols).getValues().map(r => r.map(cell)).reverse();
+  return {ok: true, linked: true, name: ss.getName(), head: head, rows: rows};
+}
+
 /* Журнал занятий на сервере: браузер присылает свои карточки, сервер оставляет более новые по полю updated
    и возвращает полный список ученика. Так журнал не теряется при очистке браузера и виден с другого устройства. */
 function journalSync_(ss, code, b) {
