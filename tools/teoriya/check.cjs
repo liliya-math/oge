@@ -33,7 +33,7 @@ function checkTheory(file, E, W) {
     const n = 'блок ' + (i + 1) + ' «' + (b.title || '?') + '»', it = b.items || [], all = texts(it).join(' ');
     if (!b.title) E.push(n + ': нет заголовка');
     if (!it.length) E.push(n + ': пустой');
-    if (!/\d/.test(all)) E.push(n + ': нет числового примера');
+    if (d.examplesRequired !== false && !/\d/.test(all)) E.push(n + ': нет числового примера');
     const why = it.filter(x => x.why !== undefined);
     if (!why.length) W.push(n + ': нет «Почему так»');
     why.forEach(x => { if (String(x.why).length < 40) W.push(n + ': «Почему так» слишком короткое, похоже на пересказ правила'); });
