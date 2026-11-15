@@ -1,6 +1,26 @@
 {
   "items": [
     {
+      "file": "teoriya-8a-funktsiya-i-ee-svoystva.html",
+      "title": "Теория · 8 класс · Функция и её свойства",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-142",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-svoystva-treh-funktsiy.html",
+      "title": "Теория · 8 класс · Свойства линейной функции, гиперболы и функции корня",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-143",
+      "auto": false
+    },
+    {
       "file": "teoriya-8a-chislovye-neravenstva.html",
       "title": "Теория · 8 класс · Числовые неравенства",
       "type": "theory",
