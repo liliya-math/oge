@@ -1,6 +1,26 @@
 {
   "items": [
     {
+      "file": "teoriya-8a-svoystva-stepeni-tselyy-pokazatel.html",
+      "title": "Теория · 8 класс · Свойства степени с целым показателем",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-146",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-standartnyy-vid-chisla.html",
+      "title": "Теория · 8 класс · Стандартный вид числа",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-147",
+      "auto": false
+    },
+    {
       "file": "teoriya-8a-funktsiya-i-ee-svoystva.html",
       "title": "Теория · 8 класс · Функция и её свойства",
       "type": "theory",
