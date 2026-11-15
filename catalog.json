@@ -1,6 +1,116 @@
 {
   "items": [
     {
+      "file": "teoriya-8g-pryamaya-i-okruzhnost.html",
+      "title": "Теория · 8 класс · Взаимное расположение прямой и окружности",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-118",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-svoystva-kasatelnoy.html",
+      "title": "Теория · 8 класс · Свойства касательной",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-119",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-dve-okruzhnosti.html",
+      "title": "Теория · 8 класс · Взаимное расположение двух окружностей",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-120",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-ugly-i-okruzhnost.html",
+      "title": "Теория · 8 класс · Углы и окружность",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-121",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-metricheskie-sootnosheniya-okruzhnost.html",
+      "title": "Теория · 8 класс · Метрические соотношения в окружности",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-122",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-tochka-peresecheniya-median.html",
+      "title": "Теория · 8 класс · Точка пересечения медиан треугольника",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-123",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-tochka-peresecheniya-bissektris.html",
+      "title": "Теория · 8 класс · Точка пересечения биссектрис треугольника",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-124",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-tochka-peresecheniya-seredinnyh-perpendikulyarov.html",
+      "title": "Теория · 8 класс · Точка пересечения серединных перпендикуляров",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-125",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-tochka-peresecheniya-vysot.html",
+      "title": "Теория · 8 класс · Точка пересечения высот треугольника",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-126",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-vpisannaya-okruzhnost.html",
+      "title": "Теория · 8 класс · Вписанная окружность",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-127",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-opisannaya-okruzhnost.html",
+      "title": "Теория · 8 класс · Описанная окружность",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-128",
+      "auto": false
+    },
+    {
       "file": "teoriya-8g-priznaki-podobiya-treugolnikov.html",
       "title": "Теория · 8 класс · Признаки подобия треугольников",
       "type": "theory",
