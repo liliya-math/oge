@@ -15,7 +15,10 @@
      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Биссектрисы и центр вписанной окружности\" viewBox=\"0 0 320 175\"><line x1=\"88\" y1=\"132\" x2=\"240\" y2=\"132\" stroke=\"#16231A\" stroke-width=\"2.5\"/><line x1=\"240\" y1=\"132\" x2=\"164\" y2=\"33\" stroke=\"#16231A\" stroke-width=\"2.5\"/><line x1=\"164\" y1=\"33\" x2=\"88\" y2=\"132\" stroke=\"#16231A\" stroke-width=\"2.5\"/><line x1=\"164\" y1=\"33\" x2=\"164\" y2=\"94.5313456959853\" stroke=\"#DD7A3A\" stroke-width=\"2.5\"/><line x1=\"88\" y1=\"132\" x2=\"164\" y2=\"94.5313456959853\" stroke=\"#DD7A3A\" stroke-width=\"2.5\"/><text x=\"69\" y=\"149\" font-size=\"17\" fill=\"#16231A\">A</text><text x=\"244\" y=\"149\" font-size=\"17\" fill=\"#16231A\">B</text><text x=\"159\" y=\"20\" font-size=\"17\" fill=\"#16231A\">C</text><text x=\"170\" y=\"89.5313456959853\" font-size=\"17\" fill=\"#16231A\">I</text></svg>"
     },
     {
-     "f": "\\(\\angle A=68^\\circ\\quad\\Rightarrow\\quad\\angle BAI=\\angle IAC=34^\\circ\\)"
+     "f": "\\(\\angle A=68^\\circ\\)"
+    },
+    {
+     "f": "\\(\\Rightarrow\\quad\\angle BAI=\\angle IAC=34^\\circ\\)"
     },
     {
      "why": "Внутри угла 68 градусов две равные части дают по 34 градуса."
