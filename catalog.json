@@ -1,6 +1,56 @@
 {
   "items": [
     {
+      "file": "teoriya-8g-priznaki-podobiya-treugolnikov.html",
+      "title": "Теория · 8 класс · Признаки подобия треугольников",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-112",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-proportsionalnye-otrezki-pryamougolnogo.html",
+      "title": "Теория · 8 класс · Пропорциональные отрезки в прямоугольном треугольнике",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-114",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-trigonometriya-ostrogo-ugla.html",
+      "title": "Теория · 8 класс · Синус, косинус, тангенс и котангенс",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-115",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-osnovnoe-trigonometricheskoe-tozhdestvo.html",
+      "title": "Теория · 8 класс · Основное тригонометрическое тождество",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-116",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-trigonometricheskie-znacheniya.html",
+      "title": "Теория · 8 класс · Значения синуса, косинуса, тангенса и котангенса для 30°, 45° и 60°",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-117",
+      "auto": false
+    },
+    {
       "file": "teoriya-8g-ploshchad-pryamougolnika-kvadrata.html",
       "title": "Теория · 8 класс · Площадь прямоугольника и квадрата",
       "type": "theory",
