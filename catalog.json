@@ -1,6 +1,56 @@
 {
   "items": [
     {
+      "file": "teoriya-8g-ploshchad-pryamougolnika-kvadrata.html",
+      "title": "Теория · 8 класс · Площадь прямоугольника и квадрата",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-106",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-ploshchad-parallelogramma.html",
+      "title": "Теория · 8 класс · Площадь параллелограмма",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-107",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-ploshchad-treugolnika.html",
+      "title": "Теория · 8 класс · Площадь треугольника",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-108",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-ploshchad-trapetsii.html",
+      "title": "Теория · 8 класс · Площадь трапеции",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-109",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-teorema-pifagora.html",
+      "title": "Теория · 8 класс · Теорема Пифагора",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-110",
+      "auto": false
+    },
+    {
       "file": "teoriya-8g-trapetsiya.html",
       "title": "Теория · 8 класс · Трапеция",
       "type": "theory",
