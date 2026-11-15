@@ -45,7 +45,10 @@
      "p": "**Углы, опирающиеся на одну дугу**  равны друг другу."
     },
     {
-     "f": "\\(\\overset{\\frown}{AB}=72^\\circ\\quad\\Rightarrow\\quad\\angle ACB=\\angle ADB=36^\\circ\\)"
+     "f": "\\(\\overset{\\frown}{AB}=72^\\circ\\)"
+    },
+    {
+     "f": "\\(\\Rightarrow\\quad\\angle ACB=\\angle ADB=36^\\circ\\)"
     },
     {
      "why": "Если обе вершины лежат на другой дуге, оба угла измеряют половину одной и той же дуги \\(AB\\)."
