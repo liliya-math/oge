@@ -1,6 +1,46 @@
 {
   "items": [
     {
+      "file": "teoriya-8a-ratsionalnye-vyrazheniya.html",
+      "title": "Теория · 8 класс · Рациональные выражения",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-101",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-umnozhenie-delenie-drobey.html",
+      "title": "Теория · 8 класс · Умножение и деление алгебраических дробей",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-105",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-formuly-i-tozhdestva.html",
+      "title": "Теория · 8 класс · Формулы сокращённого умножения и тождества",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-106",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-obratnaya-proportsionalnost.html",
+      "title": "Теория · 8 класс · Функция y = k/x и её график",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-108",
+      "auto": false
+    },
+    {
       "file": "diagnostika-1-4-klass.html",
       "title": "Диагностика 1–4 класс",
       "type": "diagnostika",
