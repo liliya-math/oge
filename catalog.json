@@ -4847,6 +4847,36 @@
       "auto": false
     },
     {
+      "file": "teoriya-8a-sokrashchenie-drobey.html",
+      "title": "Теория · 8 класс · Основное свойство дроби. Сокращение дробей",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-102",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-drobi-odinakovye-znamenateli.html",
+      "title": "Теория · 8 класс · Сложение и вычитание дробей с одинаковыми знаменателями",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-103",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-drobi-raznye-znamenateli.html",
+      "title": "Теория · 8 класс · Сложение и вычитание дробей с разными знаменателями",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-104",
+      "auto": false
+    },
+    {
       "file": "teoriya-8-ratsionalnye-chisla.html",
       "title": "Теория · 8 класс · Рациональные числа (п. 6.1)",
       "type": "theory",
