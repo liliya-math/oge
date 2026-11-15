@@ -43,7 +43,13 @@ ol{margin:0 0 16px;padding-left:1.4em}li{margin:0 0 12px;padding-left:4px}
 </style></head><body><main><div class="top"><span class="brand">lili<i>.</i>math</span><button onclick="window.print()">Сохранить как PDF</button></div>
 <span class="tag">${esc(spec.tag)}</span><h1>${esc(spec.title)}</h1>
 ${blocks}
-</main></body></html>`;
+</main><script>
+/* Формула не переносится и не вылезает за рамку: если не помещается, шрифт уменьшается до ширины рамки (не меньше 0.62 от обычного). */
+(function(){function fit(){document.querySelectorAll('.plate').forEach(function(p){p.style.fontSize='';var cs=getComputedStyle(p),inner=p.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight),w=p.scrollWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);if(w>inner+1){var k=Math.max(.62,inner/w*.98);p.style.fontSize=(parseFloat(cs.fontSize)*k)+'px'}})}
+function go(){fit();if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit)}
+window.addEventListener('load',go);window.addEventListener('resize',fit);window.addEventListener('beforeprint',function(){document.querySelectorAll('.plate').forEach(function(p){p.style.fontSize=''})});window.addEventListener('afterprint',fit);
+})();
+</script></body></html>`;
 }
 if(require.main===module){
   const f=process.argv[2];const spec=JSON.parse(fs.readFileSync(f,'utf8'));

@@ -219,4 +219,10 @@ H400000v40H845.2724
 s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
 c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
 M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1328em;"><span></span></span></span></span></span></span></span></span></div><div class="why"><span class="label">Почему так</span><p>У большего неотрицательного подкоренного числа больше и его корень. Достаточно сравнить 28 и 45.</p></div></div></section>
-</main></body></html>
+</main><script>
+/* Формула не переносится и не вылезает за рамку: если не помещается, шрифт уменьшается до ширины рамки (не меньше 0.62 от обычного). */
+(function(){function fit(){document.querySelectorAll('.plate').forEach(function(p){p.style.fontSize='';var cs=getComputedStyle(p),inner=p.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight),w=p.scrollWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);if(w>inner+1){var k=Math.max(.62,inner/w*.98);p.style.fontSize=(parseFloat(cs.fontSize)*k)+'px'}})}
+function go(){fit();if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit)}
+window.addEventListener('load',go);window.addEventListener('resize',fit);window.addEventListener('beforeprint',function(){document.querySelectorAll('.plate').forEach(function(p){p.style.fontSize=''})});window.addEventListener('afterprint',fit);
+})();
+</script></body></html>
