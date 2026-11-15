@@ -1,6 +1,86 @@
 {
   "items": [
     {
+      "file": "teoriya-8a-chislovye-neravenstva.html",
+      "title": "Теория · 8 класс · Числовые неравенства",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-134",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-svoystva-chislovyh-neravenstv.html",
+      "title": "Теория · 8 класс · Свойства числовых неравенств",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-135",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-deystviya-s-neravenstvami.html",
+      "title": "Теория · 8 класс · Сложение и умножение неравенств",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-136",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-pogreshnosti-priblizheniya.html",
+      "title": "Теория · 8 класс · Абсолютная и относительная погрешности",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-137",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-mnozhestva-i-promezhutki.html",
+      "title": "Теория · 8 класс · Множества и числовые промежутки",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-138",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-lineynye-neravenstva.html",
+      "title": "Теория · 8 класс · Неравенства с одной переменной",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-139",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-sistemy-neravenstv.html",
+      "title": "Теория · 8 класс · Системы неравенств",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-140",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-uravneniya-neravenstva-s-modulem.html",
+      "title": "Теория · 8 класс · Уравнения и неравенства с модулем",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-141",
+      "auto": false
+    },
+    {
       "file": "teoriya-8a-nepolnye-kvadratnye.html",
       "title": "Теория · 8 класс · Неполные квадратные уравнения",
       "type": "theory",
