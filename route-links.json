@@ -175,5 +175,149 @@
  },
  "8A-104": {
   "theory": "https://lilimath.ru/teoriya-8a-drobi-raznye-znamenateli.html"
+ },
+ "8A-101": {
+  "theory": "https://lilimath.ru/teoriya-8a-ratsionalnye-vyrazheniya.html"
+ },
+ "8A-105": {
+  "theory": "https://lilimath.ru/teoriya-8a-umnozhenie-delenie-drobey.html"
+ },
+ "8A-106": {
+  "theory": "https://lilimath.ru/teoriya-8a-formuly-i-tozhdestva.html"
+ },
+ "8A-108": {
+  "theory": "https://lilimath.ru/teoriya-8a-obratnaya-proportsionalnost.html"
+ },
+ "8A-119": {
+  "theory": "https://lilimath.ru/teoriya-8a-nepolnye-kvadratnye.html"
+ },
+ "8A-125": {
+  "theory": "https://lilimath.ru/teoriya-8a-kvadratnyy-trechlen.html"
+ },
+ "8A-126": {
+  "theory": "https://lilimath.ru/teoriya-8a-razlozhenie-kvadratnogo-trechlena.html"
+ },
+ "8A-127": {
+  "theory": "https://lilimath.ru/teoriya-8a-drobnye-ratsionalnye-uravneniya.html"
+ },
+ "8A-128": {
+  "theory": "https://lilimath.ru/teoriya-8a-zadachi-ratsionalnye-uravneniya.html"
+ },
+ "8A-129": {
+  "theory": "https://lilimath.ru/teoriya-8a-uravnenie-dve-peremennye.html"
+ },
+ "8A-130": {
+  "theory": "https://lilimath.ru/teoriya-8a-issledovanie-lineynyh-sistem.html"
+ },
+ "8A-131": {
+  "theory": "https://lilimath.ru/teoriya-8a-graficheskiy-sposob-sistem.html"
+ },
+ "8A-132": {
+  "theory": "https://lilimath.ru/teoriya-8a-sistemy-vtoroy-stepeni.html"
+ },
+ "8A-133": {
+  "theory": "https://lilimath.ru/teoriya-8a-zadachi-sistemy-vtoroy-stepeni.html"
+ },
+ "8A-134": {
+  "theory": "https://lilimath.ru/teoriya-8a-chislovye-neravenstva.html"
+ },
+ "8A-135": {
+  "theory": "https://lilimath.ru/teoriya-8a-svoystva-chislovyh-neravenstv.html"
+ },
+ "8A-136": {
+  "theory": "https://lilimath.ru/teoriya-8a-deystviya-s-neravenstvami.html"
+ },
+ "8A-137": {
+  "theory": "https://lilimath.ru/teoriya-8a-pogreshnosti-priblizheniya.html"
+ },
+ "8A-138": {
+  "theory": "https://lilimath.ru/teoriya-8a-mnozhestva-i-promezhutki.html"
+ },
+ "8A-139": {
+  "theory": "https://lilimath.ru/teoriya-8a-lineynye-neravenstva.html"
+ },
+ "8A-140": {
+  "theory": "https://lilimath.ru/teoriya-8a-sistemy-neravenstv.html"
+ },
+ "8A-141": {
+  "theory": "https://lilimath.ru/teoriya-8a-uravneniya-neravenstva-s-modulem.html"
+ },
+ "8A-142": {
+  "theory": "https://lilimath.ru/teoriya-8a-funktsiya-i-ee-svoystva.html"
+ },
+ "8A-143": {
+  "theory": "https://lilimath.ru/teoriya-8a-svoystva-treh-funktsiy.html"
+ },
+ "8A-146": {
+  "theory": "https://lilimath.ru/teoriya-8a-svoystva-stepeni-tselyy-pokazatel.html"
+ },
+ "8A-147": {
+  "theory": "https://lilimath.ru/teoriya-8a-standartnyy-vid-chisla.html"
+ },
+ "8G-105": {
+  "theory": "https://lilimath.ru/teoriya-8g-trapetsiya.html"
+ },
+ "8G-106": {
+  "theory": "https://lilimath.ru/teoriya-8g-ploshchad-pryamougolnika-kvadrata.html"
+ },
+ "8G-107": {
+  "theory": "https://lilimath.ru/teoriya-8g-ploshchad-parallelogramma.html"
+ },
+ "8G-108": {
+  "theory": "https://lilimath.ru/teoriya-8g-ploshchad-treugolnika.html"
+ },
+ "8G-109": {
+  "theory": "https://lilimath.ru/teoriya-8g-ploshchad-trapetsii.html"
+ },
+ "8G-110": {
+  "theory": "https://lilimath.ru/teoriya-8g-teorema-pifagora.html"
+ },
+ "8G-112": {
+  "theory": "https://lilimath.ru/teoriya-8g-priznaki-podobiya-treugolnikov.html"
+ },
+ "8G-114": {
+  "theory": "https://lilimath.ru/teoriya-8g-proportsionalnye-otrezki-pryamougolnogo.html"
+ },
+ "8G-115": {
+  "theory": "https://lilimath.ru/teoriya-8g-trigonometriya-ostrogo-ugla.html"
+ },
+ "8G-116": {
+  "theory": "https://lilimath.ru/teoriya-8g-osnovnoe-trigonometricheskoe-tozhdestvo.html"
+ },
+ "8G-117": {
+  "theory": "https://lilimath.ru/teoriya-8g-trigonometricheskie-znacheniya.html"
+ },
+ "8G-118": {
+  "theory": "https://lilimath.ru/teoriya-8g-pryamaya-i-okruzhnost.html"
+ },
+ "8G-119": {
+  "theory": "https://lilimath.ru/teoriya-8g-svoystva-kasatelnoy.html"
+ },
+ "8G-120": {
+  "theory": "https://lilimath.ru/teoriya-8g-dve-okruzhnosti.html"
+ },
+ "8G-121": {
+  "theory": "https://lilimath.ru/teoriya-8g-ugly-i-okruzhnost.html"
+ },
+ "8G-122": {
+  "theory": "https://lilimath.ru/teoriya-8g-metricheskie-sootnosheniya-okruzhnost.html"
+ },
+ "8G-123": {
+  "theory": "https://lilimath.ru/teoriya-8g-tochka-peresecheniya-median.html"
+ },
+ "8G-124": {
+  "theory": "https://lilimath.ru/teoriya-8g-tochka-peresecheniya-bissektris.html"
+ },
+ "8G-125": {
+  "theory": "https://lilimath.ru/teoriya-8g-tochka-peresecheniya-seredinnyh-perpendikulyarov.html"
+ },
+ "8G-126": {
+  "theory": "https://lilimath.ru/teoriya-8g-tochka-peresecheniya-vysot.html"
+ },
+ "8G-127": {
+  "theory": "https://lilimath.ru/teoriya-8g-vpisannaya-okruzhnost.html"
+ },
+ "8G-128": {
+  "theory": "https://lilimath.ru/teoriya-8g-opisannaya-okruzhnost.html"
  }
 }

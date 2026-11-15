@@ -1,6 +1,486 @@
 {
   "items": [
     {
+      "file": "teoriya-8g-pryamaya-i-okruzhnost.html",
+      "title": "Теория · 8 класс · Взаимное расположение прямой и окружности",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-118",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-svoystva-kasatelnoy.html",
+      "title": "Теория · 8 класс · Свойства касательной",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-119",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-dve-okruzhnosti.html",
+      "title": "Теория · 8 класс · Взаимное расположение двух окружностей",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-120",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-ugly-i-okruzhnost.html",
+      "title": "Теория · 8 класс · Углы и окружность",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-121",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-metricheskie-sootnosheniya-okruzhnost.html",
+      "title": "Теория · 8 класс · Метрические соотношения в окружности",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-122",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-tochka-peresecheniya-median.html",
+      "title": "Теория · 8 класс · Точка пересечения медиан треугольника",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-123",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-tochka-peresecheniya-bissektris.html",
+      "title": "Теория · 8 класс · Точка пересечения биссектрис треугольника",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-124",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-tochka-peresecheniya-seredinnyh-perpendikulyarov.html",
+      "title": "Теория · 8 класс · Точка пересечения серединных перпендикуляров",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-125",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-tochka-peresecheniya-vysot.html",
+      "title": "Теория · 8 класс · Точка пересечения высот треугольника",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-126",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-vpisannaya-okruzhnost.html",
+      "title": "Теория · 8 класс · Вписанная окружность",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-127",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-opisannaya-okruzhnost.html",
+      "title": "Теория · 8 класс · Описанная окружность",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-128",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-priznaki-podobiya-treugolnikov.html",
+      "title": "Теория · 8 класс · Признаки подобия треугольников",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-112",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-proportsionalnye-otrezki-pryamougolnogo.html",
+      "title": "Теория · 8 класс · Пропорциональные отрезки в прямоугольном треугольнике",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-114",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-trigonometriya-ostrogo-ugla.html",
+      "title": "Теория · 8 класс · Синус, косинус, тангенс и котангенс",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-115",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-osnovnoe-trigonometricheskoe-tozhdestvo.html",
+      "title": "Теория · 8 класс · Основное тригонометрическое тождество",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-116",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-trigonometricheskie-znacheniya.html",
+      "title": "Теория · 8 класс · Значения синуса, косинуса, тангенса и котангенса для 30°, 45° и 60°",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-117",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-ploshchad-pryamougolnika-kvadrata.html",
+      "title": "Теория · 8 класс · Площадь прямоугольника и квадрата",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-106",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-ploshchad-parallelogramma.html",
+      "title": "Теория · 8 класс · Площадь параллелограмма",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-107",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-ploshchad-treugolnika.html",
+      "title": "Теория · 8 класс · Площадь треугольника",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-108",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-ploshchad-trapetsii.html",
+      "title": "Теория · 8 класс · Площадь трапеции",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-109",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-teorema-pifagora.html",
+      "title": "Теория · 8 класс · Теорема Пифагора",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-110",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8g-trapetsiya.html",
+      "title": "Теория · 8 класс · Трапеция",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-105",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-svoystva-stepeni-tselyy-pokazatel.html",
+      "title": "Теория · 8 класс · Свойства степени с целым показателем",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-146",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-standartnyy-vid-chisla.html",
+      "title": "Теория · 8 класс · Стандартный вид числа",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-147",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-funktsiya-i-ee-svoystva.html",
+      "title": "Теория · 8 класс · Функция и её свойства",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-142",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-svoystva-treh-funktsiy.html",
+      "title": "Теория · 8 класс · Свойства линейной функции, гиперболы и функции корня",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-143",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-chislovye-neravenstva.html",
+      "title": "Теория · 8 класс · Числовые неравенства",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-134",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-svoystva-chislovyh-neravenstv.html",
+      "title": "Теория · 8 класс · Свойства числовых неравенств",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-135",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-deystviya-s-neravenstvami.html",
+      "title": "Теория · 8 класс · Сложение и умножение неравенств",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-136",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-pogreshnosti-priblizheniya.html",
+      "title": "Теория · 8 класс · Абсолютная и относительная погрешности",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-137",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-mnozhestva-i-promezhutki.html",
+      "title": "Теория · 8 класс · Множества и числовые промежутки",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-138",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-lineynye-neravenstva.html",
+      "title": "Теория · 8 класс · Неравенства с одной переменной",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-139",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-sistemy-neravenstv.html",
+      "title": "Теория · 8 класс · Системы неравенств",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-140",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-uravneniya-neravenstva-s-modulem.html",
+      "title": "Теория · 8 класс · Уравнения и неравенства с модулем",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-141",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-nepolnye-kvadratnye.html",
+      "title": "Теория · 8 класс · Неполные квадратные уравнения",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-119",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-kvadratnyy-trechlen.html",
+      "title": "Теория · 8 класс · Квадратный трёхчлен и его корни",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-125",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-razlozhenie-kvadratnogo-trechlena.html",
+      "title": "Теория · 8 класс · Разложение квадратного трёхчлена",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-126",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-drobnye-ratsionalnye-uravneniya.html",
+      "title": "Теория · 8 класс · Дробные рациональные уравнения",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-127",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-zadachi-ratsionalnye-uravneniya.html",
+      "title": "Теория · 8 класс · Задачи на рациональные уравнения",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-128",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-uravnenie-dve-peremennye.html",
+      "title": "Теория · 8 класс · Уравнение с двумя переменными и его график",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-129",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-issledovanie-lineynyh-sistem.html",
+      "title": "Теория · 8 класс · Число решений системы линейных уравнений",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-130",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-graficheskiy-sposob-sistem.html",
+      "title": "Теория · 8 класс · Графический способ решения систем",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-131",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-sistemy-vtoroy-stepeni.html",
+      "title": "Теория · 8 класс · Системы уравнений второй степени",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-132",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-zadachi-sistemy-vtoroy-stepeni.html",
+      "title": "Теория · 8 класс · Задачи на системы второй степени",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-133",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-ratsionalnye-vyrazheniya.html",
+      "title": "Теория · 8 класс · Рациональные выражения",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-101",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-umnozhenie-delenie-drobey.html",
+      "title": "Теория · 8 класс · Умножение и деление алгебраических дробей",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-105",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-formuly-i-tozhdestva.html",
+      "title": "Теория · 8 класс · Формулы сокращённого умножения и тождества",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-106",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-obratnaya-proportsionalnost.html",
+      "title": "Теория · 8 класс · Функция y = k/x и её график",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-108",
+      "auto": false
+    },
+    {
       "file": "diagnostika-1-4-klass.html",
       "title": "Диагностика 1–4 класс",
       "type": "diagnostika",
