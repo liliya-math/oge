@@ -1690,7 +1690,7 @@ function srvVersion(){const el=document.getElementById('srv-ver');if(!el)return;
 /* ===== Чего не хватает впереди: ближайшие квадратики всех учеников без теории/работ, по главам ===== */
 function gapCard(L){
  const box=document.getElementById('gap-card');if(!box)return;
- const AHEAD=4,act=(L||[]).filter(s=>s.active);
+ const AHEAD=4,act=(L||[]).filter(s=>s.active&&!/^(тест|test)/i.test(String(s.name||'').trim()));
  const keysOf=s=>(s.routes&&s.routes.length)?s.routes:(+s.cls===8?['8A']:[]);
  const need=[...new Set(act.flatMap(keysOf))];if(!need.length)return;
  Promise.all([adm('routeEdits',{}),...need.map(f=>fetch('lesson-route-'+f.toLowerCase()+'.json').then(r=>r.ok?r.json():null).catch(()=>null))]).then(([e,...rs])=>{
