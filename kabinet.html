@@ -1687,6 +1687,27 @@ function weekCard(L){
 const REQ_SERVER='8.1';
 function srvVersion(){const el=document.getElementById('srv-ver');if(!el)return;
  adm('ping').then(j=>{const v=j&&j.ver;el.innerHTML=v===REQ_SERVER?'<span class="note">Сервер кабинета '+REQ_SERVER+': актуален.</span>':'<span style="color:var(--amber);font-size:14px">Сервер кабинета: '+(v?esc(v):'старый, без номера')+', на сайте нужен '+REQ_SERVER+'. Скопируй код со страницы kabinet-code.html и вставь в Apps Script.</span>'}).catch(()=>{})}
+/* ===== Чего не хватает впереди: ближайшие квадратики всех учеников без теории/работ, по главам ===== */
+function gapCard(L){
+ const box=document.getElementById('gap-card');if(!box)return;
+ const AHEAD=4,act=(L||[]).filter(s=>s.active);
+ const keysOf=s=>(s.routes&&s.routes.length)?s.routes:(+s.cls===8?['8A']:[]);
+ const need=[...new Set(act.flatMap(keysOf))];if(!need.length)return;
+ Promise.all([adm('routeEdits',{}),...need.map(f=>fetch('lesson-route-'+f.toLowerCase()+'.json').then(r=>r.ok?r.json():null).catch(()=>null))]).then(([e,...rs])=>{
+  const mats=e&&e.mats||{},R={};need.forEach((f,i)=>{if(rs[i])R[f]=rs[i]});
+  const tiles=new Map();
+  act.forEach(s=>keysOf(s).forEach(f=>{const r=R[f];if(!r)return;const done=new Set(s.routeDone||[]);let n=0;
+   for(const t of r.lessons){if(n>=AHEAD)break;if(done.has(t.id))continue;n++;
+    const m=tiles.get(t.id)||{id:t.id,title:t.title,f,ch:t.chapter,chName:(r.chapters||[])[t.chapter-1]||'',who:[]};m.who.push(s.name);tiles.set(t.id,m)}}));
+  const gaps=[...tiles.values()].map(m=>{const x=mats[m.id]||{},a=[];if(!x.t)a.push('теория');if(!x.h&&!x.q)a.push('работы');m.miss=a;return m}).filter(m=>m.miss.length);
+  if(!gaps.length){box.innerHTML='<section class="card"><div class="sh"><h2>Что готовить впереди</h2></div><p class="note">На ближайшие '+AHEAD+' квадратика каждого ученика комплекты есть.</p></section>';return}
+  const groups=new Map();gaps.forEach(m=>{const key=m.f+'|'+m.ch,g=groups.get(key)||{f:m.f,ch:m.ch,name:m.chName,list:[],kids:new Set()};g.list.push(m);m.who.forEach(w=>g.kids.add(w));groups.set(key,g)});
+  const G=[...groups.values()].sort((a,b)=>b.list.reduce((x,m)=>x+m.who.length,0)-a.list.reduce((x,m)=>x+m.who.length,0));
+  const txt=G.map(g=>g.f+' · глава '+g.ch+(g.name?' «'+g.name+'»':'')+'\n'+g.list.map(m=>'  '+m.id+' '+m.title+' ('+m.miss.join(', ')+')').join('\n')).join('\n\n');
+  box.innerHTML=`<section class="card"><div class="sh"><h2>Что готовить впереди</h2><span class="sub">${gaps.length} кв. без комплекта · ${G.length} гл.</span></div><p class="note">Ближайшие ${AHEAD} квадратика каждого ученика, где нет теории или работ. Закрывай главами: тогда готовое сразу достанется всем, кто на ней сидит. Сверху главы, нужные большему числу учеников.</p>${G.map(g=>`<details class="prep-det"><summary><b>${esc(g.f)} · гл. ${g.ch}${g.name?' «'+esc(g.name)+'»':''}</b> <span class="kchip gap">${g.list.length} кв.</span> <span class="note">${[...g.kids].map(esc).join(', ')}</span></summary><ul class="prep-l">${g.list.map(m=>`<li><b>${esc(m.title)}</b> <span class="note">${esc(m.id)}</span> <span class="kchip gap">${m.miss.join(' · ')}</span>${m.who.length>1?` <span class="kchip solid">${m.who.length} ученика сразу</span>`:''}<br><span class="note">${m.who.map(esc).join(', ')}</span></li>`).join('')}</ul></details>`).join('')}<div class="focus-actions"><button class="btn ghost" type="button" id="gap-copy">Скопировать список</button></div></section>`;
+  document.getElementById('gap-copy').onclick=ev=>copy(txt,ev.currentTarget);
+ }).catch(()=>{});
+}
 function calStaleCard(L){
  const box=document.getElementById('cal-stale');if(!box)return;
  const files=['5','6','7a','7g','8a','8g','9a','9g','oge'];
@@ -1723,6 +1744,7 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
  <p class="klead" style="margin:0">Нажми на ученика, чтобы открыть и редактировать его кабинет.</p><p id="srv-ver" style="margin:0"></p><p><a class="btn" href="quiz-builder.html">Конструктор тестов</a></p></section>
  <div id="personal-board-transfer"></div>
  ${LiliTeaching.todayHTML(L,parseSched)}
+ <div id="gap-card"></div>
  <div id="week-card"></div>
  <div id="cal-stale"></div>
  <div id="diag-card"></div>
@@ -1742,7 +1764,7 @@ function tListRender(){const L=LIST||[];const act=L.filter(s=>s.active);
   <label class="fld"><span>Программа — зависит от класса</span><select id="ns-p">${progOptions(5,'school5')}</select></label></div>
   <div class="ferr" id="ns-e"></div><button class="btn" id="ns-b">Добавить и открыть</button></form>
  ${foot()}</div>`;
- bindTopT();tFeed(L);weekCard(L);calStaleCard(L);diagCard();srvVersion();if(GOSTU)setTimeout(()=>{const e=document.getElementById('teacher-students');if(e)e.scrollIntoView({block:'start'})},60);
+ bindTopT();tFeed(L);weekCard(L);gapCard(L);calStaleCard(L);diagCard();srvVersion();if(GOSTU)setTimeout(()=>{const e=document.getElementById('teacher-students');if(e)e.scrollIntoView({block:'start'})},60);
  LiliPersonalBoard.chooser(document,L,LiliBoardLinks,LiliTeaching.boardURL,toast);
  LiliTeaching.bindToday(document, L, {getStudent:code=>adm('get',{t:code}).then(j=>j.d),parse:parseSched,notify:toast,reviewQueue:()=>LiliLessonFlow.bindQueue(document,L,{getStudent:code=>adm('get',{t:code}).then(j=>j.d),saveReview:(code,payload)=>adm('hwReview',{t:code,...payload}).then(j=>j.d)})});
  document.querySelectorAll('.bbrd').forEach(el=>el.onclick=e=>{e.preventDefault();e.stopPropagation();const code=el.dataset.b||'',u=LiliBoardLinks.savedTeacherURL(localStorage,code);if(u)openBoardTab(LiliTeaching.boardURL(u,{code,name:(L.find(x=>x.code===code)||{}).name,teacher:true}));else{location.hash='lilia-'+code;toast('Открой настройки ученика и добавь свою ссылку учителя.')}});
