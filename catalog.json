@@ -1,6 +1,106 @@
 {
   "items": [
     {
+      "file": "teoriya-8a-nepolnye-kvadratnye.html",
+      "title": "Теория · 8 класс · Неполные квадратные уравнения",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-119",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-kvadratnyy-trechlen.html",
+      "title": "Теория · 8 класс · Квадратный трёхчлен и его корни",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-125",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-razlozhenie-kvadratnogo-trechlena.html",
+      "title": "Теория · 8 класс · Разложение квадратного трёхчлена",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-126",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-drobnye-ratsionalnye-uravneniya.html",
+      "title": "Теория · 8 класс · Дробные рациональные уравнения",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-127",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-zadachi-ratsionalnye-uravneniya.html",
+      "title": "Теория · 8 класс · Задачи на рациональные уравнения",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-128",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-uravnenie-dve-peremennye.html",
+      "title": "Теория · 8 класс · Уравнение с двумя переменными и его график",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-129",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-issledovanie-lineynyh-sistem.html",
+      "title": "Теория · 8 класс · Число решений системы линейных уравнений",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-130",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-graficheskiy-sposob-sistem.html",
+      "title": "Теория · 8 класс · Графический способ решения систем",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-131",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-sistemy-vtoroy-stepeni.html",
+      "title": "Теория · 8 класс · Системы уравнений второй степени",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-132",
+      "auto": false
+    },
+    {
+      "file": "teoriya-8a-zadachi-sistemy-vtoroy-stepeni.html",
+      "title": "Теория · 8 класс · Задачи на системы второй степени",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8A-133",
+      "auto": false
+    },
+    {
       "file": "teoriya-8a-ratsionalnye-vyrazheniya.html",
       "title": "Теория · 8 класс · Рациональные выражения",
       "type": "theory",
