@@ -1,6 +1,16 @@
 {
   "items": [
     {
+      "file": "teoriya-8g-trapetsiya.html",
+      "title": "Теория · 8 класс · Трапеция",
+      "type": "theory",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "8G-105",
+      "auto": false
+    },
+    {
       "file": "teoriya-8a-svoystva-stepeni-tselyy-pokazatel.html",
       "title": "Теория · 8 класс · Свойства степени с целым показателем",
       "type": "theory",
