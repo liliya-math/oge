@@ -371,6 +371,22 @@ label{display:grid;gap:4px}
 .cond .fig{margin:6px auto 14px}
 .cond table{border-collapse:collapse;margin:8px 0 14px 1.4em}
 .cond th,.cond td{border:1px solid #1d2a1f;padding:4px 16px;text-align:center;font-weight:400}
+
+.warnx{background:#5a3a22;border:1px solid #e2b04a;border-radius:12px;padding:10px 14px;color:#ffe2b8}
+.timerx{margin-left:auto;font-variant-numeric:tabular-nums;font-weight:650;font-size:1.1rem;color:#f4d482}
+.num[data-current="true"]{outline:2px solid #e2b04a;outline-offset:2px}
+.symbols{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;width:100%}
+.symbols .btnx{min-width:42px;font-size:1.1rem}
+#soltext{width:100%;padding:10px 12px;border:1px solid #c9ab82;border-radius:10px;font:inherit;font-size:1.05rem;background:#fff;color:#1d2a1f;resize:vertical}
+.filex{display:inline-block;cursor:pointer}
+.thumbs{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.thumbs figure{margin:0;position:relative}
+.thumbs img{display:block;height:92px;width:auto;border-radius:8px;border:1px solid #c9ab82}
+.thumbs button{position:absolute;top:-8px;right:-8px;width:26px;height:26px;border-radius:50%;border:0;background:#e2b04a;color:#16231a;font-weight:700;line-height:1}
+#finishbox{text-align:center}
+#finishbox .actions{justify-content:center;margin-top:12px}
+.scorex{font-size:1.9rem;font-weight:700;color:#f4d482;margin:6px 0}
+#answer:disabled,#soltext:disabled{opacity:.75}
 </style>
 </head>
 <body>
@@ -379,34 +395,53 @@ label{display:grid;gap:4px}
 <main style="padding:0;width:auto;max-width:none">
 <section id="home">
 <h1>32 варианта ОГЭ по математике</h1>
-<p>Выбери вариант. В каждом 19 заданий с автопроверкой и 6 заданий для письменного решения.</p>
+<p>Выбери вариант. В каждом 25 заданий. Время работы считается, результат приходит Лилии после завершения варианта.</p>
+<p class="warnx" id="nocode-home" hidden>Открой эту страницу из кабинета, иначе результат не дойдёт до Лилии.</p>
 <div class="catalog" id="catalog"></div>
 </section>
 <section id="work" hidden>
 <h1 id="title"></h1>
-<div class="progressline"><progress id="progress" max="19" value="0" aria-label="Прогресс первой части"></progress><span id="counts"></span></div>
+<p class="warnx" id="nocode" hidden>Открой вариант из кабинета, иначе результат не дойдёт до Лилии.</p>
+<div class="progressline"><progress id="progress" max="25" value="0" aria-label="Заданий с ответом"></progress><span id="counts"></span><span class="timerx" id="timer" aria-label="Время работы">00:00:00</span></div>
 <nav id="numbers" class="numbers" aria-label="Задания"></nav>
 <article class="cardx">
 <h2 id="worktitle" tabindex="-1"></h2>
 <details id="shared"><summary>Общее условие к заданиям №1–5</summary><div class="scan" id="context"></div></details>
 <div id="question" class="scan"></div>
 <div class="actions"><button type="button" id="zoom" class="btnx" aria-pressed="false">Увеличить условие</button></div>
-<details id="hint"><summary>Подсказка</summary><p class="notes" id="hinttext"></p></details>
 <form id="form">
-<label>Краткий ответ<input id="answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" required></label>
-<button class="btnx primaryx" type="submit">Проверить</button>
+<label>Краткий ответ<input id="answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
+<button class="btnx primaryx" type="submit">Сохранить ответ</button>
+<div class="symbols" id="symbols" hidden><button type="button" class="btnx" data-s="√">√</button><button type="button" class="btnx" data-s="−">−</button><button type="button" class="btnx" data-s="∞">∞</button><button type="button" class="btnx" data-s="∪">∪</button><button type="button" class="btnx" data-s="; ">;</button></div>
+<p class="notes" id="formnote" hidden>Несколько ответов пиши через ;</p>
 </form>
-<p class="feedbackx" id="feedback" aria-live="polite"></p>
 <div id="written" hidden>
-<p>Запиши решение в тетради, затем сверься с ответом или планом проверки.</p>
-<details id="reference"><summary id="ref-title">Ответ для сверки</summary><p id="key" class="notes mathkey"></p></details>
-<button class="btnx" id="done" type="button" aria-pressed="false">Отметить выполненным</button>
+<p>Запиши решение здесь или приложи фото решения из тетради. Можно и то и другое.</p>
+<label class="sr-only" for="soltext">Решение текстом</label>
+<textarea id="soltext" rows="7" placeholder="Решение"></textarea>
+<div class="actions"><label class="btnx filex">Приложить фото<input id="solfile" type="file" accept="image/*" multiple hidden></label><span class="notes" id="photonote"></span></div>
+<div class="thumbs" id="thumbs"></div>
 </div>
+<p class="feedbackx" id="feedback" aria-live="polite"></p>
 <div class="actions" style="margin-top:12px">
 <button class="btnx" id="back" type="button">Назад</button>
 <button class="btnx primaryx" id="next" type="button">Дальше</button>
 </div>
 </article>
+<div class="cardx" id="finishbox">
+<button class="btnx primaryx" id="finish" type="button">Завершить вариант</button>
+<div id="confirm" hidden>
+<p id="confirmtext"></p>
+<div class="actions"><button class="btnx primaryx" id="finishyes" type="button">Завершить</button><button class="btnx" id="finishno" type="button">Вернуться к заданиям</button></div>
+</div>
+<div id="result" hidden>
+<h2>Вариант завершён</h2>
+<p class="scorex" id="resultscore"></p>
+<p class="notes" id="resulttime"></p>
+<p class="notes" id="sendstate" aria-live="polite"></p>
+<div class="actions"><button class="btnx" id="resend" type="button" hidden>Отправить ещё раз</button><a class="btnx" href="#">К списку вариантов</a></div>
+</div>
+</div>
 </section>
 <p class="foot" id="storage">Прогресс сохраняется в этом браузере.</p>
 </main>
@@ -416,50 +451,29 @@ label{display:grid;gap:4px}
 'use strict';
 const variants = JSON.parse(document.getElementById('data').textContent);
 const byId = id => document.getElementById(id);
-const stateKey = 'lilimath-oge2026-yudakova-32-v1';
-let records = {};
+const API = 'https://script.google.com/macros/s/AKfycbwg68-wqapNubGW4BuTEB_ri38yu41uV8hoQPOhluE84y4ZSRfZ9-sFl--uwv7T7AA_xA/exec';
+const stateKey = 'lilimath-oge32-v2';
+const CODE = (() => {
+  const c = (new URLSearchParams(location.search).get('lili_student') || '').trim();
+  return c && c !== 'demo' && c.length <= 100 ? c : '';
+})();
+let records = {}, storageOk = true;
 try { records = JSON.parse(localStorage.getItem(stateKey) || '{}') || {}; }
-catch { byId('storage').textContent = 'Прогресс сохранится до закрытия страницы.'; }
-
-const hints = [
-  'Начни с объекта, который прямо назван в условии. Соотнеси другие объекты по описанию и запиши цифры в порядке столбцов таблицы.',
-  'Выпиши нужные числа из рисунка или таблицы. Проверь единицы измерения. Если требуется купить целые упаковки, неполная упаковка считается за целую.',
-  'Отметь, какую величину требуется найти. Для площади прямоугольника перемножь длину и ширину. Для расстояния по диагонали найди горизонтальный и вертикальный отрезки и проверь, нужен ли Пифагор.',
-  'Проверь, требуется найти часть, целое или процентное отношение. Чтобы узнать, сколько процентов составляет часть, раздели её на целое и умножь на 100.',
-  'Сравни величины в одинаковых единицах. Если нужно найти срок окупаемости, раздели разницу начальных затрат на экономию за один час.',
-  'Определи порядок действий. Для сложения или вычитания обыкновенных дробей сначала приведи их к общему знаменателю.',
-  'Прочитай шкалу и оцени, между какими числами лежит нужное значение. Для квадратного корня сравни подкоренное число с квадратами соседних целых.',
-  'Сначала упрости выражение. Для степеней одного основания при умножении сложи показатели, при делении вычти. Под корнем попробуй выделить множитель, который является квадратом.',
-  'Определи вид уравнения. Если оно квадратное, найди все допустимые корни и прочитай, какой именно требуется записать.',
-  'Определи подходящие исходы и все возможные исходы. При равновозможных исходах раздели первое число на второе. Если один исход уже известен, пересчитай оставшиеся варианты.',
-  'Начни с формы графика. Для прямой проверь наклон и пересечение с осью y, для параболы направление ветвей и положение вершины. Запиши номера в порядке букв.',
-  'Отметь, что известно и какую букву нужно найти. Подставь числа, соблюдая единицы измерения, затем вырази неизвестную.',
-  'Реши неравенство и проверь границы. При делении обеих частей на отрицательное число меняй знак неравенства. При строгом знаке граничная точка выколота.',
-  'Запиши первые два шага изменения. Постоянная прибавка даёт арифметическую прогрессию, постоянный множитель даёт геометрическую. Проверь, нужен один член или сумма.',
-  'Выдели на рисунке искомый отрезок или угол и подпиши данные. Вспомни, какое свойство треугольника связывает их.',
-  'Отметь центр и радиус. Проверь, где окружность касается стороны, через какие точки проходит и какой угол опирается на нужную дугу.',
-  'Подпиши стороны и углы. Отметь параллельные прямые, а если дана площадь, выдели нужное основание и проведённую к нему высоту.',
-  'Найди на сетке горизонтальные и вертикальные отрезки. Если нужен наклонный отрезок, дострой прямоугольный треугольник. Для площади попробуй разбить фигуру на простые части.',
-  'Проверь утверждения по одному. Чтобы опровергнуть утверждение со словом «всегда», достаточно привести один контрпример.',
-  'Определи тип задания. Для дробных выражений начни с ОДЗ. Если повторяется одно и то же выражение, попробуй заменить его новой переменной.',
-  'Назначь неизвестную и запиши рядом единицы. Составь равенство по условию. Для задач на движение помогает таблица «расстояние, скорость, время».',
-  'Проверь ОДЗ и распиши формулу на каждом участке. Построй ветви, отметь границы и посчитай, сколько пересечений даёт горизонталь y = m.',
-  'Перенеси данные на чертёж. Построй вспомогательный отрезок, если он позволяет получить прямоугольный или подобный треугольник.',
-  'Запиши отдельно, что дано и что требуется доказать. Для каждого равенства укажи причину. Если доказываешь подобие, назови признак и соблюдай порядок вершин.',
-  'Сделай чертёж, а искомую величину обозначь буквой. Найди промежуточные отрезки или углы, которые можно строго вывести из данных.'
-];
-const hintsFirst = {
-  1: ['Найди теплицу внутри огорода, а яблони по условному знаку. Затем найди баню и дом по описанию.', 'Раздели мощение на площадку и дорожки. Одна плитка имеет размер 1 м × 1 м, а сторона большой клетки 2 м.','Сначала установи номер гаража. Посчитай число больших клеток вдоль каждой стороны и переведи стороны в метры.','Сравни площади теплицы и всего огорода. Можно посчитать клетки обеих фигур, потому что их размер одинаковый.','Отдельно найди разницу затрат на покупку и монтаж и разницу расходов за час. Раздели первую разницу на вторую.'],
-  27: ['Сопоставь массы с номерами строк таблицы. Запиши номера в порядке масс из задания.', 'Объём прямоугольного помещения равен произведению длины, ширины и высоты.', 'Сначала выбери дровяную печь, подходящую по объёму. К цене электрической прибавь стоимость подключения и сравни.', 'После скидки 10% остаётся заплатить 90% цены.', 'Отметь середину основания дуги. Половина ширины и разность высот образуют катеты прямоугольного треугольника.']
-};
+catch { storageOk = false; }
+const photos = {};            // фото решений держим в памяти и отдельно пробуем сохранить
+try { Object.assign(photos, JSON.parse(localStorage.getItem(stateKey + '-photos') || '{}') || {}); } catch {}
 let variant = 0, task = 0;
-function dataFor(v) {
-  return records[v] ||= { last: 1, solved: {}, written: {} };
-}
+
+function dataFor(v) { return records[v] ||= { last: 1, answers: {}, texts: {}, elapsed: 0 }; }
 function save() {
   try { localStorage.setItem(stateKey, JSON.stringify(records)); }
-  catch { byId('storage').textContent = 'Прогресс сохранится до закрытия страницы.'; }
+  catch { storageOk = false; byId('storage').textContent = 'Прогресс сохранится до закрытия страницы.'; }
 }
+function savePhotos() {
+  try { localStorage.setItem(stateKey + '-photos', JSON.stringify(photos)); return true; }
+  catch { try { localStorage.removeItem(stateKey + '-photos'); } catch {} return false; }
+}
+const photoList = (v, n) => ((photos[v] ||= {})[n] ||= []);
 function images(box, scans, alt) {
   box.replaceChildren(...scans.map(([src,w,h], i) => {
     const img = new Image(w,h);
@@ -472,48 +486,66 @@ function feedback(message,type='') {
   byId('feedback').textContent = message;
   byId('feedback').dataset.type = type;
 }
+const clock = sec => [Math.floor(sec/3600), Math.floor(sec%3600/60), sec%60].map(x => String(x).padStart(2,'0')).join(':');
+const hasKey = (v,n) => (variants[v-1].tasks[n-1].key || []).some(k => String(k).trim() !== '');
+function isAnswered(record, v, n) {
+  if (n <= 19 || hasKey(v,n)) return Boolean((record.answers[n] || '').trim());
+  return Boolean((record.texts[n] || '').trim()) || photoList(v,n).length > 0;
+}
+const answeredCount = (record, v) => variants[v-1].tasks.filter((_,i) => isAnswered(record, v, i+1)).length;
+
 function populateCatalog() {
   byId('catalog').replaceChildren(...variants.map((_,i) => {
-    const a = document.createElement('a');
-    a.href = '#v' + (i+1);
+    const v = i+1, a = document.createElement('a'), r = records[v];
+    a.href = '#v' + v;
     a.className = 'tile';
-    a.textContent = 'Вариант ' + (i+1);
+    a.textContent = 'Вариант ' + v;
     const small = document.createElement('small');
-    const checked = Object.keys(records[i+1]?.solved || {}).length;
-    small.textContent = checked ? checked + ' из 19 верно' : '25 заданий';
+    small.textContent = r && r.finished ? 'сдан · ' + r.finished.score + ' из 19' : r && (r.elapsed > 0 || answeredCount(r, v)) ? 'начат · ' + answeredCount(r, v) + ' из 25' : '25 заданий';
     a.append(small);
     return a;
   }));
 }
 const route = (v,n) => '#v' + v + '/z' + n;
 function updateMarks(record) {
-  const checked = Object.keys(record.solved).length;
-  const written = Object.keys(record.written).length;
-  byId('progress').value = checked;
-  byId('counts').textContent = `Часть 1 · ${checked}/19 верно     |     Часть 2 · ${written}/6 отмечено`;
+  const done = answeredCount(record, variant);
+  byId('progress').value = done;
+  byId('counts').textContent = 'С ответом ' + done + ' из 25';
   byId('numbers').querySelectorAll('a').forEach((a,i)=>{
-    const n=i+1;
-    a.dataset.done = Boolean(record.solved[n] || record.written[n]);
-    a.setAttribute('aria-label','Задание ' + n + (a.dataset.done==='true' ? ', выполнено' : ''));
+    const n=i+1, ok=isAnswered(record, variant, n);
+    a.dataset.done = ok;
+    a.dataset.current = n===task;
+    a.setAttribute('aria-label','Задание ' + n + (ok ? ', ответ сохранён' : ''));
   });
 }
-function showReference(text) {
-  const key=byId('key');
-  key.replaceChildren();
-  const ns='http://www.w3.org/1998/Math/MathML';
-  for (const part of text.split(/(\d+\/\d+|√\d+)/).filter(Boolean)) {
-    if (!/^(?:\d+\/\d+|√\d+)$/.test(part)) { key.append(part); continue; }
-    const math=document.createElementNS(ns,'math');
-    const fraction=part.includes('/');
-    const op=document.createElementNS(ns,fraction?'mfrac':'msqrt');
-    for (const value of fraction?part.split('/'): [part.slice(1)]) {
-      const mn=document.createElementNS(ns,'mn');
-      mn.textContent=value;
-      op.append(mn);
+function showFinished(record) {
+  const f = record.finished;
+  byId('finish').hidden = Boolean(f);
+  byId('confirm').hidden = true;
+  byId('result').hidden = !f;
+  if (!f) return;
+  byId('resultscore').textContent = 'Часть 1: ' + f.score + ' из 19';
+  byId('resulttime').textContent = 'Время: ' + clock(f.seconds);
+  byId('sendstate').textContent = f.sent ? (f.duplicate ? 'Этот вариант уже был сдан раньше, Лилия видит первый результат.' : 'Результат отправлен Лилии.')
+    : !CODE ? 'Результат не отправлен: вариант открыт не из кабинета.'
+    : 'Результат отправится, когда появится интернет.';
+  byId('resend').hidden = f.sent || !CODE;
+}
+function renderThumbs() {
+  const list = photoList(variant, task), locked = Boolean(dataFor(variant).finished);
+  byId('thumbs').replaceChildren(...list.map((src, i) => {
+    const fig = document.createElement('figure'), img = new Image();
+    img.src = src; img.alt = 'Фото решения ' + (i+1);
+    fig.append(img);
+    if (!locked) {
+      const del = document.createElement('button');
+      del.type = 'button'; del.textContent = '×'; del.setAttribute('aria-label', 'Убрать фото ' + (i+1));
+      del.addEventListener('click', () => { list.splice(i,1); savePhotos(); renderThumbs(); updateMarks(dataFor(variant)); });
+      fig.append(del);
     }
-    math.append(op);
-    key.append(math);
-  }
+    return fig;
+  }));
+  byId('photonote').textContent = list.length ? 'Фото: ' + list.length + ' из 4' : '';
 }
 function readRoute() {
   const match = /^#v([1-9]\d?)(?:\/z([1-9]\d?))?$/.exec(location.hash);
@@ -533,10 +565,12 @@ function readRoute() {
   task = requested >= 1 && requested <= 25 ? requested : 1;
   const data = variants[v-1];
   const current = data.tasks[task-1];
+  const locked = Boolean(record.finished);
   record.last=task;
   save();
   byId('home').hidden = true;
   byId('work').hidden = false;
+  byId('nocode').hidden = Boolean(CODE);
   byId('title').textContent = 'Вариант ' + variant;
   document.title = 'Вариант ' + variant + ' · ОГЭ · lili.math';
   byId('worktitle').textContent = 'Задание №' + task;
@@ -553,25 +587,26 @@ function readRoute() {
   if (current.html) byId('question').innerHTML=current.html; else images(byId('question'),current.scan,'Условие задания №'+task);
   byId('zoom').hidden=Boolean(current.html);
   byId('shared').hidden = task>5;
-  byId('shared').open = task===1;
+  byId('shared').open = task<=5;
   if (previousVariant!==v) { byId('context').classList.toggle('cond',Boolean(data.ctxHtml)); if (data.ctxHtml) byId('context').innerHTML=data.ctxHtml; else images(byId('context'),data.context,'Общее условие и рисунок для заданий №1–5'); }
-  byId('hint').open = false;
-  byId('hinttext').textContent = hintsFirst[v]?.[task-1] || (task===1 && numericFirst.has(v) ? 'Найди в условии модель или размер, о которых спрашивают. Выпиши нужное число из строки таблицы или маркировки и проверь единицы.' : hints[task-1]);
-  byId('form').hidden = task>19;
-  byId('written').hidden = task<=19;
-  byId('answer').value = record.solved[task] || '';
-  byId('answer').removeAttribute('aria-invalid');
-  feedback(record.solved[task] ? 'Задание уже решено.' : '');
-  byId('reference').open = false;
-  byId('ref-title').textContent = task===24 ? 'Как проверить доказательство' : 'Ответ для сверки';
-  showReference(task===24
-    ? 'Проверь, что из условия следуют все использованные равенства, ссылки на признаки и свойства указаны, а последняя строка содержит именно то, что требовалось доказать.'
-    : current.key.join(' или '));
-  byId('done').setAttribute('aria-pressed',Boolean(record.written[task]));
-  byId('done').textContent=record.written[task]?'Выполнено · снять отметку':'Отметить выполненным';
+  const short = task<=19 || hasKey(v,task);
+  byId('form').hidden = !short;
+  byId('written').hidden = short;
+  byId('symbols').hidden = byId('formnote').hidden = task<=19;
+  byId('answer').value = record.answers[task] || '';
+  byId('answer').disabled = locked;
+  byId('form').querySelectorAll('button').forEach(b => b.disabled = locked);
+  byId('soltext').value = record.texts[task] || '';
+  byId('soltext').disabled = locked;
+  byId('solfile').disabled = locked;
+  byId('solfile').closest('label').hidden = locked;
+  renderThumbs();
+  feedback(short && record.answers[task] ? 'Ответ сохранён.' + (locked ? '' : ' Его можно изменить до завершения варианта.') : '', 'good');
   byId('back').disabled=task===1;
-  byId('next').textContent=task===25?'К списку вариантов':'Дальше';
+  byId('next').textContent=task===25?'К завершению':'Дальше';
+  byId('timer').textContent = clock(locked ? record.finished.seconds : record.elapsed);
   updateMarks(record);
+  showFinished(record);
   if (previousVariant===v) byId('worktitle').focus({preventScroll:false});
   else window.scrollTo(0,0);
 }
@@ -579,29 +614,87 @@ const numericFirst = new Set([13,14,15,16,29,30]);
 function normalized(s) {
   return s.trim().replace(/[−–]/g,'-').replace(/,/g,'.').replace(/\s+/g,'');
 }
-function matches(value, key, n) {
+function matches(value, key, n, v) {
   const a=normalized(value), b=normalized(key);
   if ([7,13].includes(n) || (n===11 && /^[1-3]{3}$/.test(b)) ||
-      (n===1 && !numericFirst.has(variant)) || n===19) return /^\d+$/.test(a) && a===b;
+      (n===1 && !numericFirst.has(v)) || n===19) return /^\d+$/.test(a) && a===b;
   const number=/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/;
   const fraction=/^([+-]?\d+)\/([1-9]\d*)$/;
   const parts=fraction.exec(a);
   return (number.test(a) || parts) &&
     Math.abs((parts ? Number(parts[1])/Number(parts[2]) : Number(a)) - Number(b)) < 1e-10;
 }
+// Вторая часть: несколько чисел, точки, промежутки. Порядок ответов через ; не важен.
+function canon2(s) {
+  let t = String(s).toLowerCase().replace(/[−–—]/g,'-').replace(/°/g,'')
+    .replace(/sqrt\(?\s*(\d+)\s*\)?/g,'√$1').replace(/корень\s*(из)?\s*\(?\s*(\d+)\s*\)?/g,'√$2')
+    .replace(/[uυ]/g,'∪').replace(/бесконечность/g,'∞').replace(/\+∞/g,'∞')
+    .replace(/,/g,'.').replace(/\s+/g,'');
+  const parts = []; let depth = 0, cur = '';
+  for (const ch of t) {
+    if ('([{'.includes(ch)) depth++;
+    if (')]}'.includes(ch)) depth = Math.max(0, depth-1);
+    if (ch === ';' && depth === 0) { parts.push(cur); cur = ''; } else cur += ch;
+  }
+  parts.push(cur);
+  return parts.filter(Boolean).sort().join(';');
+}
+const matches2 = (value, key) => canon2(value) === canon2(key);
+
 byId('form').addEventListener('submit',event=>{
   event.preventDefault();
-  const input=byId('answer');
-  const raw=input.value.trim();
-  const key=variants[variant-1].tasks[task-1].key;
-  if(!raw){ feedback('Введи ответ.','bad'); return; }
-  const ok=key.some(answer=>matches(raw,answer,task));
-  input.setAttribute('aria-invalid',String(!ok));
-  if(!ok){ feedback('Пока неверно. Проверь вычисления или открой подсказку.','bad'); return; }
-  dataFor(variant).solved[task]=raw;
+  const record=dataFor(variant);
+  if (record.finished) return;
+  const raw=byId('answer').value.trim();
+  if (raw) record.answers[task]=raw; else delete record.answers[task];
   save();
-  updateMarks(dataFor(variant));
-  feedback('Верно.','good');
+  updateMarks(record);
+  feedback(raw ? 'Ответ сохранён. Его можно изменить до завершения варианта.' : 'Ответ убран.', 'good');
+});
+byId('symbols').addEventListener('click',event=>{
+  const b=event.target.closest('button[data-s]'), input=byId('answer');
+  if(!b || input.disabled) return;
+  const from=input.selectionStart ?? input.value.length, to=input.selectionEnd ?? from;
+  input.setRangeText(b.dataset.s, from, to, 'end');
+  input.focus();
+});
+byId('soltext').addEventListener('input',()=>{
+  const record=dataFor(variant);
+  if (record.finished) return;
+  const text=byId('soltext').value.slice(0,4000);
+  if (text.trim()) record.texts[task]=text; else delete record.texts[task];
+  save();
+  updateMarks(record);
+});
+function shrink(file) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onload = () => {
+      const k = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      resolve(c.toDataURL('image/jpeg', 0.8));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('image')); };
+    img.src = url;
+  });
+}
+byId('solfile').addEventListener('change',async event=>{
+  const list=photoList(variant, task), v=variant, n=task;
+  let skipped=false;
+  for (const file of event.target.files) {
+    if (list.length >= 4) { skipped=true; break; }
+    try { list.push(await shrink(file)); } catch { skipped=true; }
+  }
+  event.target.value='';
+  const kept=savePhotos();
+  if (v===variant && n===task) {
+    renderThumbs();
+    updateMarks(dataFor(variant));
+    feedback(skipped ? 'К одному заданию можно приложить не больше 4 фото. Файл должен быть картинкой.' : kept ? '' : 'Фото приложены. Не закрывай страницу до завершения варианта.', skipped ? 'bad' : 'good');
+  }
 });
 byId('zoom').addEventListener('click',()=>{
   const zoom=!byId('question').classList.contains('zoom');
@@ -609,20 +702,107 @@ byId('zoom').addEventListener('click',()=>{
   byId('zoom').setAttribute('aria-pressed',zoom);
   byId('zoom').textContent=zoom?'Уместить условие':'Увеличить условие';
 });
-byId('done').addEventListener('click',()=>{
+function keepDraft() {              // несохранённый ввод не теряется при листании
+  if (!variant || !task) return;
   const record=dataFor(variant);
-  if(record.written[task]) delete record.written[task];
-  else record.written[task]=true;
-  const done=Boolean(record.written[task]);
-  byId('done').setAttribute('aria-pressed',done);
-  byId('done').textContent=done?'Выполнено · снять отметку':'Отметить выполненным';
+  if (record.finished || byId('form').hidden) return;
+  const raw=byId('answer').value.trim();
+  if (raw) record.answers[task]=raw; else delete record.answers[task];
   save();
-  updateMarks(record);
+}
+const go = hash => { keepDraft(); location.hash = hash; };
+byId('numbers').addEventListener('click', keepDraft, true);
+byId('back').addEventListener('click',()=>{ if(task>1) go(route(variant,task-1)); });
+byId('next').addEventListener('click',()=>{
+  if (task<25) { go(route(variant,task+1)); return; }
+  keepDraft(); updateMarks(dataFor(variant));
+  byId('finishbox').scrollIntoView({behavior:'smooth', block:'center'});
 });
-byId('back').addEventListener('click',()=>{if(task>1) location.hash=route(variant,task-1);});
-byId('next').addEventListener('click',()=>{location.hash=task<25?route(variant,task+1):'';});
+document.addEventListener('keydown',event=>{
+  if (!variant || event.altKey || event.ctrlKey || event.metaKey) return;
+  if (/^(INPUT|TEXTAREA)$/.test(document.activeElement?.tagName || '')) return;
+  if (event.key==='ArrowLeft' && task>1) go(route(variant,task-1));
+  if (event.key==='ArrowRight' && task<25) go(route(variant,task+1));
+});
+
+// Время: считаются только секунды, когда вариант открыт и вкладка видна.
+let ticks = 0;
+setInterval(()=>{
+  if (!variant || document.hidden) return;
+  const record=dataFor(variant);
+  if (record.finished) return;
+  record.elapsed++;
+  byId('timer').textContent = clock(record.elapsed);
+  if (++ticks % 10 === 0) save();
+}, 1000);
+document.addEventListener('visibilitychange', save);
+window.addEventListener('pagehide', save);
+
+function buildPayload(v, record) {
+  const tasks = variants[v-1].tasks, wrong = [], skipped = [], part2 = [], solutions = [];
+  let score = 0;
+  for (let n=1; n<=25; n++) {
+    const keys = tasks[n-1].key || [], value = (record.answers[n] || '').trim();
+    if (n<=19) {
+      if (!value) skipped.push(n);
+      else if (keys.some(k => matches(value, k, n, v))) score++;
+      else wrong.push(n);
+    } else if (hasKey(v,n)) {
+      part2.push({ n, answer: value, ok: value ? keys.some(k => matches2(value, k)) : null });
+    } else {
+      const text = (record.texts[n] || '').trim(), list = photoList(v,n);
+      if (text || list.length) solutions.push({ n, text, photos: list.map(src => ({ mime: 'image/jpeg', data: src.slice(src.indexOf(',')+1) })) });
+    }
+  }
+  return { variant: v, seconds: record.elapsed, score, wrong, skipped, part2, solutions };
+}
+const pending = {};               // готовые запросы, которые ещё не дошли
+async function send(v) {
+  const record = records[v];
+  if (!record || !record.finished || record.finished.sent || !CODE) return;
+  const payload = pending[v] ||= buildPayload(v, record);
+  if (v===variant) byId('sendstate').textContent = 'Отправляю результат…';
+  try {
+    const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ t: CODE, oge32: payload }) }).then(x => x.json());
+    if (r && r.ok) {
+      record.finished.sent = true;
+      record.finished.duplicate = Boolean(r.duplicate);
+      delete pending[v];
+      if (photos[v]) { delete photos[v]; savePhotos(); }
+      save();
+    } else if (r && r.error === 'not_found') record.finished.error = 'code';
+  } catch { /* нет сети: повторим при следующем открытии */ }
+  if (v===variant) {
+    showFinished(record);
+    if (record.finished.error === 'code' && !record.finished.sent) byId('sendstate').textContent = 'Результат не принят: кабинет не узнал ученика. Открой вариант заново из кабинета и нажми «Отправить ещё раз».';
+  }
+}
+byId('finish').addEventListener('click',()=>{
+  keepDraft();
+  const record=dataFor(variant), empty=25-answeredCount(record, variant);
+  updateMarks(record);
+  byId('confirmtext').textContent = (empty ? 'Без ответа осталось заданий: ' + empty + '. ' : 'Ответы есть во всех заданиях. ') + 'После завершения изменить ответы будет нельзя.';
+  byId('finish').hidden = true;
+  byId('confirm').hidden = false;
+});
+byId('finishno').addEventListener('click',()=>{ byId('confirm').hidden = true; byId('finish').hidden = false; });
+byId('finishyes').addEventListener('click',()=>{
+  const v=variant, record=dataFor(v);
+  if (record.finished) return;
+  const payload=buildPayload(v, record);
+  pending[v]=payload;
+  record.finished={ score: payload.score, seconds: payload.seconds, at: Date.now(), sent: false };
+  save();
+  readRoute();
+  send(v);
+});
+byId('resend').addEventListener('click',()=>send(variant));
+window.addEventListener('online',()=>Object.keys(records).forEach(v=>send(Number(v))));
 window.addEventListener('hashchange',readRoute);
+byId('nocode-home').hidden = Boolean(CODE);
+if (!storageOk) byId('storage').textContent = 'Прогресс сохранится до закрытия страницы.';
 readRoute();
+Object.keys(records).forEach(v=>send(Number(v)));
 </script>
 </body>
 </html>
