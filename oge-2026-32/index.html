@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ОГЭ по математике · 32 варианта · lili.math</title>
+<style>:root{--bg:#16231a;--panel:#2b3d2b;--card:#2b3d2b;--line:#2b3d2b;--text:#ffffff;--muted:#c9ab82;--lime:#c9ab82;--orange:#c9ab82;--blue:#b6cbe3;--ink:#2b3d2b;--radius:23px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color-scheme:dark}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-size:15px;line-height:1.55}button,input{font:inherit}button,a,input{-webkit-tap-highlight-color:transparent}button{cursor:pointer}button:disabled{cursor:default}a{color:inherit}button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--blue);outline-offset:4px}button{transition:background .16s,transform .16s,border-color .16s}button:hover:not(:disabled){filter:brightness(1.07)}button:active:not(:disabled){transform:translateY(1px)}.app-shell{display:flex;min-height:100vh}.sidebar{width:249px;flex-shrink:0;border-right:1px solid var(--line);padding:34px 23px 25px;display:flex;flex-direction:column;position:fixed;inset:0 auto 0 0;background:#16231a;overflow-y:auto}.brand{font-size:23px;letter-spacing:-1px;text-decoration:none;font-weight:650;display:flex;align-items:center;gap:10px}.brand-icon{background:var(--lime);color:var(--ink);border-radius:11px;width:35px;height:35px;text-align:center;line-height:34px;font-family:Georgia,serif;font-style:italic;font-size:25px}.sidebar-title{font-size:10px;font-weight:700;letter-spacing:1.8px;color:var(--muted);margin:54px 10px 18px}.stage-link{border:1px solid transparent;background:none;color:var(--muted);display:flex;align-items:center;width:100%;gap:12px;padding:12px 11px;margin-bottom:5px;border-radius:13px;text-align:left}.stage-link.active{background:#2b3d2b;border-color:#2b3d2b;color:var(--text)}.stage-index{width:29px;height:29px;border-radius:50%;border:1px solid #2b3d2b;display:grid;place-items:center;font-size:11px;flex-shrink:0}.stage-link.active .stage-index{background:var(--lime);border-color:var(--lime);color:var(--ink)}.stage-link.done .stage-index{color:var(--lime);border-color:var(--lime)}.stage-name{font-size:13px;font-weight:550;line-height:1.4}.stage-name small{display:block;font-size:10px;font-weight:400;color:#c9ab82;margin-top:3px}.lab-nav{margin-top:22px;padding:16px 10px;border:0;border-top:1px solid var(--line);background:none;display:flex;gap:11px;color:var(--text);text-align:left;font-size:12px}.lab-nav small{display:block;color:var(--muted);font-size:10px;margin-top:5px}.lab-symbol{color:var(--orange);font-size:24px;line-height:1.1}.sidebar-bottom{margin-top:auto;padding:45px 10px 5px;display:flex;align-items:flex-start;gap:8px;font-size:10px;color:var(--muted)}.save-dot{height:6px;width:6px;background:var(--lime);border-radius:50%;margin-top:6px;flex-shrink:0}.reset{background:none;color:var(--muted);font-size:10px;border:0;padding:8px 10px;text-align:left;text-decoration:underline;text-underline-offset:4px}.main-shell{margin-left:249px;width:calc(100% - 249px)}.topbar{height:78px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 47px;gap:15px}.breadcrumb{font-size:11px;color:var(--muted)}.breadcrumb span{margin:0 13px;color:#c9ab82}.grade-tag{font-size:11px;border:1px solid #2b3d2b;padding:6px 12px;border-radius:100px;white-space:nowrap}main{max-width:1270px;margin:auto;padding:40px 47px 20px}.page-heading{display:flex;justify-content:space-between;gap:15px;align-items:center}.eyebrow{font-size:9px;font-weight:650;letter-spacing:1.8px;color:var(--orange)}h1{font-size:clamp(31px,3.1vw,47px);line-height:1.15;font-weight:500;letter-spacing:-1.8px;margin:14px 0 13px}h1 em{font-family:Georgia,serif;font-weight:400;color:var(--lime)}.page-heading p{color:var(--muted);font-size:13px;margin:0}.percent-mark{font-size:74px;color:var(--lime);line-height:1;font-family:Georgia,serif;transform:rotate(12deg);margin-right:18px}.route-progress{margin:31px 0 26px}.route-progress>div:first-child{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-bottom:9px}.progress-track{height:4px;background:#2b3d2b;border-radius:5px;overflow:hidden}.progress-track>div{height:100%;background:var(--lime);transition:width .3s}.exercise-layout{display:grid;grid-template-columns:minmax(0,1fr) 275px;gap:20px;align-items:start}.lesson-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}.lesson-top{padding:22px 27px 0;display:flex;justify-content:space-between;gap:10px;align-items:center}.lesson-label{color:var(--lime);font-size:10px;font-weight:650;letter-spacing:1px}.exercise-count{font-size:10px;color:var(--muted)}.lesson-intro{padding:14px 27px 19px}h2{font-size:26px;font-weight:500;letter-spacing:-.6px;line-height:1.25;margin:0 0 12px}.lesson-intro p{font-size:13px;color:var(--muted);margin:0}.lesson-intro strong{font-weight:550;color:var(--text)}.visual-panel{background:#eee0c8;color:var(--ink);margin:0 20px;border-radius:16px;padding:22px 24px}.visual-header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:17px}.visual-header>span:first-child{font-size:11px;font-weight:600}.visual-pill{font-size:10px;white-space:nowrap;background:#eee0c8;border-radius:20px;padding:5px 10px}.visual-body{display:flex;gap:23px;align-items:center;justify-content:center}.grid-100{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;width:160px;flex-shrink:0}.cell{aspect-ratio:1;border-radius:2px;background:#eee0c8}.cell.filled{background:#2b3d2b}.visual-description{max-width:190px}.visual-number{font-family:Georgia,serif;font-size:45px;line-height:1.05;letter-spacing:-2px}.visual-description p{font-size:11px;color:#2b3d2b;margin:10px 0 0}.visual-description strong{color:#2b3d2b}.visual-foot{font-size:10px;margin-top:17px;color:#2b3d2b;border-top:1px solid #eee0c8;padding-top:10px}.answer-area{padding:24px 27px 25px}.task-kicker{font-size:9px;letter-spacing:1.2px;color:var(--orange);font-weight:600;margin-bottom:8px}.question{font-size:19px;line-height:1.45;font-weight:500;letter-spacing:-.25px;margin:0 0 19px}.answer-form{display:flex;gap:10px;align-items:stretch}.input-wrap{flex:1;min-width:0;display:flex;align-items:center;background:#16231a;border:1px solid #2b3d2b;border-radius:11px;padding:0 13px}.input-wrap:focus-within{border-color:var(--lime)}.input-wrap input{width:100%;border:0;outline:0!important;background:none;color:var(--text);padding:12px 0;min-width:0;font-size:18px}.input-wrap input::placeholder{font-size:12px;color:#c9ab82}.answer-unit{color:var(--muted);font-size:12px;margin-left:8px}.primary{background:var(--lime);color:var(--ink);border:1px solid var(--lime);border-radius:11px;font-size:12px;font-weight:650;padding:13px 20px}.secondary{background:transparent;color:var(--text);border:1px solid #c9ab82;border-radius:10px;padding:10px 14px;font-size:11px}.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.choice{background:#16231a;border:1px solid #2b3d2b;color:var(--text);border-radius:10px;min-height:46px;padding:11px 14px;text-align:left;font-size:13px}.choice.selected{border-color:var(--lime);background:#2b3d2b}.choice.wrong{border-color:var(--orange)}.feedback{margin-top:15px;padding:12px 14px;border-radius:10px;font-size:12px;line-height:1.65}.feedback.good{background:#2b3d2b;color:#eee0c8;border:1px solid #5f7b3f}.feedback.retry{background:#2b3d2b;color:#eee0c8;border:1px solid #9c6b40}.feedback.neutral{background:#2b3d2b;color:var(--blue)}.feedback strong{display:block;font-weight:650;margin-bottom:2px}.next-row{margin-top:16px;display:flex;justify-content:space-between;align-items:center;gap:12px}.next-row small{color:var(--muted);font-size:10px}.right-column{display:flex;flex-direction:column;gap:17px}.support-card{border:1px solid var(--line);border-radius:20px;padding:22px 21px;background:#2b3d2b}.support-card h3{font-size:15px;font-weight:550;margin:0 0 4px}.support-caption{font-size:11px;color:var(--muted);margin:0 0 17px}.hint-row{border-top:1px solid var(--line);padding:13px 0}.hint-row:last-of-type{padding-bottom:3px}.hint-trigger{display:flex;align-items:center;gap:9px;background:none;border:0;width:100%;text-align:left;color:var(--text);padding:0;font-size:11px}.hint-number{font-size:9px;border:1px solid #5f7b3f;width:21px;height:21px;display:grid;place-items:center;border-radius:50%;color:var(--lime);flex-shrink:0}.hint-arrow{margin-left:auto;color:var(--muted)}.hint-text{font-size:11px;color:var(--muted);line-height:1.7;margin:10px 0 0 30px}.anchor-card{background:#b6cbe3;color:#16231a;border:0}.anchor-card .anchor-label{font-size:9px;font-weight:650;letter-spacing:1.5px}.anchor-card p{font-size:15px;line-height:1.5;letter-spacing:-.2px;margin:13px 0}.anchor-card small{font-size:10px;color:#2b3d2b}.solution{border-top:1px solid var(--line);margin-top:18px;padding-top:13px}.solution summary{font-size:11px;color:var(--muted);cursor:pointer}.solution ol{padding-left:20px;font-size:12px;color:var(--muted);line-height:1.8}.formula-strip{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.formula-strip span{font-size:10px;border:1px solid #2b3d2b;padding:5px 8px;border-radius:6px;color:var(--lime)}.question-dots{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}.question-dot{width:25px;height:25px;border:1px solid #2b3d2b;border-radius:7px;background:none;color:var(--muted);font-size:10px;padding:0}.question-dot.current{border-color:var(--lime);color:var(--lime)}.question-dot.solved{background:#5f7b3f;color:#eee0c8;border-color:#5f7b3f}.bar-visual{width:100%}.segment-bar{height:76px;display:flex;gap:5px;margin-bottom:10px}.segment{flex:1;border-radius:7px;background:#eee0c8}.segment.filled{background:#2b3d2b}.segment-labels{display:flex;justify-content:space-between;font-size:11px;color:#2b3d2b}.bar-equation{font-size:27px;text-align:center;font-family:Georgia,serif;letter-spacing:-.5px;margin:17px 0 3px}.bar-equation small{font-family:inherit;font-size:18px}.part-caption{text-align:center;font-size:11px;color:#2b3d2b}.page-footer{display:flex;justify-content:space-between;gap:10px;color:#c9ab82;font-size:9px;margin-top:25px}.lab-card{padding:27px}.lab-card .visual-panel{margin:22px 0 0}.lab-toolbar{display:flex;gap:25px;flex-wrap:wrap;margin-top:22px}.lab-toolbar fieldset{border:0;margin:0;padding:0}.lab-toolbar legend{font-size:11px;color:var(--muted);margin-bottom:9px}.segmented{display:flex;gap:6px;flex-wrap:wrap}.segmented button{background:#16231a;border:1px solid #2b3d2b;color:var(--muted);border-radius:8px;padding:9px 15px;font-size:12px}.segmented button[aria-pressed=true]{background:var(--lime);border-color:var(--lime);color:var(--ink)}.lab-equation{font-size:20px;color:var(--lime);margin-top:21px}.lab-note{font-size:12px;color:var(--muted)}.completion-card{padding:36px;max-width:800px;margin:auto;text-align:center}.completion-icon{font-size:35px;color:var(--lime)}.completion-card h2{font-size:33px;margin-top:14px}.completion-card>p{color:var(--muted);font-size:14px}.recap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:28px 0}.recap-item{background:#2b3d2b;border:1px solid #2b3d2b;border-radius:14px;padding:20px 10px}.recap-item strong{display:block;font-size:28px;color:var(--lime);font-family:Georgia,serif;font-weight:400}.recap-item span{font-size:11px;color:var(--muted)}.end-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.review-list{text-align:left;margin:24px 0;padding:18px;border:1px solid var(--line);border-radius:12px}.review-list p{font-size:12px;margin:7px 0;color:var(--muted)}dialog{background:var(--panel);color:var(--text);border:1px solid #c9ab82;border-radius:20px;max-width:450px;width:calc(100% - 32px);padding:28px}dialog::backdrop{background:#16231adb}dialog h2{font-size:23px}dialog p{color:var(--muted);font-size:13px}.dialog-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:23px}[hidden]{display:none!important}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(min-width:1500px){main{padding-top:52px}.visual-panel{padding-top:28px;padding-bottom:24px}.grid-100{width:190px}.answer-area{padding-top:28px;padding-bottom:30px}.lesson-intro{padding-bottom:24px}}
+@media(max-width:1180px){.sidebar{width:220px;padding:28px 15px}.main-shell{margin-left:220px;width:calc(100% - 220px)}main{padding:32px 28px 20px}.topbar{padding:0 28px}.exercise-layout{grid-template-columns:minmax(0,1fr) 240px;gap:15px}.support-card{padding:19px 17px}.visual-body{gap:17px}.grid-100{width:137px}.visual-panel{padding:19px 17px}.visual-number{font-size:38px}.lesson-intro,.answer-area{padding-left:22px;padding-right:22px}.lesson-top{padding-left:22px;padding-right:22px}.answer-form{flex-wrap:wrap}.answer-form .primary{flex-shrink:0}}
+@media(max-width:950px){.sidebar{width:195px;padding-left:12px;padding-right:12px}.main-shell{margin-left:195px;width:calc(100% - 195px)}.stage-link{padding:11px 7px;gap:8px}.stage-name{font-size:11px}.exercise-layout{grid-template-columns:minmax(0,1fr)}.right-column{display:grid;grid-template-columns:1.25fr 1fr}.percent-mark{font-size:60px}.visual-body{gap:30px}.grid-100{width:160px}.visual-description{max-width:220px}.hint-row{padding:10px 0}.sidebar-title{margin-top:40px}.sidebar-bottom{padding-top:30px}}
+@media(max-width:650px){.app-shell{display:block}.sidebar{position:static;width:100%;padding:17px 19px 13px;border-right:0;border-bottom:1px solid var(--line);display:block;overflow:visible}.brand{font-size:19px}.brand-icon{width:29px;height:29px;font-size:21px;line-height:28px;border-radius:8px}.sidebar-title,.sidebar-bottom,.sidebar .reset,.lab-nav small{display:none}#stage-nav{display:flex;overflow-x:auto;gap:7px;margin:18px -1px 0;padding-bottom:7px;scrollbar-width:thin}.stage-link{width:auto;flex-shrink:0;padding:8px 10px;margin:0;gap:7px;border-color:var(--line);border-radius:10px}.stage-index{width:22px;height:22px;font-size:9px}.stage-name{font-size:10px;white-space:nowrap}.stage-name small{display:none}.lab-nav{position:absolute;top:17px;right:19px;border:1px solid var(--line);border-radius:8px;padding:5px 9px;margin:0;font-size:9px;align-items:center;gap:5px}.lab-symbol{font-size:15px}.main-shell{margin:0;width:100%}.topbar{height:49px;padding:0 21px}.breadcrumb{font-size:9px}.breadcrumb span{margin:0 7px}.grade-tag{font-size:9px;padding:3px 8px}main{padding:25px 18px 20px}.page-heading{gap:0}.eyebrow{font-size:7px;letter-spacing:1.25px}h1{font-size:34px;letter-spacing:-1.3px;max-width:270px;margin:12px 0 10px}.percent-mark{font-size:48px;margin-right:2px}.page-heading p{font-size:11px;max-width:260px}.route-progress{margin:24px 0 19px}.lesson-top{padding:19px 18px 0}.lesson-intro{padding:12px 18px 18px}.lesson-label{font-size:9px}h2{font-size:23px}.lesson-intro p{font-size:12px}.visual-panel{margin:0 12px;padding:17px 14px}.visual-header>span:first-child{font-size:10px}.visual-pill{font-size:9px;padding:4px 8px}.visual-body{gap:17px}.grid-100{width:138px;gap:3px}.visual-description{max-width:132px}.visual-number{font-size:37px}.visual-description p{font-size:10px}.visual-foot{font-size:9px}.answer-area{padding:20px 18px}.question{font-size:18px}.answer-form{flex-wrap:nowrap;gap:7px}.answer-form .primary{padding:12px 13px;font-size:11px}.input-wrap{padding:0 11px}.input-wrap input{font-size:17px}.right-column{display:flex}.support-card{padding:20px}.anchor-card{display:none}.page-footer{font-size:8px}.page-footer>span:last-child{display:none}.next-row small{max-width:130px}.segment-bar{height:65px}.bar-equation{font-size:25px}.lab-card{padding:22px 18px}.lab-toolbar{gap:18px}.segmented button{padding:8px 11px}.completion-card{padding:27px 18px}.completion-card h2{font-size:28px}.recap-grid{gap:7px}.recap-item{padding:16px 5px}.recap-item strong{font-size:25px}.recap-item span{font-size:10px}.dialog-actions{flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* Site mascot */
+.page-heading>div:first-child{flex:1;min-width:0}
+.mascot-hero{flex:0 0 132px;width:132px;margin:0 0 0 20px;text-align:center}
+.mascot-hero img{display:block;width:132px;height:132px;object-fit:cover;border-radius:25px;border:1px solid #2b3d2b}
+.mascot-hero figcaption{font-size:10px;color:var(--muted);margin-top:9px;line-height:1.4}
+@media(max-width:950px){.mascot-hero{flex-basis:112px;width:112px;margin-left:12px}.mascot-hero img{width:112px;height:112px;border-radius:21px}}
+@media(max-width:650px){.page-heading{gap:12px}.mascot-hero{flex-basis:88px;width:88px;margin-left:0;align-self:center}.mascot-hero img{width:88px;height:88px;border-radius:19px}.mascot-hero figcaption{font-size:8px;margin-top:7px}.page-heading h1{font-size:clamp(25px,7vw,34px)}.page-heading p{max-width:245px}}
+.factor-list{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 14px}.factor{border:1px solid #c9ab82;border-radius:7px;padding:4px 9px}.factor.common{background:#2b3d2b;color:#ffffff}.div-label{font-size:12px;font-weight:600}.nod-inputs{display:flex;gap:14px;flex-wrap:wrap}.nod-inputs label{font-size:12px}.nod-inputs input{display:block;width:110px;margin-top:6px;padding:9px;border:1px solid #c9ab82;border-radius:9px;background:#16231a;color:var(--text)}
+/* Shared visual language for lili.math trainers. */
+:root {
+  --trainer-bg: #16231A;
+  --trainer-panel: #2B3D2B;
+  --trainer-cream: #EEE0C8;
+  --trainer-sand: #C9AB82;
+  --trainer-cobalt: #2F5BB5;
+  --trainer-orange: #DD7A3A;
+  --trainer-gold: #E2B04A;
+  --trainer-blue: #B6CBE3;
+  --trainer-moss: #5F7B3F;
+  --trainer-caramel: #9C6B40;
+  --trainer-border: #EEE0C826;
+  --trainer-card: #2B3D2B66;
+  --trainer-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, system-ui, sans-serif;
+  --bg: var(--trainer-bg);
+  --fg: var(--trainer-cream);
+  --text: var(--trainer-cream);
+  --cream: var(--trainer-cream);
+  --muted: var(--trainer-sand);
+  --faint: var(--trainer-sand);
+  --line: var(--trainer-border);
+  --mint: var(--trainer-gold);
+  --ok: var(--trainer-gold);
+  --bad: var(--trainer-orange);
+  --miss: var(--trainer-orange);
+  --sans: var(--trainer-font);
+  --display: var(--trainer-font);
+  color-scheme: dark;
+}
+html, body {
+  background: var(--trainer-bg) !important;
+  color: var(--trainer-cream);
+  font-family: var(--trainer-font) !important;
+}
+body *, body *::before, body *::after {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  font-style: normal !important;
+}
+h1, h2, h3, .page-heading h1 { font-family: var(--trainer-font); }
+h1, h2, .page-heading h1 { color: var(--trainer-cream); font-weight: 800; }
+:where(.sub, .lead, .caption, .muted, .small, figcaption) { color: var(--trainer-sand); }
+body :is(.eyebrow, .sidebar-title, .lesson-label, .task-kicker, .anchor-label, .visual-kicker, .sect) {
+  color: var(--trainer-gold);
+}
+body :is(.sidebar, .topbar) { background-image: none; }
+body .sidebar { background-color: var(--trainer-bg); }
+body .board text { font-family: var(--trainer-font); }
+body :is(.amb, .board) { background-image: none; }
+body :is(.mascot-hero, .mascot-hero img) { mask-image: none; }
+body svg.fig text {
+  paint-order: stroke;
+  stroke: var(--trainer-bg);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+body :is(.brand, .brand b, .trainer-wordmark) {
+  color: var(--trainer-cream);
+  font-family: var(--trainer-font);
+}
+.brand .brand-icon { display: none; }
+.trainer-wordmark { font-size: 1.2rem; font-weight: 800; letter-spacing: -.045em; margin: 0 0 1.2rem; }
+
+body :is(.card, .lesson-card, .support-card, .route-progress, .mode, dialog) {
+  --trainer-card-stripe: var(--trainer-cobalt);
+  color: var(--trainer-cream);
+  background: var(--trainer-card);
+  border: 1px solid var(--trainer-border);
+  border-top: 4px solid var(--trainer-card-stripe);
+  border-radius: 24px;
+}
+body :is(.card, .mode):nth-of-type(6n + 2), body .route-progress {
+  --trainer-card-stripe: var(--trainer-gold);
+}
+body :is(.card, .mode):nth-of-type(6n + 3), body .right-column .support-card:first-child {
+  --trainer-card-stripe: var(--trainer-orange);
+}
+body :is(.card, .mode):nth-of-type(6n + 4), body .right-column .support-card:nth-child(2) {
+  --trainer-card-stripe: var(--trainer-blue);
+}
+body :is(.card, .mode):nth-of-type(6n + 5) { --trainer-card-stripe: var(--trainer-moss); }
+body :is(.card, .mode):nth-of-type(6n + 6) { --trainer-card-stripe: var(--trainer-caramel); }
+body :is(.solution, .why) {
+  background: var(--trainer-card);
+  border-color: var(--trainer-border);
+}
+body .app-shell .visual-panel {
+  background: var(--trainer-cream);
+  color: var(--trainer-bg);
+}
+body .app-shell .visual-panel :is(.visual-description p, .visual-description strong, .visual-foot) {
+  color: var(--trainer-bg);
+}
+body .visual-number { font-family: var(--trainer-font); }
+body dialog { background: var(--trainer-bg); }
+body .mode:hover { border-top-color: var(--trainer-card-stripe); }
+
+body :is(button.primary, button.btn, a.btn, input[type="submit"]) {
+  color: var(--trainer-cream);
+  background: var(--trainer-cobalt);
+  border: 1.5px solid transparent;
+  border-radius: 18px;
+  filter: none;
+}
+body :is(.primary, .btn):is(.apr, .accent),
+body :is(.primary:not(.secondary), .btn:not(.sec, .ghost, .alt, .secondary)) +
+  :is(.primary:not(.secondary), .btn:not(.sec, .ghost, .alt, .secondary)) {
+  color: var(--trainer-bg);
+  background: var(--trainer-orange);
+}
+body :is(.primary, .btn):is(.gold, .yellow),
+body :is(.primary:not(.secondary), .btn:not(.sec, .ghost, .alt, .secondary)) +
+  :is(.primary:not(.secondary), .btn:not(.sec, .ghost, .alt, .secondary)) +
+  :is(.primary:not(.secondary), .btn:not(.sec, .ghost, .alt, .secondary)) {
+  color: var(--trainer-bg);
+  background: var(--trainer-gold);
+}
+body :is(button.secondary, a.secondary, button.ghost, .btn.sec, .btn.ghost, .btn.alt, .btn.secondary) {
+  color: var(--trainer-cream);
+  background: transparent;
+  border: 1.5px solid var(--trainer-cream);
+  border-radius: 18px;
+}
+body :is(.primary, .btn, .secondary):hover:not(:disabled) { filter: none; border-color: var(--trainer-cream); }
+body :is(button, a, input, summary, select):focus-visible {
+  outline: 2px solid var(--trainer-blue);
+  outline-offset: 3px;
+}
+body :is(.chip, .tag, .grade-tag, .pill, .visual-pill, .tile, .tabs button, .segmented button) {
+  color: var(--trainer-blue);
+  background: transparent;
+  border-color: var(--trainer-blue);
+}
+body :is(.chip, .tabs button, .segmented button):is(.on, .active, [aria-pressed="true"]) {
+  color: var(--trainer-gold);
+  background: transparent;
+  border-color: var(--trainer-gold);
+}
+body :is(.stage-link, .row, .choice, .opt) { color: var(--trainer-cream); }
+body :is(.stage-link.active, .row.run, .choice.selected, .opt.sel) {
+  border-color: var(--trainer-gold);
+}
+body :is(.stage-link.done, .row.ok, .row.passed, .row.pass) {
+  border-color: var(--trainer-moss);
+}
+body :is(.row.help, .choice.wrong, .opt.bad, input.bad, [aria-invalid="true"]) {
+  border-color: var(--trainer-orange);
+}
+body :is(.feedback.good, .fb.ok, .msg.good, .done:not(button, .stage-link), .ok:not(input, .row, .opt)) {
+  color: var(--trainer-gold);
+}
+body :is(.feedback.retry, .fb.bad, .msg.bad, .bad:not(input, .opt)) {
+  color: var(--trainer-orange);
+}
+body :is(.feedback.good, .fb.ok) {
+  border-color: var(--trainer-gold);
+  background: #E2B04A15;
+}
+body :is(.feedback.retry, .fb.bad) {
+  border-color: var(--trainer-orange);
+  background: #DD7A3A15;
+}
+body :is(.stage-link.done .stage-index, .row.ok .num) {
+  background: var(--trainer-moss);
+  color: var(--trainer-cream);
+}
+body :is(#progress-fill, .progress-fill, .progress-track > i) { background: var(--trainer-gold); }
+
+body :is(.qbig, .question, .expr, .fx, .cond, .stmt, .bar-equation) {
+  font-family: var(--trainer-font);
+  font-variant-numeric: tabular-nums;
+}
+body :is(.qbig, .expr, .fx, .bar-equation, .question:has(> .trainer-math, > .formula), .cond, .stmt):not(:has(svg:not(.trainer-root-mark, .radical-mark, .rs), canvas)) {
+  background: var(--trainer-cream);
+  color: var(--trainer-bg);
+  border: 1px solid transparent;
+  border-radius: 18px;
+  padding: .45em .65em;
+}
+body :is(.qbig, .expr, .fx, .bar-equation, .question:has(> .trainer-math), .question:has(> .formula), .cond, .stmt)
+  :is(.fr, .rad, .ov, .formula, .rs, .rs path, .rt, .ro, .q, .mid, .ex, .key, .trainer-math) {
+  color: inherit;
+}
+body :is(.qbig, .expr, .fx, .cond, .stmt) .rs path { stroke: currentColor; }
+body :is(.qbig, .expr, .fx, .cond, .stmt) .ov { border-top-color: currentColor; }
+body .rad .ov { padding-top: .16em; }
+.trainer-math, .trainer-root { display: inline-block; white-space: nowrap; }
+.trainer-root, .rt:has(> .trainer-root-mark) { position: relative; display: inline-block; padding-left: .74em; }
+.trainer-root-mark { position: absolute; left: 0; top: 0; width: .77em; height: 100%; overflow: visible; }
+.trainer-radicand, .rt:has(> .trainer-root-mark) > .ro {
+  display: inline-block;
+  padding: .16em .12em 0;
+  margin: 0;
+  border-top: .075em solid currentColor;
+  line-height: 1.15;
+}
+.trainer-frac {
+  display: inline-grid;
+  vertical-align: middle;
+  text-align: center;
+  font-size: .92em;
+  line-height: 1.12;
+}
+.trainer-frac > span { padding: .07em .18em; }
+.trainer-frac > span:first-child { border-bottom: .075em solid currentColor; }
+
+body .route-progress { padding: 10px 16px; }
+body :is(.anchor-card small, .route-progress small) { color: var(--trainer-sand); }
+body .row.run .stt { color: var(--trainer-gold); }
+body .row.help .stt { color: var(--trainer-orange); }
+body :is(input:not([type]), input[type="text"], input[type="number"], input[type="search"], textarea, select) {
+  background-color: var(--trainer-bg);
+  color: var(--trainer-cream);
+  border-color: var(--trainer-border);
+}
+body :is(input, textarea)::placeholder { color: var(--trainer-sand); opacity: 1; }
+body :is(input.bad, [aria-invalid="true"]) { border-color: var(--trainer-orange); }
+body :is(input.ok, input.good) { border-color: var(--trainer-gold); }
+body a:not(:where(.brand, .btn, .secondary, .pill, .chip, .breadcrumb a)) {
+  color: var(--trainer-blue) !important;
+}
+
+/* Cycle all six accents through repeated controls. Text stays light on dark. */
+body :is(.stage-link, .tabs button, .segmented button, .chips .chip, .hint-row) { --trainer-item: var(--trainer-cobalt); }
+body :is(.stage-link, .tabs button, .segmented button, .chips .chip, .hint-row):nth-child(6n + 2) { --trainer-item: var(--trainer-gold); }
+body :is(.stage-link, .tabs button, .segmented button, .chips .chip, .hint-row):nth-child(6n + 3) { --trainer-item: var(--trainer-orange); }
+body :is(.stage-link, .tabs button, .segmented button, .chips .chip, .hint-row):nth-child(6n + 4) { --trainer-item: var(--trainer-blue); }
+body :is(.stage-link, .tabs button, .segmented button, .chips .chip, .hint-row):nth-child(6n + 5) { --trainer-item: var(--trainer-moss); }
+body :is(.stage-link, .tabs button, .segmented button, .chips .chip, .hint-row):nth-child(6n + 6) { --trainer-item: var(--trainer-caramel); }
+body :is(.tabs button, .segmented button, .chips .chip):not(.on, .active, [aria-pressed="true"]) {
+  color: var(--trainer-cream);
+  border-color: var(--trainer-item);
+}
+body :is(.stage-link:not(.active, .done) .stage-index, .hint-row .hint-number) {
+  color: var(--trainer-cream);
+  border-color: var(--trainer-item);
+}
+body .mascot-hero img { object-fit: contain; }
+.trainer-identity { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.trainer-identity .trainer-wordmark { margin: 0; }
+.trainer-identity img {
+  display: block;
+  margin-left: auto;
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  border-radius: 18px;
+  border: 1px solid var(--trainer-border);
+}
+.trainer-identity--outer { width: min(100%, 660px); margin: 0 auto; padding: 16px 16px 0; }
+
+.intro-content{display:flex;gap:18px;align-items:center;flex-wrap:wrap}.intro-content>p{flex:1 1 240px}
+.identity-mark{display:block;object-fit:contain;flex:none;border-radius:7px}.identity-label{display:inline-flex;align-items:center;gap:9px}.identity-brand{width:36px;height:36px}.identity-progress,.identity-hint,.identity-footer{width:26px;height:26px}.page-footer .identity-label{gap:7px}
+body, body .sidebar {
+  background-image: linear-gradient(#C9AB8233 1px, transparent 1px),
+                    linear-gradient(90deg, #C9AB8233 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+body .lesson-intro .intro-content > p {
+  font-size: clamp(16px, 1.35vw, 18px);
+  line-height: 1.65;
+  color: var(--trainer-cream);
+}
+body .question { font-size: clamp(17px, 1.5vw, 20px); }
+.math-nowrap { display: inline-block; max-width: 100%; white-space: nowrap; overflow-x: auto; vertical-align: bottom; }
+body :is(.hint-text, .solution ol, .feedback, .anchor-card p) { font-size: clamp(15px, 1.25vw, 17px); line-height: 1.6; }
+body .anchor-card small { font-size: 15px; line-height: 1.5; }
+body .intro-content > p { min-width: 0; }
+body .lesson-intro .math-definition { color: var(--trainer-cream); font-weight: 400; }
+body .lesson-intro .math-definition > strong { color: var(--trainer-gold); font-weight: 750; }
+
+body .math-var-x { color: #B6CBE3; font-weight: 800; font-style: normal; }
+body .math-var-y { color: #DD7A3A; font-weight: 800; font-style: normal; }
+body .visual-panel .math-var-x { color: #2F5BB5; }
+body .visual-panel .math-var-y { color: #16231A; }
+
+body .math-var-k { color: #E2B04A; font-weight: 800; }
+body .math-var-b { color: #EEE0C8; font-weight: 800; text-decoration: underline; text-decoration-color: #9C6B40; text-underline-offset: .16em; }
+body :is(.math-var-k, .math-var-b) { font-size: 1.14em; line-height: 1; }
+body .visual-panel .math-var-k { color: #9C6B40; }
+body .visual-panel .math-var-b { color: #2B3D2B; }
+.coordinate-graph { width: 100%; max-width: 500px; min-width: 0; margin: 0 auto; }
+.coordinate-graph svg { display: block; height: auto; }
+.coordinate-graph figcaption { color: #16231A; font-size: 1.15rem; font-weight: 800; }
+.intro-content .coordinate-graph figcaption { color: var(--trainer-cream); }
+.coordinate-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 285px), 1fr)); gap: 18px; width: 100%; }
+.coordinate-group .coordinate-graph { max-width: 500px; }
+body .intro-content > p, .intro-content > .coordinate-graph { flex: 0 0 100%; }
+.coordinate-graph svg text { font-weight: 650; }
+@media (min-width: 951px) and (max-width: 1350px) {
+  .exercise-layout:has(.coordinate-graph) { grid-template-columns: minmax(0, 1fr); }
+  .exercise-layout:has(.coordinate-graph) .right-column { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 650px) {
+  .coordinate-group { grid-template-columns: minmax(0,1fr); }
+}
+</style>
+<style>
+[hidden]{display:none!important}
+body{margin:0;color:#eee0c8}
+.wrap{max-width:1050px;margin:auto;padding:24px clamp(14px,4vw,42px) 60px}
+.header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;border-bottom:1px solid #c9ab8244;padding-bottom:15px}
+.wordmark{font-size:1.55rem;color:#e2b04a;font-weight:800;text-decoration:none}
+.kicker{color:#c9ab82}
+h1{font-size:clamp(1.8rem,5vw,3.2rem);line-height:1.08;margin:22px 0 12px}
+h2{font-size:clamp(1.25rem,3vw,1.65rem);line-height:1.15;margin:0 0 14px}
+p{margin:0 0 12px}
+.catalog,.numbers,.actions{display:flex;flex-wrap:wrap;gap:8px}
+.catalog{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:10px;margin:22px 0}
+.tile,.num,.btnx{padding:9px 13px;border:1px solid #c9ab8270;border-radius:12px;background:#2b3d2b;color:#eee0c8;font-weight:650}
+.tile{display:block;text-decoration:none;padding:14px}
+.tile small{display:block;color:#c9ab82;font-weight:400;margin-top:4px}
+.num{min-width:42px;padding:7px 9px}
+.num[data-part="2"]{border-style:dashed}
+.num[data-done="true"]{background:#5f7b3f}
+.num[aria-current="step"]{outline:2px solid #e2b04a;outline-offset:1px}
+.cardx{margin-top:18px;padding:clamp(14px,3vw,24px);border:1px solid #c9ab8255;border-radius:22px;background:#2b3d2b}
+.progressline{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+progress{width:min(240px,100%);accent-color:#e2b04a}
+.scan{margin:14px 0;overflow:auto;background:#fff;border-radius:10px;padding:10px}
+.scan img{display:block;width:auto;max-width:100%;height:auto}
+.scan img+img{margin-top:10px}
+.scan.zoom img{max-width:none}
+details{margin:9px 0 14px}
+summary{cursor:pointer;color:#eee0c8;font-weight:650}
+form{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;margin:14px 0 4px}
+label{display:grid;gap:4px}
+#answer{padding:9px 11px;border:1px solid #c9ab82;border-radius:10px;min-width:180px;max-width:100%;font-size:1.12rem}
+.btnx.primaryx{background:#e2b04a;color:#16231a;border-color:#e2b04a}
+.btnx:disabled{opacity:.4}
+.feedbackx{min-height:1.8em;margin:8px 0}
+.feedbackx[data-type=good]{color:#f4d482}
+.feedbackx[data-type=bad]{color:#ffbc98}
+.notes{color:#e9d4ae;margin-top:8px}
+.mathkey{font-size:1.13rem;color:#f4d482}
+.foot{font-size:.9rem;color:#c9ab82;margin-top:22px}
+#worktitle:focus{outline:none}
+
+.cond{color:#1d2a1f;font-size:17px;line-height:1.5}
+.cond p{margin:0 0 10px;text-indent:1.4em}
+.cond p.big{text-indent:0;text-align:center;font-size:23px;margin:14px 0;white-space:nowrap;overflow-x:auto}
+.cond div.big{font-size:23px;margin:14px 0;overflow-x:auto}
+.cond p.opts{text-indent:0;display:flex;flex-wrap:wrap;gap:10px 34px;margin:12px 0 12px 1.4em;font-size:19px}
+.cond p.st{text-indent:0;margin-left:1.4em}
+.cond .f,.cond math{white-space:nowrap}
+.cond .fig{margin:6px auto 14px}
+.cond table{border-collapse:collapse;margin:8px 0 14px 1.4em}
+.cond th,.cond td{border:1px solid #1d2a1f;padding:4px 16px;text-align:center;font-weight:400}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="header"><a class="wordmark" href="#" aria-label="lili.math, все варианты">lili.math</a><span class="kicker">ОГЭ · Математика · 2026</span></header>
+<main style="padding:0;width:auto;max-width:none">
+<section id="home">
+<h1>32 варианта ОГЭ по математике</h1>
+<p>Выбери вариант. В каждом 19 заданий с автопроверкой и 6 заданий для письменного решения.</p>
+<div class="catalog" id="catalog"></div>
+</section>
+<section id="work" hidden>
+<h1 id="title"></h1>
+<div class="progressline"><progress id="progress" max="19" value="0" aria-label="Прогресс первой части"></progress><span id="counts"></span></div>
+<nav id="numbers" class="numbers" aria-label="Задания"></nav>
+<article class="cardx">
+<h2 id="worktitle" tabindex="-1"></h2>
+<details id="shared"><summary>Общее условие к заданиям №1–5</summary><div class="scan" id="context"></div></details>
+<div id="question" class="scan"></div>
+<div class="actions"><button type="button" id="zoom" class="btnx" aria-pressed="false">Увеличить условие</button></div>
+<details id="hint"><summary>Подсказка</summary><p class="notes" id="hinttext"></p></details>
+<form id="form">
+<label>Краткий ответ<input id="answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" required></label>
+<button class="btnx primaryx" type="submit">Проверить</button>
+</form>
+<p class="feedbackx" id="feedback" aria-live="polite"></p>
+<div id="written" hidden>
+<p>Запиши решение в тетради, затем сверься с ответом или планом проверки.</p>
+<details id="reference"><summary id="ref-title">Ответ для сверки</summary><p id="key" class="notes mathkey"></p></details>
+<button class="btnx" id="done" type="button" aria-pressed="false">Отметить выполненным</button>
+</div>
+<div class="actions" style="margin-top:12px">
+<button class="btnx" id="back" type="button">Назад</button>
+<button class="btnx primaryx" id="next" type="button">Дальше</button>
+</div>
+</article>
+</section>
+<p class="foot" id="storage">Прогресс сохраняется в этом браузере.</p>
+</main>
+</div>
+<script type="application/json" id="data">[{"start":14,"context":[["img/v01/ctx-1.webp",987,760]],"tasks":[{"scan":[["img/v01/z01-1.webp",973,268]],"key":["5347"]},{"scan":[["img/v01/z02-1.webp",975,182]],"key":["9"]},{"scan":[["img/v01/z03-1.webp",954,123]],"key":["48"]},{"scan":[["img/v01/z04-1.webp",804,99]],"key":["10"]},{"scan":[["img/v01/z05-1.webp",975,562]],"key":["500"]},{"scan":[["img/v01/z06-1.webp",400,179]],"key":["0,9"]},{"scan":[["img/v01/z07-1.webp",681,267]],"key":["1"]},{"scan":[["img/v01/z08-1.webp",677,124]],"key":["125"]},{"scan":[["img/v01/z09-1.webp",503,123]],"key":["1,5"]},{"scan":[["img/v01/z10-1.webp",981,182]],"key":["0,5"]},{"scan":[["img/v01/z11-1.webp",981,81],["img/v01/z11-2.webp",953,466]],"key":["321"]},{"scan":[["img/v01/z12-1.webp",982,182]],"key":["5"]},{"scan":[["img/v01/z13-1.webp",646,210]],"key":["2"]},{"scan":[["img/v01/z14-1.webp",983,153]],"key":["41"]},{"scan":[["img/v01/z15-1.webp",982,157]],"key":["16"]},{"scan":[["img/v01/z16-1.webp",979,183]],"key":["48"]},{"scan":[["img/v01/z17-1.webp",959,128]],"key":["116"]},{"scan":[["img/v01/z18-1.webp",981,138]],"key":["7"]},{"scan":[["img/v01/z19-1.webp",984,335]],"key":["1"]},{"scan":[["img/v01/z20-1.webp",538,59]],"key":["3−√5; 3+√5"]},{"scan":[["img/v01/z21-1.webp",983,153]],"key":["20"]},{"scan":[["img/v01/z22-1.webp",982,122]],"key":["−1; 16"]},{"scan":[["img/v01/z23-1.webp",982,94]],"key":["12"]},{"scan":[["img/v01/z24-1.webp",982,123]],"key":[]},{"scan":[["img/v01/z25-1.webp",982,99]],"key":["5"]}]},{"start":18,"context":[["img/v02/ctx-1.webp",987,760]],"tasks":[{"scan":[["img/v02/z01-1.webp",973,238]],"key":["1275"]},{"scan":[["img/v02/z02-1.webp",973,153]],"key":["5"]},{"scan":[["img/v02/z03-1.webp",974,153]],"key":["6"]},{"scan":[["img/v02/z04-1.webp",974,128]],"key":["11"]},{"scan":[["img/v02/z05-1.webp",975,591]],"key":["600"]},{"scan":[["img/v02/z06-1.webp",400,179]],"key":["0,52"]},{"scan":[["img/v02/z07-1.webp",689,267]],"key":["1"]},{"scan":[["img/v02/z08-1.webp",677,124]],"key":["27"]},{"scan":[["img/v02/z09-1.webp",521,123]],"key":["−0,1"]},{"scan":[["img/v02/z10-1.webp",981,153]],"key":["0,4"]},{"scan":[["img/v02/z11-1.webp",982,81],["img/v02/z11-2.webp",953,409]],"key":["132"]},{"scan":[["img/v02/z12-1.webp",982,182]],"key":["5"]},{"scan":[["img/v02/z13-1.webp",631,210]],"key":["2"]},{"scan":[["img/v02/z14-1.webp",980,182]],"key":["47"]},{"scan":[["img/v02/z15-1.webp",981,152]],"key":["27"]},{"scan":[["img/v02/z16-1.webp",979,185]],"key":["10"]},{"scan":[["img/v02/z17-1.webp",980,128]],"key":["151"]},{"scan":[["img/v02/z18-1.webp",992,175]],"key":["9"]},{"scan":[["img/v02/z19-1.webp",984,393]],"key":["3"]},{"scan":[["img/v02/z20-1.webp",538,59]],"key":["−1−√2; −1+√2"]},{"scan":[["img/v02/z21-1.webp",982,152]],"key":["20"]},{"scan":[["img/v02/z22-1.webp",982,123]],"key":["−0,25; 6,25"]},{"scan":[["img/v02/z23-1.webp",982,94]],"key":["14"]},{"scan":[["img/v02/z24-1.webp",982,123]],"key":[]},{"scan":[["img/v02/z25-1.webp",982,99]],"key":["13"]}]},{"start":22,"context":[["img/v03/ctx-1.webp",987,760]],"tasks":[{"scan":[["img/v03/z01-1.webp",973,268]],"key":["7352"]},{"scan":[["img/v03/z02-1.webp",974,182]],"key":["14"]},{"scan":[["img/v03/z03-1.webp",824,94]],"key":["36"]},{"scan":[["img/v03/z04-1.webp",975,128]],"key":["75"]},{"scan":[["img/v03/z05-1.webp",975,562]],"key":["400"]},{"scan":[["img/v03/z06-1.webp",400,179]],"key":["0,24"]},{"scan":[["img/v03/z07-1.webp",698,229]],"key":["3"]},{"scan":[["img/v03/z08-1.webp",647,179]],"key":["49"]},{"scan":[["img/v03/z09-1.webp",498,123]],"key":["−0,8"]},{"scan":[["img/v03/z10-1.webp",982,182]],"key":["0,85"]},{"scan":[["img/v03/z11-1.webp",981,81],["img/v03/z11-2.webp",953,437]],"key":["231"]},{"scan":[["img/v03/z12-1.webp",981,212]],"key":["7"]},{"scan":[["img/v03/z13-1.webp",621,210]],"key":["4"]},{"scan":[["img/v03/z14-1.webp",982,182]],"key":["54"]},{"scan":[["img/v03/z15-1.webp",976,182]],"key":["31"]},{"scan":[["img/v03/z16-1.webp",983,156]],"key":["18"]},{"scan":[["img/v03/z17-1.webp",987,127]],"key":["13"]},{"scan":[["img/v03/z18-1.webp",987,173]],"key":["8"]},{"scan":[["img/v03/z19-1.webp",856,335]],"key":["2"]},{"scan":[["img/v03/z20-1.webp",468,59]],"key":["−4; −3; 4"]},{"scan":[["img/v03/z21-1.webp",982,181]],"key":["18"]},{"scan":[["img/v03/z22-1.webp",982,99]],"key":["−1; 0"]},{"scan":[["img/v03/z23-1.webp",981,94]],"key":["52"]},{"scan":[["img/v03/z24-1.webp",982,94]],"key":[]},{"scan":[["img/v03/z25-1.webp",982,128]],"key":["2√42"]}]},{"start":26,"context":[["img/v04/ctx-1.webp",987,784]],"tasks":[{"scan":[["img/v04/z01-1.webp",973,243]],"key":["3517"]},{"scan":[["img/v04/z02-1.webp",975,153]],"key":["5"]},{"scan":[["img/v04/z03-1.webp",974,153]],"key":["108"]},{"scan":[["img/v04/z04-1.webp",975,128]],"key":["300"]},{"scan":[["img/v04/z05-1.webp",975,591]],"key":["450"]},{"scan":[["img/v04/z06-1.webp",400,151]],"key":["−0,1"]},{"scan":[["img/v04/z07-1.webp",705,237]],"key":["2"]},{"scan":[["img/v04/z08-1.webp",652,179]],"key":["64"]},{"scan":[["img/v04/z09-1.webp",513,123]],"key":["−0,9"]},{"scan":[["img/v04/z10-1.webp",981,182]],"key":["0,88"]},{"scan":[["img/v04/z11-1.webp",982,75],["img/v04/z11-2.webp",953,409]],"key":["312"]},{"scan":[["img/v04/z12-1.webp",982,211]],"key":["2"]},{"scan":[["img/v04/z13-1.webp",604,211]],"key":["3"]},{"scan":[["img/v04/z14-1.webp",981,182]],"key":["59"]},{"scan":[["img/v04/z15-1.webp",976,180]],"key":["21"]},{"scan":[["img/v04/z16-1.webp",966,186]],"key":["30"]},{"scan":[["img/v04/z17-1.webp",987,126]],"key":["15"]},{"scan":[["img/v04/z18-1.webp",991,203]],"key":["12"]},{"scan":[["img/v04/z19-1.webp",984,422]],"key":["23","32"]},{"scan":[["img/v04/z20-1.webp",455,59]],"key":["4; −2; 2"]},{"scan":[["img/v04/z21-1.webp",982,181]],"key":["−25"]},{"scan":[["img/v04/z22-1.webp",983,100]],"key":["−0,25; 0"]},{"scan":[["img/v04/z23-1.webp",981,93]],"key":["48"]},{"scan":[["img/v04/z24-1.webp",982,94]],"key":[]},{"scan":[["img/v04/z25-1.webp",982,129]],"key":["7√2"]}]},{"start":30,"context":[["img/v05/ctx-1.webp",994,766]],"tasks":[{"scan":[["img/v05/z01-1.webp",973,273]],"key":["2346"]},{"scan":[["img/v05/z02-1.webp",974,182]],"key":["9"]},{"scan":[["img/v05/z03-1.webp",754,123]],"key":["4,8"]},{"scan":[["img/v05/z04-1.webp",854,99]],"key":["525"]},{"scan":[["img/v05/z05-1.webp",975,687]],"key":["29700"]},{"scan":[["img/v05/z06-1.webp",400,150]],"key":["1,8"]},{"scan":[["img/v05/z07-1.webp",969,185]],"key":["1"]},{"scan":[["img/v05/z08-1.webp",628,127]],"key":["36"]},{"scan":[["img/v05/z09-1.webp",535,123]],"key":["2"]},{"scan":[["img/v05/z10-1.webp",982,153]],"key":["0,1"]},{"scan":[["img/v05/z11-1.webp",981,81],["img/v05/z11-2.webp",953,414]],"key":["231"]},{"scan":[["img/v05/z12-1.webp",980,208]],"key":["11"]},{"scan":[["img/v05/z13-1.webp",976,210]],"key":["2"]},{"scan":[["img/v05/z14-1.webp",980,153]],"key":["325"]},{"scan":[["img/v05/z15-1.webp",983,158]],"key":["29"]},{"scan":[["img/v05/z16-1.webp",981,192]],"key":["32"]},{"scan":[["img/v05/z17-1.webp",989,129]],"key":["12"]},{"scan":[["img/v05/z18-1.webp",978,178]],"key":["14"]},{"scan":[["img/v05/z19-1.webp",984,417]],"key":["23","32"]},{"scan":[["img/v05/z20-1.webp",374,123]],"key":["(2/3; 0); (1; 1)"]},{"scan":[["img/v05/z21-1.webp",982,122]],"key":["15"]},{"scan":[["img/v05/z22-1.webp",982,182]],"key":["{−2} ∪ (−1; 6)"]},{"scan":[["img/v05/z23-1.webp",982,94]],"key":["60°; 120°"]},{"scan":[["img/v05/z24-1.webp",982,124]],"key":[]},{"scan":[["img/v05/z25-1.webp",983,98]],"key":["42"]}]},{"start":34,"context":[["img/v06/ctx-1.webp",994,766]],"tasks":[{"scan":[["img/v06/z01-1.webp",973,214]],"key":["3476"]},{"scan":[["img/v06/z02-1.webp",975,153]],"key":["7"]},{"scan":[["img/v06/z03-1.webp",774,94]],"key":["20"]},{"scan":[["img/v06/z04-1.webp",975,159]],"key":["125"]},{"scan":[["img/v06/z05-1.webp",974,63],["img/v06/z05-2.webp",943,629]],"key":["28800"]},{"scan":[["img/v06/z06-1.webp",400,208]],"key":["0,8"]},{"scan":[["img/v06/z07-1.webp",969,215]],"key":["3"]},{"scan":[["img/v06/z08-1.webp",628,156]],"key":["32"]},{"scan":[["img/v06/z09-1.webp",556,94]],"key":["−9"]},{"scan":[["img/v06/z10-1.webp",981,152]],"key":["0,1"]},{"scan":[["img/v06/z11-1.webp",981,82],["img/v06/z11-2.webp",953,385]],"key":["312"]},{"scan":[["img/v06/z12-1.webp",981,235]],"key":["17"]},{"scan":[["img/v06/z13-1.webp",954,240]],"key":["2"]},{"scan":[["img/v06/z14-1.webp",980,153]],"key":["377"]},{"scan":[["img/v06/z15-1.webp",984,185]],"key":["83"]},{"scan":[["img/v06/z16-1.webp",979,174]],"key":["76,5"]},{"scan":[["img/v06/z17-1.webp",986,156]],"key":["10"]},{"scan":[["img/v06/z18-1.webp",990,178]],"key":["15"]},{"scan":[["img/v06/z19-1.webp",992,335]],"key":["2"]},{"scan":[["img/v06/z20-1.webp",375,118]],"key":["(1 1/3; 0); (1; −1)"]},{"scan":[["img/v06/z21-1.webp",982,122]],"key":["21"]},{"scan":[["img/v06/z22-1.webp",982,182]],"key":["[−5; −4] ∪ {−1}"]},{"scan":[["img/v06/z23-1.webp",982,94]],"key":["60°; 120°"]},{"scan":[["img/v06/z24-1.webp",982,123]],"key":[]},{"scan":[["img/v06/z25-1.webp",983,99]],"key":["70"]}]},{"start":38,"context":[["img/v07/ctx-1.webp",994,771]],"tasks":[{"scan":[["img/v07/z01-1.webp",974,209]],"key":["3172"]},{"scan":[["img/v07/z02-1.webp",974,182]],"key":["32"]},{"scan":[["img/v07/z03-1.webp",759,123]],"key":["15,84"]},{"scan":[["img/v07/z04-1.webp",975,128]],"key":["50"]},{"scan":[["img/v07/z05-1.webp",975,475]],"key":["950"]},{"scan":[["img/v07/z06-1.webp",400,209]],"key":["2,1"]},{"scan":[["img/v07/z07-1.webp",587,272]],"key":["1"]},{"scan":[["img/v07/z08-1.webp",689,157]],"key":["9"]},{"scan":[["img/v07/z09-1.webp",568,123]],"key":["−0,4"]},{"scan":[["img/v07/z10-1.webp",981,211]],"key":["0,1"]},{"scan":[["img/v07/z11-1.webp",981,81],["img/v07/z11-2.webp",953,444]],"key":["132"]},{"scan":[["img/v07/z12-1.webp",981,239]],"key":["60"]},{"scan":[["img/v07/z13-1.webp",925,210]],"key":["1"]},{"scan":[["img/v07/z14-1.webp",980,182]],"key":["406"]},{"scan":[["img/v07/z15-1.webp",973,153]],"key":["68"]},{"scan":[["img/v07/z16-1.webp",983,151]],"key":["76"]},{"scan":[["img/v07/z17-1.webp",966,159]],"key":["82"]},{"scan":[["img/v07/z18-1.webp",963,147]],"key":["10"]},{"scan":[["img/v07/z19-1.webp",985,328]],"key":["1"]},{"scan":[["img/v07/z20-1.webp",374,124]],"key":["(−1; 1); (1; 1)"]},{"scan":[["img/v07/z21-1.webp",982,94]],"key":["294"]},{"scan":[["img/v07/z22-1.webp",982,210]],"key":["(−3; −1,5) ∪ (0; +∞)"]},{"scan":[["img/v07/z23-1.webp",981,94]],"key":["6"]},{"scan":[["img/v07/z24-1.webp",981,94]],"key":[]},{"scan":[["img/v07/z25-1.webp",981,128]],"key":["168"]}]},{"start":42,"context":[["img/v08/ctx-1.webp",994,766]],"tasks":[{"scan":[["img/v08/z01-1.webp",973,244]],"key":["6174"]},{"scan":[["img/v08/z02-1.webp",974,152]],"key":["12"]},{"scan":[["img/v08/z03-1.webp",860,94]],"key":["7,04"]},{"scan":[["img/v08/z04-1.webp",793,101]],"key":["200"]},{"scan":[["img/v08/z05-1.webp",975,92],["img/v08/z05-2.webp",943,329]],"key":["1000"]},{"scan":[["img/v08/z06-1.webp",400,151]],"key":["0,32"]},{"scan":[["img/v08/z07-1.webp",587,215]],"key":["1"]},{"scan":[["img/v08/z08-1.webp",689,126]],"key":["25"]},{"scan":[["img/v08/z09-1.webp",584,94]],"key":["−0,6"]},{"scan":[["img/v08/z10-1.webp",981,153]],"key":["0,1"]},{"scan":[["img/v08/z11-1.webp",992,468]],"key":["213"]},{"scan":[["img/v08/z12-1.webp",981,233]],"key":["−65"]},{"scan":[["img/v08/z13-1.webp",936,212]],"key":["3"]},{"scan":[["img/v08/z14-1.webp",980,182]],"key":["363"]},{"scan":[["img/v08/z15-1.webp",962,151]],"key":["71"]},{"scan":[["img/v08/z16-1.webp",991,146]],"key":["23"]},{"scan":[["img/v08/z17-1.webp",991,208]],"key":["66"]},{"scan":[["img/v08/z18-1.webp",991,180]],"key":["24"]},{"scan":[["img/v08/z19-1.webp",981,216],["img/v08/z19-2.webp",886,117]],"key":["3"]},{"scan":[["img/v08/z20-1.webp",374,118]],"key":["(−1; 2); (1; 2)"]},{"scan":[["img/v08/z21-1.webp",982,94]],"key":["288"]},{"scan":[["img/v08/z22-1.webp",982,212]],"key":["{−3,5} ∪ (1; 1,5)"]},{"scan":[["img/v08/z23-1.webp",982,94]],"key":["9"]},{"scan":[["img/v08/z24-1.webp",982,93]],"key":[]},{"scan":[["img/v08/z25-1.webp",981,157]],"key":["1320"]}]},{"start":46,"context":[["img/v09/ctx-1.webp",990,496]],"tasks":[{"scan":[["img/v09/z01-1.webp",982,449]],"key":["2413"]},{"scan":[["img/v09/z02-1.webp",832,94]],"key":["4"]},{"scan":[["img/v09/z03-1.webp",850,123]],"key":["300"]},{"scan":[["img/v09/z04-1.webp",919,130]],"key":["1,4"]},{"scan":[["img/v09/z05-1.webp",980,117]],"key":["1250"]},{"scan":[["img/v09/z06-1.webp",499,66]],"key":["6,8"]},{"scan":[["img/v09/z07-1.webp",814,304]],"key":["3"]},{"scan":[["img/v09/z08-1.webp",498,127]],"key":["20"]},{"scan":[["img/v09/z09-1.webp",980,182]],"key":["−9"]},{"scan":[["img/v09/z10-1.webp",986,181]],"key":["0,98"]},{"scan":[["img/v09/z11-1.webp",988,542]],"key":["312"]},{"scan":[["img/v09/z12-1.webp",987,187]],"key":["−121"]},{"scan":[["img/v09/z13-1.webp",870,236]],"key":["3"]},{"scan":[["img/v09/z14-1.webp",988,211]],"key":["62"]},{"scan":[["img/v09/z15-1.webp",995,212]],"key":["17"]},{"scan":[["img/v09/z16-1.webp",1000,162]],"key":["32"]},{"scan":[["img/v09/z17-1.webp",996,208]],"key":["65"]},{"scan":[["img/v09/z18-1.webp",982,179]],"key":["20"]},{"scan":[["img/v09/z19-1.webp",989,275],["img/v09/z19-2.webp",819,117]],"key":["13","31"]},{"scan":[["img/v09/z20-1.webp",374,118]],"key":["(2; −2); (2; 2)"]},{"scan":[["img/v09/z21-1.webp",986,182]],"key":["8,7"]},{"scan":[["img/v09/z22-1.webp",936,124]],"key":["4"]},{"scan":[["img/v09/z23-1.webp",986,94]],"key":["14,4"]},{"scan":[["img/v09/z24-1.webp",985,122]],"key":[]},{"scan":[["img/v09/z25-1.webp",987,99]],"key":["1,8"]}]},{"start":50,"context":[["img/v10/ctx-1.webp",976,496]],"tasks":[{"scan":[["img/v10/z01-1.webp",969,449]],"key":["1243"],"html":"<p>В таблице даны размеры (с точностью до мм) четырёх листов, имеющих форматы А2, А3, А4 и А6.<\/p><table><tr><th>Номер листа<\/th><th>Длина (мм)<\/th><th>Ширина (мм)<\/th><\/tr><tr><td>1<\/td><td>594<\/td><td>420<\/td><\/tr><tr><td>2<\/td><td>420<\/td><td>297<\/td><\/tr><tr><td>3<\/td><td>148<\/td><td>105<\/td><\/tr><tr><td>4<\/td><td>297<\/td><td>210<\/td><\/tr><\/table><p>Установите соответствие между форматами и номерами листов. Заполните таблицу, в бланк ответов перенесите последовательность четырёх цифр, соответствующих номерам листов, без пробелов, запятых и дополнительных символов.<\/p><table><tr><th>А2<\/th><th>А3<\/th><th>А4<\/th><th>А6<\/th><\/tr><tr><td>&nbsp;<\/td><td><\/td><td><\/td><td><\/td><\/tr><\/table>"},{"scan":[["img/v10/z02-1.webp",834,94]],"key":["8"],"html":"<p>Сколько листов формата А4 получится из одного листа формата А1?<\/p>"},{"scan":[["img/v10/z03-1.webp",874,123]],"key":["840"],"html":"<p>Найдите ширину листа бумаги формата А0.<\/p><p>Ответ дайте в миллиметрах и округлите до ближайшего целого числа, кратного 10.<\/p>"},{"scan":[["img/v10/z04-1.webp",969,130]],"key":["0,7"],"html":"<p>Найдите отношение длины меньшей стороны листа формата А4 к большей.<\/p><p>Ответ округлите до десятых.<\/p>"},{"scan":[["img/v10/z05-1.webp",968,117]],"key":["4800"],"html":"<p>Бумагу формата А1 упаковали в пачки по 80 листов. Найдите массу пачки, если масса бумаги площади 1 кв. м равна 120 г.<\/p><p>Ответ дайте в граммах.<\/p>"},{"scan":[["img/v10/z06-1.webp",507,66]],"key":["14,3"],"html":"<p>Найдите значение выражения<\/p><p class=\"big\">6,9 + 7,4<\/p>"},{"scan":[["img/v10/z07-1.webp",832,332]],"key":["1"],"html":"<p>Одно из чисел <span class=\"f\"><math><mfrac><mn>3<\/mn><mn>11<\/mn><\/mfrac><\/math>, <math><mfrac><mn>7<\/mn><mn>11<\/mn><\/mfrac><\/math>, <math><mfrac><mn>8<\/mn><mn>11<\/mn><\/mfrac><\/math>, <math><mfrac><mn>13<\/mn><mn>11<\/mn><\/mfrac><\/math><\/span> отмечено на прямой точкой.<\/p><img class=\"fig\" src=\"img/v10/f07.webp\" width=\"775\" height=\"63\" alt=\"Рисунок к заданию\"><p>Какое это число?<\/p><p class=\"opts\"><span class=\"f\">1) <math><mfrac><mn>3<\/mn><mn>11<\/mn><\/mfrac><\/math><\/span><span class=\"f\">2) <math><mfrac><mn>7<\/mn><mn>11<\/mn><\/mfrac><\/math><\/span><span class=\"f\">3) <math><mfrac><mn>8<\/mn><mn>11<\/mn><\/mfrac><\/math><\/span><span class=\"f\">4) <math><mfrac><mn>13<\/mn><mn>11<\/mn><\/mfrac><\/math><\/span><\/p>"},{"scan":[["img/v10/z08-1.webp",507,126]],"key":["36"],"html":"<p>Найдите значение выражения<\/p><p class=\"big\"><math><mfrac><msup><mrow><mo>(<\/mo><mn>3<\/mn><mo>·<\/mo><mn>4<\/mn><mo>)<\/mo><\/mrow><mn>4<\/mn><\/msup><mrow><msup><mn>3<\/mn><mn>2<\/mn><\/msup><mo>·<\/mo><msup><mn>4<\/mn><mn>3<\/mn><\/msup><\/mrow><\/mfrac><\/math><\/p>"},{"scan":[["img/v10/z09-1.webp",969,182]],"key":["8"],"html":"<p>Решите уравнение<\/p><p class=\"big\"><i>x<\/i><sup>2<\/sup> − 64 = 0<\/p><p>Если уравнение имеет более одного корня, в ответ запишите больший из корней.<\/p>"},{"scan":[["img/v10/z10-1.webp",975,181]],"key":["0,8"],"html":"<p>Вероятность того, что новая шариковая ручка пишет плохо (или не пишет), равна 0,2. Покупатель в магазине выбирает одну шариковую ручку.<\/p><p>Найдите вероятность того, что эта ручка пишет хорошо.<\/p>"},{"scan":[["img/v10/z11-1.webp",987,537]],"key":["231"],"html":"<p>На рисунках изображены графики функций вида <span class=\"f\"><i>y<\/i> = <i>kx<\/i> + <i>b<\/i><\/span>. Установите соответствие между знаками коэффициентов <i>k<\/i> и <i>b<\/i> и графиками функций.<\/p><img class=\"fig\" src=\"img/v10/f11.webp\" width=\"912\" height=\"283\" alt=\"Рисунок к заданию\"><p class=\"opts\"><span class=\"f\">1) <i>k<\/i> &lt; 0, <i>b<\/i> &lt; 0<\/span><span class=\"f\">2) <i>k<\/i> &gt; 0, <i>b<\/i> &gt; 0<\/span><span class=\"f\">3) <i>k<\/i> &gt; 0, <i>b<\/i> &lt; 0<\/span><\/p><p>В ответ запишите три цифры в порядке букв А, Б, В.<\/p>"},{"scan":[["img/v10/z12-1.webp",977,158]],"key":["176"],"html":"<p>Чтобы перевести значение температуры по шкале Цельсия в шкалу Фаренгейта, пользуются формулой<\/p><p class=\"big\"><i>t<\/i><sub>F<\/sub> = 1,8<i>t<\/i><sub>C<\/sub> + 32,<\/p><p>где <span class=\"f\"><i>t<\/i><sub>C<\/sub><\/span> — температура в градусах Цельсия, <span class=\"f\"><i>t<\/i><sub>F<\/sub><\/span> — температура в градусах Фаренгейта.<\/p><p>Скольким градусам по шкале Фаренгейта соответствует 80 градусов по шкале Цельсия?<\/p>"},{"scan":[["img/v10/z13-1.webp",872,176]],"key":["1"],"html":"<p>Укажите решение системы неравенств<\/p><div class=\"big\"><math display=\"block\"><mrow><mo stretchy=\"true\">{<\/mo><mtable columnalign=\"left\"><mtr><mtd><mo>−<\/mo><mn>5<\/mn><mo>+<\/mo><mn>5<\/mn><mi>x<\/mi><mo>&lt;<\/mo><mn>0<\/mn><\/mtd><\/mtr><mtr><mtd><mn>4<\/mn><mo>−<\/mo><mn>3<\/mn><mi>x<\/mi><mo>&lt;<\/mo><mn>31<\/mn><\/mtd><\/mtr><\/mtable><\/mrow><\/math><\/div><p class=\"opts\"><span class=\"f\">1) (−9; 1)<\/span><span class=\"f\">2) нет решений<\/span><span class=\"f\">3) (−9; +∞)<\/span><span class=\"f\">4) (−∞; 1)<\/span><\/p>"},{"scan":[["img/v10/z14-1.webp",975,212]],"key":["50"],"html":"<p>В амфитеатре 18 рядов, причём в каждом следующем ряду на одно и то же число мест больше, чем в предыдущем. В шестом ряду 26 мест, а в восьмом ряду 30 мест.<\/p><p>Сколько мест в последнем ряду амфитеатра?<\/p>"},{"scan":[["img/v10/z15-1.webp",982,182]],"key":["26"],"html":"<img class=\"fig\" src=\"img/v10/f15.webp\" width=\"327\" height=\"119\" alt=\"Рисунок к заданию\"><p>В треугольнике <i>ABC<\/i> известно, что <span class=\"f\"><i>AB<\/i> = <i>BC<\/i><\/span>, <span class=\"f\">∠<i>ABC<\/i> = 128°<\/span>.<\/p><p>Найдите угол <i>BCA<\/i>. Ответ дайте в градусах.<\/p>"},{"scan":[["img/v10/z16-1.webp",976,210]],"key":["93"],"html":"<img class=\"fig\" src=\"img/v10/f16.webp\" width=\"182\" height=\"172\" alt=\"Рисунок к заданию\"><p>Четырёхугольник <i>ABCD<\/i> вписан в окружность. Угол <i>ABD<\/i> равен 51°, угол <i>CAD<\/i> равен 42°.<\/p><p>Найдите угол <i>ABC<\/i>. Ответ дайте в градусах.<\/p>"},{"scan":[["img/v10/z17-1.webp",975,241]],"key":["35"],"html":"<img class=\"fig\" src=\"img/v10/f17.webp\" width=\"298\" height=\"143\" alt=\"Рисунок к заданию\"><p>Диагональ <i>BD<\/i> параллелограмма <i>ABCD<\/i> образует с его сторонами углы, равные 65° и 80°.<\/p><p>Найдите меньший угол этого параллелограмма. Ответ дайте в градусах.<\/p>"},{"scan":[["img/v10/z18-1.webp",985,181]],"key":["18"],"html":"<img class=\"fig\" src=\"img/v10/f18.webp\" width=\"278\" height=\"133\" alt=\"Рисунок к заданию\"><p>На клетчатой бумаге с размером клетки <span class=\"f\">1 × 1<\/span> изображён параллелограмм.<\/p><p>Найдите его площадь.<\/p>"},{"scan":[["img/v10/z19-1.webp",975,334],["img/v10/z19-2.webp",819,117]],"key":["12","21"],"html":"<p>Какие из следующих утверждений верны?<\/p><p class=\"st\">1) Длина гипотенузы прямоугольного треугольника меньше суммы длин его катетов.<\/p><p class=\"st\">2) Если точка лежит на биссектрисе угла, то она равноудалена от сторон этого угла.<\/p><p class=\"st\">3) Если диагонали параллелограмма равны, то этот параллелограмм является ромбом.<\/p><p>В ответ запишите номера выбранных утверждений без пробелов, запятых и других дополнительных символов.<\/p>"},{"scan":[["img/v10/z20-1.webp",374,118]],"key":["(2; −3); (2; 3)"],"html":"<p>Решите систему уравнений<\/p><div class=\"big\"><math display=\"block\"><mrow><mo stretchy=\"true\">{<\/mo><mtable columnalign=\"left\"><mtr><mtd><msup><mi>x<\/mi><mn>2<\/mn><\/msup><mo>+<\/mo><mn>3<\/mn><msup><mi>y<\/mi><mn>2<\/mn><\/msup><mo>=<\/mo><mn>31<\/mn><mo>,<\/mo><\/mtd><\/mtr><mtr><mtd><mn>2<\/mn><msup><mi>x<\/mi><mn>2<\/mn><\/msup><mo>+<\/mo><mn>6<\/mn><msup><mi>y<\/mi><mn>2<\/mn><\/msup><mo>=<\/mo><mn>31<\/mn><mi>x<\/mi><mo>.<\/mo><\/mtd><\/mtr><\/mtable><\/mrow><\/math><\/div>"},{"scan":[["img/v10/z21-1.webp",977,182]],"key":["2"],"html":"<p>Имеются два сосуда, содержащие 40 кг и 20 кг раствора кислоты различной концентрации. Если их слить вместе, то получится раствор, содержащий 33% кислоты. Если же слить равные массы этих растворов, то полученный раствор будет содержать 47% кислоты.<\/p><p>Сколько килограммов кислоты содержится в первом растворе?<\/p>"},{"scan":[["img/v10/z22-1.webp",936,124]],"key":["4"],"html":"<p>Постройте график функции<\/p><p class=\"big\"><i>y<\/i> = |<i>x<\/i><sup>2<\/sup> − 6<i>x<\/i> + 5|.<\/p><p>Какое наибольшее число общих точек может иметь график данной функции с прямой, параллельной оси абсцисс?<\/p>"},{"scan":[["img/v10/z23-1.webp",976,94]],"key":["12"],"html":"<p>Катеты прямоугольного треугольника равны 15 и 20.<\/p><p>Найдите высоту, проведённую к гипотенузе.<\/p>"},{"scan":[["img/v10/z24-1.webp",976,122]],"key":[],"html":"<p>Внутри параллелограмма <i>ABCD<\/i> выбрали произвольную точку <i>F<\/i>.<\/p><p>Докажите, что сумма площадей треугольников <i>BFC<\/i> и <i>AFD<\/i> равна половине площади параллелограмма.<\/p>"},{"scan":[["img/v10/z25-1.webp",977,99]],"key":["3,2"],"html":"<p>В равнобедренную трапецию, периметр которой равен 80, а площадь равна 320, можно вписать окружность.<\/p><p>Найдите расстояние от точки пересечения диагоналей трапеции до её меньшего основания.<\/p>"}],"ctxHtml":"<img class=\"fig\" src=\"img/v10/f-ctx.webp\" width=\"501\" height=\"379\" alt=\"Рисунок к заданию\"><p>Общепринятые форматы листов бумаги обозначают буквой А и цифрой: А0, А1, А2 и так далее.<\/p><p>Лист формата А0 имеет форму прямоугольника, площадь которого равна 1 кв. м.<\/p><p>Если лист формата А0 разрезать пополам параллельно меньшей стороне, получается два равных листа формата А1. Если лист А1 разрезать так же пополам, получается два листа формата А2. И так далее.<\/p><p>Отношение большей стороны к меньшей стороне листа каждого формата одно и то же, поэтому листы всех форматов подобны. Это сделано специально для того, чтобы пропорции текста и его расположение на листе сохранялись при уменьшении или увеличении шрифта при изменении формата листа.<\/p>"},{"start":54,"context":[["img/v11/ctx-1.webp",976,496]],"tasks":[{"scan":[["img/v11/z01-1.webp",967,454]],"key":["2143"]},{"scan":[["img/v11/z02-1.webp",832,94]],"key":["32"]},{"scan":[["img/v11/z03-1.webp",932,94]],"key":["625","623,7"]},{"scan":[["img/v11/z04-1.webp",966,130]],"key":["150"]},{"scan":[["img/v11/z05-1.webp",966,181]],"key":["21"]},{"scan":[["img/v11/z06-1.webp",497,89]],"key":["1,4"]},{"scan":[["img/v11/z07-1.webp",734,345]],"key":["2"]},{"scan":[["img/v11/z08-1.webp",481,122]],"key":["125"]},{"scan":[["img/v11/z09-1.webp",966,153]],"key":["12"]},{"scan":[["img/v11/z10-1.webp",972,123]],"key":["0,65"]},{"scan":[["img/v11/z11-1.webp",983,542]],"key":["231"]},{"scan":[["img/v11/z12-1.webp",972,158]],"key":["42900"]},{"scan":[["img/v11/z13-1.webp",803,206]],"key":["1"]},{"scan":[["img/v11/z14-1.webp",974,183]],"key":["46"]},{"scan":[["img/v11/z15-1.webp",975,210]],"key":["66"]},{"scan":[["img/v11/z16-1.webp",974,177]],"key":["121"]},{"scan":[["img/v11/z17-1.webp",969,182]],"key":["2"]},{"scan":[["img/v11/z18-1.webp",982,207]],"key":["10"]},{"scan":[["img/v11/z19-1.webp",973,246],["img/v11/z19-2.webp",819,117]],"key":["2"]},{"scan":[["img/v11/z20-1.webp",444,81]],"key":["1; −1/3"]},{"scan":[["img/v11/z21-1.webp",972,182]],"key":["20"]},{"scan":[["img/v11/z22-1.webp",860,152]],"key":["2"]},{"scan":[["img/v11/z23-1.webp",972,94]],"key":["21 3/17"]},{"scan":[["img/v11/z24-1.webp",972,94]],"key":[]},{"scan":[["img/v11/z25-1.webp",972,99]],"key":["266"]}]},{"start":58,"context":[["img/v12/ctx-1.webp",986,496]],"tasks":[{"scan":[["img/v12/z01-1.webp",975,454]],"key":["3124"]},{"scan":[["img/v12/z02-1.webp",835,94]],"key":["16"]},{"scan":[["img/v12/z03-1.webp",934,94]],"key":["1250","1247,4"]},{"scan":[["img/v12/z04-1.webp",974,130]],"key":["840"]},{"scan":[["img/v12/z05-1.webp",974,180]],"key":["11"]},{"scan":[["img/v12/z06-1.webp",507,88]],"key":["15,3"]},{"scan":[["img/v12/z07-1.webp",714,303]],"key":["2"]},{"scan":[["img/v12/z08-1.webp",485,121]],"key":["16"]},{"scan":[["img/v12/z09-1.webp",974,153]],"key":["−11"]},{"scan":[["img/v12/z10-1.webp",981,122]],"key":["0,9"]},{"scan":[["img/v12/z11-1.webp",992,546]],"key":["213"]},{"scan":[["img/v12/z12-1.webp",982,187]],"key":["38800"]},{"scan":[["img/v12/z13-1.webp",959,235]],"key":["4"]},{"scan":[["img/v12/z14-1.webp",983,182]],"key":["43"]},{"scan":[["img/v12/z15-1.webp",964,210]],"key":["62"]},{"scan":[["img/v12/z16-1.webp",975,210]],"key":["103"]},{"scan":[["img/v12/z17-1.webp",990,211]],"key":["4"]},{"scan":[["img/v12/z18-1.webp",986,180]],"key":["12"]},{"scan":[["img/v12/z19-1.webp",981,275],["img/v12/z19-2.webp",819,117]],"key":["12","21"]},{"scan":[["img/v12/z20-1.webp",550,92]],"key":["1 1/2; 2 1/3"]},{"scan":[["img/v12/z21-1.webp",982,182]],"key":["20"]},{"scan":[["img/v12/z22-1.webp",863,152]],"key":["0,75"]},{"scan":[["img/v12/z23-1.webp",982,94]],"key":["33,6"]},{"scan":[["img/v12/z24-1.webp",982,94]],"key":[]},{"scan":[["img/v12/z25-1.webp",982,98]],"key":["66"]}]},{"start":62,"context":[["img/v13/ctx-1.webp",986,639]],"tasks":[{"scan":[["img/v13/z01-1.webp",973,395]],"key":["185"]},{"scan":[["img/v13/z02-1.webp",973,152]],"key":["112,75"]},{"scan":[["img/v13/z03-1.webp",974,153]],"key":["13,3"]},{"scan":[["img/v13/z04-1.webp",879,126]],"key":["603"]},{"scan":[["img/v13/z05-1.webp",974,147]],"key":["2,2"]},{"scan":[["img/v13/z06-1.webp",456,124]],"key":["9"]},{"scan":[["img/v13/z07-1.webp",974,241]],"key":["2"]},{"scan":[["img/v13/z08-1.webp",745,146]],"key":["9"]},{"scan":[["img/v13/z09-1.webp",974,151]],"key":["0"]},{"scan":[["img/v13/z10-1.webp",981,183]],"key":["0,5"]},{"scan":[["img/v13/z11-1.webp",992,546]],"key":["312"]},{"scan":[["img/v13/z12-1.webp",982,176]],"key":["183"]},{"scan":[["img/v13/z13-1.webp",553,212]],"key":["2"]},{"scan":[["img/v13/z14-1.webp",982,211]],"key":["−31"]},{"scan":[["img/v13/z15-1.webp",980,181]],"key":["47"]},{"scan":[["img/v13/z16-1.webp",959,182]],"key":["196"]},{"scan":[["img/v13/z17-1.webp",955,180]],"key":["50"]},{"scan":[["img/v13/z18-1.webp",980,180]],"key":["14"]},{"scan":[["img/v13/z19-1.webp",980,216],["img/v13/z19-2.webp",819,117]],"key":["23","32"]},{"scan":[["img/v13/z20-1.webp",621,63]],"key":["−2"]},{"scan":[["img/v13/z21-1.webp",982,153]],"key":["10"]},{"scan":[["img/v13/z22-1.webp",984,152]],"key":["−3,25; −3; 3"]},{"scan":[["img/v13/z23-1.webp",982,94]],"key":["25"]},{"scan":[["img/v13/z24-1.webp",982,94]],"key":[]},{"scan":[["img/v13/z25-1.webp",982,98]],"key":["15"]}]},{"start":66,"context":[["img/v14/ctx-1.webp",985,639]],"tasks":[{"scan":[["img/v14/z01-1.webp",954,395]],"key":["275"]},{"scan":[["img/v14/z02-1.webp",973,152]],"key":["178,75"]},{"scan":[["img/v14/z03-1.webp",974,153]],"key":["17,8"]},{"scan":[["img/v14/z04-1.webp",974,126]],"key":["775,2"]},{"scan":[["img/v14/z05-1.webp",974,117]],"key":["2,3"]},{"scan":[["img/v14/z06-1.webp",456,125]],"key":["8"]},{"scan":[["img/v14/z07-1.webp",934,240]],"key":["2"]},{"scan":[["img/v14/z08-1.webp",731,147]],"key":["2"]},{"scan":[["img/v14/z09-1.webp",974,151]],"key":["0"]},{"scan":[["img/v14/z10-1.webp",981,182]],"key":["0,56"]},{"scan":[["img/v14/z11-1.webp",992,576]],"key":["123"]},{"scan":[["img/v14/z12-1.webp",982,205]],"key":["227"]},{"scan":[["img/v14/z13-1.webp",542,212]],"key":["3"]},{"scan":[["img/v14/z14-1.webp",982,211]],"key":["−53"]},{"scan":[["img/v14/z15-1.webp",980,181]],"key":["67"]},{"scan":[["img/v14/z16-1.webp",981,153]],"key":["4096"]},{"scan":[["img/v14/z17-1.webp",983,182]],"key":["88"]},{"scan":[["img/v14/z18-1.webp",986,158]],"key":["25"]},{"scan":[["img/v14/z19-1.webp",986,216],["img/v14/z19-2.webp",819,117]],"key":["2"]},{"scan":[["img/v14/z20-1.webp",634,63]],"key":["−3"]},{"scan":[["img/v14/z21-1.webp",983,153]],"key":["15"]},{"scan":[["img/v14/z22-1.webp",984,152]],"key":["−2; 2; 2,5"]},{"scan":[["img/v14/z23-1.webp",982,94]],"key":["29"]},{"scan":[["img/v14/z24-1.webp",982,94]],"key":[]},{"scan":[["img/v14/z25-1.webp",982,98]],"key":["10"]}]},{"start":70,"context":[["img/v15/ctx-1.webp",963,726]],"tasks":[{"scan":[["img/v15/z01-1.webp",966,365]],"key":["205"]},{"scan":[["img/v15/z02-1.webp",973,124]],"key":["112,75"]},{"scan":[["img/v15/z03-1.webp",974,152]],"key":["17,9"]},{"scan":[["img/v15/z04-1.webp",974,98]],"key":["577,6"]},{"scan":[["img/v15/z05-1.webp",974,147]],"key":["5,9"]},{"scan":[["img/v15/z06-1.webp",456,154]],"key":["2"]},{"scan":[["img/v15/z07-1.webp",955,211]],"key":["4"]},{"scan":[["img/v15/z08-1.webp",668,146]],"key":["56"]},{"scan":[["img/v15/z09-1.webp",974,151]],"key":["0"]},{"scan":[["img/v15/z10-1.webp",981,153]],"key":["0,75"]},{"scan":[["img/v15/z11-1.webp",992,576]],"key":["321"]},{"scan":[["img/v15/z12-1.webp",982,176]],"key":["11"]},{"scan":[["img/v15/z13-1.webp",962,212]],"key":["3"]},{"scan":[["img/v15/z14-1.webp",981,182]],"key":["110"]},{"scan":[["img/v15/z15-1.webp",987,163]],"key":["8"]},{"scan":[["img/v15/z16-1.webp",987,152]],"key":["68"]},{"scan":[["img/v15/z17-1.webp",979,182]],"key":["4"]},{"scan":[["img/v15/z18-1.webp",965,180]],"key":["5"]},{"scan":[["img/v15/z19-1.webp",980,246],["img/v15/z19-2.webp",819,117]],"key":["13","31"]},{"scan":[["img/v15/z20-1.webp",624,59]],"key":["−5"]},{"scan":[["img/v15/z21-1.webp",983,241]],"key":["26"]},{"scan":[["img/v15/z22-1.webp",985,149]],"key":["−9; 0; 9"]},{"scan":[["img/v15/z23-1.webp",983,94]],"key":["6"]},{"scan":[["img/v15/z24-1.webp",983,93]],"key":[]},{"scan":[["img/v15/z25-1.webp",984,70]],"key":["AB=4√13; BC=8√13; AC=12√5"]}]},{"start":74,"context":[["img/v16/ctx-1.webp",985,639]],"tasks":[{"scan":[["img/v16/z01-1.webp",954,394]],"key":["195"]},{"scan":[["img/v16/z02-1.webp",976,152]],"key":["107,25"]},{"scan":[["img/v16/z03-1.webp",974,153]],"key":["14,8"]},{"scan":[["img/v16/z04-1.webp",975,127]],"key":["561,2"]},{"scan":[["img/v16/z05-1.webp",974,147]],"key":["0,8"]},{"scan":[["img/v16/z06-1.webp",456,124]],"key":["3"]},{"scan":[["img/v16/z07-1.webp",927,241]],"key":["2"]},{"scan":[["img/v16/z08-1.webp",669,146]],"key":["24"]},{"scan":[["img/v16/z09-1.webp",974,151]],"key":["0"]},{"scan":[["img/v16/z10-1.webp",981,153]],"key":["0,5"]},{"scan":[["img/v16/z11-1.webp",992,576]],"key":["321"]},{"scan":[["img/v16/z12-1.webp",982,176]],"key":["13"]},{"scan":[["img/v16/z13-1.webp",539,212]],"key":["3"]},{"scan":[["img/v16/z14-1.webp",981,182]],"key":["102"]},{"scan":[["img/v16/z15-1.webp",987,179]],"key":["53"]},{"scan":[["img/v16/z16-1.webp",981,151]],"key":["13"]},{"scan":[["img/v16/z17-1.webp",973,182]],"key":["82"]},{"scan":[["img/v16/z18-1.webp",960,204]],"key":["3"]},{"scan":[["img/v16/z19-1.webp",980,245],["img/v16/z19-2.webp",819,111]],"key":["1"]},{"scan":[["img/v16/z20-1.webp",614,65]],"key":["−4"]},{"scan":[["img/v16/z21-1.webp",983,241]],"key":["84"]},{"scan":[["img/v16/z22-1.webp",984,149]],"key":["−20,25; 0; 20,25"]},{"scan":[["img/v16/z23-1.webp",982,94]],"key":["20"]},{"scan":[["img/v16/z24-1.webp",982,94]],"key":[]},{"scan":[["img/v16/z25-1.webp",982,68]],"key":["AB=7√13; BC=14√13; AC=21√5"]}]},{"start":78,"context":[["img/v17/ctx-1.webp",987,1011]],"tasks":[{"scan":[["img/v17/z01-1.webp",974,332]],"key":["76108"]},{"scan":[["img/v17/z02-1.webp",761,99]],"key":["440"]},{"scan":[["img/v17/z03-1.webp",974,147]],"key":["4"]},{"scan":[["img/v17/z04-1.webp",975,160]],"key":["40"]},{"scan":[["img/v17/z05-1.webp",974,655]],"key":["440"]},{"scan":[["img/v17/z06-1.webp",489,94]],"key":["8,16"]},{"scan":[["img/v17/z07-1.webp",829,259]],"key":["4"]},{"scan":[["img/v17/z08-1.webp",695,130]],"key":["64"]},{"scan":[["img/v17/z09-1.webp",533,93]],"key":["6,75"]},{"scan":[["img/v17/z10-1.webp",982,147]],"key":["0,72"]},{"scan":[["img/v17/z11-1.webp",992,456]],"key":["312"]},{"scan":[["img/v17/z12-1.webp",983,207]],"key":["6"]},{"scan":[["img/v17/z13-1.webp",622,212]],"key":["2"]},{"scan":[["img/v17/z14-1.webp",982,211]],"key":["6"]},{"scan":[["img/v17/z15-1.webp",982,151]],"key":["17"]},{"scan":[["img/v17/z16-1.webp",993,152]],"key":["33"]},{"scan":[["img/v17/z17-1.webp",985,152]],"key":["157"]},{"scan":[["img/v17/z18-1.webp",993,182]],"key":["1,5"]},{"scan":[["img/v17/z19-1.webp",996,334]],"key":["2"]},{"scan":[["img/v17/z20-1.webp",436,59]],"key":["−5; 4"]},{"scan":[["img/v17/z21-1.webp",982,181]],"key":["24"]},{"scan":[["img/v17/z22-1.webp",982,124]],"key":["0; 0,25"]},{"scan":[["img/v17/z23-1.webp",980,94]],"key":["39"]},{"scan":[["img/v17/z24-1.webp",980,94]],"key":[]},{"scan":[["img/v17/z25-1.webp",981,99]],"key":["120"]}]},{"start":82,"context":[["img/v18/ctx-1.webp",987,1011]],"tasks":[{"scan":[["img/v18/z01-1.webp",975,273]],"key":["83117"]},{"scan":[["img/v18/z02-1.webp",727,65]],"key":["425"]},{"scan":[["img/v18/z03-1.webp",974,99]],"key":["4"]},{"scan":[["img/v18/z04-1.webp",916,123]],"key":["50"]},{"scan":[["img/v18/z05-1.webp",974,657]],"key":["350"]},{"scan":[["img/v18/z06-1.webp",489,94]],"key":["38,27"]},{"scan":[["img/v18/z07-1.webp",873,259]],"key":["2"]},{"scan":[["img/v18/z08-1.webp",695,101]],"key":["81"]},{"scan":[["img/v18/z09-1.webp",540,94]],"key":["−5,8"]},{"scan":[["img/v18/z10-1.webp",982,187]],"key":["0,45"]},{"scan":[["img/v18/z11-1.webp",992,478]],"key":["213"]},{"scan":[["img/v18/z12-1.webp",983,209]],"key":["6"]},{"scan":[["img/v18/z13-1.webp",620,210]],"key":["3"]},{"scan":[["img/v18/z14-1.webp",982,182]],"key":["4"]},{"scan":[["img/v18/z15-1.webp",982,151]],"key":["100"]},{"scan":[["img/v18/z16-1.webp",985,170]],"key":["16"]},{"scan":[["img/v18/z17-1.webp",965,128]],"key":["129"]},{"scan":[["img/v18/z18-1.webp",965,176]],"key":["3"]},{"scan":[["img/v18/z19-1.webp",984,364]],"key":["13","31"]},{"scan":[["img/v18/z20-1.webp",450,59]],"key":["−5; 3"]},{"scan":[["img/v18/z21-1.webp",982,181]],"key":["25"]},{"scan":[["img/v18/z22-1.webp",981,123]],"key":["0; 0,25"]},{"scan":[["img/v18/z23-1.webp",981,95]],"key":["35"]},{"scan":[["img/v18/z24-1.webp",981,93]],"key":[]},{"scan":[["img/v18/z25-1.webp",982,129]],"key":["112"]}]},{"start":86,"context":[["img/v19/ctx-1.webp",987,1011]],"tasks":[{"scan":[["img/v19/z01-1.webp",975,302]],"key":["3517"]},{"scan":[["img/v19/z02-1.webp",746,129]],"key":["680"]},{"scan":[["img/v19/z03-1.webp",974,117]],"key":["2"]},{"scan":[["img/v19/z04-1.webp",975,159]],"key":["75"]},{"scan":[["img/v19/z05-1.webp",974,657]],"key":["430"]},{"scan":[["img/v19/z06-1.webp",489,94]],"key":["20,16"]},{"scan":[["img/v19/z07-1.webp",843,241]],"key":["2"]},{"scan":[["img/v19/z08-1.webp",532,126]],"key":["2"]},{"scan":[["img/v19/z09-1.webp",550,128]],"key":["−10,6"]},{"scan":[["img/v19/z10-1.webp",981,117]],"key":["0,55"]},{"scan":[["img/v19/z11-1.webp",992,454]],"key":["123"]},{"scan":[["img/v19/z12-1.webp",980,206]],"key":["12"]},{"scan":[["img/v19/z13-1.webp",712,228]],"key":["1"]},{"scan":[["img/v19/z14-1.webp",982,182]],"key":["4"]},{"scan":[["img/v19/z15-1.webp",982,153]],"key":["9"]},{"scan":[["img/v19/z16-1.webp",983,160]],"key":["60"]},{"scan":[["img/v19/z17-1.webp",978,147]],"key":["118"]},{"scan":[["img/v19/z18-1.webp",972,163]],"key":["1,5"]},{"scan":[["img/v19/z19-1.webp",984,334]],"key":["3"]},{"scan":[["img/v19/z20-1.webp",622,59]],"key":["−5; −4; 2"]},{"scan":[["img/v19/z21-1.webp",982,122]],"key":["80"]},{"scan":[["img/v19/z22-1.webp",981,187]],"key":["−1"]},{"scan":[["img/v19/z23-1.webp",981,94]],"key":["12√6"]},{"scan":[["img/v19/z24-1.webp",982,123]],"key":[]},{"scan":[["img/v19/z25-1.webp",983,99]],"key":["√133"]}]},{"start":90,"context":[["img/v20/ctx-1.webp",987,1011]],"tasks":[{"scan":[["img/v20/z01-1.webp",975,273]],"key":["1523"]},{"scan":[["img/v20/z02-1.webp",758,94]],"key":["500"]},{"scan":[["img/v20/z03-1.webp",947,70]],"key":["4"]},{"scan":[["img/v20/z04-1.webp",975,152]],"key":["200"]},{"scan":[["img/v20/z05-1.webp",974,658]],"key":["350"]},{"scan":[["img/v20/z06-1.webp",488,94]],"key":["17,25"]},{"scan":[["img/v20/z07-1.webp",843,240]],"key":["3"]},{"scan":[["img/v20/z08-1.webp",532,127]],"key":["11"]},{"scan":[["img/v20/z09-1.webp",533,94]],"key":["1,75"]},{"scan":[["img/v20/z10-1.webp",981,123]],"key":["0,3"]},{"scan":[["img/v20/z11-1.webp",982,52],["img/v20/z11-2.webp",953,435]],"key":["312"]},{"scan":[["img/v20/z12-1.webp",980,236]],"key":["9"]},{"scan":[["img/v20/z13-1.webp",722,188]],"key":["1"]},{"scan":[["img/v20/z14-1.webp",980,182]],"key":["5"]},{"scan":[["img/v20/z15-1.webp",982,152]],"key":["30"]},{"scan":[["img/v20/z16-1.webp",983,181]],"key":["46"]},{"scan":[["img/v20/z17-1.webp",962,158]],"key":["78"]},{"scan":[["img/v20/z18-1.webp",973,148]],"key":["4,5"]},{"scan":[["img/v20/z19-1.webp",986,334]],"key":["2"]},{"scan":[["img/v20/z20-1.webp",555,60]],"key":["−4; −3; 1"]},{"scan":[["img/v20/z21-1.webp",983,123]],"key":["80"]},{"scan":[["img/v20/z22-1.webp",982,186]],"key":["9"]},{"scan":[["img/v20/z23-1.webp",981,94]],"key":["8√6"]},{"scan":[["img/v20/z24-1.webp",981,123]],"key":[]},{"scan":[["img/v20/z25-1.webp",982,99]],"key":["√711"]}]},{"start":94,"context":[["img/v21/ctx-1.webp",980,521]],"tasks":[{"scan":[["img/v21/z01-1.webp",967,213]],"key":["421"]},{"scan":[["img/v21/z02-1.webp",969,123]],"key":["23"]},{"scan":[["img/v21/z03-1.webp",968,124]],"key":["17"]},{"scan":[["img/v21/z04-1.webp",969,130]],"key":["55,2"]},{"scan":[["img/v21/z05-1.webp",975,359],["img/v21/z05-2.webp",809,117]],"key":["829"]},{"scan":[["img/v21/z06-1.webp",401,181]],"key":["2,1"]},{"scan":[["img/v21/z07-1.webp",681,267]],"key":["1"]},{"scan":[["img/v21/z08-1.webp",538,158]],"key":["0,5"]},{"scan":[["img/v21/z09-1.webp",970,181]],"key":["2"]},{"scan":[["img/v21/z10-1.webp",982,153]],"key":["0,9"]},{"scan":[["img/v21/z11-1.webp",987,481]],"key":["132"]},{"scan":[["img/v21/z12-1.webp",977,204]],"key":["−75"]},{"scan":[["img/v21/z13-1.webp",953,211]],"key":["1"]},{"scan":[["img/v21/z14-1.webp",975,212]],"key":["−54"]},{"scan":[["img/v21/z15-1.webp",986,155]],"key":["15"]},{"scan":[["img/v21/z16-1.webp",985,182]],"key":["15"]},{"scan":[["img/v21/z17-1.webp",986,182]],"key":["66"]},{"scan":[["img/v21/z18-1.webp",970,157]],"key":["3"]},{"scan":[["img/v21/z19-1.webp",976,241],["img/v21/z19-2.webp",819,117]],"key":["23","32"]},{"scan":[["img/v21/z20-1.webp",442,86]],"key":["(3−√5; 3+√5)"]},{"scan":[["img/v21/z21-1.webp",976,211]],"key":["44"]},{"scan":[["img/v21/z22-1.webp",976,124]],"key":["−6,25; 12,25"]},{"scan":[["img/v21/z23-1.webp",976,123]],"key":["30"]},{"scan":[["img/v21/z24-1.webp",976,93]],"key":[]},{"scan":[["img/v21/z25-1.webp",975,99]],"key":["2; 30"]}]},{"start":98,"context":[["img/v22/ctx-1.webp",980,462]],"tasks":[{"scan":[["img/v22/z01-1.webp",968,243]],"key":["321"]},{"scan":[["img/v22/z02-1.webp",968,123]],"key":["14"]},{"scan":[["img/v22/z03-1.webp",968,124]],"key":["10"]},{"scan":[["img/v22/z04-1.webp",969,159]],"key":["61,6"]},{"scan":[["img/v22/z05-1.webp",975,359],["img/v22/z05-2.webp",936,117]],"key":["1316"]},{"scan":[["img/v22/z06-1.webp",401,180]],"key":["1,6"]},{"scan":[["img/v22/z07-1.webp",681,239]],"key":["4"]},{"scan":[["img/v22/z08-1.webp",538,158]],"key":["0,6"]},{"scan":[["img/v22/z09-1.webp",969,210]],"key":["7"]},{"scan":[["img/v22/z10-1.webp",982,152]],"key":["0,6"]},{"scan":[["img/v22/z11-1.webp",987,482]],"key":["132"]},{"scan":[["img/v22/z12-1.webp",977,204]],"key":["−5"]},{"scan":[["img/v22/z13-1.webp",737,226]],"key":["1"]},{"scan":[["img/v22/z14-1.webp",975,212]],"key":["−44"]},{"scan":[["img/v22/z15-1.webp",980,154]],"key":["24"]},{"scan":[["img/v22/z16-1.webp",979,182]],"key":["5"]},{"scan":[["img/v22/z17-1.webp",986,182]],"key":["70"]},{"scan":[["img/v22/z18-1.webp",981,172]],"key":["1,5"]},{"scan":[["img/v22/z19-1.webp",981,212],["img/v22/z19-2.webp",819,117]],"key":["23","32"]},{"scan":[["img/v22/z20-1.webp",437,86]],"key":["(4−√6; 4+√6)"]},{"scan":[["img/v22/z21-1.webp",978,211]],"key":["80"]},{"scan":[["img/v22/z22-1.webp",977,124]],"key":["0,25; 6,25"]},{"scan":[["img/v22/z23-1.webp",977,123]],"key":["21"]},{"scan":[["img/v22/z24-1.webp",978,93]],"key":[]},{"scan":[["img/v22/z25-1.webp",977,99]],"key":["16; 22"]}]},{"start":102,"context":[["img/v23/ctx-1.webp",959,497]],"tasks":[{"scan":[["img/v23/z01-1.webp",964,241]],"key":["143"]},{"scan":[["img/v23/z02-1.webp",963,123]],"key":["42"]},{"scan":[["img/v23/z03-1.webp",963,124]],"key":["30"]},{"scan":[["img/v23/z04-1.webp",963,130]],"key":["168"]},{"scan":[["img/v23/z05-1.webp",975,359],["img/v23/z05-2.webp",931,117]],"key":["570"]},{"scan":[["img/v23/z06-1.webp",401,180]],"key":["−1,95"]},{"scan":[["img/v23/z07-1.webp",685,238]],"key":["3"]},{"scan":[["img/v23/z08-1.webp",594,99]],"key":["15"]},{"scan":[["img/v23/z09-1.webp",964,180]],"key":["5"]},{"scan":[["img/v23/z10-1.webp",970,182]],"key":["0,56"]},{"scan":[["img/v23/z11-1.webp",983,542]],"key":["231"]},{"scan":[["img/v23/z12-1.webp",970,176]],"key":["−94"]},{"scan":[["img/v23/z13-1.webp",969,212]],"key":["2"]},{"scan":[["img/v23/z14-1.webp",968,211]],"key":["78"]},{"scan":[["img/v23/z15-1.webp",981,156]],"key":["18"]},{"scan":[["img/v23/z16-1.webp",980,177]],"key":["42"]},{"scan":[["img/v23/z17-1.webp",977,182]],"key":["24"]},{"scan":[["img/v23/z18-1.webp",982,182]],"key":["4"]},{"scan":[["img/v23/z19-1.webp",982,246],["img/v23/z19-2.webp",819,117]],"key":["1"]},{"scan":[["img/v23/z20-1.webp",519,63]],"key":["(1; 1+√2)"]},{"scan":[["img/v23/z21-1.webp",973,182]],"key":["13"]},{"scan":[["img/v23/z22-1.webp",973,175]],"key":["0,36"]},{"scan":[["img/v23/z23-1.webp",972,124]],"key":["24"]},{"scan":[["img/v23/z24-1.webp",973,122]],"key":[]},{"scan":[["img/v23/z25-1.webp",972,99]],"key":["130"]}]},{"start":106,"context":[["img/v24/ctx-1.webp",980,462]],"tasks":[{"scan":[["img/v24/z01-1.webp",969,243]],"key":["234"]},{"scan":[["img/v24/z02-1.webp",968,123]],"key":["34"]},{"scan":[["img/v24/z03-1.webp",968,124]],"key":["26"]},{"scan":[["img/v24/z04-1.webp",968,159]],"key":["162"]},{"scan":[["img/v24/z05-1.webp",975,359],["img/v24/z05-2.webp",936,117]],"key":["957"]},{"scan":[["img/v24/z06-1.webp",401,180]],"key":["−0,4"]},{"scan":[["img/v24/z07-1.webp",691,239]],"key":["2"]},{"scan":[["img/v24/z08-1.webp",594,98]],"key":["3"]},{"scan":[["img/v24/z09-1.webp",969,180]],"key":["8"]},{"scan":[["img/v24/z10-1.webp",976,183]],"key":["0,45"]},{"scan":[["img/v24/z11-1.webp",987,541]],"key":["123"]},{"scan":[["img/v24/z12-1.webp",976,176]],"key":["122"]},{"scan":[["img/v24/z13-1.webp",708,210]],"key":["2"]},{"scan":[["img/v24/z14-1.webp",975,211]],"key":["55"]},{"scan":[["img/v24/z15-1.webp",986,156]],"key":["24"]},{"scan":[["img/v24/z16-1.webp",982,181]],"key":["54"]},{"scan":[["img/v24/z17-1.webp",980,181]],"key":["22"]},{"scan":[["img/v24/z18-1.webp",986,161]],"key":["2"]},{"scan":[["img/v24/z19-1.webp",977,246],["img/v24/z19-2.webp",819,117]],"key":["1"]},{"scan":[["img/v24/z20-1.webp",519,63]],"key":["(2; 2+√3)"]},{"scan":[["img/v24/z21-1.webp",977,153]],"key":["11"]},{"scan":[["img/v24/z22-1.webp",978,174]],"key":["0,16"]},{"scan":[["img/v24/z23-1.webp",976,124]],"key":["16"]},{"scan":[["img/v24/z24-1.webp",979,122]],"key":[]},{"scan":[["img/v24/z25-1.webp",977,128]],"key":["300"]}]},{"start":110,"context":[["img/v25/ctx-1.webp",974,466]],"tasks":[{"scan":[["img/v25/z01-1.webp",964,243]],"key":["243"]},{"scan":[["img/v25/z02-1.webp",963,123]],"key":["56"]},{"scan":[["img/v25/z03-1.webp",963,124]],"key":["68"]},{"scan":[["img/v25/z04-1.webp",964,130]],"key":["102"]},{"scan":[["img/v25/z05-1.webp",975,388],["img/v25/z05-2.webp",932,147]],"key":["1096"]},{"scan":[["img/v25/z06-1.webp",401,121]],"key":["0,9"]},{"scan":[["img/v25/z07-1.webp",964,244]],"key":["1"]},{"scan":[["img/v25/z08-1.webp",615,99]],"key":["252"]},{"scan":[["img/v25/z09-1.webp",963,181]],"key":["9"]},{"scan":[["img/v25/z10-1.webp",981,182]],"key":["0,65"]},{"scan":[["img/v25/z11-1.webp",983,551]],"key":["132"]},{"scan":[["img/v25/z12-1.webp",971,205]],"key":["980"]},{"scan":[["img/v25/z13-1.webp",808,212]],"key":["2"]},{"scan":[["img/v25/z14-1.webp",970,182]],"key":["351"]},{"scan":[["img/v25/z15-1.webp",979,171]],"key":["10"]},{"scan":[["img/v25/z16-1.webp",980,156]],"key":["8"]},{"scan":[["img/v25/z17-1.webp",969,182]],"key":["5,5"]},{"scan":[["img/v25/z18-1.webp",970,183]],"key":["9"]},{"scan":[["img/v25/z19-1.webp",970,245],["img/v25/z19-2.webp",819,117]],"key":["3"]},{"scan":[["img/v25/z20-1.webp",822,89]],"key":["6"]},{"scan":[["img/v25/z21-1.webp",972,123]],"key":["20"]},{"scan":[["img/v25/z22-1.webp",974,180]],"key":["−4; −3"]},{"scan":[["img/v25/z23-1.webp",972,123]],"key":["7"]},{"scan":[["img/v25/z24-1.webp",973,152]],"key":[]},{"scan":[["img/v25/z25-1.webp",973,117]],"key":["10,8"]}]},{"start":114,"context":[["img/v26/ctx-1.webp",980,466]],"tasks":[{"scan":[["img/v26/z01-1.webp",968,243]],"key":["421"]},{"scan":[["img/v26/z02-1.webp",968,123]],"key":["92"]},{"scan":[["img/v26/z03-1.webp",968,124]],"key":["40"]},{"scan":[["img/v26/z04-1.webp",969,159]],"key":["87"]},{"scan":[["img/v26/z05-1.webp",975,359],["img/v26/z05-2.webp",936,117]],"key":["1915"]},{"scan":[["img/v26/z06-1.webp",401,151]],"key":["0,45"]},{"scan":[["img/v26/z07-1.webp",969,244]],"key":["4"]},{"scan":[["img/v26/z08-1.webp",629,127]],"key":["260"]},{"scan":[["img/v26/z09-1.webp",969,181]],"key":["3"]},{"scan":[["img/v26/z10-1.webp",941,153]],"key":["0,4"]},{"scan":[["img/v26/z11-1.webp",987,551]],"key":["321"]},{"scan":[["img/v26/z12-1.webp",976,205]],"key":["882"]},{"scan":[["img/v26/z13-1.webp",808,212]],"key":["2"]},{"scan":[["img/v26/z14-1.webp",976,211]],"key":["486"]},{"scan":[["img/v26/z15-1.webp",985,164]],"key":["12,5"]},{"scan":[["img/v26/z16-1.webp",966,151]],"key":["8"]},{"scan":[["img/v26/z17-1.webp",979,181]],"key":["8,5"]},{"scan":[["img/v26/z18-1.webp",988,162]],"key":["4"]},{"scan":[["img/v26/z19-1.webp",988,245],["img/v26/z19-2.webp",819,117]],"key":["2"]},{"scan":[["img/v26/z20-1.webp",849,89]],"key":["3"]},{"scan":[["img/v26/z21-1.webp",977,123]],"key":["20"]},{"scan":[["img/v26/z22-1.webp",979,180]],"key":["1,8; 2"]},{"scan":[["img/v26/z23-1.webp",977,124]],"key":["20"]},{"scan":[["img/v26/z24-1.webp",978,151]],"key":[]},{"scan":[["img/v26/z25-1.webp",978,118]],"key":["13,5"]}]},{"start":118,"context":[["img/v27/ctx-1.webp",982,381]],"tasks":[{"scan":[["img/v27/z01-1.webp",928,216]],"key":["312"]},{"scan":[["img/v27/z02-1.webp",929,120]],"key":["15,4"]},{"scan":[["img/v27/z03-1.webp",930,153]],"key":["2000"]},{"scan":[["img/v27/z04-1.webp",929,95]],"key":["16200"]},{"scan":[["img/v27/z05-1.webp",928,506]],"key":["50"]},{"scan":[["img/v27/z06-1.webp",446,145]],"key":["4,5"]},{"scan":[["img/v27/z07-1.webp",628,186]],"key":["3"]},{"scan":[["img/v27/z08-1.webp",622,98]],"key":["66"]},{"scan":[["img/v27/z09-1.webp",929,153]],"key":["0,2"]},{"scan":[["img/v27/z10-1.webp",945,239]],"key":["0,5"]},{"scan":[["img/v27/z11-1.webp",976,491]],"key":["321"]},{"scan":[["img/v27/z12-1.webp",936,220]],"key":["6"]},{"scan":[["img/v27/z13-1.webp",849,294]],"key":["2"]},{"scan":[["img/v27/z14-1.webp",935,211]],"key":["10"]},{"scan":[["img/v27/z15-1.webp",944,151]],"key":["21"]},{"scan":[["img/v27/z16-1.webp",946,182]],"key":["68"]},{"scan":[["img/v27/z17-1.webp",941,182]],"key":["54"]},{"scan":[["img/v27/z18-1.webp",947,194]],"key":["1,25"]},{"scan":[["img/v27/z19-1.webp",947,275],["img/v27/z19-2.webp",819,117]],"key":["13","31"]},{"scan":[["img/v27/z20-1.webp",605,92]],"key":["5/6; 1,5"]},{"scan":[["img/v27/z21-1.webp",937,152]],"key":["30"]},{"scan":[["img/v27/z22-1.webp",883,209]],"key":["{0} ∪ [4; +∞)"]},{"scan":[["img/v27/z23-1.webp",936,94]],"key":["29√2"]},{"scan":[["img/v27/z24-1.webp",938,93]],"key":[]},{"scan":[["img/v27/z25-1.webp",937,128]],"key":["91"]}]},{"start":122,"context":[["img/v28/ctx-1.webp",982,381]],"tasks":[{"scan":[["img/v28/z01-1.webp",967,214]],"key":["321"]},{"scan":[["img/v28/z02-1.webp",969,122]],"key":["7,7"]},{"scan":[["img/v28/z03-1.webp",968,123]],"key":["4500"]},{"scan":[["img/v28/z04-1.webp",968,101]],"key":["17550"]},{"scan":[["img/v28/z05-1.webp",960,530]],"key":["65"]},{"scan":[["img/v28/z06-1.webp",401,145]],"key":["8,75"]},{"scan":[["img/v28/z07-1.webp",587,186]],"key":["1"]},{"scan":[["img/v28/z08-1.webp",581,127]],"key":["78"]},{"scan":[["img/v28/z09-1.webp",969,153]],"key":["0,5"]},{"scan":[["img/v28/z10-1.webp",973,242]],"key":["0,75"]},{"scan":[["img/v28/z11-1.webp",997,485]],"key":["231"]},{"scan":[["img/v28/z12-1.webp",976,190]],"key":["8"]},{"scan":[["img/v28/z13-1.webp",845,264]],"key":["3"]},{"scan":[["img/v28/z14-1.webp",976,241]],"key":["10"]},{"scan":[["img/v28/z15-1.webp",970,153]],"key":["18"]},{"scan":[["img/v28/z16-1.webp",950,213]],"key":["32"]},{"scan":[["img/v28/z17-1.webp",978,182]],"key":["12"]},{"scan":[["img/v28/z18-1.webp",987,241]],"key":["4,5"]},{"scan":[["img/v28/z19-1.webp",974,244],["img/v28/z19-2.webp",819,117]],"key":["2"]},{"scan":[["img/v28/z20-1.webp",555,59]],"key":["−3; −1; 2"]},{"scan":[["img/v28/z21-1.webp",976,124]],"key":["26"]},{"scan":[["img/v28/z22-1.webp",976,209]],"key":["{0} ∪ [9; +∞)"]},{"scan":[["img/v28/z23-1.webp",975,94]],"key":["25√3"]},{"scan":[["img/v28/z24-1.webp",977,94]],"key":[]},{"scan":[["img/v28/z25-1.webp",977,98]],"key":["30"]}]},{"start":126,"context":[["img/v29/ctx-1.webp",987,639]],"tasks":[{"scan":[["img/v29/z01-1.webp",976,392]],"key":["195"]},{"scan":[["img/v29/z02-1.webp",968,153]],"key":["101,25"]},{"scan":[["img/v29/z03-1.webp",968,153]],"key":["15,2"]},{"scan":[["img/v29/z04-1.webp",969,128]],"key":["652,4"]},{"scan":[["img/v29/z05-1.webp",969,176]],"key":["2,32"]},{"scan":[["img/v29/z06-1.webp",501,124]],"key":["3,6"]},{"scan":[["img/v29/z07-1.webp",727,294]],"key":["1"]},{"scan":[["img/v29/z08-1.webp",554,131]],"key":["8"]},{"scan":[["img/v29/z09-1.webp",969,181]],"key":["−2"]},{"scan":[["img/v29/z10-1.webp",899,122]],"key":["0,25"]},{"scan":[["img/v29/z11-1.webp",997,509]],"key":["132"]},{"scan":[["img/v29/z12-1.webp",975,205]],"key":["7"]},{"scan":[["img/v29/z13-1.webp",803,212]],"key":["1"]},{"scan":[["img/v29/z14-1.webp",976,211]],"key":["2430"]},{"scan":[["img/v29/z15-1.webp",982,152]],"key":["228"]},{"scan":[["img/v29/z16-1.webp",968,177]],"key":["9"]},{"scan":[["img/v29/z17-1.webp",978,152]],"key":["55"]},{"scan":[["img/v29/z18-1.webp",988,181]],"key":["13"]},{"scan":[["img/v29/z19-1.webp",975,245],["img/v29/z19-2.webp",819,117]],"key":["1"]},{"scan":[["img/v29/z20-1.webp",535,59]],"key":["(−∞; −5)"]},{"scan":[["img/v29/z21-1.webp",977,124]],"key":["85,1"]},{"scan":[["img/v29/z22-1.webp",977,183]],"key":["−1; 1"]},{"scan":[["img/v29/z23-1.webp",976,94]],"key":["16√2"]},{"scan":[["img/v29/z24-1.webp",976,94]],"key":[]},{"scan":[["img/v29/z25-1.webp",977,98]],"key":["25"]}]},{"start":130,"context":[["img/v30/ctx-1.webp",986,639]],"tasks":[{"scan":[["img/v30/z01-1.webp",954,334]],"key":["195"]},{"scan":[["img/v30/z02-1.webp",968,123]],"key":["90"]},{"scan":[["img/v30/z03-1.webp",968,124]],"key":["0,4"]},{"scan":[["img/v30/z04-1.webp",969,130]],"key":["614,6"]},{"scan":[["img/v30/z05-1.webp",968,121]],"key":["2,3"]},{"scan":[["img/v30/z06-1.webp",501,88]],"key":["1,6"]},{"scan":[["img/v30/z07-1.webp",741,321]],"key":["2"]},{"scan":[["img/v30/z08-1.webp",555,130]],"key":["7"]},{"scan":[["img/v30/z09-1.webp",969,182]],"key":["2"]},{"scan":[["img/v30/z10-1.webp",975,123]],"key":["0,25"]},{"scan":[["img/v30/z11-1.webp",997,494]],"key":["132"]},{"scan":[["img/v30/z12-1.webp",975,187]],"key":["30"]},{"scan":[["img/v30/z13-1.webp",809,235]],"key":["3"]},{"scan":[["img/v30/z14-1.webp",976,211]],"key":["243"]},{"scan":[["img/v30/z15-1.webp",987,182]],"key":["231"]},{"scan":[["img/v30/z16-1.webp",984,155]],"key":["19"]},{"scan":[["img/v30/z17-1.webp",966,182]],"key":["90"]},{"scan":[["img/v30/z18-1.webp",967,240]],"key":["10"]},{"scan":[["img/v30/z19-1.webp",976,245],["img/v30/z19-2.webp",819,117]],"key":["3"]},{"scan":[["img/v30/z20-1.webp",535,59]],"key":["(−∞; −6)"]},{"scan":[["img/v30/z21-1.webp",977,124]],"key":["44,8"]},{"scan":[["img/v30/z22-1.webp",977,180]],"key":["−1; 1"]},{"scan":[["img/v30/z23-1.webp",976,94]],"key":["8√6"]},{"scan":[["img/v30/z24-1.webp",976,94]],"key":[]},{"scan":[["img/v30/z25-1.webp",976,97]],"key":["24,5"]}]},{"start":134,"context":[["img/v31/ctx-1.webp",981,856]],"tasks":[{"scan":[["img/v31/z01-1.webp",968,243]],"key":["3461"]},{"scan":[["img/v31/z02-1.webp",969,153]],"key":["23"]},{"scan":[["img/v31/z03-1.webp",969,123]],"key":["68"]},{"scan":[["img/v31/z04-1.webp",968,96]],"key":["10"]},{"scan":[["img/v31/z05-1.webp",968,562]],"key":["500"]},{"scan":[["img/v31/z06-1.webp",508,123]],"key":["17,1"]},{"scan":[["img/v31/z07-1.webp",897,269]],"key":["1"]},{"scan":[["img/v31/z08-1.webp",475,98]],"key":["64"]},{"scan":[["img/v31/z09-1.webp",969,153]],"key":["6"]},{"scan":[["img/v31/z10-1.webp",984,241]],"key":["0,5"]},{"scan":[["img/v31/z11-1.webp",975,80],["img/v31/z11-2.webp",953,409]],"key":["321"]},{"scan":[["img/v31/z12-1.webp",976,182]],"key":["62500"]},{"scan":[["img/v31/z13-1.webp",627,210]],"key":["1"]},{"scan":[["img/v31/z14-1.webp",975,212]],"key":["30"]},{"scan":[["img/v31/z15-1.webp",974,182]],"key":["17"]},{"scan":[["img/v31/z16-1.webp",982,185]],"key":["56"]},{"scan":[["img/v31/z17-1.webp",980,158]],"key":["8"]},{"scan":[["img/v31/z18-1.webp",985,150]],"key":["10"]},{"scan":[["img/v31/z19-1.webp",978,335]],"key":["2"]},{"scan":[["img/v31/z20-1.webp",605,59]],"key":["[−6; −4] ∪ [3; 5]"]},{"scan":[["img/v31/z21-1.webp",977,123]],"key":["15"]},{"scan":[["img/v31/z22-1.webp",976,123]],"key":["−2,25; 12,25"]},{"scan":[["img/v31/z23-1.webp",975,94]],"key":["11√3"]},{"scan":[["img/v31/z24-1.webp",976,94]],"key":[]},{"scan":[["img/v31/z25-1.webp",976,99]],"key":["8√3"]}]},{"start":138,"context":[["img/v32/ctx-1.webp",981,859]],"tasks":[{"scan":[["img/v32/z01-1.webp",968,243]],"key":["5136"]},{"scan":[["img/v32/z02-1.webp",968,124]],"key":["6"]},{"scan":[["img/v32/z03-1.webp",968,123]],"key":["72"]},{"scan":[["img/v32/z04-1.webp",968,99]],"key":["10"]},{"scan":[["img/v32/z05-1.webp",968,562]],"key":["650"]},{"scan":[["img/v32/z06-1.webp",508,123]],"key":["18,4"]},{"scan":[["img/v32/z07-1.webp",934,239]],"key":["3"]},{"scan":[["img/v32/z08-1.webp",475,128]],"key":["125"]},{"scan":[["img/v32/z09-1.webp",969,182]],"key":["−7"]},{"scan":[["img/v32/z10-1.webp",984,241]],"key":["0,6"]},{"scan":[["img/v32/z11-1.webp",975,52],["img/v32/z11-2.webp",942,425]],"key":["132"]},{"scan":[["img/v32/z12-1.webp",976,182]],"key":["50500"]},{"scan":[["img/v32/z13-1.webp",613,211]],"key":["2"]},{"scan":[["img/v32/z14-1.webp",975,211]],"key":["112"]},{"scan":[["img/v32/z15-1.webp",974,182]],"key":["37"]},{"scan":[["img/v32/z16-1.webp",982,156]],"key":["88"]},{"scan":[["img/v32/z17-1.webp",974,158]],"key":["5"]},{"scan":[["img/v32/z18-1.webp",981,160]],"key":["5"]},{"scan":[["img/v32/z19-1.webp",978,364]],"key":["12","21"]},{"scan":[["img/v32/z20-1.webp",615,59]],"key":["[−5; 1]"]},{"scan":[["img/v32/z21-1.webp",978,123]],"key":["15"]},{"scan":[["img/v32/z22-1.webp",977,152]],"key":["−4; 9"]},{"scan":[["img/v32/z23-1.webp",976,94]],"key":["20√6"]},{"scan":[["img/v32/z24-1.webp",977,94]],"key":[]},{"scan":[["img/v32/z25-1.webp",977,99]],"key":["8√2"]}]}]</script>
+<script>
+'use strict';
+const variants = JSON.parse(document.getElementById('data').textContent);
+const byId = id => document.getElementById(id);
+const stateKey = 'lilimath-oge2026-yudakova-32-v1';
+let records = {};
+try { records = JSON.parse(localStorage.getItem(stateKey) || '{}') || {}; }
+catch { byId('storage').textContent = 'Прогресс сохранится до закрытия страницы.'; }
+
+const hints = [
+  'Начни с объекта, который прямо назван в условии. Соотнеси другие объекты по описанию и запиши цифры в порядке столбцов таблицы.',
+  'Выпиши нужные числа из рисунка или таблицы. Проверь единицы измерения. Если требуется купить целые упаковки, неполная упаковка считается за целую.',
+  'Отметь, какую величину требуется найти. Для площади прямоугольника перемножь длину и ширину. Для расстояния по диагонали найди горизонтальный и вертикальный отрезки и проверь, нужен ли Пифагор.',
+  'Проверь, требуется найти часть, целое или процентное отношение. Чтобы узнать, сколько процентов составляет часть, раздели её на целое и умножь на 100.',
+  'Сравни величины в одинаковых единицах. Если нужно найти срок окупаемости, раздели разницу начальных затрат на экономию за один час.',
+  'Определи порядок действий. Для сложения или вычитания обыкновенных дробей сначала приведи их к общему знаменателю.',
+  'Прочитай шкалу и оцени, между какими числами лежит нужное значение. Для квадратного корня сравни подкоренное число с квадратами соседних целых.',
+  'Сначала упрости выражение. Для степеней одного основания при умножении сложи показатели, при делении вычти. Под корнем попробуй выделить множитель, который является квадратом.',
+  'Определи вид уравнения. Если оно квадратное, найди все допустимые корни и прочитай, какой именно требуется записать.',
+  'Определи подходящие исходы и все возможные исходы. При равновозможных исходах раздели первое число на второе. Если один исход уже известен, пересчитай оставшиеся варианты.',
+  'Начни с формы графика. Для прямой проверь наклон и пересечение с осью y, для параболы направление ветвей и положение вершины. Запиши номера в порядке букв.',
+  'Отметь, что известно и какую букву нужно найти. Подставь числа, соблюдая единицы измерения, затем вырази неизвестную.',
+  'Реши неравенство и проверь границы. При делении обеих частей на отрицательное число меняй знак неравенства. При строгом знаке граничная точка выколота.',
+  'Запиши первые два шага изменения. Постоянная прибавка даёт арифметическую прогрессию, постоянный множитель даёт геометрическую. Проверь, нужен один член или сумма.',
+  'Выдели на рисунке искомый отрезок или угол и подпиши данные. Вспомни, какое свойство треугольника связывает их.',
+  'Отметь центр и радиус. Проверь, где окружность касается стороны, через какие точки проходит и какой угол опирается на нужную дугу.',
+  'Подпиши стороны и углы. Отметь параллельные прямые, а если дана площадь, выдели нужное основание и проведённую к нему высоту.',
+  'Найди на сетке горизонтальные и вертикальные отрезки. Если нужен наклонный отрезок, дострой прямоугольный треугольник. Для площади попробуй разбить фигуру на простые части.',
+  'Проверь утверждения по одному. Чтобы опровергнуть утверждение со словом «всегда», достаточно привести один контрпример.',
+  'Определи тип задания. Для дробных выражений начни с ОДЗ. Если повторяется одно и то же выражение, попробуй заменить его новой переменной.',
+  'Назначь неизвестную и запиши рядом единицы. Составь равенство по условию. Для задач на движение помогает таблица «расстояние, скорость, время».',
+  'Проверь ОДЗ и распиши формулу на каждом участке. Построй ветви, отметь границы и посчитай, сколько пересечений даёт горизонталь y = m.',
+  'Перенеси данные на чертёж. Построй вспомогательный отрезок, если он позволяет получить прямоугольный или подобный треугольник.',
+  'Запиши отдельно, что дано и что требуется доказать. Для каждого равенства укажи причину. Если доказываешь подобие, назови признак и соблюдай порядок вершин.',
+  'Сделай чертёж, а искомую величину обозначь буквой. Найди промежуточные отрезки или углы, которые можно строго вывести из данных.'
+];
+const hintsFirst = {
+  1: ['Найди теплицу внутри огорода, а яблони по условному знаку. Затем найди баню и дом по описанию.', 'Раздели мощение на площадку и дорожки. Одна плитка имеет размер 1 м × 1 м, а сторона большой клетки 2 м.','Сначала установи номер гаража. Посчитай число больших клеток вдоль каждой стороны и переведи стороны в метры.','Сравни площади теплицы и всего огорода. Можно посчитать клетки обеих фигур, потому что их размер одинаковый.','Отдельно найди разницу затрат на покупку и монтаж и разницу расходов за час. Раздели первую разницу на вторую.'],
+  27: ['Сопоставь массы с номерами строк таблицы. Запиши номера в порядке масс из задания.', 'Объём прямоугольного помещения равен произведению длины, ширины и высоты.', 'Сначала выбери дровяную печь, подходящую по объёму. К цене электрической прибавь стоимость подключения и сравни.', 'После скидки 10% остаётся заплатить 90% цены.', 'Отметь середину основания дуги. Половина ширины и разность высот образуют катеты прямоугольного треугольника.']
+};
+let variant = 0, task = 0;
+function dataFor(v) {
+  return records[v] ||= { last: 1, solved: {}, written: {} };
+}
+function save() {
+  try { localStorage.setItem(stateKey, JSON.stringify(records)); }
+  catch { byId('storage').textContent = 'Прогресс сохранится до закрытия страницы.'; }
+}
+function images(box, scans, alt) {
+  box.replaceChildren(...scans.map(([src,w,h], i) => {
+    const img = new Image(w,h);
+    img.src = src;
+    img.alt = alt + (scans.length > 1 ? ', фрагмент ' + (i+1) : '');
+    return img;
+  }));
+}
+function feedback(message,type='') {
+  byId('feedback').textContent = message;
+  byId('feedback').dataset.type = type;
+}
+function populateCatalog() {
+  byId('catalog').replaceChildren(...variants.map((_,i) => {
+    const a = document.createElement('a');
+    a.href = '#v' + (i+1);
+    a.className = 'tile';
+    a.textContent = 'Вариант ' + (i+1);
+    const small = document.createElement('small');
+    const checked = Object.keys(records[i+1]?.solved || {}).length;
+    small.textContent = checked ? checked + ' из 19 верно' : '25 заданий';
+    a.append(small);
+    return a;
+  }));
+}
+const route = (v,n) => '#v' + v + '/z' + n;
+function updateMarks(record) {
+  const checked = Object.keys(record.solved).length;
+  const written = Object.keys(record.written).length;
+  byId('progress').value = checked;
+  byId('counts').textContent = `Часть 1 · ${checked}/19 верно     |     Часть 2 · ${written}/6 отмечено`;
+  byId('numbers').querySelectorAll('a').forEach((a,i)=>{
+    const n=i+1;
+    a.dataset.done = Boolean(record.solved[n] || record.written[n]);
+    a.setAttribute('aria-label','Задание ' + n + (a.dataset.done==='true' ? ', выполнено' : ''));
+  });
+}
+function showReference(text) {
+  const key=byId('key');
+  key.replaceChildren();
+  const ns='http://www.w3.org/1998/Math/MathML';
+  for (const part of text.split(/(\d+\/\d+|√\d+)/).filter(Boolean)) {
+    if (!/^(?:\d+\/\d+|√\d+)$/.test(part)) { key.append(part); continue; }
+    const math=document.createElementNS(ns,'math');
+    const fraction=part.includes('/');
+    const op=document.createElementNS(ns,fraction?'mfrac':'msqrt');
+    for (const value of fraction?part.split('/'): [part.slice(1)]) {
+      const mn=document.createElementNS(ns,'mn');
+      mn.textContent=value;
+      op.append(mn);
+    }
+    math.append(op);
+    key.append(math);
+  }
+}
+function readRoute() {
+  const match = /^#v([1-9]\d?)(?:\/z([1-9]\d?))?$/.exec(location.hash);
+  const v = match ? Number(match[1]) : 0;
+  if (v<1 || v>variants.length) {
+    variant = task = 0;
+    populateCatalog();
+    byId('home').hidden = false;
+    byId('work').hidden = true;
+    document.title = 'ОГЭ по математике · 32 варианта · lili.math';
+    return;
+  }
+  const previousVariant = variant;
+  variant = v;
+  const record = dataFor(v);
+  const requested = Number(match[2] || record.last);
+  task = requested >= 1 && requested <= 25 ? requested : 1;
+  const data = variants[v-1];
+  const current = data.tasks[task-1];
+  record.last=task;
+  save();
+  byId('home').hidden = true;
+  byId('work').hidden = false;
+  byId('title').textContent = 'Вариант ' + variant;
+  document.title = 'Вариант ' + variant + ' · ОГЭ · lili.math';
+  byId('worktitle').textContent = 'Задание №' + task;
+  byId('numbers').replaceChildren(...data.tasks.map((_,i) => {
+    const n=i+1, a=document.createElement('a');
+    a.href=route(v,n);
+    a.className='num';
+    a.dataset.part=n<=19?'1':'2';
+    a.textContent=n;
+    if(n===task)a.setAttribute('aria-current','step');
+    return a;
+  }));
+  byId('question').classList.toggle('cond',Boolean(current.html));
+  if (current.html) byId('question').innerHTML=current.html; else images(byId('question'),current.scan,'Условие задания №'+task);
+  byId('zoom').hidden=Boolean(current.html);
+  byId('shared').hidden = task>5;
+  byId('shared').open = task===1;
+  if (previousVariant!==v) { byId('context').classList.toggle('cond',Boolean(data.ctxHtml)); if (data.ctxHtml) byId('context').innerHTML=data.ctxHtml; else images(byId('context'),data.context,'Общее условие и рисунок для заданий №1–5'); }
+  byId('hint').open = false;
+  byId('hinttext').textContent = hintsFirst[v]?.[task-1] || (task===1 && numericFirst.has(v) ? 'Найди в условии модель или размер, о которых спрашивают. Выпиши нужное число из строки таблицы или маркировки и проверь единицы.' : hints[task-1]);
+  byId('form').hidden = task>19;
+  byId('written').hidden = task<=19;
+  byId('answer').value = record.solved[task] || '';
+  byId('answer').removeAttribute('aria-invalid');
+  feedback(record.solved[task] ? 'Задание уже решено.' : '');
+  byId('reference').open = false;
+  byId('ref-title').textContent = task===24 ? 'Как проверить доказательство' : 'Ответ для сверки';
+  showReference(task===24
+    ? 'Проверь, что из условия следуют все использованные равенства, ссылки на признаки и свойства указаны, а последняя строка содержит именно то, что требовалось доказать.'
+    : current.key.join(' или '));
+  byId('done').setAttribute('aria-pressed',Boolean(record.written[task]));
+  byId('done').textContent=record.written[task]?'Выполнено · снять отметку':'Отметить выполненным';
+  byId('back').disabled=task===1;
+  byId('next').textContent=task===25?'К списку вариантов':'Дальше';
+  updateMarks(record);
+  if (previousVariant===v) byId('worktitle').focus({preventScroll:false});
+  else window.scrollTo(0,0);
+}
+const numericFirst = new Set([13,14,15,16,29,30]);
+function normalized(s) {
+  return s.trim().replace(/[−–]/g,'-').replace(/,/g,'.').replace(/\s+/g,'');
+}
+function matches(value, key, n) {
+  const a=normalized(value), b=normalized(key);
+  if ([7,13].includes(n) || (n===11 && /^[1-3]{3}$/.test(b)) ||
+      (n===1 && !numericFirst.has(variant)) || n===19) return /^\d+$/.test(a) && a===b;
+  const number=/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/;
+  const fraction=/^([+-]?\d+)\/([1-9]\d*)$/;
+  const parts=fraction.exec(a);
+  return (number.test(a) || parts) &&
+    Math.abs((parts ? Number(parts[1])/Number(parts[2]) : Number(a)) - Number(b)) < 1e-10;
+}
+byId('form').addEventListener('submit',event=>{
+  event.preventDefault();
+  const input=byId('answer');
+  const raw=input.value.trim();
+  const key=variants[variant-1].tasks[task-1].key;
+  if(!raw){ feedback('Введи ответ.','bad'); return; }
+  const ok=key.some(answer=>matches(raw,answer,task));
+  input.setAttribute('aria-invalid',String(!ok));
+  if(!ok){ feedback('Пока неверно. Проверь вычисления или открой подсказку.','bad'); return; }
+  dataFor(variant).solved[task]=raw;
+  save();
+  updateMarks(dataFor(variant));
+  feedback('Верно.','good');
+});
+byId('zoom').addEventListener('click',()=>{
+  const zoom=!byId('question').classList.contains('zoom');
+  for(const id of ['question','context']) byId(id).classList.toggle('zoom',zoom);
+  byId('zoom').setAttribute('aria-pressed',zoom);
+  byId('zoom').textContent=zoom?'Уместить условие':'Увеличить условие';
+});
+byId('done').addEventListener('click',()=>{
+  const record=dataFor(variant);
+  if(record.written[task]) delete record.written[task];
+  else record.written[task]=true;
+  const done=Boolean(record.written[task]);
+  byId('done').setAttribute('aria-pressed',done);
+  byId('done').textContent=done?'Выполнено · снять отметку':'Отметить выполненным';
+  save();
+  updateMarks(record);
+});
+byId('back').addEventListener('click',()=>{if(task>1) location.hash=route(variant,task-1);});
+byId('next').addEventListener('click',()=>{location.hash=task<25?route(variant,task+1):'';});
+window.addEventListener('hashchange',readRoute);
+readRoute();
+</script>
+</body>
+</html>
