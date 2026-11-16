@@ -1684,7 +1684,7 @@ function weekCard(L){
  paint(null);adm('routeEdits',{}).then(j=>paint(j&&j.mats||{})).catch(()=>{});
 }
 /* ===== Версия сервера, устаревший календарь, результаты старых страниц ===== */
-const REQ_SERVER='8.1';
+const REQ_SERVER='8.2';
 function srvVersion(){const el=document.getElementById('srv-ver');if(!el)return;
  adm('ping').then(j=>{const v=j&&j.ver;el.innerHTML=v===REQ_SERVER?'<span class="note">Сервер кабинета '+REQ_SERVER+': актуален.</span>':'<span style="color:var(--amber);font-size:14px">Сервер кабинета: '+(v?esc(v):'старый, без номера')+', на сайте нужен '+REQ_SERVER+'. Скопируй код со страницы kabinet-code.html и вставь в Apps Script.</span>'}).catch(()=>{})}
 /* ===== Чего не хватает впереди: ближайшие квадратики всех учеников без теории/работ, по главам ===== */
