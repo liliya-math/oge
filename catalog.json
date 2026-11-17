@@ -511,6 +511,16 @@
       "auto": true
     },
     {
+      "file": "diagnostika-oshibki-5-9.html",
+      "title": "Диагностика · Типичные ошибки 5–9 классы",
+      "type": "diagnostika",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "300 карточек по 3 задания (выпуски 1–50), выбор классов на старте, отчёт с типичными ошибками. Сборка: tools/oshibki/",
+      "auto": true
+    },
+    {
       "file": "diagnostika-6-klass.html",
       "title": "6A · Диагностика · 6 класс",
       "type": "diagnostika",
