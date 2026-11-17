@@ -327,7 +327,7 @@ var api = { STEPS: STEPS, fr: fr, mx: mx, rnd: rnd };
 root.TRAINER = {
   title: 'Вероятность с нуля (задание 10 ОГЭ)', shortTitle: 'Вероятность', key: 'veroyatnost10_trainer_v1',
   sheetUrl: 'https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec',
-  needDefault: 7, needEarly: 5, earlyUpto: 3, tagMsg: TAGMSG, api: api,
+  needDefault: 4, needEarly: 4, earlyUpto: 3, tagMsg: TAGMSG, api: api,
   board: ['P = {m|n}', '0 ≤ P ≤ 1', 'P(не A) = 1 − P(A)', '3 : 10 = 0,3', '{1|2} = 0,5', '{9|36} = 0,25', 'ОО ОР РО РР', '6 · 6 = 36', 'P = {g − 1|N − 1}', '{7|20} = 0,35', 'P(A или B) = P(A) + P(B)', '2 · 2 · 2 = 8']
 };
 if (typeof module !== 'undefined' && module.exports) module.exports = root.TRAINER;

@@ -374,7 +374,7 @@ var api = { STEPS: STEPS, fr: fr, mx: mx, rnd: rnd };
 root.TRAINER = {
   title: 'ОГЭ №23: геометрия с нуля', shortTitle: 'ОГЭ №23', key: 'oge23_trainer_v1',
   sheetUrl: 'https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec',
-  needDefault: 7, needEarly: 5, earlyUpto: 3, tagMsg: TAGMSG, api: api,
+  needDefault: 4, needEarly: 4, earlyUpto: 3, tagMsg: TAGMSG, api: api,
   board: ['c² = a² + b²', 'S = {a · h|2}', 'MN = {AC|2}', 'AM · MB = CM · MD', 'BK = AB', 'OB ⟂ AB', 'S = {a + b|2} · h', 'CM = {AB|2}', '3² + 4² = 5²', '{BO|OD} = {BC|AD}', '5 · 12 · 13', 'R[169 − 25] = 12']
 };
 if (typeof module !== 'undefined' && module.exports) module.exports = root.TRAINER;

@@ -382,7 +382,7 @@ var api = { STEPS: STEPS, fr: fr, mx: mx, rnd: rnd };
 root.TRAINER = {
   title: 'ОГЭ №22 · График функции и прямая y = m', shortTitle: 'ОГЭ №22', key: 'oge22_trainer_v1',
   sheetUrl: 'https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec',
-  needDefault: 7, needEarly: 5, earlyUpto: 3, tagMsg: TAGMSG, api: api,
+  needDefault: 4, needEarly: 4, earlyUpto: 3, tagMsg: TAGMSG, api: api,
   board: ['y = m', 'y = x² + 3', 'x₀ = −{b|2a}', '(0; −1)', '{x² − 1|x − 1}', 'x ≠ 2', 'D(y)', 'y = |x|', 'y = {k|x}', 'x ≥ 2', 'y = −x²', 'm = 3']
 };
 if (typeof module !== 'undefined' && module.exports) module.exports = root.TRAINER;

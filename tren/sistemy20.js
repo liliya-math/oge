@@ -156,7 +156,7 @@ var api = { STEPS: STEPS, fr: fr, mx: mx, rnd: rnd };
 root.TRAINER = {
   title: 'Системы уравнений второй степени, ОГЭ №20', shortTitle: 'Системы ОГЭ №20', key: 'sys20_trainer_v1',
   sheetUrl: 'https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec',
-  needDefault: 7, needEarly: 5, earlyUpto: 3, tagMsg: TAGMSG, api: api,
+  needDefault: 4, needEarly: 4, earlyUpto: 3, tagMsg: TAGMSG, api: api,
   board: ['x + y = 5', 'xy = 6', 'x² − 5x + 6 = 0', 'x₁ + x₂ = −p', 'x₁ · x₂ = q', 'y = x²', '(a − b)²', 'x² + y² = 25', 'D = b² − 4ac', 'y = 7 − x', '2x² = 18', '(3; 4)']
 };
 })(typeof window !== 'undefined' ? window : globalThis);

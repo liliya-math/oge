@@ -323,7 +323,7 @@ var api = { STEPS: STEPS, fr: fr, mx: mx, rnd: rnd };
 root.TRAINER = {
   title: 'Текстовые задачи, 5 класс', shortTitle: 'Текстовые задачи 5', key: 'text5_trainer_v1',
   sheetUrl: 'https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec',
-  needDefault: 7, needEarly: 5, earlyUpto: 3, tagMsg: TAGMSG, api: api
+  needDefault: 4, needEarly: 4, earlyUpto: 3, tagMsg: TAGMSG, api: api
 };
 if (typeof module !== 'undefined' && module.exports) module.exports = root.TRAINER;
 })(typeof window !== 'undefined' ? window : globalThis);

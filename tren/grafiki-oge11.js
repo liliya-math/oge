@@ -380,7 +380,7 @@ var api = { STEPS: STEPS, fr: fr, mx: mx, rnd: rnd };
 root.TRAINER = {
   title: 'Графики функций · ОГЭ №11', shortTitle: 'Графики ОГЭ №11', key: 'graf_oge11_v1',
   sheetUrl: 'https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec',
-  needDefault: 7, needEarly: 5, earlyUpto: 3, tagMsg: TAGMSG, api: api,
+  needDefault: 4, needEarly: 4, earlyUpto: 3, tagMsg: TAGMSG, api: api,
   board: ['y = kx + b', 'y = {k|x}', 'y = ax² + bx + c', 'y = 2x − 3', '(0; b)', 'k > 0', 'a < 0', 'y = x²', 'k = x · y', '(2; 5)', 'y = −{6|x}', 'c = y(0)']
 };
 if (typeof module !== 'undefined' && module.exports) module.exports = root.TRAINER;

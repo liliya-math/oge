@@ -383,7 +383,7 @@ var api = { STEPS: STEPS, fr: fr, mx: mx, rnd: rnd };
 root.TRAINER = {
   title: 'ОГЭ №21: текстовые задачи', shortTitle: 'ОГЭ №21', key: 'oge21_trainer_v1',
   sheetUrl: 'https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec',
-  needDefault: 7, needEarly: 5, earlyUpto: 3, tagMsg: TAGMSG, api: api,
+  needDefault: 4, needEarly: 4, earlyUpto: 3, tagMsg: TAGMSG, api: api,
   board: ['s = v · t', 'v = s : t', 't = s : v', 'v + c', 'v − c', '{1|6} + {1|3} = {1|2}', '20% = 0,2', 'D = b² − 4ac', 'x² + 5x − 150 = 0', '{60|x} − {60|x+5} = 1', '100% + 20% = 120%', '40 : 10 · 100 = 400']
 };
 if (typeof module !== 'undefined' && module.exports) module.exports = root.TRAINER;

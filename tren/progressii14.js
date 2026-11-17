@@ -341,7 +341,7 @@ var api = { STEPS: STEPS, fr: fr, rnd: rnd };
 root.TRAINER = {
   title: 'Прогрессии: ОГЭ №14', shortTitle: 'Прогрессии', key: 'progressii14_trainer_v1',
   sheetUrl: 'https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec',
-  needDefault: 7, needEarly: 5, earlyUpto: 3, tagMsg: TAGMSG, api: api,
+  needDefault: 4, needEarly: 4, earlyUpto: 3, tagMsg: TAGMSG, api: api,
   board: ['a1 + (n − 1) · d', '3, 7, 11, 15, …', 'd = a2 − a1', 'q = b2 : b1', '2, 6, 18, 54, …', 'b1 · q^(n−1)', 'S = {(a1 + an) · n|2}', 'an = 3n + 2', 'q = −2', '5, 10, 20, 40', 'S = {b1(q^n − 1)|q − 1}', '1 + 2 + 3 + … + 10']
 };
 if (typeof module !== 'undefined' && module.exports) module.exports = root.TRAINER;

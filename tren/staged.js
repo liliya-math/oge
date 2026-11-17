@@ -6,7 +6,7 @@
 'use strict';
 var CFG = window.TRAINER, C = CFG.api, STEPS = C.STEPS;
 var SHEET_URL = CFG.sheetUrl || '', TITLE = CFG.title, KEY = CFG.key;
-var NEED_DEFAULT = CFG.needDefault || 7, NEED_EARLY = CFG.needEarly || 5, EARLY_UPTO = CFG.earlyUpto === undefined ? 3 : CFG.earlyUpto;
+var NEED_DEFAULT = CFG.needDefault || 4, NEED_EARLY = CFG.needEarly || 4, EARLY_UPTO = CFG.earlyUpto === undefined ? 3 : CFG.earlyUpto;
 document.title = CFG.shortTitle || CFG.title;
 var app = document.getElementById('app');
 

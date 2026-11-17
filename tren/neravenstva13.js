@@ -313,7 +313,7 @@ var api = { STEPS: STEPS, rnd: rnd };
 root.TRAINER = {
   title: 'Неравенства: ОГЭ №13', shortTitle: 'Неравенства', key: 'neravenstva13_trainer_v1',
   sheetUrl: 'https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec',
-  needDefault: 7, needEarly: 5, earlyUpto: 3, tagMsg: TAGMSG, api: api,
+  needDefault: 4, needEarly: 4, earlyUpto: 3, tagMsg: TAGMSG, api: api,
   board: ['x > 3', 'x ≤ −2', '−3x > 6', 'x < −2', '(x − 1)(x + 4) < 0', 'x² ≥ 9', '2x + 1 > 5x − 8', '−3 < x < 3', '5 − 2x ≥ 1', 'x ≥ 4', 'x² − 9 > 0', 'x < 12 : (−3)']
 };
 if (typeof module !== 'undefined' && module.exports) module.exports = root.TRAINER;
