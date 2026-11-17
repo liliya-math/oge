@@ -1,6 +1,16 @@
 {
   "items": [
     {
+      "file": "trenazher-treugolniki-7-klass.html",
+      "title": "Тренажёр · Треугольники · 7 класс",
+      "type": "trenazher",
+      "class": 7,
+      "oge_task": null,
+      "status": "public",
+      "note": "17 разделов, 54 задания с автопроверкой: чертежи, признаки равенства, углы, стороны, построения и доказательства.",
+      "auto": false
+    },
+    {
       "file": "teoriya-8g-pryamaya-i-okruzhnost.html",
       "title": "Теория · 8 класс · Взаимное расположение прямой и окружности",
       "type": "theory",
