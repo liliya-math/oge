@@ -8,7 +8,7 @@ def patch(src):
         assert src.count(a)==cnt,(a[:70],src.count(a))
         src=src.replace(a,b)
     Z="window.LiliZveri"
-    rep('<script src="tools/study-resume.js?v=1"></script>','<script src="tools/study-resume.js?v=1"></script><script src="tools/lili-zveri.js?v=2"></script>')
+    rep('<script src="tools/study-resume.js?v=1"></script>','<script src="tools/study-resume.js?v=1"></script><script src="tools/lili-zveri.js?v=3"></script>')
     rep("];\nconst RAR={","];\nif("+Z+")STK.splice(0,STK.length,...LiliZveri.STK);\nconst RAR={")
     rep("function grant(rar){const own=new Set(S.stk);","function grant(rar){const own=new Set([...S.stk,...("+Z+"?LiliZveri.owned():[])]);")
     rep("const s=pool.length?pick(pool):pick(STK);if(!own.has(s.id))S.stk.push(s.id);return s","const s=pool.length?pick(pool):pick(STK);if(!S.stk.includes(s.id))S.stk.push(s.id);"+Z+"?.sticker(s,KEY);return s")

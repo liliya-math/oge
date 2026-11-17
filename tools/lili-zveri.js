@@ -79,6 +79,7 @@
     return {id, xp, lvl, title: TITLE[lvl - 1], max, left: max ? 0 : to - xp, pct: max ? 100 : Math.round((xp - from) / (to - from) * 100)};
   }
   const frame = id => { const i = info(id); return 'border-color:' + FRAME[i.lvl - 1] + (i.lvl >= 9 ? ';box-shadow:0 0 0 2px rgba(226,176,74,.35),0 10px 22px -10px rgba(0,0,0,.6)' : ''); };
+  const face = (id, fb) => { const i = info(id); return i.lvl >= 2 ? `img/levels/${id}-lv${i.lvl}.jpg` : fb; };
   const best = () => { const d = load(); let b = null; for (const p of PETS) if ((d.xp[p.id] || 0) > 0 && (!b || d.xp[p.id] > d.xp[b])) b = p.id; return b; };
 
   /* ---------- опыт ---------- */
@@ -181,7 +182,7 @@
   /* карточка зверя для итогового экрана */
   function cardHTML(id) {
     const p = P(id); if (!p) return ''; css(); const i = info(id);
-    return `<div class="lz-card"><img src="img/forest/${p.f}-joy.jpg" alt="" style="border-color:${FRAME[i.lvl - 1]}"><div class="lz-in"><b>${esc(p.n)} · уровень ${i.lvl}</b><small>${i.title}${i.max ? ' · максимальный уровень' : ' · до уровня ' + (i.lvl + 1) + ' осталось ' + i.left + ' опыта'}</small><div class="lz-bar"><i style="width:${i.pct}%"></i></div></div><a href="albom.html" target="_blank" rel="noopener">Мой альбом</a></div>`;
+    return `<div class="lz-card"><img src="${face(id, 'img/forest/' + p.f + '-joy.jpg')}" onerror="this.onerror=null;this.src='img/forest/${p.f}-joy.jpg'" alt="" style="border-color:${FRAME[i.lvl - 1]}"><div class="lz-in"><b>${esc(p.n)} · уровень ${i.lvl}</b><small>${i.title}${i.max ? ' · максимальный уровень' : ' · до уровня ' + (i.lvl + 1) + ' осталось ' + i.left + ' опыта'}</small><div class="lz-bar"><i style="width:${i.pct}%"></i></div></div><a href="albom.html" target="_blank" rel="noopener">Мой альбом</a></div>`;
   }
 
 
@@ -250,6 +251,6 @@
   }
 
   if (document.head) css();
-  window.LiliZveri = {GAME, pickGame, STK, PETS, PHOTOS, NEED, TITLE, FRAME, info, frame, best, xp, work, owned, sticker, tag, cardHTML, css,
+  window.LiliZveri = {GAME, pickGame, face, STK, PETS, PHOTOS, NEED, TITLE, FRAME, info, frame, best, xp, work, owned, sticker, tag, cardHTML, css,
     counts: () => Object.assign({}, load().stk), reload: () => { D = null; return load(); }};
 })();
