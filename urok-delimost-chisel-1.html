@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#ffffff;color:#000000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script src="tools/study-resume.js?v=1"></script><script src="tools/lili-zveri.js?v=1"></script>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#ffffff;color:#000000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script src="tools/study-resume.js?v=1"></script><script src="tools/lili-zveri.js?v=2"></script>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 </head><body>
 <title>Урок · Делимость чисел</title><style>.solbox{margin:12px 0 0;padding:14px 16px;border-radius:16px;background:rgba(47,91,181,.16);border:1px solid rgba(182,203,227,.32)}.solbox small{display:block;color:var(--lilac);font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em;font-size:12px}.solbox p{margin:0;color:var(--fg);line-height:1.55}</style><style>.opts{display:flex;flex-wrap:wrap;gap:10px}.opts .opt{flex:1 1 auto;min-width:0;width:auto;white-space:nowrap;justify-content:center}@media(max-width:560px){.opts .opt{flex:1 1 calc(50% - 10px)}}</style>
@@ -948,8 +948,8 @@ const GAMES=['scratch','wheel','charge'];
 function rollRarity(){const x=Math.random();return x<.5?'c':x<.8?'r':x<.95?'e':'l'}
 function grant(rar){const own=new Set([...S.stk,...(window.LiliZveri?LiliZveri.owned():[])]);let pool=STK.filter(s=>s.r===rar&&!own.has(s.id));if(!pool.length)pool=STK.filter(s=>!own.has(s.id));const s=pool.length?pick(pool):pick(STK);if(!S.stk.includes(s.id))S.stk.push(s.id);window.LiliZveri?.sticker(s,KEY);return s}
 function renderCheckpoint(){
-  const k=S.i, game=GAMES[(k/4-1)%GAMES.length], left=L.length-k;
-  const H={scratch:['Сотри и забери стикер','Води пальцем или мышкой по карточке.'],wheel:['Крути колесо','От колеса зависит редкость стикера. Легенда выпадает редко.'],charge:['Заряди мозг','Жми на кнопку как можно быстрее, пока шкала не заполнится.']}[game];
+  const k=S.i, game=window.LiliZveri?LiliZveri.pickGame(GAMES):GAMES[(k/4-1)%GAMES.length], left=L.length-k;
+  const H={scratch:['Сотри и забери стикер','Води пальцем или мышкой по карточке.'],wheel:['Крути колесо','От колеса зависит редкость стикера. Легенда выпадает редко.'],charge:['Заряди мозг','Жми на кнопку как можно быстрее, пока шкала не заполнится.']}[game]||LiliZveri.GAME[game].h;
   app.innerHTML=topbar()+`<article class="card enter"><div class="cp">
     <div class="kick">Чекпоинт · ${k} из ${L.length} позади · осталось ${left}</div>
     <span id="cppet">${tal()?pet(S.tal,'idle',76):''}</span><h2>${H[0]}</h2><p>${H[1]}</p>
@@ -964,7 +964,7 @@ function renderCheckpoint(){
     const st=a.querySelector('.stk');setTimeout(()=>{burstAt(st,s.r==='l'?160:90,10);if(s.r==='l'||s.r==='e'){setTimeout(firework,200);setTimeout(firework,450)}},80);
     const tp=document.querySelector('.pill strong');if(tp)tp.textContent=S.stk.length;
     const c=document.getElementById('cont');c.focus({preventScroll:true});c.onclick=()=>{sfx.tap();renderTask()}};
-  if(game==='scratch')scratchGame(g,done);else if(game==='wheel')wheelGame(g,done);else chargeGame(g,done);
+  if(window.LiliZveri&&LiliZveri.GAME[game])LiliZveri.GAME[game].run(g,done,{grant,roll:rollRarity,stkHTML,sfx,RAR,tal:S.tal});else if(game==='scratch')scratchGame(g,done);else if(game==='wheel')wheelGame(g,done);else chargeGame(g,done);
 }
 function scratchGame(g,done){
   const s=grant(rollRarity());

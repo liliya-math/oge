@@ -8,7 +8,7 @@ def patch(src):
         assert src.count(a)==cnt,(a[:70],src.count(a))
         src=src.replace(a,b)
     Z="window.LiliZveri"
-    rep('<script src="tools/study-resume.js?v=1"></script>','<script src="tools/study-resume.js?v=1"></script><script src="tools/lili-zveri.js?v=1"></script>')
+    rep('<script src="tools/study-resume.js?v=1"></script>','<script src="tools/study-resume.js?v=1"></script><script src="tools/lili-zveri.js?v=2"></script>')
     rep("];\nconst RAR={","];\nif("+Z+")STK.splice(0,STK.length,...LiliZveri.STK);\nconst RAR={")
     rep("function grant(rar){const own=new Set(S.stk);","function grant(rar){const own=new Set([...S.stk,...("+Z+"?LiliZveri.owned():[])]);")
     rep("const s=pool.length?pick(pool):pick(STK);if(!own.has(s.id))S.stk.push(s.id);return s","const s=pool.length?pick(pool):pick(STK);if(!S.stk.includes(s.id))S.stk.push(s.id);"+Z+"?.sticker(s,KEY);return s")
@@ -22,6 +22,9 @@ def patch(src):
     rep('<span class="pill">стикеры за каждые 4 задания и за серии</span>','<span class="pill">стикеры за каждые 4 задания и за серии</span><a class="pill" href="albom.html" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;border-color:#E2B04A">мой альбом</a>')
     rep('${diploma(sc,cnt.ok,own,t)}','${t&&'+Z+'?LiliZveri.cardHTML(t.id):\'\'}\n    ${diploma(sc,cnt.ok,own,t)}')
     rep("const DROPS={3:null,5:'r',7:'e',10:'l',13:'e',16:'l'};","const DROPS={3:null,5:null,7:'r',10:'e',13:'r',16:'e',20:'l'};")
+    rep("const k=S.i, game=GAMES[(k/4-1)%GAMES.length], left=L.length-k;","const k=S.i, game="+Z+"?LiliZveri.pickGame(GAMES):GAMES[(k/4-1)%GAMES.length], left=L.length-k;")
+    rep("пока шкала не заполнится.']}[game];","пока шкала не заполнится.']}[game]||LiliZveri.GAME[game].h;")
+    rep("if(game==='scratch')scratchGame(g,done);","if("+Z+"&&LiliZveri.GAME[game])LiliZveri.GAME[game].run(g,done,{grant,roll:rollRarity,stkHTML,sfx,RAR,tal:S.tal});else if(game==='scratch')scratchGame(g,done);")
     return src
 if __name__=='__main__':
     for f in sys.argv[1:]:
