@@ -43,6 +43,7 @@ src=src[:i]+"function parseNums(s){const p=String(s).replace(/[−–—]/g,'-')
 rep("ok=t.ord?(nums.length","ok=t.chk?t.chk(nums):t.ord?(nums.length")
 rep("""inputmode="${t.type==='set'?'text':'decimal'}\"""","""inputmode="text\"""")
 rep("Запиши ответ цифрами. Дробную часть отделяй запятой.","Запиши ответ цифрами.")
+rep('Разминка (1–10)','Разминка',0);rep('Испытание (11–20)','Испытание',0);rep('Вызов (21–25)','Вызов',0)
 left=[m.start() for m in re.finditer('иагност',src)]
 print('left diag:',[src[max(0,k-50):k+40].replace('\n',' ') for k in left])
 open('urok-delimost-chisel-1.html','w',encoding='utf8').write(src)
