@@ -6092,6 +6092,16 @@
       "status": "public",
       "note": "добавлено 2026-11-14; общий движок tren/staged.js (содержание tren/progressii14.js); d, q, n-й член, суммы, задачи словами; серия 7 подряд, отправка в таблицу, режим учителя #lilia",
       "auto": true
+    },
+    {
+      "file": "trenazher-nod-nok.html",
+      "title": "6A.1.1 · Тренажёр · НОД и НОК, 10 ступеней",
+      "type": "trenazher",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-11-18; общий движок tren/staged.js (содержание tren/nod-nok.js); кратные, НОК перебором и через разложение, НОД или НОК в задачах; 4 подряд, отправка в таблицу, режим учителя #lilia",
+      "auto": true
     }
   ]
 }
