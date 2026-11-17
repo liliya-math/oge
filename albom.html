@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Мой альбом · lili.math</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<script src="tools/lili-zveri.js?v=1"></script>
+<style>
+:root{--bg:#16231A;--fg:#EEE0C8;--muted:rgba(238,224,200,.68);--line:rgba(238,224,200,.2);--glass:rgba(238,224,200,.06);--cobalt:#2F5BB5;--orange:#DD7A3A;--gold:#E2B04A}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(1200px 600px at 20% -10%,#22406b 0,transparent 60%),var(--bg);color:var(--fg);font:16px/1.45 -apple-system,BlinkMacSystemFont,Inter,system-ui,sans-serif;min-height:100vh}
+main{max-width:980px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:clamp(30px,6vw,46px);margin:6px 0 4px;line-height:1.05}
+h1 span{color:var(--orange)}
+h2{font-size:22px;margin:38px 0 6px}
+.kick{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.lead{color:var(--muted);margin:0 0 6px;max-width:640px}
+.sum{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.pill{padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:var(--glass);font-size:14px}
+.pill b{color:var(--gold)}
+.pets{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;margin-top:14px}
+.pcard{padding:16px;border-radius:22px;border:1px solid var(--line);background:var(--glass);display:grid;gap:12px}
+.pcard.off{opacity:.55}
+.phead{display:flex;gap:14px;align-items:center}
+.phead img{width:76px;height:76px;border-radius:50%;object-fit:cover;border:3px solid var(--fg);flex:none}
+.phead b{display:block;font-size:17px}
+.phead small{color:var(--muted);font-size:13px}
+.lv{color:var(--gold);font-weight:700;font-size:13px;letter-spacing:.03em}
+.bar{height:8px;border-radius:99px;background:rgba(238,224,200,.16);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--orange))}
+.photos{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.ph{position:relative;aspect-ratio:1;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:rgba(0,0,0,.25);display:grid;place-items:center;font-size:11px;color:var(--muted);text-align:center;line-height:1.15;padding:2px}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;cursor:zoom-in}
+.ph.lock{border-style:dashed}
+.rar{margin-top:18px}
+.rar h3{font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 12px;font-weight:600}
+.grid{display:flex;flex-wrap:wrap;gap:12px 10px}
+.stk{position:relative;display:inline-grid;place-items:center;padding:10px 18px;border-radius:999px;font-weight:700;font-size:15px;line-height:1.1;color:#16231A;border:3px solid #EEE0C8;box-shadow:0 8px 20px -8px rgba(0,0,0,.6);white-space:nowrap}
+.stk.c{background:linear-gradient(135deg,#EEE0C8,#DD7A3A)}
+.stk.r{background:linear-gradient(135deg,#B6CBE3,#C9AB82)}
+.stk.e{background:linear-gradient(135deg,#B6CBE3,#B6CBE3)}
+.stk.l{background:conic-gradient(from 40deg,#E2B04A,#DD7A3A,#EEE0C8,#B6CBE3,#C9AB82,#E2B04A)}
+.stk.no{background:transparent;color:var(--muted);border:2px dashed var(--line);box-shadow:none;font-weight:500;min-width:74px}
+.stk em{position:absolute;right:-8px;top:-10px;font-style:normal;font-size:11px;font-weight:700;background:var(--cobalt);color:#EEE0C8;border-radius:99px;padding:2px 7px;border:2px solid var(--bg)}
+.note{color:var(--muted);font-size:14px;margin-top:34px;max-width:640px}
+.zoom{position:fixed;inset:0;background:rgba(10,16,12,.9);display:grid;place-items:center;z-index:10;padding:18px;cursor:zoom-out}
+.zoom img{max-width:min(92vw,560px);max-height:86vh;border-radius:22px;border:4px solid var(--fg)}
+@media (max-width:420px){.photos{grid-template-columns:repeat(3,1fr)}}
+</style></head><body><main id="app"></main>
+<script>
+(() => {
+  const Z = window.LiliZveri, app = document.getElementById('app');
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const RAR = [['l','Легенды'],['e','Эпик'],['r','Редкие'],['c','Обычные']];
+  const cnt = Z.counts(), have = Z.STK.filter(s => cnt[s.id]).length;
+  const pets = Z.PETS.map(p => ({p, i: Z.info(p.id)})).sort((a, b) => b.i.xp - a.i.xp);
+  const works = (() => { try { return Object.keys(JSON.parse(localStorage.getItem('lili-zveri-v1')).done || {}).length } catch (e) { return 0 } })();
+  const petCard = ({p, i}) => `<div class="pcard${i.xp ? '' : ' off'}">
+    <div class="phead"><img src="img/forest/${p.f}-${i.xp ? 'joy' : 'idle'}.jpg" alt="" style="border-color:${Z.FRAME[i.lvl - 1]}">
+      <div><b>${esc(p.n)}</b><span class="lv">уровень ${i.lvl} · ${i.title}</span><br><small>${i.xp ? (i.max ? 'максимальный уровень' : 'до уровня ' + (i.lvl + 1) + ' осталось ' + i.left + ' опыта') : 'пока не в команде: выбери этого зверя в работе'}</small></div></div>
+    <div class="bar"><i style="width:${i.xp ? i.pct : 0}%"></i></div>
+    <div class="photos">${Z.PHOTOS.map(ph => i.lvl >= ph.lv
+      ? `<div class="ph" title="${esc(ph.n)}">скоро<img src="${ph.src(p)}" alt="${esc(ph.n)}" loading="lazy" onerror="this.remove()"></div>`
+      : `<div class="ph lock">ур. ${ph.lv}</div>`).join('')}</div>
+  </div>`;
+  app.innerHTML = `<div class="kick">lili.math</div><h1>Мой <span>альбом</span></h1>
+    <p class="lead">Здесь собираются стикеры из всех работ и растут твои звери. Зверь получает опыт за каждое верно решённое задание.</p>
+    <div class="sum"><span class="pill">стикеров <b>${have}</b> из ${Z.STK.length}</span><span class="pill">работ выполнено <b>${works}</b></span></div>
+    <h2>Мои звери</h2><div class="pets">${pets.map(petCard).join('')}</div>
+    <h2>Стикеры</h2>
+    ${RAR.map(([r, name]) => { const list = Z.STK.filter(s => s.r === r), got = list.filter(s => cnt[s.id]).length;
+      return `<div class="rar"><h3>${name} · ${got} из ${list.length}</h3><div class="grid">${list.map(s => cnt[s.id]
+        ? `<span class="stk ${s.r}">${esc(s.t)}${cnt[s.id] > 1 ? `<em>×${cnt[s.id]}</em>` : ''}</span>`
+        : `<span class="stk no">?</span>`).join('')}</div></div>` }).join('')}
+    <p class="note">Альбом хранится в этом браузере. Если открыть сайт на другом устройстве, альбом там начнётся заново.</p>`;
+  app.addEventListener('click', e => { const im = e.target.closest('.ph img'); if (!im) return;
+    const z = document.createElement('div'); z.className = 'zoom'; z.innerHTML = `<img src="${im.src}" alt="">`; z.onclick = () => z.remove(); document.body.appendChild(z) });
+})();
+</script></body></html>

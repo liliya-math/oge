@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#ffffff;color:#000000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script src="tools/study-resume.js?v=1"></script>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#ffffff;color:#000000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script src="tools/study-resume.js?v=1"></script><script src="tools/lili-zveri.js?v=1"></script>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 </head><body>
 <title>Урок · Делимость чисел</title><style>.solbox{margin:12px 0 0;padding:14px 16px;border-radius:16px;background:rgba(47,91,181,.16);border:1px solid rgba(182,203,227,.32)}.solbox small{display:block;color:var(--lilac);font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em;font-size:12px}.solbox p{margin:0;color:var(--fg);line-height:1.55}</style><style>.opts{display:flex;flex-wrap:wrap;gap:10px}.opts .opt{flex:1 1 auto;min-width:0;width:auto;white-space:nowrap;justify-content:center}@media(max-width:560px){.opts .opt{flex:1 1 calc(50% - 10px)}}</style>
@@ -546,8 +546,9 @@ TALS.splice(0,TALS.length,...[
  {id:'qk',short:'Краш',n:'Квокка Краш',tag:'краш всей параллели',bg:'#16231A'}]);
 (()=>{const F=a=>({idle:'img/forest/'+a+'-idle.jpg',joy:'img/forest/'+a+'-joy.jpg',sad:'img/forest/'+a+'-sad.jpg',think:'img/forest/'+a+'-think.jpg'});
 Object.assign(PIMG,{cat:F('cat'),meer:F('mer'),rac:F('rac'),capy:F('capy'),ham:F('ham'),bis:F('bis'),otr:F('otr'),axo:F('axo'),qk:F('qk')})})();
+const LZF=id=>window.LiliZveri?LiliZveri.frame(id):'';
 function petSVG(id,mood='idle'){const P=PIMG[id];if(!P)return '';const m=mood==='joy'?'joy':mood==='sad'?'sad':'idle';return `<img src="${P[m]}" alt="" draggable="false">`}
-function pet(id,mood,size,extra=''){const t=TALS.find(x=>x.id===id);if(!t)return '';return `<span class="pet ${extra}" style="width:${size}px;height:${size}px;background:${t.bg}" title="${t.n}">${petSVG(id,mood)}</span>`}
+function pet(id,mood,size,extra=''){const t=TALS.find(x=>x.id===id);if(!t)return '';return `<span class="pet ${extra}" style="width:${size}px;height:${size}px;background:${t.bg};${LZF(id)}" title="${t.n}">${petSVG(id,mood)}</span>`}
 function petSound(id,mood){
   const c=ac();if(!c||!S.sound)return;
   petVoice(c,c.destination,c.currentTime,id,mood);
@@ -631,6 +632,7 @@ const STK=[
  {id:10,t:'имба',r:'e'},{id:11,t:'ОГЭ? легко',r:'e'},{id:21,t:'сигма-решатель',r:'e'},{id:22,t:'всё по формуле',r:'e'},
  {id:12,t:'главный по иксам',r:'l'},{id:23,t:'25 из 25',r:'l'},{id:24,t:'легенда класса',r:'l'}
 ];
+if(window.LiliZveri)STK.splice(0,STK.length,...LiliZveri.STK);
 const RAR={c:'обычный',r:'редкий',e:'эпик',l:'легенда'};
 const stkHTML=(s,cls='')=>`<span class="stk ${s.r} ${cls}" style="--r:${((s.id*37)%15)-7}deg">${esc(s.t)}<small>${RAR[s.r]}</small></span>`;
 
@@ -749,11 +751,12 @@ const ST={ok:'ok',bad:'bad',idk:'idk',th:'th',pf:'pf'};
 function topbar(){
   const t=tal();
   return `<div class="top"><div class="toprow">
-    ${t?`<span class="pet mini" id="talb" style="background:${t.bg}" title="${t.n}">${petSVG(t.id,'idle')}</span>`:''}
+    ${t?`<span class="pet mini" id="talb" style="background:${t.bg};${LZF(t.id)}" title="${t.n}">${petSVG(t.id,'idle')}</span>`:''}
     <div class="brand">${logoFull(28)}</div><div class="sp"></div>
     <span class="pill" title="Стикеры">стикеры <strong>${S.stk.length}</strong></span>
     <span class="pill" title="Баллы">баллы <strong id="pts">${livePts()}</strong></span>
     <span class="pill${S.streak>=3?' hot':''}" title="Серия верных ответов подряд">серия <strong id="stk">${S.streak}</strong></span>
+    ${t&&window.LiliZveri?`<span class="pill lz-pill" title="Уровень зверя">ур. <strong data-lz-lvl="${t.id}">${LiliZveri.info(t.id).lvl}</strong></span>`:''}
     <span class="pill"><strong id="tmr">${fmtT(elapsed())}</strong></span>
     <button class="icon-btn" id="snd" aria-label="${S.sound?'Выключить звук':'Включить звук'}">${S.sound?I.snd:I.mute}</button>
   </div><div class="track" style="grid-template-columns:repeat(${L.length},1fr)" aria-hidden="true">${L.map((t,i)=>{const r=S.r[t.n];return `<span class="${r&&r.st?ST[r.st]:(i===S.i&&!S.done?'cur':'')}"></span>`}).join('')}</div></div>`;
@@ -807,10 +810,10 @@ function renderStart(){
       <div class="way"><i>02</i><b>Есть идея, но дальше никак</b><span>Напиши, что пробовал. Так видно, где именно застряло решение.</span></div>
       <div class="way"><i>03</i><b>Не знаю, как решать</b><span>Тоже честный ответ. Угадывать не нужно.</span></div>
     </div>
-    <div class="facts"><span class="pill">можно в два захода, прогресс сохранится</span><span class="pill">по 2 подсказки на задание</span><span class="pill">стикеры за каждые 4 задания и за серии</span></div>
+    <div class="facts"><span class="pill">можно в два захода, прогресс сохранится</span><span class="pill">по 2 подсказки на задание</span><span class="pill">стикеры за каждые 4 задания и за серии</span><a class="pill" href="albom.html" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;border-color:#E2B04A">мой альбом</a></div>
     ${resume?`<div class="startrow"><button class="btn" id="go">Продолжить с задания ${LB(L[Math.min(S.i,L.length-1)])}</button><button class="btn ghost" id="reset">Начать заново</button></div>`
     :`<div class="stack"><div><span class="lab">Кто будет болеть за тебя?</span>
-      <div class="tals">${TALS.map(t=>`<button class="tal${S.tal===t.id?' sel':''}" data-id="${t.id}">${pet(t.id,S.tal===t.id?'joy':'idle',96)}<span>${t.n}</span><small class="ttag">${t.tag}</small></button>`).join('')}</div></div>
+      <div class="tals">${TALS.map(t=>`<button class="tal${S.tal===t.id?' sel':''}" data-id="${t.id}">${pet(t.id,S.tal===t.id?'joy':'idle',96)}<span>${t.n}</span><small class="ttag">${t.tag}</small>${window.LiliZveri?LiliZveri.tag(t.id):''}</button>`).join('')}</div></div>
       <div class="startrow">${S.name?'':`<input class="field" id="nm" placeholder="Как тебя зовут?" autocomplete="given-name">`}<button class="btn" id="go"${tal()?'':' disabled'}>${tal()?'Поехали':'Сначала выбери'}</button></div>
       <p class="note">Включи звук, так интереснее. Выключить можно в любой момент.</p></div>`}
   </section>`;
@@ -887,7 +890,7 @@ function bindAns(t,r){
   const tb=$('tb');if(tb)tb.onclick=()=>{mode='think';sfx.tap();drawAns();setTimeout(()=>$('th')&&$('th').focus(),50)};
   const back=$('back');if(back)back.onclick=()=>{r.th=$('th').value;mode='ans';drawAns()};
   const thgo=$('thgo');if(thgo)thgo.onclick=()=>{const v=$('th').value.trim();if(!v){$('th').focus();return}r.th=v;resolve(t,r,'th');sfx.soft();drawAns(fbBox('neu',I.dots,'Записано',pickFresh(THINK,'th')))};
-  const sok=$('solok');if(sok)sok.onclick=()=>{S.streak++;S.best=Math.max(S.best,S.streak);resolve(t,r,'ok');celebrate();streakDrop();drawAns(fbBox('ok',I.ok,'Честно и верно',pickFresh(QUOTES,'q')))};
+  const sok=$('solok');if(sok)sok.onclick=()=>{S.streak++;S.best=Math.max(S.best,S.streak);resolve(t,r,'ok');window.LiliZveri?.xp(S.tal,r.tries,KEY,t.n);celebrate();streakDrop();drawAns(fbBox('ok',I.ok,'Честно и верно',pickFresh(QUOTES,'q')))};
   const sno=$('solno');if(sno)sno.onclick=()=>{S.streak=0;resolve(t,r,'bad');sfx.bad();drawAns(fbBox('bad',I.x,'Записала','Точную формулировку разберём и выучим на занятии.'))};
   const ib=$('ib');if(ib)ib.onclick=()=>{const v=$('th')?$('th').value.trim():'';if(v)r.th=v;resolve(t,r,'idk');sfx.soft();drawAns(fbBox('neu',I.q,pickFresh(IDK_T,'it'),pickFresh(IDK,'i')))};
 }
@@ -912,7 +915,7 @@ function check(t,r){
     if(nums.some(isNaN)){drawAnsKeep(fbBox('bad',I.x,'Не похоже на число','Запиши ответ цифрами.'));return}
     ok=t.chk?t.chk(nums):t.ord?(nums.length===t.a.length&&nums.every((v,i)=>Math.abs(v-t.a[i])<1e-6)):sameSet(nums,t.a)}
   r.tries++;r.ans.push(given);
-  if(ok){S.streak++;S.best=Math.max(S.best,S.streak);resolve(t,r,'ok');celebrate();streakDrop();
+  if(ok){S.streak++;S.best=Math.max(S.best,S.streak);resolve(t,r,'ok');window.LiliZveri?.xp(S.tal,r.tries,KEY,t.n);celebrate();streakDrop();
     drawAns(fbBox('ok',I.ok,r.tries===1?'Верно':'Верно со второй попытки',STREAK[S.streak]||(r.tries>1?pickFresh(Q2TRY,'q2'):W(t)===2?pickFresh(QP2,'p2'):pickFresh(QUOTES,'q'))));return}
   sfx.bad();talReact('sad');petMood('sad',2200);const card=document.getElementById('card');card.classList.remove('shake');void card.offsetWidth;card.classList.add('shake');
   S.streak=0;refreshTrack();
@@ -930,7 +933,7 @@ function celebrate(){
 }
 
 /* ---------- streak sticker drop ---------- */
-const DROPS={3:null,5:'r',7:'e',10:'l',13:'e',16:'l'};
+const DROPS={3:null,5:null,7:'r',10:'e',13:'r',16:'e',20:'l'};
 function streakDrop(){
   if(!(S.streak in DROPS))return;const key='s'+S.streak+'_'+S.i;if(S.cp[key])return;
   const s=grant(DROPS[S.streak]||rollRarity());S.cp[key]=s.id;save();
@@ -943,7 +946,7 @@ function streakDrop(){
 /* ---------- checkpoints: scratch, wheel, charge ---------- */
 const GAMES=['scratch','wheel','charge'];
 function rollRarity(){const x=Math.random();return x<.5?'c':x<.8?'r':x<.95?'e':'l'}
-function grant(rar){const own=new Set(S.stk);let pool=STK.filter(s=>s.r===rar&&!own.has(s.id));if(!pool.length)pool=STK.filter(s=>!own.has(s.id));const s=pool.length?pick(pool):pick(STK);if(!own.has(s.id))S.stk.push(s.id);return s}
+function grant(rar){const own=new Set([...S.stk,...(window.LiliZveri?LiliZveri.owned():[])]);let pool=STK.filter(s=>s.r===rar&&!own.has(s.id));if(!pool.length)pool=STK.filter(s=>!own.has(s.id));const s=pool.length?pick(pool):pick(STK);if(!S.stk.includes(s.id))S.stk.push(s.id);window.LiliZveri?.sticker(s,KEY);return s}
 function renderCheckpoint(){
   const k=S.i, game=GAMES[(k/4-1)%GAMES.length], left=L.length-k;
   const H={scratch:['Сотри и забери стикер','Води пальцем или мышкой по карточке.'],wheel:['Крути колесо','От колеса зависит редкость стикера. Легенда выпадает редко.'],charge:['Заряди мозг','Жми на кнопку как можно быстрее, пока шкала не заполнится.']}[game];
@@ -1047,7 +1050,7 @@ function report(sc){
 }
 function finish(){
   document.querySelectorAll('.react,.toast,.banner').forEach(x=>x.remove());clearTimeout(react.t);
-  S.done=true;S.i=L.length;save();clearInterval(tick);
+  S.done=true;S.i=L.length;save();clearInterval(tick);window.LiliZveri?.work(S.tal,KEY);
   const sc=score(),cnt={ok:0};L.forEach(t=>{const r=S.r[t.n];if(r&&r.st==='ok')cnt.ok++});
   const bar=(a,b)=>`<div class="bar"><i style="width:${b?Math.round(a/b*100):0}%"></i></div>`;
   const blk=(k,name)=>sc.blk[k][1]?`<div class="blk"><div class="h">${name}<b>${sc.blk[k][0]}/${sc.blk[k][1]}</b></div>${bar(...sc.blk[k])}</div>`:'';
@@ -1066,6 +1069,7 @@ function finish(){
     <div class="grid25">${L.map(x=>{const r=S.r[x.n]||{};return `<div class="cell ${r.st||''}" title="${x.topic}">${LB(x)}</div>`}).join('')}</div>
     <div class="legend"><span><i style="background:var(--mint)"></i>верно</span><span><i style="background:var(--miss)"></i>не сошлось</span><span><i style="background:var(--amber)"></i>была идея</span><span><i style="background:#2B3D2B"></i>не знаю</span><span><i style="background:var(--lilac)"></i>на проверку</span></div>
     <div class="blocks">${blk('b','Разминка')}${blk('m','Испытание')}${S.skipH?'':blk('h','Вызов')}</div>
+    ${t&&window.LiliZveri?LiliZveri.cardHTML(t.id):''}
     ${diploma(sc,cnt.ok,own,t)}
     <p class="dipnote">Сохрани диплом скриншотом.</p>
     ${LEAD?leadBlock(sc)+(BONUS_ON?bonusBlock():''):''}
@@ -1224,7 +1228,7 @@ function renderTeacher(){
 /* ---------- pet picker for saves made before animals ---------- */
 function renderPetPick(next){
   app.innerHTML=`<section class="hero enter"><div class="kick">Новое</div><h1>Кто будет <span>болеть за тебя?</span></h1>
-    <div class="tals">${TALS.map(t=>`<button class="tal" data-id="${t.id}">${pet(t.id,'idle',96)}<span>${t.n}</span><small class="ttag">${t.tag}</small></button>`).join('')}</div>
+    <div class="tals">${TALS.map(t=>`<button class="tal" data-id="${t.id}">${pet(t.id,'idle',96)}<span>${t.n}</span><small class="ttag">${t.tag}</small>${window.LiliZveri?LiliZveri.tag(t.id):''}</button>`).join('')}</div>
     <div class="startrow"><button class="btn" id="go" disabled>Сначала выбери</button></div></section>`;
   const go=document.getElementById('go');
   document.querySelectorAll('.tal').forEach(b=>b.onclick=()=>{ac();document.querySelectorAll('.tal').forEach(x=>{x.classList.toggle('sel',x===b);x.querySelector('.pet').innerHTML=petSVG(x.dataset.id,x===b?'joy':'idle')});S.tal=b.dataset.id;save();petSound(S.tal);burstAt(b.querySelector('.pet'),40,6);go.disabled=false;go.textContent='Дальше'});

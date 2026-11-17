@@ -53,3 +53,5 @@ a="noms.push(['Почти 25/25',"
 assert src.count(a)==1
 src=src.replace(a,"noms.push([okN===sc.auto?'Всё верно':'Почти всё верно',")
 open('urok-delimost-chisel-1.html','w',encoding='utf8').write(src)
+import subprocess,sys
+subprocess.run([sys.executable,'tools/urok/zveri_patch.py','urok-delimost-chisel-1.html'],check=True)
