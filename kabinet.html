@@ -1486,6 +1486,7 @@ if(TEACH){setInterval(()=>journalSync(false),20000);document.addEventListener('v
 function prepWrong(){return (D.quizHistory||[]).filter(r=>r.detail&&r.detail.tasks.some(t=>!t.ok)).slice().sort((a,b)=>a.at<b.at?1:-1).slice(0,3)}
 function prevSummary(){
  let c=null;try{const t=LiliTeaching.dayKey();c=LiliTeaching.cards(localStorage,D.code||CODE).find(x=>x.date<t&&((x.close&&(x.close.summary||x.close.nextTopic))||x.summary))}catch(e){}
+ const n=D.lastNote;if(n&&(!c||n.d>=c.date))return `<h3 class="prep-h">Итог прошлого раза · ${esc(longDate(n.d))}</h3><p class="prep-sum">${esc(n.res)}</p>${n.note?'<p class="note">Начать с: '+esc(n.note)+'</p>':''}`;
  if(!c)return '';const sm=(c.close&&c.close.summary)||c.summary||'',nx=(c.close&&c.close.nextTopic)||'';
  return `<h3 class="prep-h">Итог прошлого раза · ${esc(longDate(c.date))}</h3><p class="prep-sum">${esc(sm).replace(/\n/g,'<br>')}</p>${nx?'<p class="note">Дальше: '+esc(nx)+'</p>':''}`}
 function prepCard(){

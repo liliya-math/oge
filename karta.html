@@ -59,6 +59,7 @@ h1{margin:4px 0 6px;font-size:clamp(24px,6vw,34px);line-height:1.15;letter-spaci
 .lesson-grid .cbadge{display:block;width:max-content;max-width:100%;margin-top:8px;padding:3px 9px;border-radius:999px;background:#16231A;color:#EEE0C8;font-size:12px;font-weight:600}
 .lesson-grid .tile small{font-weight:400;color:inherit;opacity:.75}
 .lesson-grid .mbadges{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}.lesson-grid .mbadges span{padding:2px 8px;border-radius:999px;background:#FFFFFF;color:#16231A;font-size:12px;font-weight:600;line-height:1.4}.lesson-grid .mbadges span:before{content:'✓ '}
+.dclose{border:1px solid rgba(238,224,200,.28);border-radius:12px;padding:12px;margin:6px 0 10px}.dclose h3{margin:0 0 8px}.cl-row{padding:8px 0;border-bottom:1px solid rgba(238,224,200,.15)}.cl-seg{display:flex;flex-wrap:wrap;gap:6px 14px;margin:6px 0}.cl-seg label,.cl-hw{font-size:14px;display:flex;gap:6px;align-items:center}.cl-hw select{font:inherit;max-width:100%}.cl-f{display:block;font-size:14px;margin-top:10px}.cl-f textarea{display:block;width:100%;box-sizing:border-box;font:inherit;margin-top:4px;border-radius:8px;padding:6px}.cl-prev{font-size:14px;margin:8px 0}.dayclose button.cl-cancel{background:transparent;color:var(--fg);border:1px solid rgba(238,224,200,.4)}.nextcard{border-left:4px solid #E2B04A;padding:6px 10px;margin:4px 0 10px;font-size:14px}.nextcard p{margin:4px 0}.nextcard .dim{opacity:.7}
 .dayclose{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin:2px 0 6px}.dayclose button{font:inherit;font-weight:600;color:#16231A;background:linear-gradient(115deg,#E2B04A,#DD7A3A);border:0;border-radius:10px;padding:9px 16px;cursor:pointer}.dayclose button:disabled{opacity:.5;cursor:default}.dayclose label{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--fg)}.dayclose input[type=date]{font:inherit;font-size:14px;color:var(--fg);background:#16231a;border:1px solid var(--line);border-radius:8px;padding:6px 8px}.dstat{font-size:13px;color:var(--fg);opacity:.8;margin:0 0 10px;min-height:0}.dstat:empty{display:none}
 .calwrap button[data-cw]{font:inherit;font-weight:600;color:#16231A;background:linear-gradient(115deg,#E2B04A,#DD7A3A);border:0;border-radius:10px;padding:7px 14px;cursor:pointer}
 .lesson-form{display:grid;gap:12px;min-width:0}.lesson-form .pickrow{display:flex;gap:8px;align-items:center}.lesson-form label{display:grid;gap:5px;min-width:0}.mywrap>*{min-width:0}
@@ -311,28 +312,78 @@ function nextLessonIso(){
   for(let i=1;i<=7;i++){const d=new Date(t);d.setDate(t.getDate()+i);if(wd.has(d.getDay()))return isoD(d)}
   const d=new Date(t);d.setDate(t.getDate()+7);return isoD(d);
 }
+const CL_RES={ok:'Закрыли',part:'Не до конца',no:'Не дошли'};
 async function closeDay(){
-  const m=myMode,box=document.getElementById('cal'),today=isoD(new Date());
-  const due=(box.querySelector('[data-day-due]').value)||nextLessonIso(),notify=box.querySelector('[data-day-notify]').checked;
-  const ls=m.st.cal.filter(y=>y.d===today).map(y=>m.lessons.find(x=>x.id===y.id)).filter(l=>l&&!/^✓/.test(l.mark||''));
+  const m=myMode,box=document.getElementById('cal'),today=isoD(new Date()),form=document.getElementById('day-close');
   const say=t=>{const s=document.getElementById('day-status');if(s)s.textContent=t};
+  const ls=m.st.cal.filter(y=>y.d===today).map(y=>m.lessons.find(x=>x.id===y.id)).filter(l=>l&&!/^✓/.test(l.mark||''));
   if(!ls.length){say('На сегодня в календаре нет неотмеченных квадратиков. Поставь квадратик на сегодняшний день.');return}
-  box.querySelectorAll('button,input').forEach(e=>e.disabled=true);
-  let okN=0,tg='',bad=[];
-  for(const l of ls){
-    try{const r=await admin('routeAssign',{id:l.id,t:m.code,title:l.title,due:due,notify:notify});l.mark='✓ ';refreshTile(l);okN++;
-      const nt=r.notification;if(notify&&!r.duplicate&&nt&&!nt.ok&&!tg)tg=nt.error==='telegram_not_connected'?' Telegram у ученика не подключён.':nt.error==='telegram_paused'?' У ученика уведомления на паузе.':' В Telegram не отправлено.';}
-    catch(e){bad.push(l.title)}
-  }
-  dayDue='';renderCal();
-  say((okN?'Занятие проведено: отмечено квадратиков '+okN+', срок '+due.split('-').reverse().join('.')+(notify&&!tg?', сообщение в Telegram отправлено.':'.')+tg:'')+(bad.length?' Не вышло: '+bad.join('; ')+'. Нажми ещё раз.':''));
+  say('Загружаю список тестов…');
+  let works=[];try{works=(await admin('quizList')).works||[]}catch(e){}
+  say('');
+  const qOpts=works.length?'<optgroup label="Заменить на тест из конструктора">'+works.map(w=>`<option value="q:${esc(w.id)}:${w.version}">${esc(w.title)}</option>`).join('')+'</optgroup>':'';
+  const tileHas=l=>{const h=l.has||{};return !!(h.h||h.q||h.qh||h.qs||h.qe)};
+  form.innerHTML=`<h3>Закрыть урок</h3>${ls.map(l=>`<div class="cl-row" data-cl="${esc(l.id)}"><b>${esc(l.title)}</b>
+   <div class="cl-seg">${Object.entries(CL_RES).map(([k,t],i)=>`<label><input type="radio" name="cl-${esc(l.id)}" value="${k}" ${i?'':'checked'}> ${t}</label>`).join('')}</div>
+   <label class="cl-hw">ДЗ: <select data-hw><option value="tile" ${tileHas(l)?'':'disabled'}>${tileHas(l)?'ДЗ квадратика':'ДЗ квадратика (к нему ничего не прикреплено)'}</option><option value="none" ${tileHas(l)?'':'selected'}>Без ДЗ</option>${qOpts}</select></label></div>`).join('')}
+   <label class="cl-f">С чего начать в следующий раз / что не получилось<textarea data-note rows="2" maxlength="1500" placeholder="например: путает знак при переносе"></textarea></label>
+   <label class="cl-f">Учить наизусть (каждый пункт с новой строки, сданное удали)<textarea data-memo rows="2" maxlength="1500">${esc(m.st.memo||'')}</textarea></label>
+   <div class="dayclose"><label>срок ДЗ до <input type="date" data-day-due value="${dayDue||nextLessonIso()}"></label><label class="dtg"><input type="checkbox" data-day-notify ${dayNotify?'checked':''}> Telegram</label></div>
+   <p class="cl-prev" data-prev></p>
+   <div class="dayclose"><button type="button" data-cl-send>Отправить</button><button type="button" class="cl-cancel" data-cl-cancel>Отмена</button></div>`;
+  form.hidden=false;
+  const rows=[...form.querySelectorAll('[data-cl]')].map(el=>({el,l:ls.find(x=>x.id===el.dataset.cl)}));
+  const val=r=>({res:r.el.querySelector('input:checked').value,hw:r.el.querySelector('[data-hw]').value});
+  const preview=()=>{
+    const send=[],move=[];
+    rows.forEach(r=>{const v=val(r),sel=r.el.querySelector('[data-hw]');sel.disabled=v.res==='no';
+      sel.querySelector('[value="tile"]').disabled=v.res!=='ok'||!tileHas(r.l);if(sel.value==='tile'&&sel.querySelector('[value="tile"]').disabled)sel.value='none';
+      if(v.res!=='ok')move.push(r.l.title);
+      if(v.res!=='no'&&sel.value!=='none')send.push(sel.value==='tile'?'ДЗ квадратика «'+r.l.title+'»':'тест «'+sel.selectedOptions[0].textContent+'»')});
+    const nd=nextLessonIso().split('-').reverse().join('.');
+    form.querySelector('[data-prev]').textContent='Уйдёт ученику: '+(send.length?send.join('; '):'ничего')+'.'+(move.length?' Перенесу на '+nd+': '+move.join('; ')+'.':'');
+  };
+  form.oninput=form.onchange=preview;preview();
+  form.querySelector('[data-cl-cancel]').onclick=()=>{form.hidden=true;form.innerHTML=''};
+  form.querySelector('[data-cl-send]').onclick=async()=>{
+    const due=form.querySelector('[data-day-due]').value||nextLessonIso(),notify=form.querySelector('[data-day-notify]').checked,next=nextLessonIso();
+    dayNotify=notify;form.querySelectorAll('button,input,select,textarea').forEach(e=>e.disabled=true);say('Отправляю…');
+    const bad=[],res=[];let sent=0,tg='';
+    const tgNote=nt=>{if(notify&&nt&&!nt.ok&&!tg)tg=nt.error==='telegram_not_connected'?' Telegram у ученика не подключён.':nt.error==='telegram_paused'?' У ученика уведомления на паузе.':' В Telegram не отправлено.'};
+    for(const r of rows){const v=val(r),l=r.l;res.push(l.title+': '+CL_RES[v.res].toLowerCase());
+      try{
+        if(v.res==='ok'){const x=await admin('routeAssign',{id:l.id,t:m.code,title:l.title,due,notify:notify&&v.hw==='tile',skip:v.hw!=='tile'});if(v.hw==='tile'&&(x.homework||x.quizzes))sent++;tgNote(x.notification);l.mark='✓ ';refreshTile(l)}
+        else calSet(l.id,next);
+        if(v.res!=='no'&&v.hw.startsWith('q:')){const [,qid,ver]=v.hw.split(':');const x=await admin('quizAssign',{t:m.code,work:qid,version:Number(ver),due,notify});sent++;tgNote(x.notification)}
+      }catch(e){bad.push(l.title)}}
+    let auto='';
+    if(rows.every(r=>val(r).res==='ok')&&m.lessons===route.lessons&&!m.st.cal.some(y=>y.d===next)){
+      const nx=route.lessons.find(x=>!/^✓/.test(x.mark||'')&&!x.cal);
+      if(nx){calSet(nx.id,next);auto=' Следующим поставила «'+nx.title+'» на '+next.split('-').reverse().join('.')+'.'}
+    }
+    const note=form.querySelector('[data-note]').value.trim(),memo=form.querySelector('[data-memo]').value;
+    try{await admin('lessonNote',{t:m.code,tiles:ls.map(l=>l.title).join('; '),res:res.join('; '),note});m.st.lastNote={d:today,tiles:ls.map(l=>l.title).join('; '),res:res.join('; '),note}}catch(e){bad.push('итог урока')}
+    if(memo.trim()!==String(m.st.memo||'').trim()){try{await admin('student',{t:m.code,fields:{memo}});m.st.memo=memo}catch(e){bad.push('список «наизусть»')}}
+    form.hidden=true;form.innerHTML='';dayDue='';renderCal();
+    say('Урок закрыт. Работ отправлено: '+sent+(sent?', срок '+due.split('-').reverse().join('.'):'')+'.'+tg+auto+(bad.length?' Не вышло: '+bad.join('; ')+'. Попробуй ещё раз.':''));
+  };
+}
+function nextCardHTML(){
+  const m=myMode;if(!m)return '';const n=m.st.lastNote,memo=String(m.st.memo||'').split('\n').map(x=>x.trim()).filter(Boolean);
+  const today=isoD(new Date()),plan=m.st.cal.filter(y=>y.d>=today).sort((a,b)=>a.d<b.d?-1:1),first=plan.length?plan[0].d:'',on=plan.filter(y=>y.d===first);
+  if(!n&&!memo.length&&!on.length)return '';
+  return '<div class="nextcard"><b>Следующее занятие'+(first?' · '+WD[new Date(first+'T00:00:00').getDay()]+' '+shortD(first):'')+'</b>'
+   +(on.length?'<p>Квадратик: '+on.map(y=>esc(y.title)).join('; ')+'</p>':'<p>Квадратик на следующий урок не поставлен.</p>')
+   +(n&&n.note?'<p>Начать с: '+esc(n.note)+'</p>':'')
+   +(n&&n.res?'<p class="dim">Прошлый раз ('+esc(shortD(n.d))+'): '+esc(n.res)+'</p>':'')
+   +(memo.length?'<p>Спросить наизусть: '+memo.map(esc).join(', ')+'</p>':'')+'</div>';
 }
 function renderCal(){
   const box=document.getElementById('cal');if(!box||!myMode)return;
   const days=(String(myMode.st.days||'').split('|')[0].toLowerCase().match(/пн|вт|ср|чт|пт|сб|вс/g)||[]);
   const lessonWd=new Set(days.map(x=>WD.map(w=>w.toLowerCase()).indexOf(x)));
   const now=new Date();now.setHours(0,0,0,0);const mon=new Date(now);mon.setDate(now.getDate()-((now.getDay()+6)%7)+calWeek*7);
-  let h='<h2>Календарь</h2><p class="lead">Перетащи квадратик на день (дни занятий ученика закрашены оранжевым). Или открой квадратик и нажми на день. Занятие можно перетащить на другой день, ✕ убирает из календаря.</p><div class="dayclose"><button type="button" data-day-done>Занятие проведено</button><label>срок до <input type="date" data-day-due value="'+(dayDue||nextLessonIso())+'"></label><label class="dtg"><input type="checkbox" data-day-notify '+(dayNotify?'checked':'')+'> Telegram</label></div><p class="dstat" id="day-status" role="status"></p><div style="display:flex;gap:8px;margin-bottom:10px"><button type="button" data-cw="-1">←</button><button type="button" data-cw="0">Сегодня</button><button type="button" data-cw="1">→</button></div><div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px">';
+  let h='<h2>Календарь</h2><p class="lead">Перетащи квадратик на день (дни занятий ученика закрашены оранжевым). Или открой квадратик и нажми на день. Занятие можно перетащить на другой день, ✕ убирает из календаря.</p>'+nextCardHTML()+'<div class="dayclose"><button type="button" data-day-done>Закрыть урок</button></div><div id="day-close" class="dclose" hidden></div><p class="dstat" id="day-status" role="status"></p><div style="display:flex;gap:8px;margin-bottom:10px"><button type="button" data-cw="-1">←</button><button type="button" data-cw="0">Сегодня</button><button type="button" data-cw="1">→</button></div><div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px">';
   for(let w=0;w<4;w++)for(let i=0;i<7;i++){
     const d=new Date(mon);d.setDate(mon.getDate()+w*7+i);const iso=isoD(d),on=lessonWd.has(d.getDay()),today=iso===isoD(now);
     const chips=myMode.st.cal.filter(y=>y.d===iso).map(y=>{const l=myMode.lessons.find(x=>x.id===y.id);const done=l&&/^✓/.test(l.mark||'');return `<div draggable="true" data-chip="${esc(y.id)}" style="font-size:11px;line-height:1.25;overflow-wrap:anywhere;padding:3px 4px;margin-top:3px;border-radius:6px;background:${(l&&l.col)||'#E2B04A'};color:${INK[l&&l.col]||'#16231A'};${done?'opacity:.6;':''};cursor:grab">${done?'✓ ':''}${esc(y.title)} <span data-x="${esc(y.id)}" style="cursor:pointer;opacity:.7">✕</span></div>`}).join('');
@@ -340,7 +391,6 @@ function renderCal(){
   }
   box.innerHTML=h+'</div>';
   const dd=box.querySelector('[data-day-done]');if(dd)dd.onclick=closeDay;
-  const di=box.querySelector('[data-day-due]');if(di)di.oninput=()=>{dayDue=di.value};
   const dn=box.querySelector('[data-day-notify]');if(dn)dn.onchange=()=>{dayNotify=dn.checked};
   box.querySelectorAll('[data-cw]').forEach(b=>b.onclick=()=>{calWeek=b.dataset.cw==='0'?0:calWeek+Number(b.dataset.cw);renderCal()});
   box.querySelectorAll('[data-day]').forEach(c=>{
