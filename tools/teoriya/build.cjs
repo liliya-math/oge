@@ -63,7 +63,7 @@ if(require.main===module){
     {const mf=path.join(path.dirname(out),'memo.json');let M={};try{M=JSON.parse(fs.readFileSync(mf,'utf8'));}catch(e){}
       const t=spec.blocks.map(x=>String(x.title||'').replace(/^\d+\.\s*/,'')),m=[];
       (spec.memo||[]).forEach(x=>m.push([0,String(x)]));spec.blocks.forEach((x,i)=>(x.memo||[]).forEach(y=>m.push([i+1,String(y)])));
-      const e={t,m};if(Array.isArray(spec.dzParts))e.dz=spec.dzParts;M[spec.square]=e;
+      const e={t,m};if(Array.isArray(spec.dzParts))e.dz=spec.dzParts;if(Array.isArray(spec.testParts))e.tp=spec.testParts;M[spec.square]=e;
       fs.writeFileSync(mf,JSON.stringify(M,null,1)+'\n');console.log('memo.json:',spec.square,m.length+' наизусть',e.dz?'dz':'');}}
 }
 module.exports={build,rich};

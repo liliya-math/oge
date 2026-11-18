@@ -1,6 +1,6 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 7.24
- * (7.24: фоновые триггеры Telegram и напоминаний больше не держат общую блокировку (ошибка «Тайм-аут блокировки» при сохранении в календаре); 7.23: столбец «Пройденные пункты теории» (parts) в листе «Ученики»: «Закрыть урок» на карте отмечает пункты теории квадратика галочками; 7.22: «Закрыть урок» на карте: routeAssign с skip (квадратик отмечен без ДЗ), lessonNote пишет итог в лист «Итоги занятий», list и кабинет учителя отдают memo и последний итог; 7.21: у квадратика отметка «Проверено мной» (routeSave: checked, routeMats_: c); 7.20: если очередь занята, напоминалка всё равно сохраняется; 7.19: напоминалка от талисмана: учитель пишет текст (и срок показа) в карточке ученика, ученик видит его в облачке талисмана.
+ * Кабинет ученика 25/25 · lili.math — версия 7.25
+ * (7.25: routeAssign принимает extra (ДЗ и тест по отмеченным пунктам теории) и partial (тема не до конца: теория в кабинете, квадратик не закрыт); 7.24: фоновые триггеры Telegram и напоминаний больше не держат общую блокировку (ошибка «Тайм-аут блокировки» при сохранении в календаре); 7.23: столбец «Пройденные пункты теории» (parts) в листе «Ученики»: «Закрыть урок» на карте отмечает пункты теории квадратика галочками; 7.22: «Закрыть урок» на карте: routeAssign с skip (квадратик отмечен без ДЗ), lessonNote пишет итог в лист «Итоги занятий», list и кабинет учителя отдают memo и последний итог; 7.21: у квадратика отметка «Проверено мной» (routeSave: checked, routeMats_: c); 7.20: если очередь занята, напоминалка всё равно сохраняется; 7.19: напоминалка от талисмана: учитель пишет текст (и срок показа) в карточке ученика, ученик видит его в облачке талисмана.
  * 7.18: в списке талисманов добавлены Крыса, Крысёнок, Выдра, Акси, Квокка - их выбор теперь сохраняется на сервере.
  * 7.17: doGet ?schedule=public - свободные окна на 14 дней без имён, для календаря на главной.
  * 7.16: routeEdits отдаёт mats - у каких квадратиков есть теория, ДЗ, тесты (значки на карте).
@@ -949,7 +949,7 @@ function studentData_(code, admin) {
   const has = k => admin || show.indexOf(k) >= 0;
   const pet = PETS.indexOf(String(r[20] || '').trim()) >= 0 ? String(r[20]).trim() : '';
   const nick = String(r[21] || '').trim();
-  const rj = rows('Занятия по карте').filter(x => x.v[6] === true);
+  const rj = rows('Занятия по карте').filter(x => x.v[6] === true || x.v[6] === 'part');
   const monthKey = Utilities.formatDate(new Date(), 'Europe/Samara', 'yyyy-MM'), doneDays = {};
   rj.forEach(x => { const dd = day_(x.v[2]); if (dd && String(dd).slice(0, 7) === monthKey) doneDays[dd] = 1; });
   const autoDone = Object.keys(doneDays).length;
@@ -2378,6 +2378,8 @@ function routeAssign_(ss, st, code, b) {
   }
   const entry = journal.getRange(row, 1, 1, 7).getValues()[0];
   if (entry[6] === true) return {ok: true, duplicate: true};
+  // b.extra: готовые работы (ДЗ и тест по отмеченным пунктам теории) вместо работ квадратика; b.partial: тема пройдена не до конца
+  const extra = Array.isArray(b.extra) ? b.extra.slice(0, 5) : null;
   if (!b.skip && entry[5] && !findRow_('Домашка', v => String(v[0]).trim() === code && v[16] === key)) {
     const hw = sheet_(ss, 'Домашка');
     hw.appendRow([code, 'Домашняя работа: ' + entry[3], '', ruDate_(due), entry[5], 'Открыть домашнюю работу', false, '', '', '', '', '', '', '', '', '', key]);
@@ -2385,15 +2387,16 @@ function routeAssign_(ss, st, code, b) {
   // Тесты из конструктора: каждый уходит ученику отдельной работой (последняя версия), один раз на занятие.
   let quizzes = 0;
   const sent = [];
-  (b.skip ? [] : routeMaterials_(id).quizzes).forEach(qid => {
+  (extra ? extra.map(x => ({id: String(x && x.work || ''), v: Number(x && x.version) || 0})) : (b.skip ? [] : routeMaterials_(id).quizzes.map(q => ({id: q, v: 0})))).forEach(x => {
+    const qid = x.id; if (!qid) return;
     const qkey = key + '|q|' + qid;
     if (findRow_('Домашка', v => String(v[0]).trim() === code && v[16] === qkey)) return;
-    const d = quizDefinition_(qid, 0);
+    const d = quizDefinition_(qid, x.v);
     if (!d) return;
     const res = quizAssign_(code, {work: qid, version: d.version, due: due});
     if (res && res.row) { sheet_(ss, 'Домашка').getRange(res.row, 17).setValue(qkey); quizzes++; sent.push(d.title); }
   });
-  journal.getRange(row, 7).setValue(true);
+  journal.getRange(row, 7).setValue(b.partial === true ? 'part' : true);
   // Одно сообщение в Telegram на всё занятие (а не по сообщению на каждую работу).
   let notification = null;
   if (b.notify === true && ((!b.skip && entry[5]) || sent.length)) {

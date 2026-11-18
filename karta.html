@@ -314,16 +314,22 @@ function nextLessonIso(){
   const d=new Date(t);d.setDate(t.getDate()+7);return isoD(d);
 }
 const CL_RES={ok:'Закрыли',part:'Не до конца',no:'Не дошли'};
-// ДЗ квадратика только по отмеченным пунктам: задания из memo.json dz, отдельная работа «… · пункты 1, 2» (одна на набор пунктов, повторно не плодится)
-async function partHw(l,np,I,due,notify){
-  const g=await admin('routeGet',{id:l.id});let base=null;
-  for(const q of (g.materials&&g.materials.quizzes)||[]){const w=(await admin('quizGet',{work:q})).work;if(w&&w.kind==='hw'){base=w;break}}
-  if(!base)throw new Error('no_hw');
-  const nums=new Set(np.flatMap(b=>I.dz[b-1]||[])),tasks=base.tasks.filter((t,i)=>nums.has(i+1));if(!tasks.length)throw new Error('no_tasks');
-  const id='part-'+String(base.id).replace(/[^a-zA-Z0-9]/g,'').slice(0,20)+'-v'+base.version+'-'+np.join('-');
-  let w=(await admin('quizGet',{work:id})).work;
-  if(!w){const work={title:base.title+' · пункты '+np.join(', '),section:base.section,kind:'hw',tasks};const x=await admin('quizSave',{id,baseVersion:0,work});w={id,version:x.version}}
-  return admin('quizAssign',{t:myMode.code,work:w.id,version:w.version,due,notify});
+// Работы квадратика по отмеченным пунктам теории: из ДЗ (memo.json dz) и теста (tp) берутся задания этих пунктов,
+// сохраняется отдельная работа «… · пункты 1, 2» (одна на набор пунктов, повторно не создаётся). Возвращает [{work,version}].
+async function partWorks(l,np,I){
+  const g=await admin('routeGet',{id:l.id}),out=[];
+  for(const q of (g.materials&&g.materials.quizzes)||[]){
+    const base=(await admin('quizGet',{work:q})).work;if(!base)continue;
+    const map=base.kind==='hw'?I.dz:base.kind==='self'?I.tp:null;
+    if(!map){out.push({work:base.id,version:base.version});continue}
+    const nums=new Set(np.flatMap(b=>map[b-1]||[])),tasks=base.tasks.filter((t,i)=>nums.has(i+1));if(!tasks.length)continue;
+    if(tasks.length===base.tasks.length){out.push({work:base.id,version:base.version});continue}
+    const id='part-'+String(base.id).replace(/[^a-zA-Z0-9]/g,'').slice(0,20)+'-v'+base.version+'-'+np.join('-');
+    let w=(await admin('quizGet',{work:id})).work;
+    if(!w){const work=Object.assign({},base,{title:base.title+' · пункты '+np.join(', '),tasks});delete work.id;delete work.version;const x=await admin('quizSave',{id,baseVersion:0,work});w={id,version:x.version}}
+    out.push({work:w.id,version:w.version});
+  }
+  return out;
 }
 async function closeDay(){
   const m=myMode,box=document.getElementById('cal'),today=isoD(new Date()),form=document.getElementById('day-close');
@@ -383,9 +389,10 @@ async function closeDay(){
     for(const r of rows){const v=val(r),l=r.l;res.push(l.title+': '+CL_RES[v.res].toLowerCase());
       try{
         const I=info(l.id),np=newParts(r),sub=v.hw==='tile'&&I&&I.dz&&np.length&&np.length<I.t.length;
-        if(v.res==='ok'){const x=await admin('routeAssign',{id:l.id,t:m.code,title:l.title,due,notify:notify&&v.hw==='tile'&&!sub,skip:v.hw!=='tile'||!!sub});if(v.hw==='tile'&&!sub&&(x.homework||x.quizzes))sent++;tgNote(x.notification);l.mark='✓ ';refreshTile(l)}
-        else calSet(l.id,next);
-        if(sub&&v.res!=='no'){const x=await partHw(l,np,I,due,notify);sent++;tgNote(x.notification)}
+        if(v.res!=='no'){const tile=v.hw==='tile',extra=sub?await partWorks(l,np,I):undefined;
+          const x=await admin('routeAssign',{id:l.id,t:m.code,title:l.title,due,notify:notify&&tile,skip:!tile||!!sub,partial:v.res==='part',extra:tile?extra:[]});
+          if(tile&&(x.homework||x.quizzes))sent+=sub?x.quizzes:1;tgNote(x.notification)}
+        if(v.res==='ok'){l.mark='✓ ';refreshTile(l)}else calSet(l.id,next);
         if(I){if(v.res==='ok')delete PARTS[l.id];else if(v.res==='part'&&np.length)PARTS[l.id]=[...new Set(doneOf(l.id).concat(np))].sort((a,b)=>a-b)}
         if(v.res!=='no'&&v.hw.startsWith('q:')){const [,qid,ver]=v.hw.split(':');const x=await admin('quizAssign',{t:m.code,work:qid,version:Number(ver),due,notify});sent++;tgNote(x.notification)}
       }catch(e){bad.push(l.title)}}
