@@ -1,4 +1,4 @@
-/* Содержание тренажёра «Квадратный трёхчлен и его корни» (8 класс): 8 ступеней. Движок: tren/staged.js */
+/* Содержание тренажёра «Квадратный трёхчлен и его корни» (8 класс): 11 ступеней. Движок: tren/staged.js */
 (function (root) {
 'use strict';
 function rnd(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
@@ -130,6 +130,71 @@ function gen8() {
     hint: 'Корни трёхчлена: x₁ = ' + N(p) + ', x₂ = ' + N(q) + '. ' + nw('ax² + bx + c = a(x − x₁)(x − x₂)') + ', a = ' + N(a) + '. Получается ' + nw(A + fac(p) + fac(q)) + '. Проверь: при x = ' + N(p) + ' скобка ' + fac(p) + ' равна нулю.' };
 }
 
+function plain(r) { return r === 0 ? 'x' : r > 0 ? 'x − ' + r : 'x + ' + (-r); }
+function sortedEq(u, w, m, n) { return (u === m && w === n) || (u === n && w === m); }
+
+/* ступень 9: разложи сам, вписывая числа */
+function gen9() {
+  var a = pick([1, 1, 2, -1, 3, -2]), p, q; do { p = rnd(-6, 6); q = rnd(-6, 6); } while (p === q || p === 0 || q === 0);
+  if (p > q) { var t = p; p = q; q = t; }
+  var b = -a * (p + q), c = a * p * q;
+  return { q: '<p>Разложи на множители ' + P(a, b, c) + '.</p><p>Впиши числа в запись</p>' + fx('□ · (x + □)(x + □)') + '<p>Если в скобке минус, вписывай отрицательное число.</p>',
+    input: rows(I('Перед скобками', 'k'), I('1-я скобка: x +', 'u'), I('2-я скобка: x +', 'w')),
+    check: function (v) { return v.k === a && sortedEq(v.u, v.w, -p, -q) ? 'ok' : 'wrong'; },
+    tag: function (v) { if (sortedEq(v.u, v.w, p, q) && p !== -q) return 'factor-sign'; if (v.k !== a && sortedEq(v.u, v.w, -p, -q)) return a !== 1 && v.k === 1 ? 'lost-a' : 'coef-sign'; return ''; },
+    sol: { k: a, u: -p, w: -q },
+    hint: rootsHint(a, b, c) + ' Тогда ' + nw(terms([[a, X2], [b, 'x'], [c, '']]) + ' = ' + aPref(a) + fac(p) + fac(q)) + '. Вписываем ' + N(a) + ', ' + N(-p) + ' и ' + N(-q) + '.' };
+}
+
+/* ступень 10: D > 0, D = 0, D < 0 и дробный корень */
+function gen10() {
+  var t = rnd(0, 3), a, b, c, list = [], seen = {};
+  function add(v, h, tag) { var k = h.replace(/<[^>]+>/g, ''); if (seen[k]) return; seen[k] = 1; list.push([v, nw(h), tag]); }
+  var NO = 'Не раскладывается на множители', hint;
+  if (t === 0) {
+    var p, q; do { p = rnd(-6, 6); q = rnd(-6, 6); } while (p === q || p === 0 || q === 0); if (p > q) { var s = p; p = q; q = s; }
+    a = pick([1, 2, -1]); b = -a * (p + q); c = a * p * q; var A = aPref(a);
+    add('ok', A + fac(p) + fac(q), ''); add('no', NO, 'not-factorable'); add('s', A + fac(-p) + fac(-q), 'factor-sign'); add('sq', A + fac(p) + '<sup>2</sup>', 'd-count');
+    hint = rootsHint(a, b, c) + ' Два корня, поэтому ' + nw(A + fac(p) + fac(q)) + '.';
+  } else if (t === 1) {
+    var r = nz(-6, 6); a = pick([1, 1, 2, -1, 3]); b = -2 * a * r; c = a * r * r; var A1 = aPref(a);
+    add('ok', A1 + fac(r) + '<sup>2</sup>', ''); add('s', A1 + fac(-r) + '<sup>2</sup>', 'factor-sign'); add('pm', A1 + fac(r) + fac(-r), 'd-count'); add('no', NO, 'not-factorable');
+    hint = nw('D = ' + B(b) + '² − 4 · ' + B(a) + ' · ' + B(c) + ' = 0') + ', один корень x = ' + fr(N(-b), N(2 * a)) + ' = ' + N(r) + '. При D = 0 ' + nw('ax² + bx + c = a(x − x₁)²') + ', получается ' + nw(A1 + fac(r) + '<sup>2</sup>') + '.';
+  } else if (t === 2) {
+    do { a = pick([1, 1, 2, -1]); b = rnd(-6, 6); c = nz(-9, 9); } while (b * b - 4 * a * c >= 0);
+    var m = nz(-4, 4), n; do { n = nz(-4, 4); } while (n === m);
+    add('ok', NO, ''); add('f1', aPref(a) + fac(m) + fac(n), 'd-count'); add('f2', aPref(a) + fac(-m) + fac(n), 'd-count'); add('f3', aPref(a) + fac(m) + '<sup>2</sup>', 'd-count');
+    hint = nw('D = ' + B(b) + '² − 4 · ' + B(a) + ' · ' + B(c) + ' = ' + N(b * b - 4 * a * c)) + '. D < 0, корней нет, поэтому трёхчлен на множители не раскладывается.';
+  } else {
+    var p2 = nz(-5, 5), h = pick([1, -1]); a = 2; b = -(2 * p2 + h); c = p2 * h;
+    var br = h === 1 ? '(2x − 1)' : '(2x + 1)', bad = h === 1 ? '(2x + 1)' : '(2x − 1)', half = (h === 1 ? '' : '−') + fr(1, 2);
+    add('ok', fac(p2) + br, ''); add('s', fac(p2) + bad, 'factor-sign'); add('l', fac(p2) + '(x ' + (h === 1 ? '−' : '+') + ' ' + fr(1, 2) + ')', 'lost-a'); add('no', NO, 'not-factorable');
+    hint = rootsHint(a, b, c).replace(/значит, x = .*$/, '') + 'корни ' + N(p2) + ' и ' + half + '. ' + nw('2' + fac(p2) + '(x ' + (h === 1 ? '−' : '+') + ' ' + fr(1, 2) + ')') + ': двойку умножаем на вторую скобку и получаем ' + nw(fac(p2) + br) + '.';
+  }
+  if (list.length < 3) return gen10();
+  return { q: '<p>Разложи на множители квадратный трёхчлен ' + P(a, b, c) + '.</p>', input: choice(list), ans: 'ok', hint: hint };
+}
+
+/* ступень 11: сокращение дробей */
+function gen11() {
+  var p, q, list = [], seen = {}, t = rnd(0, 1), a, num, den, hint;
+  function add(v, h, tag) { var k = h.replace(/<[^>]+>/g, ''); if (seen[k]) return; seen[k] = 1; list.push([v, nw(h), tag]); }
+  do { p = rnd(-6, 6); q = rnd(-6, 6); } while (p === q || p === 0 || q === -p);
+  if (t === 0) {
+    a = pick([1, 1, 2, 3, -1]); var A = aPref(a);
+    num = terms([[a, X2], [-a * (p + q), 'x'], [a * p * q, '']]); den = plain(p);
+    var res = a === 1 ? plain(q) : A + fac(q);
+    add('ok', res, ''); add('s', a === 1 ? plain(-q) : A + fac(-q), 'factor-sign'); if (a !== 1) add('l', plain(q), 'lost-a'); add('w', a === 1 ? plain(p) : A + fac(p), 'cancel-wrong');
+    hint = 'Корни числителя: ' + N(Math.min(p, q)) + ' и ' + N(Math.max(p, q)) + '. Разложим: ' + nw(num + ' = ' + A + fac(p) + fac(q)) + '. Сокращаем на ' + nw(fac(p)) + ', остаётся ' + nw(res) + '.';
+  } else {
+    a = 1; num = terms([[1, X2], [-(p + q), 'x'], [p * q, '']]); den = 'x<sup>2</sup> − ' + (p * p);
+    add('ok', fr(plain(q), plain(-p)), ''); add('s', fr(plain(q), plain(p)), 'cancel-wrong'); add('s2', fr(plain(-q), plain(-p)), 'factor-sign'); add('w', plain(q), 'cancel-wrong');
+    hint = 'Числитель: ' + nw(num + ' = ' + fac(p) + fac(q)) + '. Знаменатель по формуле разности квадратов: ' + nw(den + ' = ' + fac(p) + fac(-p)) + '. Сокращаем на ' + nw(fac(p)) + ', остаётся ' + fr(plain(q), plain(-p)) + '.';
+  }
+  if (list.length < 3) return gen11();
+  return { q: '<p>Сократи дробь</p>' + fx(fr(num, den)), input: choice(list), ans: 'ok', hint: hint };
+}
+
 /* ---------- ступени ---------- */
 function ask(q, opts, ans, ok, no) { return { q: q, opts: opts, ans: ans, ok: ok, no: no }; }
 var STEPS = [
@@ -180,6 +245,24 @@ var STEPS = [
     { t: '<p>У ' + P(2, -2, -12) + ' корни −2 и 3, a = 2.</p>' + fx('2(x − (−2))(x − 3)') + fx('= 2(x + 2)(x − 3)'), v: '' },
     { t: '<p><b>Частые ошибки.</b> Знак в скобке противоположен корню: корень −2 даёт (x + 2). Множитель a впереди терять нельзя.</p><p>Если D = 0, то ' + nw('ax² + bx + c = a(x − x₁)²') + '. Если D < 0, трёхчлен на множители не раскладывается.</p>', v: '' },
     { t: '<p>Корни трёхчлена ' + P(1, 1, -6) + ' — это −3 и 2. Как он раскладывается?</p>', v: '', ask: ask('Выбери', [['a', '(x + 3)(x − 2)'], ['b', '(x − 3)(x + 2)']], 'a', 'Верно. Корень −3 даёт скобку (x + 3).', 'Нет. x − (−3) = x + 3, а x − 2 для корня 2.') }
+  ] },
+  { id: 9, title: 'Раскладываем сами', sub: 'Вписываем числа в скобки', gen: gen9, teach: [
+    { t: '<p>Порядок действий.</p><p>1) Найти корни x₁ и x₂ через D.</p><p>2) Записать ' + nw('a(x − x₁)(x − x₂)') + '.</p><p>3) Проверить знаки в скобках.</p>', v: '' },
+    { t: '<p>' + P(1, -2, -15) + ': D = 4 + 60 = 64, ' + nw(sq('64') + ' = 8') + ', корни −3 и 5.</p>' + fx(nw('x<sup>2</sup> − 2x − 15 = (x + 3)(x − 5)')), v: '' },
+    { t: '<p>В задании запись ' + nw('□ · (x + □)(x + □)') + '. Скобку (x − 5) пишем как x + (−5), поэтому вписываем −5. Скобку (x + 3) — вписываем 3. Если a = 1, перед скобками пишем 1.</p>', v: '' },
+    { t: '<p>Корень трёхчлена равен 4. Какое число впишешь в скобку (x + □)?</p>', v: '', ask: ask('Ответ', [['-4', '−4'], ['4', '4']], '-4', 'Верно. Скобка (x − 4), то есть x + (−4).', 'Нет. Корень 4 даёт скобку (x − 4), это x + (−4). Вписываем −4.') }
+  ] },
+  { id: 10, title: 'Все случаи разложения', sub: 'D > 0, D = 0, D < 0', gen: gen10, teach: [
+    { t: '<p>Всё решает дискриминант.</p>' + fx('D > 0: a(x − x₁)(x − x₂)') + fx('D = 0: a(x − x₁)²') + fx('D < 0: не раскладывается'), v: '' },
+    { t: '<p>' + P(1, -6, 9) + ': D = 36 − 36 = 0, корень x = 3.</p>' + fx(nw('x<sup>2</sup> − 6x + 9 = (x − 3)<sup>2</sup>')) + '<p>Это квадрат разности.</p>', v: '' },
+    { t: '<p>Корень может быть дробным. ' + P(2, -3, 1) + ': D = 9 − 8 = 1, корни 1 и ' + fr(1, 2) + '.</p>' + fx(nw('2(x − 1)(x − ' + fr(1, 2) + ') = (x − 1)(2x − 1)')) + '<p>Двойку умножили на вторую скобку, чтобы не было дроби.</p>', v: '' },
+    { t: '<p>У трёхчлена D = −7. Как он раскладывается на множители?</p>', v: '', ask: ask('Выбери', [['no', 'Не раскладывается'], ['sq', 'a(x − x₁)²']], 'no', 'Верно. Корней нет, значит, и скобок нет.', 'Нет. При D < 0 корней нет, поэтому трёхчлен на множители не раскладывается.') }
+  ] },
+  { id: 11, title: 'Сокращение дробей', sub: 'Зачем раскладывать', gen: gen11, teach: [
+    { t: '<p>Разложение нужно, чтобы сокращать дроби. Сократить можно только одинаковые <span class="key">множители</span>, а не слагаемые.</p>', v: '' },
+    { t: '<p>Сократим дробь</p>' + fx(fr('x<sup>2</sup> − 5x + 6', 'x − 3')) + '<p>Корни числителя 2 и 3, значит, ' + nw('x<sup>2</sup> − 5x + 6 = (x − 2)(x − 3)') + '.</p>', v: '' },
+    { t: '<p>Сокращаем общий множитель (x − 3):</p>' + fx(fr('(x − 2)(x − 3)', 'x − 3') + ' = x − 2'), v: '' },
+    { t: '<p>Знаменатель тоже бывает надо разложить: ' + nw('x<sup>2</sup> − 9 = (x − 3)(x + 3)') + '. Тогда</p>' + fx(fr('x<sup>2</sup> − 5x + 6', 'x<sup>2</sup> − 9') + ' = ' + fr('x − 2', 'x + 3')), v: '', ask: ask('Можно ли в дроби (x + 2) / x сократить x?', [['n', 'Нельзя'], ['y', 'Можно']], 'n', 'Верно. В числителе x — слагаемое, а не множитель.', 'Нет. В числителе x + 2 буква x — слагаемое. Сокращать можно только множители.') }
   ] }
 ];
 
@@ -196,12 +279,14 @@ var TAGMSG = {
   'root-sign': 'В формуле стоит −b. Знаки корней получились противоположными: проверь, что взят −b, а не b.',
   'one-root': 'Один корень верный, другой нет. Проверь знаменатель 2a и второй корень подстановкой.',
   'factor-sign': 'Знак в скобке противоположен корню: корень 3 даёт (x − 3), корень −3 даёт (x + 3).',
-  'lost-a': 'Перед скобками должен стоять старший коэффициент a.'
+  'lost-a': 'Перед скобками должен стоять старший коэффициент a.',
+  'not-factorable': 'Трёхчлен не раскладывается, только если D < 0. Найди D.',
+  'cancel-wrong': 'Сокращается только одинаковая скобка в числителе и знаменателе. Проверь, какая скобка общая.'
 };
 
 var api = { STEPS: STEPS, fr: fr, mx: mx, rnd: rnd };
 root.TRAINER = {
-  title: 'Квадратный трёхчлен и его корни', shortTitle: 'Квадратный трёхчлен', key: 'kvtrehchlen_trainer_v1',
+  title: 'Квадратный трёхчлен: корни и разложение на множители', shortTitle: 'Квадратный трёхчлен', key: 'kvtrehchlen_trainer_v1',
   sheetUrl: 'https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec',
   needDefault: 4, needEarly: 4, earlyUpto: 3, tagMsg: TAGMSG, api: api,
   board: ['ax² + bx + c', 'D = b² − 4ac', 'a(x − x₁)(x − x₂)', 'x² − 5x + 6', 'D = 25 − 24 = 1', 'x₁ = 2, x₂ = 3', 'D > 0', 'D < 0', '2x² − 8 = 0', '(x + 2)(x − 3)', 'R[100] = 10', 'R[16] = 4']
