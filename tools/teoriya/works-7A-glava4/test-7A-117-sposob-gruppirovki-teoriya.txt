@@ -48,3 +48,27 @@
 Варианты: \(x(x-y)-8(x-y)\) | \(x(x-y)+8(x-y)\) | \(x(x+y)-8(x+y)\) | \(x^2-8(x-y)\)
 Ответ: \(x(x-y)-8(x-y)\)
 Баллы: 1
+
+Задание: Разложи на множители: \(x^{2} + 7 x + 12\).
+Тип: выбор
+Варианты: \(\left(x+2\right)\left(x+4\right)\) | \(\left(x+4\right)^{2}\) | \(-\left(x+3\right)\left(x+4\right)\) | \(\left(x+3\right)\left(x+4\right)\)
+Ответ: \(\left(x+3\right)\left(x+4\right)\)
+Баллы: 1
+
+Задание: Разложи на множители: \(a x + a y + 2 x + 2 y\).
+Тип: выбор
+Варианты: \(\left(a+2\right)\left(x+y\right)\) | \(\left(a+1\right)\left(x+y\right)\) | \(\left(a+3\right)\left(x+y\right)\) | \(-\left(a+2\right)\left(x+y\right)\)
+Ответ: \(\left(a+2\right)\left(x+y\right)\)
+Баллы: 1
+
+Задание: Разложи на множители: \(y \left(2 - x\right) + 4 \left(x - 2\right)\).
+Тип: выбор
+Варианты: \(-\left(x-2\right)\left(y-5\right)\) | \(-\left(x-2\right)\left(y-4\right)\) | \(-\left(x-2\right)\left(y-3\right)\) | \(\left(x-2\right)\left(y-4\right)\)
+Ответ: \(-\left(x-2\right)\left(y-4\right)\)
+Баллы: 1
+
+Задание: Упрости: \(\left(x + 2\right) \left(y - 1\right)\).
+Тип: выбор
+Варианты: \(xy-x+2y\) | \(xy-x+2y-4\) | \(xy-x+2y-2\) | \(xy-x+2y+2\)
+Ответ: \(xy-x+2y-2\)
+Баллы: 1

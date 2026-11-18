@@ -48,3 +48,15 @@
 Варианты: \(a(a-1)(a+1)\) | \(a(a-1)^2\) | \((a-1)(a^2+a+1)\) | \(a^2(a-1)\)
 Ответ: \(a(a-1)(a+1)\)
 Баллы: 1
+
+Задание: Разложи на множители: \(x^{4} - 625\).
+Тип: выбор
+Варианты: \(\left(x-6\right)\left(x+5\right)\left(x^{2}+25\right)\) | \(\left(x-5\right)\left(x+5\right)\left(x^{2}+25\right)\) | \(\left(x-4\right)\left(x+5\right)\left(x^{2}+25\right)\) | \(-\left(x-5\right)\left(x+5\right)\left(x^{2}+25\right)\)
+Ответ: \(\left(x-5\right)\left(x+5\right)\left(x^{2}+25\right)\)
+Баллы: 1
+
+Задание: Упрости: \(2 x \left(x + 1\right) \left(x - 1\right)\).
+Тип: выбор
+Варианты: \(2x^{3}\) | \(2x^{3}-4x\) | \(2x^{3}-2x\) | \(2x^{3}+2x\)
+Ответ: \(2x^{3}-2x\)
+Баллы: 1
