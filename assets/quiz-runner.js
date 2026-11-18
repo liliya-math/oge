@@ -44,8 +44,12 @@ const ms=Math.max(0,deadline-Date.now());t.textContent=fmt(ms);t.classList.toggl
 if(ms<=0){clearInterval(ticker);$('error').textContent='Время вышло. Работа отправляется.';submit(true);}};
 tick();ticker=setInterval(tick,250);document.addEventListener('visibilitychange',tick);
 }
+// Тест по теории: до запуска таймера ссылка «Повтори теорию» (страница теории ищется в memo.json по названию работы)
+function theoryHint(){if(d.kind!=='self')return;const name=nameKind(d).name;fetch('memo.json').then(r=>r.ok?r.json():{}).then(M=>{const e=Object.values(M).find(x=>x&&x.n===name&&x.u);const h=document.querySelector('.run-head');if(!e||!h||document.getElementById('theory-hint'))return;
+h.insertAdjacentHTML('beforeend','<div class="notice" id="theory-hint">Перед тестом повтори теорию: <a href="'+U.esc(e.u)+'" target="_blank" rel="noopener">'+U.esc(e.n)+'</a>. Таймер запустится только после «Начать».</div>');}).catch(()=>{});}
 function startScreen(){
 $('app').innerHTML='<div class="run-head"><span class="eyebrow">'+U.esc(d.section+nameKind(d).kind)+'</span><h1>'+U.esc(nameKind(d).name)+'</h1><p class="muted">Время на работу: <b>'+d.time+' мин</b>. Таймер запустится, когда нажмёшь «Начать»; остановить его нельзя. Когда время выйдет, то, что успеешь ввести, отправится само.</p>'+(lim()?'<p class="muted">Одна попытка, подсказок нет. После отправки ты увидишь только балл.</p>':'')+(demo?'<div class="notice">Демонстрация. Результат не отправляется в кабинет.</div>':'')+'<p class="muted">Заданий: '+(d.tasks.length||d.count)+' · баллов: '+(d.tasks.length?d.tasks.reduce((s,q)=>s+q.points,0):d.max)+'</p></div><p class="error" id="error" role="alert"></p><button id="begin">Начать</button>';
+theoryHint();
 $('begin').onclick=async()=>{const b=$('begin');b.disabled=true;$('error').textContent='';
 try{await fetchStart();state.started=true;if(!state.start)state.start=Date.now();save();show();clock();window.scrollTo(0,0);}catch(e){$('error').textContent=e.message;b.disabled=false;}};
 }

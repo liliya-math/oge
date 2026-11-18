@@ -63,7 +63,12 @@ if(require.main===module){
     {const mf=path.join(path.dirname(out),'memo.json');let M={};try{M=JSON.parse(fs.readFileSync(mf,'utf8'));}catch(e){}
       const t=spec.blocks.map(x=>String(x.title||'').replace(/^\d+\.\s*/,'')),m=[];
       (spec.memo||[]).forEach(x=>m.push([0,String(x)]));spec.blocks.forEach((x,i)=>(x.memo||[]).forEach(y=>m.push([i+1,String(y)])));
-      const e={t,m};if(Array.isArray(spec.dzParts))e.dz=spec.dzParts;if(Array.isArray(spec.testParts))e.tp=spec.testParts;M[spec.square]=e;
-      fs.writeFileSync(mf,JSON.stringify(M,null,1)+'\n');console.log('memo.json:',spec.square,m.length+' наизусть',e.dz?'dz':'');}}
+      const e={t,m,n:spec.title,u:'https://lilimath.ru/'+spec.file};
+      // раздел для библиотеки кабинета: класс, глава и порядок из lesson-route-*.json
+      {const pre=spec.square.split('-')[0],rf={'5':'5','6':'6','7A':'7a','7G':'7g','8A':'8a','8G':'8g','9A':'9a','9G':'9g'}[pre];
+       const SUB={A:'алгебра',G:'геометрия'};
+       if(rf){try{const R=JSON.parse(fs.readFileSync(path.join(path.dirname(out),'lesson-route-'+rf+'.json'),'utf8'));const i=R.lessons.findIndex(x=>x.id===spec.square);
+         if(i>=0){const L=R.lessons[i];e.c=pre.replace(/[AG]$/,'')+' класс'+(SUB[pre.slice(-1)]?', '+SUB[pre.slice(-1)]:'');e.ch=R.chapters[(L.chapter||1)-1]||'';e.o=i;e.lt=L.title}}catch(err){}}}if(Array.isArray(spec.dzParts))e.dz=spec.dzParts;if(Array.isArray(spec.testParts))e.tp=spec.testParts;M[spec.square]=e;
+      fs.writeFileSync(mf,JSON.stringify(M)+'\n');console.log('memo.json:',spec.square,m.length+' наизусть',e.dz?'dz':'');}}
 }
 module.exports={build,rich};
