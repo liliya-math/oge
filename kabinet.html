@@ -1534,8 +1534,10 @@ function fillTheoryLib(){const box=document.getElementById('theory-lib');if(!box
   if(!items.length){box.hidden=true;return}
   items.sort((a,b)=>(a.c||'').localeCompare(b.c||'')||(a.o||0)-(b.o||0));
   const groups=[];items.forEach(e=>{const g=(e.c?e.c+' · ':'')+(e.ch||'Другое');let G=groups.find(x=>x.g===g);if(!G)groups.push(G={g,l:[]});G.l.push(e)});
-  const tile=e=>{const m=/^(\d+(?:\.\d+)*)\.?\s+(.*)$/.exec(e.lt||''),c=COL[String(e.id).split('-')[0]]||'#E2B04A';
-   return '<a class="ttile" style="--c:'+c+';--ink:'+(DARK[c]?'#EEE0C8':'#16231A')+'" href="'+esc(e.u)+'" target="_blank" rel="noopener noreferrer"><small>'+(m?'п. '+esc(m[1]):'Теория')+'</small>'+esc(m?m[2]:(e.lt||e.n))+'</a>'};
+  // «10.2. Формула…; 10.3. Свойства…» -> подпись «п. 10.2-10.3», название без номеров
+  const tile=e=>{const parts=String(e.lt||'').split(/;\s*/).map(x=>/^(\d+(?:\.\d+)*)\.?\s+(.*)$/.exec(x)),ok=parts.length&&parts.every(Boolean),c=COL[String(e.id).split('-')[0]]||'#E2B04A';
+   const lab=ok?'п. '+parts[0][1]+(parts.length>1?'-'+parts[parts.length-1][1]:''):'Теория',name=ok?parts.map(x=>x[2]).join('; '):(e.lt||e.n);
+   return '<a class="ttile" style="--c:'+c+';--ink:'+(DARK[c]?'#EEE0C8':'#16231A')+'" href="'+esc(e.u)+'" target="_blank" rel="noopener noreferrer"><small>'+esc(lab)+'</small>'+esc(name)+'</a>'};
   box.innerHTML='<h2>Теория</h2><p class="muted">Все пройденные темы. Нажми на квадратик, чтобы открыть теорию.</p>'+groups.map(G=>'<h3 class="tl-h">'+esc(G.g)+'</h3><div class="tlg">'+G.l.map(tile).join('')+'</div>').join('');box.hidden=false};
  if(THEORY_LIB)return go(THEORY_LIB);
  fetch('memo.json').then(r=>r.ok?r.json():{}).then(M=>{THEORY_LIB=M;go(M)}).catch(()=>{box.hidden=true});
