@@ -1,6 +1,6 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 7.23
- * (7.23: столбец «Пройденные пункты теории» (parts) в листе «Ученики»: «Закрыть урок» на карте отмечает пункты теории квадратика галочками; 7.22: «Закрыть урок» на карте: routeAssign с skip (квадратик отмечен без ДЗ), lessonNote пишет итог в лист «Итоги занятий», list и кабинет учителя отдают memo и последний итог; 7.21: у квадратика отметка «Проверено мной» (routeSave: checked, routeMats_: c); 7.20: если очередь занята, напоминалка всё равно сохраняется; 7.19: напоминалка от талисмана: учитель пишет текст (и срок показа) в карточке ученика, ученик видит его в облачке талисмана.
+ * Кабинет ученика 25/25 · lili.math — версия 7.24
+ * (7.24: фоновые триггеры Telegram и напоминаний больше не держат общую блокировку (ошибка «Тайм-аут блокировки» при сохранении в календаре); 7.23: столбец «Пройденные пункты теории» (parts) в листе «Ученики»: «Закрыть урок» на карте отмечает пункты теории квадратика галочками; 7.22: «Закрыть урок» на карте: routeAssign с skip (квадратик отмечен без ДЗ), lessonNote пишет итог в лист «Итоги занятий», list и кабинет учителя отдают memo и последний итог; 7.21: у квадратика отметка «Проверено мной» (routeSave: checked, routeMats_: c); 7.20: если очередь занята, напоминалка всё равно сохраняется; 7.19: напоминалка от талисмана: учитель пишет текст (и срок показа) в карточке ученика, ученик видит его в облачке талисмана.
  * 7.18: в списке талисманов добавлены Крыса, Крысёнок, Выдра, Акси, Квокка - их выбор теперь сохраняется на сервере.
  * 7.17: doGet ?schedule=public - свободные окна на 14 дней без имён, для календаря на главной.
  * 7.16: routeEdits отдаёт mats - у каких квадратиков есть теория, ДЗ, тесты (значки на карте).
@@ -487,6 +487,12 @@ function partsOf_(v) {
     if (a.length) out[id] = a;
   });
   return out;
+}
+// Фоновые триггеры (Telegram, напоминания) не берут общую блокировку скрипта: иначе их долгие запросы к Telegram
+// держат её до 30 с, и сохранение из карты/кабинета падает с «Тайм-аут блокировки». Свой флаг в кэше не даёт триггеру запуститься дважды.
+function trgLock_(name) {
+  const c = CacheService.getScriptCache(), k = 'TRG_' + name;
+  return {tryLock: () => { if (c.get(k)) return false; c.put(k, '1', 300); return true; }, releaseLock: () => c.remove(k)};
 }
 function ensureNickCol_(sh, col) {
   col = col || STUDENT_COLS.nick;
@@ -1384,8 +1390,8 @@ function telegramHandleUpdate_(update) {
 }
 function pollTelegramUpdates() {
   if (!telegramAvailable_()) return;
-  const lock = LockService.getScriptLock();
-  if (!lock.tryLock(1000)) return;
+  const lock = trgLock_('poll');
+  if (!lock.tryLock()) return;
   try {
     const props = PropertiesService.getScriptProperties();
     const res = telegramApi_('getUpdates', {offset: Number(props.getProperty('TG_OFFSET') || 0), timeout: 0, limit: 30, allowed_updates: ['message']});
@@ -1441,8 +1447,8 @@ function telegramFetchFile_(url) {
 }
 function scanTelegramHomework() {
   if (!telegramAvailable_()) return;
-  const lock = LockService.getScriptLock();
-  if (!lock.tryLock(1000)) return;
+  const lock = trgLock_('scan');
+  if (!lock.tryLock()) return;
   try {
     const props = PropertiesService.getScriptProperties(), sh = sheet_(telegramSS_(), 'Telegram-файлы');
     const list = telegramWatchList_(), wanted = {};
@@ -2094,8 +2100,8 @@ function lrWhen_(ms, tz) {
 
 function sendLessonReminders() {
   if (!telegramAvailable_()) return;
-  const lock = LockService.getScriptLock();
-  if (!lock.tryLock(1000)) return;
+  const lock = trgLock_('remind');
+  if (!lock.tryLock()) return;
   try {
     const ss = telegramSS_(), ssTz = ss.getSpreadsheetTimeZone();
     const st = ss.getSheetByName('Ученики');

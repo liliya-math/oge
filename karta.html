@@ -95,9 +95,10 @@ let PASS='';try{PASS=localStorage.getItem('cab-admin')||''}catch(e){}
 const getId=()=>decodeURIComponent(location.hash.slice(1)||'').toUpperCase().replace(/[^0-9A-Z.]/g,'');
 const SUBJ={A:'Алгебра',G:'Геометрия'};
 function fail(t,x){app.innerHTML=`<div class="bar"><span></span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184"></span></div><h1>${esc(t)}</h1><p class="lead">${esc(x)}</p>`}
-async function admin(op,fields={}){
+async function admin(op,fields={},retry=1){
   const r=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({admin:PASS,op,...fields})});
   const result=await r.json();
+  if(!result.ok&&retry&&/блокировк|lock/i.test(String(result.error||'')))return new Promise(res=>setTimeout(res,1500)).then(()=>admin(op,fields,retry-1));
   if(!result.ok)throw new Error(result.error||'request');
   return result;
 }
