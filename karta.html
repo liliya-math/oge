@@ -108,7 +108,7 @@ function gate(){
    .then(r=>r.json(),()=>{throw 'net'}).then(j=>{if(!j||j.ok!==true)throw 'deny';routeEnabled=j.lessonRoute===1});
 }
 let READY=false,route,routeEnabled;
-const ROUTE_FILES={'5A':'lesson-route-5.json','6A':'lesson-route-6.json','7A':'lesson-route-7a.json','7G':'lesson-route-7g.json','8A':'lesson-route-8a.json','8G':'lesson-route-8g.json','9A':'lesson-route-9a.json','9G':'lesson-route-9g.json','OGE':'lesson-route-oge.json'},ROUTES={};
+const ROUTE_FILES={'5A':'lesson-route-5.json','6A':'lesson-route-6.json','7A':'lesson-route-7a.json','7G':'lesson-route-7g.json','8A':'lesson-route-8a.json','8G':'lesson-route-8g.json','9A':'lesson-route-9a.json','9G':'lesson-route-9g.json','OGE':'lesson-route-oge.json','ERR':'lesson-route-err.json'},ROUTES={};
 let selectedLesson,myMode=null;
 let selectedStudent='';
 try{selectedStudent=sessionStorage.getItem('lili-route-student')||''}catch(e){}
@@ -123,7 +123,7 @@ function crumbs(id){
 function home(){
   const tiles=[];
   for(let g=5;g<=9;g++)['A','G'].forEach(s=>{const id=g+s;tiles.push(`<a class="tile" href="#${id}"><b>${g} ${s==='A'?'алгебра':'геом.'}</b></a>`)});
-  app.innerHTML=`<div class="bar"><span class="id">Карта · только для учителя</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184" loading="lazy"></span></div><h1>Карта материалов</h1><p class="lead">Выбери класс.</p><div class="grid">${tiles.join('')}<a class="tile" href="#OGE"><b>ОГЭ, часть 1</b><small>задания 1-19</small></a></div>`;
+  app.innerHTML=`<div class="bar"><span class="id">Карта · только для учителя</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184" loading="lazy"></span></div><h1>Карта материалов</h1><p class="lead">Выбери класс.</p><div class="grid">${tiles.join('')}<a class="tile" href="#OGE"><b>ОГЭ, часть 1</b><small>задания 1-19</small></a><a class="tile" href="#ERR"><b>Типичные ошибки</b><small>для любого класса</small></a></div>`;
 }
 let editMode=false;
 function routeCard(){
@@ -285,7 +285,7 @@ async function selectLesson(id){
   }catch(e){if(pending.isConnected)pending.textContent='Не получилось загрузить материалы и учеников. Нажми на квадратик ещё раз.'}
 }
 const INK={'#2B3D2B':'#EEE0C8','#2F5BB5':'#EEE0C8','#2F5BB5':'#EEE0C8','#2B3D2B':'#EEE0C8'};
-const PROGCOL={'5':'#E2B04A','6':'#DD7A3A','7A':'#2B3D2B','7G':'#C9AB82','8A':'#B6CBE3','8G':'#2F5BB5','9A':'#EEE0C8','9G':'#2F5BB5',OGE:'#2B3D2B'};
+const PROGCOL={'5':'#E2B04A','6':'#DD7A3A','7A':'#2B3D2B','7G':'#C9AB82','8A':'#B6CBE3','8G':'#2F5BB5','9A':'#EEE0C8','9G':'#2F5BB5',OGE:'#2B3D2B',ERR:'#DD7A3A'};
 const PCOL={'5':'#E2B04A','6':'#DD7A3A','7A':'#B6CBE3','7G':'#B6CBE3','8A':'#C9AB82','8G':'#2B3D2B','9A':'#2F5BB5','9G':'#DD7A3A',OGE:'#EEE0C8'};
 const WD=['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
 const isoD=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
@@ -302,7 +302,7 @@ function calSet(id,d){
 function matBadge(l){const h=l.has||{};const a=[];if(h.c)a.push('✓ проверено');if(h.t)a.push('Теория');if(h.h||h.qh)a.push('ДЗ'+(h.qh>1?' '+h.qh:''));if(h.qs)a.push('Тест'+(h.qs>1?' '+h.qs:''));if(h.qe)a.push('Контрольная'+(h.qe>1?' '+h.qe:''));if(h.q&&h.qh===undefined)a.push('Тесты'+(h.q>1?' '+h.q:''));return a.length?'<span class="mbadges">'+a.map(x=>'<span>'+x+'</span>').join('')+'</span>':''}
 function calBadge(l){if(!l.cal)return '';const d=new Date(l.cal+'T00:00:00');return '<span class="cbadge">в календаре · '+WD[d.getDay()]+' '+esc(shortD(l.cal))+'</span>'}
 const NUMRE=/^\s*(§\s*\d+(?:\.\d+)*|\d+(?:\.\d+)+)\.?\s+(.*)$/;
-function tileLabel(x){if(x.tag)return esc(x.tag);if(x.school)return 'Школьные № '+esc(x.school);const o=/^OGE-(\d+)-(\d+)$/.exec(x.id||'');if(o&&o[1]!=='90'){const n=+o[1],k=(route&&route.lessons||[]).filter(y=>String(y.id).indexOf('OGE-'+o[1]+'-')===0).length;return 'Задание '+n+(k>1?' · п. '+(+o[2]):'')}const m=NUMRE.exec(x.title||'');if(m)return esc(m[1].replace(/^§\s*/,'').split('.').map((v,i)=>['§ ','п. ','пп. '][i]+v).join(' · '));return 'Дополнительно'}
+function tileLabel(x){if(/^ERR-/.test(x.id||''))return 'Типичные ошибки';if(x.tag)return esc(x.tag);if(x.school)return 'Школьные № '+esc(x.school);const o=/^OGE-(\d+)-(\d+)$/.exec(x.id||'');if(o&&o[1]!=='90'){const n=+o[1],k=(route&&route.lessons||[]).filter(y=>String(y.id).indexOf('OGE-'+o[1]+'-')===0).length;return 'Задание '+n+(k>1?' · п. '+(+o[2]):'')}const m=NUMRE.exec(x.title||'');if(m)return esc(m[1].replace(/^§\s*/,'').split('.').map((v,i)=>['§ ','п. ','пп. '][i]+v).join(' · '));return 'Дополнительно'}
 function tileTitle(x){if(x.tag||x.school)return x.title;const m=NUMRE.exec(x.title||'');return m?m[2]:x.title}
 function refreshTile(l){const b=app.querySelector('[data-lesson="'+l.id+'"]');if(b){b.classList.toggle('done',/^✓/.test(l.mark||''));b.classList.toggle('next',/^→/.test(l.mark||''))}if(b)b.innerHTML='<small>'+tileLabel(l)+'</small><br>'+(l.mark||'')+esc(tileTitle(l))+matBadge(l)+calBadge(l)+(editMode?'<span class="tdel" data-del="'+l.id+'" title="Удалить квадратик">✕</span>':'');const x=b&&b.querySelector('[data-del]');if(x)x.onclick=e=>{e.stopPropagation();delLesson(l.id)};if(matFilter)applyMatFilter()}
 let dayDue='',dayNotify=true;
@@ -399,7 +399,7 @@ async function closeDay(){
       }catch(e){bad.push(l.title)}}
     let auto='';
     if(rows.every(r=>val(r).res==='ok')&&m.lessons===route.lessons&&!m.st.cal.some(y=>y.d===next)){
-      const nx=route.lessons.find(x=>!/^✓/.test(x.mark||'')&&!x.cal);
+      const nx=route.lessons.find(x=>!x.free&&!/^✓/.test(x.mark||'')&&!x.cal);
       if(nx){calSet(nx.id,next);auto=' Следующим поставила «'+nx.title+'» на '+next.split('-').reverse().join('.')+'.'}
     }
     const note=form.querySelector('[data-note]').value.trim(),memo=form.querySelector('[data-memo]').value;
@@ -473,7 +473,7 @@ async function myPage(){
   try{const j=await admin('list');st=(j.students||[]).find(x=>x.code===code)}catch(e){}
   if(!st){app.innerHTML+='<p class="empty">Не получилось найти ученика. Открой кабинет ученика и нажми «Открыть карту занятий».</p>';return}
   const progs=st.routes||[],done=new Set(st.routeDone||[]);
-  const NAMES={'5':'5 класс','6':'6 класс','7A':'7 алгебра','7G':'7 геометрия','8A':'8 алгебра','8G':'8 геометрия','9A':'9 алгебра','9G':'9 геометрия',OGE:'ОГЭ, часть 1'};
+  const NAMES={'5':'5 класс','6':'6 класс','7A':'7 алгебра','7G':'7 геометрия','8A':'8 алгебра','8G':'8 геометрия','9A':'9 алгебра','9G':'9 геометрия',OGE:'ОГЭ, часть 1',ERR:'Типичные ошибки'};
   const nm=[st.name,st.fname].filter(Boolean).join(' ');
   if(!progs.length){app.innerHTML=`<div class="bar"><span class="id">Ученик</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184" loading="lazy"></span></div><div class="crumbs"><a href="#">Карта</a></div><h1>${esc(nm)}</h1><p class="empty">Программа не выбрана. В кабинете ученика: настройки, «Программа по квадратикам».</p>`;return}
   const seq=k=>(ROUTES[k]?ROUTES[k].lessons:[]).map(x=>({...x,tag:NAMES[k]}));
@@ -481,9 +481,10 @@ async function myPage(){
   const school=[];let ai=0,gi=0,n=0;const pat=['A','A','G'];
   while(ai<A.length||gi<G.length){let k=pat[n++%3];if(k==='A'&&ai>=A.length)k='G';if(k==='G'&&gi>=G.length)k='A';school.push(k==='A'?A[ai++]:G[gi++])}
   const chapters=[],lessons=[];
-  const add=(name,list)=>{if(!list.length)return;chapters.push(name);let next=true;list.forEach((x,i)=>{const d=done.has(x.id);lessons.push({...x,chapter:chapters.length,mark:d?'✓ ':(next?'→ ':'')});if(!d)next=false})};
+  const add=(name,list,free)=>{if(!list.length)return;chapters.push(name);let next=!free;list.forEach((x,i)=>{const d=done.has(x.id);lessons.push({...x,free:!!free,chapter:chapters.length,mark:d?'✓ ':(next?'→ ':'')});if(!d)next=false})};
   add('Школьная программа по порядку (алгебра, алгебра, геометрия)',school);
   add('ОГЭ, часть 1',O);
+  add('Типичные ошибки (вне программы, ставь на любой день)',seq('ERR'),true);
   route={chapters,lessons};myMode={code,st,lessons};selectedStudent=code;st.cal=st.cal||[];lessons.forEach(x=>{const c=st.cal.find(y=>y.id===x.id);if(c)x.cal=c.d});
   app.innerHTML=`<div class="bar"><span class="id">Ученик</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184" loading="lazy"></span></div><div class="crumbs"><a href="#">Карта</a></div><h1>${esc(nm)}</h1><p class="lead">Программы: ${progs.map(k=>NAMES[k]).join(', ')}. ✓ проведено, → следующее.</p>`+'<div class="mywrap"><div>'+routeCard()+'</div><section class="card calwrap"><div id="cal"></div></section></div>';
   bindRoute();renderCal();scrollTo(0,0);
@@ -492,7 +493,7 @@ function node(id){
   if(id!=='MY')myMode=null;
   editMode=false;
   if(id==='MY'){myPage();return}
-  if(id==='OGE'){document.title='ОГЭ, часть 1 · lili.math';route=ROUTES.OGE;app.innerHTML=`<div class="bar"><span class="id">ОГЭ</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184" loading="lazy"></span></div><div class="crumbs"><a href="#">Карта</a></div><h1>ОГЭ, часть 1</h1>`+(route?'<div class="mywrap"><div>'+routeCard()+'</div><section class="card calwrap"><label class="lead">Ученик <select id="cal-student"><option value="">Выбрать ученика</option></select></label><div id="cal"><p class="lead">Выбери ученика, и появится его календарь.</p></div></section></div>':'<p class="lead">Не получилось загрузить программу ОГЭ.</p>');bindRoute();if(route)initClassCal();scrollTo(0,0);return}
+  if(id==='OGE'||id==='ERR'){const NM=id==='OGE'?'ОГЭ, часть 1':'Типичные ошибки';document.title=NM+' · lili.math';route=ROUTES[id];app.innerHTML=`<div class="bar"><span class="id">${id==='OGE'?'ОГЭ':'Вне программы'}</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184" loading="lazy"></span></div><div class="crumbs"><a href="#">Карта</a></div><h1>${NM}</h1>${id==='ERR'?'<p class="lead">Квадратики для любого класса: тренажёры на трудные навыки. Выбери ученика и перетащи квадратик на день занятия.</p>':''}`+(route?'<div class="mywrap"><div>'+routeCard()+'</div><section class="card calwrap"><label class="lead">Ученик <select id="cal-student"><option value="">Выбрать ученика</option></select></label><div id="cal"><p class="lead">Выбери ученика, и появится его календарь.</p></div></section></div>':'<p class="lead">Не получилось загрузить раздел.</p>');bindRoute();if(route)initClassCal();scrollTo(0,0);return}
   if(!/^\d[AG]$/.test(id)){fail('Не нашла такой раздел','Вернись на «Карта» и выбери класс.');return}
   const title=label(id);
   document.title=title+' · lili.math';
