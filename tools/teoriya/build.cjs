@@ -57,6 +57,9 @@ if(require.main===module){
   fs.writeFileSync(out,html);console.log('OK',path.resolve(out),html.length+' байт');
   if(spec.square){const lf=path.join(path.dirname(out),'route-links.json');let L={};try{L=JSON.parse(fs.readFileSync(lf,'utf8'));}catch(e){}
     L[spec.square]=Object.assign(L[spec.square]||{},{theory:'https://lilimath.ru/'+spec.file});
-    fs.writeFileSync(lf,JSON.stringify(L,null,1)+'\n');console.log('route-links.json:',spec.square);}
+    fs.writeFileSync(lf,JSON.stringify(L,null,1)+'\n');console.log('route-links.json:',spec.square);
+    // memo: «Учить наизусть» квадратика (простой текст, формулы юникодом); karta.html добавляет их при закрытии урока
+    if(Array.isArray(spec.memo)){const mf=path.join(path.dirname(out),'memo.json');let M={};try{M=JSON.parse(fs.readFileSync(mf,'utf8'));}catch(e){}
+      M[spec.square]=spec.memo.map(String).filter(Boolean);fs.writeFileSync(mf,JSON.stringify(M,null,1)+'\n');console.log('memo.json:',spec.square,M[spec.square].length);}}
 }
 module.exports={build,rich};

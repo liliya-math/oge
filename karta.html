@@ -320,6 +320,7 @@ async function closeDay(){
   if(!ls.length){say('На сегодня в календаре нет неотмеченных квадратиков. Поставь квадратик на сегодняшний день.');return}
   say('Загружаю список тестов…');
   let works=[];try{works=(await admin('quizList')).works||[]}catch(e){}
+  let MEMO={};try{MEMO=await fetch('/memo.json?v='+Date.now()).then(r=>r.ok?r.json():{})}catch(e){}
   say('');
   const qOpts=works.length?'<optgroup label="Заменить на тест из конструктора">'+works.map(w=>`<option value="q:${esc(w.id)}:${w.version}">${esc(w.title)}</option>`).join('')+'</optgroup>':'';
   const tileHas=l=>{const h=l.has||{};return !!(h.h||h.q||h.qh||h.qs||h.qe)};
@@ -327,14 +328,20 @@ async function closeDay(){
    <div class="cl-seg">${Object.entries(CL_RES).map(([k,t],i)=>`<label><input type="radio" name="cl-${esc(l.id)}" value="${k}" ${i?'':'checked'}> ${t}</label>`).join('')}</div>
    <label class="cl-hw">ДЗ: <select data-hw><option value="tile" ${tileHas(l)?'':'disabled'}>${tileHas(l)?'ДЗ квадратика':'ДЗ квадратика (к нему ничего не прикреплено)'}</option><option value="none" ${tileHas(l)?'':'selected'}>Без ДЗ</option>${qOpts}</select></label></div>`).join('')}
    <label class="cl-f">С чего начать в следующий раз / что не получилось<textarea data-note rows="2" maxlength="1500" placeholder="например: путает знак при переносе"></textarea></label>
-   <label class="cl-f">Учить наизусть (каждый пункт с новой строки, сданное удали)<textarea data-memo rows="2" maxlength="1500">${esc(m.st.memo||'')}</textarea></label>
+   <label class="cl-f">Учить наизусть (каждый пункт с новой строки, сданное удали)<textarea data-memo rows="4" maxlength="1500">${esc(m.st.memo||'')}</textarea></label>
    <div class="dayclose"><label>срок ДЗ до <input type="date" data-day-due value="${dayDue||nextLessonIso()}"></label><label class="dtg"><input type="checkbox" data-day-notify ${dayNotify?'checked':''}> Telegram</label></div>
    <p class="cl-prev" data-prev></p>
    <div class="dayclose"><button type="button" data-cl-send>Отправить</button><button type="button" class="cl-cancel" data-cl-cancel>Отмена</button></div>`;
   form.hidden=false;
   const rows=[...form.querySelectorAll('[data-cl]')].map(el=>({el,l:ls.find(x=>x.id===el.dataset.cl)}));
   const val=r=>({res:r.el.querySelector('input:checked').value,hw:r.el.querySelector('[data-hw]').value});
+  const ta=form.querySelector('[data-memo]'),mLines=()=>ta.value.split('\n').map(x=>x.trim()).filter(Boolean);
+  // «наизусть» из теории квадратика: добавляется, пока квадратик не «не дошли»; удалённое вручную не возвращается
+  const syncMemo=()=>rows.forEach(r=>{const it=MEMO[r.l.id]||[];if(!it.length)return;const want=val(r).res!=='no';
+    if(want&&!r.memoOn){const have=new Set(mLines());r.memoAdd=it.filter(x=>!have.has(x));ta.value=mLines().concat(r.memoAdd).join('\n');r.memoOn=true}
+    else if(!want&&r.memoOn){const rm=new Set(r.memoAdd||[]);ta.value=mLines().filter(x=>!rm.has(x)).join('\n');r.memoOn=false}});
   const preview=()=>{
+    syncMemo();
     const send=[],move=[];
     rows.forEach(r=>{const v=val(r),sel=r.el.querySelector('[data-hw]');sel.disabled=v.res==='no';
       sel.querySelector('[value="tile"]').disabled=v.res!=='ok'||!tileHas(r.l);if(sel.value==='tile'&&sel.querySelector('[value="tile"]').disabled)sel.value='none';
