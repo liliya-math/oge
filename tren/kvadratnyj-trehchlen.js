@@ -1,4 +1,4 @@
-/* Содержание тренажёра «Квадратный трёхчлен и его корни» (8 класс): 11 ступеней. Движок: tren/staged.js */
+/* Содержание тренажёра «Квадратный трёхчлен и его корни» (8 класс): 8 ступеней; при window.TRAINER_MODE = 'razlozh' — отдельный тренажёр «Разложение на множители», 5 ступеней. Движок: tren/staged.js */
 (function (root) {
 'use strict';
 function rnd(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
@@ -195,9 +195,22 @@ function gen11() {
   return { q: '<p>Сократи дробь</p>' + fx(fr(num, den)), input: choice(list), ans: 'ok', hint: hint };
 }
 
+/* разложение по готовым корням */
+function gen0() {
+  var a = pick([1, 1, 2, -1, 3, -2]), p, q; do { p = rnd(-7, 7); q = rnd(-7, 7); } while (p === q || p === 0 || q === 0);
+  if (p > q) { var t = p; p = q; q = t; }
+  var b = -a * (p + q), c = a * p * q;
+  return { q: '<p>Корни квадратного трёхчлена ' + P(a, b, c) + ' равны ' + N(p) + ' и ' + N(q) + '. Разложи его на множители.</p><p>Впиши числа в запись</p>' + fx('□ · (x + □)(x + □)'),
+    input: rows(I('Перед скобками', 'k'), I('1-я скобка: x +', 'u'), I('2-я скобка: x +', 'w')),
+    check: function (v) { return v.k === a && sortedEq(v.u, v.w, -p, -q) ? 'ok' : 'wrong'; },
+    tag: function (v) { if (sortedEq(v.u, v.w, p, q) && p !== -q) return 'factor-sign'; if (v.k !== a && sortedEq(v.u, v.w, -p, -q)) return a !== 1 && v.k === 1 ? 'lost-a' : 'coef-sign'; return ''; },
+    sol: { k: a, u: -p, w: -q },
+    hint: 'a = ' + N(a) + '. По формуле ' + nw('a(x − x₁)(x − x₂)') + ': ' + nw(aPref(a) + '(x − ' + B(p) + ')(x − ' + B(q) + ')') + ' = ' + nw(aPref(a) + fac(p) + fac(q)) + '. Вписываем ' + N(a) + ', ' + N(-p) + ' и ' + N(-q) + '.' };
+}
+
 /* ---------- ступени ---------- */
 function ask(q, opts, ans, ok, no) { return { q: q, opts: opts, ans: ans, ok: ok, no: no }; }
-var STEPS = [
+var ALL = [
   { id: 1, title: 'Что такое квадратный трёхчлен', sub: 'Коэффициенты a, b, c', gen: gen1, teach: [
     { t: '<p><span class="key">Квадратным трёхчленом</span> называется многочлен вида</p>' + fx('a' + X2 + ' + bx + c') + '<p>где x — переменная, a, b и c — некоторые числа, причём a ≠ 0.</p>', v: '' },
     { t: '<p>Число a — <span class="key">старший коэффициент</span> (стоит перед x²), b — <span class="key">второй коэффициент</span> (перед x), c — <span class="key">свободный член</span> (число без x).</p>' + fx(P(2, -5, 3)) + '<p>Здесь a = 2, b = −5, c = 3. Знак минус берём вместе с числом.</p>', v: '' },
@@ -266,6 +279,17 @@ var STEPS = [
   ] }
 ];
 
+var STEP0 = { id: 1, title: 'Разложение по корням', sub: 'Корни уже известны', gen: gen0, teach: [
+    { t: '<p><span class="key">Теорема.</span> Если x₁ и x₂ — корни квадратного трёхчлена ' + nw('a' + X2 + ' + bx + c') + ', то</p>' + fx('a' + X2 + ' + bx + c = a(x − x₁)(x − x₂)'), v: '' },
+    { t: '<p>У трёхчлена ' + P(3, -3, -18) + ' корни −2 и 3, a = 3. Подставляем в формулу:</p>' + fx('3(x − (−2))(x − 3)') + fx('= 3(x + 2)(x − 3)'), v: '' },
+    { t: '<p>Знак в скобке противоположен корню: корень 3 даёт (x − 3), корень −2 даёт (x + 2).</p><p>В задании запись ' + nw('□ · (x + □)(x + □)') + '. Скобку (x − 3) пишем как x + (−3), поэтому вписываем −3. Если a = 1, перед скобками пишем 1.</p>', v: '' },
+    { t: '<p>Корень трёхчлена равен −5. Какая получится скобка?</p>', v: '', ask: ask('Выбери', [['p', '(x + 5)'], ['m', '(x − 5)']], 'p', 'Верно. x − (−5) = x + 5.', 'Нет. x − (−5) = x + 5.') }
+  ] };
+var MODE = root.TRAINER_MODE, STEPS;
+function renum(list) { return list.map(function (s, i) { var o = {}; for (var k in s) o[k] = s[k]; o.id = i + 1; return o; }); }
+if (MODE === 'razlozh') STEPS = renum([STEP0, ALL[7], ALL[8], ALL[9], ALL[10]]);
+else STEPS = ALL.slice(0, 8);
+
 var TAGMSG = {
   'coef-sign': 'Знак перед числом — часть коэффициента. Если перед членом стоит минус, коэффициент отрицательный.',
   'coef-order': 'Коэффициенты перепутаны: a стоит перед x², b перед x, c без x, в каком бы порядке ни были записаны члены.',
@@ -285,10 +309,14 @@ var TAGMSG = {
 };
 
 var api = { STEPS: STEPS, fr: fr, mx: mx, rnd: rnd };
-root.TRAINER = {
-  title: 'Квадратный трёхчлен: корни и разложение на множители', shortTitle: 'Квадратный трёхчлен', key: 'kvtrehchlen_trainer_v1',
-  sheetUrl: 'https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec',
-  needDefault: 4, needEarly: 4, earlyUpto: 3, tagMsg: TAGMSG, api: api,
+var SHEET = 'https://script.google.com/macros/s/AKfycbyJKYatO3xdOpYJ1WZzszbxqMnOWZ30lsfr5HH7Y23svvX6iqjNNbIUR-RCUeZ8pB15/exec';
+root.TRAINER = MODE === 'razlozh' ? {
+  title: 'Разложение квадратного трёхчлена на множители', shortTitle: 'Разложение трёхчлена', key: 'razlozh_trehchlen_trainer_v1',
+  sheetUrl: SHEET, needDefault: 4, needEarly: 4, earlyUpto: 3, tagMsg: TAGMSG, api: api,
+  board: ['a(x − x₁)(x − x₂)', 'a(x − x₁)²', 'D = b² − 4ac', 'x² − 5x + 6', '(x − 2)(x − 3)', 'D < 0', '{(x − 2)(x − 3)|x − 3}', '2(x + 2)(x − 3)', 'x² − 9 = (x − 3)(x + 3)', '(x − 1)(2x − 1)', 'R[64] = 8']
+} : {
+  title: 'Квадратный трёхчлен и его корни', shortTitle: 'Квадратный трёхчлен', key: 'kvtrehchlen_trainer_v1',
+  sheetUrl: SHEET, needDefault: 4, needEarly: 4, earlyUpto: 3, tagMsg: TAGMSG, api: api,
   board: ['ax² + bx + c', 'D = b² − 4ac', 'a(x − x₁)(x − x₂)', 'x² − 5x + 6', 'D = 25 − 24 = 1', 'x₁ = 2, x₂ = 3', 'D > 0', 'D < 0', '2x² − 8 = 0', '(x + 2)(x − 3)', 'R[100] = 10', 'R[16] = 4']
 };
 if (typeof module !== 'undefined' && module.exports) module.exports = root.TRAINER;

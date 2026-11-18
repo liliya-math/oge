@@ -4459,15 +4459,27 @@
     },
     {
       "file": "trenazher-kvadratnyj-trehchlen.html",
-      "title": "8A-125 · Тренажёр · Квадратный трёхчлен: корни и разложение на множители, 11 ступеней",
+      "title": "8A-125 · Тренажёр · Квадратный трёхчлен и его корни, 8 ступеней",
       "type": "trenazher",
       "class": 8,
       "oge_task": null,
       "status": "public",
-      "note": "добавлено 2026-11-18; общий движок tren/staged.js (содержание tren/kvadratnyj-trehchlen.js); 4 подряд, отправка в таблицу, режим учителя #lilia; 18.11 добавлены ступени 9-11: разложение вписыванием чисел, случаи D=0/D<0/дробный корень, сокращение дробей",
+      "note": "добавлено 2026-11-18; общий движок tren/staged.js (содержание tren/kvadratnyj-trehchlen.js); 4 подряд, отправка в таблицу, режим учителя #lilia",
       "auto": true,
       "node": [
-        "8A-125",
+        "8A-125"
+      ]
+    },
+    {
+      "file": "trenazher-razlozhenie-kvadratnogo-trehchlena.html",
+      "title": "8A-126 · Тренажёр · Разложение квадратного трёхчлена на множители, 5 ступеней",
+      "type": "trenazher",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-11-18; тот же файл содержания tren/kvadratnyj-trehchlen.js в режиме TRAINER_MODE='razlozh'; по корням, выбор разложения, вписать числа, D=0/D<0/дробный корень, сокращение дробей",
+      "auto": true,
+      "node": [
         "8A-126"
       ]
     },
