@@ -59,7 +59,7 @@ h1{margin:4px 0 6px;font-size:clamp(24px,6vw,34px);line-height:1.15;letter-spaci
 .lesson-grid .cbadge{display:block;width:max-content;max-width:100%;margin-top:8px;padding:3px 9px;border-radius:999px;background:#16231A;color:#EEE0C8;font-size:12px;font-weight:600}
 .lesson-grid .tile small{font-weight:400;color:inherit;opacity:.75}
 .lesson-grid .mbadges{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}.lesson-grid .mbadges span{padding:2px 8px;border-radius:999px;background:#FFFFFF;color:#16231A;font-size:12px;font-weight:600;line-height:1.4}.lesson-grid .mbadges span:before{content:'✓ '}
-.dclose{border:1px solid rgba(238,224,200,.28);border-radius:12px;padding:12px;margin:6px 0 10px}.dclose h3{margin:0 0 8px}.cl-row{padding:8px 0;border-bottom:1px solid rgba(238,224,200,.15)}.cl-seg{display:flex;flex-wrap:wrap;gap:6px 14px;margin:6px 0}.cl-seg label,.cl-hw{font-size:14px;display:flex;gap:6px;align-items:center}.cl-hw select{font:inherit;max-width:100%}.cl-f{display:block;font-size:14px;margin-top:10px}.cl-f textarea{display:block;width:100%;box-sizing:border-box;font:inherit;margin-top:4px;border-radius:8px;padding:6px}.cl-prev{font-size:14px;margin:8px 0}.dayclose button.cl-cancel{background:transparent;color:var(--fg);border:1px solid rgba(238,224,200,.4)}.nextcard{border-left:4px solid #E2B04A;padding:6px 10px;margin:4px 0 10px;font-size:14px}.nextcard p{margin:4px 0}.nextcard .dim{opacity:.7}
+.dclose{border:1px solid rgba(238,224,200,.28);border-radius:12px;padding:12px;margin:6px 0 10px}.dclose h3{margin:0 0 8px}.cl-row{padding:8px 0;border-bottom:1px solid rgba(238,224,200,.15)}.cl-seg{display:flex;flex-wrap:wrap;gap:6px 14px;margin:6px 0}.cl-seg label,.cl-hw{font-size:14px;display:flex;gap:6px;align-items:center}.cl-parts{font-size:14px;margin:6px 0}.cl-parts summary{cursor:pointer;color:var(--muted)}.cl-p{display:block;padding:3px 0 3px 4px}.cl-p.was{opacity:.5}.cl-hw select{font:inherit;max-width:100%}.cl-f{display:block;font-size:14px;margin-top:10px}.cl-f textarea{display:block;width:100%;box-sizing:border-box;font:inherit;margin-top:4px;border-radius:8px;padding:6px}.cl-prev{font-size:14px;margin:8px 0}.dayclose button.cl-cancel{background:transparent;color:var(--fg);border:1px solid rgba(238,224,200,.4)}.nextcard{border-left:4px solid #E2B04A;padding:6px 10px;margin:4px 0 10px;font-size:14px}.nextcard p{margin:4px 0}.nextcard .dim{opacity:.7}
 .dayclose{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin:2px 0 6px}.dayclose button{font:inherit;font-weight:600;color:#16231A;background:linear-gradient(115deg,#E2B04A,#DD7A3A);border:0;border-radius:10px;padding:9px 16px;cursor:pointer}.dayclose button:disabled{opacity:.5;cursor:default}.dayclose label{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--fg)}.dayclose input[type=date]{font:inherit;font-size:14px;color:var(--fg);background:#16231a;border:1px solid var(--line);border-radius:8px;padding:6px 8px}.dstat{font-size:13px;color:var(--fg);opacity:.8;margin:0 0 10px;min-height:0}.dstat:empty{display:none}
 .calwrap button[data-cw]{font:inherit;font-weight:600;color:#16231A;background:linear-gradient(115deg,#E2B04A,#DD7A3A);border:0;border-radius:10px;padding:7px 14px;cursor:pointer}
 .lesson-form{display:grid;gap:12px;min-width:0}.lesson-form .pickrow{display:flex;gap:8px;align-items:center}.lesson-form label{display:grid;gap:5px;min-width:0}.mywrap>*{min-width:0}
@@ -313,6 +313,17 @@ function nextLessonIso(){
   const d=new Date(t);d.setDate(t.getDate()+7);return isoD(d);
 }
 const CL_RES={ok:'Закрыли',part:'Не до конца',no:'Не дошли'};
+// ДЗ квадратика только по отмеченным пунктам: задания из memo.json dz, отдельная работа «… · пункты 1, 2» (одна на набор пунктов, повторно не плодится)
+async function partHw(l,np,I,due,notify){
+  const g=await admin('routeGet',{id:l.id});let base=null;
+  for(const q of (g.materials&&g.materials.quizzes)||[]){const w=(await admin('quizGet',{work:q})).work;if(w&&w.kind==='hw'){base=w;break}}
+  if(!base)throw new Error('no_hw');
+  const nums=new Set(np.flatMap(b=>I.dz[b-1]||[])),tasks=base.tasks.filter((t,i)=>nums.has(i+1));if(!tasks.length)throw new Error('no_tasks');
+  const id='part-'+String(base.id).replace(/[^a-zA-Z0-9]/g,'').slice(0,20)+'-v'+base.version+'-'+np.join('-');
+  let w=(await admin('quizGet',{work:id})).work;
+  if(!w){const work={title:base.title+' · пункты '+np.join(', '),section:base.section,kind:'hw',tasks};const x=await admin('quizSave',{id,baseVersion:0,work});w={id,version:x.version}}
+  return admin('quizAssign',{t:myMode.code,work:w.id,version:w.version,due,notify});
+}
 async function closeDay(){
   const m=myMode,box=document.getElementById('cal'),today=isoD(new Date()),form=document.getElementById('day-close');
   const say=t=>{const s=document.getElementById('day-status');if(s)s.textContent=t};
@@ -321,11 +332,17 @@ async function closeDay(){
   say('Загружаю список тестов…');
   let works=[];try{works=(await admin('quizList')).works||[]}catch(e){}
   let MEMO={};try{MEMO=await fetch('/memo.json?v='+Date.now()).then(r=>r.ok?r.json():{})}catch(e){}
+  const PARTS=Object.assign({},m.st.parts||{}),info=id=>MEMO[id]&&MEMO[id].t?MEMO[id]:null,doneOf=id=>PARTS[id]||[];
+  // пункты теории квадратика галочками; пройденные раньше показаны серыми
+  const partsHTML=l=>{const I=info(l.id);if(!I)return '';const dn=doneOf(l.id);
+    return '<details class="cl-parts"'+(dn.length?' open':'')+'><summary>Пункты теории'+(dn.length?' (раньше пройдено '+dn.length+' из '+I.t.length+')':'')+'</summary>'
+     +I.t.map((t,i)=>{const n=i+1,was=dn.includes(n);return `<label class="cl-p${was?' was':''}"><input type="checkbox" data-part="${n}" ${was?'checked disabled data-was':'checked'}> ${n}. ${esc(t)}</label>`}).join('')+'</details>'};
   say('');
   const qOpts=works.length?'<optgroup label="Заменить на тест из конструктора">'+works.map(w=>`<option value="q:${esc(w.id)}:${w.version}">${esc(w.title)}</option>`).join('')+'</optgroup>':'';
   const tileHas=l=>{const h=l.has||{};return !!(h.h||h.q||h.qh||h.qs||h.qe)};
   form.innerHTML=`<h3>Закрыть урок</h3>${ls.map(l=>`<div class="cl-row" data-cl="${esc(l.id)}"><b>${esc(l.title)}</b>
    <div class="cl-seg">${Object.entries(CL_RES).map(([k,t],i)=>`<label><input type="radio" name="cl-${esc(l.id)}" value="${k}" ${i?'':'checked'}> ${t}</label>`).join('')}</div>
+   ${partsHTML(l)}
    <label class="cl-hw">ДЗ: <select data-hw><option value="tile" ${tileHas(l)?'':'disabled'}>${tileHas(l)?'ДЗ квадратика':'ДЗ квадратика (к нему ничего не прикреплено)'}</option><option value="none" ${tileHas(l)?'':'selected'}>Без ДЗ</option>${qOpts}</select></label></div>`).join('')}
    <label class="cl-f">С чего начать в следующий раз / что не получилось<textarea data-note rows="2" maxlength="1500" placeholder="например: путает знак при переносе"></textarea></label>
    <label class="cl-f">Учить наизусть (каждый пункт с новой строки, сданное удали)<textarea data-memo rows="4" maxlength="1500">${esc(m.st.memo||'')}</textarea></label>
@@ -336,17 +353,22 @@ async function closeDay(){
   const rows=[...form.querySelectorAll('[data-cl]')].map(el=>({el,l:ls.find(x=>x.id===el.dataset.cl)}));
   const val=r=>({res:r.el.querySelector('input:checked').value,hw:r.el.querySelector('[data-hw]').value});
   const ta=form.querySelector('[data-memo]'),mLines=()=>ta.value.split('\n').map(x=>x.trim()).filter(Boolean);
-  // «наизусть» из теории квадратика: добавляется, пока квадратик не «не дошли»; удалённое вручную не возвращается
-  const syncMemo=()=>rows.forEach(r=>{const it=MEMO[r.l.id]||[];if(!it.length)return;const want=val(r).res!=='no';
-    if(want&&!r.memoOn){const have=new Set(mLines());r.memoAdd=it.filter(x=>!have.has(x));ta.value=mLines().concat(r.memoAdd).join('\n');r.memoOn=true}
-    else if(!want&&r.memoOn){const rm=new Set(r.memoAdd||[]);ta.value=mLines().filter(x=>!rm.has(x)).join('\n');r.memoOn=false}});
+  // «наизусть»: строки отмеченных сегодня пунктов (0 = вся тема); пересчёт только при смене галочек, удалённое вручную иначе не возвращается
+  const newParts=r=>{const v=val(r).res;if(v==='no')return [];return [...r.el.querySelectorAll('[data-part]:not([data-was])')].filter(x=>x.checked).map(x=>+x.dataset.part)};
+  const memoFor=r=>{const M=MEMO[r.l.id];if(!M)return [];if(!M.t)return val(r).res==='no'?[]:(Array.isArray(M)?M:[]);const np=newParts(r);if(!np.length)return [];
+    return (M.m||[]).filter(([b])=>(b===0&&!doneOf(r.l.id).length)||np.includes(b)).map(x=>x[1])};
+  const syncMemo=()=>rows.forEach(r=>{const want=memoFor(r),key=want.join('\n');if(key===r.memoKey)return;r.memoKey=key;
+    const rm=new Set(r.memoAdd||[]),cur=mLines().filter(x=>!rm.has(x)),have=new Set(cur);r.memoAdd=want.filter(x=>!have.has(x));ta.value=cur.concat(r.memoAdd).join('\n')});
   const preview=()=>{
     syncMemo();
     const send=[],move=[];
     rows.forEach(r=>{const v=val(r),sel=r.el.querySelector('[data-hw]');sel.disabled=v.res==='no';
-      sel.querySelector('[value="tile"]').disabled=v.res!=='ok'||!tileHas(r.l);if(sel.value==='tile'&&sel.querySelector('[value="tile"]').disabled)sel.value='none';
+      r.el.querySelectorAll('[data-part]:not([data-was])').forEach(x=>{x.disabled=v.res!=='part';if(v.res==='ok')x.checked=true;if(v.res==='no')x.checked=false});
+      const I=info(r.l.id),canPart=!!(I&&I.dz);
+      sel.querySelector('[value="tile"]').disabled=!(v.res==='ok'||(v.res==='part'&&canPart&&newParts(r).length))||!tileHas(r.l);if(sel.value==='tile'&&sel.querySelector('[value="tile"]').disabled)sel.value='none';
       if(v.res!=='ok')move.push(r.l.title);
-      if(v.res!=='no'&&sel.value!=='none')send.push(sel.value==='tile'?'ДЗ квадратика «'+r.l.title+'»':'тест «'+sel.selectedOptions[0].textContent+'»')});
+      const np=newParts(r),I2=info(r.l.id),sub=sel.value==='tile'&&I2&&I2.dz&&np.length<I2.t.length;
+      if(v.res!=='no'&&sel.value!=='none')send.push(sel.value==='tile'?'ДЗ квадратика «'+r.l.title+'»'+(sub?' (пункты '+np.join(', ')+')':''):'тест «'+sel.selectedOptions[0].textContent+'»')});
     const nd=nextLessonIso().split('-').reverse().join('.');
     form.querySelector('[data-prev]').textContent='Уйдёт ученику: '+(send.length?send.join('; '):'ничего')+'.'+(move.length?' Перенесу на '+nd+': '+move.join('; ')+'.':'');
   };
@@ -359,8 +381,11 @@ async function closeDay(){
     const tgNote=nt=>{if(notify&&nt&&!nt.ok&&!tg)tg=nt.error==='telegram_not_connected'?' Telegram у ученика не подключён.':nt.error==='telegram_paused'?' У ученика уведомления на паузе.':' В Telegram не отправлено.'};
     for(const r of rows){const v=val(r),l=r.l;res.push(l.title+': '+CL_RES[v.res].toLowerCase());
       try{
-        if(v.res==='ok'){const x=await admin('routeAssign',{id:l.id,t:m.code,title:l.title,due,notify:notify&&v.hw==='tile',skip:v.hw!=='tile'});if(v.hw==='tile'&&(x.homework||x.quizzes))sent++;tgNote(x.notification);l.mark='✓ ';refreshTile(l)}
+        const I=info(l.id),np=newParts(r),sub=v.hw==='tile'&&I&&I.dz&&np.length&&np.length<I.t.length;
+        if(v.res==='ok'){const x=await admin('routeAssign',{id:l.id,t:m.code,title:l.title,due,notify:notify&&v.hw==='tile'&&!sub,skip:v.hw!=='tile'||!!sub});if(v.hw==='tile'&&!sub&&(x.homework||x.quizzes))sent++;tgNote(x.notification);l.mark='✓ ';refreshTile(l)}
         else calSet(l.id,next);
+        if(sub&&v.res!=='no'){const x=await partHw(l,np,I,due,notify);sent++;tgNote(x.notification)}
+        if(I){if(v.res==='ok')delete PARTS[l.id];else if(v.res==='part'&&np.length)PARTS[l.id]=[...new Set(doneOf(l.id).concat(np))].sort((a,b)=>a-b)}
         if(v.res!=='no'&&v.hw.startsWith('q:')){const [,qid,ver]=v.hw.split(':');const x=await admin('quizAssign',{t:m.code,work:qid,version:Number(ver),due,notify});sent++;tgNote(x.notification)}
       }catch(e){bad.push(l.title)}}
     let auto='';
@@ -370,6 +395,7 @@ async function closeDay(){
     }
     const note=form.querySelector('[data-note]').value.trim(),memo=form.querySelector('[data-memo]').value;
     try{await admin('lessonNote',{t:m.code,tiles:ls.map(l=>l.title).join('; '),res:res.join('; '),note});m.st.lastNote={d:today,tiles:ls.map(l=>l.title).join('; '),res:res.join('; '),note}}catch(e){bad.push('итог урока')}
+    if(JSON.stringify(PARTS)!==JSON.stringify(m.st.parts||{})){try{await admin('student',{t:m.code,fields:{parts:PARTS}});m.st.parts=PARTS}catch(e){bad.push('пункты теории')}}
     if(memo.trim()!==String(m.st.memo||'').trim()){try{await admin('student',{t:m.code,fields:{memo}});m.st.memo=memo}catch(e){bad.push('список «наизусть»')}}
     form.hidden=true;form.innerHTML='';dayDue='';renderCal();
     say('Урок закрыт. Работ отправлено: '+sent+(sent?', срок '+due.split('-').reverse().join('.'):'')+'.'+tg+auto+(bad.length?' Не вышло: '+bad.join('; ')+'. Попробуй ещё раз.':''));

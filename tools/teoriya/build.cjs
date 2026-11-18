@@ -58,8 +58,12 @@ if(require.main===module){
   if(spec.square){const lf=path.join(path.dirname(out),'route-links.json');let L={};try{L=JSON.parse(fs.readFileSync(lf,'utf8'));}catch(e){}
     L[spec.square]=Object.assign(L[spec.square]||{},{theory:'https://lilimath.ru/'+spec.file});
     fs.writeFileSync(lf,JSON.stringify(L,null,1)+'\n');console.log('route-links.json:',spec.square);
-    // memo: «Учить наизусть» квадратика (простой текст, формулы юникодом); karta.html добавляет их при закрытии урока
-    if(Array.isArray(spec.memo)){const mf=path.join(path.dirname(out),'memo.json');let M={};try{M=JSON.parse(fs.readFileSync(mf,'utf8'));}catch(e){}
-      M[spec.square]=spec.memo.map(String).filter(Boolean);fs.writeFileSync(mf,JSON.stringify(M,null,1)+'\n');console.log('memo.json:',spec.square,M[spec.square].length);}}
+    // memo.json: пункты теории квадратика для «Закрыть урок» (karta.html): t - названия блоков, m - [номер блока, строка «наизусть»] (0 = ко всей теме),
+    // dz - номера заданий ДЗ квадратика по блокам (spec.dzParts). «Наизусть»: поле memo у блока или у всей spec, простой текст, формулы юникодом.
+    {const mf=path.join(path.dirname(out),'memo.json');let M={};try{M=JSON.parse(fs.readFileSync(mf,'utf8'));}catch(e){}
+      const t=spec.blocks.map(x=>String(x.title||'').replace(/^\d+\.\s*/,'')),m=[];
+      (spec.memo||[]).forEach(x=>m.push([0,String(x)]));spec.blocks.forEach((x,i)=>(x.memo||[]).forEach(y=>m.push([i+1,String(y)])));
+      const e={t,m};if(Array.isArray(spec.dzParts))e.dz=spec.dzParts;M[spec.square]=e;
+      fs.writeFileSync(mf,JSON.stringify(M,null,1)+'\n');console.log('memo.json:',spec.square,m.length+' наизусть',e.dz?'dz':'');}}
 }
 module.exports={build,rich};
