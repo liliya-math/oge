@@ -1,6 +1,6 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 7.21
- * (7.21: у квадратика отметка «Проверено мной» (routeSave: checked, routeMats_: c); 7.20: если очередь занята, напоминалка всё равно сохраняется; 7.19: напоминалка от талисмана: учитель пишет текст (и срок показа) в карточке ученика, ученик видит его в облачке талисмана.
+ * Кабинет ученика 25/25 · lili.math — версия 7.22
+ * (7.22: «Закрыть урок» на карте: routeAssign с skip (квадратик отмечен без ДЗ), lessonNote пишет итог в лист «Итоги занятий», list и кабинет учителя отдают memo и последний итог; 7.21: у квадратика отметка «Проверено мной» (routeSave: checked, routeMats_: c); 7.20: если очередь занята, напоминалка всё равно сохраняется; 7.19: напоминалка от талисмана: учитель пишет текст (и срок показа) в карточке ученика, ученик видит его в облачке талисмана.
  * 7.18: в списке талисманов добавлены Крыса, Крысёнок, Выдра, Акси, Квокка - их выбор теперь сохраняется на сервере.
  * 7.17: doGet ?schedule=public - свободные окна на 14 дней без имён, для календаря на главной.
  * 7.16: routeEdits отдаёт mats - у каких квадратиков есть теория, ДЗ, тесты (значки на карте).
@@ -51,6 +51,7 @@ const SHEETS = {
   'Материалы': ['Ссылка', 'Название'],
   'Занятия по карте': ['Код', 'Ключ', 'Дата', 'Занятие', 'Теория', 'Домашняя работа', 'Выдано'],
   'Календарь занятий': ['Код', 'Дата', 'Квадратик', 'Название'],
+  'Итоги занятий': ['Код', 'Дата', 'Квадратики', 'Итог', 'С чего начать / что не получилось'],
   'Журнал занятий': ['Код', 'Id', 'Обновлено (мс)', 'Данные карточки'],
   'Домашка': ['Код', 'Что сделать', 'Задания ОГЭ', 'Срок', 'Ссылка', 'Подпись ссылки', 'Сделано', 'Отмечено', 'Файл (PDF)', 'Раздел', 'Статус работы', 'Сообщение ученика', 'Комментарий учителя', 'Решение ученика', 'Обновлено', 'Версия работы', 'Ключ занятия'],
   'Файлы': ['Код', 'Строка ДЗ', 'Название', 'Ссылка'],
@@ -578,6 +579,7 @@ function adminRun_(b) {
       case 'routeLayoutSave': { return routeLayoutSave_(b); }
       case 'routeUpload': return routeUpload_(b);
       case 'calSet': { need(); return calSet_(ss, code, b); }
+      case 'lessonNote': { need(); return lessonNote_(ss, code, b); }
       case 'journalSync': { need(); return journalSync_(ss, code, b); }
       case 'resultsLink': return resultsLink_(b);
       case 'diagResults': return diagResults_(b);
@@ -869,6 +871,7 @@ function listStudents_() {
   if (calSh && calSh.getLastRow() >= 2) calSh.getRange(2, 1, calSh.getLastRow() - 1, 4).getValues().forEach(r => {
     const c = String(r[0]).trim(); if (c && String(r[2]).trim()) (calMap[c] = calMap[c] || []).push({d: calDay_(r[1]), id: String(r[2]).trim(), title: String(r[3])});
   });
+  const notes = lastNotes_();
   const letters = {};
   const ltSh = ss.getSheetByName('Письма');
   if (ltSh && ltSh.getLastRow() >= 2) ltSh.getRange(2, 1, ltSh.getLastRow() - 1, 4).getValues().forEach(r => {
@@ -879,7 +882,7 @@ function listStudents_() {
     const pr = progOf_(r);
     return {code: c, name: String(r[1]), fname: String(r[14] || ''), nick: String(r[21] || '').trim(), goal: Number(r[3]) || Math.round(goalMax_(pr) * 0.8),
             days: String(r[4] || ''), time: x.time, active: r[11] !== false, prog: pr, hwLeft: left[c] || 0,
-            routes: routesOf_(r), routeDone: routeDone[c] || [], cal: calMap[c] || [],
+            routes: routesOf_(r), routeDone: routeDone[c] || [], cal: calMap[c] || [], memo: String(r[25] || ''), lastNote: notes[c] || null,
     lessonMoves: lrConfig_(c).moves, lessonRequestPending: lrConfig_(c).request?.status === 'pending', letters: letters[c] || 0, cls: Number(r[18]) || clsOfProg_(pr)};
   });
 }
@@ -934,7 +937,7 @@ function studentData_(code, admin) {
   const noteTillS = day_(r[24]), todayS = Utilities.formatDate(new Date(), 'Europe/Samara', 'yyyy-MM-dd'), noteRaw = String(r[23] || '').trim(), noteLive = !!noteRaw && (!noteTillS || noteTillS >= todayS);
   const out = {
     noteEdit: true, note: admin ? noteRaw : (noteLive ? noteRaw : ''), noteTill: admin ? noteTillS : '',
-    prep: 1, memo: admin ? String(r[25] || '').split('\n').map(x => x.trim()).filter(Boolean) : [],
+    prep: 1, lastNote: admin ? (lastNotes_()[code] || null) : null, memo: admin ? String(r[25] || '').split('\n').map(x => x.trim()).filter(Boolean) : [],
     calendar: admin ? rows('Календарь занятий').map(x => ({date: day_(x.v[1]), id: String(x.v[2] || ''), title: String(x.v[3] || '')})).filter(x => x.date >= todayS).sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0).slice(0, 12) : [],
     lessonRoute: 1, routeHistory: rj.slice().reverse().map(x => ({date: day_(x.v[2]), title: String(x.v[3]), theory: String(x.v[4] || '')})),
     routes: admin ? routesOf_(r) : [], routeDone: admin ? rj.map(x => String(x.v[1]).split('|')[1]) : [],
@@ -2356,14 +2359,14 @@ function routeAssign_(ss, st, code, b) {
   }
   const entry = journal.getRange(row, 1, 1, 7).getValues()[0];
   if (entry[6] === true) return {ok: true, duplicate: true};
-  if (entry[5] && !findRow_('Домашка', v => String(v[0]).trim() === code && v[16] === key)) {
+  if (!b.skip && entry[5] && !findRow_('Домашка', v => String(v[0]).trim() === code && v[16] === key)) {
     const hw = sheet_(ss, 'Домашка');
     hw.appendRow([code, 'Домашняя работа: ' + entry[3], '', ruDate_(due), entry[5], 'Открыть домашнюю работу', false, '', '', '', '', '', '', '', '', '', key]);
   }
   // Тесты из конструктора: каждый уходит ученику отдельной работой (последняя версия), один раз на занятие.
   let quizzes = 0;
   const sent = [];
-  routeMaterials_(id).quizzes.forEach(qid => {
+  (b.skip ? [] : routeMaterials_(id).quizzes).forEach(qid => {
     const qkey = key + '|q|' + qid;
     if (findRow_('Домашка', v => String(v[0]).trim() === code && v[16] === qkey)) return;
     const d = quizDefinition_(qid, 0);
@@ -2374,7 +2377,7 @@ function routeAssign_(ss, st, code, b) {
   journal.getRange(row, 7).setValue(true);
   // Одно сообщение в Telegram на всё занятие (а не по сообщению на каждую работу).
   let notification = null;
-  if (b.notify === true && (entry[5] || sent.length)) {
+  if (b.notify === true && ((!b.skip && entry[5]) || sent.length)) {
     try {
       const lines = ['Тема занятия: ' + entry[3]];
       if (entry[4]) lines.push('Теория есть в кабинете.');
@@ -2384,7 +2387,27 @@ function routeAssign_(ss, st, code, b) {
       notification = telegramHomeworkNotice_(code, lines.join('\n'), '');
     } catch (e) { console.error('routeAssign_ notify: ' + e); notification = {ok: false, error: 'telegram_failed'}; }
   }
-  return {ok: true, theory: !!entry[4], homework: !!entry[5], quizzes: quizzes, notification: notification};
+  return {ok: true, theory: !!entry[4], homework: !b.skip && !!entry[5], quizzes: quizzes, notification: notification};
+}
+
+// Итог занятия: одна строка на занятие (дата + ученик), повторное сохранение в тот же день перезаписывает строку.
+function lessonNote_(ss, code, b) {
+  const clean = (v, n) => String(v || '').replace(/[\u0000-\u0008\u000b-\u001f]/g, ' ').trim().replace(/^[=+@-]+/, '').slice(0, n);
+  const date = Utilities.formatDate(new Date(), 'Europe/Samara', 'yyyy-MM-dd');
+  const vals = [code, date, clean(b.tiles, 500), clean(b.res, 500), clean(b.note, 1500)];
+  const sh = sheet_(ss, 'Итоги занятий');
+  const row = findRow_('Итоги занятий', v => String(v[0]).trim() === code && day_(v[1]) === date);
+  const n = row || sh.getLastRow() + 1;
+  sh.getRange(n, 1, 1, 5).setNumberFormats([['@', '@', '@', '@', '@']]).setValues([vals]);
+  return {ok: true};
+}
+function lastNotes_() {
+  const out = {}, sh = SpreadsheetApp.getActive().getSheetByName('Итоги занятий');
+  if (sh && sh.getLastRow() >= 2) sh.getRange(2, 1, sh.getLastRow() - 1, 5).getValues().forEach(r => {
+    const c = String(r[0]).trim(), d = day_(r[1]);
+    if (c && d && (!out[c] || out[c].d <= d)) out[c] = {d: d, tiles: String(r[2]), res: String(r[3]), note: String(r[4])};
+  });
+  return out;
 }
 
 /* ================= ОГЭ: 32 варианта (страница oge-2026-32) =================
