@@ -346,6 +346,7 @@ async function closeDay(){
      +I.t.map((t,i)=>{const n=i+1,was=dn.includes(n);return `<label class="cl-p${was?' was':''}"><input type="checkbox" data-part="${n}" ${was?'checked disabled data-was':'checked'}> ${n}. ${esc(t)}</label>`}).join('')+'</details>'};
   say('');
   const qOpts=works.length?'<optgroup label="Заменить на тест из конструктора">'+works.map(w=>`<option value="q:${esc(w.id)}:${w.version}">${esc(w.title)}</option>`).join('')+'</optgroup>':'';
+  const canFilter=I=>!!(I&&(I.dz||I.tp));
   const tileHas=l=>{const h=l.has||{};return !!(h.h||h.q||h.qh||h.qs||h.qe)};
   form.innerHTML=`<h3>Закрыть урок</h3>${ls.map(l=>`<div class="cl-row" data-cl="${esc(l.id)}"><b>${esc(l.title)}</b>
    <div class="cl-seg">${Object.entries(CL_RES).map(([k,t],i)=>`<label><input type="radio" name="cl-${esc(l.id)}" value="${k}" ${i?'':'checked'}> ${t}</label>`).join('')}</div>
@@ -371,10 +372,10 @@ async function closeDay(){
     const send=[],move=[];
     rows.forEach(r=>{const v=val(r),sel=r.el.querySelector('[data-hw]');sel.disabled=v.res==='no';
       r.el.querySelectorAll('[data-part]:not([data-was])').forEach(x=>{x.disabled=v.res!=='part';if(v.res==='ok')x.checked=true;if(v.res==='no')x.checked=false});
-      const I=info(r.l.id),canPart=!!(I&&I.dz);
+      const I=info(r.l.id),canPart=canFilter(I);
       sel.querySelector('[value="tile"]').disabled=!(v.res==='ok'||(v.res==='part'&&canPart&&newParts(r).length))||!tileHas(r.l);if(sel.value==='tile'&&sel.querySelector('[value="tile"]').disabled)sel.value='none';
       if(v.res!=='ok')move.push(r.l.title);
-      const np=newParts(r),I2=info(r.l.id),sub=sel.value==='tile'&&I2&&I2.dz&&np.length<I2.t.length;
+      const np=newParts(r),I2=info(r.l.id),sub=sel.value==='tile'&&canFilter(I2)&&np.length<I2.t.length;
       if(v.res!=='no'&&sel.value!=='none')send.push(sel.value==='tile'?'ДЗ квадратика «'+r.l.title+'»'+(sub?' (пункты '+np.join(', ')+')':''):'тест «'+sel.selectedOptions[0].textContent+'»')});
     const nd=nextLessonIso().split('-').reverse().join('.');
     form.querySelector('[data-prev]').textContent='Уйдёт ученику: '+(send.length?send.join('; '):'ничего')+'.'+(move.length?' Перенесу на '+nd+': '+move.join('; ')+'.':'');
@@ -388,7 +389,7 @@ async function closeDay(){
     const tgNote=nt=>{if(notify&&nt&&!nt.ok&&!tg)tg=nt.error==='telegram_not_connected'?' Telegram у ученика не подключён.':nt.error==='telegram_paused'?' У ученика уведомления на паузе.':' В Telegram не отправлено.'};
     for(const r of rows){const v=val(r),l=r.l;res.push(l.title+': '+CL_RES[v.res].toLowerCase());
       try{
-        const I=info(l.id),np=newParts(r),sub=v.hw==='tile'&&I&&I.dz&&np.length&&np.length<I.t.length;
+        const I=info(l.id),np=newParts(r),sub=v.hw==='tile'&&canFilter(I)&&np.length&&np.length<I.t.length;
         if(v.res!=='no'){const tile=v.hw==='tile',extra=sub?await partWorks(l,np,I):undefined;
           const x=await admin('routeAssign',{id:l.id,t:m.code,title:l.title,due,notify:notify&&tile,skip:!tile||!!sub,partial:v.res==='part',extra:tile?extra:[]});
           if(tile&&(x.homework||x.quizzes))sent+=sub?x.quizzes:1;tgNote(x.notification)}
