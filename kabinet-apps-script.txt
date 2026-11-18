@@ -1,6 +1,6 @@
 /**
- * Кабинет ученика 25/25 · lili.math — версия 7.25
- * (7.25: routeAssign принимает extra (ДЗ и тест по отмеченным пунктам теории) и partial (тема не до конца: теория в кабинете, квадратик не закрыт); 7.24: фоновые триггеры Telegram и напоминаний больше не держат общую блокировку (ошибка «Тайм-аут блокировки» при сохранении в календаре); 7.23: столбец «Пройденные пункты теории» (parts) в листе «Ученики»: «Закрыть урок» на карте отмечает пункты теории квадратика галочками; 7.22: «Закрыть урок» на карте: routeAssign с skip (квадратик отмечен без ДЗ), lessonNote пишет итог в лист «Итоги занятий», list и кабинет учителя отдают memo и последний итог; 7.21: у квадратика отметка «Проверено мной» (routeSave: checked, routeMats_: c); 7.20: если очередь занята, напоминалка всё равно сохраняется; 7.19: напоминалка от талисмана: учитель пишет текст (и срок показа) в карточке ученика, ученик видит его в облачке талисмана.
+ * Кабинет ученика 25/25 · lili.math — версия 7.26
+ * (7.26: после срока ДЗ тест из конструктора не открывается и не начинается (expired), ученик видит «Срок прошёл»; отправка принимается ещё сутки; 7.25: routeAssign принимает extra (ДЗ и тест по отмеченным пунктам теории) и partial (тема не до конца: теория в кабинете, квадратик не закрыт); 7.24: фоновые триггеры Telegram и напоминаний больше не держат общую блокировку (ошибка «Тайм-аут блокировки» при сохранении в календаре); 7.23: столбец «Пройденные пункты теории» (parts) в листе «Ученики»: «Закрыть урок» на карте отмечает пункты теории квадратика галочками; 7.22: «Закрыть урок» на карте: routeAssign с skip (квадратик отмечен без ДЗ), lessonNote пишет итог в лист «Итоги занятий», list и кабинет учителя отдают memo и последний итог; 7.21: у квадратика отметка «Проверено мной» (routeSave: checked, routeMats_: c); 7.20: если очередь занята, напоминалка всё равно сохраняется; 7.19: напоминалка от талисмана: учитель пишет текст (и срок показа) в карточке ученика, ученик видит его в облачке талисмана.
  * 7.18: в списке талисманов добавлены Крыса, Крысёнок, Выдра, Акси, Квокка - их выбор теперь сохраняется на сервере.
  * 7.17: doGet ?schedule=public - свободные окна на 14 дней без имён, для календаря на главной.
  * 7.16: routeEdits отдаёт mats - у каких квадратиков есть теория, ДЗ, тесты (значки на карте).
@@ -1697,6 +1697,9 @@ function quizAssign_(code,b) {
   }
   return {ok:true,row:sh.getLastRow(),url:url,assignment:aid,notification:notification};
 }
+// Срок работы (столбец «Срок» листа «Домашка»): после него открыть и начать работу нельзя, ученик видит «Срок прошёл».
+// Отправка уже открытой работы принимается ещё сутки после срока (если ученик писал около полуночи).
+function quizLate_(a,graceDays){const due=day_(a.values[3]);if(!due)return '';const t=Utilities.formatDate(new Date(Date.now()-(graceDays||0)*864e5),'Europe/Samara','yyyy-MM-dd');return t>due?due:'';}
 function quizAssigned_(code,b) {
   const st=findStudentRow_(code);if(!st||st.row[11]===false)return null;
   const sh=SpreadsheetApp.getActive().getSheetByName('Домашка'),row=Number(b.row);
@@ -1720,9 +1723,10 @@ function quizHistory_(code,admin) {
   });
 }
 function quizLoad_(code,b) {
-  if(!quizAssigned_(code,b))return {error:'not_assigned'};
+  const a=quizAssigned_(code,b);if(!a)return {error:'not_assigned'};
   const d=quizDefinition_(String(b.work),Number(b.version));if(!d)return {error:'no_work'};
   const w=Object.assign(LiliQuiz.publicWork(d),{id:d.id,version:d.version});
+  const late=quizLate_(a,0);if(late){w.expired=late;w.tasks=[];}
   if(d.time){w.count=d.tasks.length;w.max=d.tasks.reduce((n,q)=>n+q.points,0);w.tasks=[];}
   return {ok:true,quiz:1,work:w,history:quizHistory_(code).filter(r=>r.assignment===b.assignment)};
 }
@@ -1738,6 +1742,7 @@ function quizStart_(code,b) {
   const now=Date.now();let start=0;
   const old=quizValues_('Старты тестов').find(r=>String(r[0])===code&&String(r[1])===String(b.assignment)&&String(r[2])===sid);
   if(old)start=new Date(old[5]).getTime();
+  else if(quizLate_(a,0))return {error:'expired'};
   else{start=now;quizSheet_('Старты тестов').appendRow([code,String(b.assignment),sid,d.id,d.version,new Date(start)]);}
   const w=Object.assign(LiliQuiz.publicWork(d),{id:d.id,version:d.version});
   return {ok:true,started:1,work:w,msLeft:Math.max(0,start+d.time*60000-now),limit:d.time*60};
@@ -1771,6 +1776,7 @@ function quizNotifyTeacher_(code,d,result,seconds,attempt){
 function quizPupilResult_(r){return LiliQuiz.limited(r.kind)?Object.assign({},r,{tasks:[],answers:undefined}):r;}
 function quizSubmit_(code,b) {
   const a=quizAssigned_(code,b);if(!a)return {error:'not_assigned'};
+  if(quizLate_(a,1))return {error:'expired'};
   const sid=String(b.submission||'');if(!/^[a-zA-Z0-9-]{16,80}$/.test(sid))return {error:'bad_value'};
   const old=quizValues_('Попытки тестов').find(r=>String(r[0])===code&&String(r[4])===sid);
   if(old){

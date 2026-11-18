@@ -79,6 +79,7 @@ if(demo){const dw=(p.get('work')||'').replace(/[^\w-]/g,'');if(dw){let pw='';try
 else{if(!code||!work||!assignment||!Number.isInteger(row)||row<2||!Number.isInteger(version)||version<1)return notice('Открой тест из кабинета','Для сохранения результата нужна личная ссылка назначенной работы.');
 const j=await U.request(null,{quiz:'load',t:code,q:work,v:version,a:assignment,row});if(j.quiz!==1)throw new Error('Сервер тестов ещё не подключён. Сообщи преподавателю.');d=j.work;history=j.history;}
 if(!demo)try{const v=JSON.parse(localStorage.getItem(key));if(v&&v.answers&&typeof v.answers==='object')state=v;}catch(_){}
+if(!demo&&d.expired&&!state.pending){document.title=d.title+' · lili.math';const [y,mo,da]=String(d.expired).split('-');return notice('Срок прошёл','Срок сдачи «'+nameKind(d).name+'» был до '+da+'.'+mo+'.'+y+'. Чтобы продлить срок, напиши преподавателю.');}
 state.hints=state.hints||{};state.idk=state.idk||{};
 if(full()&&history.length&&!state.pending){const h=history[history.length-1];document.title=d.title+' · lili.math';return result({score:h.score,max:h.max,submission:h.submission,at:h.at,hints:[],idk:[],tasks:[]},true);}
 if(!state.submission)state.submission=uuid();document.title=d.title+' · lili.math';

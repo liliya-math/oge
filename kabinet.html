@@ -1101,7 +1101,7 @@ const LIB=()=>TEACH||!!(D&&(D.routeHistory?.length||Array.isArray(D.show)&&D.sho
 const SHOW=k=>TEACH||!D||!Array.isArray(D.show)||D.show.includes(k);
 const isDone=h=>D.demo&&!wfEnabled()&&h.id in S.hw?S.hw[h.id]:!!h.done;
 function daysTo(iso){if(!iso)return null;const [y,m,d]=iso.split('-').map(Number);const a=new Date(y,m-1,d),n=new Date();n.setHours(0,0,0,0);return Math.round((a-n)/864e5)}
-function dueText(iso){const k=daysTo(iso);if(k===null)return 'без срока';if(k<0)return 'срок прошёл';if(k===0)return 'до сегодня';if(k===1)return 'до завтра';const [y,m,d]=iso.split('-').map(Number);return 'до '+new Date(y,m-1,d).toLocaleDateString('ru-RU',{weekday:'short',day:'numeric',month:'short'})}
+function dueText(iso){const k=daysTo(iso);if(k===null)return 'без срока';if(k<0)return TEACH?'срок прошёл':'срок прошёл, для продления напиши преподавателю';if(k===0)return 'до сегодня';if(k===1)return 'до завтра';const [y,m,d]=iso.split('-').map(Number);return 'до '+new Date(y,m-1,d).toLocaleDateString('ru-RU',{weekday:'short',day:'numeric',month:'short'})}
 function longDate(iso){if(!iso)return '';const [y,m,d]=iso.split('-').map(Number);return new Date(y,m-1,d).toLocaleDateString('ru-RU',{day:'numeric',month:'long'})}
 function shortDate(iso){if(!iso)return '';const [y,m,d]=iso.split('-').map(Number);return new Date(y,m-1,d).toLocaleDateString('ru-RU',{day:'numeric',month:'short'}).replace('.','')}
 function visibleHW(){return D.hw.filter(h=>!h.old&&(!isDone(h)||(daysTo(h.due)??0)>=-7))}
