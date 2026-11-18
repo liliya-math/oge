@@ -368,34 +368,36 @@ window.TrainerData={"id":"plyus-ili-minus-oge","version":2,"title":"Плюс и�
   const key=()=>`${state.stage}-${state.task}`,task=()=>C.stages[state.stage].tasks[state.task],done=()=>state.solved.includes(key());
   function save(){try{localStorage.setItem(KEY,JSON.stringify(state));storageOK=true;}catch(e){storageOK=false;}window.LiliStudy?.report({current:state.solved.length,total:TOTAL,label:'Этап '+(state.stage+1)+' · задание '+(state.task+1),done:state.solved.length===TOTAL});updateStorage();}
   function updateStorage(){ $('#save-status').innerHTML=storageOK?'Прогресс сохраняется<br>в этом браузере':'Прогресс доступен<br>пока открыта страница';}
-  function mathText(value) {
+  function mathText(value, highlightNumbers = false) {
+    value = String(value);
+    const plain = text => highlightNumbers
+      ? esc(text).replace(/[−+]?[0-9]+(?:[,.][0-9]+)?/g, token => `<span class="theory-number">${token}</span>`)
+      : esc(text);
     const atom = /(?:[−-]?\([^()]*(?:\([^()]*\)[^()]*)*\)[⁻⁰¹²³⁴⁵⁶⁷⁸⁹]*|[−-]?[A-Za-zА-Яа-я0-9]+(?:[,.][0-9]+)?[⁻⁰¹²³⁴⁵⁶⁷⁸⁹]*)/.source;
     const pattern = new RegExp(`(√)(${atom})|(${atom})\\s*\\/\\s*(${atom})`, 'g');
     let output = '', end = 0;
     for (const match of value.matchAll(pattern)) {
       const [raw, radical, radicand, numerator, denominator] = match;
-      output += esc(value.slice(end, match.index));
+      output += plain(value.slice(end, match.index));
       if (radical) {
         const inside = radicand.startsWith('(') && radicand.endsWith(')') ? radicand.slice(1,-1) : radicand;
-        output += `<span class="math-root"><span class="sr-only">Квадратный корень из </span><span class="math-root-value">${mathText(inside)}</span></span>`;
+        output += `<span class="math-root"><span class="sr-only">Квадратный корень из </span><span class="math-root-value">${mathText(inside, highlightNumbers)}</span></span>`;
       } else if (/^[А-Яа-я]+$/.test(numerator.trim()) && /^[А-Яа-я]+$/.test(denominator.trim())) {
-        output += esc(raw);
+        output += plain(raw);
       } else {
         const strip = s => s.startsWith('(') && s.endsWith(')') ? s.slice(1,-1) : s;
-        output += `<span class="math-frac"><span>${mathText(strip(numerator))}</span><span>${mathText(strip(denominator))}</span></span>`;
+        output += `<span class="math-frac"><span>${mathText(strip(numerator), highlightNumbers)}</span><span>${mathText(strip(denominator), highlightNumbers)}</span></span>`;
       }
       end = match.index + raw.length;
     }
-    return output + esc(value.slice(end));
+    return output + plain(value.slice(end));
   }
 
   function formatTheory(markup) {
-    return markup.split(/(<\/?[A-Za-z][^>]*>)/g).map((part,index) => index % 2 ? part :
-      part.replace(/√(?:\(a²\)|a|9)|[−+]?[0-9]+(?:[,.][0-9]+)?/g, token =>
-        token.startsWith('√') ? mathText(token) : `<span class="theory-number">${token}</span>`
-      )
-    ).join('');
+    return markup.split(/(<\/?[A-Za-z][^>]*>)/g)
+      .map((part, index) => index % 2 ? part : mathText(part, true)).join('');
   }
+
   function nav(){
     $('#stage-nav').innerHTML=C.stages.map((s,i)=>{const n=s.tasks.filter((_,j)=>state.solved.includes(`${i}-${j}`)).length;return `<button class="stage-link ${i===state.stage&&view==='lesson'?'active':''} ${n===s.tasks.length?'done':''}" data-stage="${i}" ${i===state.stage&&view==='lesson'?'aria-current="step"':''}><span class="stage-index">${n===s.tasks.length?'✓':String(i+1).padStart(2,'0')}</span><span class="stage-name">${esc(s.name)}<small>${n} / ${s.tasks.length} · ${esc(s.subtitle)}</small></span></button>`;}).join('');
     const n=state.solved.length,p=Math.round(n/TOTAL*100);$('#progress-caption').textContent=`${n} из ${TOTAL} заданий`;$('#progress-percent').textContent=p+'%';$('#progress-fill').style.width=p+'%';
@@ -408,7 +410,7 @@ window.TrainerData={"id":"plyus-ili-minus-oge","version":2,"title":"Плюс и�
     window.LiliStudy?.task(state.stage+'-'+state.task,{current:state.solved.length,total:TOTAL,label:'Этап '+(state.stage+1)+' · задание '+(state.task+1),done:state.solved.length===TOTAL});
     const s=C.stages[state.stage],t=task(),solved=done();
     if(solved&&!feedback)feedback={type:'good',title:'Задание уже решено.',text:'Можно посмотреть разбор или перейти дальше.'};
-    $('#workspace').innerHTML=`<div class="exercise-layout"><section class="lesson-card" aria-labelledby="lesson-title"><div class="lesson-top"><span class="lesson-label">ШАГ ${String(state.stage+1).padStart(2,'0')} / ${String(C.stages.length).padStart(2,'0')}</span><span class="exercise-count">Задание ${state.task+1} из ${s.tasks.length}</span></div><div class="lesson-intro"><h2 id="lesson-title">${esc(s.title)}</h2><div class="intro-content"><p>${formatTheory(s.intro)}</p></div><div class="question-dots" aria-label="Задания этого шага">${s.tasks.map((_,i)=>`<button class="question-dot ${i===state.task?'current':''} ${state.solved.includes(`${state.stage}-${i}`)?'solved':''}" data-task="${i}" aria-label="Задание ${i+1}${state.solved.includes(`${state.stage}-${i}`)?', решено':''}" ${i===state.task?'aria-current="true"':''}>${i+1}</button>`).join('')}</div></div>${s.workedExamples?`<div class="sum-examples" aria-label="Примеры на числовой прямой">${s.workedExamples}</div>`:''}${visual(t)}<div class="answer-area"><div class="task-kicker">ТЕПЕРЬ ПОПРОБУЙ</div><h3 class="question" id="question-text">${mathText(t.q)}</h3>${t.kind==='choice'?`<div class="choices" role="group" aria-labelledby="question-text">${t.options.map((o,i)=>`<button class="choice ${state.answers[key()]===String(o)?(solved?'selected':'wrong'):''}" data-option="${i}" ${solved?'disabled':''}>${esc(o)}${t.unit==='%'?'%':''}</button>`).join('')}</div>`:`<form class="answer-form" novalidate><div class="input-wrap"><label class="sr-only" for="answer">Твой ответ${t.unit?', '+t.unit:''}</label><input id="answer" type="text" inputmode="decimal" autocomplete="off" placeholder="Твой ответ" aria-describedby="feedback" value="${esc(state.answers[key()]||'')}" ${solved?'readonly':''}><span class="answer-unit">${esc(t.unit)}</span></div><button class="primary" type="submit" ${solved?'disabled':''}>Проверить</button></form>`}<div id="feedback" role="status" aria-live="polite" aria-atomic="true">${feedbackHtml()}</div><div class="next-row"><small>${solved?'Можно двигаться дальше.':'Ответ можно пробовать снова.'}</small><button class="primary" id="next-task" ${solved?'':'hidden'}>${nextLabel()} <span aria-hidden="true">→</span></button></div><details class="solution"><summary>Показать подробный разбор</summary>${t.solutionVisual||''}<ol>${t.steps.map(x=>`<li>${mathText(x)}</li>`).join('')}</ol></details></div></section><aside class="right-column" aria-label="Помощь"><section class="support-card"><h3>Если нужен ориентир</h3><p class="support-caption">Открывай по одному шагу.</p><div id="hint-list">${hintsHtml(t)}</div></section><section class="support-card anchor-card"><div class="anchor-label">ПРАВИЛО</div><p>${esc(s.anchor)}</p><small>${esc(s.anchorNote)}</small></section></aside></div>`;
+    $('#workspace').innerHTML=`<div class="exercise-layout"><section class="lesson-card" aria-labelledby="lesson-title"><div class="lesson-top"><span class="lesson-label">ШАГ ${String(state.stage+1).padStart(2,'0')} / ${String(C.stages.length).padStart(2,'0')}</span><span class="exercise-count">Задание ${state.task+1} из ${s.tasks.length}</span></div><div class="lesson-intro"><h2 id="lesson-title">${esc(s.title)}</h2><div class="intro-content"><p>${formatTheory(s.intro)}</p></div><div class="question-dots" aria-label="Задания этого шага">${s.tasks.map((_,i)=>`<button class="question-dot ${i===state.task?'current':''} ${state.solved.includes(`${state.stage}-${i}`)?'solved':''}" data-task="${i}" aria-label="Задание ${i+1}${state.solved.includes(`${state.stage}-${i}`)?', решено':''}" ${i===state.task?'aria-current="true"':''}>${i+1}</button>`).join('')}</div></div>${s.workedExamples?`<div class="sum-examples" aria-label="Примеры на числовой прямой">${s.workedExamples}</div>`:''}${visual(t)}<div class="answer-area"><div class="task-kicker">ТЕПЕРЬ ПОПРОБУЙ</div><h3 class="question" id="question-text">${mathText(t.q)}</h3>${t.kind==='choice'?`<div class="choices" role="group" aria-labelledby="question-text">${t.options.map((o,i)=>`<button class="choice ${state.answers[key()]===String(o)?(solved?'selected':'wrong'):''}" data-option="${i}" ${solved?'disabled':''}>${mathText(o)}${t.unit==='%'?'%':''}</button>`).join('')}</div>`:`<form class="answer-form" novalidate><div class="input-wrap"><label class="sr-only" for="answer">Твой ответ${t.unit?', '+t.unit:''}</label><input id="answer" type="text" inputmode="decimal" autocomplete="off" placeholder="Твой ответ" aria-describedby="feedback" value="${esc(state.answers[key()]||'')}" ${solved?'readonly':''}><span class="answer-unit">${esc(t.unit)}</span></div><button class="primary" type="submit" ${solved?'disabled':''}>Проверить</button></form>`}<div id="feedback" role="status" aria-live="polite" aria-atomic="true">${feedbackHtml()}</div><div class="next-row"><small>${solved?'Можно двигаться дальше.':'Ответ можно пробовать снова.'}</small><button class="primary" id="next-task" ${solved?'':'hidden'}>${nextLabel()} <span aria-hidden="true">→</span></button></div><details class="solution"><summary>Показать подробный разбор</summary>${t.solutionVisual||''}<ol>${t.steps.map(x=>`<li>${mathText(x)}</li>`).join('')}</ol></details></div></section><aside class="right-column" aria-label="Помощь"><section class="support-card"><h3>Если нужен ориентир</h3><p class="support-caption">Открывай по одному шагу.</p><div id="hint-list">${hintsHtml(t)}</div></section><section class="support-card anchor-card"><div class="anchor-label">ПРАВИЛО</div><p>${mathText(s.anchor)}</p><small>${mathText(s.anchorNote)}</small></section></aside></div>`;
     document.querySelectorAll('[data-task]').forEach(b=>b.addEventListener('click',()=>goTask(Number(b.dataset.task))));
     document.querySelectorAll('[data-option]').forEach(b=>b.addEventListener('click',()=>check(String(t.options[Number(b.dataset.option)]))));
     const form=$('.answer-form');if(form)form.addEventListener('submit',e=>{e.preventDefault();check($('#answer').value);});
@@ -419,7 +421,7 @@ window.TrainerData={"id":"plyus-ili-minus-oge","version":2,"title":"Плюс и�
   function nextLabel(){if(state.solved.length===TOTAL)return 'К итогу';if(state.task===C.stages[state.stage].tasks.length-1)return state.stage===C.stages.length-1?'К итогу':'Следующий шаг';return 'Дальше';}
   function check(raw){
     const t=task();if(done())return;
-    if(t.kind==='number'&&C.parseNumber(raw)===null){feedback={type:'neutral',title:raw.trim()?'Нужно только число.':'Введи свой ответ.',text:'Введи число. Можно использовать запятую, точку или дробь вида 3/4.'};$('#feedback').innerHTML=feedbackHtml();$('#answer').setAttribute('aria-invalid','true');return;}
+    if(t.kind==='number'&&C.parseNumber(raw)===null){feedback={type:'neutral',title:raw.trim()?'Нужно только число.':'Введи свой ответ.',text:'Введи число. Можно использовать запятую или точку. Для ввода дроби используй клавишу косой черты.'};$('#feedback').innerHTML=feedbackHtml();$('#answer').setAttribute('aria-invalid','true');return;}
     state.answers[key()]=raw;state.attempts[key()]=(Number(state.attempts[key()])||0)+1;
     if(C.isCorrect(t,raw)){
  state.solved.push(key());feedback={type:'good',title:'Верно!',text:t.steps[t.steps.length-1]};
@@ -438,12 +440,12 @@ window.TrainerData={"id":"plyus-ili-minus-oge","version":2,"title":"Плюс и�
   }
   function renderLab(){
  const lab=C.lab,c=lab.cases[labIndex];
- $('#workspace').innerHTML=`<section class="lesson-card lab-card"><div class="lesson-label">ЛАБОРАТОРИЯ</div><h2>${esc(lab.title)}</h2><p class="lab-note">${esc(lab.intro)}</p><div class="segmented">${lab.cases.map((x,i)=>`<button data-case="${i}" aria-pressed="${i===labIndex}">${esc(x.label)}</button>`).join('')}</div><div class="visual-panel" aria-live="polite">${c.html}</div><button class="secondary" id="back-to-route">← Вернуться к заданию</button></section>`;
+ $('#workspace').innerHTML=`<section class="lesson-card lab-card"><div class="lesson-label">ЛАБОРАТОРИЯ</div><h2>${esc(lab.title)}</h2><p class="lab-note">${mathText(lab.intro)}</p><div class="segmented">${lab.cases.map((x,i)=>`<button data-case="${i}" aria-pressed="${i===labIndex}">${esc(x.label)}</button>`).join('')}</div><div class="visual-panel" aria-live="polite">${c.html}</div><button class="secondary" id="back-to-route">← Вернуться к заданию</button></section>`;
  document.querySelectorAll('[data-case]').forEach(b=>b.addEventListener('click',()=>{labIndex=Number(b.dataset.case);renderLab();}));$('#back-to-route').addEventListener('click',()=>{view='lesson';render();});
  }
   function renderComplete(){
     const unresolved=TOTAL-state.solved.length;
-    $('#workspace').innerHTML=`<section class="lesson-card completion-card"><div class="completion-icon" aria-hidden="true">✧</div><div class="eyebrow">${unresolved?'МАРШРУТ ПРОДОЛЖАЕТСЯ':'МАРШРУТ ПРОЙДЕН'}</div><h2>${unresolved?'Уже многое получилось.':'Маршрут пройден!'}</h2><p>${unresolved?`Решено ${state.solved.length} из ${TOTAL} заданий. Осталось ${unresolved}.`:`Решено заданий: ${TOTAL} из ${TOTAL}.`}</p><div class="review-list">${C.recap.map(x=>`<p>${esc(x)}</p>`).join('')}</div><div class="end-actions"><button class="primary" id="review-stories">${unresolved?'Продолжить маршрут':'Посмотреть задачи'}</button>${C.lab?'<button class="secondary" id="finish-lab">В лабораторию</button>':''}<button class="secondary" id="finish-reset">Пройти заново</button></div></section>`;
+    $('#workspace').innerHTML=`<section class="lesson-card completion-card"><div class="completion-icon" aria-hidden="true">✧</div><div class="eyebrow">${unresolved?'МАРШРУТ ПРОДОЛЖАЕТСЯ':'МАРШРУТ ПРОЙДЕН'}</div><h2>${unresolved?'Уже многое получилось.':'Маршрут пройден!'}</h2><p>${unresolved?`Решено ${state.solved.length} из ${TOTAL} заданий. Осталось ${unresolved}.`:`Решено заданий: ${TOTAL} из ${TOTAL}.`}</p><div class="review-list">${C.recap.map(x=>`<p>${mathText(x)}</p>`).join('')}</div><div class="end-actions"><button class="primary" id="review-stories">${unresolved?'Продолжить маршрут':'Посмотреть задачи'}</button>${C.lab?'<button class="secondary" id="finish-lab">В лабораторию</button>':''}<button class="secondary" id="finish-reset">Пройти заново</button></div></section>`;
     $('#review-stories').addEventListener('click',()=>{if(unresolved){for(let i=0;i<C.stages.length;i++)if(C.stages[i].tasks.some((_,j)=>!state.solved.includes(`${i}-${j}`))){goStage(i);return;}}goStage(C.stages.length-1);});$('#finish-lab')?.addEventListener('click',openLab);$('#finish-reset').addEventListener('click',askReset);
   }
   function openLab(){view='lab';render();scrollToLesson();}
