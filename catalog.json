@@ -1,6 +1,16 @@
 {
   "items": [
     {
+      "file": "trenazher-6-nod-i-nok.html",
+      "title": "НОД и НОК · подготовка к контрольной · 6 класс",
+      "type": "trenazher",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "8 этапов, 45 заданий с подсказками и автопроверкой, текстовые задачи и два варианта пробной контрольной с разбором.",
+      "auto": false
+    },
+    {
       "file": "trenazher-kvadratnyy-trekhchlen-8-klass.html",
       "title": "Квадратный трёхчлен и его корни · пошаговый тренажёр · 8 класс",
       "type": "trenazher",
