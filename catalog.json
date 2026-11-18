@@ -4458,6 +4458,19 @@
       "auto": true
     },
     {
+      "file": "trenazher-kvadratnyj-trehchlen.html",
+      "title": "8A-125 · Тренажёр · Квадратный трёхчлен и его корни, 8 ступеней",
+      "type": "trenazher",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "добавлено 2026-11-18; общий движок tren/staged.js (содержание tren/kvadratnyj-trehchlen.js); 4 подряд, отправка в таблицу, режим учителя #lilia",
+      "auto": true,
+      "node": [
+        "8A-125"
+      ]
+    },
+    {
       "file": "trenazher-neravenstva13.html",
       "title": "ОГЭ №13 · Тренажёр · Неравенства и системы, выбор рисунка, 13 ступеней",
       "type": "trenazher",
