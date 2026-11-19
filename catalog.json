@@ -1,6 +1,16 @@
 {
   "items": [
     {
+      "file": "trenazher-doli-i-drobi-5-klass.html",
+      "title": "Шоколадные дроби · 5 класс",
+      "type": "trenazher",
+      "class": 5,
+      "oge_task": null,
+      "status": "public",
+      "note": "9 шагов и 27 заданий. Выбирай дольки шоколадки, записывай дроби и решай задачи с автопроверкой.",
+      "auto": false
+    },
+    {
       "file": "trenazher-6-nod-i-nok.html",
       "title": "НОД и НОК · подготовка к контрольной · 6 класс",
       "type": "trenazher",
