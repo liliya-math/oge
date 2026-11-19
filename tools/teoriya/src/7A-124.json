@@ -21,7 +21,10 @@
      "f": "\\(\\dfrac{x}{4y}\\cdot\\dfrac{8y}{11x}=\\dfrac{x\\cdot 8y}{4y\\cdot 11x}=\\dfrac{2}{11}\\)"
     },
     {
-     "f": "\\(\\dfrac{x^2-9y^2}{6x^2}\\cdot\\dfrac{36x}{x^2-6xy+9y^2}=\\dfrac{(x-3y)(x+3y)\\cdot 36x}{6x\\cdot x\\cdot(x-3y)^2}\\)"
+     "f": "\\(\\begin{aligned}&\\dfrac{x^2-9y^2}{6x^2}\\\\&\\quad{}\\cdot\\dfrac{36x}{x^2-6xy+9y^2}\\end{aligned}\\)"
+    },
+    {
+     "f": "\\(=\\dfrac{(x-3y)(x+3y)\\cdot 36x}{6x\\cdot x\\cdot(x-3y)^2}\\)"
     },
     {
      "f": "\\(=\\dfrac{6(x+3y)}{x(x-3y)}\\)"

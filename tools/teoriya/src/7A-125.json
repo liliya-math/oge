@@ -65,13 +65,19 @@
      "p": "Упростим выражение:"
     },
     {
-     "f": "\\(\\left(\\dfrac{x+2y}{2y}\\right)^2\\cdot\\left(\\dfrac{x-2y}{x^2+2xy}-\\dfrac{1}{x^2-4y^2}\\cdot\\dfrac{(2y-x)^2}{x+2y}\\right)\\)"
+     "f": "\\(\\left(\\dfrac{x+2y}{2y}\\right)^2\\)"
+    },
+    {
+     "f": "\\({}\\cdot\\left(\\begin{aligned}&\\dfrac{x-2y}{x^2+2xy}\\\\&{}-\\dfrac{1}{x^2-4y^2}\\\\&\\quad{}\\cdot\\dfrac{(2y-x)^2}{x+2y}\\end{aligned}\\right)\\)"
     },
     {
      "p": "Действие 1. Выполним умножение внутри скобок:"
     },
     {
-     "f": "\\(\\dfrac{1}{x^2-4y^2}\\cdot\\dfrac{(2y-x)^2}{x+2y}=\\dfrac{(x-2y)^2}{(x-2y)(x+2y)(x+2y)}\\)"
+     "f": "\\(\\dfrac{1}{x^2-4y^2}\\cdot\\dfrac{(2y-x)^2}{x+2y}\\)"
+    },
+    {
+     "f": "\\(=\\dfrac{(x-2y)^2}{\\begin{aligned}&(x-2y)(x+2y)\\\\&\\quad(x+2y)\\end{aligned}}\\)"
     },
     {
      "f": "\\(=\\dfrac{x-2y}{(x+2y)^2}\\)"
@@ -80,7 +86,10 @@
      "p": "Действие 2. Выполним вычитание. Общий знаменатель равен \\(x(x+2y)^2\\):"
     },
     {
-     "f": "\\(\\dfrac{x-2y}{x(x+2y)}-\\dfrac{x-2y}{(x+2y)^2}=\\dfrac{(x-2y)(x+2y)-x(x-2y)}{x(x+2y)^2}\\)"
+     "f": "\\(\\dfrac{x-2y}{x(x+2y)}-\\dfrac{x-2y}{(x+2y)^2}\\)"
+    },
+    {
+     "f": "\\(=\\dfrac{\\begin{aligned}&(x-2y)(x+2y)\\\\&{}-x(x-2y)\\end{aligned}}{x(x+2y)^2}\\)"
     },
     {
      "f": "\\(=\\dfrac{(x-2y)\\cdot 2y}{x(x+2y)^2}\\)"

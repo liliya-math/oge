@@ -36,7 +36,10 @@
      "p": "Выполним умножение:"
     },
     {
-     "f": "\\((xy+x-y)\\cdot 3x^2y=xy\\cdot 3x^2y+x\\cdot 3x^2y-y\\cdot 3x^2y\\)"
+     "f": "\\((xy+x-y)\\cdot 3x^2y\\)"
+    },
+    {
+     "f": "\\(\\begin{aligned}&=xy\\cdot 3x^2y+x\\cdot 3x^2y\\\\&\\quad{}-y\\cdot 3x^2y\\end{aligned}\\)"
     },
     {
      "f": "\\(=3x^3y^2+3x^3y-3x^2y^2\\)"
