@@ -85,6 +85,7 @@ h1{margin:4px 0 6px;font-size:clamp(24px,6vw,34px);line-height:1.15;letter-spaci
 </head>
 <body>
 <div class="wrap" id="app"><p class="lead">Открываю…</p></div>
+<script src="assets/route-theory-pdfs.js"></script>
 <script>
 (function(){
 'use strict';
@@ -123,7 +124,7 @@ function crumbs(id){
 function home(){
   const tiles=[];
   for(let g=5;g<=9;g++)['A','G'].forEach(s=>{const id=g+s;tiles.push(`<a class="tile" href="#${id}"><b>${g} ${s==='A'?'алгебра':'геом.'}</b></a>`)});
-  app.innerHTML=`<div class="bar"><span class="id">Карта · только для учителя</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184" loading="lazy"></span></div><h1>Карта материалов</h1><p class="lead">Выбери класс.</p><div class="grid">${tiles.join('')}<a class="tile" href="#OGE"><b>ОГЭ, часть 1</b><small>задания 1-19</small></a><a class="tile" href="#ERR"><b>Типичные ошибки</b><small>для любого класса</small></a></div>`;
+  app.innerHTML=`<div class="bar"><span class="id">Карта · только для учителя</span><span class="brand"><img src="/img/logo/lilimath-na-temnom.png" alt="lili.math" width="821" height="184" loading="lazy"></span></div><h1>Карта материалов</h1><p class="lead">Выбери класс или открой <a href="pdf-teoriya/">каталог PDF-теории</a>.</p><div class="grid">${tiles.join('')}<a class="tile" href="#OGE"><b>ОГЭ, часть 1</b><small>задания 1-19</small></a><a class="tile" href="#ERR"><b>Типичные ошибки</b><small>для любого класса</small></a></div>`;
 }
 let editMode=false;
 function routeCard(){
@@ -200,6 +201,8 @@ async function selectLesson(id){
   panel.hidden=false;
   panel.innerHTML=`<h2 tabindex="-1">${esc(lesson.title)}</h2>`
     +(lesson.extra?`<p>${esc(lesson.extra)}</p>`:'');
+  const theoryPdfs=window.LiliRouteTheoryPdfs?.(id)||[];
+  if(theoryPdfs.length)panel.insertAdjacentHTML('beforeend',`<section aria-label="PDF-теория"><h3>PDF-теория</h3><ul>${theoryPdfs.map(([title,url],i)=>`<li><a href="${esc(url)}" target="_blank" rel="noopener">${esc(theoryPdfs.slice(0,i).some(([other])=>other===title)?title+' · '+(i+1):title)}</a></li>`).join('')}</ul></section>`);
   panel.querySelector('h2').focus();
   if(!routeEnabled){
     panel.insertAdjacentHTML('beforeend','<p class="empty">Выдача материалов станет доступна после обновления развёртывания скрипта кабинета.</p>');
