@@ -1,200 +1,200 @@
 {
- "file": "teoriya-oge-15-4-pryamougolnyy-ugly.html",
- "title": "Прямоугольный треугольник: вычисление углов",
- "tag": "ОГЭ · Задание 15 · п. 4",
- "square": "OGE-15-4",
- "blocks": [
-  {
-   "color": "moss",
-   "title": "Сумма острых углов",
-   "items": [
+  "file": "teoriya-oge-15-4-pryamougolnyy-ugly.html",
+  "title": "Прямоугольный треугольник: вычисление углов",
+  "tag": "ОГЭ · Задание 15 · п. 4",
+  "square": "OGE-15-4",
+  "blocks": [
     {
-     "p": "В **прямоугольном** треугольнике один угол прямой, то есть \\(90^\\circ\\). Стороны при прямом угле называют **катетами**, сторону напротив него - **гипотенузой**."
+      "color": "moss",
+      "title": "Сумма острых углов",
+      "items": [
+        {
+          "p": "В **прямоугольном** треугольнике один угол прямой, то есть \\(90^\\circ\\). Стороны при прямом угле называют **катетами**, сторону напротив него - **гипотенузой**."
+        },
+        {
+          "p": "Сумма двух острых углов прямоугольного треугольника равна \\(90^\\circ\\)."
+        },
+        {
+          "svg": "<svg viewBox=\"0 0 360 230\" role=\"img\" aria-label=\"Прямоугольный треугольник ABC с прямым углом C\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Times New Roman,serif\"><line x1=\"60.0\" y1=\"40.0\" x2=\"330.0\" y2=\"190.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"330.0\" y1=\"190.0\" x2=\"60.0\" y2=\"190.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"60.0\" y1=\"190.0\" x2=\"60.0\" y2=\"40.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><path d=\"M60.0 66.0 A26 26 0 0 0 82.7 52.6\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><text x=\"87.3\" y=\"91.3\" text-anchor=\"middle\" font-size=\"15\" fill=\"#DD7A3A\" font-weight=\"700\">35°</text><path d=\"M60.0 179.0 L71.0 179.0 L71.0 190.0\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"1.8\"/><text x=\"48.6\" y=\"33.4\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">A</text><text x=\"346.4\" y=\"200.5\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">B</text><text x=\"45.1\" y=\"204.3\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">C</text></svg>"
+        },
+        {
+          "f": "\\(\\angle A+\\angle B=90^\\circ\\)"
+        },
+        {
+          "p": "Пример: \\(\\angle C=90^\\circ\\), \\(\\angle A=35^\\circ\\)."
+        },
+        {
+          "f": "\\(\\angle B=90^\\circ-35^\\circ=55^\\circ\\)"
+        },
+        {
+          "why": "Все три угла дают \\(180^\\circ\\), а прямой угол забирает из них \\(90^\\circ\\). На два острых угла остаётся \\(90^\\circ\\)."
+        }
+      ],
+      "memo": [
+        "Сумма острых углов прямоугольного треугольника равна 90°"
+      ]
     },
     {
-     "p": "Сумма двух острых углов прямоугольного треугольника равна \\(90^\\circ\\)."
+      "color": "cobalt",
+      "title": "Внешний угол при острой вершине",
+      "items": [
+        {
+          "p": "Внешний угол при вершине \\(B\\) смежен с углом \\(B\\). Сначала находим угол треугольника, потом второй острый угол."
+        },
+        {
+          "p": "Пример: \\(\\angle C=90^\\circ\\), внешний угол при вершине \\(B\\) равен \\(150^\\circ\\)."
+        },
+        {
+          "f": "\\(\\angle B=180^\\circ-150^\\circ=30^\\circ,\\ \\angle A=90^\\circ-30^\\circ=60^\\circ\\)"
+        },
+        {
+          "p": "Можно и сразу: внешний угол при \\(B\\) равен \\(\\angle A+90^\\circ\\), поэтому \\(\\angle A=150^\\circ-90^\\circ=60^\\circ\\)."
+        },
+        {
+          "why": "Внешний угол и угол треугольника при одной вершине - смежные, их сумма \\(180^\\circ\\). А по свойству внешнего угла он равен сумме двух других углов, один из которых прямой."
+        }
+      ],
+      "memo": [
+        "Внешний угол при острой вершине равен 90° + второй острый угол"
+      ]
     },
     {
-     "svg": "<svg viewBox=\"0 0 360 230\" role=\"img\" aria-label=\"Прямоугольный треугольник ABC с прямым углом C\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Times New Roman,serif\"><line x1=\"60.0\" y1=\"40.0\" x2=\"330.0\" y2=\"190.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"330.0\" y1=\"190.0\" x2=\"60.0\" y2=\"190.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"60.0\" y1=\"190.0\" x2=\"60.0\" y2=\"40.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><path d=\"M60.0 66.0 A26 26 0 0 0 82.7 52.6\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><text x=\"87.3\" y=\"91.3\" text-anchor=\"middle\" font-size=\"15\" fill=\"#DD7A3A\" font-weight=\"700\">35°</text><path d=\"M60.0 179.0 L71.0 179.0 L71.0 190.0\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"1.8\"/><text x=\"48.6\" y=\"33.4\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">A</text><text x=\"346.4\" y=\"200.5\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">B</text><text x=\"45.1\" y=\"204.3\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">C</text></svg>"
+      "color": "orange",
+      "title": "Высота к гипотенузе",
+      "items": [
+        {
+          "p": "Высота \\(CH\\), проведённая из вершины прямого угла, делит треугольник на два маленьких прямоугольных треугольника. Угол \\(ACH\\) равен углу \\(B\\), а угол \\(BCH\\) равен углу \\(A\\)."
+        },
+        {
+          "svg": "<svg viewBox=\"0 0 360 230\" role=\"img\" aria-label=\"Высота CH к гипотенузе\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Times New Roman,serif\"><line x1=\"60.0\" y1=\"40.0\" x2=\"330.0\" y2=\"190.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"330.0\" y1=\"190.0\" x2=\"60.0\" y2=\"190.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"60.0\" y1=\"190.0\" x2=\"60.0\" y2=\"40.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"60.0\" y1=\"190.0\" x2=\"123.7\" y2=\"75.4\" stroke=\"#5F7B3F\" stroke-width=\"2.6\" stroke-linecap=\"round\"/><path d=\"M298.5 172.5 A36 36 0 0 0 294.0 190.0\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><text x=\"250.7\" y=\"174.5\" text-anchor=\"middle\" font-size=\"15\" fill=\"#DD7A3A\" font-weight=\"700\">28°</text><path d=\"M60.0 160.0 A30 30 0 0 1 74.6 163.8\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><text x=\"79.0\" y=\"121.5\" text-anchor=\"middle\" font-size=\"15\" fill=\"#DD7A3A\" font-weight=\"700\">28°</text><path d=\"M133.3 80.7 L128.0 90.3 L118.3 85.0\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"1.8\"/><text x=\"48.0\" y=\"33.9\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">A</text><text x=\"346.0\" y=\"201.7\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">B</text><text x=\"46.7\" y=\"206.6\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">C</text><text x=\"132.7\" y=\"63.4\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">H</text></svg>"
+        },
+        {
+          "p": "Пример: \\(\\angle C=90^\\circ\\), \\(\\angle B=28^\\circ\\), \\(CH\\) - высота."
+        },
+        {
+          "f": "\\(\\angle ACH=28^\\circ,\\ \\angle BCH=90^\\circ-28^\\circ=62^\\circ\\)"
+        },
+        {
+          "why": "В треугольнике \\(ACH\\) прямой угол при \\(H\\), поэтому \\(\\angle ACH=90^\\circ-\\angle A\\). Но в большом треугольнике тоже \\(90^\\circ-\\angle A=\\angle B\\). Значит, \\(\\angle ACH=\\angle B\\)."
+        }
+      ],
+      "memo": [
+        "Высота к гипотенузе: ∠ACH = ∠B, ∠BCH = ∠A"
+      ]
     },
     {
-     "f": "\\(\\angle A+\\angle B=90^\\circ\\)"
+      "color": "gold",
+      "title": "Медиана к гипотенузе",
+      "items": [
+        {
+          "p": "Медиана, проведённая к гипотенузе, равна половине гипотенузы. Поэтому она делит треугольник на два **равнобедренных** треугольника \\(ACM\\) и \\(BCM\\)."
+        },
+        {
+          "svg": "<svg viewBox=\"0 0 360 230\" role=\"img\" aria-label=\"Медиана CM к гипотенузе\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Times New Roman,serif\"><line x1=\"60.0\" y1=\"40.0\" x2=\"330.0\" y2=\"190.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"330.0\" y1=\"190.0\" x2=\"60.0\" y2=\"190.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"60.0\" y1=\"190.0\" x2=\"60.0\" y2=\"40.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"60.0\" y1=\"190.0\" x2=\"195.0\" y2=\"115.0\" stroke=\"#5F7B3F\" stroke-width=\"2.6\" stroke-linecap=\"round\"/><line x1=\"130.4\" y1=\"72.3\" x2=\"124.6\" y2=\"82.7\" stroke=\"#16231A\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><line x1=\"265.4\" y1=\"147.3\" x2=\"259.6\" y2=\"157.7\" stroke=\"#16231A\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><line x1=\"124.6\" y1=\"147.3\" x2=\"130.4\" y2=\"157.7\" stroke=\"#16231A\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><path d=\"M60.0 179.0 L71.0 179.0 L71.0 190.0\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"1.8\"/><text x=\"47.5\" y=\"34.5\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">A</text><text x=\"346.1\" y=\"201.4\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">B</text><text x=\"45.1\" y=\"204.3\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">C</text><text x=\"204.0\" y=\"103.0\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">M</text></svg>"
+        },
+        {
+          "f": "\\(CM=AM=BM\\ \\Rightarrow\\ \\angle MCB=\\angle B\\)"
+        },
+        {
+          "p": "Пример: \\(\\angle B=25^\\circ\\). Тогда \\(\\angle MCB=25^\\circ\\), а \\(\\angle ACM=90^\\circ-25^\\circ=65^\\circ\\)."
+        },
+        {
+          "why": "Середина гипотенузы - центр описанной окружности прямоугольного треугольника, поэтому она одинаково удалена от всех трёх вершин. Отсюда \\(CM=BM\\), а в равнобедренном треугольнике углы при основании равны."
+        }
+      ],
+      "memo": [
+        "Медиана к гипотенузе равна половине гипотенузы"
+      ]
     },
     {
-     "p": "Пример: \\(\\angle C=90^\\circ\\), \\(\\angle A=35^\\circ\\)."
+      "color": "caramel",
+      "title": "Биссектриса прямого угла",
+      "items": [
+        {
+          "p": "Биссектриса прямого угла делит его на два угла по \\(45^\\circ\\)."
+        },
+        {
+          "svg": "<svg viewBox=\"0 0 360 230\" role=\"img\" aria-label=\"Биссектриса CL прямого угла\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Times New Roman,serif\"><line x1=\"60.0\" y1=\"40.0\" x2=\"330.0\" y2=\"190.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"330.0\" y1=\"190.0\" x2=\"60.0\" y2=\"190.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"60.0\" y1=\"190.0\" x2=\"60.0\" y2=\"40.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"60.0\" y1=\"190.0\" x2=\"156.4\" y2=\"93.6\" stroke=\"#5F7B3F\" stroke-width=\"2.6\" stroke-linecap=\"round\"/><path d=\"M60.0 162.0 A28 28 0 0 1 79.8 170.2\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><text x=\"83.5\" y=\"138.2\" text-anchor=\"middle\" font-size=\"15\" fill=\"#DD7A3A\" font-weight=\"700\">45°</text><path d=\"M84.0 166.0 A34 34 0 0 1 94.0 190.0\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><text x=\"122.4\" y=\"169.2\" text-anchor=\"middle\" font-size=\"15\" fill=\"#DD7A3A\" font-weight=\"700\">45°</text><text x=\"47.8\" y=\"34.2\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">A</text><text x=\"346.1\" y=\"201.5\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">B</text><text x=\"45.9\" y=\"205.5\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">C</text><text x=\"165.4\" y=\"81.6\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">L</text></svg>"
+        },
+        {
+          "p": "Пример: \\(\\angle C=90^\\circ\\), \\(\\angle A=60^\\circ\\), \\(CL\\) - биссектриса. Найдём угол \\(ALC\\)."
+        },
+        {
+          "f": "\\(\\angle ALC=180^\\circ-60^\\circ-45^\\circ=75^\\circ\\)"
+        },
+        {
+          "why": "Биссектриса делит угол пополам, а половина от \\(90^\\circ\\) равна \\(45^\\circ\\). Дальше считаем по сумме углов в треугольнике \\(ACL\\)."
+        }
+      ],
+      "memo": [
+        "Биссектриса прямого угла делит его на два угла по 45°"
+      ]
     },
     {
-     "f": "\\(\\angle B=90^\\circ-35^\\circ=55^\\circ\\)"
-    },
-    {
-     "why": "Все три угла дают \\(180^\\circ\\), а прямой угол забирает из них \\(90^\\circ\\). На два острых угла остаётся \\(90^\\circ\\)."
+      "color": "sage",
+      "title": "Угол между высотой и биссектрисой",
+      "items": [
+        {
+          "p": "Частая задача: найти угол между высотой \\(CH\\) и биссектрисой \\(CL\\), проведёнными из вершины прямого угла. Его находим как разность двух углов от стороны \\(CA\\)."
+        },
+        {
+          "p": "Пример: \\(\\angle A=40^\\circ\\), значит, \\(\\angle B=50^\\circ\\) и \\(\\angle ACH=\\angle B=50^\\circ\\). Угол \\(ACL=45^\\circ\\)."
+        },
+        {
+          "f": "\\(\\angle HCL=50^\\circ-45^\\circ=5^\\circ\\)"
+        },
+        {
+          "why": "Оба луча, \\(CH\\) и \\(CL\\), выходят из вершины \\(C\\) и отсчитываются от одной стороны \\(CA\\). Угол между ними равен разности углов, которые они образуют с \\(CA\\)."
+        }
+      ],
+      "memo": [
+        "Угол между высотой и биссектрисой — разность их углов от одной стороны"
+      ]
     }
-   ],
-   "memo": [
-    "Сумма острых углов прямоугольного треугольника равна 90°"
-   ]
-  },
-  {
-   "color": "cobalt",
-   "title": "Внешний угол при острой вершине",
-   "items": [
-    {
-     "p": "Внешний угол при вершине \\(B\\) смежен с углом \\(B\\). Сначала находим угол треугольника, потом второй острый угол."
-    },
-    {
-     "p": "Пример: \\(\\angle C=90^\\circ\\), внешний угол при вершине \\(B\\) равен \\(150^\\circ\\)."
-    },
-    {
-     "f": "\\(\\angle B=180^\\circ-150^\\circ=30^\\circ,\\ \\angle A=90^\\circ-30^\\circ=60^\\circ\\)"
-    },
-    {
-     "p": "Можно и сразу: внешний угол при \\(B\\) равен \\(\\angle A+90^\\circ\\), поэтому \\(\\angle A=150^\\circ-90^\\circ=60^\\circ\\)."
-    },
-    {
-     "why": "Внешний угол и угол треугольника при одной вершине - смежные, их сумма \\(180^\\circ\\). А по свойству внешнего угла он равен сумме двух других углов, один из которых прямой."
-    }
-   ],
-   "memo": [
-    "Внешний угол при острой вершине прямоугольного треугольника = 90° + другой острый угол"
-   ]
-  },
-  {
-   "color": "orange",
-   "title": "Высота к гипотенузе",
-   "items": [
-    {
-     "p": "Высота \\(CH\\), проведённая из вершины прямого угла, делит треугольник на два маленьких прямоугольных треугольника. Угол \\(ACH\\) равен углу \\(B\\), а угол \\(BCH\\) равен углу \\(A\\)."
-    },
-    {
-     "svg": "<svg viewBox=\"0 0 360 230\" role=\"img\" aria-label=\"Высота CH к гипотенузе\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Times New Roman,serif\"><line x1=\"60.0\" y1=\"40.0\" x2=\"330.0\" y2=\"190.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"330.0\" y1=\"190.0\" x2=\"60.0\" y2=\"190.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"60.0\" y1=\"190.0\" x2=\"60.0\" y2=\"40.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"60.0\" y1=\"190.0\" x2=\"123.7\" y2=\"75.4\" stroke=\"#5F7B3F\" stroke-width=\"2.6\" stroke-linecap=\"round\"/><path d=\"M298.5 172.5 A36 36 0 0 0 294.0 190.0\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><text x=\"250.7\" y=\"174.5\" text-anchor=\"middle\" font-size=\"15\" fill=\"#DD7A3A\" font-weight=\"700\">28°</text><path d=\"M60.0 160.0 A30 30 0 0 1 74.6 163.8\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><text x=\"79.0\" y=\"121.5\" text-anchor=\"middle\" font-size=\"15\" fill=\"#DD7A3A\" font-weight=\"700\">28°</text><path d=\"M133.3 80.7 L128.0 90.3 L118.3 85.0\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"1.8\"/><text x=\"48.0\" y=\"33.9\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">A</text><text x=\"346.0\" y=\"201.7\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">B</text><text x=\"46.7\" y=\"206.6\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">C</text><text x=\"132.7\" y=\"63.4\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">H</text></svg>"
-    },
-    {
-     "p": "Пример: \\(\\angle C=90^\\circ\\), \\(\\angle B=28^\\circ\\), \\(CH\\) - высота."
-    },
-    {
-     "f": "\\(\\angle ACH=28^\\circ,\\ \\angle BCH=90^\\circ-28^\\circ=62^\\circ\\)"
-    },
-    {
-     "why": "В треугольнике \\(ACH\\) прямой угол при \\(H\\), поэтому \\(\\angle ACH=90^\\circ-\\angle A\\). Но в большом треугольнике тоже \\(90^\\circ-\\angle A=\\angle B\\). Значит, \\(\\angle ACH=\\angle B\\)."
-    }
-   ],
-   "memo": [
-    "Высота из прямого угла: ∠ACH = ∠B, ∠BCH = ∠A"
-   ]
-  },
-  {
-   "color": "gold",
-   "title": "Медиана к гипотенузе",
-   "items": [
-    {
-     "p": "Медиана, проведённая к гипотенузе, равна половине гипотенузы. Поэтому она делит треугольник на два **равнобедренных** треугольника \\(ACM\\) и \\(BCM\\)."
-    },
-    {
-     "svg": "<svg viewBox=\"0 0 360 230\" role=\"img\" aria-label=\"Медиана CM к гипотенузе\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Times New Roman,serif\"><line x1=\"60.0\" y1=\"40.0\" x2=\"330.0\" y2=\"190.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"330.0\" y1=\"190.0\" x2=\"60.0\" y2=\"190.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"60.0\" y1=\"190.0\" x2=\"60.0\" y2=\"40.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"60.0\" y1=\"190.0\" x2=\"195.0\" y2=\"115.0\" stroke=\"#5F7B3F\" stroke-width=\"2.6\" stroke-linecap=\"round\"/><line x1=\"130.4\" y1=\"72.3\" x2=\"124.6\" y2=\"82.7\" stroke=\"#16231A\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><line x1=\"265.4\" y1=\"147.3\" x2=\"259.6\" y2=\"157.7\" stroke=\"#16231A\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><line x1=\"124.6\" y1=\"147.3\" x2=\"130.4\" y2=\"157.7\" stroke=\"#16231A\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><path d=\"M60.0 179.0 L71.0 179.0 L71.0 190.0\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"1.8\"/><text x=\"47.5\" y=\"34.5\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">A</text><text x=\"346.1\" y=\"201.4\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">B</text><text x=\"45.1\" y=\"204.3\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">C</text><text x=\"204.0\" y=\"103.0\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">M</text></svg>"
-    },
-    {
-     "f": "\\(CM=AM=BM\\ \\Rightarrow\\ \\angle MCB=\\angle B\\)"
-    },
-    {
-     "p": "Пример: \\(\\angle B=25^\\circ\\). Тогда \\(\\angle MCB=25^\\circ\\), а \\(\\angle ACM=90^\\circ-25^\\circ=65^\\circ\\)."
-    },
-    {
-     "why": "Середина гипотенузы - центр описанной окружности прямоугольного треугольника, поэтому она одинаково удалена от всех трёх вершин. Отсюда \\(CM=BM\\), а в равнобедренном треугольнике углы при основании равны."
-    }
-   ],
-   "memo": [
-    "Медиана к гипотенузе равна половине гипотенузы"
-   ]
-  },
-  {
-   "color": "caramel",
-   "title": "Биссектриса прямого угла",
-   "items": [
-    {
-     "p": "Биссектриса прямого угла делит его на два угла по \\(45^\\circ\\)."
-    },
-    {
-     "svg": "<svg viewBox=\"0 0 360 230\" role=\"img\" aria-label=\"Биссектриса CL прямого угла\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Times New Roman,serif\"><line x1=\"60.0\" y1=\"40.0\" x2=\"330.0\" y2=\"190.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"330.0\" y1=\"190.0\" x2=\"60.0\" y2=\"190.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"60.0\" y1=\"190.0\" x2=\"60.0\" y2=\"40.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"60.0\" y1=\"190.0\" x2=\"156.4\" y2=\"93.6\" stroke=\"#5F7B3F\" stroke-width=\"2.6\" stroke-linecap=\"round\"/><path d=\"M60.0 162.0 A28 28 0 0 1 79.8 170.2\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><text x=\"83.5\" y=\"138.2\" text-anchor=\"middle\" font-size=\"15\" fill=\"#DD7A3A\" font-weight=\"700\">45°</text><path d=\"M84.0 166.0 A34 34 0 0 1 94.0 190.0\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><text x=\"122.4\" y=\"169.2\" text-anchor=\"middle\" font-size=\"15\" fill=\"#DD7A3A\" font-weight=\"700\">45°</text><text x=\"47.8\" y=\"34.2\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">A</text><text x=\"346.1\" y=\"201.5\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">B</text><text x=\"45.9\" y=\"205.5\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">C</text><text x=\"165.4\" y=\"81.6\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">L</text></svg>"
-    },
-    {
-     "p": "Пример: \\(\\angle C=90^\\circ\\), \\(\\angle A=60^\\circ\\), \\(CL\\) - биссектриса. Найдём угол \\(ALC\\)."
-    },
-    {
-     "f": "\\(\\angle ALC=180^\\circ-60^\\circ-45^\\circ=75^\\circ\\)"
-    },
-    {
-     "why": "Биссектриса делит угол пополам, а половина от \\(90^\\circ\\) равна \\(45^\\circ\\). Дальше считаем по сумме углов в треугольнике \\(ACL\\)."
-    }
-   ],
-   "memo": [
-    "Биссектриса прямого угла делит его на 45° и 45°"
-   ]
-  },
-  {
-   "color": "sage",
-   "title": "Угол между высотой и биссектрисой",
-   "items": [
-    {
-     "p": "Частая задача: найти угол между высотой \\(CH\\) и биссектрисой \\(CL\\), проведёнными из вершины прямого угла. Его находим как разность двух углов от стороны \\(CA\\)."
-    },
-    {
-     "p": "Пример: \\(\\angle A=40^\\circ\\), значит, \\(\\angle B=50^\\circ\\) и \\(\\angle ACH=\\angle B=50^\\circ\\). Угол \\(ACL=45^\\circ\\)."
-    },
-    {
-     "f": "\\(\\angle HCL=50^\\circ-45^\\circ=5^\\circ\\)"
-    },
-    {
-     "why": "Оба луча, \\(CH\\) и \\(CL\\), выходят из вершины \\(C\\) и отсчитываются от одной стороны \\(CA\\). Угол между ними равен разности углов, которые они образуют с \\(CA\\)."
-    }
-   ],
-   "memo": [
-    "Угол между высотой и биссектрисой из прямого угла = |∠B - 45°|"
-   ]
-  }
- ],
- "dzParts": [
-  [
-   1,
-   2
   ],
-  [
-   3,
-   4
+  "dzParts": [
+    [
+      1,
+      2
+    ],
+    [
+      3,
+      4
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      7,
+      8
+    ],
+    [
+      9
+    ],
+    [
+      10
+    ]
   ],
-  [
-   5,
-   6
-  ],
-  [
-   7,
-   8
-  ],
-  [
-   9
-  ],
-  [
-   10
+  "testParts": [
+    [
+      1,
+      2
+    ],
+    [
+      3
+    ],
+    [
+      4
+    ],
+    [
+      5
+    ],
+    [
+      6
+    ],
+    [
+      7
+    ]
   ]
- ],
- "testParts": [
-  [
-   1,
-   2
-  ],
-  [
-   3
-  ],
-  [
-   4
-  ],
-  [
-   5
-  ],
-  [
-   6
-  ],
-  [
-   7
-  ]
- ]
 }
