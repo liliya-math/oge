@@ -6149,6 +6149,56 @@
       "status": "public",
       "note": "добавлено 2026-11-18; общий движок tren/staged.js (содержание tren/nod-nok.js); кратные, НОК перебором и через разложение, НОД или НОК в задачах; 4 подряд, отправка в таблицу, режим учителя #lilia",
       "auto": true
+    },
+    {
+      "file": "teoriya-oge-15-1-ugly.html",
+      "title": "Теория · ОГЭ · Задание 15 · Углы треугольника (п. 1)",
+      "type": "theory",
+      "class": 9,
+      "oge_task": 15,
+      "status": "public",
+      "note": "OGE-15-1",
+      "auto": false
+    },
+    {
+      "file": "teoriya-oge-15-2-ravnobedrennyy-ugly.html",
+      "title": "Теория · ОГЭ · Задание 15 · Равнобедренный треугольник: вычисление углов (п. 2)",
+      "type": "theory",
+      "class": 9,
+      "oge_task": 15,
+      "status": "public",
+      "note": "OGE-15-2",
+      "auto": false
+    },
+    {
+      "file": "teoriya-oge-15-3-ravnobedrennyy-elementy.html",
+      "title": "Теория · ОГЭ · Задание 15 · Равнобедренный треугольник: вычисление элементов (п. 3)",
+      "type": "theory",
+      "class": 9,
+      "oge_task": 15,
+      "status": "public",
+      "note": "OGE-15-3",
+      "auto": false
+    },
+    {
+      "file": "teoriya-oge-15-4-pryamougolnyy-ugly.html",
+      "title": "Теория · ОГЭ · Задание 15 · Прямоугольный треугольник: вычисление углов (п. 4)",
+      "type": "theory",
+      "class": 9,
+      "oge_task": 15,
+      "status": "public",
+      "note": "OGE-15-4",
+      "auto": false
+    },
+    {
+      "file": "teoriya-oge-15-5-pryamougolnyy-elementy.html",
+      "title": "Теория · ОГЭ · Задание 15 · Прямоугольный треугольник: вычисление элементов (п. 5)",
+      "type": "theory",
+      "class": 9,
+      "oge_task": 15,
+      "status": "public",
+      "note": "OGE-15-5",
+      "auto": false
     }
   ]
 }

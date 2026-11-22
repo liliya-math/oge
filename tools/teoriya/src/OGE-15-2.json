@@ -1,0 +1,196 @@
+{
+ "file": "teoriya-oge-15-2-ravnobedrennyy-ugly.html",
+ "title": "Равнобедренный треугольник: вычисление углов",
+ "tag": "ОГЭ · Задание 15 · п. 2",
+ "square": "OGE-15-2",
+ "blocks": [
+  {
+   "color": "moss",
+   "title": "Углы при основании",
+   "items": [
+    {
+     "p": "**Равнобедренным** называют треугольник, у которого две стороны равны. Равные стороны называют **боковыми**, третью сторону - **основанием**."
+    },
+    {
+     "p": "В равнобедренном треугольнике углы при основании равны. Пример: если \\(AB=BC\\) и \\(\\angle A=70^\\circ\\), то \\(\\angle C=70^\\circ\\)."
+    },
+    {
+     "svg": "<svg viewBox=\"0 0 360 230\" role=\"img\" aria-label=\"Равнобедренный треугольник ABC с основанием AC\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Times New Roman,serif\"><line x1=\"50.0\" y1=\"190.0\" x2=\"180.0\" y2=\"40.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"180.0\" y1=\"40.0\" x2=\"310.0\" y2=\"190.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"310.0\" y1=\"190.0\" x2=\"50.0\" y2=\"190.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"110.5\" y1=\"111.1\" x2=\"119.5\" y2=\"118.9\" stroke=\"#16231A\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><line x1=\"249.5\" y1=\"111.1\" x2=\"240.5\" y2=\"118.9\" stroke=\"#16231A\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><path d=\"M76.0 190.0 A26 26 0 0 0 67.0 170.4\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><text x=\"102.5\" y=\"171.0\" text-anchor=\"middle\" font-size=\"15\" fill=\"#DD7A3A\" font-weight=\"700\">70°</text><path d=\"M293.0 170.4 A26 26 0 0 0 284.0 190.0\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><text x=\"257.5\" y=\"171.0\" text-anchor=\"middle\" font-size=\"15\" fill=\"#DD7A3A\" font-weight=\"700\">70°</text><text x=\"34.1\" y=\"202.1\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">A</text><text x=\"180.0\" y=\"29.0\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">B</text><text x=\"325.9\" y=\"202.1\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">C</text></svg>"
+    },
+    {
+     "f": "\\(AB=BC\\ \\Rightarrow\\ \\angle A=\\angle C\\)"
+    },
+    {
+     "why": "Высота из вершины \\(B\\) делит треугольник на две половинки, которые совпадают при наложении: у них общая высота и равные боковые стороны. Поэтому углы при основании у половинок одинаковые."
+    }
+   ],
+   "memo": [
+    "В равнобедренном треугольнике углы при основании равны"
+   ]
+  },
+  {
+   "color": "cobalt",
+   "title": "Угол при вершине",
+   "items": [
+    {
+     "p": "Если известен угол при основании, угол при вершине находим так: из \\(180^\\circ\\) вычитаем два одинаковых угла при основании."
+    },
+    {
+     "f": "\\(\\angle B=180^\\circ-2\\cdot\\angle A\\)"
+    },
+    {
+     "p": "Пример: угол при основании \\(70^\\circ\\)."
+    },
+    {
+     "f": "\\(\\angle B=180^\\circ-2\\cdot70^\\circ=40^\\circ\\)"
+    },
+    {
+     "why": "Сумма углов треугольника \\(180^\\circ\\), а углов при основании два и они равны. Поэтому вычитаем угол при основании дважды."
+    }
+   ],
+   "memo": [
+    "Угол при вершине = 180° - 2 · угол при основании"
+   ]
+  },
+  {
+   "color": "orange",
+   "title": "Угол при основании",
+   "items": [
+    {
+     "p": "Если известен угол при вершине, то на два угла при основании остаётся \\(180^\\circ\\) минус этот угол. Остаток делим пополам."
+    },
+    {
+     "f": "\\(\\angle A=(180^\\circ-\\angle B):2\\)"
+    },
+    {
+     "p": "Пример: угол при вершине \\(50^\\circ\\)."
+    },
+    {
+     "f": "\\(\\angle A=(180^\\circ-50^\\circ):2=65^\\circ\\)"
+    },
+    {
+     "why": "Углы при основании равны, поэтому то, что осталось от \\(180^\\circ\\), делится между ними поровну."
+    }
+   ],
+   "memo": [
+    "Угол при основании = (180° - угол при вершине) : 2"
+   ]
+  },
+  {
+   "color": "gold",
+   "title": "Внешний угол",
+   "items": [
+    {
+     "p": "Внешний угол при вершине равнобедренного треугольника равен сумме двух углов при основании, то есть удвоенному углу при основании."
+    },
+    {
+     "svg": "<svg viewBox=\"0 0 360 270\" role=\"img\" aria-label=\"Внешний угол при вершине B\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Times New Roman,serif\"><line x1=\"50.0\" y1=\"240.0\" x2=\"180.0\" y2=\"90.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"180.0\" y1=\"90.0\" x2=\"310.0\" y2=\"240.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"310.0\" y1=\"240.0\" x2=\"50.0\" y2=\"240.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"180.0\" y1=\"90.0\" x2=\"238.5\" y2=\"22.5\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"110.5\" y1=\"161.1\" x2=\"119.5\" y2=\"168.9\" stroke=\"#16231A\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><line x1=\"249.5\" y1=\"161.1\" x2=\"240.5\" y2=\"168.9\" stroke=\"#16231A\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><path d=\"M195.7 71.9 A24 24 0 0 1 195.7 108.1\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><text x=\"225.9\" y=\"95.0\" text-anchor=\"middle\" font-size=\"15\" fill=\"#DD7A3A\" font-weight=\"700\">140°</text><text x=\"35.7\" y=\"255.1\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">A</text><text x=\"175.9\" y=\"79.5\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">B</text><text x=\"323.3\" y=\"256.6\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">C</text><text x=\"254.5\" y=\"28.5\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">D</text></svg>"
+    },
+    {
+     "p": "Пример: внешний угол при вершине \\(B\\) равен \\(140^\\circ\\). Тогда"
+    },
+    {
+     "f": "\\(\\angle A=\\angle C=140^\\circ:2=70^\\circ\\)"
+    },
+    {
+     "p": "Внешний угол при основании находим как смежный: если \\(\\angle C=70^\\circ\\), то внешний угол при \\(C\\) равен \\(180^\\circ-70^\\circ=110^\\circ\\)."
+    },
+    {
+     "why": "Внешний угол треугольника равен сумме двух углов, не смежных с ним. При вершине \\(B\\) это два равных угла при основании, поэтому внешний угол вдвое больше каждого из них."
+    }
+   ],
+   "memo": [
+    "Внешний угол при вершине равнобедренного треугольника = 2 · угол при основании"
+   ]
+  },
+  {
+   "color": "caramel",
+   "title": "Высота к основанию",
+   "items": [
+    {
+     "p": "В равнобедренном треугольнике высота, проведённая к основанию, одновременно является медианой и биссектрисой. Значит, она делит угол при вершине пополам и перпендикулярна основанию."
+    },
+    {
+     "svg": "<svg viewBox=\"0 0 360 230\" role=\"img\" aria-label=\"Высота BH к основанию\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Times New Roman,serif\"><line x1=\"50.0\" y1=\"190.0\" x2=\"180.0\" y2=\"40.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"180.0\" y1=\"40.0\" x2=\"310.0\" y2=\"190.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"310.0\" y1=\"190.0\" x2=\"50.0\" y2=\"190.0\" stroke=\"#16231A\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line x1=\"180.0\" y1=\"40.0\" x2=\"180.0\" y2=\"190.0\" stroke=\"#5F7B3F\" stroke-width=\"2.6\" stroke-linecap=\"round\"/><line x1=\"110.5\" y1=\"111.1\" x2=\"119.5\" y2=\"118.9\" stroke=\"#16231A\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><line x1=\"249.5\" y1=\"111.1\" x2=\"240.5\" y2=\"118.9\" stroke=\"#16231A\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><path d=\"M160.4 62.7 A30 30 0 0 0 180.0 70.0\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><text x=\"157.0\" y=\"106.6\" text-anchor=\"middle\" font-size=\"15\" fill=\"#DD7A3A\" font-weight=\"700\">20°</text><path d=\"M180.0 70.0 A30 30 0 0 0 199.6 62.7\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"2\"/><text x=\"203.0\" y=\"106.6\" text-anchor=\"middle\" font-size=\"15\" fill=\"#DD7A3A\" font-weight=\"700\">20°</text><path d=\"M191.0 190.0 L191.0 179.0 L180.0 179.0\" fill=\"none\" stroke=\"#DD7A3A\" stroke-width=\"1.8\"/><text x=\"33.7\" y=\"200.7\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">A</text><text x=\"180.0\" y=\"29.0\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">B</text><text x=\"326.3\" y=\"200.7\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">C</text><text x=\"180.0\" y=\"213.0\" text-anchor=\"middle\" font-size=\"18\" fill=\"#16231A\" font-style=\"italic\">H</text></svg>"
+    },
+    {
+     "p": "Пример: угол при вершине \\(B\\) равен \\(40^\\circ\\), \\(BH\\) - высота."
+    },
+    {
+     "f": "\\(\\angle ABH=40^\\circ:2=20^\\circ,\\ \\angle BHA=90^\\circ\\)"
+    },
+    {
+     "why": "Треугольники \\(ABH\\) и \\(CBH\\) равны: у них общая сторона \\(BH\\), равные боковые стороны и прямые углы при \\(H\\). Поэтому равны и их углы при вершине \\(B\\)."
+    }
+   ],
+   "memo": [
+    "Высота к основанию равнобедренного треугольника является медианой и биссектрисой"
+   ]
+  },
+  {
+   "color": "sage",
+   "title": "Равносторонний треугольник",
+   "items": [
+    {
+     "p": "У **равностороннего** треугольника все стороны равны. Он равнобедренный относительно любой стороны, поэтому все его углы равны."
+    },
+    {
+     "f": "\\(\\angle A=\\angle B=\\angle C=180^\\circ:3=60^\\circ\\)"
+    },
+    {
+     "p": "Внешний угол равностороннего треугольника равен \\(180^\\circ-60^\\circ=120^\\circ\\)."
+    },
+    {
+     "why": "Каждую сторону можно считать основанием, поэтому каждая пара углов равна. Значит, равны все три угла, и \\(180^\\circ\\) делится на три поровну."
+    }
+   ],
+   "memo": [
+    "Все углы равностороннего треугольника равны 60°"
+   ]
+  }
+ ],
+ "dzParts": [
+  [
+   1
+  ],
+  [
+   2,
+   3
+  ],
+  [
+   4,
+   5
+  ],
+  [
+   6,
+   7
+  ],
+  [
+   8,
+   9
+  ],
+  [
+   10
+  ]
+ ],
+ "testParts": [
+  [
+   1
+  ],
+  [
+   2
+  ],
+  [
+   3
+  ],
+  [
+   4
+  ],
+  [
+   5
+  ],
+  [
+   6
+  ]
+ ]
+}
