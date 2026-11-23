@@ -423,7 +423,7 @@
   "theory": "https://lilimath.ru/pdf-teoriya/oge-10-teoriya.pdf"
  },
  "9G-107": {
-  "theory": "https://lilimath.ru/pdf-teoriya/trapeciya-8-klass-teoriya.pdf"
+  "theory": "https://lilimath.ru/teoriya-9g-srednyaya-liniya-trapecii.html"
  },
  "9G-116": {
   "theory": "https://lilimath.ru/pdf-teoriya/teoriya-treugol-niki-i-vektory-9-klass.pdf"
@@ -565,5 +565,11 @@
  },
  "9G-104": {
   "theory": "https://lilimath.ru/teoriya-9g-pravilo-parallelogramma.html"
+ },
+ "9G-105": {
+  "theory": "https://lilimath.ru/teoriya-9g-vychitanie-vektorov.html"
+ },
+ "9G-106": {
+  "theory": "https://lilimath.ru/teoriya-9g-umnozhenie-vektora-na-chislo.html"
  }
 }

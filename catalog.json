@@ -6435,6 +6435,36 @@
       "oge_task": null
     },
     {
+      "file": "teoriya-9g-vychitanie-vektorov.html",
+      "title": "Теория · 9 класс · Вычитание векторов",
+      "type": "theory",
+      "class": 9,
+      "status": "public",
+      "note": "9G-105",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-9g-umnozhenie-vektora-na-chislo.html",
+      "title": "Теория · 9 класс · Основные свойства умножения вектора на число",
+      "type": "theory",
+      "class": 9,
+      "status": "public",
+      "note": "9G-106",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-9g-srednyaya-liniya-trapecii.html",
+      "title": "Теория · 9 класс · Средняя линия трапеции",
+      "type": "theory",
+      "class": 9,
+      "status": "public",
+      "note": "9G-107",
+      "auto": false,
+      "oge_task": null
+    },
+    {
       "file": "trenazher-formuly-sokrashchennogo-umnozheniya.html",
       "title": "Увидеть формулу · Формулы сокращённого умножения",
       "type": "trenazher",
