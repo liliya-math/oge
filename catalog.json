@@ -6104,6 +6104,46 @@
       "oge_task": null
     },
     {
+      "file": "teoriya-5-desyatichnaya-zapis.html",
+      "title": "Теория · 5 класс · Десятичная запись дробных чисел",
+      "type": "theory",
+      "class": 5,
+      "status": "public",
+      "note": "5-126",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-5-sravnenie-desyatichnyh.html",
+      "title": "Теория · 5 класс · Сравнение десятичных дробей",
+      "type": "theory",
+      "class": 5,
+      "status": "public",
+      "note": "5-127",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-5-slozhenie-desyatichnyh.html",
+      "title": "Теория · 5 класс · Сложение и вычитание десятичных дробей",
+      "type": "theory",
+      "class": 5,
+      "status": "public",
+      "note": "5-128",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-5-okruglenie-chisel.html",
+      "title": "Теория · 5 класс · Приближённые значения чисел. Округление",
+      "type": "theory",
+      "class": 5,
+      "status": "public",
+      "note": "5-129",
+      "auto": false,
+      "oge_task": null
+    },
+    {
       "file": "teoriya-7g-vertikalnye-ugly.html",
       "title": "Теория · 7 класс · Вертикальные углы (§ 6, п. 2)",
       "type": "theory",
