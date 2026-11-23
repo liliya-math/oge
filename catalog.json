@@ -6024,6 +6024,46 @@
       "oge_task": null
     },
     {
+      "file": "teoriya-5-okruzhnost-i-krug.html",
+      "title": "Теория · 5 класс · Окружность и круг",
+      "type": "theory",
+      "class": 5,
+      "status": "public",
+      "note": "5-118",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-5-doli-obyedinennye-drobi.html",
+      "title": "Теория · 5 класс · Доли. Обыкновенные дроби",
+      "type": "theory",
+      "class": 5,
+      "status": "public",
+      "note": "5-119",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-5-pravilnye-i-nepravilnye-drobi.html",
+      "title": "Теория · 5 класс · Правильные и неправильные дроби",
+      "type": "theory",
+      "class": 5,
+      "status": "public",
+      "note": "5-120",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-5-sravnenie-drobey.html",
+      "title": "Теория · 5 класс · Сравнение дробей",
+      "type": "theory",
+      "class": 5,
+      "status": "public",
+      "note": "5-121",
+      "auto": false,
+      "oge_task": null
+    },
+    {
       "file": "teoriya-7g-vertikalnye-ugly.html",
       "title": "Теория · 7 класс · Вертикальные углы (§ 6, п. 2)",
       "type": "theory",
