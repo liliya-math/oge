@@ -6605,6 +6605,36 @@
       "oge_task": null
     },
     {
+      "file": "teoriya-9g-pravilnye-mnogougolniki.html",
+      "title": "Теория · 9 класс · Правильные многоугольники",
+      "type": "theory",
+      "class": 9,
+      "status": "public",
+      "note": "9G-122",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-9g-dlina-okruzhnosti.html",
+      "title": "Теория · 9 класс · Длина окружности",
+      "type": "theory",
+      "class": 9,
+      "status": "public",
+      "note": "9G-123",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-9g-ploshchad-kruga.html",
+      "title": "Теория · 9 класс · Площадь круга",
+      "type": "theory",
+      "class": 9,
+      "status": "public",
+      "note": "9G-124",
+      "auto": false,
+      "oge_task": null
+    },
+    {
       "file": "trenazher-formuly-sokrashchennogo-umnozheniya.html",
       "title": "Увидеть формулу · Формулы сокращённого умножения",
       "type": "trenazher",

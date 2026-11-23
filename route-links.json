@@ -387,10 +387,10 @@
   "theory": "https://lilimath.ru/pdf-teoriya/oge-19-geometricheskie-utverzhdeniya-teoriya.pdf"
  },
  "9G-123": {
-  "theory": "https://lilimath.ru/pdf-teoriya/okruzhnost-krug-teoriya-9.pdf"
+  "theory": "https://lilimath.ru/teoriya-9g-dlina-okruzhnosti.html"
  },
  "9G-124": {
-  "theory": "https://lilimath.ru/pdf-teoriya/okruzhnost-krug-teoriya-9.pdf"
+  "theory": "https://lilimath.ru/teoriya-9g-ploshchad-kruga.html"
  },
  "9A-119": {
   "theory": "https://lilimath.ru/pdf-teoriya/uravneniya-9-teoriya.pdf"
@@ -595,5 +595,8 @@
  },
  "9G-115": {
   "theory": "https://lilimath.ru/teoriya-9g-koordinaty-tochki.html"
+ },
+ "9G-122": {
+  "theory": "https://lilimath.ru/teoriya-9g-pravilnye-mnogougolniki.html"
  }
 }
