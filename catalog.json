@@ -6555,6 +6555,56 @@
       "oge_task": null
     },
     {
+      "file": "teoriya-9g-teoremy-sinusov-i-kosinusov.html",
+      "title": "Теория · 9 класс · Решение треугольников. Теорема синусов. Теорема косинусов",
+      "type": "theory",
+      "class": 9,
+      "status": "public",
+      "note": "9G-117",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-9g-ugol-mezhdu-vektorami.html",
+      "title": "Теория · 9 класс · Угол между векторами",
+      "type": "theory",
+      "class": 9,
+      "status": "public",
+      "note": "9G-118",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-9g-skalyarnoe-proizvedenie.html",
+      "title": "Теория · 9 класс · Скалярное произведение векторов",
+      "type": "theory",
+      "class": 9,
+      "status": "public",
+      "note": "9G-119",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-9g-skalyarnoe-proizvedenie-v-koordinatah.html",
+      "title": "Теория · 9 класс · Скалярное произведение в координатах",
+      "type": "theory",
+      "class": 9,
+      "status": "public",
+      "note": "9G-120",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-9g-svoystva-skalyarnogo-proizvedeniya.html",
+      "title": "Теория · 9 класс · Свойства скалярного произведения векторов",
+      "type": "theory",
+      "class": 9,
+      "status": "public",
+      "note": "9G-121",
+      "auto": false,
+      "oge_task": null
+    },
+    {
       "file": "trenazher-formuly-sokrashchennogo-umnozheniya.html",
       "title": "Увидеть формулу · Формулы сокращённого умножения",
       "type": "trenazher",
