@@ -1,6 +1,16 @@
 {
   "items": [
     {
+      "file": "trenazher-oge-18-geometriya-na-kletkah.html",
+      "title": "ОГЭ № 18 · Геометрия на клетках · тренажёр",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": 18,
+      "status": "public",
+      "note": "6 этапов и 25 заданий: длины, площади, подобие, отношение площадей кругов, углы и тангенс. Разобранные примеры, подсказки и автопроверка.",
+      "auto": false
+    },
+    {
       "file": "trenazher-doli-i-drobi-5-klass.html",
       "title": "Шоколадные дроби · 5 класс",
       "type": "trenazher",
