@@ -1,0 +1,65 @@
+Название: Правило треугольника · 9 класс · ДЗ
+Раздел: Геометрия / 9 класс / Векторы
+Тип работы: дз
+
+Задание: Закончи равенство: \(\overrightarrow{AB}+\overrightarrow{BC}=\) ?
+Тип: выбор
+Варианты: \(\overrightarrow{AC}\) | \(\overrightarrow{CA}\) | \(\overrightarrow{BA}\) | \(\vec{0}\)
+Ответ: \(\overrightarrow{AC}\)
+Баллы: 1
+
+Задание: Закончи равенство: \(\overrightarrow{MK}+\overrightarrow{KN}=\) ?
+Тип: выбор
+Варианты: \(\overrightarrow{MN}\) | \(\overrightarrow{NM}\) | \(\overrightarrow{KM}\) | \(\overrightarrow{NK}\)
+Ответ: \(\overrightarrow{MN}\)
+Баллы: 1
+
+Задание: По правилу треугольника, где должно лежать начало второго вектора?
+Тип: выбор
+Варианты: в конце первого | в начале первого | в середине первого | где угодно
+Ответ: в конце первого
+Баллы: 1
+
+Задание: Верно ли правило треугольника для коллинеарных векторов?
+Тип: выбор
+Варианты: да | нет | только для равных | только для перпендикулярных
+Ответ: да
+Баллы: 1
+
+Задание: Как называется равенство \(\vec{a}+\vec{b}=\vec{b}+\vec{a}\)?
+Тип: выбор
+Варианты: переместительный закон | сочетательный закон | распределительный закон | правило треугольника
+Ответ: переместительный закон
+Баллы: 1
+
+Задание: Чему равна сумма \(\vec{a}+\vec{0}\)?
+Тип: выбор
+Варианты: \(\vec{a}\) | \(\vec{0}\) | \(2\vec{a}\) | не определена
+Ответ: \(\vec{a}\)
+Баллы: 1
+
+Задание: Упрости: \(\overrightarrow{AB}+\overrightarrow{BC}+\overrightarrow{CD}\).
+Тип: выбор
+Варианты: \(\overrightarrow{AD}\) | \(\overrightarrow{DA}\) | \(\overrightarrow{AC}\) | \(\overrightarrow{BD}\)
+Ответ: \(\overrightarrow{AD}\)
+Баллы: 2
+Подсказка: Промежуточные точки B и C «сокращаются».
+
+Задание: Чему равна сумма \(\overrightarrow{AB}+\overrightarrow{BC}+\overrightarrow{CA}\)?
+Тип: выбор
+Варианты: \(\vec{0}\) | \(\overrightarrow{AC}\) | \(2\overrightarrow{AC}\) | \(\overrightarrow{AB}\)
+Ответ: \(\vec{0}\)
+Баллы: 2
+Подсказка: Ломаная замкнулась: вернулись в точку A.
+
+Задание: Туристы прошли из лагеря A в точку B, потом в точку C. Какой вектор показывает итоговое перемещение из лагеря?
+Тип: выбор
+Варианты: \(\overrightarrow{AC}\) | \(\overrightarrow{BC}\) | \(\overrightarrow{CA}\) | \(\overrightarrow{AB}+\overrightarrow{CB}\)
+Ответ: \(\overrightarrow{AC}\)
+Баллы: 1
+
+Задание: Точка O - середина отрезка AB. Чему равно \(\overrightarrow{AO}+\overrightarrow{OB}\)?
+Тип: выбор
+Варианты: \(\overrightarrow{AB}\) | \(\vec{0}\) | \(\overrightarrow{BA}\) | \(2\overrightarrow{AO}\)
+Ответ: \(\overrightarrow{AB}\)
+Баллы: 1

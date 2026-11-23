@@ -6395,6 +6395,46 @@
       "auto": false
     },
     {
+      "file": "teoriya-9g-ravenstvo-vektorov.html",
+      "title": "Теория · 9 класс · Равенство векторов",
+      "type": "theory",
+      "class": 9,
+      "status": "public",
+      "note": "9G-101",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-9g-otkladyvanie-vektora.html",
+      "title": "Теория · 9 класс · Откладывание вектора от данной точки",
+      "type": "theory",
+      "class": 9,
+      "status": "public",
+      "note": "9G-102",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-9g-pravilo-treugolnika.html",
+      "title": "Теория · 9 класс · Правило треугольника",
+      "type": "theory",
+      "class": 9,
+      "status": "public",
+      "note": "9G-103",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-9g-pravilo-parallelogramma.html",
+      "title": "Теория · 9 класс · Правило параллелограмма",
+      "type": "theory",
+      "class": 9,
+      "status": "public",
+      "note": "9G-104",
+      "auto": false,
+      "oge_task": null
+    },
+    {
       "file": "trenazher-formuly-sokrashchennogo-umnozheniya.html",
       "title": "Увидеть формулу · Формулы сокращённого умножения",
       "type": "trenazher",
