@@ -5864,6 +5864,46 @@
       "auto": false
     },
     {
+      "file": "teoriya-5-otrezok-dlina-treugolnik.html",
+      "title": "Теория · 5 класс · Отрезок. Длина отрезка. Треугольник (§ 1, п. 2)",
+      "type": "theory",
+      "class": 5,
+      "oge_task": null,
+      "status": "public",
+      "note": "5-102",
+      "auto": false
+    },
+    {
+      "file": "teoriya-5-ploskost-pryamaya-luch.html",
+      "title": "Теория · 5 класс · Плоскость. Прямая. Луч (§ 1, п. 3)",
+      "type": "theory",
+      "class": 5,
+      "oge_task": null,
+      "status": "public",
+      "note": "5-103",
+      "auto": false
+    },
+    {
+      "file": "teoriya-5-shkaly-koordinaty.html",
+      "title": "Теория · 5 класс · Шкалы и координаты (§ 1, п. 4)",
+      "type": "theory",
+      "class": 5,
+      "oge_task": null,
+      "status": "public",
+      "note": "5-104",
+      "auto": false
+    },
+    {
+      "file": "teoriya-5-sravnenie-chisel.html",
+      "title": "Теория · 5 класс · Сравнение чисел (§ 1, п. 5)",
+      "type": "theory",
+      "class": 5,
+      "oge_task": null,
+      "status": "public",
+      "note": "5-105",
+      "auto": false
+    },
+    {
       "file": "teoriya-7g-vertikalnye-ugly.html",
       "title": "Теория · 7 класс · Вертикальные углы (§ 6, п. 2)",
       "type": "theory",
