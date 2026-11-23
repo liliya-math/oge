@@ -6184,6 +6184,56 @@
       "oge_task": null
     },
     {
+      "file": "teoriya-5-srednee-arifmeticheskoe.html",
+      "title": "Теория · 5 класс · Среднее арифметическое",
+      "type": "theory",
+      "class": 5,
+      "status": "public",
+      "note": "5-134",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-5-procenty.html",
+      "title": "Теория · 5 класс · Проценты",
+      "type": "theory",
+      "class": 5,
+      "status": "public",
+      "note": "5-135",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-5-ugol-vidy-uglov.html",
+      "title": "Теория · 5 класс · Угол. Виды углов",
+      "type": "theory",
+      "class": 5,
+      "status": "public",
+      "note": "5-136",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-5-izmerenie-uglov-transportir.html",
+      "title": "Теория · 5 класс · Измерение углов. Транспортир",
+      "type": "theory",
+      "class": 5,
+      "status": "public",
+      "note": "5-137",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-5-krugovye-diagrammy.html",
+      "title": "Теория · 5 класс · Круговые диаграммы",
+      "type": "theory",
+      "class": 5,
+      "status": "public",
+      "note": "5-138",
+      "auto": false,
+      "oge_task": null
+    },
+    {
       "file": "teoriya-7g-vertikalnye-ugly.html",
       "title": "Теория · 7 класс · Вертикальные углы (§ 6, п. 2)",
       "type": "theory",

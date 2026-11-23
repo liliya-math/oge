@@ -411,7 +411,7 @@
   "theory": "https://lilimath.ru/pdf-teoriya/?k=OGE-08-3"
  },
  "5-135": {
-  "theory": "https://lilimath.ru/pdf-teoriya/teoriya-po-temam-geometriya-i-procenty.pdf"
+  "theory": "https://lilimath.ru/teoriya-5-procenty.html"
  },
  "7G-101": {
   "theory": "https://lilimath.ru/pdf-teoriya/teoriya-po-temam-geometriya-i-procenty.pdf"
@@ -541,5 +541,17 @@
  },
  "5-133": {
   "theory": "https://lilimath.ru/teoriya-5-delenie-desyatichnyh.html"
+ },
+ "5-134": {
+  "theory": "https://lilimath.ru/teoriya-5-srednee-arifmeticheskoe.html"
+ },
+ "5-136": {
+  "theory": "https://lilimath.ru/teoriya-5-ugol-vidy-uglov.html"
+ },
+ "5-137": {
+  "theory": "https://lilimath.ru/teoriya-5-izmerenie-uglov-transportir.html"
+ },
+ "5-138": {
+  "theory": "https://lilimath.ru/teoriya-5-krugovye-diagrammy.html"
  }
 }
