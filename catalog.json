@@ -5934,6 +5934,36 @@
       "auto": false
     },
     {
+      "file": "teoriya-5-umnozhenie-naturalnyh-chisel.html",
+      "title": "Теория · 5 класс · Умножение натуральных чисел и его свойства (§ 3, п. 1)",
+      "type": "theory",
+      "class": 5,
+      "oge_task": null,
+      "status": "public",
+      "note": "5-109",
+      "auto": false
+    },
+    {
+      "file": "teoriya-5-delenie-naturalnyh-chisel.html",
+      "title": "Теория · 5 класс · Деление натуральных чисел и его свойства (§ 3, п. 2)",
+      "type": "theory",
+      "class": 5,
+      "oge_task": null,
+      "status": "public",
+      "note": "5-110",
+      "auto": false
+    },
+    {
+      "file": "teoriya-5-delenie-s-ostatkom.html",
+      "title": "Теория · 5 класс · Деление с остатком (§ 3, п. 3)",
+      "type": "theory",
+      "class": 5,
+      "oge_task": null,
+      "status": "public",
+      "note": "5-111",
+      "auto": false
+    },
+    {
       "file": "teoriya-7g-vertikalnye-ugly.html",
       "title": "Теория · 7 класс · Вертикальные углы (§ 6, п. 2)",
       "type": "theory",
