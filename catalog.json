@@ -6515,6 +6515,46 @@
       "oge_task": null
     },
     {
+      "file": "teoriya-9g-osnovnoe-trigonometricheskoe-tozhdestvo.html",
+      "title": "Теория · 9 класс · Основные тригонометрические тождества",
+      "type": "theory",
+      "class": 9,
+      "status": "public",
+      "note": "9G-113",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-9g-formuly-privedeniya.html",
+      "title": "Теория · 9 класс · Формулы приведения",
+      "type": "theory",
+      "class": 9,
+      "status": "public",
+      "note": "9G-114",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-9g-koordinaty-tochki.html",
+      "title": "Теория · 9 класс · Формулы для вычисления координат точки",
+      "type": "theory",
+      "class": 9,
+      "status": "public",
+      "note": "9G-115",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-9g-ploshchad-treugolnika-sinus.html",
+      "title": "Теория · 9 класс · Теорема о площади треугольника",
+      "type": "theory",
+      "class": 9,
+      "status": "public",
+      "note": "9G-116",
+      "auto": false,
+      "oge_task": null
+    },
+    {
       "file": "trenazher-formuly-sokrashchennogo-umnozheniya.html",
       "title": "Увидеть формулу · Формулы сокращённого умножения",
       "type": "trenazher",

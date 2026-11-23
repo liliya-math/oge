@@ -426,7 +426,7 @@
   "theory": "https://lilimath.ru/teoriya-9g-srednyaya-liniya-trapecii.html"
  },
  "9G-116": {
-  "theory": "https://lilimath.ru/pdf-teoriya/teoriya-treugol-niki-i-vektory-9-klass.pdf"
+  "theory": "https://lilimath.ru/teoriya-9g-ploshchad-treugolnika-sinus.html"
  },
  "9G-117": {
   "theory": "https://lilimath.ru/pdf-teoriya/teoriya-treugol-niki-i-vektory-9-klass.pdf"
@@ -586,5 +586,14 @@
  },
  "9G-112": {
   "theory": "https://lilimath.ru/teoriya-9g-uravnenie-pryamoy.html"
+ },
+ "9G-113": {
+  "theory": "https://lilimath.ru/teoriya-9g-osnovnoe-trigonometricheskoe-tozhdestvo.html"
+ },
+ "9G-114": {
+  "theory": "https://lilimath.ru/teoriya-9g-formuly-privedeniya.html"
+ },
+ "9G-115": {
+  "theory": "https://lilimath.ru/teoriya-9g-koordinaty-tochki.html"
  }
 }
