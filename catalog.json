@@ -6064,6 +6064,46 @@
       "oge_task": null
     },
     {
+      "file": "teoriya-5-slozhenie-drobey-odinakovye-znamenateli.html",
+      "title": "Теория · 5 класс · Сложение и вычитание дробей с одинаковыми знаменателями",
+      "type": "theory",
+      "class": 5,
+      "status": "public",
+      "note": "5-122",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-5-delenie-i-drobi.html",
+      "title": "Теория · 5 класс · Деление и дроби",
+      "type": "theory",
+      "class": 5,
+      "status": "public",
+      "note": "5-123",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-5-smeshannye-chisla.html",
+      "title": "Теория · 5 класс · Смешанные числа",
+      "type": "theory",
+      "class": 5,
+      "status": "public",
+      "note": "5-124",
+      "auto": false,
+      "oge_task": null
+    },
+    {
+      "file": "teoriya-5-slozhenie-smeshannyh-chisel.html",
+      "title": "Теория · 5 класс · Сложение и вычитание смешанных чисел",
+      "type": "theory",
+      "class": 5,
+      "status": "public",
+      "note": "5-125",
+      "auto": false,
+      "oge_task": null
+    },
+    {
       "file": "teoriya-7g-vertikalnye-ugly.html",
       "title": "Теория · 7 класс · Вертикальные углы (§ 6, п. 2)",
       "type": "theory",
