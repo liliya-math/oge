@@ -45,9 +45,30 @@
 .cal-day:nth-child(7n+1) .cal-slot{--c:#DD7A3A}.cal-day:nth-child(7n+2) .cal-slot{--c:#E2B04A}.cal-day:nth-child(7n+3) .cal-slot{--c:#B6CBE3}.cal-day:nth-child(7n+4) .cal-slot{--c:#9BB08A}.cal-day:nth-child(7n+5) .cal-slot{--c:#C9AB82}.cal-day:nth-child(7n+6) .cal-slot{--c:#E2B04A}.cal-day:nth-child(7n) .cal-slot{--c:#DD7A3A}
 .cal-note{font-size:12px;color:var(--muted);margin-top:18px}
 @media(max-width:760px){.cal{padding:24px 16px}.cal-days{grid-template-columns:repeat(2,1fr)}}
+
+/* Новогоднее оформление главной страницы */
+.new-year body {
+  background:
+    radial-gradient(ellipse at 22% 280px, #41563c65, transparent 61%),
+    linear-gradient(#1c2f24, var(--paper) 750px);
+  background-size: 100% 750px;
+  background-repeat: no-repeat;
+}
+.new-year .nav {
+  border-bottom-color: #c9ab8266;
+}
+.new-year .brandband.top {
+  max-width: 910px;
+  outline: 1px solid #e2b04a88;
+  box-shadow: 0 16px 55px #08130e99, 0 0 28px #e2b04a22;
+}
+.new-year .hero .highlight { color: #f0c374; }
+
 </style>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="manifest" href="/manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="lili.math"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<script src="/assets/new-year-decoration.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">К содержанию</a>
@@ -60,7 +81,7 @@
 </nav>
 </header>
 <main id="main">
-<figure class="brandband top"><img src="img/brand/brand-li-ma.jpg" width="1376" height="768" fetchpriority="high" alt="Герои lili.math в толстовках с логотипом"></figure>
+<figure class="brandband top"><picture><source id="new-year-mascots" media="not all" srcset="img/brand/brand-li-ma-new-year.webp" width="1440" height="804"><img src="img/brand/brand-li-ma.jpg" width="1376" height="768" fetchpriority="high" alt="Герои lili.math в лесу"></picture></figure>
 <section class="hero" aria-labelledby="hero-title">
 <div>
 <p class="eyebrow">Математика онлайн · 5–9 классы</p>
