@@ -1,6 +1,6 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
-  const startsAt = Date.parse('2026-12-15T00:00:00+04:00');
+  const startsAt = Date.parse('2026-11-25T00:00:00+04:00');
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
   const stylesheetUrl = new URL('new-year-decoration.css', document.currentScript.src);
   let timer;
