@@ -11,20 +11,6 @@
   display: none;
 }
 
-.new-year-garland {
-  position: absolute;
-  inset: 0 0 auto;
-  height: 18px;
-  z-index: 1;
-  background:
-    radial-gradient(ellipse 22px 9px at 27px -2px, transparent 95%, #e8b97073 99%, transparent) 0 0 / 54px 15px repeat-x,
-    radial-gradient(circle 2px at 8px 4px, #fff5c8 70%, #ffe19570 100%, transparent 200%) 0 0 / 54px 15px repeat-x,
-    radial-gradient(circle 2.4px at 27px 8px, #ffd386 75%, #ffd38665 100%, transparent 210%) 0 0 / 54px 15px repeat-x,
-    radial-gradient(circle 2px at 46px 4px, #f9b48b 70%, #ffa26963 100%, transparent 200%) 0 0 / 54px 15px repeat-x;
-  filter: drop-shadow(0 1px 2px #b97a40b8);
-}
-
-/* Two repeating layers cross the whole viewport at different speeds. */
 .new-year-decoration::before,
 .new-year-decoration::after {
   --snow-height: 212px;
@@ -77,51 +63,78 @@
   }
 }
 
-/* A decoration above the page, separate from the homepage illustration. */
-.new-year-site-banner {
-  box-sizing: border-box;
-  display: grid;
-  place-items: center;
-  width: 100%;
-  padding: 4px 8px 2px;
-  background:
-    radial-gradient(ellipse at 50% 0, #8753327d, transparent 68%),
-    linear-gradient(90deg, #16231a, #34251d 50%, #16231a);
-  border-bottom: 1px solid #b88e547d;
+html.new-year body { isolation: isolate; }
+
+.new-year-light-field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
   pointer-events: none;
+  background-image:
+    radial-gradient(circle at 16% 38%, #ffe1a1a0 0 1px, #e9ad5c52 2px, transparent 9px),
+    radial-gradient(circle at 81% 71%, #fff1b4ad 0 1px, #edb15d5c 2.5px, transparent 11px),
+    radial-gradient(circle at 43% 12%, #ffdfa6a1 0 1px, #f4b26448 2px, transparent 8px),
+    radial-gradient(circle at 62% 52%, #fff0bba1 0 1.5px, #ec9c4f57 3px, transparent 12px),
+    radial-gradient(circle at 9% 94%, #ffd493a1 0 1px, #e9ad5c46 3px, transparent 9px);
+  background-size: 271px 233px, 337px 261px, 291px 319px, 373px 283px, 241px 317px;
+  background-position: 0 0, 73px 41px, 142px 19px, 15px 162px, 83px 105px;
 }
 
-.new-year-site-banner img {
-  display: block;
-  width: min(100%, 650px);
-  height: auto;
-  max-width: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 3px 3px #100a06a8);
-}
+.new-year-light-field[hidden] { display: none; }
 
-.new-year-cabinet-banner img { width: min(100%, 470px); }
-.new-year-site-banner[hidden] { display: none; }
-
-.new-year-garland::before,
-.new-year-garland::after {
-  content: "";
+.new-year-hanging-garland {
   position: absolute;
-  inset-block-start: 0;
-  inset-inline-start: 0;
-  width: clamp(70px, 12vw, 140px);
-  height: clamp(30px, 5vw, 54px);
-  background: url('../img/brand/new-year-paper-garland.webp') left top / auto 100% no-repeat;
-  mask-image: linear-gradient(to right, #000 64%, transparent);
+  inset-block-start: var(--hang-y);
+  inset-inline-start: -25px;
+  width: clamp(83px, 13vw, 175px);
+  height: clamp(36px, 6vw, 72px);
+  background: url('../img/brand/new-year-paper-garland.webp') var(--art-position, left) top / auto 100% no-repeat;
+  transform: rotate(var(--tilt));
+  mask-image: linear-gradient(to right, #000 62%, transparent 96%);
 }
 
-.new-year-garland::after {
-  inset-inline-start: auto;
-  inset-inline-end: 0;
-  background-position: right top;
-  mask-image: linear-gradient(to left, #000 64%, transparent);
+.new-year-hanging-garland:nth-child(1) { --hang-y: -7px; --tilt: 10deg; }
+.new-year-hanging-garland:nth-child(2) {
+  --hang-y: 7px;
+  --tilt: -15deg;
+  --art-position: right;
+  inset-inline: auto -20px;
+  mask-image: linear-gradient(to left, #000 62%, transparent 96%);
+}
+
+.new-year-hanging-garland:nth-child(3) {
+  --hang-y: 34%;
+  --tilt: -37deg;
+  width: clamp(75px, 10vw, 132px);
+  inset-inline-start: -32px;
+}
+
+.new-year-hanging-garland:nth-child(4) {
+  --hang-y: 56%;
+  --tilt: 33deg;
+  --art-position: right;
+  width: clamp(73px, 11vw, 144px);
+  inset-inline: auto -31px;
+  mask-image: linear-gradient(to left, #000 62%, transparent 96%);
+}
+
+.new-year-hanging-garland:nth-child(5) {
+  --hang-y: 83%;
+  --tilt: -21deg;
+  width: clamp(70px, 9vw, 118px);
+  inset-inline-start: -29px;
+}
+
+@media (max-width: 700px) {
+  .new-year-hanging-garland:nth-child(n + 3) {
+    width: 69px;
+    height: 36px;
+    opacity: .8;
+  }
+
+  .new-year-light-field { opacity: .72; }
 }
 
 @media print {
-  .new-year-site-banner { display: none !important; }
+  .new-year-light-field { display: none !important; }
 }
