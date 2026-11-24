@@ -2,7 +2,7 @@
    Запуск: ADMIN_PASS=... node upload-quiz.cjs <папка1> [папка2 ...] [--only id1,id2] */
 const fs = require('fs');
 const path = require('path');
-const Q = require('./oge/assets/quiz-core.js');
+const Q = require('../assets/quiz-core.js');
 
 const API = 'https://script.google.com/macros/s/AKfycbwg68-wqapNubGW4BuTEB_ri38yu41uV8hoQPOhluE84y4ZSRfZ9-sFl--uwv7T7AA_xA/exec';
 const PASS = process.env.ADMIN_PASS;
