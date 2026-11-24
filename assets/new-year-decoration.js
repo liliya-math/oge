@@ -1,25 +1,25 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css?v=20261125-6', document.currentScript.src);
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261125-7', document.currentScript.src);
   let timer;
   let decoration;
   let lights;
   let placementFrame;
   const garlands = [];
   const locations = [
-    [0.27, 0.04, -7],
-    [0.91, 0.18, 13],
-    [0.10, 0.23, -14],
-    [0.88, 0.44, -10],
-    [0.11, 0.54, 11],
-    [0.92, 0.76, 13],
-    [0.08, 0.84, -8],
-    [0.49, 0.36, 7],
+    [0.90, 0.36, 69],
+    [0.10, 0.42, -68],
+    [0.34, 0.052, -3],
+    [0.91, 0.83, -24],
+    [0.11, 0.87, 22],
+    [0.90, 0.14, 13],
+    [0.11, 0.20, -14],
+    [0.49, 0.36, 8],
     [0.56, 0.68, -11],
-    [0.36, 0.90, 9]
+    [0.37, 0.91, 9]
   ];
-  const controls = 'a, button, input, textarea, select, summary, img, svg, canvas, iframe, video, table, [role="button"], [contenteditable]';
+  const controls = 'a, button, input, textarea, select, summary, img, svg, canvas:not(#fx), iframe, video, table, [role="button"], [contenteditable]';
   const clearance = 10;
 
   function visibleContent(width, height) {
@@ -53,12 +53,13 @@
   function arrangeGarlands() {
     placementFrame = undefined;
     if (decoration.hidden) return;
-    const width = document.documentElement.clientWidth;
-    const height = document.documentElement.clientHeight;
+    const width = decoration.clientWidth;
+    const height = decoration.clientHeight;
     const occupied = visibleContent(width, height);
-    const large = Math.min(300, Math.round(width * 0.205));
-    const compact = Math.max(105, Math.round(large * 0.72));
-    const sizes = width < 700 ? [150, 115] : [large, compact];
+    const large = Math.min(560, Math.round(width * 0.36));
+    const sizes = width < 700
+      ? [Math.min(230, Math.round(width * 0.57)), 155]
+      : [large, Math.round(large * 0.74), Math.round(large * 0.58)];
 
     for (const [index, garland] of garlands.entries()) {
       const [x, y, tilt] = locations[index];
