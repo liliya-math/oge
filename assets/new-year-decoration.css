@@ -14,7 +14,7 @@
 .new-year-garland {
   position: absolute;
   inset: 0 0 auto;
-  height: 15px;
+  height: 18px;
   z-index: 1;
   background:
     radial-gradient(ellipse 22px 9px at 27px -2px, transparent 95%, #e8b97073 99%, transparent) 0 0 / 54px 15px repeat-x,
@@ -73,6 +73,113 @@
 
 @media print {
   .new-year-decoration {
+    display: none !important;
+  }
+}
+
+/* Paper loops and folded stars inspired by handmade holiday decorations. */
+.new-year-paper-chain {
+  position: absolute;
+  top: -5px;
+  inset-inline-start: 0;
+  display: flex;
+  align-items: flex-start;
+  width: max-content;
+  padding-inline: 6px;
+}
+
+.new-year-paper-chain:last-child {
+  inset-inline-start: auto;
+  inset-inline-end: 0;
+  transform: scaleX(-1);
+}
+
+.new-year-paper-chain i {
+  --paper-tint: #a33e41;
+  --angle: 29deg;
+  box-sizing: border-box;
+  display: block;
+  width: 15px;
+  height: 11px;
+  margin-inline-start: -2px;
+  border: 3px solid var(--paper-tint);
+  border-radius: 6px;
+  box-shadow: inset 0 1px 1px #34251a77, 0 1px 2px #2b190f77;
+  transform: translateY(var(--hang, 0px)) rotate(var(--angle));
+}
+
+.new-year-paper-chain i:nth-child(even) { --angle: -26deg; --paper-tint: #e5c69b; }
+.new-year-paper-chain i:nth-child(4n + 3) { --paper-tint: #517057; }
+.new-year-paper-chain i:nth-child(4n) { --paper-tint: #c99843; }
+.new-year-paper-chain i:is(:nth-child(2), :nth-last-child(2)) { --hang: 4px; }
+.new-year-paper-chain i:is(:nth-child(3), :nth-last-child(3)) { --hang: 7px; }
+.new-year-paper-chain i:is(:nth-child(4), :nth-last-child(4)) { --hang: 10px; }
+.new-year-paper-chain i:nth-child(5) { --hang: 11px; }
+
+.new-year-home-ornaments {
+  display: none;
+}
+
+.new-year .brandband.top {
+  position: relative;
+  outline-color: #d2aa6aaa;
+  box-shadow: 0 16px 55px #100d0990, 0 0 32px #e2b04a32;
+}
+
+.new-year .new-year-home-ornaments {
+  display: block;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.new-year-home-ornaments i {
+  --paper-light: #ead2a4;
+  --paper-shadow: #b18448;
+  --star-size: clamp(22px, 6vw, 68px);
+  position: absolute;
+  inset: 0 auto auto var(--hang-at);
+  width: var(--star-size);
+  height: var(--drop);
+  transform: translateX(-50%);
+  background: linear-gradient(#f5d2a3b8, #f5d2a36b) top center / 1px 100% no-repeat;
+  filter: drop-shadow(0 3px 2px #1c110e80);
+}
+
+.new-year-home-ornaments i::after {
+  content: "";
+  position: absolute;
+  top: calc(100% - 1px);
+  inset-inline: 0;
+  aspect-ratio: 1;
+  background: repeating-conic-gradient(
+    from -8deg,
+    var(--paper-light) 0deg 22.5deg,
+    var(--paper-shadow) 22.5deg 45deg
+  );
+  clip-path: polygon(50% 0, 59% 31%, 85% 15%, 70% 41%, 100% 50%, 70% 59%, 85% 85%, 59% 69%, 50% 100%, 41% 69%, 15% 85%, 30% 59%, 0 50%, 30% 41%, 15% 15%, 41% 31%);
+  transform: rotate(var(--star-turn, 8deg));
+}
+
+.new-year-home-ornaments i:nth-child(1) { --hang-at: 6%; --drop: 7%; --star-turn: -10deg; }
+.new-year-home-ornaments i:nth-child(2) {
+  --hang-at: 14%;
+  --drop: 4%;
+  --star-size: clamp(16px, 4vw, 43px);
+  --paper-light: #ba5855;
+  --paper-shadow: #7b2d3b;
+}
+.new-year-home-ornaments i:nth-child(3) {
+  --hang-at: 87%;
+  --drop: 5%;
+  --star-size: clamp(16px, 4vw, 43px);
+  --paper-light: #699071;
+  --paper-shadow: #355343;
+}
+.new-year-home-ornaments i:nth-child(4) { --hang-at: 94%; --drop: 10%; --star-turn: 16deg; }
+
+@media print {
+  .new-year-home-ornaments {
     display: none !important;
   }
 }

@@ -1,7 +1,7 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css?v=20261125-2', document.currentScript.src);
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261125-3', document.currentScript.src);
   let timer;
   let decoration;
 
@@ -23,6 +23,15 @@
       decoration.style.pointerEvents = 'none';
       const lights = document.createElement('div');
       lights.className = 'new-year-garland';
+      for (let side = 0; side < 2; side++) {
+        const chain = document.createElement('span');
+        chain.className = 'new-year-paper-chain';
+        for (let link = 0; link < 9; link++) {
+          chain.append(document.createElement('i'));
+        }
+        lights.append(chain);
+      }
+
       decoration.append(lights);
       document.body.append(decoration);
     }
