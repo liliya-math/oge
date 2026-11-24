@@ -84,6 +84,7 @@ html.new-year body { isolation: isolate; }
 
 .new-year-hanging-garland {
   position: absolute;
+  transform: translate(-50%, -50%);
   aspect-ratio: 930 / 231;
   background: url('../img/brand/new-year-paper-chain.webp') center / contain no-repeat;
 }
@@ -120,4 +121,47 @@ html.new-year body { isolation: isolate; }
 
 @media print {
   .new-year-light-field { display: none !important; }
+}
+
+
+.new-year-inline-garland {
+  box-sizing: border-box;
+  display: grid;
+  justify-items: center;
+  position: relative;
+  max-width: 910px;
+  margin: 16px 0 14px;
+  padding: 10px 12px 0;
+  border-top: 1px solid #c89b6070;
+  pointer-events: none;
+}
+
+.new-year-inline-garland[hidden] { display: none; }
+
+.new-year-inline-chain {
+  position: relative;
+  display: block;
+  width: min(100%, 650px);
+  aspect-ratio: 930 / 231;
+  background: url('../img/brand/new-year-paper-chain.webp') center / contain no-repeat;
+}
+
+.new-year-inline-chain::before,
+.new-year-inline-chain::after {
+  content: "";
+  position: absolute;
+  top: -14px;
+  bottom: 80%;
+  width: 8px;
+  transform: translateX(-50%);
+  background:
+    radial-gradient(circle at 50% 4px, #ffdea3, #ac703a 3.5px, transparent 4px) top / 8px 8px no-repeat,
+    linear-gradient(#d1ae7c, #98754d) 50% 5px / 2px calc(100% - 5px) no-repeat;
+}
+
+.new-year-inline-chain::before { left: 2.5%; }
+.new-year-inline-chain::after { left: 97%; }
+
+@media print {
+  .new-year-inline-garland { display: none !important; }
 }

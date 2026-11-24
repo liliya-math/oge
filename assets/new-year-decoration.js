@@ -1,24 +1,24 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css?v=20261125-8', document.currentScript.src);
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261125-9', document.currentScript.src);
   let timer;
   let decoration;
   let lights;
   let placementFrame;
+  let inlineGarland;
   const garlands = [];
   const locations = [
-    [0.92, 0.47, 79, 'right'],
-    [0.08, 0.46, -81, 'left'],
-    [0.34, 0.055, -2, 'top'],
-    [0.90, 0.89, -22, 'right'],
-    [0.10, 0.90, 19, 'left'],
-    [0.88, 0.19, 12, 'right'],
-    [0.12, 0.19, -12, 'left']
+    [0.34, 0.055, 'top'],
+    [0.88, 0.23, 'right'],
+    [0.11, 0.33, 'left'],
+    [0.90, 0.59, 'right'],
+    [0.10, 0.77, 'left'],
+    [0.90, 0.91, 'right']
   ];
   // Tie points in the transparent paper-chain artwork.
   const tiePoints = [[0.025, 0.20], [0.97, 0.19]];
-  const controls = 'a, button, input, textarea, select, summary, img, svg, canvas:not(#fx), iframe, video, table, [role="button"], [contenteditable]';
+  const controls = 'a, button, input, textarea, select, summary, img, svg, canvas:not(#fx), iframe, video, table, [role="button"], [contenteditable], .new-year-inline-garland';
   const clearance = 10;
 
   function visibleContent(width, height) {
@@ -49,12 +49,10 @@
       && box.top < other.bottom + clearance && box.bottom > other.top - clearance;
   }
 
-  function getSupports(cx, cy, size, artworkHeight, angle, edge, width) {
+  function getSupports(cx, cy, size, artworkHeight, edge, width) {
     return tiePoints.map(([x, y]) => {
-      const dx = (x - 0.5) * size;
-      const dy = (y - 0.5) * artworkHeight;
-      const tieX = cx + dx * Math.cos(angle) - dy * Math.sin(angle);
-      const tieY = cy + dx * Math.sin(angle) + dy * Math.cos(angle);
+      const tieX = cx + (x - 0.5) * size;
+      const tieY = cy + (y - 0.5) * artworkHeight;
       const pinX = edge === 'top' ? tieX : edge === 'left' ? 6 : width - 6;
       const pinY = edge === 'top' ? 6 : Math.max(6, tieY - Math.min(28, Math.abs(tieX - pinX) * 0.28));
       return {
@@ -78,9 +76,26 @@
     cord.style.transform = `rotate(${Math.atan2(dy, dx)}rad)`;
   }
 
+  function installInlineGarland() {
+    if (inlineGarland?.isConnected) return;
+    const hero = document.querySelector('.brandband.top');
+    const cabinet = document.querySelector('#app .focuswork, #app .lessonstrip');
+    if (!hero && !cabinet) return;
+
+    inlineGarland = document.createElement('div');
+    inlineGarland.className = 'new-year-inline-garland';
+    inlineGarland.setAttribute('aria-hidden', 'true');
+    const chain = document.createElement('span');
+    chain.className = 'new-year-inline-chain';
+    inlineGarland.append(chain);
+    if (hero) hero.after(inlineGarland);
+    else cabinet.before(inlineGarland);
+  }
+
   function arrangeGarlands() {
     placementFrame = undefined;
     if (decoration.hidden) return;
+    installInlineGarland();
     const width = decoration.clientWidth;
     const height = decoration.clientHeight;
     const occupied = visibleContent(width, height);
@@ -90,20 +105,18 @@
       : [large, Math.round(large * 0.80), Math.round(large * 0.64), Math.round(large * 0.52), Math.round(large * 0.47)];
 
     for (const [index, {group, garland, supports}] of garlands.entries()) {
-      const [x, y, tilt, edge] = locations[index];
-      const tiltRadians = tilt * Math.PI / 180;
-      const angle = Math.abs(tiltRadians);
+      const [x, y, edge] = locations[index];
       let placement;
       for (const size of sizes) {
         const artworkHeight = size * 231 / 930;
-        const halfWidth = (size * Math.cos(angle) + artworkHeight * Math.sin(angle)) / 2;
-        const halfHeight = (size * Math.sin(angle) + artworkHeight * Math.cos(angle)) / 2;
+        const halfWidth = size / 2;
+        const halfHeight = artworkHeight / 2;
         if (width < 2 * halfWidth + 2 * clearance || height < 2 * halfHeight + 2 * clearance) continue;
         const cx = Math.min(width - halfWidth - clearance, Math.max(halfWidth + clearance, x * width));
         const cy = Math.min(height - halfHeight - clearance, Math.max(halfHeight + clearance, y * height));
         const box = {left: cx - halfWidth, right: cx + halfWidth, top: cy - halfHeight, bottom: cy + halfHeight};
         if (occupied.some(item => overlaps(box, item))) continue;
-        const cords = getSupports(cx, cy, size, artworkHeight, tiltRadians, edge, width);
+        const cords = getSupports(cx, cy, size, artworkHeight, edge, width);
         if (cords.some(({box: line}) => occupied.some(item => overlaps(line, item)))) continue;
         placement = {cx, cy, size, cords};
         occupied.push(box, ...cords.map(({box: line}) => line));
@@ -116,7 +129,6 @@
       garland.style.left = `${cx}px`;
       garland.style.top = `${cy}px`;
       garland.style.width = `${size}px`;
-      garland.style.transform = `translate(-50%, -50%) rotate(${tilt}deg)`;
     }
   }
 
@@ -180,6 +192,7 @@
 
     if (decoration) decoration.hidden = !active;
     if (lights) lights.hidden = !active;
+    if (inlineGarland) inlineGarland.hidden = !active;
     if (active) requestPlacement();
   }
 
