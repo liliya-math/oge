@@ -6473,6 +6473,66 @@
       "auto": false
     },
     {
+      "file": "teoriya-6-otnosheniya.html",
+      "title": "Теория · 6 класс · Отношения (п. 12.1)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-124",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-proporcii.html",
+      "title": "Теория · 6 класс · Пропорции (п. 12.2)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-125",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-pryamaya-obratnaya-proporcionalnost.html",
+      "title": "Теория · 6 класс · Прямая и обратная пропорциональные зависимости (п. 12.3)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-126",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-masshtab.html",
+      "title": "Теория · 6 класс · Масштаб (п. 12.4)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-127",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-dlina-okruzhnosti-ploshchad-kruga.html",
+      "title": "Теория · 6 класс · Длина окружности и площадь круга (п. 12.5)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-128",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-shar.html",
+      "title": "Теория · 6 класс · Шар (п. 12.6)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-129",
+      "auto": false
+    },
+    {
       "file": "teoriya-6-razlozhenie-na-prostye-mnozhiteli.html",
       "title": "Теория · 6 класс · Разложение на простые множители (п. 9.5)",
       "type": "theory",
