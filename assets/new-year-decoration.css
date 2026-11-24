@@ -84,54 +84,13 @@ html.new-year body { isolation: isolate; }
 
 .new-year-hanging-garland {
   position: absolute;
-  inset-block-start: var(--hang-y);
-  inset-inline-start: -25px;
-  width: clamp(83px, 13vw, 175px);
-  height: clamp(36px, 6vw, 72px);
-  background: url('../img/brand/new-year-paper-garland.webp') var(--art-position, left) top / auto 100% no-repeat;
-  transform: rotate(var(--tilt));
-  mask-image: linear-gradient(to right, #000 62%, transparent 96%);
+  aspect-ratio: 930 / 231;
+  background: url('../img/brand/new-year-paper-chain.webp') center / contain no-repeat;
 }
 
-.new-year-hanging-garland:nth-child(1) { --hang-y: -7px; --tilt: 10deg; }
-.new-year-hanging-garland:nth-child(2) {
-  --hang-y: 7px;
-  --tilt: -15deg;
-  --art-position: right;
-  inset-inline: auto -20px;
-  mask-image: linear-gradient(to left, #000 62%, transparent 96%);
-}
-
-.new-year-hanging-garland:nth-child(3) {
-  --hang-y: 34%;
-  --tilt: -37deg;
-  width: clamp(75px, 10vw, 132px);
-  inset-inline-start: -32px;
-}
-
-.new-year-hanging-garland:nth-child(4) {
-  --hang-y: 56%;
-  --tilt: 33deg;
-  --art-position: right;
-  width: clamp(73px, 11vw, 144px);
-  inset-inline: auto -31px;
-  mask-image: linear-gradient(to left, #000 62%, transparent 96%);
-}
-
-.new-year-hanging-garland:nth-child(5) {
-  --hang-y: 83%;
-  --tilt: -21deg;
-  width: clamp(70px, 9vw, 118px);
-  inset-inline-start: -29px;
-}
+.new-year-hanging-garland[hidden] { display: none; }
 
 @media (max-width: 700px) {
-  .new-year-hanging-garland:nth-child(n + 3) {
-    width: 69px;
-    height: 36px;
-    opacity: .8;
-  }
-
   .new-year-light-field { opacity: .72; }
 }
 
