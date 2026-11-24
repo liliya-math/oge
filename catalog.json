@@ -6623,6 +6623,96 @@
       "auto": false
     },
     {
+      "file": "teoriya-6-delenie-racionalnyh.html",
+      "title": "Теория · 6 класс · Деление (п. 15.2)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-139",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-racionalnye-chisla.html",
+      "title": "Теория · 6 класс · Рациональные числа (п. 16.1)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-140",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-raskrytie-skobok.html",
+      "title": "Теория · 6 класс · Раскрытие скобок (п. 16.2)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-141",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-koefficient.html",
+      "title": "Теория · 6 класс · Коэффициент (п. 16.3)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-142",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-podobnye-slagaemye.html",
+      "title": "Теория · 6 класс · Подобные слагаемые (п. 16.4)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-143",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-reshenie-uravneniy.html",
+      "title": "Теория · 6 класс · Решение уравнений (п. 17.1)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-144",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-perpendikulyarnye-pryamye.html",
+      "title": "Теория · 6 класс · Перпендикулярные прямые (п. 17.2)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-145",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-parallelnye-pryamye.html",
+      "title": "Теория · 6 класс · Параллельные прямые (п. 17.3)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-146",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-koordinatnaya-ploskost.html",
+      "title": "Теория · 6 класс · Координатная плоскость (п. 17.4)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-147",
+      "auto": false
+    },
+    {
       "file": "teoriya-6-razlozhenie-na-prostye-mnozhiteli.html",
       "title": "Теория · 6 класс · Разложение на простые множители (п. 9.5)",
       "type": "theory",
