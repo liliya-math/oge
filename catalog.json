@@ -6273,6 +6273,206 @@
       "note": "26 заданий, 7 этапов на 60 минут. Делители и кратные, разложение на простые множители, связь НОК и НОД, текстовые задачи и самопроверка. Подсказки, пошаговые разборы, прогресс в браузере."
     },
     {
+      "file": "teoriya-6-deliteli-i-kratnye.html",
+      "title": "Теория · 6 класс · Делители и кратные (п. 9.1)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-101",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-priznaki-na-10-5-2.html",
+      "title": "Теория · 6 класс · Признаки делимости на 10, на 5 и на 2 (п. 9.2)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-102",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-priznaki-na-9-3.html",
+      "title": "Теория · 6 класс · Признаки делимости на 9 и на 3 (п. 9.3)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-103",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-prostye-i-sostavnye.html",
+      "title": "Теория · 6 класс · Простые и составные числа (п. 9.4)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-104",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-osnovnoe-svoystvo-drobi.html",
+      "title": "Теория · 6 класс · Основное свойство дроби (п. 10.1)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-108",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-sokrashchenie-drobey.html",
+      "title": "Теория · 6 класс · Сокращение дробей (п. 10.2)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-109",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-obshchiy-znamenatel.html",
+      "title": "Теория · 6 класс · Приведение дробей к общему знаменателю (п. 10.3)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-110",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-sravnenie-slozhenie-raznye-znamenateli.html",
+      "title": "Теория · 6 класс · Сравнение, сложение и вычитание дробей с разными знаменателями (п. 10.4)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-111",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-slozhenie-smeshannyh.html",
+      "title": "Теория · 6 класс · Сложение смешанных чисел (п. 10.5.1)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-112",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-vychitanie-smeshannyh.html",
+      "title": "Теория · 6 класс · Вычитание смешанных чисел (п. 10.5.2)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-113",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-umnozhenie-drobey.html",
+      "title": "Теория · 6 класс · Умножение дробей (п. 11.1)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-114",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-drob-ot-chisla.html",
+      "title": "Теория · 6 класс · Нахождение дроби от числа (п. 11.2)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-115",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-umnozhenie-smeshannogo-na-naturalnoe.html",
+      "title": "Теория · 6 класс · Умножение смешанного числа на натуральное (п. 11.3.1)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-116",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-umnozhenie-smeshannogo-na-drob.html",
+      "title": "Теория · 6 класс · Умножение смешанного числа на дробь (п. 11.3.2)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-117",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-umnozhenie-dvuh-smeshannyh.html",
+      "title": "Теория · 6 класс · Умножение двух смешанных чисел (п. 11.3.3)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-118",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-vzaimno-obratnye.html",
+      "title": "Теория · 6 класс · Взаимно обратные числа (п. 11.3.4)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-119",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-delenie-drobey.html",
+      "title": "Теория · 6 класс · Деление дробей (п. 11.4)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-120",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-chislo-po-ego-drobi.html",
+      "title": "Теория · 6 класс · Нахождение числа по его дроби (п. 11.5)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-121",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-chislo-po-procentam.html",
+      "title": "Теория · 6 класс · Нахождение числа по его процентам (п. 11.6)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-122",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-drobnye-vyrazheniya.html",
+      "title": "Теория · 6 класс · Дробные выражения (п. 11.7)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-123",
+      "auto": false
+    },
+    {
       "file": "teoriya-6-razlozhenie-na-prostye-mnozhiteli.html",
       "title": "Теория · 6 класс · Разложение на простые множители (п. 9.5)",
       "type": "theory",
