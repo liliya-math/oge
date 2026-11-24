@@ -88,7 +88,31 @@ html.new-year body { isolation: isolate; }
   background: url('../img/brand/new-year-paper-chain.webp') center / contain no-repeat;
 }
 
-.new-year-hanging-garland[hidden] { display: none; }
+.new-year-garland-group[hidden] { display: none; }
+
+.new-year-garland-cord,
+.new-year-garland-pin {
+  position: absolute;
+}
+
+.new-year-garland-cord {
+  height: 2px;
+  margin-top: -1px;
+  transform-origin: left center;
+  background: linear-gradient(#d1ae7c, #98754d);
+  box-shadow: 0 1px 1px #1b140c;
+}
+
+.new-year-garland-pin {
+  z-index: 1;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle at 36% 30%, #ffdea3, #ac703a 60%, #65401f);
+  box-shadow: 0 1px 2px #0f0b08;
+}
+
 
 @media (max-width: 700px) {
   .new-year-light-field { opacity: .72; }
