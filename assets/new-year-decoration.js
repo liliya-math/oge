@@ -1,8 +1,7 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
-  const startsAt = Date.parse('2026-11-25T00:00:00+04:00');
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css', document.currentScript.src);
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261125-2', document.currentScript.src);
   let timer;
   let decoration;
 
@@ -34,11 +33,10 @@
   function updateSeason() {
     clearTimeout(timer);
     const now = Date.now();
-    setTheme(now >= startsAt && now < endsAt);
+    setTheme(now < endsAt);
 
-    const nextChange = now < startsAt ? startsAt : endsAt;
-    if (now < nextChange) {
-      timer = setTimeout(updateSeason, Math.min(nextChange - now, 2_147_483_647));
+    if (now < endsAt) {
+      timer = setTimeout(updateSeason, Math.min(endsAt - now, 2_147_483_647));
     }
   }
 
