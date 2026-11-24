@@ -1,44 +1,35 @@
-name: Build and publish lili.math
+name: Apply New Year decoration to review branch
 
 on:
   pull_request:
-  push:
-    branches: [main]
-  workflow_dispatch:
+    types: [synchronize]
 
 permissions:
   contents: read
 
 jobs:
-  build:
+  prepare-pages:
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'new-year-homepage-2026'
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/jekyll-build-pages@v1
         with:
-          source: ./
-          destination: ./_site
-      - name: Add New Year decoration to rendered HTML pages
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Update the existing HTML pages
         run: |
-          sudo chown -R "$(id -u):$(id -g)" _site
-          python3 tools/add-seasonal-decor.py _site
-      - uses: actions/upload-pages-artifact@v4
-        if: github.ref == 'refs/heads/main'
-        with:
-          path: _site
-
-  deploy:
-    if: github.ref == 'refs/heads/main'
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    concurrency:
-      group: github-pages
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          set -euo pipefail
+          python3 tools/check_links.py > /tmp/lilimath-links-before.txt || test "$?" -eq 1
+          python3 tools/add-seasonal-decor.py . --tracked
+          python3 tools/check_links.py > /tmp/lilimath-links-after.txt || test "$?" -eq 1
+          diff -u /tmp/lilimath-links-before.txt /tmp/lilimath-links-after.txt
+          git diff --check
+          git add -u -- '*.html'
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'Подключить новогодний декор на всех HTML-страницах'
+          git push origin HEAD:refs/heads/new-year-homepage-2026
