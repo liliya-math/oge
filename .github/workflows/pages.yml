@@ -19,7 +19,9 @@ jobs:
           source: ./
           destination: ./_site
       - name: Add New Year decoration to rendered HTML pages
-        run: python3 tools/add-seasonal-decor.py _site
+        run: |
+          sudo chown -R "$(id -u):$(id -g)" _site
+          python3 tools/add-seasonal-decor.py _site
       - uses: actions/upload-pages-artifact@v4
         if: github.ref == 'refs/heads/main'
         with:
