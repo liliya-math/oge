@@ -6533,6 +6533,96 @@
       "auto": false
     },
     {
+      "file": "teoriya-6-koordinaty-na-pryamoy.html",
+      "title": "Теория · 6 класс · Координаты на прямой (п. 13.1)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-130",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-protivopolozhnye-chisla.html",
+      "title": "Теория · 6 класс · Противоположные числа (п. 13.2)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-131",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-modul-chisla.html",
+      "title": "Теория · 6 класс · Модуль числа (п. 13.3)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-132",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-sravnenie-chisel.html",
+      "title": "Теория · 6 класс · Сравнение чисел (п. 13.4)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-133",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-slozhenie-na-pryamoy.html",
+      "title": "Теория · 6 класс · Сложение чисел с помощью координатной прямой (п. 14.1)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-134",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-slozhenie-otricatelnyh.html",
+      "title": "Теория · 6 класс · Сложение отрицательных чисел (п. 14.2)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-135",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-slozhenie-raznye-znaki.html",
+      "title": "Теория · 6 класс · Сложение чисел с разными знаками (п. 14.3)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-136",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-vychitanie-racionalnyh.html",
+      "title": "Теория · 6 класс · Вычитание (п. 14.4)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-137",
+      "auto": false
+    },
+    {
+      "file": "teoriya-6-umnozhenie-racionalnyh.html",
+      "title": "Теория · 6 класс · Умножение (п. 15.1)",
+      "type": "theory",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "6-138",
+      "auto": false
+    },
+    {
       "file": "teoriya-6-razlozhenie-na-prostye-mnozhiteli.html",
       "title": "Теория · 6 класс · Разложение на простые множители (п. 9.5)",
       "type": "theory",
