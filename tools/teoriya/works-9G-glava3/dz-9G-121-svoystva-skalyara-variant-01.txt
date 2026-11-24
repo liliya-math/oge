@@ -28,8 +28,8 @@
 
 Задание: Чему равно \((\vec{a}-\vec{b})\cdot(\vec{a}+\vec{b})\)?
 Тип: выбор
-Варианты: \(|\vec{a}|^2-|\vec{b}|^2\) | \(|\vec{a}|^2+|\vec{b}|^2\) | \((\vec{a}+\vec{b})^2\) | 0
-Ответ: \(|\vec{a}|^2-|\vec{b}|^2\)
+Варианты: \(\\lvert \vec{a}\\rvert^2-\\lvert \vec{b}\\rvert^2\) | \(\\lvert \vec{a}\\rvert^2+\\lvert \vec{b}\\rvert^2\) | \((\vec{a}+\vec{b})^2\) | 0
+Ответ: \(\\lvert \vec{a}\\rvert^2-\\lvert \vec{b}\\rvert^2\)
 Баллы: 2
 Подсказка: Раскрой как разность квадратов: \(\vec{a}^2-\vec{b}^2\).
 
@@ -42,8 +42,8 @@
 
 Задание: Почему в ромбе диагонали перпендикулярны (векторное доказательство)?
 Тип: выбор
-Варианты: \((\vec{a}+\vec{b})\cdot(\vec{a}-\vec{b})=|\vec{a}|^2-|\vec{b}|^2=0\), ведь стороны равны | диагонали равны | углы 60° | ромб - квадрат
-Ответ: \((\vec{a}+\vec{b})\cdot(\vec{a}-\vec{b})=|\vec{a}|^2-|\vec{b}|^2=0\), ведь стороны равны
+Варианты: \((\vec{a}+\vec{b})\cdot(\vec{a}-\vec{b})=\\lvert \vec{a}\\rvert^2-\\lvert \vec{b}\\rvert^2=0\), ведь стороны равны | диагонали равны | углы 60° | ромб - квадрат
+Ответ: \((\vec{a}+\vec{b})\cdot(\vec{a}-\vec{b})=\\lvert \vec{a}\\rvert^2-\\lvert \vec{b}\\rvert^2=0\), ведь стороны равны
 Баллы: 2
 Подсказка: Диагонали параллелограмма - сумма и разность векторов сторон.
 
@@ -53,13 +53,13 @@
 Ответ: нет, такой операции не существует
 Баллы: 1
 
-Задание: Векторы \(\vec{a}\) и \(\vec{b}\) имеют длины 2 и 3, угол между ними 60°. Найди \(|\vec{a}+\vec{b}|^2\).
+Задание: Векторы \(\vec{a}\) и \(\vec{b}\) имеют длины 2 и 3, угол между ними 60°. Найди \(\\lvert \vec{a}+\vec{b}\\rvert^2\).
 Ответ: 19
 Баллы: 2
 Подсказка: \(4+9+2\cdot 6\cdot\frac{1}{2}=13+6\).
 
 Задание: Как найти косинус угла через скалярное произведение?
 Тип: выбор
-Варианты: \(\cos\varphi=\frac{\vec{a}\cdot\vec{b}}{|\vec{a}||\vec{b}|}\) | \(\cos\varphi=\vec{a}\cdot\vec{b}\) | \(\cos\varphi=\frac{|\vec{a}|}{|\vec{b}|}\) | никак
-Ответ: \(\cos\varphi=\frac{\vec{a}\cdot\vec{b}}{|\vec{a}||\vec{b}|}\)
+Варианты: \(\cos\varphi=\frac{\vec{a}\cdot\vec{b}}{\\lvert \vec{a}\\rvert\\lvert \vec{b}\\rvert}\) | \(\cos\varphi=\vec{a}\cdot\vec{b}\) | \(\cos\varphi=\frac{\\lvert \vec{a}\\rvert}{\\lvert \vec{b}\\rvert}\) | никак
+Ответ: \(\cos\varphi=\frac{\vec{a}\cdot\vec{b}}{\\lvert \vec{a}\\rvert\\lvert \vec{b}\\rvert}\)
 Баллы: 1

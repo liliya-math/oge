@@ -47,11 +47,11 @@
 
 Задание: Как доказать перпендикулярность диагоналей ромба скалярным произведением?
 Тип: выбор
-Варианты: показать, что \((\vec{a}+\vec{b})\cdot(\vec{a}-\vec{b})=|\vec{a}|^2-|\vec{b}|^2=0\) | измерить углы | доказать равенство диагоналей | найти площадь
-Ответ: показать, что \((\vec{a}+\vec{b})\cdot(\vec{a}-\vec{b})=|\vec{a}|^2-|\vec{b}|^2=0\)
+Варианты: показать, что \((\vec{a}+\vec{b})\cdot(\vec{a}-\vec{b})=\\lvert \vec{a}\\rvert^2-\\lvert \vec{b}\\rvert^2=0\) | измерить углы | доказать равенство диагоналей | найти площадь
+Ответ: показать, что \((\vec{a}+\vec{b})\cdot(\vec{a}-\vec{b})=\\lvert \vec{a}\\rvert^2-\\lvert \vec{b}\\rvert^2=0\)
 Баллы: 1
 
-Задание: Почему в ромбе \(|\vec{a}|=|\vec{b}|\) обнуляет произведение диагоналей?
+Задание: Почему в ромбе \(\\lvert \vec{a}\\rvert=\\lvert \vec{b}\\rvert\) обнуляет произведение диагоналей?
 Тип: выбор
 Варианты: произведение равно разности квадратов длин, а длины равны | ромб маленький | диагонали нулевые | косинус равен 1
 Ответ: произведение равно разности квадратов длин, а длины равны
@@ -59,6 +59,6 @@
 
 Задание: Формула косинуса угла через скалярное произведение:
 Тип: выбор
-Варианты: \(\cos\varphi=\frac{\vec{a}\cdot\vec{b}}{|\vec{a}||\vec{b}|}\) | \(\cos\varphi=\frac{|\vec{a}||\vec{b}|}{\vec{a}\cdot\vec{b}}\) | \(\cos\varphi=\vec{a}\cdot\vec{b}-1\) | \(\cos\varphi=|\vec{a}|^2\)
-Ответ: \(\cos\varphi=\frac{\vec{a}\cdot\vec{b}}{|\vec{a}||\vec{b}|}\)
+Варианты: \(\cos\varphi=\frac{\vec{a}\cdot\vec{b}}{\\lvert \vec{a}\\rvert\\lvert \vec{b}\\rvert}\) | \(\cos\varphi=\frac{\\lvert \vec{a}\\rvert\\lvert \vec{b}\\rvert}{\vec{a}\cdot\vec{b}}\) | \(\cos\varphi=\vec{a}\cdot\vec{b}-1\) | \(\cos\varphi=\\lvert \vec{a}\\rvert^2\)
+Ответ: \(\cos\varphi=\frac{\vec{a}\cdot\vec{b}}{\\lvert \vec{a}\\rvert\\lvert \vec{b}\\rvert}\)
 Баллы: 1

@@ -5,8 +5,8 @@
 
 Задание: Чему равна длина вектора \(k\vec{a}\)?
 Тип: выбор
-Варианты: \(|k|\cdot|\vec{a}|\) | \(k+|\vec{a}|\) | \(k\cdot\vec{a}\) | \(|\vec{a}|:|k|\)
-Ответ: \(|k|\cdot|\vec{a}|\)
+Варианты: \(\\lvert k\\rvert\cdot\\lvert \vec{a}\\rvert\) | \(k+\\lvert \vec{a}\\rvert\) | \(k\cdot\vec{a}\) | \(\\lvert \vec{a}\\rvert:\\lvert k\\rvert\)
+Ответ: \(\\lvert k\\rvert\cdot\\lvert \vec{a}\\rvert\)
 Баллы: 1
 
 Задание: При \(k>0\) вектор \(k\vec{a}\) направлен:
