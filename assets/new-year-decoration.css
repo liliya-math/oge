@@ -1,15 +1,17 @@
+html.new-year body { isolation: isolate; }
+
 .new-year-decoration {
   --art-left: 0px;
   --art-right: 100%;
   position: fixed;
   inset: 0;
-  z-index: 2;
+  z-index: -1;
   pointer-events: none;
   background: #16231a url('../img/brand/new-year-spruce-wallpaper.png') center / cover no-repeat;
   mask-image: linear-gradient(
     to right,
     #000 0 var(--art-left),
-    transparent var(--art-left) var(--art-right),
+    #0004 var(--art-left) var(--art-right),
     #000 var(--art-right) 100%
   );
 }
