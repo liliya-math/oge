@@ -10,7 +10,7 @@ iframe{flex:1;width:100%;border:0;background:#fff}p.m{padding:16px;margin:0}a{co
 <script src="/assets/new-year-decoration.js" defer></script>
 </head><body>
 <header><h1 id="ttl">Комплект квадратика</h1><nav id="nav"></nav></header>
-<main style="flex:1;display:flex;flex-direction:column;min-height:0"><p class="m" id="msg">Загружаю…</p><iframe id="fr" hidden title="Материал"></iframe></main>
+<main style="flex:1;display:flex;flex-direction:column;min-height:0"><p class="m" id="msg">Загружаю…</p><p class="m" id="load-warning" role="status" hidden><span id="load-detail"></span> <button type="button" id="retry">Повторить загрузку</button></p><iframe id="fr" hidden title="Материал"></iframe></main>
 <script defer src="assets/quiz-ui.js?v=ans1"></script>
 <script defer src="assets/route-theory-pdfs.js"></script>
 <script defer>
@@ -20,8 +20,31 @@ $('ttl').textContent='Комплект: '+t;let pass='';try{pass=localStorage.ge
 if(!id){$('msg').textContent='Не указан квадратик.';return}
 if(!pass){$('msg').innerHTML='Нужен вход преподавателя: открой <a href="quiz-builder.html">конструктор тестов</a>, войди и вернись сюда.';return}
 try{
-const [g,l]=await Promise.all([U.request({admin:pass,op:'routeGet',id}),U.request({admin:pass,op:'quizList'})]);
-const m=g.materials||{},works=l.works||[],items=[];
+const request=body=>{
+ let timer;
+ const timeout=new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('Сервер не ответил вовремя.')),8000)});
+ return Promise.race([Promise.resolve().then(()=>U.request(body)),timeout]).finally(()=>clearTimeout(timer));
+};
+const [route,quizzes]=await Promise.allSettled([request({admin:pass,op:'routeGet',id}),request({admin:pass,op:'quizList'})]);
+let m=route.value?.materials||{};
+const works=quizzes.value?.works||[],items=[];
+if(route.status==='rejected'){
+ try{
+  const res=await fetch('route-links.json',{signal:AbortSignal.timeout(4000)});
+  if(res.ok){
+   const fallback=(await res.json())[id]||{};
+   const siteLink=url=>typeof url==='string'&&/^https:\/\/lilimath\.ru\//i.test(url)?url:'';
+   m={theory:siteLink(fallback.theory),homework:siteLink(fallback.homework)};
+  }
+ }catch(_){}
+}
+if(route.status==='rejected'||quizzes.status==='rejected'){
+ const reasons=[route.reason,quizzes.reason].filter(Boolean);
+ const auth=reasons.find(e=>/^(Пароль не подошёл|Слишком много попыток входа)/.test(e.message));
+ $('load-detail').textContent=auth?auth.message:'Сервер кабинета не ответил на все запросы. Тесты и материалы, прикреплённые вручную, могут быть временно недоступны.';
+ $('retry').onclick=()=>location.reload();
+ $('load-warning').hidden=false;
+}
 if(m.theory)items.push({n:'Теория',u:m.theory});
 const pdfs=window.LiliRouteTheoryPdfs?.(id)||[];
 for(const [title,url] of pdfs){
@@ -33,7 +56,10 @@ for(const [title,url] of pdfs){
 const rank=w=>w.kind==='exam'?3:w.kind==='hw'?2:1,kindName=w=>({exam:'Контрольная',hw:'ДЗ',self:'Самостоятельная'}[w.kind]||'Тест');
 (m.quizzes||[]).map(q=>works.find(w=>w.id===q)).filter(Boolean).sort((a,b)=>rank(a)-rank(b)).forEach(w=>items.push({n:kindName(w)+': '+w.title,u:'quiz.html?demo=1&work='+encodeURIComponent(w.id)}));
 if(m.homework)items.push({n:'Домашняя работа (ссылка)',u:m.homework});
-if(!items.length){$('msg').textContent='К этому квадратику ничего не прикреплено.';return}
+if(!items.length){
+ $('msg').textContent=$('load-warning').hidden?'К этому квадратику ничего не прикреплено.':'Материалы пока не удалось загрузить.';
+ return;
+}
 let cur=0;const nav=$('nav');
 const show=i=>{cur=i;$('fr').src=items[i].u;$('fr').hidden=false;$('msg').hidden=true;[...nav.querySelectorAll('[data-i]')].forEach(b=>b.setAttribute('aria-current',String(+b.dataset.i===i)));nxt.disabled=i>=items.length-1;prv.disabled=i<=0};
 const prv=document.createElement('button');prv.textContent='← Назад';prv.onclick=()=>show(cur-1);nav.append(prv);
