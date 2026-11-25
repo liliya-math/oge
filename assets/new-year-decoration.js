@@ -1,8 +1,8 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css?v=20261125-14', document.currentScript.src);
-  const content = 'a, button, input, textarea, select, summary, img, svg, canvas:not(#fx), iframe, video, table, [role="button"], [contenteditable]';
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261125-15', document.currentScript.src);
+  const content = 'a, button, input, textarea, select, summary, img, svg, canvas:not(#fx), iframe, video, table, [role="button"], [contenteditable], .container, .wrap, dialog, [role="dialog"]';
   const clearance = 20;
   let timer;
   let frame;
@@ -30,7 +30,7 @@
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     const range = document.createRange();
     for (let node = walker.nextNode(); node; node = walker.nextNode()) {
-      if (node.parentElement.closest('script, style, noscript, template') || !node.nodeValue.trim()) continue;
+      if (node.parentElement.closest('script, style, noscript, template, .new-year-decoration') || !node.nodeValue.trim()) continue;
       range.selectNodeContents(node);
       for (const box of range.getClientRects()) accept(box);
     }
@@ -62,6 +62,21 @@
       decoration.className = 'new-year-decoration';
       decoration.setAttribute('aria-hidden', 'true');
       decoration.inert = true;
+      const snow = document.createElement('div');
+      snow.className = 'new-year-snowflakes';
+      const flakes = ['❄︎', '❅', '❆'];
+      for (let index = 0; index < 24; index++) {
+        const flake = document.createElement('span');
+        const duration = 18 + index % 9;
+        flake.textContent = flakes[index % flakes.length];
+        flake.style.setProperty('--x', `${3 + (index * 37) % 95}%`);
+        flake.style.setProperty('--size', `${13 + (index * 11) % 15}px`);
+        flake.style.setProperty('--duration', `${duration}s`);
+        flake.style.setProperty('--delay', `-${(index * 7 + 2) % duration}s`);
+        flake.style.setProperty('--drift', `${(index % 2 === 0 ? 1 : -1) * (17 + index % 5 * 8)}px`);
+        snow.append(flake);
+      }
+      decoration.append(snow);
       document.body.append(decoration);
       window.addEventListener('scroll', requestGutters, {passive: true, capture: true});
       window.addEventListener('resize', requestGutters, {passive: true});
