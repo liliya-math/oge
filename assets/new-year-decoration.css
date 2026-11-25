@@ -5,6 +5,7 @@ html.new-year body { isolation: isolate; }
   --art-right: 100%;
   position: fixed;
   inset: 0;
+  overflow: hidden;
   z-index: -1;
   pointer-events: none;
   background: #16231a url('../img/brand/new-year-spruce-wallpaper.png') center / cover no-repeat;
@@ -18,6 +19,26 @@ html.new-year body { isolation: isolate; }
 
 .new-year-decoration[hidden] {
   display: none;
+}
+
+.new-year-decoration::after {
+  content: "";
+  position: absolute;
+  inset: -192px 0 0;
+  background-image:
+    radial-gradient(circle 1.4px at 24% 21%, #fffdf3b8 55%, transparent 100%),
+    radial-gradient(circle 1px at 71% 49%, #ffffffa0 54%, transparent 100%),
+    radial-gradient(circle 1.7px at 43% 82%, #f3f7ffc0 55%, transparent 100%);
+  background-size: 198px 192px;
+  animation: new-year-snow 22s linear infinite;
+}
+
+@keyframes new-year-snow {
+  to { transform: translateY(192px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .new-year-decoration::after { animation: none; }
 }
 
 @media print {
