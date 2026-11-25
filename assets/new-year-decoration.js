@@ -1,12 +1,14 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css?v=20261125-15', document.currentScript.src);
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261125-16', document.currentScript.src);
   const content = 'a, button, input, textarea, select, summary, img, svg, canvas:not(#fx), iframe, video, table, [role="button"], [contenteditable], .container, .wrap, dialog, [role="dialog"]';
   const clearance = 20;
   let timer;
   let frame;
   let decoration;
+  let snow;
+  let stylesReady = false;
 
   function updateGutters() {
     frame = undefined;
@@ -30,15 +32,17 @@
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     const range = document.createRange();
     for (let node = walker.nextNode(); node; node = walker.nextNode()) {
-      if (node.parentElement.closest('script, style, noscript, template, .new-year-decoration') || !node.nodeValue.trim()) continue;
+      if (node.parentElement.closest('script, style, noscript, template, .new-year-decoration, .new-year-snowflakes') || !node.nodeValue.trim()) continue;
       range.selectNodeContents(node);
       for (const box of range.getClientRects()) accept(box);
     }
 
     const left = Math.max(0, Math.floor(leftmost - clearance));
     const right = Math.min(width, Math.ceil(rightmost + clearance));
-    decoration.style.setProperty('--art-left', `${left}px`);
-    decoration.style.setProperty('--art-right', `${right}px`);
+    for (const layer of [decoration, snow]) {
+      layer.style.setProperty('--art-left', `${left}px`);
+      layer.style.setProperty('--art-right', `${right}px`);
+    }
   }
 
   function requestGutters() {
@@ -56,28 +60,34 @@
       const stylesheet = document.createElement('link');
       stylesheet.rel = 'stylesheet';
       stylesheet.href = stylesheetUrl.href;
+      stylesheet.addEventListener('load', () => {
+        stylesReady = true;
+        updateSeason();
+      }, {once: true});
       document.head.append(stylesheet);
 
       decoration = document.createElement('div');
       decoration.className = 'new-year-decoration';
       decoration.setAttribute('aria-hidden', 'true');
       decoration.inert = true;
-      const snow = document.createElement('div');
+      snow = document.createElement('div');
       snow.className = 'new-year-snowflakes';
+      snow.setAttribute('aria-hidden', 'true');
+      snow.inert = true;
       const flakes = ['❄︎', '❅', '❆'];
-      for (let index = 0; index < 24; index++) {
+      for (let index = 0; index < 36; index++) {
         const flake = document.createElement('span');
         const duration = 18 + index % 9;
         flake.textContent = flakes[index % flakes.length];
         flake.style.setProperty('--x', `${3 + (index * 37) % 95}%`);
-        flake.style.setProperty('--size', `${13 + (index * 11) % 15}px`);
+        flake.style.setProperty('--size', `${18 + (index * 11) % 19}px`);
         flake.style.setProperty('--duration', `${duration}s`);
         flake.style.setProperty('--delay', `-${(index * 7 + 2) % duration}s`);
         flake.style.setProperty('--drift', `${(index % 2 === 0 ? 1 : -1) * (17 + index % 5 * 8)}px`);
         snow.append(flake);
       }
-      decoration.append(snow);
-      document.body.append(decoration);
+      decoration.hidden = snow.hidden = true;
+      document.body.append(decoration, snow);
       window.addEventListener('scroll', requestGutters, {passive: true, capture: true});
       window.addEventListener('resize', requestGutters, {passive: true});
       document.addEventListener('load', requestGutters, true);
@@ -90,8 +100,8 @@
       });
     }
 
-    if (decoration) decoration.hidden = !active;
-    if (active) requestGutters();
+    if (decoration) decoration.hidden = snow.hidden = !active || !stylesReady;
+    if (active && stylesReady) requestGutters();
   }
 
   function updateSeason() {

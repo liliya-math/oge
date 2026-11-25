@@ -1,22 +1,28 @@
 html.new-year body { isolation: isolate; }
 
-.new-year-decoration {
+.new-year-decoration,
+.new-year-snowflakes {
   --art-left: 0px;
   --art-right: 100%;
   --fade: clamp(24px, 4vw, 64px);
   position: fixed;
   inset: 0;
   overflow: hidden;
-  z-index: -1;
   pointer-events: none;
 }
 
-.new-year-decoration[hidden] { display: none; }
+.new-year-decoration { z-index: -1; }
+
+.new-year-decoration[hidden],
+.new-year-snowflakes[hidden] { display: none; }
+
+.new-year-decoration::before {
+  position: absolute;
+  inset: 0;
+}
 
 .new-year-decoration::before,
 .new-year-snowflakes {
-  position: absolute;
-  inset: 0;
   --left-edge: max(0px, calc(var(--art-left) - var(--fade)));
   --right-edge: min(100%, calc(var(--art-right) + var(--fade)));
   mask-image: linear-gradient(
@@ -34,19 +40,19 @@ html.new-year body { isolation: isolate; }
 }
 
 .new-year-snowflakes {
-  --center-shade: #0006;
-  overflow: hidden;
+  --center-shade: #0008;
+  z-index: 5;
 }
 
 .new-year-snowflakes span {
   position: absolute;
-  top: -36px;
+  top: -40px;
   left: var(--x);
   display: block;
   font: normal var(--size) / 1 "Apple Symbols", "Segoe UI Symbol", "DejaVu Sans", serif;
   color: #fff8e8;
-  opacity: .76;
-  text-shadow: 0 0 5px #b3c5d691;
+  opacity: .92;
+  text-shadow: 0 1px 3px #142521c0, 0 0 6px #d7e6fa80;
   animation: new-year-snowflake var(--duration) var(--delay) linear infinite;
 }
 
@@ -64,5 +70,6 @@ html.new-year body { isolation: isolate; }
 }
 
 @media print {
-  .new-year-decoration { display: none !important; }
+  .new-year-decoration,
+  .new-year-snowflakes { display: none !important; }
 }
