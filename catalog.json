@@ -1,6 +1,16 @@
 {
   "items": [
     {
+      "file": "trenazher-8-kvadratnye-neravenstva.html",
+      "title": "Квадратные неравенства · тренажёр · 8 класс",
+      "type": "trenazher",
+      "class": 8,
+      "oge_task": null,
+      "status": "public",
+      "note": "6 этапов и 24 задания. Параболы, числовые прямые, выбор границ промежутков, подсказки и пошаговые разборы. Прогресс хранится в браузере.",
+      "auto": false
+    },
+    {
       "file": "trenazher-oge-18-geometriya-na-kletkah.html",
       "title": "ОГЭ № 18 · Геометрия на клетках · тренажёр",
       "type": "trenazher",
