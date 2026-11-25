@@ -1,11 +1,9 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css?v=20261125-11', document.currentScript.src);
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261125-12', document.currentScript.src);
   const content = 'a, button, input, textarea, select, summary, img, svg, canvas:not(#fx), iframe, video, table, [role="button"], [contenteditable]';
-  const minimumGutter = 80;
-  const maximumGutter = 260;
-  const clearance = 16;
+  const clearance = 20;
   let timer;
   let frame;
   let decoration;
@@ -37,13 +35,10 @@
       for (const box of range.getClientRects()) accept(box);
     }
 
-    const widths = [leftmost - clearance, width - rightmost - clearance];
-    for (let side = 0; side < widths.length; side++) {
-      const gutter = Math.min(maximumGutter, Math.floor(widths[side]));
-      const branch = decoration.children[side];
-      branch.hidden = gutter < minimumGutter;
-      branch.style.width = branch.hidden ? '0px' : `${gutter}px`;
-    }
+    const left = Math.max(0, Math.floor(leftmost - clearance));
+    const right = Math.min(width, Math.ceil(rightmost + clearance));
+    decoration.style.setProperty('--art-left', `${left}px`);
+    decoration.style.setProperty('--art-right', `${right}px`);
   }
 
   function requestGutters() {
@@ -67,12 +62,6 @@
       decoration.className = 'new-year-decoration';
       decoration.setAttribute('aria-hidden', 'true');
       decoration.inert = true;
-      for (const side of ['left', 'right']) {
-        const branch = document.createElement('span');
-        branch.className = `new-year-spruce new-year-spruce-${side}`;
-        branch.hidden = true;
-        decoration.append(branch);
-      }
       document.body.append(decoration);
       window.addEventListener('scroll', requestGutters, {passive: true, capture: true});
       window.addEventListener('resize', requestGutters, {passive: true});
