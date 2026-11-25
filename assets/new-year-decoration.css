@@ -3,42 +3,64 @@ html.new-year body { isolation: isolate; }
 .new-year-decoration {
   --art-left: 0px;
   --art-right: 100%;
+  --fade: clamp(24px, 4vw, 64px);
   position: fixed;
   inset: 0;
   overflow: hidden;
   z-index: -1;
   pointer-events: none;
-  background: #16231a url('../img/brand/new-year-spruce-wallpaper.png') center / cover no-repeat;
+}
+
+.new-year-decoration[hidden] { display: none; }
+
+.new-year-decoration::before,
+.new-year-snowflakes {
+  position: absolute;
+  inset: 0;
+  --left-edge: max(0px, calc(var(--art-left) - var(--fade)));
+  --right-edge: min(100%, calc(var(--art-right) + var(--fade)));
   mask-image: linear-gradient(
     to right,
-    #000 0 var(--art-left),
-    #0004 var(--art-left) var(--art-right),
-    #000 var(--art-right) 100%
+    #000 var(--left-edge),
+    var(--center-shade) var(--art-left) var(--art-right),
+    #000 var(--right-edge)
   );
 }
 
-.new-year-decoration[hidden] {
-  display: none;
-}
-
-.new-year-decoration::after {
+.new-year-decoration::before {
   content: "";
-  position: absolute;
-  inset: -192px 0 0;
-  background-image:
-    radial-gradient(circle 1.4px at 24% 21%, #fffdf3b8 55%, transparent 100%),
-    radial-gradient(circle 1px at 71% 49%, #ffffffa0 54%, transparent 100%),
-    radial-gradient(circle 1.7px at 43% 82%, #f3f7ffc0 55%, transparent 100%);
-  background-size: 198px 192px;
-  animation: new-year-snow 22s linear infinite;
+  --center-shade: #0002;
+  background: #16231a url('../img/brand/new-year-spruce-wallpaper.png') center / cover no-repeat;
 }
 
-@keyframes new-year-snow {
-  to { transform: translateY(192px); }
+.new-year-snowflakes {
+  --center-shade: #0006;
+  overflow: hidden;
+}
+
+.new-year-snowflakes span {
+  position: absolute;
+  top: -36px;
+  left: var(--x);
+  display: block;
+  font: normal var(--size) / 1 "Apple Symbols", "Segoe UI Symbol", "DejaVu Sans", serif;
+  color: #fff8e8;
+  opacity: .76;
+  text-shadow: 0 0 5px #b3c5d691;
+  animation: new-year-snowflake var(--duration) var(--delay) linear infinite;
+}
+
+@keyframes new-year-snowflake {
+  0% { transform: translateY(0) rotate(0); opacity: 0; }
+  12%, 88% { opacity: .76; }
+  100% { transform: translate(var(--drift), calc(100vh + 72px)) rotate(70deg); opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .new-year-decoration::after { animation: none; }
+  .new-year-snowflakes span {
+    top: var(--x);
+    animation: none;
+  }
 }
 
 @media print {
