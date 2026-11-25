@@ -50,3 +50,32 @@ assert.equal(T.mergeCards(st,'a1',[c('x1','старее',3)]),0);
 assert.equal(T.mergeCards(st,'a1',[c('x1','новее',9),{id:'плохой id!'}]),1);
 assert.equal(T.cards(st,'a1')[0].topic,'новее');assert.equal(T.cards(st,'b2').length,0);
 });
+
+test('past lesson attachments keep the lesson date and survive journal sync',()=>{
+ const original=storage(),copy=storage();
+ teaching.saveCard(original,'alice',{...card(),closedAt:123});
+ const tile={id:'OGE-18-1',title:'Геометрия на клетках'};
+ const saved=teaching.saveCard(original,'alice',{...card(),tiles:JSON.stringify([tile,tile])});
+ assert.equal(saved.date,card().date);
+ assert.equal(saved.closedAt,123);
+ assert.equal(saved.summary,card().summary);
+ assert.deepEqual(saved.tiles,[tile]);
+ teaching.mergeCards(copy,'alice',teaching.cards(original,'alice'));
+ assert.deepEqual(teaching.cards(copy,'alice')[0].tiles,[tile]);
+ assert.deepEqual(teaching.saveCard(copy,'alice',{...card(),summary:'Новый итог'}).tiles,[tile]);
+ assert.deepEqual(teaching.saveCard(copy,'alice',{...card(),tiles:[]}).tiles,[]);
+});
+
+test('map history offers a past lesson even without a saved journal card',()=>{
+ const s=storage(),student={topic:'Текущая тема',routeHistory:[
+  {date:'2020-11-01',title:'Трапеция'},
+  {date:'2020-11-01',title:'Средняя линия'},
+  {date:'2020-11-02',title:'Площади'}
+ ]};
+ teaching.saveCard(s,'alice',{...card(),date:'2020-11-02'});
+ const rendered=teaching.journalHTML(s,'alice',student,'map-2020-11-01');
+ assert.match(rendered,/value="map-2020-11-01" selected/);
+ assert.match(rendered,/name="date" required value="2020-11-01"/);
+ assert.match(rendered,/name="topic" maxlength="300" required value="Трапеция; Средняя линия"/);
+ assert.doesNotMatch(rendered,/map-2020-11-02/);
+});

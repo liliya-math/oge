@@ -792,7 +792,7 @@ a.gc{text-decoration:none}
 <script src="assets/lili-board-cloud.js?v=20261031-recovery"></script>
 <script src="assets/lili-personal-board.js?v=20261031-personal"></script>
 <script src="assets/lili-board-window.js?v=20261031-stage3"></script>
-<script src="assets/lili-teaching.js?v=20261115-prefill"></script>
+<script src="assets/lili-teaching.js?v=20261125-lesson-tiles"></script>
 <script src="assets/lili-lesson-flow.js?v=20261031-stage3"></script>
 <script>
 (() => {
@@ -1072,6 +1072,25 @@ function loadCatalog(){
 }
 let GG=null;
 const ROUTE_SRC=[['lesson-route-5.json',5,'алгебра'],['lesson-route-6.json',6,'алгебра'],['lesson-route-7a.json',7,'алгебра'],['lesson-route-7g.json',7,'геометрия'],['lesson-route-8a.json',8,'алгебра'],['lesson-route-8g.json',8,'геометрия'],['lesson-route-9a.json',9,'алгебра'],['lesson-route-9g.json',9,'геометрия']];
+let journalTilesRequest;
+function loadJournalTiles(){
+ if(!journalTilesRequest){
+  const keys=['5','6','7A','7G','8A','8G','9A','9G','OGE','ERR'];
+  const files=[...ROUTE_SRC.map(x=>x[0]),'lesson-route-oge.json','lesson-route-err.json'];
+  journalTilesRequest=Promise.all([
+   adm('routeEdits',{}),
+   ...files.map(file=>fetch(file,{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error(file);return r.json()}))
+  ]).then(([config,...routes])=>routes.flatMap((route,index)=>{
+   const layout=(config.layouts||{})[keys[index]], edits=config.edits||{};
+   const tiles=new Map(route.lessons.map(({id,title})=>[id,title]));
+   for(const [id,tile] of Object.entries(layout?.added||{})){
+    if(!tile.school)tiles.set(id,tile.title);
+   }
+   return [...tiles].map(([id,title])=>({id,title:edits[id]?.title||title}));
+  })).catch(error=>{journalTilesRequest=null;throw error});
+ }
+ return journalTilesRequest;
+}
 function loadGrades(){return Promise.all(ROUTE_SRC.map(([f,g,s])=>fetch(f,{cache:'default'}).then(r=>r.ok?r.json():null).then(j=>j&&Array.isArray(j.lessons)?j.lessons.map(l=>({title:l.title,grade:g,subject:s,ch:(j.chapters||[])[l.chapter-1]||''})):[]).catch(()=>[]))).then(a=>{GG={nodes:[].concat(...a)}})}
 const MATS=[['z15-pifagor.html','Теорема Пифагора','задание 15'],['z15-sin-cos-tg-storona.html','Синус, косинус, тангенс: найти сторону','задание 15'],['bissektrisy-parallelogramma.html','Биссектрисы параллелограмма','задание 17'],['razbor-probnik-oge-2.html','Разбор пробника №2','все задания']];
 const WD={'вс':0,'пн':1,'вт':2,'ср':3,'чт':4,'пт':5,'сб':6};
@@ -1487,7 +1506,7 @@ function journalSync(force){
  const h=LiliTeaching.hash(localStorage,code);if(!force&&jSync.hash[code]===h)return;
  let cards;try{cards=LiliTeaching.cards(localStorage,code)}catch(e){return}
  jSync.busy=true;
- adm('journalSync',{t:code,cards}).then(j=>{const n=LiliTeaching.mergeCards(localStorage,code,j&&j.cards||[]);jSync.hash[code]=LiliTeaching.hash(localStorage,code);if(n>0&&(D.code||CODE)===code){const el=document.getElementById('teaching-journal');if(el&&!(document.getElementById('jl-form')||{dataset:{}}).dataset.dirty){el.outerHTML=journalCard();bindJournalCard()}const pc=document.getElementById('prep-card');if(pc)pc.outerHTML=prepCard()}}).catch(()=>{jSync.pause=Date.now()+300000}).finally(()=>{jSync.busy=false});
+ adm('journalSync',{t:code,cards}).then(j=>{const n=LiliTeaching.mergeCards(localStorage,code,j&&j.cards||[]);jSync.hash[code]=h;if(n>0&&(D.code||CODE)===code){const el=document.getElementById('teaching-journal');if(el&&!(document.getElementById('jl-form')||{dataset:{}}).dataset.dirty){el.outerHTML=journalCard();bindJournalCard()}const pc=document.getElementById('prep-card');if(pc)pc.outerHTML=prepCard()}}).catch(()=>{jSync.pause=Date.now()+300000}).finally(()=>{jSync.busy=false});
 }
 if(TEACH){setInterval(()=>journalSync(false),20000);document.addEventListener('visibilitychange',()=>{if(document.hidden)journalSync(false)})}
 /* ===== Подготовка к занятию: собирается сама из календаря, домашки и ошибок; печатается как лист занятия ===== */
@@ -1851,7 +1870,7 @@ function drafts(){const o={};app.querySelectorAll('input[id]:not([type=file]),te
 let journalRequested;
 function journalCard(){try{return LiliTeaching.journalHTML(localStorage,D.code||CODE,D,journalRequested)}catch(e){return '<div class="card"><h2>Карточка занятия</h2><p>Браузер запретил доступ к личному журналу. Разреши хранение данных для сайта.</p></div>'}}
 function openLessonFinish(card){if(routeActive()){openLessonRoute();return}LiliLessonFlow.showFinish(document,{code:D.code||CODE,card,student:D,storage:localStorage,getStudent:code=>adm('get',{t:code}).then(j=>j.d),assignHomework:(code,payload)=>adm('hwAdd',{t:code,...payload}).then(j=>(D=j.d)),setTopic:(code,topic)=>adm('student',{t:code,fields:{topic}}).then(j=>(D=j.d)),onSaved:card=>{journalRequested=card.id;tRender(false)},onDismiss:card=>{journalRequested=card.id;tRender(false)},notify:toast})}
-function bindJournalCard(){LiliTeaching.bindJournal(document,D.code||CODE,D,{teacherURL:myBoardURL,finish:openLessonFinish,refresh:id=>{journalRequested=id;const el=document.getElementById('teaching-journal');if(el){el.outerHTML=journalCard();bindJournalCard()}},notify:toast})}
+function bindJournalCard(){LiliTeaching.bindJournal(document,D.code||CODE,D,{teacherURL:myBoardURL,finish:openLessonFinish,loadTiles:loadJournalTiles,refresh:id=>{journalRequested=id;const el=document.getElementById('teaching-journal');if(el){el.outerHTML=journalCard();bindJournalCard()}journalSync(false)},notify:toast})}
 function tRender(keep){setTimeout(()=>journalSync(false),800);LiliTeaching.preserveDraft(document,D.code||CODE);const y=scrollY,dr=keep===false?{}:drafts(),foc=document.activeElement&&document.activeElement.id;
  const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
  app.innerHTML=tTop()+`<div class="cab enter"><section class="card"><div class="sh"><h1>${esc(fullName()||D.name)}</h1><span class="sub">${D.active?'':'В архиве'}</span></div>

@@ -3,10 +3,24 @@
   const KEY = 'lili-teacher-lessons-v1';
   const ZONE = 'Europe/Samara';
   const drafts = new Map();
+  const journalFields = ['id','date','time','topic','plan','materials','summary','tiles'];
+  function cleanTiles(value) {
+    if (typeof value === 'string') {
+      try { value=JSON.parse(value); } catch (_) { return []; }
+    }
+    const byId=new Map();
+    for (const tile of Array.isArray(value)?value:[]) {
+      if (!tile || !/^(?:8A-(?:F\d{1,2}|\d{2,3})|(?:[56]|7[AG]|8G|9[AG])-\d{2,3}|OGE-\d{2}-\d{1,2}|ERR-\d{3})$/.test(tile.id || '')) continue;
+      const title=String(tile.title || '').trim().slice(0,200);
+      if (title && !byId.has(tile.id)) byId.set(tile.id,{id:tile.id,title});
+      if (byId.size>=30) break;
+    }
+    return Array.from(byId.values());
+  }
   function preserveDraft(doc,code) {
     const form=doc.getElementById('jl-form');
     if(!form || form.dataset.dirty!=='1')return;
-    const value={}; for(const k of ['id','date','time','topic','plan','materials','summary'])value[k]=form.elements.namedItem(k).value;
+    const value={}; for(const k of journalFields)value[k]=form.elements.namedItem(k).value;
     drafts.set(code,value);
   }
   const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -43,7 +57,7 @@
     const text = (k,n) => String(value[k] || '').slice(0,n);
     const time = text('time',5);
     if (time && !/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) throw new Error('Проверь время занятия.');
-    return {id:value.id,date:value.date,time,topic:text('topic',300),plan:text('plan',10000),materials:text('materials',5000),summary:text('summary',5000),closedAt:Number.isFinite(Number(value.closedAt))?Math.max(0,Number(value.closedAt)):0,close:cleanClose(value.close),updated:Number(value.updated)||Date.now()};
+    return {id:value.id,date:value.date,time,topic:text('topic',300),plan:text('plan',10000),materials:text('materials',5000),summary:text('summary',5000),tiles:cleanTiles(value.tiles),closedAt:Number.isFinite(Number(value.closedAt))?Math.max(0,Number(value.closedAt)):0,close:cleanClose(value.close),updated:Number(value.updated)||Date.now()};
   }
   function read(storage) {
     const raw = storage.getItem(KEY);
@@ -161,18 +175,32 @@
     try {list=cards(storage,code);}catch(e){error=e.message;}
     let desired=requested;
     try{desired=desired || new URLSearchParams(root.location.search).get('lesson');}catch(_){}
-    const found=list.find(x => x.id===desired) || list.find(x => x.date===dayKey());
-    const rh=(student && Array.isArray(student.routeHistory)?student.routeHistory:[]).filter(x => x && x.date===dayKey()).map(x => x.title).filter(Boolean), pre=rh.length?'Прошли: '+[...new Set(rh)].join('; '):'';
-    const c=drafts.get(code) || found || {id:'',date:dayKey(),time:'',topic:student.topic || '',plan:'',materials:'',summary:pre};
-    return `<section class="card teaching-journal" id="teaching-journal"><div class="sh"><h2>Карточка занятия</h2><span class="sub">Личный журнал</span></div><p class="note">План и итоги видишь только ты. Журнал сам копируется на сервер и подтягивается на другом устройстве; выгрузка файлом остаётся запасной копией.</p>${backupHTML()}<label class="fld"><span>История занятий</span><select id="jl-select"><option value="">Новое занятие</option>${list.map(x=>`<option value="${esc(x.id)}" ${c.id===x.id?'selected':''}>${esc(x.date)} ${esc(x.time)} · ${esc(x.topic || 'Без темы')}${x.closedAt?' · завершён':''}</option>`).join('')}</select></label><form id="jl-form"><input type="hidden" name="id" value="${esc(c.id)}"><div class="fgrid"><label class="fld"><span>Дата</span><input type="date" name="date" required value="${esc(c.date)}"></label><label class="fld"><span>Время по Самаре</span><input type="time" name="time" value="${esc(c.time)}"></label></div><label class="fld"><span>Тема этого занятия</span><input name="topic" maxlength="300" required value="${esc(c.topic)}"></label><details class="teaching-notes"><summary>План, материалы и итог</summary><label class="fld"><span>Личный план</span><textarea name="plan" maxlength="10000" rows="3">${esc(c.plan)}</textarea></label><label class="fld"><span>Ссылки на материалы, каждая с новой строки</span><textarea name="materials" maxlength="5000" rows="2" placeholder="https://lilimath.ru/…">${esc(c.materials)}</textarea></label><div class="focus-actions" id="jl-materials"></div><label class="fld"><span>Итог и что повторить</span><textarea name="summary" maxlength="5000" rows="2">${esc(c.summary)}</textarea></label></details><p class="ferr" role="status" id="jl-status">${esc(error)}</p><div class="focus-actions"><button class="btn" type="submit">Сохранить карточку</button><button class="btn ghost" type="button" id="jl-start">Начать урок на доске</button><button class="btn ghost" type="button" id="jl-video">Урок с видео</button><button class="btn ghost" type="button" id="jl-finish">Завершить урок</button><a class="chip" href="#hwcard">Выдать домашку отдельно</a></div></form></section>`;
+    const today=dayKey();
+    const byDay=new Map();
+    const savedDates=new Set(list.filter(x=>!x.id.startsWith('map-')).map(x=>x.date));
+    const history=Array.isArray(student.routeHistory)?student.routeHistory:[];
+    for (const entry of history) {
+      if (!entry || !/^\d{4}-\d{2}-\d{2}$/.test(entry.date) || entry.date>=today || !entry.title || savedDates.has(entry.date)) continue;
+      if (!byDay.has(entry.date)) byDay.set(entry.date,new Set());
+      byDay.get(entry.date).add(entry.title);
+    }
+    for (const [date,titles] of byDay) {
+      const id='map-'+date;
+      if (!list.some(x=>x.id===id)) list.push({id,date,time:'',topic:Array.from(titles).join('; ').slice(0,300),plan:'',materials:'',summary:''});
+    }
+    list.sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time));
+    const found=list.find(x => x.id===desired) || (desired!=='new' && list.find(x => x.date===today));
+    const rh=history.filter(x => x && x.date===today).map(x => x.title).filter(Boolean), pre=rh.length?'Прошли: '+[...new Set(rh)].join('; '):'';
+    const c=drafts.get(code) || found || {id:'',date:today,time:'',topic:student.topic || '',plan:'',materials:'',summary:desired==='new'?'':pre};
+    return `<section class="card teaching-journal" id="teaching-journal"><div class="sh"><h2>Карточка занятия</h2><span class="sub">Личный журнал</span></div><p class="note">План и итоги видишь только ты. Журнал сам копируется на сервер и подтягивается на другом устройстве; выгрузка файлом остаётся запасной копией.</p>${backupHTML()}<label class="fld"><span>История занятий</span><select id="jl-select"><option value="">Новое занятие</option>${list.map(x=>`<option value="${esc(x.id)}" ${c.id===x.id?'selected':''}>${esc(x.date)} ${esc(x.time)} · ${esc(x.topic || 'Без темы')}${x.closedAt?' · завершён':''}</option>`).join('')}</select></label><form id="jl-form"><input type="hidden" name="tiles" value="${esc(JSON.stringify(cleanTiles(c.tiles)))}"><input type="hidden" name="id" value="${esc(c.id)}"><div class="fgrid"><label class="fld"><span>Дата</span><input type="date" name="date" required value="${esc(c.date)}"></label><label class="fld"><span>Время по Самаре</span><input type="time" name="time" value="${esc(c.time)}"></label></div><label class="fld"><span>Тема этого занятия</span><input name="topic" maxlength="300" required value="${esc(c.topic)}"></label><details class="teaching-notes"><summary>План, материалы и итог</summary><label class="fld"><span>Личный план</span><textarea name="plan" maxlength="10000" rows="3">${esc(c.plan)}</textarea></label><label class="fld"><span>Ссылки на материалы, каждая с новой строки</span><textarea name="materials" maxlength="5000" rows="2" placeholder="https://lilimath.ru/…">${esc(c.materials)}</textarea></label><div class="focus-actions" id="jl-materials"></div><label class="fld"><span>Итог и что повторить</span><textarea name="summary" maxlength="5000" rows="2">${esc(c.summary)}</textarea></label></details><div id="jl-tiles"><span>Квадратики занятия</span><div class="focus-actions" id="jl-tile-links"></div><div class="focus-actions"><button class="chip" type="button" id="jl-tile-picker">Выбрать квадратик</button><span id="jl-tile-controls" hidden><select id="jl-tile-select" aria-label="Квадратик"></select> <button class="chip" type="button" id="jl-tile-add">Прикрепить</button></span></div></div><p class="ferr" role="status" id="jl-status">${esc(error)}</p><div class="focus-actions"><button class="btn" type="submit">Сохранить карточку</button><button class="btn ghost" type="button" id="jl-start">Начать урок на доске</button><button class="btn ghost" type="button" id="jl-video">Урок с видео</button><button class="btn ghost" type="button" id="jl-finish">Завершить урок</button><a class="chip" href="#hwcard">Выдать домашку отдельно</a></div></form></section>`;
   }
-  function bindJournal(doc,code,student,{teacherURL,refresh,notify,finish}) {
+  function bindJournal(doc,code,student,{teacherURL,refresh,notify,finish,loadTiles}) {
     const form=doc.getElementById('jl-form');if(!form)return;
     let dirty=drafts.has(code);
     if(dirty)form.dataset.dirty='1';
     const status=doc.getElementById('jl-status');
     const save=() => {
-      const value={};for(const k of ['id','date','time','topic','plan','materials','summary'])value[k]=form.elements.namedItem(k).value.trim();
+      const value={};for(const k of journalFields)value[k]=form.elements.namedItem(k).value.trim();
       value.id=value.id || doc.defaultView.crypto.randomUUID();
       const c=saveCard(doc.defaultView.localStorage,code,value);form.elements.namedItem('id').value=c.id;dirty=false;delete form.dataset.dirty;drafts.delete(code);status.textContent='Карточка сохранена.';return c;
     };
@@ -183,13 +211,56 @@
       }
     };
     materials();
-    form.oninput=() => {dirty=true;form.dataset.dirty='1';status.textContent='Есть несохранённые изменения.';materials();};
+    const markDirty=()=>{dirty=true;form.dataset.dirty='1';status.textContent='Есть несохранённые изменения.';};
+    const tileField=form.elements.namedItem('tiles');
+    const tileLinks=doc.getElementById('jl-tile-links');
+    const tilePicker=doc.getElementById('jl-tile-picker');
+    const tileSelect=doc.getElementById('jl-tile-select');
+    const tileAdd=doc.getElementById('jl-tile-add');
+    let catalog;
+    const renderTiles=()=>{
+      const attached=cleanTiles(tileField.value);
+      tileLinks.innerHTML=attached.map(tile=>`<span><a class="chip" href="komplekt.html?id=${encodeURIComponent(tile.id)}&amp;t=${encodeURIComponent(tile.title)}" target="_blank" rel="noopener noreferrer">${esc(tile.title)}</a> <button class="chip" type="button" data-remove-tile="${esc(tile.id)}" aria-label="Убрать: ${esc(tile.title)}">×</button></span>`).join('');
+      tileLinks.querySelectorAll('[data-remove-tile]').forEach(button=>button.onclick=()=>changeTiles(attached.filter(tile=>tile.id!==button.dataset.removeTile)));
+      if (!catalog) return;
+      const ids=new Set(attached.map(tile=>tile.id));
+      tileSelect.innerHTML='<option value="">Выбрать тему</option>'+catalog.filter(tile=>!ids.has(tile.id)).map(tile=>`<option value="${esc(tile.id)}">${esc(tile.id)} · ${esc(tile.title)}</option>`).join('');
+      tileAdd.disabled=true;
+    };
+    const changeTiles=tiles=>{tileField.value=JSON.stringify(tiles);markDirty();renderTiles();};
+    renderTiles();
+    if (!loadTiles) tilePicker.remove();
+    tilePicker.onclick=async()=>{
+      tilePicker.disabled=true;
+      try {
+        catalog=await loadTiles();
+        if (!catalog.length) throw new Error('В карте нет доступных квадратиков.');
+        tilePicker.remove();
+        doc.getElementById('jl-tile-controls').hidden=false;
+        renderTiles();
+        tileSelect.focus();
+      } catch (error) {
+        status.textContent='Не удалось загрузить квадратики. Попробуй ещё раз.';
+      } finally {tilePicker.disabled=false;}
+    };
+    tileSelect.onchange=()=>{tileAdd.disabled=!tileSelect.value;};
+    tileAdd.onclick=()=>{
+      const tile=catalog.find(item=>item.id===tileSelect.value);
+      const attached=cleanTiles(tileField.value);
+      if (!tile) return;
+      if (attached.length>=30) {status.textContent='К одному уроку можно прикрепить до 30 квадратиков.';return;}
+      changeTiles(cleanTiles([...attached,tile]));
+    };
+    form.oninput=event=>{
+      if (event.target===tileSelect) return;
+      markDirty();
+      if (event.target.name==='materials') materials();
+    };
     form.onsubmit=e=>{e.preventDefault();if(!form.reportValidity())return;try{const c=save();refresh(c.id);notify('Карточка сохранена.');}catch(err){status.textContent='Не удалось сохранить: '+err.message;}};
     doc.getElementById('jl-select').onchange=e=>{
       if(dirty && !doc.defaultView.confirm('Есть несохранённые изменения. Переключить карточку?')){e.target.value=form.elements.namedItem('id').value;return;}
       drafts.delete(code);delete form.dataset.dirty;
-      if(e.target.value) {refresh(e.target.value);return;}
-      form.reset();for(const k of ['id','plan','materials','summary'])form.elements.namedItem(k).value='';form.elements.namedItem('date').value=dayKey();form.elements.namedItem('topic').value=student.topic || '';status.textContent='Новая карточка ещё не сохранена.';dirty=false;materials();
+      refresh(e.target.value || 'new');
     };
     const start=video=>{
       if(!form.reportValidity())return;
