@@ -1,7 +1,7 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css?v=20261125-16', document.currentScript.src);
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261125-17', document.currentScript.src);
   const content = 'a, button, input, textarea, select, summary, img, svg, canvas:not(#fx), iframe, video, table, [role="button"], [contenteditable], .container, .wrap, dialog, [role="dialog"]';
   const clearance = 20;
   let timer;
@@ -75,7 +75,7 @@
       snow.setAttribute('aria-hidden', 'true');
       snow.inert = true;
       const flakes = ['❄︎', '❅', '❆'];
-      for (let index = 0; index < 36; index++) {
+      for (let index = 0; index < 60; index++) {
         const flake = document.createElement('span');
         const duration = 18 + index % 9;
         flake.textContent = flakes[index % flakes.length];
