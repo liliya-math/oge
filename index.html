@@ -47,12 +47,10 @@
 @media(max-width:760px){.cal{padding:24px 16px}.cal-days{grid-template-columns:repeat(2,1fr)}}
 
 /* Новогоднее оформление главной страницы */
-.new-year body {
-  background:
-    radial-gradient(ellipse at 22% 320px, #7c4a345e, transparent 60%),
-    linear-gradient(#263325, var(--paper) 750px);
-  background-size: 100% 750px;
-  background-repeat: no-repeat;
+@media (min-width: 1051px) {
+  .new-year .container {
+    width: min(1120px, calc(100% - clamp(232px, 22vw, 450px)));
+  }
 }
 .new-year .nav {
   border-bottom-color: #c89b6088;
@@ -68,7 +66,7 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="manifest" href="/manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="lili.math"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-<script src="/assets/new-year-decoration.js?v=20261125-10" defer></script>
+<script src="/assets/new-year-decoration.js?v=20261125-11" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">К содержанию</a>
