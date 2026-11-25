@@ -792,7 +792,7 @@ a.gc{text-decoration:none}
 <script src="assets/lili-board-cloud.js?v=20261031-recovery"></script>
 <script src="assets/lili-personal-board.js?v=20261031-personal"></script>
 <script src="assets/lili-board-window.js?v=20261031-stage3"></script>
-<script src="assets/lili-teaching.js?v=20261125-lesson-tiles"></script>
+<script src="assets/lili-teaching.js?v=20261125-tile-homework"></script>
 <script src="assets/lili-lesson-flow.js?v=20261031-stage3"></script>
 <script>
 (() => {
@@ -1870,7 +1870,72 @@ function drafts(){const o={};app.querySelectorAll('input[id]:not([type=file]),te
 let journalRequested;
 function journalCard(){try{return LiliTeaching.journalHTML(localStorage,D.code||CODE,D,journalRequested)}catch(e){return '<div class="card"><h2>Карточка занятия</h2><p>Браузер запретил доступ к личному журналу. Разреши хранение данных для сайта.</p></div>'}}
 function openLessonFinish(card){if(routeActive()){openLessonRoute();return}LiliLessonFlow.showFinish(document,{code:D.code||CODE,card,student:D,storage:localStorage,getStudent:code=>adm('get',{t:code}).then(j=>j.d),assignHomework:(code,payload)=>adm('hwAdd',{t:code,...payload}).then(j=>(D=j.d)),setTopic:(code,topic)=>adm('student',{t:code,fields:{topic}}).then(j=>(D=j.d)),onSaved:card=>{journalRequested=card.id;tRender(false)},onDismiss:card=>{journalRequested=card.id;tRender(false)},notify:toast})}
-function bindJournalCard(){LiliTeaching.bindJournal(document,D.code||CODE,D,{teacherURL:myBoardURL,finish:openLessonFinish,loadTiles:loadJournalTiles,refresh:id=>{journalRequested=id;const el=document.getElementById('teaching-journal');if(el){el.outerHTML=journalCard();bindJournalCard()}journalSync(false)},notify:toast})}
+function openJournalTileHomework(tile){
+ const code=D.code||CODE;
+ const dialog=document.createElement('dialog');
+ dialog.className='workflow-dialog';
+ dialog.setAttribute('aria-labelledby','tile-hw-title');
+ dialog.innerHTML=`<form>
+  <h2 id="tile-hw-title">Отправить ДЗ</h2>
+  <p class="note">${esc(fullName()||D.name)} · ${esc(tile.title)}</p>
+  <label>Домашняя работа<select name="work" required disabled><option value="">Загружаю…</option></select></label>
+  <label>Срок выполнения (необязательно)<input type="date" name="due"></label>
+  ${D.telegram?.connected&&!D.telegram.paused?'<label><span><input type="checkbox" name="notify"> Уведомить в Telegram</span></label>':''}
+  <p class="ferr" role="status"></p>
+  <div class="focus-actions"><button class="btn ghost" type="button" data-close>Закрыть</button><button class="btn" type="submit" disabled>Отправить в кабинет</button></div>
+ </form>`;
+ const form=dialog.querySelector('form'),status=form.querySelector('[role=status]');
+ const picker=form.elements.work,submit=form.querySelector('[type=submit]'),close=form.querySelector('[data-close]');
+ const choices=[];
+ let refreshHomework=false;
+ dialog.onclose=()=>{
+  dialog.remove();
+  if(!refreshHomework||(D?.code||CODE)!==code)return;
+  adm('get',{t:code}).then(result=>{
+   if((D?.code||CODE)===code && result.d)apply(result);
+  }).catch(()=>{});
+ };
+ dialog.addEventListener('cancel',event=>{if(close.disabled)event.preventDefault()});
+ close.onclick=()=>dialog.close();
+ document.body.append(dialog);
+ dialog.showModal();
+ adm('routeGet',{id:tile.id}).then(async ({materials})=>{
+  if(materials.homework)choices.push({title:'Домашняя работа по теме',url:materials.homework});
+  if(materials.quizzes?.length){
+   const {works}=await adm('quizList');
+   const ids=new Set(materials.quizzes);
+   for(const work of works||[])if(ids.has(work.id)&&work.kind==='hw')choices.push(work);
+  }
+  if(!choices.length){picker.options[0].textContent='Нет домашней работы';status.textContent='К этому квадратику пока не прикреплена домашняя работа.';return}
+  picker.options[0].textContent='Выбрать работу';
+  choices.forEach((work,i)=>picker.add(new Option(work.title,String(i))));
+  picker.disabled=false;
+  if(choices.length===1)picker.value='0';
+  submit.disabled=!picker.value;
+ }).catch(err=>{picker.options[0].textContent='Ошибка загрузки';status.textContent=errText(err)});
+ picker.onchange=()=>{submit.disabled=!picker.value;status.textContent=''};
+ form.onsubmit=async event=>{
+  event.preventDefault();
+  const work=choices[picker.value];
+  if(submit.disabled||!work)return;
+  const due=form.elements.due.value,notify=!!form.elements.notify?.checked;
+  submit.disabled=picker.disabled=close.disabled=true;
+  status.textContent='Отправляю…';
+  try{
+   const result=work.url
+    ?await adm('hwAdd',{t:code,text:'Домашняя работа: '+tile.title,url:work.url,label:'Открыть домашнюю работу',due,notify})
+    :await adm('quizAssign',{t:code,work:work.id,version:work.version,due,notify});
+   status.textContent=result.notification?notificationText(result.notification):'Домашняя работа отправлена в кабинет ученика.';
+   for(const control of form.querySelectorAll('input'))control.disabled=true;
+   refreshHomework=true;
+  }catch(err){
+   status.textContent=errText(err);
+   if(err.message!=='save_unknown')submit.disabled=picker.disabled=false;
+   else refreshHomework=true;
+  }finally{close.disabled=false}
+ };
+}
+function bindJournalCard(){LiliTeaching.bindJournal(document,D.code||CODE,D,{teacherURL:myBoardURL,finish:openLessonFinish,loadTiles:loadJournalTiles,sendTileHomework:openJournalTileHomework,refresh:id=>{journalRequested=id;const el=document.getElementById('teaching-journal');if(el){el.outerHTML=journalCard();bindJournalCard()}journalSync(false)},notify:toast})}
 function tRender(keep){setTimeout(()=>journalSync(false),800);LiliTeaching.preserveDraft(document,D.code||CODE);const y=scrollY,dr=keep===false?{}:drafts(),foc=document.activeElement&&document.activeElement.id;
  const kid=S.mode==='kid',bday=isBday()?bdayCard():'';
  app.innerHTML=tTop()+`<div class="cab enter"><section class="card"><div class="sh"><h1>${esc(fullName()||D.name)}</h1><span class="sub">${D.active?'':'В архиве'}</span></div>
