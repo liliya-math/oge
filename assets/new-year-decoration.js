@@ -1,7 +1,9 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-22', document.currentScript.src);
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-23', document.currentScript.src);
+  const musicUrl = new URL('new-year-music.mp3', document.currentScript.src);
+  const musicPreference = 'lilimath-holiday-music';
   const controls = 'button, input, textarea, select, summary, [role="button"], [contenteditable]';
   const diagrams = 'svg:not(.new-year-snow-mask), math, mjx-container, canvas:not(#fx), iframe, video';
   const snowProtected = `${controls}, ${diagrams}`;
@@ -14,7 +16,41 @@
   let snowMask;
   let visibleArea;
   let protectedAreas;
+  let music;
+  let musicButton;
   let stylesReady = false;
+
+  function playMusic() {
+    music.play().catch(() => musicButton.setAttribute('aria-pressed', 'false'));
+  }
+
+  function addMusicControl() {
+    music = document.createElement('audio');
+    music.id = 'new-year-music';
+    music.src = musicUrl.href;
+    music.preload = 'none';
+    music.loop = true;
+    music.hidden = true;
+    musicButton = document.createElement('button');
+    musicButton.type = 'button';
+    musicButton.className = 'new-year-music-toggle';
+    musicButton.textContent = 'Музыка';
+    musicButton.setAttribute('aria-label', 'Фоновая музыка');
+    musicButton.setAttribute('aria-pressed', 'false');
+    musicButton.hidden = true;
+    for (const event of ['playing', 'pause', 'error']) {
+      music.addEventListener(event, () => {
+        musicButton.setAttribute('aria-pressed', String(event === 'playing'));
+      });
+    }
+    musicButton.addEventListener('click', () => {
+      const enable = music.paused;
+      try { sessionStorage.setItem(musicPreference, String(enable)); } catch {}
+      if (enable) playMusic();
+      else music.pause();
+    });
+    document.body.append(music, musicButton);
+  }
 
   function createSnowMask() {
     const namespace = 'http://www.w3.org/2000/svg';
@@ -150,6 +186,7 @@
       snow.inert = true;
       decoration.hidden = snow.hidden = true;
       document.body.append(decoration, snow, createSnowMask());
+      if (window.top === window) addMusicControl();
       window.addEventListener('scroll', requestCoverage, {passive: true, capture: true});
       window.addEventListener('resize', requestCoverage, {passive: true});
       document.addEventListener('load', requestCoverage, true);
@@ -164,6 +201,17 @@
     }
 
     if (decoration) decoration.hidden = snow.hidden = !active || !stylesReady;
+    if (musicButton) {
+      const showMusic = active && stylesReady;
+      const wasHidden = musicButton.hidden;
+      musicButton.hidden = !showMusic;
+      if (!showMusic) music.pause();
+      else if (wasHidden) {
+        let enabled;
+        try { enabled = sessionStorage.getItem(musicPreference) === 'true'; } catch {}
+        if (enabled) playMusic();
+      }
+    }
     if (active && stylesReady) requestCoverage();
   }
 

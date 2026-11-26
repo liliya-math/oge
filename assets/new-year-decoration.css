@@ -14,7 +14,30 @@ html.new-year body { isolation: isolate; }
 .new-year-decoration { z-index: -1; }
 
 .new-year-decoration[hidden],
-.new-year-snowflakes[hidden] { display: none; }
+.new-year-snowflakes[hidden],
+.new-year-music-toggle[hidden] { display: none; }
+
+.new-year-music-toggle {
+  position: fixed;
+  inset-inline-start: max(12px, env(safe-area-inset-left));
+  inset-block-end: calc(12px + env(safe-area-inset-bottom));
+  z-index: 15;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 0 13px;
+  border: 1px solid #e2b04a66;
+  border-radius: 999px;
+  background: #16231aeb;
+  color: #eee0c8;
+  font: 600 13px / 1.2 system-ui, sans-serif;
+  cursor: pointer;
+}
+
+.new-year-music-toggle::before { content: "♫"; font-size: 16px; }
+.new-year-music-toggle[aria-pressed="true"] { color: #f2cb73; border-color: #e2b04a; }
+.new-year-music-toggle:focus-visible { outline: 2px solid #f2cb73; outline-offset: 3px; }
 
 .new-year-snow-mask { position: fixed; width: 0; height: 0; pointer-events: none; }
 
@@ -68,5 +91,6 @@ html.new-year body { isolation: isolate; }
 
 @media print {
   .new-year-decoration,
-  .new-year-snowflakes { display: none !important; }
+  .new-year-snowflakes,
+  .new-year-music-toggle { display: none !important; }
 }
