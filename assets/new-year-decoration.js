@@ -1,7 +1,7 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-36', document.currentScript.src);
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-37', document.currentScript.src);
   const musicUrl = new URL('new-year-music.mp3?v=20261126-35', document.currentScript.src);
   // Note attacks measured from this recording, in hundredths of a second.
   const noteAttacks = [
@@ -141,8 +141,10 @@
     return svg;
   }
 
+  const snowTints = ['#a8dcff', '#d6beff', '#ffdc99'];
+
   function updateSnow(width, height) {
-    const fallDistance = height + 26;
+    const fallDistance = height + 30;
     if (Number(snowMask.getAttribute('width')) !== width ||
         Number(snowMask.getAttribute('height')) !== height) {
       for (const shape of [snowMask, visibleArea]) {
@@ -161,25 +163,29 @@
 
     const flakes = document.createDocumentFragment();
     for (let lane = 0; lane < lanes; lane++) {
-      const duration = fallDistance / (8 + Math.random() * 5);
       const phase = Math.random();
       const extraInLane = Math.round((lane + 1) * extraFlakes / lanes)
         - Math.round(lane * extraFlakes / lanes);
       const laneFlakes = flakesPerLane + extraInLane;
       for (let row = 0; row < laneFlakes; row++) {
         const flake = document.createElement('span');
-        // Vary the spacing without letting two flakes in one lane catch up.
         const stagger = 0.72 * (Math.random() - 0.5);
         const progress = (phase + (row + 0.5 + stagger) / laneFlakes) % 1;
         const horizontalOffset = 0.8 * (Math.random() - 0.5);
+        const depth = Math.random() ** 1.5;
+        const duration = fallDistance / (7 + depth * 15 + Math.random() * 5);
+        const shimmerDuration = 5 + Math.random() * 8;
         flake.style.setProperty('--x', `${100 * (lane + 0.5 + horizontalOffset) / lanes}%`);
         flake.style.setProperty('--y', `${100 * progress}%`);
-        flake.style.setProperty('--size', `${12 + 8 * Math.random()}px`);
-        flake.style.setProperty('--flake-opacity', 0.36 + Math.random() * 0.36);
+        flake.style.setProperty('--size', `${9 + depth * 16}px`);
+        flake.style.setProperty('--flake-opacity', 0.42 + depth * 0.27);
         flake.style.setProperty('--turn', `${Math.round(Math.random() * 60)}deg`);
         flake.style.setProperty('--duration', `${duration}s`);
         flake.style.setProperty('--delay', `${-progress * duration}s`);
-        flake.style.setProperty('--drift', `${(Math.random() - 0.5) * 18}px`);
+        flake.style.setProperty('--drift', `${(Math.random() - 0.5) * (22 + depth * 36)}px`);
+        flake.style.setProperty('--flake-tint', snowTints[Math.floor(Math.random() * snowTints.length)]);
+        flake.style.setProperty('--shimmer-duration', `${shimmerDuration}s`);
+        flake.style.setProperty('--shimmer-delay', `${-Math.random() * shimmerDuration}s`);
         flakes.append(flake);
       }
     }
