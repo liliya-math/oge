@@ -7299,6 +7299,87 @@
       "status": "public",
       "note": "OGE-15-5",
       "auto": false
+    },
+    {
+      "file": "N20 -N21 Арифметический_квадратный_корень.pdf",
+      "title": "ОГЭ №20–21 · Арифметический квадратный корень",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена."
+    },
+    {
+      "file": "albom.html",
+      "title": "Альбом",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена."
+    },
+    {
+      "file": "board-library-setup.html",
+      "title": "Настройка материалов для доски",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена."
+    },
+    {
+      "file": "dz-delimost-chisel-2.html",
+      "title": "Домашнее задание · Делимость чисел, часть 2",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена."
+    },
+    {
+      "file": "kabinet-code.html",
+      "title": "Код кабинета",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена."
+    },
+    {
+      "file": "komplekt.html",
+      "title": "Комплект материалов",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена."
+    },
+    {
+      "file": "podgotovka-kr-8A-952-kvadratnye-korni.html",
+      "title": "8А · Подготовка к контрольной · Квадратные корни",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена."
+    },
+    {
+      "file": "skopirovat-skript.html",
+      "title": "Копирование скрипта",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена."
+    },
+    {
+      "file": "urok-delimost-chisel-1.html",
+      "title": "Урок · Делимость чисел, часть 1",
+      "type": "sluzhebnoe",
+      "class": null,
+      "oge_task": null,
+      "status": "hidden",
+      "note": "Учёт существующего файла; прежняя видимость в каталоге сохранена."
     }
   ]
 }
