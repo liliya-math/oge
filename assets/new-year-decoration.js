@@ -1,11 +1,11 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-35', document.currentScript.src);
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-36', document.currentScript.src);
   const musicUrl = new URL('new-year-music.mp3?v=20261126-35', document.currentScript.src);
   // Note attacks measured from this recording, in hundredths of a second.
   const noteAttacks = [
-    169, 283, 397, 510, 625, 850, 1095, 1175, 1229, 1283, 1338, 1391,
+    116, 169, 230, 283, 343, 397, 510, 625, 850, 1095, 1175, 1229, 1283, 1338, 1391,
     1500, 1605, 1659, 1712, 1766, 1928, 1982, 2036, 2141, 2249, 2302, 2355,
     2463, 2516, 2566, 2623, 2732, 2786, 2842, 2895, 2952, 3008, 3064, 3118,
     3175, 3231, 3283, 3334, 3386, 3439, 3492, 3651, 3702, 3758, 3861, 3920,
@@ -45,13 +45,12 @@
   function setMusicPlaying(playing) {
     musicButton.textContent = playing ? 'Выключить музыку' : 'Включить музыку';
     musicButton.dataset.playing = String(playing);
-    decoration.classList.toggle('new-year-garland-lit', playing);
     if (playing && garlandFrame === undefined) {
       garlandFrame = requestAnimationFrame(updateGarland);
     } else if (!playing && garlandFrame !== undefined) {
       cancelAnimationFrame(garlandFrame);
       garlandFrame = undefined;
-      garland.style.removeProperty('--garland-brightness');
+      garland.style.removeProperty('--garland-flash');
     }
   }
 
@@ -66,9 +65,9 @@
       else high = middle;
     }
     const elapsed = (now - (noteAttacks[low - 1] ?? -Infinity)) / 100;
-    const fade = Math.max(0, 1 - elapsed / .42);
-    const pulse = Math.min(1, elapsed / .05) * fade ** 2;
-    garland.style.setProperty('--garland-brightness', (1.08 + .68 * pulse).toFixed(3));
+    const rise = Math.min(1, elapsed / .035);
+    const fade = Math.max(0, 1 - Math.max(0, elapsed - .105) / .25);
+    garland.style.setProperty('--garland-flash', (rise * fade).toFixed(3));
     garlandFrame = requestAnimationFrame(updateGarland);
   }
 
@@ -85,7 +84,7 @@
     musicButton.className = 'new-year-music-toggle';
     setMusicPlaying(false);
 
-    for (const event of ['playing', 'pause', 'error']) {
+    for (const event of ['playing', 'waiting', 'pause', 'error']) {
       music.addEventListener(event, () => {
         setMusicPlaying(event === 'playing');
       });
@@ -143,7 +142,7 @@
   }
 
   function updateSnow(width, height) {
-    const fallDistance = height + 20;
+    const fallDistance = height + 26;
     if (Number(snowMask.getAttribute('width')) !== width ||
         Number(snowMask.getAttribute('height')) !== height) {
       for (const shape of [snowMask, visibleArea]) {
@@ -152,8 +151,8 @@
       }
       snow.style.setProperty('--fall-distance', `${fallDistance}px`);
     }
-    const lanes = Math.max(1, Math.min(14, Math.floor(width / 115)));
-    const flakesPerLane = Math.max(1, Math.min(8, Math.floor(fallDistance / 145)));
+    const lanes = Math.max(1, Math.min(14, Math.floor(width / 138)));
+    const flakesPerLane = Math.max(1, Math.min(8, Math.floor(fallDistance / 172)));
     const baseFlakes = lanes * flakesPerLane;
     const extraFlakes = baseFlakes >= 8 ? Math.max(1, Math.round(baseFlakes / 18)) : 0;
     const layout = `${lanes}:${flakesPerLane}`;
@@ -175,8 +174,9 @@
         const horizontalOffset = 0.8 * (Math.random() - 0.5);
         flake.style.setProperty('--x', `${100 * (lane + 0.5 + horizontalOffset) / lanes}%`);
         flake.style.setProperty('--y', `${100 * progress}%`);
-        flake.style.setProperty('--size', `${3.6 + 7.7 * Math.random() ** 1.8}px`);
+        flake.style.setProperty('--size', `${12 + 8 * Math.random()}px`);
         flake.style.setProperty('--flake-opacity', 0.36 + Math.random() * 0.36);
+        flake.style.setProperty('--turn', `${Math.round(Math.random() * 60)}deg`);
         flake.style.setProperty('--duration', `${duration}s`);
         flake.style.setProperty('--delay', `${-progress * duration}s`);
         flake.style.setProperty('--drift', `${(Math.random() - 0.5) * 18}px`);
@@ -259,13 +259,14 @@
       decoration.inert = true;
       garland = document.createElement('div');
       garland.className = 'new-year-garland';
-      decoration.append(garland);
+      garland.setAttribute('aria-hidden', 'true');
+      garland.inert = true;
       snow = document.createElement('div');
       snow.className = 'new-year-snowflakes';
       snow.setAttribute('aria-hidden', 'true');
       snow.inert = true;
-      decoration.hidden = snow.hidden = true;
-      document.body.append(decoration, snow, createSnowMask());
+      decoration.hidden = garland.hidden = snow.hidden = true;
+      document.body.append(decoration, garland, snow, createSnowMask());
       if (window.top === window) addMusicControl();
       window.addEventListener('scroll', requestCoverage, {passive: true, capture: true});
       window.addEventListener('resize', requestCoverage, {passive: true});
@@ -280,7 +281,7 @@
       });
     }
 
-    if (decoration) decoration.hidden = snow.hidden = !active || !stylesReady;
+    if (decoration) decoration.hidden = garland.hidden = snow.hidden = !active || !stylesReady;
     if (musicControls) {
       const showMusic = active && stylesReady;
       const wasHidden = musicControls.hidden;

@@ -1,6 +1,7 @@
 html.new-year body { isolation: isolate; }
 
 .new-year-decoration,
+.new-year-garland,
 .new-year-snowflakes {
   --art-left: 0px;
   --art-right: 100%;
@@ -14,6 +15,7 @@ html.new-year body { isolation: isolate; }
 .new-year-decoration { z-index: -1; }
 
 .new-year-decoration[hidden],
+.new-year-garland[hidden],
 .new-year-snowflakes[hidden],
 .new-year-music-controls[hidden] { display: none; }
 
@@ -66,8 +68,7 @@ html.new-year body { isolation: isolate; }
 
 .new-year-snow-mask { position: fixed; width: 0; height: 0; pointer-events: none; }
 
-.new-year-decoration::before,
-.new-year-garland {
+.new-year-decoration::before {
   position: absolute;
   inset: 0;
   --left-edge: max(0px, calc(var(--art-left) - var(--fade)));
@@ -86,10 +87,18 @@ html.new-year body { isolation: isolate; }
 }
 
 .new-year-garland {
-  --outer: clamp(13px, 2.3vw, 36px);
-  --inner: clamp(23px, 5vw, 78px);
-  --bulb: #ffedb0 0 14%, #ffcb73 23%, #eda249d9 39%, #dd7a3a70 58%, transparent 86%;
-  /* Keep the lamps in the visible side strips at every wallpaper crop. */
+  --outer: clamp(12px, 1.75vw, 29px);
+  --inner: clamp(18px, 3.65vw, 63px);
+  z-index: 4;
+  mask-image: url(#new-year-snow-mask);
+}
+
+.new-year-garland::before,
+.new-year-garland::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  --bulb: #f7c76aaa 0 8%, #e2a94c7a 14%, #dd7a3a39 28%, transparent 62%;
   background:
     radial-gradient(circle 27px at left var(--outer) top 14%, var(--bulb)),
     radial-gradient(circle 34px at left var(--inner) top 26%, var(--bulb)),
@@ -103,15 +112,11 @@ html.new-year body { isolation: isolate; }
     radial-gradient(circle 30px at right var(--outer) top 53%, var(--bulb)),
     radial-gradient(circle 25px at right var(--inner) top 67%, var(--bulb)),
     radial-gradient(circle 28px at right var(--outer) top 82%, var(--bulb));
-  mask-image: linear-gradient(to right, #000, #000 max(34px, var(--left-edge)),
-    #0006 max(34px, var(--art-left)) min(calc(100% - 34px), var(--art-right)), #000 min(calc(100% - 34px), var(--right-edge)), #000);
-  opacity: .87;
-  transition: opacity .5s ease-in-out;
 }
 
-.new-year-garland-lit .new-year-garland {
-  opacity: 1;
-  filter: brightness(var(--garland-brightness, 1.14));
+.new-year-garland::after {
+  --bulb: #fff7d8 0 12%, #ffdc86 23%, #f4ab54b8 38%, #dd7a3a78 54%, transparent 88%;
+  opacity: var(--garland-flash, 0);
 }
 
 .new-year-snowflakes {
@@ -121,12 +126,14 @@ html.new-year body { isolation: isolate; }
 
 .new-year-snowflakes span {
   position: absolute;
-  top: -10px;
+  top: -24px;
   left: var(--x);
   translate: -50% 0;
+  rotate: var(--turn);
   width: var(--size);
   height: var(--size);
-  background: radial-gradient(circle closest-side, #fffdf6 30%, #f1f5ffbd 64%, #f1f5ff00);
+  background: center / contain no-repeat url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23fff9e9%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20id%3D%22arm%22%20d%3D%22M12%2012V2M8.8%204.9l3.2%203%203.2-3%22%2F%3E%3Cuse%20href%3D%22%23arm%22%20transform%3D%22rotate%2860%2012%2012%29%22%2F%3E%3Cuse%20href%3D%22%23arm%22%20transform%3D%22rotate%28120%2012%2012%29%22%2F%3E%3Cuse%20href%3D%22%23arm%22%20transform%3D%22rotate%28180%2012%2012%29%22%2F%3E%3Cuse%20href%3D%22%23arm%22%20transform%3D%22rotate%28240%2012%2012%29%22%2F%3E%3Cuse%20href%3D%22%23arm%22%20transform%3D%22rotate%28300%2012%2012%29%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+  filter: drop-shadow(0 1px 1px #16231acc);
   opacity: var(--flake-opacity);
   animation: new-year-snowflake var(--duration) var(--delay) linear infinite;
 }
@@ -141,8 +148,7 @@ html.new-year body { isolation: isolate; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .new-year-garland { transition: none; }
-  .new-year-garland-lit .new-year-garland { filter: brightness(1.14); }
+  .new-year-garland::after { opacity: 0; }
 
   .new-year-snowflakes span {
     top: var(--y);
@@ -152,6 +158,7 @@ html.new-year body { isolation: isolate; }
 
 @media print {
   .new-year-decoration,
+  .new-year-garland,
   .new-year-snowflakes,
   .new-year-music-controls { display: none !important; }
 }
