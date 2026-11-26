@@ -1,14 +1,48 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-18', document.currentScript.src);
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-19', document.currentScript.src);
   const content = 'a, button, input, textarea, select, summary, img, svg, canvas:not(#fx), iframe, video, table, [role="button"], [contenteditable], .container, .wrap, dialog, [role="dialog"]';
   const clearance = 20;
   let timer;
   let frame;
   let decoration;
   let snow;
+  let snowGutters;
   let stylesReady = false;
+
+  function updateSnowGutter(gutter, width, height, side) {
+    const lanes = width >= 30 ? Math.max(1, Math.floor(width / 48)) : 0;
+    const flakesPerLane = Math.max(1, Math.min(14, Math.floor((height + 72) / 66)));
+    if (lanes) {
+      // Leave room for each flake to turn and drift without reaching its neighbor.
+      const maxSize = Math.floor((width / lanes - 12) / Math.SQRT2);
+      gutter.style.setProperty('--max-size', `${maxSize}px`);
+    }
+    const layout = `${lanes}:${flakesPerLane}`;
+    if (gutter.dataset.layout === layout) return;
+    gutter.dataset.layout = layout;
+
+    const flakes = document.createDocumentFragment();
+    const shapes = ['❄︎', '❅', '❆'];
+    for (let lane = 0; lane < lanes; lane++) {
+      const duration = 20 + (lane * 5 + side * 3) % 9;
+      const offset = (lane * 0.618 + side * 0.31) % 1;
+      for (let row = 0; row < flakesPerLane; row++) {
+        const flake = document.createElement('span');
+        const progress = (row + offset) / flakesPerLane;
+        flake.textContent = shapes[(lane + row + side) % shapes.length];
+        flake.style.setProperty('--x', `${100 * (lane + 0.5) / lanes}%`);
+        flake.style.setProperty('--y', `${100 * progress}%`);
+        flake.style.setProperty('--size', `${18 + (lane * 7 + row * 5 + side * 3) % 9}px`);
+        flake.style.setProperty('--duration', `${duration}s`);
+        flake.style.setProperty('--delay', `${-progress * duration}s`);
+        flake.style.setProperty('--drift', `${(lane + row + side) % 2 ? -4 : 4}px`);
+        flakes.append(flake);
+      }
+    }
+    gutter.replaceChildren(flakes);
+  }
 
   function updateGutters() {
     frame = undefined;
@@ -43,6 +77,8 @@
       layer.style.setProperty('--art-left', `${left}px`);
       layer.style.setProperty('--art-right', `${right}px`);
     }
+    updateSnowGutter(snowGutters[0], left, height, 0);
+    updateSnowGutter(snowGutters[1], width - right, height, 1);
   }
 
   function requestGutters() {
@@ -74,18 +110,12 @@
       snow.className = 'new-year-snowflakes';
       snow.setAttribute('aria-hidden', 'true');
       snow.inert = true;
-      const flakes = ['❄︎', '❅', '❆'];
-      for (let index = 0; index < 60; index++) {
-        const flake = document.createElement('span');
-        const duration = 18 + index % 9;
-        flake.textContent = flakes[index % flakes.length];
-        flake.style.setProperty('--x', `${3 + (index * 37) % 95}%`);
-        flake.style.setProperty('--size', `${18 + (index * 11) % 19}px`);
-        flake.style.setProperty('--duration', `${duration}s`);
-        flake.style.setProperty('--delay', `-${(index * 7 + 2) % duration}s`);
-        flake.style.setProperty('--drift', `${(index % 2 === 0 ? 1 : -1) * (17 + index % 5 * 8)}px`);
-        snow.append(flake);
-      }
+      snowGutters = ['left', 'right'].map(side => {
+        const gutter = document.createElement('div');
+        gutter.className = `new-year-snow-${side}`;
+        snow.append(gutter);
+        return gutter;
+      });
       decoration.hidden = snow.hidden = true;
       document.body.append(decoration, snow);
       window.addEventListener('scroll', requestGutters, {passive: true, capture: true});
