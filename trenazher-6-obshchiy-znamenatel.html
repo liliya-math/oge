@@ -391,6 +391,9 @@ body .choices .choice :is(.math-var-k,.math-var-b){font-size:inherit;line-height
 .assessment-topics { margin: 0 0 20px; padding: 0; list-style: none; }
 .assessment-topics li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; padding: 9px 0; border-bottom: 1px solid var(--line); }
 .assessment-card .solution li + li { margin-top: 10px; }
+@media (max-width: 650px) {
+  .lab-nav.assessment-nav { position: static; width: 100%; margin: 6px 0; padding: 8px 10px; font-size: 12px; }
+}
 @media (max-width: 440px) { .assessment-choices { grid-template-columns: 1fr; } }
 </style>
 </head>
