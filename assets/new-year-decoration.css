@@ -16,42 +16,27 @@ html.new-year body { isolation: isolate; }
 .new-year-decoration[hidden],
 .new-year-snowflakes[hidden] { display: none; }
 
+.new-year-snow-mask { position: fixed; width: 0; height: 0; pointer-events: none; }
+
 .new-year-decoration::before {
+  content: "";
   position: absolute;
   inset: 0;
-}
-
-.new-year-decoration::before,
-.new-year-snowflakes {
   --left-edge: max(0px, calc(var(--art-left) - var(--fade)));
   --right-edge: min(100%, calc(var(--art-right) + var(--fade)));
   mask-image: linear-gradient(
     to right,
     #000 var(--left-edge),
-    var(--center-shade) var(--art-left) var(--art-right),
+    #0002 var(--art-left) var(--art-right),
     #000 var(--right-edge)
   );
-}
-
-.new-year-decoration::before {
-  content: "";
-  --center-shade: #0002;
   background: #16231a url('../img/brand/new-year-spruce-wallpaper.png') center / cover no-repeat;
 }
 
 .new-year-snowflakes {
-  --center-shade: transparent;
+  mask-image: url(#new-year-snow-mask);
   z-index: 5;
 }
-
-.new-year-snowflakes > div {
-  position: absolute;
-  inset-block: 0;
-  overflow: hidden;
-}
-
-.new-year-snow-left { left: 0; width: var(--art-left); }
-.new-year-snow-right { left: var(--art-right); right: 0; }
 
 .new-year-snowflakes span {
   --fall-distance: calc(100vh + 72px);
