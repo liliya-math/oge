@@ -1,6 +1,16 @@
 {
   "items": [
     {
+      "file": "trenazher-7-9-planimetriya.html",
+      "title": "Планиметрия · свойства, признаки и формулы · 7–9 классы",
+      "type": "trenazher",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "7–9 классы. 25 тем и 106 заданий с чертежами, подсказками, справочником формул и автопроверкой.",
+      "auto": false
+    },
+    {
       "file": "trenazher-6-obshchiy-znamenatel.html",
       "title": "Общий знаменатель, сложение и вычитание дробей · 6 класс",
       "type": "trenazher",
