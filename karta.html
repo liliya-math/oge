@@ -88,6 +88,7 @@ h1{margin:4px 0 6px;font-size:clamp(24px,6vw,34px);line-height:1.15;letter-spaci
 <body>
 <div class="wrap" id="app"><p class="lead">Открываю…</p></div>
 <script src="assets/route-theory-pdfs.js"></script>
+<script src="assets/oge-entry-materials.js"></script>
 <script>
 (function(){
 'use strict';
@@ -203,6 +204,8 @@ async function selectLesson(id){
   panel.hidden=false;
   panel.innerHTML=`<h2 tabindex="-1">${esc(lesson.title)}</h2>`
     +(lesson.extra?`<p>${esc(lesson.extra)}</p>`:'');
+  const entryMaterials=window.LiliOgeEntryMaterials?.(id)||[];
+  if(entryMaterials.length)panel.insertAdjacentHTML('beforeend',`<section aria-label="Материалы ОГЭ № 18"><ul>${entryMaterials.map(({n,u})=>`<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(n)}</a></li>`).join('')}</ul></section>`);
   const theoryPdfs=window.LiliRouteTheoryPdfs?.(id)||[];
   if(theoryPdfs.length)panel.insertAdjacentHTML('beforeend',`<section aria-label="PDF-теория"><h3>PDF-теория</h3><ul>${theoryPdfs.map(([title,url],i)=>`<li><a href="${esc(url)}" target="_blank" rel="noopener">${esc(theoryPdfs.slice(0,i).some(([other])=>other===title)?title+' · '+(i+1):title)}</a></li>`).join('')}</ul></section>`);
   panel.querySelector('h2').focus();

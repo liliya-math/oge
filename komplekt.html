@@ -13,27 +13,35 @@ iframe{flex:1;width:100%;border:0;background:#fff}p.m{padding:16px;margin:0}a{co
 <main style="flex:1;display:flex;flex-direction:column;min-height:0"><p class="m" id="msg">Загружаю…</p><iframe id="fr" hidden title="Материал"></iframe></main>
 <script defer src="assets/quiz-ui.js?v=ans1"></script>
 <script defer src="assets/route-theory-pdfs.js"></script>
+<script defer src="assets/oge-entry-materials.js"></script>
 <script defer>
 addEventListener('DOMContentLoaded',async()=>{
 const U=LiliQuizUI,$=i=>document.getElementById(i),p=new URLSearchParams(location.search),id=(p.get('id')||'').replace(/[^\w-]/g,''),t=p.get('t')||id;
 $('ttl').textContent='Комплект: '+t;let pass='';try{pass=localStorage.getItem('cab-admin')||''}catch(_){}
 if(!id){$('msg').textContent='Не указан квадратик.';return}
-if(!pass){$('msg').innerHTML='Нужен вход преподавателя: открой <a href="quiz-builder.html">конструктор тестов</a>, войди и вернись сюда.';return}
-try{
-const [g,l]=await Promise.all([U.request({admin:pass,op:'routeGet',id}),U.request({admin:pass,op:'quizList'})]);
-const m=g.materials||{},works=l.works||[],items=[];
-if(m.theory)items.push({n:'Теория',u:m.theory});
-const pdfs=window.LiliRouteTheoryPdfs?.(id)||[];
-for(const [title,url] of pdfs){
- if(m.theory&&new URL(url,location.href).href===new URL(m.theory,location.href).href)continue;
- const n='PDF · '+title;
- const copies=items.filter(x=>x.pdfTitle===n).length;
- items.push({n:copies?n+' · '+(copies+1):n,u:url,pdfTitle:n});
+const items=window.LiliOgeEntryMaterials?.(id)||[];
+let loadError='';
+if(pass){
+ try{
+  const [g,l]=await Promise.all([U.request({admin:pass,op:'routeGet',id}),U.request({admin:pass,op:'quizList'})]);
+  const m=g.materials||{},works=l.works||[];
+  if(m.theory)items.push({n:items.length?'Теория из кабинета':'Теория',u:m.theory});
+  const pdfs=window.LiliRouteTheoryPdfs?.(id)||[];
+  for(const [title,url] of pdfs){
+   if(m.theory&&new URL(url,location.href).href===new URL(m.theory,location.href).href)continue;
+   const n='PDF · '+title;
+   const copies=items.filter(x=>x.pdfTitle===n).length;
+   items.push({n:copies?n+' · '+(copies+1):n,u:url,pdfTitle:n});
+  }
+  const rank=w=>w.kind==='exam'?3:w.kind==='hw'?2:1,kindName=w=>({exam:'Контрольная',hw:'ДЗ',self:'Самостоятельная'}[w.kind]||'Тест');
+  (m.quizzes||[]).map(q=>works.find(w=>w.id===q)).filter(Boolean).sort((a,b)=>rank(a)-rank(b)).forEach(w=>items.push({n:kindName(w)+': '+w.title,u:'quiz.html?demo=1&work='+encodeURIComponent(w.id)}));
+  if(m.homework)items.push({n:'Домашняя работа (ссылка)',u:m.homework});
+ }catch(e){loadError=e.message}
+}else if(!items.length){
+ $('msg').innerHTML='Нужен вход преподавателя: открой <a href="quiz-builder.html">конструктор тестов</a>, войди и вернись сюда.';
+ return;
 }
-const rank=w=>w.kind==='exam'?3:w.kind==='hw'?2:1,kindName=w=>({exam:'Контрольная',hw:'ДЗ',self:'Самостоятельная'}[w.kind]||'Тест');
-(m.quizzes||[]).map(q=>works.find(w=>w.id===q)).filter(Boolean).sort((a,b)=>rank(a)-rank(b)).forEach(w=>items.push({n:kindName(w)+': '+w.title,u:'quiz.html?demo=1&work='+encodeURIComponent(w.id)}));
-if(m.homework)items.push({n:'Домашняя работа (ссылка)',u:m.homework});
-if(!items.length){$('msg').textContent='К этому квадратику ничего не прикреплено.';return}
+if(!items.length){$('msg').textContent=loadError?'Не получилось загрузить: '+loadError:'К этому квадратику ничего не прикреплено.';return}
 let cur=0;const nav=$('nav');
 const show=i=>{cur=i;$('fr').src=items[i].u;$('fr').hidden=false;$('msg').hidden=true;[...nav.querySelectorAll('[data-i]')].forEach(b=>b.setAttribute('aria-current',String(+b.dataset.i===i)));nxt.disabled=i>=items.length-1;prv.disabled=i<=0};
 const prv=document.createElement('button');prv.textContent='← Назад';prv.onclick=()=>show(cur-1);nav.append(prv);
@@ -41,6 +49,5 @@ items.forEach((it,i)=>{const b=document.createElement('button');b.dataset.i=i;b.
 const nxt=document.createElement('button');nxt.textContent='Далее →';nxt.onclick=()=>show(cur+1);nav.append(nxt);
 const op=document.createElement('a');op.className='b';op.textContent='Открыть отдельно';op.target='_blank';op.rel='noopener';op.onclick=()=>{op.href=items[cur].u};nav.append(op);
 show(0);
-}catch(e){$('msg').textContent='Не получилось загрузить: '+e.message}
 });
 </script></body></html>

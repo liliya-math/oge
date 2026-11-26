@@ -1,6 +1,26 @@
 {
   "items": [
     {
+      "file": "teoriya-oge-18-geometriya-na-kletkah.html",
+      "title": "ОГЭ № 18 · Геометрия на клетках · теория",
+      "type": "uchebnik",
+      "class": 9,
+      "oge_task": 18,
+      "status": "public",
+      "note": "10 разделов с чертежами, разобранными примерами и памяткой.",
+      "auto": false
+    },
+    {
+      "file": "vhodnoy-test-oge-18-geometriya-na-kletkah.html",
+      "title": "ОГЭ № 18 · Геометрия на клетках · входной тест",
+      "type": "diagnostika",
+      "class": 9,
+      "oge_task": 18,
+      "status": "public",
+      "note": "24 задания: базовые умения, применение по чертежам и рекомендации по темам.",
+      "auto": false
+    },
+    {
       "file": "trenazher-7-9-planimetriya.html",
       "title": "Планиметрия · свойства, признаки и формулы · 7–9 классы",
       "type": "trenazher",
