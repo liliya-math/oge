@@ -1,7 +1,7 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-37', document.currentScript.src);
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-snow2', document.currentScript.src);
   const musicUrl = new URL('new-year-music.mp3?v=20261126-35', document.currentScript.src);
   // Note attacks measured from this recording, in hundredths of a second.
   const noteAttacks = [
@@ -141,10 +141,10 @@
     return svg;
   }
 
-  const snowTints = ['#a8dcff', '#d6beff', '#ffdc99'];
+  const snowTints = ['#78d9ff', '#cf9aff', '#ffd06e'];
 
   function updateSnow(width, height) {
-    const fallDistance = height + 30;
+    const fallDistance = height + 38;
     if (Number(snowMask.getAttribute('width')) !== width ||
         Number(snowMask.getAttribute('height')) !== height) {
       for (const shape of [snowMask, visibleArea]) {
@@ -173,12 +173,12 @@
         const progress = (phase + (row + 0.5 + stagger) / laneFlakes) % 1;
         const horizontalOffset = 0.8 * (Math.random() - 0.5);
         const depth = Math.random() ** 1.5;
-        const duration = fallDistance / (7 + depth * 15 + Math.random() * 5);
-        const shimmerDuration = 5 + Math.random() * 8;
+        const duration = fallDistance / (9 + depth * 23 + Math.random() * 6);
+        const shimmerDuration = 3 + Math.random() * 5;
         flake.style.setProperty('--x', `${100 * (lane + 0.5 + horizontalOffset) / lanes}%`);
         flake.style.setProperty('--y', `${100 * progress}%`);
-        flake.style.setProperty('--size', `${9 + depth * 16}px`);
-        flake.style.setProperty('--flake-opacity', 0.42 + depth * 0.27);
+        flake.style.setProperty('--size', `${14 + depth * 20}px`);
+        flake.style.setProperty('--flake-opacity', 0.65 + depth * 0.29);
         flake.style.setProperty('--turn', `${Math.round(Math.random() * 60)}deg`);
         flake.style.setProperty('--duration', `${duration}s`);
         flake.style.setProperty('--delay', `${-progress * duration}s`);
