@@ -132,7 +132,7 @@ html.new-year body { isolation: isolate; }
   rotate: var(--turn);
   width: var(--size);
   height: var(--size);
-  --flake-shape: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23fff9e9%22%20stroke-width%3D%221.9%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20id%3D%22arm%22%20d%3D%22M12%2012V2M8.8%204.9l3.2%203%203.2-3%22%2F%3E%3Cuse%20href%3D%22%23arm%22%20transform%3D%22rotate%2860%2012%2012%29%22%2F%3E%3Cuse%20href%3D%22%23arm%22%20transform%3D%22rotate%28120%2012%2012%29%22%2F%3E%3Cuse%20href%3D%22%23arm%22%20transform%3D%22rotate%28180%2012%2012%29%22%2F%3E%3Cuse%20href%3D%22%23arm%22%20transform%3D%22rotate%28240%2012%2012%29%22%2F%3E%3Cuse%20href%3D%22%23arm%22%20transform%3D%22rotate%28300%2012%2012%29%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+  --flake-shape: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-opacity%3D%22.76%22%20stroke-width%3D%221.9%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20id%3D%22arm%22%20d%3D%22M12%2012V2M8.8%204.9l3.2%203%203.2-3%22%2F%3E%3Cuse%20href%3D%22%23arm%22%20transform%3D%22rotate%2860%2012%2012%29%22%2F%3E%3Cuse%20href%3D%22%23arm%22%20transform%3D%22rotate%28120%2012%2012%29%22%2F%3E%3Cuse%20href%3D%22%23arm%22%20transform%3D%22rotate%28180%2012%2012%29%22%2F%3E%3Cuse%20href%3D%22%23arm%22%20transform%3D%22rotate%28240%2012%2012%29%22%2F%3E%3Cuse%20href%3D%22%23arm%22%20transform%3D%22rotate%28300%2012%2012%29%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
   background: center / contain no-repeat var(--flake-shape);
   filter: drop-shadow(0 1px 1px #16231a);
   opacity: var(--flake-opacity);
@@ -143,7 +143,7 @@ html.new-year body { isolation: isolate; }
   content: "";
   position: absolute;
   inset: 0;
-  background: var(--flake-tint);
+  background: #fff;
   mask: var(--flake-shape) center / contain no-repeat;
   animation: new-year-snow-shimmer var(--shimmer-duration) var(--shimmer-delay) ease-in-out infinite;
 }
