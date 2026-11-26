@@ -54,9 +54,10 @@ html.new-year body { isolation: isolate; }
 .new-year-snow-right { left: var(--art-right); right: 0; }
 
 .new-year-snowflakes span {
+  --fall-distance: calc(100vh + 72px);
   position: absolute;
   top: -40px;
-  left: var(--x);
+  left: calc(var(--x) + var(--offset-x));
   display: block;
   translate: -50% 0;
   width: 1em;
@@ -71,7 +72,16 @@ html.new-year body { isolation: isolate; }
 @keyframes new-year-snowflake {
   0% { transform: translateY(0) rotate(0); opacity: 0; }
   12%, 88% { opacity: .76; }
-  100% { transform: translate(var(--drift), calc(100vh + 72px)) rotate(70deg); opacity: 0; }
+  25% {
+    transform: translate(calc(var(--drift) * .7), calc(var(--fall-distance) * .25)) rotate(calc(var(--spin) * .25));
+  }
+  50% {
+    transform: translate(var(--drift), calc(var(--fall-distance) * .5)) rotate(calc(var(--spin) * .5));
+  }
+  75% {
+    transform: translate(calc(var(--drift) * .5), calc(var(--fall-distance) * .75)) rotate(calc(var(--spin) * .75));
+  }
+  100% { transform: translate(0, var(--fall-distance)) rotate(var(--spin)); opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
