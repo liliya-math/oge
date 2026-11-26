@@ -1,6 +1,16 @@
 {
   "items": [
     {
+      "file": "trenazher-6-obshchiy-znamenatel.html",
+      "title": "Общий знаменатель, сложение и вычитание дробей · 6 класс",
+      "type": "trenazher",
+      "class": 6,
+      "oge_task": null,
+      "status": "public",
+      "note": "5 этапов, 25 заданий, полоски для сравнения долей, разобранные примеры, подсказки и автопроверка.",
+      "auto": false
+    },
+    {
       "file": "trenazher-8-kvadratnye-neravenstva.html",
       "title": "Квадратные неравенства · тренажёр · 8 класс",
       "type": "trenazher",
