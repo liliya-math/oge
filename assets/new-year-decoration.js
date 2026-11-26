@@ -1,7 +1,7 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-snow2', document.currentScript.src);
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-white-snow', document.currentScript.src);
   const musicUrl = new URL('new-year-music.mp3?v=20261126-35', document.currentScript.src);
   // Note attacks measured from this recording, in hundredths of a second.
   const noteAttacks = [
@@ -141,7 +141,6 @@
     return svg;
   }
 
-  const snowTints = ['#78d9ff', '#cf9aff', '#ffd06e'];
 
   function updateSnow(width, height) {
     const fallDistance = height + 38;
@@ -183,7 +182,6 @@
         flake.style.setProperty('--duration', `${duration}s`);
         flake.style.setProperty('--delay', `${-progress * duration}s`);
         flake.style.setProperty('--drift', `${(Math.random() - 0.5) * (22 + depth * 36)}px`);
-        flake.style.setProperty('--flake-tint', snowTints[Math.floor(Math.random() * snowTints.length)]);
         flake.style.setProperty('--shimmer-duration', `${shimmerDuration}s`);
         flake.style.setProperty('--shimmer-delay', `${-Math.random() * shimmerDuration}s`);
         flakes.append(flake);
