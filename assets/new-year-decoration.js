@@ -1,27 +1,58 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-20', document.currentScript.src);
-  const content = 'a, button, input, textarea, select, summary, img, svg, canvas:not(#fx), iframe, video, table, [role="button"], [contenteditable], .container, .wrap, dialog, [role="dialog"]';
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-21', document.currentScript.src);
+  const controls = 'button, input, textarea, select, summary, [role="button"], [contenteditable]';
+  const diagrams = 'svg:not(.new-year-snow-mask), math, mjx-container, canvas:not(#fx), iframe, video';
+  const snowProtected = `${controls}, ${diagrams}`;
+  const backgroundContent = `a, img, table, .container, .wrap, dialog, [role="dialog"], ${snowProtected}`;
   const clearance = 20;
   let timer;
   let frame;
   let decoration;
   let snow;
-  let snowGutters;
+  let snowMask;
+  let visibleArea;
+  let protectedAreas;
   let stylesReady = false;
 
-  function updateSnowGutter(gutter, width, height) {
-    const lanes = width >= 30 ? Math.max(1, Math.floor(width / 48)) : 0;
-    const flakesPerLane = Math.max(1, Math.min(14, Math.floor((height + 72) / 66)));
-    if (lanes) {
-      // Leave room for each flake to turn and drift without reaching its neighbor.
-      const maxSize = Math.floor((width / lanes - 12) / Math.SQRT2);
-      gutter.style.setProperty('--max-size', `${maxSize}px`);
+  function createSnowMask() {
+    const namespace = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(namespace, 'svg');
+    svg.setAttribute('class', 'new-year-snow-mask');
+    svg.setAttribute('width', '0');
+    svg.setAttribute('height', '0');
+    svg.setAttribute('aria-hidden', 'true');
+    snowMask = document.createElementNS(namespace, 'mask');
+    snowMask.setAttribute('id', 'new-year-snow-mask');
+    snowMask.setAttribute('maskUnits', 'userSpaceOnUse');
+    snowMask.setAttribute('x', '0');
+    snowMask.setAttribute('y', '0');
+    visibleArea = document.createElementNS(namespace, 'rect');
+    visibleArea.setAttribute('fill', 'white');
+    protectedAreas = document.createElementNS(namespace, 'path');
+    protectedAreas.setAttribute('fill', 'black');
+    snowMask.append(visibleArea, protectedAreas);
+    svg.append(snowMask);
+    return svg;
+  }
+
+  function updateSnow(width, height) {
+    if (Number(snowMask.getAttribute('width')) !== width ||
+        Number(snowMask.getAttribute('height')) !== height) {
+      for (const shape of [snowMask, visibleArea]) {
+        shape.setAttribute('width', width);
+        shape.setAttribute('height', height);
+      }
     }
+    const lanes = Math.max(1, Math.min(28, Math.floor(width / 48)));
+    const flakesPerLane = Math.max(1, Math.min(14, Math.floor((height + 72) / 66)));
+    // Leave room for each flake to turn and drift without reaching its neighbor.
+    const maxSize = Math.max(0, Math.floor((width / lanes - 12) / Math.SQRT2));
+    snow.style.setProperty('--max-size', `${maxSize}px`);
     const layout = `${lanes}:${flakesPerLane}`;
-    if (gutter.dataset.layout === layout) return;
-    gutter.dataset.layout = layout;
+    if (snow.dataset.layout === layout) return;
+    snow.dataset.layout = layout;
 
     const flakes = document.createDocumentFragment();
     const shapes = ['❄︎', '❅', '❆'];
@@ -45,25 +76,32 @@
         flakes.append(flake);
       }
     }
-    gutter.replaceChildren(flakes);
+    snow.replaceChildren(flakes);
   }
 
-  function updateGutters() {
+  function updateCoverage() {
     frame = undefined;
     if (decoration.hidden) return;
     const {clientWidth: width, clientHeight: height} = decoration;
     let leftmost = width / 2;
     let rightmost = width / 2;
 
-    function accept(box) {
-      if (box.width && box.height && box.right > 0 && box.bottom > 0 && box.left < width && box.top < height) {
-        leftmost = Math.min(leftmost, box.left);
-        rightmost = Math.max(rightmost, box.right);
-      }
+    const holes = [];
+    function accept(box, protectFromSnow) {
+      if (!box.width || !box.height || box.right <= 0 || box.bottom <= 0 ||
+          box.left >= width || box.top >= height) return;
+      leftmost = Math.min(leftmost, box.left);
+      rightmost = Math.max(rightmost, box.right);
+      if (!protectFromSnow) return;
+      const left = Math.max(0, Math.floor(box.left - 10));
+      const right = Math.min(width, Math.ceil(box.right + 10));
+      const top = Math.max(0, Math.floor(box.top - 7));
+      const bottom = Math.min(height, Math.ceil(box.bottom + 7));
+      holes.push(`M${left} ${top}H${right}V${bottom}H${left}Z`);
     }
 
-    for (const element of document.body.querySelectorAll(content)) {
-      accept(element.getBoundingClientRect());
+    for (const element of document.body.querySelectorAll(backgroundContent)) {
+      accept(element.getBoundingClientRect(), element.matches(snowProtected));
     }
 
     // Include text in plain containers, not just the common text tags.
@@ -72,22 +110,21 @@
     for (let node = walker.nextNode(); node; node = walker.nextNode()) {
       if (node.parentElement.closest('script, style, noscript, template, .new-year-decoration, .new-year-snowflakes') || !node.nodeValue.trim()) continue;
       range.selectNodeContents(node);
-      for (const box of range.getClientRects()) accept(box);
+      for (const box of range.getClientRects()) accept(box, true);
     }
 
     const left = Math.max(0, Math.floor(leftmost - clearance));
     const right = Math.min(width, Math.ceil(rightmost + clearance));
-    for (const layer of [decoration, snow]) {
-      layer.style.setProperty('--art-left', `${left}px`);
-      layer.style.setProperty('--art-right', `${right}px`);
-    }
-    updateSnowGutter(snowGutters[0], left, height);
-    updateSnowGutter(snowGutters[1], width - right, height);
+    decoration.style.setProperty('--art-left', `${left}px`);
+    decoration.style.setProperty('--art-right', `${right}px`);
+    const path = holes.join('');
+    if (protectedAreas.getAttribute('d') !== path) protectedAreas.setAttribute('d', path);
+    updateSnow(width, height);
   }
 
-  function requestGutters() {
+  function requestCoverage() {
     if (!decoration.hidden && frame === undefined) {
-      frame = requestAnimationFrame(updateGutters);
+      frame = requestAnimationFrame(updateCoverage);
     }
   }
 
@@ -114,20 +151,15 @@
       snow.className = 'new-year-snowflakes';
       snow.setAttribute('aria-hidden', 'true');
       snow.inert = true;
-      snowGutters = ['left', 'right'].map(side => {
-        const gutter = document.createElement('div');
-        gutter.className = `new-year-snow-${side}`;
-        snow.append(gutter);
-        return gutter;
-      });
       decoration.hidden = snow.hidden = true;
-      document.body.append(decoration, snow);
-      window.addEventListener('scroll', requestGutters, {passive: true, capture: true});
-      window.addEventListener('resize', requestGutters, {passive: true});
-      document.addEventListener('load', requestGutters, true);
-      document.fonts?.ready.then(requestGutters);
-      new ResizeObserver(requestGutters).observe(document.body);
-      new MutationObserver(requestGutters).observe(document.body, {
+      document.body.append(decoration, snow, createSnowMask());
+      window.addEventListener('scroll', requestCoverage, {passive: true, capture: true});
+      window.addEventListener('resize', requestCoverage, {passive: true});
+      document.addEventListener('load', requestCoverage, true);
+      document.fonts?.ready.then(requestCoverage);
+      new ResizeObserver(requestCoverage).observe(document.body);
+      new MutationObserver(requestCoverage).observe(document.body, {
+        attributeFilter: ['class', 'hidden', 'open', 'aria-hidden'],
         childList: true,
         characterData: true,
         subtree: true
@@ -135,7 +167,7 @@
     }
 
     if (decoration) decoration.hidden = snow.hidden = !active || !stylesReady;
-    if (active && stylesReady) requestGutters();
+    if (active && stylesReady) requestCoverage();
   }
 
   function updateSeason() {
