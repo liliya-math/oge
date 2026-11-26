@@ -2,9 +2,9 @@
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
   const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-33', document.currentScript.src);
-  const musicUrl = new URL('new-year-music.mp3?v=20261126-30', document.currentScript.src);
-  // Dotted-quarter pulse of «Снежная колыбельная» in 6/8.
-  const beatSeconds = 60 / 68;
+  const musicUrl = new URL('new-year-music.mp3?v=20261126-34', document.currentScript.src);
+  // «Огоньки на ёлке»: четверть = 112 уд./мин, размер 4/4.
+  const beatSeconds = 60 / 112;
   const musicPreference = 'lilimath-holiday-music';
   const controls = 'button, input, textarea, select, summary, [role="button"], [contenteditable]';
   const diagrams = 'svg:not(.new-year-snow-mask), math, mjx-container, canvas:not(#fx), iframe, video';
@@ -48,7 +48,7 @@
     const attack = .075;
     const release = 1 - Math.max(0, phase - attack) / (1 - attack);
     const pulse = Math.sin(Math.PI / 2 * Math.min(1, phase / attack)) * release ** 4;
-    const accent = Math.floor(beat) % 2 === 0 ? 1 : .66;
+    const accent = [1, .56, .78, .56][Math.floor(beat) % 4];
     garland.style.setProperty('--garland-brightness', (1.08 + .68 * accent * pulse).toFixed(3));
     garlandFrame = requestAnimationFrame(updateGarland);
   }
