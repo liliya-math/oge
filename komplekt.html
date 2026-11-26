@@ -13,7 +13,7 @@ iframe{flex:1;width:100%;border:0;background:#fff}p.m{padding:16px;margin:0}a{co
 <main style="flex:1;display:flex;flex-direction:column;min-height:0"><p class="m" id="msg">Загружаю…</p><iframe id="fr" hidden title="Материал"></iframe></main>
 <script defer src="assets/quiz-ui.js?v=ans1"></script>
 <script defer src="assets/route-theory-pdfs.js"></script>
-<script defer src="assets/oge-entry-materials.js"></script>
+<script defer src="assets/oge-entry-materials.js?v=20261126-2"></script>
 <script defer>
 addEventListener('DOMContentLoaded',async()=>{
 const U=LiliQuizUI,$=i=>document.getElementById(i),p=new URLSearchParams(location.search),id=(p.get('id')||'').replace(/[^\w-]/g,''),t=p.get('t')||id;
@@ -25,10 +25,11 @@ if(pass){
  try{
   const [g,l]=await Promise.all([U.request({admin:pass,op:'routeGet',id}),U.request({admin:pass,op:'quizList'})]);
   const m=g.materials||{},works=l.works||[];
-  if(m.theory)items.push({n:items.length?'Теория из кабинета':'Теория',u:m.theory});
+  const alreadyListed=url=>items.some(item=>new URL(item.u,location.href).href===new URL(url,location.href).href);
+  if(m.theory&&!alreadyListed(m.theory))items.push({n:items.length?'Теория из кабинета':'Теория',u:m.theory});
   const pdfs=window.LiliRouteTheoryPdfs?.(id)||[];
   for(const [title,url] of pdfs){
-   if(m.theory&&new URL(url,location.href).href===new URL(m.theory,location.href).href)continue;
+   if(alreadyListed(url))continue;
    const n='PDF · '+title;
    const copies=items.filter(x=>x.pdfTitle===n).length;
    items.push({n:copies?n+' · '+(copies+1):n,u:url,pdfTitle:n});
