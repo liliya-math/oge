@@ -465,6 +465,14 @@ h1{font-weight:800}
 @media (max-width:520px){.khero{grid-template-columns:1fr}}
 .hpet{position:relative;width:112px;height:112px;border-radius:26px;overflow:hidden;cursor:pointer;box-shadow:0 22px 44px -20px rgba(0,0,0,.9);animation:bob 2.8s ease-in-out infinite}
 .hpet img{width:100%;height:100%;object-fit:cover;display:block}
+.hpet-winter{position:absolute;top:44%;left:50%;pointer-events:none;font-size:clamp(20px,3.5vw,28px);line-height:1;text-shadow:0 1px 5px #16231a;transform:translate(var(--landing),0);animation:petWinterSurprise 1.35s ease-out both}
+@keyframes petWinterSurprise{
+  0%{opacity:0;transform:translate(var(--start),-42px) rotate(0) scale(.55)}
+  30%{opacity:1}
+  65%,100%{opacity:1;transform:translate(var(--landing),var(--drop)) rotate(var(--turn)) scale(1)}
+}
+.hpet-winter-status{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.hpet-winter{animation:none}}
 .say{position:relative;display:inline-block;max-width:34ch;margin-bottom:10px;padding:10px 14px;border-radius:16px 16px 16px 4px;background:var(--fg);color:#16231A;font-size:14.5px;line-height:1.4;font-weight:500}
 .say b{color:var(--cobalt)}
 h1.big1{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(30px,7.4vw,46px);line-height:1.04;letter-spacing:-.035em;text-wrap:balance}
@@ -1390,6 +1398,60 @@ function screen(title,text,btn){app.innerHTML=topbar()+`<div class="cab enter"><
  ${btn&&btn!=='load'?`<button class="btn" id="retry" style="margin-top:16px">${btn}</button>`:''}</div></section>${foot()}</div>`;
  const s=document.getElementById('snd');if(s)s.onclick=()=>{S.sound=!S.sound;save();s.innerHTML=S.sound?I.snd:I.mute};
  const r=document.getElementById('retry');if(r)r.onclick=()=>{screen('Открываю кабинет…','Секунду, забираю данные у преподавателя.','load');load()}}
+const winterPetActions = {
+  cat:  ['❄', 'Поймал снежинку на лапу.', -26, 3, 8, -20],
+  meer: ['⭐', 'Поймал звезду на лету.', 18, -17, -8, 25],
+  rac:  ['🎁', 'Достал маленький подарок.', 18, -24, 12, -14],
+  capy: ['🧤', 'Поймал снежинку на варежку.', -22, 8, 8, 12],
+  ham:  ['☃️', 'Слепил крошечного снеговика.', 15, -15, 11, 0],
+  bis:  ['🎀', 'Завязала бант на еловой ветке.', -14, 12, -7, 12],
+  otr:  ['🫧', 'Поймала морозный пузырёк.', 22, -18, -3, -12],
+  axo:  ['🧣', 'Поправил зимний шарф.', -20, -9, 9, 20],
+  qk:   ['✨', 'Стряхнула снег с шапки.', 4, 15, 10, 30]
+};
+
+function showWinterPetSurprise(host, mascot) {
+  const [symbol, message, start, landing, drop, turn] = winterPetActions[mascot.id] || winterPetActions.capy;
+  host.querySelector('.hpet-winter')?.remove();
+  const effect = document.createElement('span');
+  effect.className = 'hpet-winter';
+  effect.setAttribute('aria-hidden', 'true');
+  effect.textContent = symbol;
+  effect.style.setProperty('--start', `${start}px`);
+  effect.style.setProperty('--landing', `${landing}px`);
+  effect.style.setProperty('--drop', `${drop}px`);
+  effect.style.setProperty('--turn', `${turn}deg`);
+  host.append(effect);
+
+  const status = document.getElementById('winter-pet-status');
+  if (status) status.textContent = `${mascot.n}. ${message}`;
+  setTimeout(() => {
+    if (!effect.isConnected) return;
+    effect.remove();
+    if (status) status.textContent = '';
+  }, 1800);
+}
+
+function activatePet() {
+  const winter = document.documentElement.classList.contains('new-year');
+  if (mascotState() || mpNote()) {
+    try { sessionStorage.removeItem('mpeek-' + mpKey()); } catch {}
+    const restoreFocus = document.activeElement?.id === 'hpet';
+    render();
+    const host = document.getElementById('hpet');
+    if (restoreFocus) host?.focus({preventScroll: true});
+    if (winter && host) showWinterPetSurprise(host, tal());
+    return;
+  }
+  if (winter) {
+    showWinterPetSurprise(document.getElementById('hpet'), tal());
+    return;
+  }
+  const message = pick(sayList());
+  document.getElementById('say').innerHTML = `<b>${tal().n}:</b> ${esc(message)}`;
+  react('neu', '', message);
+}
+
 function bind(){
  const request=document.getElementById('pupil-lesson-move');if(request)request.onclick=openPupilLessonRequest;
  bindTelegram();
@@ -1398,7 +1460,16 @@ function bind(){
  document.getElementById('mPar').onclick=()=>{if(S.mode!=='par'){S.mode='par';save();sfx.tap();render();scrollTo({top:0})}};
  document.getElementById('talb').onclick=()=>openPetPicker();
  const mi=document.querySelector('#mpeek>img');if(mi){mi.complete&&mi.naturalWidth?mpCol(mi):mi.addEventListener('load',()=>mpCol(mi))}
- const hp=document.getElementById('hpet');if(hp){const f=()=>{const ms=mascotState();if(ms||mpNote()){try{sessionStorage.removeItem('mpeek-'+mpKey())}catch(e){}render();return}const s=pick(sayList());document.getElementById('say').innerHTML=`<b>${tal().n}:</b> ${esc(s)}`;react('neu','',s)};hp.onclick=f;hp.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f()}}}
+ const hp = document.getElementById('hpet');
+ if (hp) {
+   hp.onclick = activatePet;
+   hp.onkeydown = event => {
+     if (event.key === 'Enter' || event.key === ' ') {
+       event.preventDefault();
+       if (!event.repeat) activatePet();
+     }
+   };
+ }
  document.querySelectorAll('.chk').forEach(b=>b.onclick=()=>toggleHW(b.dataset.hw,b));
  document.querySelectorAll('.pbtn').forEach(b=>b.onclick=()=>choosePet(b.dataset.pet));
  const cp=document.getElementById('cpy');if(cp)cp.onclick=()=>{const done=()=>{cp.textContent='Скопировано'};const fail=()=>{const r=document.createRange();r.selectNodeContents(document.getElementById('tgv'));const s=getSelection();s.removeAllRanges();s.addRange(r);cp.textContent='Выделено'};try{navigator.clipboard.writeText('@ohh_my_lily').then(done,fail)}catch(e){fail()}};
@@ -1484,7 +1555,7 @@ function mpNote(){if(TEACH||typeof D==='undefined'||!D)return '';if(D.note)retur
  const pick=m.length<=4?m:[0,1,2,3].map(i=>m[(k+i)%m.length]);return 'Учим наизусть:\n'+pick.map(x=>'• '+x).join('\n')+(m.length>4?'\nЕщё '+(m.length-4)+' - в следующий раз':'');}
 function mpKey(){const n=mpNote();return n?'n'+[...n].reduce((h,c)=>(h*31+c.charCodeAt(0))>>>0,7):mascotState()}
 function mascotPeek(){const note=mpNote(),st=mascotState();if(!st&&!note)return '';const key=mpKey();try{if(sessionStorage.getItem('mpeek-'+key))return ''}catch(e){}const txt=note?(/^Учим наизусть/.test(note)?note:'📌 '+note):pick(mascotLines(st)),x=`<button class="mpx" type="button" aria-label="Закрыть" onclick="try{sessionStorage.setItem('mpeek-${key}','1')}catch(e){}this.parentNode.remove()">×</button>`;if(!st)return `<div class="mpeek mini" id="mpeek">${pet(S.tal,'idle',84)}<div class="say">${sayHtml(txt,!!note)}</div>${x}</div>`;const im=`img/mascots/${S.tal}-${mascotImg(st)}.jpg`,im2=`img/mascots/${S.tal}-note.jpg`;return `<div class="mpeek" id="mpeek" data-st="${st}"><div class="say">${sayHtml(txt,!!note)}</div><img src="${note?im2:im}" alt="" draggable="false" onerror="if(this.dataset.f||!${!!note}){document.getElementById('mpeek')?.remove()}else{this.dataset.f=1;this.src='${im}'}">${x}</div>`}
-function welcomeKid(){return `<section class="welcome"><div class="hwrap"><div class="hpet" id="hpet" role="button" tabindex="0" aria-label="Твой талисман ${esc(tal().n)}">${petSVG(tal().id,'idle')}</div><button class="petswap" type="button" id="petlink" aria-label="Сменить талисмана"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3l4 4-4 4"/><path d="M3 11V9a2 2 0 0 1 2-2h16"/><path d="M7 21l-4-4 4-4"/><path d="M21 13v2a2 2 0 0 1-2 2H3"/></svg>Сменить</button></div><div class="wtext"><span class="eyebrow">Твой кабинет · lili.math</span><h1 class="big1">${esc(kidName())}, <em>привет!</em></h1>${mascotState()?'':`<div class="say" id="say"><b>${tal().n}:</b> ${esc(sayList()[0])}</div>`}${TEACH||!(D.demo||D.nickEdit)?'':'<button type="button" class="chip" id="namelink">Как к тебе обращаться</button>'}</div></section>`}
+function welcomeKid(){return `<section class="welcome"><div class="hwrap"><div class="hpet" id="hpet" role="button" tabindex="0" aria-label="Твой талисман ${esc(tal().n)}">${petSVG(tal().id,'idle')}</div><div id="winter-pet-status" class="hpet-winter-status" role="status"></div><button class="petswap" type="button" id="petlink" aria-label="Сменить талисмана"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3l4 4-4 4"/><path d="M3 11V9a2 2 0 0 1 2-2h16"/><path d="M7 21l-4-4 4-4"/><path d="M21 13v2a2 2 0 0 1-2 2H3"/></svg>Сменить</button></div><div class="wtext"><span class="eyebrow">Твой кабинет · lili.math</span><h1 class="big1">${esc(kidName())}, <em>привет!</em></h1>${mascotState()?'':`<div class="say" id="say"><b>${tal().n}:</b> ${esc(sayList()[0])}</div>`}${TEACH||!(D.demo||D.nickEdit)?'':'<button type="button" class="chip" id="namelink">Как к тебе обращаться</button>'}</div></section>`}
 function splitWork(t){const m=String(t||'').match(/^(.*?) · \d+ класс(?: · (.+))?$/);return m?{name:m[1],kind:m[2]||''}:{name:String(t||''),kind:''}}
 function focusWork(){const list=hwSorted(D.hw.filter(h=>!h.old&&wfGroup(h)==='todo')),h=list.find(h=>wfStatus(h)==='revise')||list.filter(h=>resumeFor(h)&&!resumeFor(h).done).sort((a,b)=>resumeFor(b).at-resumeFor(a).at)[0]||list[0],waiting=D.hw.filter(h=>!h.old&&wfGroup(h)==='review').length;
  if(!h)return `<div class="card focuswork alldone"><span class="eyebrow">На сегодня</span><h2>${waiting?'Работа отправлена на проверку':'Все назначенные задания выполнены'}</h2><p class="klead">${waiting?'Пока работа на проверке, можно повторить материал по теме.':'Можно повторить трудную тему или отдохнуть до следующего занятия.'}</p><div class="focus-actions">${LIB()?'<button class="btn" data-go="materials">Открыть материалы</button><button class="btn ghost" data-go="homework">Мои работы</button>':'<button class="btn" data-go="homework">Мои работы</button>'}</div></div>`;
