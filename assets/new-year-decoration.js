@@ -1,8 +1,10 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-32', document.currentScript.src);
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-33', document.currentScript.src);
   const musicUrl = new URL('new-year-music.mp3?v=20261126-30', document.currentScript.src);
+  // Dotted-quarter pulse of «Снежная колыбельная» in 6/8.
+  const beatSeconds = 60 / 68;
   const musicPreference = 'lilimath-holiday-music';
   const controls = 'button, input, textarea, select, summary, [role="button"], [contenteditable]';
   const diagrams = 'svg:not(.new-year-snow-mask), math, mjx-container, canvas:not(#fx), iframe, video';
@@ -18,6 +20,8 @@
   let protectedAreas;
   let music;
   let musicButton;
+  let garland;
+  let garlandFrame;
   let stylesReady = false;
 
   function playMusic() {
@@ -28,6 +32,25 @@
     musicButton.textContent = playing ? 'Выключить музыку' : 'Включить музыку';
     musicButton.dataset.playing = String(playing);
     decoration.classList.toggle('new-year-garland-lit', playing);
+    if (playing && garlandFrame === undefined) {
+      garlandFrame = requestAnimationFrame(updateGarland);
+    } else if (!playing && garlandFrame !== undefined) {
+      cancelAnimationFrame(garlandFrame);
+      garlandFrame = undefined;
+      garland.style.removeProperty('--garland-brightness');
+    }
+  }
+
+  function updateGarland() {
+    // Derive the phase from the audio clock so replay and tab switches stay in sync.
+    const beat = music.currentTime / beatSeconds;
+    const phase = beat % 1;
+    const attack = .075;
+    const release = 1 - Math.max(0, phase - attack) / (1 - attack);
+    const pulse = Math.sin(Math.PI / 2 * Math.min(1, phase / attack)) * release ** 4;
+    const accent = Math.floor(beat) % 2 === 0 ? 1 : .66;
+    garland.style.setProperty('--garland-brightness', (1.08 + .68 * accent * pulse).toFixed(3));
+    garlandFrame = requestAnimationFrame(updateGarland);
   }
 
   function addMusicControl() {
@@ -192,7 +215,7 @@
       decoration.className = 'new-year-decoration';
       decoration.setAttribute('aria-hidden', 'true');
       decoration.inert = true;
-      const garland = document.createElement('div');
+      garland = document.createElement('div');
       garland.className = 'new-year-garland';
       decoration.append(garland);
       snow = document.createElement('div');

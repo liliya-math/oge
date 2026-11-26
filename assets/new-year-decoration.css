@@ -63,30 +63,30 @@ html.new-year body { isolation: isolate; }
 .new-year-garland {
   --outer: clamp(13px, 2.3vw, 36px);
   --inner: clamp(23px, 5vw, 78px);
-  --bulb: #fff0b4 0 13%, #ffcb73 21%, #ec9a40b8 37%, #dd7a3a64 55%, transparent 80%;
+  --bulb: #ffedb0 0 14%, #ffcb73 23%, #eda249d9 39%, #dd7a3a70 58%, transparent 86%;
   /* Keep the lamps in the visible side strips at every wallpaper crop. */
   background:
-    radial-gradient(circle 19px at left var(--outer) top 14%, var(--bulb)),
-    radial-gradient(circle 16px at left var(--inner) top 26%, var(--bulb)),
-    radial-gradient(circle 22px at left var(--outer) top 40%, var(--bulb)),
-    radial-gradient(circle 16px at left var(--inner) top 55%, var(--bulb)),
-    radial-gradient(circle 20px at left var(--outer) top 69%, var(--bulb)),
-    radial-gradient(circle 17px at left var(--inner) top 85%, var(--bulb)),
-    radial-gradient(circle 17px at right var(--inner) top 12%, var(--bulb)),
-    radial-gradient(circle 21px at right var(--outer) top 25%, var(--bulb)),
-    radial-gradient(circle 17px at right var(--inner) top 39%, var(--bulb)),
-    radial-gradient(circle 22px at right var(--outer) top 53%, var(--bulb)),
-    radial-gradient(circle 17px at right var(--inner) top 67%, var(--bulb)),
-    radial-gradient(circle 20px at right var(--outer) top 82%, var(--bulb));
-  mask-image: linear-gradient(to right, #000, #000 max(24px, var(--left-edge)),
-    #0004 max(24px, var(--art-left)) min(calc(100% - 24px), var(--art-right)), #000 min(calc(100% - 24px), var(--right-edge)), #000);
-  opacity: .76;
-  transition: opacity 1.2s ease-in-out, filter 1.2s ease-in-out;
+    radial-gradient(circle 27px at left var(--outer) top 14%, var(--bulb)),
+    radial-gradient(circle 34px at left var(--inner) top 26%, var(--bulb)),
+    radial-gradient(circle 30px at left var(--outer) top 40%, var(--bulb)),
+    radial-gradient(circle 34px at left var(--inner) top 55%, var(--bulb)),
+    radial-gradient(circle 28px at left var(--outer) top 69%, var(--bulb)),
+    radial-gradient(circle 25px at left var(--inner) top 85%, var(--bulb)),
+    radial-gradient(circle 25px at right var(--inner) top 12%, var(--bulb)),
+    radial-gradient(circle 29px at right var(--outer) top 25%, var(--bulb)),
+    radial-gradient(circle 25px at right var(--inner) top 39%, var(--bulb)),
+    radial-gradient(circle 30px at right var(--outer) top 53%, var(--bulb)),
+    radial-gradient(circle 25px at right var(--inner) top 67%, var(--bulb)),
+    radial-gradient(circle 28px at right var(--outer) top 82%, var(--bulb));
+  mask-image: linear-gradient(to right, #000, #000 max(34px, var(--left-edge)),
+    #0006 max(34px, var(--art-left)) min(calc(100% - 34px), var(--art-right)), #000 min(calc(100% - 34px), var(--right-edge)), #000);
+  opacity: .87;
+  transition: opacity .5s ease-in-out;
 }
 
 .new-year-garland-lit .new-year-garland {
   opacity: 1;
-  filter: brightness(1.28);
+  filter: brightness(var(--garland-brightness, 1.14));
 }
 
 .new-year-snowflakes {
@@ -117,6 +117,7 @@ html.new-year body { isolation: isolate; }
 
 @media (prefers-reduced-motion: reduce) {
   .new-year-garland { transition: none; }
+  .new-year-garland-lit .new-year-garland { filter: brightness(1.14); }
 
   .new-year-snowflakes span {
     top: var(--y);
