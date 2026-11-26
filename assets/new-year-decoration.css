@@ -40,7 +40,7 @@ html.new-year body { isolation: isolate; }
 }
 
 .new-year-snowflakes {
-  --center-shade: #0008;
+  --center-shade: transparent;
   z-index: 5;
 }
 
