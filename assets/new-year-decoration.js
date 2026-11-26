@@ -2,7 +2,7 @@
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
   const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-25', document.currentScript.src);
-  const musicUrl = new URL('new-year-music.mp3?v=20261126-26', document.currentScript.src);
+  const musicUrl = new URL('new-year-music.mp3?v=20261126-27', document.currentScript.src);
   const musicPreference = 'lilimath-holiday-music';
   const controls = 'button, input, textarea, select, summary, [role="button"], [contenteditable]';
   const diagrams = 'svg:not(.new-year-snow-mask), math, mjx-container, canvas:not(#fx), iframe, video';
@@ -109,8 +109,8 @@
         const horizontalOffset = 0.8 * (Math.random() - 0.5);
         flake.style.setProperty('--x', `${100 * (lane + 0.5 + horizontalOffset) / lanes}%`);
         flake.style.setProperty('--y', `${100 * progress}%`);
-        flake.style.setProperty('--size', `${2.65 + 5.5 * Math.random() ** 1.8}px`);
-        flake.style.setProperty('--flake-opacity', 0.26 + Math.random() * 0.36);
+        flake.style.setProperty('--size', `${3.6 + 7.7 * Math.random() ** 1.8}px`);
+        flake.style.setProperty('--flake-opacity', 0.36 + Math.random() * 0.36);
         flake.style.setProperty('--duration', `${duration}s`);
         flake.style.setProperty('--delay', `${-progress * duration}s`);
         flake.style.setProperty('--drift', `${(Math.random() - 0.5) * 18}px`);
