@@ -2,7 +2,7 @@
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
   const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-25', document.currentScript.src);
-  const musicUrl = new URL('new-year-music.mp3', document.currentScript.src);
+  const musicUrl = new URL('new-year-music.mp3?v=20261126-26', document.currentScript.src);
   const musicPreference = 'lilimath-holiday-music';
   const controls = 'button, input, textarea, select, summary, [role="button"], [contenteditable]';
   const diagrams = 'svg:not(.new-year-snow-mask), math, mjx-container, canvas:not(#fx), iframe, video';
@@ -88,6 +88,8 @@
     }
     const lanes = Math.max(1, Math.min(14, Math.floor(width / 115)));
     const flakesPerLane = Math.max(1, Math.min(8, Math.floor(fallDistance / 145)));
+    const baseFlakes = lanes * flakesPerLane;
+    const extraFlakes = baseFlakes >= 8 ? Math.max(1, Math.round(baseFlakes / 18)) : 0;
     const layout = `${lanes}:${flakesPerLane}`;
     if (snow.dataset.layout === layout) return;
     snow.dataset.layout = layout;
@@ -96,15 +98,18 @@
     for (let lane = 0; lane < lanes; lane++) {
       const duration = fallDistance / (8 + Math.random() * 5);
       const phase = Math.random();
-      for (let row = 0; row < flakesPerLane; row++) {
+      const extraInLane = Math.round((lane + 1) * extraFlakes / lanes)
+        - Math.round(lane * extraFlakes / lanes);
+      const laneFlakes = flakesPerLane + extraInLane;
+      for (let row = 0; row < laneFlakes; row++) {
         const flake = document.createElement('span');
         // Vary the spacing without letting two flakes in one lane catch up.
         const stagger = 0.72 * (Math.random() - 0.5);
-        const progress = (phase + (row + 0.5 + stagger) / flakesPerLane) % 1;
+        const progress = (phase + (row + 0.5 + stagger) / laneFlakes) % 1;
         const horizontalOffset = 0.8 * (Math.random() - 0.5);
         flake.style.setProperty('--x', `${100 * (lane + 0.5 + horizontalOffset) / lanes}%`);
         flake.style.setProperty('--y', `${100 * progress}%`);
-        flake.style.setProperty('--size', `${2.4 + 5 * Math.random() ** 1.8}px`);
+        flake.style.setProperty('--size', `${2.65 + 5.5 * Math.random() ** 1.8}px`);
         flake.style.setProperty('--flake-opacity', 0.26 + Math.random() * 0.36);
         flake.style.setProperty('--duration', `${duration}s`);
         flake.style.setProperty('--delay', `${-progress * duration}s`);
