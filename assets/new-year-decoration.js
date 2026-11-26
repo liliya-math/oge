@@ -2,7 +2,7 @@
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
   const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-25', document.currentScript.src);
-  const musicUrl = new URL('new-year-music.mp3?v=20261126-28', document.currentScript.src);
+  const musicUrl = new URL('new-year-music.mp3?v=20261126-29', document.currentScript.src);
   const musicPreference = 'lilimath-holiday-music';
   const controls = 'button, input, textarea, select, summary, [role="button"], [contenteditable]';
   const diagrams = 'svg:not(.new-year-snow-mask), math, mjx-container, canvas:not(#fx), iframe, video';
