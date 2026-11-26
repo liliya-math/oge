@@ -404,12 +404,25 @@ body .app-shell .geo figcaption,body .app-shell .geo figcaption span{color:#1623
 body .theory-cell b{line-height:1.55}
 </style>
 <script src="/assets/new-year-decoration.js" defer></script>
+  <style>
+    .final-quiz fieldset { min-inline-size: 0; padding: 0; margin: 1rem 0; border: 0; }
+    .final-quiz legend { padding: 0; margin-bottom: .75rem; font-size: 1.15rem; font-weight: 700; }
+    .final-quiz label { display: flex; align-items: flex-start; gap: .75rem; padding: .75rem; margin-bottom: .5rem; border: 1px solid var(--trainer-sand); border-radius: 12px; cursor: pointer; }
+    .final-quiz label:has(:checked) { background: var(--trainer-bg); border-color: var(--trainer-cream); }
+    .final-quiz input { flex: 0 0 auto; margin: .25rem 0 0; accent-color: var(--trainer-sand); }
+    .final-quiz [hidden] { display: none !important; }
+    .final-quiz .end-actions { display: flex; flex-wrap: wrap; gap: .6rem; }
+    .quiz-count { color: var(--trainer-sand); }
+    .quiz-review details { padding: .75rem 0; border-bottom: 1px solid var(--trainer-sand); }
+    .quiz-review summary { cursor: pointer; font-weight: 700; }
+  </style>
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar" aria-label="Маршрут обучения">
       <a class="brand" href="#" aria-label="lili.math — начало"><img src="data:image/webp;base64,UklGRuIEAABXRUJQVlA4INYEAADQGQCdASpwAHAAPj0ci0OiIaEWOUU0IAPEoAzmgQfLcpT0j4R5neY/Ni47/4H25doD7Zt8z5gP16/U31bvab6AH7Vdar6AH63emV7Jn7q+lBd8f4e0Auud9XX33oDjH9I/wHgh/wFZm57foT0Zt85P0YicEhHjYgiW+CExr040n+MyT4eX3AYNZoH8P+3HfYcC2ZLaB9HTippRoAW6snjC0xk8QTUZhFSJNI6q6QPtf1/tEQJUdnXKqBjY3vPUcGF9FXHanBl3p3LPmewrouvpJxwVzP/2wAD+/Y4fU3DnwE85NCiSvdNC+c7ID6zFSFG8FbYqDYwldTvxpzp5rTsG3mznUOTYa2qoQpKC5bZrwi0xNuQQ8QhzrkBjyAw0Lijlb1JEEGUFngjpMIsphV8AdrWCsz/iWlQWb58ogfHd15h4s/OmgLZq2woBU8mp7iJh/+6+eY9u2ocf8Z4uo2ga2fp9Kh4JCRM8owzdQD8E3DztqhJrlf215Ci3sjzeZ9Vj82nQctxLx+/s6Ilv0/Ft+pMemviermos4K9V5x1TL0L0StXjJnqP+4/L/P/1r6lQPvS76tbN0Sv2/pSOuw+YErDqLmHqYfg36WGGj0d/BkoFGHhgrLX81+BAA/jJVlyohN+cG747erTe9g0mXLJ1zcgCoANvCdzu/0rf1BfnqlabI0OVgsHIKZoECH5u88XDl7YRP/FLDcFX6IexuGZq98I7zU6r4Vfr/+LC+Eg3MXEPt6ELm+RF8RVdvXpxxXg9yA7zX9Fz1k/7epy43XnjJOiqCnS4megWU4f47wLLyLXf8gC/XrGDqUAMcohgSeydnBImFH6UWfqowJnUJe/M5fzNQlQElMAnCwZwz9aJk158g+GCiPyhVUthJ71neJSKzRjY+wTANqwQqXFNjey8ClsCp+kh8av/iMwgSod2wx93AcrSHdkE4bctA9JYclg3ZOfdeZ0salPbSfUymqaWdOidsHxFyAKBnq/cFuJopMuQLM3oEgOyJucVNSdlZ44XXEnhV1fQQxiMbq8ZIl8Wmj4v/dDX/dSZPpCs8YcdPa/cKqGizYY+BLYBMoX8iJ7Bix+hp7mIBPPB4XRMRQr81bllUrcRdmHmnzimz3cIXMITIHmxb+19C3lmMAzfQX7ThPY6yLYSW0s5R1jb6RnVxerjeyOCW7ieXSLzCtlqYOSaXszH3TtyJbnF/9apf/7lP6N19xJurzyYT+GDPbqg6z7cnCUaUOpb4oimfypL551rgP+6BcCp+iaYxltdDSp2DFWU22+x/qVrDlUGTfnuV2QNu9TGi+Du8yUyqCECvUPHFzJAOQxWYXtssqRbDXE4245G8VPLqodMpL3tQGrCwS5MArWIpe9TVVwttFdKOK9DxdRURSnNAXT8x3cGE/yLwgtOgelOAyOfO24CprgXdO0hqCtOemeWx+hNkpXhouzOr+I6Ct/l7xArBM/BArv62vpKgkXSFljMEC8Ymfku1zX4AgXokN5VGegIv79P0PU8o7bAiMNsttQ0dlwOPUomME3OSQINH3y7fkASawST0cmr86TIafOwg42ocd7naFyU3Xe3z6mYApa8DB3ItU2gI/PtQo3oUMT9ZhdR0Nn8UD8kte357UzGqCwGVKqK0ITrdiAAAA==" class="identity-mark identity-brand" width="32" height="32" alt=""> lili.math</a>
       <button class="lab-nav" id="open-lab"><span class="lab-symbol">↗</span><span>Справочник<small>Свойства и формулы</small></span></button>
+      <button class="lab-nav" id="open-final-quiz" type="button"><span class="lab-symbol" aria-hidden="true">✓</span><span>Итоговый тест<small>Проверка понимания</small></span></button>
       <div class="sidebar-title">ТВОЙ МАРШРУТ</div>
       <nav id="stage-nav" aria-label="Темы"></nav><label class="mobile-topics">Тема<select id="mobile-topic"></select></label>
       <div class="sidebar-bottom"><div class="save-dot"></div><span id="save-status">Прогресс сохраняется<br>в этом браузере</span></div>
@@ -556,9 +569,375 @@ window.TrainerData={"id":"planimetriya","version":1,"title":"Планиметр�
     const n=state.solved.length,p=Math.round(n/TOTAL*100);$('#progress-caption').textContent=`${n} из ${TOTAL} заданий`;$('#progress-percent').textContent=p+'%';$('#progress-fill').style.width=p+'%';
     document.querySelectorAll('[data-stage]').forEach(b=>b.addEventListener('click',()=>goStage(Number(b.dataset.stage))));updateStorage();
   }
+  const finalQuestions = [
+  [
+    "На одной прямой A и C находятся по разные стороны от B. AB = 8 см, BC = 3 см. На каком расстоянии от B находится середина AC?",
+    [
+      "5,5 см",
+      "2,5 см",
+      "4 см"
+    ],
+    1,
+    "AC = 11 см. Середина находится в 5,5 см от A, а B находится в 8 см от A. Разность равна 2,5 см."
+  ],
+  [
+    "Из общей вершины смежных углов провели их биссектрисы. Какой угол получился между биссектрисами?",
+    [
+      "45°",
+      "90°",
+      "180°"
+    ],
+    1,
+    "Две половины смежных углов в сумме дают половину развёрнутого угла: 90°."
+  ],
+  [
+    "Секущая образует с двумя прямыми односторонние внутренние углы 64° и 116°. Какой вывод можно сделать?",
+    [
+      "Прямые перпендикулярны",
+      "Данных недостаточно: углы должны быть равны",
+      "Прямые параллельны"
+    ],
+    2,
+    "Сумма односторонних внутренних углов равна 180°. Это признак параллельности прямых."
+  ],
+  [
+    "В треугольнике прямая через вершину A перпендикулярна прямой BC, а точка пересечения лежит на продолжении BC за точку C. Как называется отрезок от A до точки пересечения?",
+    [
+      "Высоту из A",
+      "Медиану из A",
+      "Биссектрису из A"
+    ],
+    0,
+    "Высоту проводят перпендикулярно прямой, содержащей противоположную сторону. В тупоугольном треугольнике её основание может лежать вне стороны."
+  ],
+  [
+    "У равнобедренного треугольника с основанием BC внешний угол при B равен 120°. Какой вывод верен?",
+    [
+      "Угол при вершине A равен 120°",
+      "Длины сторон сравнить нельзя",
+      "Треугольник равносторонний"
+    ],
+    2,
+    "Внутренний угол при B равен 60°. Угол при C такой же, поэтому угол при A тоже равен 60° и все стороны равны."
+  ],
+  [
+    "Стороны треугольника равны 7, 24 и 25 см. Какая проверка позволяет применить свойство медианы к гипотенузе и найти её длину?",
+    [
+      "7 + 24 больше 25, поэтому медиана равна 12,5 см",
+      "25² = 7² + 24², поэтому медиана к стороне 25 равна 25 см",
+      "25² = 7² + 24², поэтому медиана к стороне 25 равна 12,5 см"
+    ],
+    2,
+    "Обратная теорема Пифагора подтверждает, что сторона 25 см является гипотенузой. Медиана к ней равна её половине."
+  ],
+  [
+    "Известно, что AB = DE и BC = EF. Какое дополнительное равенство позволяет доказать равенство △ABC и △DEF по двум сторонам и углу между ними?",
+    [
+      "∠A = ∠D",
+      "∠B = ∠E",
+      "∠C = ∠F"
+    ],
+    1,
+    "Стороны AB и BC встречаются в вершине B, а DE и EF в вершине E. Именно эти углы лежат между указанными сторонами."
+  ],
+  [
+    "Стороны одного треугольника равны 3, 4 и 5 см. У подобного ему треугольника стороны 6, 8 и 10 см, а площадь первого равна 6 см². Чему равна площадь второго?",
+    [
+      "24 см²",
+      "12 см²",
+      "36 см²"
+    ],
+    0,
+    "Длины увеличились в 2 раза. Площадь подобной фигуры увеличилась в 2² = 4 раза, поэтому получаем 24 см²."
+  ],
+  [
+    "Две стороны треугольника равны 8 и 10 см, а угол между ними равен 150°. Ученик решил заменить этот угол на 30° в формуле площади по двум сторонам и углу между ними. Как оценить его решение?",
+    [
+      "Площадь останется 20 см²",
+      "Площадь уменьшится вдвое",
+      "Формула площади применима только к острым углам"
+    ],
+    0,
+    "Синусы 150° и 30° равны. Умножаем 8 на 10 и на sin 30° = 0,5, а затем делим пополам."
+  ],
+  [
+    "Диагонали выпуклого четырёхугольника пересекаются и делят друг друга пополам. Их длины различны, а угол между ними равен 60°. Какой вывод следует из этих данных?",
+    [
+      "Это прямоугольник",
+      "Это ромб",
+      "Это параллелограмм"
+    ],
+    2,
+    "Деление обеих диагоналей пополам служит признаком параллелограмма. Для прямоугольника потребовалось бы равенство диагоналей, а для ромба их перпендикулярность."
+  ],
+  [
+    "Диагонали выпуклого четырёхугольника равны. Какое дополнительное условие гарантирует, что это прямоугольник?",
+    [
+      "Диагонали пересекаются внутри фигуры",
+      "Диагонали делят друг друга пополам",
+      "Одна диагональ делит другую пополам"
+    ],
+    1,
+    "Если обе диагонали делятся пополам, перед нами параллелограмм. Равенство диагоналей этого параллелограмма даёт прямоугольник."
+  ],
+  [
+    "Диагонали параллелограмма равны 10 и 24 см и перпендикулярны. Как верно описать фигуру и её площадь?",
+    [
+      "Квадрат площадью 120 см²",
+      "Ромб площадью 120 см²",
+      "Ромб площадью 240 см²"
+    ],
+    1,
+    "Перпендикулярные диагонали дают признак ромба. Площадь равна половине произведения диагоналей: 120 см². У квадрата диагонали были бы равны."
+  ],
+  [
+    "Средняя линия трапеции равна 13 см, одно основание равно 10 см. Перпендикулярное расстояние между основаниями равно 6 см. Каковы второе основание и площадь?",
+    [
+      "3 см и 78 см²",
+      "16 см и 156 см²",
+      "16 см и 78 см²"
+    ],
+    2,
+    "Сумма оснований равна удвоенной средней линии, то есть 26 см. Второе основание равно 16 см. Площадь равна произведению средней линии и высоты: 78 см²."
+  ],
+  [
+    "Выпуклый четырёхугольник ABCD имеет стороны AB = AD и CB = CD. Длины диагоналей AC и BD равны 14 и 8 см. Какое рассуждение даёт площадь?",
+    [
+      "Точки A и C лежат на серединном перпендикуляре к BD, поэтому площадь равна 56 см²",
+      "Равенство соседних сторон даёт прямоугольник площадью 112 см²",
+      "Четыре стороны обязательно равны, поэтому площадь равна 112 см²"
+    ],
+    0,
+    "И A, и C равноудалены от B и D. Значит, AC перпендикулярна BD. Площадь четырёхугольника с перпендикулярными диагоналями равна половине их произведения."
+  ],
+  [
+    "На круге радиуса 9 см вырезали сектор с центральным углом 120°. Ученик говорит, что сектор занимает треть круга и его дуга составляет треть окружности. Какие значения это даёт?",
+    [
+      "Площадь 9π см², длина дуги 6π см",
+      "Площадь 27π см², длина дуги 3π см",
+      "Площадь 27π см², длина дуги 6π см"
+    ],
+    2,
+    "120° составляют треть полного угла. Берём треть от площади круга 81π и треть от длины окружности 18π."
+  ],
+  [
+    "Точки C и D лежат на разных дугах окружности с концами A и B. Известно, что ∠ACB = 37°. Чему равен ∠ADB?",
+    [
+      "143°",
+      "37°",
+      "74°"
+    ],
+    0,
+    "Углы опираются на разные дуги AB, которые вместе образуют всю окружность. Сумма половин этих дуг равна 180°, поэтому второй угол равен 143°."
+  ],
+  [
+    "Из точки P к окружности проведены касательная PT и секущая, пересекающая окружность сначала в A, затем в B. PA = 4 см, AB = 5 см. Какую длину имеет PT?",
+    [
+      "√20 см",
+      "6 см",
+      "9 см"
+    ],
+    1,
+    "В произведение входит внешний отрезок PA и вся секущая PB = 9 см. Поэтому PT² = 4 · 9 = 36."
+  ],
+  [
+    "В прямоугольном треугольнике гипотенуза равна 14 см. Где находится центр окружности, проходящей через все три вершины, и чему равен её радиус?",
+    [
+      "В точке пересечения биссектрис, радиус 7 см",
+      "В вершине прямого угла, радиус 14 см",
+      "В середине гипотенузы, радиус 7 см"
+    ],
+    2,
+    "Середина гипотенузы равноудалена от всех трёх вершин. Это центр описанной окружности, а радиус равен половине гипотенузы."
+  ],
+  [
+    "У выпуклого четырёхугольника ABCD углы A и C равны 70° и 110°. Кроме того, AB + CD = BC + AD. Какой вывод подтверждается уже первым условием?",
+    [
+      "Окружность касается всех четырёх сторон",
+      "Вершины четырёхугольника лежат на одной окружности",
+      "Четырёхугольник является параллелограммом"
+    ],
+    1,
+    "Противоположные углы в сумме дают 180°. По этому признаку четырёхугольник вписан в окружность."
+  ],
+  [
+    "Из одной вершины выпуклого многоугольника можно провести семь диагоналей. Какова сумма его внутренних углов?",
+    [
+      "1440°",
+      "1260°",
+      "1800°"
+    ],
+    0,
+    "Из одной вершины соединяемся диагоналями со всеми вершинами, кроме самой этой вершины и двух соседних. Значит, вершин десять. Из той же вершины многоугольник делится на восемь треугольников."
+  ],
+  [
+    "У правильного многоугольника внутренний угол при вершине равен 150°. Сколько одинаковых треугольников получится, если соединить центр со всеми вершинами?",
+    [
+      "10",
+      "12",
+      "15"
+    ],
+    1,
+    "Внешний угол равен 30°. У правильного многоугольника центральный угол между соседними вершинами равен внешнему. Полный оборот делится на 12 углов по 30°."
+  ],
+  [
+    "Даны точки A(1; 1), B(7; 1) и C(7; 5). Какова площадь треугольника ABC, если за единицу площади принять одну клетку?",
+    [
+      "24",
+      "10",
+      "12"
+    ],
+    2,
+    "AB горизонтален, BC вертикален. Длины катетов равны 6 и 4. Площадь прямоугольного треугольника равна половине их произведения."
+  ],
+  [
+    "Точка X равноудалена от A и B. Кроме того, XA составляет ровно 5 см. Пересечением каких фигур можно найти все возможные положения X?",
+    [
+      "Биссектрисы угла AXB и отрезка AB",
+      "Прямой AB и окружности с центром A радиуса 5 см",
+      "Серединного перпендикуляра к AB и окружности с центром A радиуса 5 см"
+    ],
+    2,
+    "Условие XA = XB задаёт серединный перпендикуляр к AB. Условие XA = 5 см задаёт окружность с центром A. Подходят точки, удовлетворяющие обоим условиям."
+  ],
+  [
+    "Прямоугольник со сторонами 4 и 9 см повернули на 180° вокруг точки пересечения диагоналей. Куда перейдёт вершина A и какой станет площадь?",
+    [
+      "В противоположную вершину, площадь 36 см²",
+      "В соседнюю вершину, площадь 36 см²",
+      "Останется на месте, площадь 18 см²"
+    ],
+    0,
+    "Поворот на 180° вокруг середины диагонали меняет её концы местами. Поворот сохраняет площадь фигуры."
+  ],
+  [
+    "У выпуклого четырёхугольника диагонали равны, перпендикулярны и делят друг друга пополам. Длина каждой диагонали 10 см. Какой вывод верен?",
+    [
+      "Это прямоугольник со сторонами разной длины и площадью 100 см²",
+      "Это квадрат площадью 50 см²",
+      "Это ромб с непрямыми углами и площадью 50 см²"
+    ],
+    1,
+    "Деление диагоналей пополам даёт параллелограмм. Равенство диагоналей даёт прямоугольник, а перпендикулярность даёт ромб. Фигура с обоими свойствами является квадратом. Площадь равна половине произведения диагоналей."
+  ]
+];
+  const quizKey = KEY + '-final-test-v1';
+  const newQuiz = () => ({ index: 0, answers: finalQuestions.map(() => null), submitted: false });
+  let quiz = readQuiz();
+
+  function readQuiz() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(quizKey));
+      if (!saved || saved.answers?.length !== finalQuestions.length) return newQuiz();
+      const answers = finalQuestions.map((question, i) =>
+        Number.isInteger(saved.answers[i]) && question[1][saved.answers[i]] !== undefined ? saved.answers[i] : null);
+      const index = Number.isInteger(saved.index) && finalQuestions[saved.index] ? saved.index : 0;
+      return { index, answers, submitted: saved.submitted === true && answers.every(answer => answer !== null) };
+    } catch {
+      return newQuiz();
+    }
+  }
+
+  function saveQuiz() {
+    try { localStorage.setItem(quizKey, JSON.stringify(quiz)); } catch { /* Keep the attempt open in this tab. */ }
+  }
+
+  function openFinalQuiz() {
+    view = 'final-quiz';
+    render();
+    focusQuiz('#quiz-title');
+    scrollToLesson();
+  }
+
+  function focusQuiz(selector) {
+    $(selector)?.focus({ preventScroll: true });
+  }
+
+  function renderFinalQuiz() {
+    if (quiz.submitted) return renderQuizResult();
+    const [prompt, options] = finalQuestions[quiz.index];
+    const answered = quiz.answers.filter(answer => answer !== null).length;
+    const allAnswered = answered === finalQuestions.length;
+    const last = quiz.index === finalQuestions.length - 1;
+    $('#workspace').innerHTML = `<section class="lesson-card final-quiz" aria-labelledby="quiz-title">
+      <h2 id="quiz-title" tabindex="-1">Итоговый тест</h2>
+      <p>Выбери один ответ в каждом задании. Баллы и разбор появятся после сдачи.</p>
+      <p class="quiz-count">Задание ${quiz.index + 1} из ${finalQuestions.length} · Отвечено ${answered}</p>
+      <fieldset>
+        <legend id="quiz-prompt" tabindex="-1">${esc(prompt)}</legend>
+        ${options.map((option, i) => `<label><input type="radio" name="final-answer" value="${i}" ${quiz.answers[quiz.index] === i ? 'checked' : ''}><span>${esc(option)}</span></label>`).join('')}
+      </fieldset>
+      <div class="end-actions">
+        <button class="secondary" type="button" id="quiz-prev" ${quiz.index === 0 ? 'disabled' : ''}>Назад</button>
+        ${last ? '' : '<button class="primary" type="button" id="quiz-next">Далее</button>'}
+        <button class="primary" type="button" id="quiz-submit" ${allAnswered ? '' : 'hidden'}>Сдать тест</button>
+        <button class="secondary" type="button" id="quiz-unanswered" ${last && !allAnswered ? '' : 'hidden'}>К пропущенному заданию</button>
+        <button class="secondary" type="button" id="quiz-exit">К тренировке</button>
+      </div>
+    </section>`;
+    document.querySelectorAll('[name="final-answer"]').forEach(input => input.addEventListener('change', () => {
+      quiz.answers[quiz.index] = Number(input.value);
+      saveQuiz();
+      const count = quiz.answers.filter(answer => answer !== null).length;
+      $('.quiz-count').textContent = `Задание ${quiz.index + 1} из ${finalQuestions.length} · Отвечено ${count}`;
+      $('#quiz-submit').hidden = count !== finalQuestions.length;
+      $('#quiz-unanswered').hidden = !last || count === finalQuestions.length;
+    }));
+    const showQuestion = index => {
+      quiz.index = index;
+      saveQuiz();
+      renderFinalQuiz();
+      focusQuiz('#quiz-prompt');
+    };
+    $('#quiz-prev').onclick = () => showQuestion(quiz.index - 1);
+    $('#quiz-next')?.addEventListener('click', () => showQuestion(quiz.index + 1));
+    $('#quiz-unanswered').onclick = () => showQuestion(quiz.answers.indexOf(null));
+    $('#quiz-submit').onclick = () => {
+      if (quiz.answers.includes(null)) return;
+      quiz.submitted = true;
+      saveQuiz();
+      renderFinalQuiz();
+      focusQuiz('#quiz-title');
+      scrollToLesson();
+    };
+    $('#quiz-exit').onclick = () => { view = 'lesson'; render(); scrollToLesson(); };
+  }
+
+  function renderQuizResult() {
+    const score = finalQuestions.filter((question, i) => quiz.answers[i] === question[2]).length;
+    const review = finalQuestions.map(([prompt, options, correct, explanation], i) => {
+      const right = quiz.answers[i] === correct;
+      return `<details>
+        <summary>${i + 1}. ${esc(C.stages[i].name)} · ${right ? 'Верно' : 'Ошибка'}</summary>
+        <p><strong>${esc(prompt)}</strong></p>
+        <p>Твой ответ — ${esc(options[quiz.answers[i]])}</p>
+        ${right ? '' : `<p>Верный ответ — ${esc(options[correct])}</p>`}
+        <p>${esc(explanation)}</p>
+        ${right ? '' : `<button class="secondary" type="button" data-quiz-review="${i}">Повторить тему</button>`}
+      </details>`;
+    }).join('');
+    $('#workspace').innerHTML = `<section class="lesson-card final-quiz" aria-labelledby="quiz-title">
+      <h2 id="quiz-title" tabindex="-1">Результат итогового теста</h2>
+      <p><strong>${score} из ${finalQuestions.length} баллов</strong>. За каждый верный ответ начисляется 1 балл.</p>
+      <div class="quiz-review">${review}</div>
+      <div class="end-actions">
+        <button class="primary" type="button" id="quiz-retry">Пройти тест заново</button>
+        <button class="secondary" type="button" id="quiz-exit">К тренировке</button>
+      </div>
+    </section>`;
+    document.querySelectorAll('[data-quiz-review]').forEach(button =>
+      button.onclick = () => goStage(Number(button.dataset.quizReview), true));
+    $('#quiz-retry').onclick = () => {
+      quiz = newQuiz();
+      saveQuiz();
+      openFinalQuiz();
+    };
+    $('#quiz-exit').onclick = () => { view = 'lesson'; render(); scrollToLesson(); };
+  }
+
   function visual(t){return t.visual?`<div class="visual-panel">${mathMarkup(t.visual)}</div>`:'';}
   function hintsHtml(t){return ['Что видим','Как решаем подобное','Алгоритм'].map((title,i)=>`<div class="hint-row"><button class="hint-trigger" data-hint="${i}" aria-expanded="${hints.has(i)}" aria-controls="hint-${i}"><span class="hint-number">${i+1}</span><span>${title}</span><span class="hint-arrow">${hints.has(i)?'−':'+'}</span></button><p class="hint-text" id="hint-${i}" ${hints.has(i)?'':'hidden'}>${mathText([t.see,t.similar,t.algorithm][i])}</p></div>`).join('');}
-  function render(){nav();if(view==='lab')return renderLab();if(view==='complete')return renderComplete();renderLesson();}
+  function render(){nav();if(view==='lab')return renderLab();if(view==='complete')return renderComplete();if(view==='final-quiz')return renderFinalQuiz();renderLesson();}
   function renderLesson(){
     window.LiliStudy?.task(state.stage+'-'+state.task,{current:state.solved.length,total:TOTAL,label:'Этап '+(state.stage+1)+' · задание '+(state.task+1),done:state.solved.length===TOTAL});
     const s=C.stages[state.stage],t=task(),solved=done();
@@ -621,12 +1000,14 @@ window.TrainerData={"id":"planimetriya","version":1,"title":"Планиметр�
  }
   function renderComplete(){
     const unresolved=TOTAL-state.solved.length;
-    $('#workspace').innerHTML=`<section class="lesson-card completion-card"><div class="completion-icon" aria-hidden="true">✧</div><div class="eyebrow">${unresolved?'МАРШРУТ ПРОДОЛЖАЕТСЯ':'МАРШРУТ ПРОЙДЕН'}</div><h2>${unresolved?'Уже многое получилось.':'Маршрут пройден!'}</h2><p>${unresolved?`Решено ${state.solved.length} из ${TOTAL} заданий. Осталось ${unresolved}.`:`Решено ${TOTAL} из ${TOTAL} заданий.`}</p><div class="review-list">${C.recap.map(x=>`<p>${mathText(x)}</p>`).join('')}</div><div class="end-actions"><button class="primary" id="review-stories">${unresolved?'Продолжить маршрут':'Посмотреть задачи'}</button>${C.lab?'<button class="secondary" id="finish-lab">Открыть справочник</button>':''}<button class="secondary" id="finish-reset">Пройти заново</button></div></section>`;
+    $('#workspace').innerHTML=`<section class="lesson-card completion-card"><div class="completion-icon" aria-hidden="true">✧</div><div class="eyebrow">${unresolved?'МАРШРУТ ПРОДОЛЖАЕТСЯ':'МАРШРУТ ПРОЙДЕН'}</div><h2>${unresolved?'Уже многое получилось.':'Маршрут пройден!'}</h2><p>${unresolved?`Решено ${state.solved.length} из ${TOTAL} заданий. Осталось ${unresolved}.`:`Решено ${TOTAL} из ${TOTAL} заданий.`}</p><div class="review-list">${C.recap.map(x=>`<p>${mathText(x)}</p>`).join('')}</div><div class="end-actions"><button class="primary" type="button" id="finish-final-quiz">Пройти итоговый тест</button><button class="secondary" id="review-stories">${unresolved?'Продолжить маршрут':'Посмотреть задачи'}</button>${C.lab?'<button class="secondary" id="finish-lab">Открыть справочник</button>':''}<button class="secondary" id="finish-reset">Пройти заново</button></div></section>`;
+    $('#finish-final-quiz').addEventListener('click',openFinalQuiz);
     $('#review-stories').addEventListener('click',()=>{if(unresolved){for(let i=0;i<C.stages.length;i++)if(C.stages[i].tasks.some((_,j)=>!state.solved.includes(`${i}-${j}`))){goStage(i);return;}}goStage(C.stages.length-1);});$('#finish-lab')?.addEventListener('click',openLab);$('#finish-reset').addEventListener('click',askReset);
   }
   function openLab(){if(!C.lab)return;view='lab';render();scrollToLesson();}
   function askReset(){$('#reset-dialog').showModal();}
-  $('#open-lab').addEventListener('click',openLab);$('#reset-progress').addEventListener('click',askReset);$('#cancel-reset').addEventListener('click',()=>$('#reset-dialog').close());$('#confirm-reset').addEventListener('click',()=>{state=blank();feedback=null;hints.clear();view='lesson';save();$('#reset-dialog').close();render();});$('.brand').addEventListener('click',e=>{e.preventDefault();goStage(0);});
+  $('#open-final-quiz').addEventListener('click',openFinalQuiz);
+  $('#open-lab').addEventListener('click',openLab);$('#reset-progress').addEventListener('click',askReset);$('#cancel-reset').addEventListener('click',()=>$('#reset-dialog').close());$('#confirm-reset').addEventListener('click',()=>{state=blank();quiz=newQuiz();saveQuiz();feedback=null;hints.clear();view='lesson';save();$('#reset-dialog').close();render();});$('.brand').addEventListener('click',e=>{e.preventDefault();goStage(0);});
   $('#open-lab').hidden=!C.lab;
   render();
 })();
