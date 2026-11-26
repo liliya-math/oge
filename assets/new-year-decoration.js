@@ -1,7 +1,7 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-19', document.currentScript.src);
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-20', document.currentScript.src);
   const content = 'a, button, input, textarea, select, summary, img, svg, canvas:not(#fx), iframe, video, table, [role="button"], [contenteditable], .container, .wrap, dialog, [role="dialog"]';
   const clearance = 20;
   let timer;
@@ -11,7 +11,7 @@
   let snowGutters;
   let stylesReady = false;
 
-  function updateSnowGutter(gutter, width, height, side) {
+  function updateSnowGutter(gutter, width, height) {
     const lanes = width >= 30 ? Math.max(1, Math.floor(width / 48)) : 0;
     const flakesPerLane = Math.max(1, Math.min(14, Math.floor((height + 72) / 66)));
     if (lanes) {
@@ -26,18 +26,22 @@
     const flakes = document.createDocumentFragment();
     const shapes = ['❄︎', '❅', '❆'];
     for (let lane = 0; lane < lanes; lane++) {
-      const duration = 20 + (lane * 5 + side * 3) % 9;
-      const offset = (lane * 0.618 + side * 0.31) % 1;
+      const duration = 37 + Math.random() * 14;
+      const phase = Math.random();
       for (let row = 0; row < flakesPerLane; row++) {
         const flake = document.createElement('span');
-        const progress = (row + offset) / flakesPerLane;
-        flake.textContent = shapes[(lane + row + side) % shapes.length];
+        // Vary the spacing without letting two flakes in one lane catch up.
+        const stagger = 0.32 * (Math.random() - 0.5);
+        const progress = (phase + (row + 0.5 + stagger) / flakesPerLane) % 1;
+        flake.textContent = shapes[Math.floor(Math.random() * shapes.length)];
         flake.style.setProperty('--x', `${100 * (lane + 0.5) / lanes}%`);
+        flake.style.setProperty('--offset-x', `${(Math.random() - 0.5) * 4}px`);
         flake.style.setProperty('--y', `${100 * progress}%`);
-        flake.style.setProperty('--size', `${18 + (lane * 7 + row * 5 + side * 3) % 9}px`);
+        flake.style.setProperty('--size', `${18 + Math.floor(Math.random() * 9)}px`);
         flake.style.setProperty('--duration', `${duration}s`);
         flake.style.setProperty('--delay', `${-progress * duration}s`);
-        flake.style.setProperty('--drift', `${(lane + row + side) % 2 ? -4 : 4}px`);
+        flake.style.setProperty('--drift', `${(Math.random() - 0.5) * 8}px`);
+        flake.style.setProperty('--spin', `${(Math.random() - 0.5) * 120}deg`);
         flakes.append(flake);
       }
     }
@@ -77,8 +81,8 @@
       layer.style.setProperty('--art-left', `${left}px`);
       layer.style.setProperty('--art-right', `${right}px`);
     }
-    updateSnowGutter(snowGutters[0], left, height, 0);
-    updateSnowGutter(snowGutters[1], width - right, height, 1);
+    updateSnowGutter(snowGutters[0], left, height);
+    updateSnowGutter(snowGutters[1], width - right, height);
   }
 
   function requestGutters() {
