@@ -61,40 +61,33 @@ html.new-year body { isolation: isolate; }
 }
 
 .new-year-garland {
-  container-type: size;
-}
-
-.new-year-garland::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  translate: -50% -50%;
-  /* Match the spruce wallpaper's centered cover crop (1672 × 941). */
-  width: max(100cqw, calc(100cqh * 1672 / 941));
-  aspect-ratio: 1672 / 941;
-  --bulb: #fff1bc 8%, #ffd486 16%, #e2a647a6 31%, #dd7a3a40 56%, transparent 76%;
+  --outer: clamp(13px, 2.3vw, 36px);
+  --inner: clamp(23px, 5vw, 78px);
+  --bulb: #fff0b4 0 13%, #ffcb73 21%, #ec9a40b8 37%, #dd7a3a64 55%, transparent 80%;
+  /* Keep the lamps in the visible side strips at every wallpaper crop. */
   background:
-    radial-gradient(circle 12px at 7% 18%, var(--bulb)),
-    radial-gradient(circle 16px at 18.5% 26%, var(--bulb)),
-    radial-gradient(circle 10px at 12% 41%, var(--bulb)),
-    radial-gradient(circle 13px at 5% 58%, var(--bulb)),
-    radial-gradient(circle 12px at 15% 66%, var(--bulb)),
-    radial-gradient(circle 10px at 24% 78%, var(--bulb)),
-    radial-gradient(circle 10px at 34% 29%, var(--bulb)),
-    radial-gradient(circle 12px at 39% 51%, var(--bulb)),
-    radial-gradient(circle 11px at 60% 22%, var(--bulb)),
-    radial-gradient(circle 10px at 65% 62%, var(--bulb)),
-    radial-gradient(circle 16px at 85.5% 21%, var(--bulb)),
-    radial-gradient(circle 11px at 95% 33%, var(--bulb)),
-    radial-gradient(circle 12px at 89% 51%, var(--bulb)),
-    radial-gradient(circle 16px at 77% 69%, var(--bulb)),
-    radial-gradient(circle 13px at 93% 76%, var(--bulb));
-  opacity: 0;
-  transition: opacity 1.2s ease-in-out;
+    radial-gradient(circle 19px at left var(--outer) top 14%, var(--bulb)),
+    radial-gradient(circle 16px at left var(--inner) top 26%, var(--bulb)),
+    radial-gradient(circle 22px at left var(--outer) top 40%, var(--bulb)),
+    radial-gradient(circle 16px at left var(--inner) top 55%, var(--bulb)),
+    radial-gradient(circle 20px at left var(--outer) top 69%, var(--bulb)),
+    radial-gradient(circle 17px at left var(--inner) top 85%, var(--bulb)),
+    radial-gradient(circle 17px at right var(--inner) top 12%, var(--bulb)),
+    radial-gradient(circle 21px at right var(--outer) top 25%, var(--bulb)),
+    radial-gradient(circle 17px at right var(--inner) top 39%, var(--bulb)),
+    radial-gradient(circle 22px at right var(--outer) top 53%, var(--bulb)),
+    radial-gradient(circle 17px at right var(--inner) top 67%, var(--bulb)),
+    radial-gradient(circle 20px at right var(--outer) top 82%, var(--bulb));
+  mask-image: linear-gradient(to right, #000, #000 max(24px, var(--left-edge)),
+    #0004 max(24px, var(--art-left)) min(calc(100% - 24px), var(--art-right)), #000 min(calc(100% - 24px), var(--right-edge)), #000);
+  opacity: .76;
+  transition: opacity 1.2s ease-in-out, filter 1.2s ease-in-out;
 }
 
-.new-year-garland-lit .new-year-garland::before { opacity: .95; }
+.new-year-garland-lit .new-year-garland {
+  opacity: 1;
+  filter: brightness(1.28);
+}
 
 .new-year-snowflakes {
   mask-image: url(#new-year-snow-mask);
@@ -123,7 +116,7 @@ html.new-year body { isolation: isolate; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .new-year-garland::before { transition: none; }
+  .new-year-garland { transition: none; }
 
   .new-year-snowflakes span {
     top: var(--y);
