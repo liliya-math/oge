@@ -1,10 +1,23 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-33', document.currentScript.src);
-  const musicUrl = new URL('new-year-music.mp3?v=20261126-34', document.currentScript.src);
-  // «Огоньки на ёлке»: четверть = 112 уд./мин, размер 4/4.
-  const beatSeconds = 60 / 112;
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-35', document.currentScript.src);
+  const musicUrl = new URL('new-year-music.mp3?v=20261126-35', document.currentScript.src);
+  // Note attacks measured from this recording, in hundredths of a second.
+  const noteAttacks = [
+    169, 283, 397, 510, 625, 850, 1095, 1175, 1229, 1283, 1338, 1391,
+    1500, 1605, 1659, 1712, 1766, 1928, 1982, 2036, 2141, 2249, 2302, 2355,
+    2463, 2516, 2566, 2623, 2732, 2786, 2842, 2895, 2952, 3008, 3064, 3118,
+    3175, 3231, 3283, 3334, 3386, 3439, 3492, 3651, 3702, 3758, 3861, 3920,
+    3972, 4081, 4135, 4190, 4245, 4298, 4352, 4408, 4598, 4846, 4898, 5057,
+    5106, 5191, 5258, 5443, 5689, 5741, 5796, 5851, 5905, 5958, 6068, 6124,
+    6334, 6543, 6754, 6859, 7105, 7229, 7310, 7365, 7504, 7600, 7649, 7723,
+    7788, 7824, 7870, 7941, 8007, 8076, 8142, 8233, 8322, 8384, 8442, 8504,
+    8562, 8651, 8741, 8799, 8858, 8917, 9003, 9088, 9145, 9203, 9260, 9317,
+    9373, 9431, 9487, 9542, 9598, 9654, 9711, 9766, 9823, 9878, 9989, 10045,
+    10099, 10183, 10267, 10322, 10406, 10488, 10545, 10601, 10656, 10712, 10768, 10932,
+    10988, 11045, 11154, 11211, 11267, 11378, 11435, 11489, 11546, 11600, 11656, 11710,
+  ];
   const musicPreference = 'lilimath-holiday-music';
   const controls = 'button, input, textarea, select, summary, [role="button"], [contenteditable]';
   const diagrams = 'svg:not(.new-year-snow-mask), math, mjx-container, canvas:not(#fx), iframe, video';
@@ -20,6 +33,7 @@
   let protectedAreas;
   let music;
   let musicButton;
+  let musicControls;
   let garland;
   let garlandFrame;
   let stylesReady = false;
@@ -42,14 +56,19 @@
   }
 
   function updateGarland() {
-    // Derive the phase from the audio clock so replay and tab switches stay in sync.
-    const beat = music.currentTime / beatSeconds;
-    const phase = beat % 1;
-    const attack = .075;
-    const release = 1 - Math.max(0, phase - attack) / (1 - attack);
-    const pulse = Math.sin(Math.PI / 2 * Math.min(1, phase / attack)) * release ** 4;
-    const accent = [1, .56, .78, .56][Math.floor(beat) % 4];
-    garland.style.setProperty('--garland-brightness', (1.08 + .68 * accent * pulse).toFixed(3));
+    // Use the audio clock so pauses, seeking and replay stay in sync.
+    const now = music.currentTime * 100;
+    let low = 0;
+    let high = noteAttacks.length;
+    while (low < high) {
+      const middle = (low + high) >>> 1;
+      if (noteAttacks[middle] <= now) low = middle + 1;
+      else high = middle;
+    }
+    const elapsed = (now - (noteAttacks[low - 1] ?? -Infinity)) / 100;
+    const fade = Math.max(0, 1 - elapsed / .42);
+    const pulse = Math.min(1, elapsed / .05) * fade ** 2;
+    garland.style.setProperty('--garland-brightness', (1.08 + .68 * pulse).toFixed(3));
     garlandFrame = requestAnimationFrame(updateGarland);
   }
 
@@ -59,12 +78,13 @@
     music.src = musicUrl.href;
     music.preload = 'none';
     music.loop = true;
+    music.volume = .6;
     music.hidden = true;
     musicButton = document.createElement('button');
     musicButton.type = 'button';
     musicButton.className = 'new-year-music-toggle';
     setMusicPlaying(false);
-    musicButton.hidden = true;
+
     for (const event of ['playing', 'pause', 'error']) {
       music.addEventListener(event, () => {
         setMusicPlaying(event === 'playing');
@@ -76,7 +96,29 @@
       if (enable) playMusic();
       else music.pause();
     });
-    document.body.append(music, musicButton);
+    const credit = document.createElement('details');
+    credit.className = 'new-year-music-credit';
+    const creditLabel = document.createElement('summary');
+    creditLabel.textContent = 'О музыке';
+    const creditText = document.createElement('p');
+    const source = document.createElement('a');
+    source.href = 'https://www.incompetech.com/music/royalty-free/index.html?isrc=USUAN1100625';
+    source.textContent = 'Кевин Маклауд (Incompetech)';
+    const license = document.createElement('a');
+    license.href = 'https://creativecommons.org/licenses/by/4.0/';
+    license.textContent = 'CC BY 4.0';
+    for (const link of [source, license]) {
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+    }
+    creditText.append('П. И. Чайковский, «Танец феи Драже». Аранжировка и запись: ',
+      source, '. Лицензия ', license, '. Запись перекодирована в MP3 для сайта.');
+    credit.append(creditLabel, creditText);
+    musicControls = document.createElement('div');
+    musicControls.className = 'new-year-music-controls';
+    musicControls.hidden = true;
+    musicControls.append(musicButton, credit);
+    document.body.append(music, musicControls);
   }
 
   function createSnowMask() {
@@ -169,7 +211,7 @@
     }
 
     for (const element of document.body.querySelectorAll(backgroundContent)) {
-      accept(element.getBoundingClientRect(), element.matches(snowProtected), element !== musicButton);
+      accept(element.getBoundingClientRect(), element.matches(snowProtected), !musicControls?.contains(element));
     }
 
     // Include text in plain containers, not just the common text tags.
@@ -178,7 +220,7 @@
     for (let node = walker.nextNode(); node; node = walker.nextNode()) {
       if (node.parentElement.closest('script, style, noscript, template, .new-year-decoration, .new-year-snowflakes') || !node.nodeValue.trim()) continue;
       range.selectNodeContents(node);
-      for (const box of range.getClientRects()) accept(box, true, node.parentElement !== musicButton);
+      for (const box of range.getClientRects()) accept(box, true, !musicControls?.contains(node.parentElement));
     }
 
     const left = Math.max(0, Math.floor(leftmost - clearance));
@@ -239,10 +281,10 @@
     }
 
     if (decoration) decoration.hidden = snow.hidden = !active || !stylesReady;
-    if (musicButton) {
+    if (musicControls) {
       const showMusic = active && stylesReady;
-      const wasHidden = musicButton.hidden;
-      musicButton.hidden = !showMusic;
+      const wasHidden = musicControls.hidden;
+      musicControls.hidden = !showMusic;
       if (!showMusic) music.pause();
       else if (wasHidden) {
         let enabled;

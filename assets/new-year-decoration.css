@@ -15,13 +15,20 @@ html.new-year body { isolation: isolate; }
 
 .new-year-decoration[hidden],
 .new-year-snowflakes[hidden],
-.new-year-music-toggle[hidden] { display: none; }
+.new-year-music-controls[hidden] { display: none; }
 
-.new-year-music-toggle {
+.new-year-music-controls {
   position: fixed;
   inset-inline-start: max(12px, env(safe-area-inset-left));
   inset-block-end: calc(12px + env(safe-area-inset-bottom));
   z-index: 15;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.new-year-music-toggle,
+.new-year-music-credit summary {
   display: inline-flex;
   align-items: center;
   gap: 7px;
@@ -37,7 +44,25 @@ html.new-year body { isolation: isolate; }
 
 .new-year-music-toggle::before { content: "♫"; font-size: 16px; }
 .new-year-music-toggle[data-playing="true"] { color: #f2cb73; border-color: #e2b04a; }
-.new-year-music-toggle:focus-visible { outline: 2px solid #f2cb73; outline-offset: 3px; }
+.new-year-music-toggle:focus-visible,
+.new-year-music-credit :focus-visible { outline: 2px solid #f2cb73; outline-offset: 3px; }
+
+.new-year-music-credit p {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-end: calc(100% + 6px);
+  box-sizing: border-box;
+  width: min(288px, calc(100vw - 36px));
+  margin: 0;
+  padding: 10px 13px;
+  border: 1px solid #e2b04a66;
+  border-radius: 14px;
+  background: #16231a;
+  color: #eee0c8;
+  font: 13px / 1.45 system-ui, sans-serif;
+}
+
+.new-year-music-credit a { color: #f2cb73; }
 
 .new-year-snow-mask { position: fixed; width: 0; height: 0; pointer-events: none; }
 
@@ -128,5 +153,5 @@ html.new-year body { isolation: isolate; }
 @media print {
   .new-year-decoration,
   .new-year-snowflakes,
-  .new-year-music-toggle { display: none !important; }
+  .new-year-music-controls { display: none !important; }
 }
