@@ -1,7 +1,7 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-23', document.currentScript.src);
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-25', document.currentScript.src);
   const musicUrl = new URL('new-year-music.mp3', document.currentScript.src);
   const musicPreference = 'lilimath-holiday-music';
   const controls = 'button, input, textarea, select, summary, [role="button"], [contenteditable]';
@@ -21,7 +21,12 @@
   let stylesReady = false;
 
   function playMusic() {
-    music.play().catch(() => musicButton.setAttribute('aria-pressed', 'false'));
+    music.play().catch(() => setMusicPlaying(false));
+  }
+
+  function setMusicPlaying(playing) {
+    musicButton.textContent = playing ? 'Выключить музыку' : 'Включить музыку';
+    musicButton.dataset.playing = String(playing);
   }
 
   function addMusicControl() {
@@ -34,13 +39,11 @@
     musicButton = document.createElement('button');
     musicButton.type = 'button';
     musicButton.className = 'new-year-music-toggle';
-    musicButton.textContent = 'Музыка';
-    musicButton.setAttribute('aria-label', 'Фоновая музыка');
-    musicButton.setAttribute('aria-pressed', 'false');
+    setMusicPlaying(false);
     musicButton.hidden = true;
     for (const event of ['playing', 'pause', 'error']) {
       music.addEventListener(event, () => {
-        musicButton.setAttribute('aria-pressed', String(event === 'playing'));
+        setMusicPlaying(event === 'playing');
       });
     }
     musicButton.addEventListener('click', () => {
@@ -116,15 +119,18 @@
     frame = undefined;
     if (decoration.hidden) return;
     const {clientWidth: width, clientHeight: height} = decoration;
-    let leftmost = width / 2;
-    let rightmost = width / 2;
+    const backdropPanel = document.querySelector('[data-new-year-panel]')?.getBoundingClientRect();
+    let leftmost = backdropPanel?.left ?? width / 2;
+    let rightmost = backdropPanel?.right ?? width / 2;
 
     const holes = [];
-    function accept(box, protectFromSnow) {
+    function accept(box, protectFromSnow, affectsBackdrop = true) {
       if (!box.width || !box.height || box.right <= 0 || box.bottom <= 0 ||
           box.left >= width || box.top >= height) return;
-      leftmost = Math.min(leftmost, box.left);
-      rightmost = Math.max(rightmost, box.right);
+      if (!backdropPanel && affectsBackdrop) {
+        leftmost = Math.min(leftmost, box.left);
+        rightmost = Math.max(rightmost, box.right);
+      }
       if (!protectFromSnow) return;
       const left = Math.max(0, Math.floor(box.left - 10));
       const right = Math.min(width, Math.ceil(box.right + 10));
@@ -134,7 +140,7 @@
     }
 
     for (const element of document.body.querySelectorAll(backgroundContent)) {
-      accept(element.getBoundingClientRect(), element.matches(snowProtected));
+      accept(element.getBoundingClientRect(), element.matches(snowProtected), element !== musicButton);
     }
 
     // Include text in plain containers, not just the common text tags.
@@ -143,7 +149,7 @@
     for (let node = walker.nextNode(); node; node = walker.nextNode()) {
       if (node.parentElement.closest('script, style, noscript, template, .new-year-decoration, .new-year-snowflakes') || !node.nodeValue.trim()) continue;
       range.selectNodeContents(node);
-      for (const box of range.getClientRects()) accept(box, true);
+      for (const box of range.getClientRects()) accept(box, true, node.parentElement !== musicButton);
     }
 
     const left = Math.max(0, Math.floor(leftmost - clearance));

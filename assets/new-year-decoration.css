@@ -36,7 +36,7 @@ html.new-year body { isolation: isolate; }
 }
 
 .new-year-music-toggle::before { content: "♫"; font-size: 16px; }
-.new-year-music-toggle[aria-pressed="true"] { color: #f2cb73; border-color: #e2b04a; }
+.new-year-music-toggle[data-playing="true"] { color: #f2cb73; border-color: #e2b04a; }
 .new-year-music-toggle:focus-visible { outline: 2px solid #f2cb73; outline-offset: 3px; }
 
 .new-year-snow-mask { position: fixed; width: 0; height: 0; pointer-events: none; }

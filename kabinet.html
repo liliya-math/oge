@@ -37,6 +37,10 @@ button{cursor:pointer}
 
 .wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding-inline:16px;padding-block:20px 80px}
 
+@media (min-width: 900px) {
+  .new-year #app { width: min(760px, calc(100% - clamp(220px, 26vw, 360px))); }
+}
+
 /* top bar */
 .top{position:relative;z-index:20;margin:0 -16px 6px;padding:12px 16px 4px;display:grid;gap:10px}
 .toprow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
@@ -787,7 +791,7 @@ a.gc{text-decoration:none}
 <script src="assets/quiz-cabinet.js?v=714"></script>
 <div class="amb" aria-hidden="true"><i></i><i></i><i></i></div>
 <canvas id="fx" aria-hidden="true"></canvas>
-<main class="wrap" id="app"></main>
+<main class="wrap" id="app" data-new-year-panel></main>
 <script src="assets/lili-board-links.js?v=20261031-personal"></script>
 <script src="assets/lili-board-cloud.js?v=20261031-recovery"></script>
 <script src="assets/lili-personal-board.js?v=20261031-personal"></script>
@@ -2612,7 +2616,7 @@ start();
 
 
 
-<script src="/assets/new-year-decoration.js?v=20261126-24" defer></script>
+<script src="/assets/new-year-decoration.js?v=20261126-25" defer></script>
 </body>
 </html>
 
