@@ -372,13 +372,36 @@ body .choices .choice :is(.math-var-k,.math-var-b){font-size:inherit;line-height
 </style>
 
 <script src="/assets/new-year-decoration.js" defer></script>
+<style>
+.assessment-nav { margin: 5px 0; }
+.assessment-nav[aria-current] { outline: 1px solid var(--trainer-gold); }
+.assessment-card { padding: clamp(16px, 4vw, 30px); }
+.assessment-card h2 { margin: 0; }
+.assessment-card .lesson-top { padding: 0; align-items: flex-start; flex-wrap: wrap; gap: 5px 12px; }
+.assessment-card h2:focus { outline: none; }
+.assessment-card fieldset { border: 0; min-width: 0; margin: 0; padding: 0; }
+.assessment-card legend { padding: 0; max-width: 100%; }
+.assessment-choices { margin: 14px 0 18px; }
+.assessment-choices .choice { cursor: pointer; display: flex; align-items: center; justify-content: flex-start; gap: 8px; padding: 10px; min-width: 0; }
+.assessment-choices input { flex: 0 0 auto; margin: 0; accent-color: var(--trainer-gold); }
+.assessment-choices .choice:has(input:checked) { border-color: var(--trainer-gold); }
+.assessment-choices .choice:focus-within { outline: 2px solid var(--trainer-gold); outline-offset: 2px; }
+.assessment-note { margin: 8px 0 16px; color: var(--trainer-cream); }
+.assessment-card #assessment-count { margin: 10px 0 0; }
+.assessment-topics { margin: 0 0 20px; padding: 0; list-style: none; }
+.assessment-topics li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; padding: 9px 0; border-bottom: 1px solid var(--line); }
+.assessment-card .solution li + li { margin-top: 10px; }
+@media (max-width: 440px) { .assessment-choices { grid-template-columns: 1fr; } }
+</style>
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar" aria-label="Маршрут обучения">
       <a class="brand" href="#" aria-label="lili.math — начало"><img src="data:image/webp;base64,UklGRuIEAABXRUJQVlA4INYEAADQGQCdASpwAHAAPj0ci0OiIaEWOUU0IAPEoAzmgQfLcpT0j4R5neY/Ni47/4H25doD7Zt8z5gP16/U31bvab6AH7Vdar6AH63emV7Jn7q+lBd8f4e0Auud9XX33oDjH9I/wHgh/wFZm57foT0Zt85P0YicEhHjYgiW+CExr040n+MyT4eX3AYNZoH8P+3HfYcC2ZLaB9HTippRoAW6snjC0xk8QTUZhFSJNI6q6QPtf1/tEQJUdnXKqBjY3vPUcGF9FXHanBl3p3LPmewrouvpJxwVzP/2wAD+/Y4fU3DnwE85NCiSvdNC+c7ID6zFSFG8FbYqDYwldTvxpzp5rTsG3mznUOTYa2qoQpKC5bZrwi0xNuQQ8QhzrkBjyAw0Lijlb1JEEGUFngjpMIsphV8AdrWCsz/iWlQWb58ogfHd15h4s/OmgLZq2woBU8mp7iJh/+6+eY9u2ocf8Z4uo2ga2fp9Kh4JCRM8owzdQD8E3DztqhJrlf215Ci3sjzeZ9Vj82nQctxLx+/s6Ilv0/Ft+pMemviermos4K9V5x1TL0L0StXjJnqP+4/L/P/1r6lQPvS76tbN0Sv2/pSOuw+YErDqLmHqYfg36WGGj0d/BkoFGHhgrLX81+BAA/jJVlyohN+cG747erTe9g0mXLJ1zcgCoANvCdzu/0rf1BfnqlabI0OVgsHIKZoECH5u88XDl7YRP/FLDcFX6IexuGZq98I7zU6r4Vfr/+LC+Eg3MXEPt6ELm+RF8RVdvXpxxXg9yA7zX9Fz1k/7epy43XnjJOiqCnS4megWU4f47wLLyLXf8gC/XrGDqUAMcohgSeydnBImFH6UWfqowJnUJe/M5fzNQlQElMAnCwZwz9aJk158g+GCiPyhVUthJ71neJSKzRjY+wTANqwQqXFNjey8ClsCp+kh8av/iMwgSod2wx93AcrSHdkE4bctA9JYclg3ZOfdeZ0salPbSfUymqaWdOidsHxFyAKBnq/cFuJopMuQLM3oEgOyJucVNSdlZ44XXEnhV1fQQxiMbq8ZIl8Wmj4v/dDX/dSZPpCs8YcdPa/cKqGizYY+BLYBMoX8iJ7Bix+hp7mIBPPB4XRMRQr81bllUrcRdmHmnzimz3cIXMITIHmxb+19C3lmMAzfQX7ThPY6yLYSW0s5R1jb6RnVxerjeyOCW7ieXSLzCtlqYOSaXszH3TtyJbnF/9apf/7lP6N19xJurzyYT+GDPbqg6z7cnCUaUOpb4oimfypL551rgP+6BcCp+iaYxltdDSp2DFWU22+x/qVrDlUGTfnuV2QNu9TGi+Du8yUyqCECvUPHFzJAOQxWYXtssqRbDXE4245G8VPLqodMpL3tQGrCwS5MArWIpe9TVVwttFdKOK9DxdRURSnNAXT8x3cGE/yLwgtOgelOAyOfO24CprgXdO0hqCtOemeWx+hNkpXhouzOr+I6Ct/l7xArBM/BArv62vpKgkXSFljMEC8Ymfku1zX4AgXokN5VGegIv79P0PU8o7bAiMNsttQ0dlwOPUomME3OSQINH3y7fkASawST0cmr86TIafOwg42ocd7naFyU3Xe3z6mYApa8DB3ItU2gI/PtQo3oUMT9ZhdR0Nn8UD8kte357UzGqCwGVKqK0ITrdiAAAA==" class="identity-mark identity-brand" width="32" height="32" alt=""> lili.math</a>
       <div class="sidebar-title">ТВОЙ МАРШРУТ</div>
-      <nav id="stage-nav"></nav>
+      <button class="lab-nav assessment-nav" type="button" id="open-entry"><span class="lab-symbol" aria-hidden="true">↗</span><span>Входной тест<small>Перед занятиями</small></span></button>
+      <nav id="stage-nav" aria-label="Этапы занятий"></nav>
+      <button class="lab-nav assessment-nav" type="button" id="open-exit"><span class="lab-symbol" aria-hidden="true">↗</span><span>Итоговый тест<small>После занятий</small></span></button>
       <button class="lab-nav" id="open-lab"><span class="lab-symbol">↗</span><span>Лаборатория<small>Посмотри, что меняется</small></span></button>
       <div class="sidebar-bottom"><div class="save-dot"></div><span id="save-status">Прогресс сохраняется<br>в этом браузере</span></div>
       <button class="reset" id="reset-progress">Начать заново</button>
@@ -435,12 +458,194 @@ window.TrainerData={"id":"obshchiy-znamenatel-6","version":1,"title":"Дроби
   <script>(function(){
   'use strict';
   const C=window.TrainerCourse,KEY='lili-trainer-'+C.id+'-'+(C.version||1)+(window.LiliStudy?.suffix||''),TOTAL=C.total;
-  let storageOK=true,view='lesson',hints=new Set(),feedback=null,labIndex=0;
-  const blank=()=>({stage:0,task:0,solved:[],attempts:{},answers:{}});
+  const assessments = {
+    entry: [
+      [0, 'Какая дробь со знаменателем 12 равна 2/3?', ['8/12','2/12','6/12','9/12'], 0, '12 : 3 = 4. Умножаем 2 на 4 и получаем 8/12.'],
+      [0, 'Какая дробь равна 3/5?', ['3/15','9/15','6/15','9/10'], 1, 'Если 3 и 5 умножить на 3, получим равную дробь 9/15.'],
+      [1, 'Какой знаменатель для 1/8 и 1/12 будет наименьшим общим?', ['12','20','24','96'], 2, '24 делится и на 8, и на 12. Меньшее кратное 12 на 8 не делится.'],
+      [1, 'Какой знаменатель удобнее выбрать для 3/4 и 5/16?', ['8','20','64','16'], 3, '16 уже делится и на 4, и на 16. Это наименьший общий знаменатель.'],
+      [2, 'Замени 1/3 и 3/8 дробями со знаменателем 24. Сохрани порядок.', ['8/24 и 9/24','1/24 и 3/24','3/24 и 24/24','9/24 и 8/24'], 0, 'Множители равны 24 : 3 = 8 и 24 : 8 = 3. Получаем 8/24 и 9/24.'],
+      [2, 'Ученик записал 2/5 = 2/15. Как исправить правую часть, сохранив знаменатель 15?', ['3/15','6/15','10/15','4/15'], 1, 'Знаменатель умножили на 3. Числитель тоже умножаем на 3 и получаем 6/15.'],
+      [3, 'От одной плитки взяли 2/7, потом ещё 3/7. Какую долю взяли всего?', ['5/14','6/7','5/7','1/7'], 2, 'Обе доли в седьмых. Складываем 2 и 3, знаменатель 7 сохраняем.'],
+      [3, 'Найди 1/6 + 1/3. Выбери сокращённый ответ.', ['2/9','2/6','2/3','1/2'], 3, '1/3 = 2/6, поэтому 1/6 + 2/6 = 3/6 = 1/2.'],
+      [4, 'Найди 5/6 − 1/4.', ['7/12','4/12','4/2','11/12'], 0, '5/6 = 10/12 и 1/4 = 3/12. Вычитаем 3 из 10 и получаем 7/12.'],
+      [4, 'Резервуар был полон. Из него вылили 3/10 его объёма. Какая доля осталась?', ['3/10','7/10','7/20','6/10'], 1, 'Полный объём равен 10/10. Вычитаем 3/10 и получаем 7/10.']
+    ],
+    exit: [
+      [0, 'Какая дробь со знаменателем 20 равна 3/5?', ['6/20','3/20','12/20','15/20'], 2, '20 : 5 = 4. Умножаем 3 на 4 и получаем 12/20.'],
+      [0, 'Какая дробь равна 2/7?', ['2/21','4/21','6/14','6/21'], 3, 'Если 2 и 7 умножить на 3, получим равную дробь 6/21.'],
+      [1, 'Какой знаменатель для 1/10 и 1/15 будет наименьшим общим?', ['30','25','15','150'], 0, '30 делится и на 10, и на 15. Меньшее кратное 15 на 10 не делится.'],
+      [1, 'Какой знаменатель удобнее выбрать для 2/5 и 7/20?', ['25','20','10','100'], 1, '20 уже делится и на 5, и на 20. Это наименьший общий знаменатель.'],
+      [2, 'Замени 3/7 и 1/6 дробями со знаменателем 42. Сохрани порядок.', ['21/42 и 6/42','3/42 и 1/42','18/42 и 7/42','7/42 и 18/42'], 2, 'Множители равны 42 : 7 = 6 и 42 : 6 = 7. Получаем 18/42 и 7/42.'],
+      [2, 'Ученик записал 3/7 = 3/21. Как исправить правую часть, сохранив знаменатель 21?', ['6/21','7/21','3/63','9/21'], 3, 'Знаменатель умножили на 3. Числитель тоже умножаем на 3 и получаем 9/21.'],
+      [3, 'За два дня прочитали 3/11 и 5/11 одной книги. Какую долю прочитали за оба дня?', ['8/11','8/22','15/11','2/11'], 0, 'Обе доли в одиннадцатых. Складываем 3 и 5, знаменатель 11 сохраняем.'],
+      [3, 'Найди 1/10 + 1/5. Выбери сокращённый ответ.', ['2/15','3/10','2/10','2/5'], 1, '1/5 = 2/10, поэтому 1/10 + 2/10 = 3/10. Дробь несократима.'],
+      [4, 'Найди 7/8 − 1/6.', ['6/2','6/24','17/24','25/24'], 2, '7/8 = 21/24 и 1/6 = 4/24. Вычитаем 4 из 21 и получаем 17/24.'],
+      [4, 'От целой ленты отрезали 4/13 её длины. Какая доля ленты осталась?', ['4/13','9/26','8/13','9/13'], 3, 'Целая лента равна 13/13. Вычитаем 4/13 и получаем 9/13.']
+    ]
+  };
+  const assessmentTitles = {entry:'Входной тест', exit:'Итоговый тест'};
+  const assessmentModes = Object.keys(assessments);
 
-  function readState(){try{const s=JSON.parse(localStorage.getItem(KEY));if(!s||!Number.isInteger(s.stage)||s.stage<0||s.stage>=C.stages.length)return blank();return {stage:s.stage,task:Number.isInteger(s.task)&&s.task>=0&&s.task<C.stages[s.stage].tasks.length?s.task:0,solved:Array.isArray(s.solved)?s.solved.filter(k=>validKey(k)):[],attempts:s.attempts&&typeof s.attempts==='object'?s.attempts:{},answers:s.answers&&typeof s.answers==='object'?s.answers:{}};}catch(e){storageOK=false;return blank();}}
+  function emptyAssessment() {
+    return {index:0, answers:[], submitted:false};
+  }
+
+  function readAssessment(saved, mode) {
+    const questions=assessments[mode];
+    const answers=questions.map((question,i)=>{
+      const answer=saved?.answers?.[i];
+      return Number.isInteger(answer)&&answer>=-1&&answer<question[2].length ? answer : null;
+    });
+    const index=saved?.index;
+    return {
+      index:Number.isInteger(index)&&index>=0&&index<questions.length ? index : 0,
+      answers,
+      submitted:saved?.submitted===true&&answers.every(answer=>answer!==null)
+    };
+  }
+
+  function assessmentScore(mode, stage) {
+    return assessments[mode].reduce((score,question,i)=>
+      score + Number((stage===undefined||stage===question[0])&&state.assessments[mode].answers[i]===question[3]), 0);
+  }
+
+  function openAssessment(mode) {
+    view=mode;
+    state.assessmentView=mode;
+    save(false);
+    render();
+    focusAssessment();
+  }
+
+  function showLesson() {
+    view='lesson';
+    state.assessmentView=null;
+    save(false);
+    render();
+    scrollToLesson();
+  }
+
+  function focusAssessment() {
+    $('#assessment-title').focus({preventScroll:true});
+    scrollToLesson();
+  }
+
+  function updateAssessmentNavigation() {
+    assessmentModes.forEach(mode=>{
+      const button=$('#open-'+mode);
+      if(view===mode)button.setAttribute('aria-current','step');
+      else button.removeAttribute('aria-current');
+      const test=state.assessments[mode];
+      const count=test.answers.filter(Number.isInteger).length;
+      button.querySelector('small').textContent=test.submitted
+        ? `${assessmentScore(mode)} из ${assessments[mode].length}`
+        : count ? `Заполнено ${count} из ${assessments[mode].length}`
+          : mode==='entry' ? 'Перед занятиями' : 'После занятий';
+    });
+  }
+
+  function renderAssessment() {
+    const mode=view, test=state.assessments[mode], questions=assessments[mode];
+    if(test.submitted) return renderAssessmentResults(mode);
+    const [,prompt,options]=questions[test.index];
+    const selected=test.answers[test.index];
+    const answered=Number.isInteger(selected);
+    const count=test.answers.filter(Number.isInteger).length;
+    const isLast=test.index===questions.length-1;
+    $('#workspace').innerHTML=`<section class="lesson-card assessment-card" aria-labelledby="assessment-title">
+      <div class="lesson-top"><h2 id="assessment-title" tabindex="-1">${assessmentTitles[mode]}</h2><span class="exercise-count">Задание ${test.index+1} из ${questions.length}</span></div>
+      <p class="assessment-note">${mode==='entry'?'Ответь на вопросы, чтобы понять, с чего начать.':'Проверь те же умения на новых примерах.'} Ответы и разбор появятся после сдачи.</p>
+      <fieldset><legend class="question">${mathText(prompt)}</legend>
+        <div class="choices assessment-choices">
+          ${[...options,'Пока не знаю'].map((option,i)=>{
+            const value=i===options.length?-1:i;
+            return `<label class="choice"><input type="radio" name="assessment-answer" value="${value}" ${selected===value?'checked':''}><span>${mathText(option)}</span></label>`;
+          }).join('')}
+        </div>
+      </fieldset>
+      <div class="end-actions">
+        <button type="button" class="secondary" id="assessment-prev" ${test.index===0?'disabled':''}>Назад</button>
+        <button type="button" class="primary" id="assessment-next" ${answered?'':'disabled'}>${isLast?'Сдать тест':'Дальше'}</button>
+        <button type="button" class="secondary" id="assessment-leave">К занятиям</button>
+      </div>
+      <p id="assessment-count" class="assessment-note" aria-live="polite">Заполнено ${count} из ${questions.length}</p>
+    </section>`;
+    document.querySelectorAll('input[name="assessment-answer"]').forEach(input=>input.addEventListener('change',()=>{
+      test.answers[test.index]=Number(input.value);
+      save(false);
+      updateAssessmentNavigation();
+      $('#assessment-next').disabled=false;
+      $('#assessment-count').textContent=`Заполнено ${test.answers.filter(Number.isInteger).length} из ${questions.length}`;
+    }));
+    $('#assessment-leave').addEventListener('click',showLesson);
+    $('#assessment-prev').addEventListener('click',()=>{
+      test.index--;
+      save(false);
+      renderAssessment();
+      focusAssessment();
+    });
+    $('#assessment-next').addEventListener('click',()=>{
+      if(isLast){
+        const missing=questions.findIndex((_,i)=>!Number.isInteger(test.answers[i]));
+        if(missing===-1)test.submitted=true;
+        else test.index=missing;
+      }else test.index++;
+      save(false);
+      render();
+      focusAssessment();
+    });
+  }
+
+  function renderAssessmentResults(mode) {
+    const test=state.assessments[mode], questions=assessments[mode];
+    const both=assessmentModes.every(key=>state.assessments[key].submitted);
+    const delta=assessmentScore('exit')-assessmentScore('entry');
+    const comparison=both
+      ? `<p><strong>Входной:</strong> ${assessmentScore('entry')} из ${questions.length}. <strong>Итоговый:</strong> ${assessmentScore('exit')} из ${questions.length}. <strong>Разница:</strong> ${delta>0?'+':''}${delta} б.</p>`
+      : mode==='entry'?'<p>После итогового теста здесь появится сравнение баллов.</p>':'<p>Для сравнения нужен результат входного теста, пройденного до занятий.</p>';
+    $('#workspace').innerHTML=`<section class="lesson-card assessment-card" aria-labelledby="assessment-title">
+      <h2 id="assessment-title" tabindex="-1">${assessmentTitles[mode]}: ${assessmentScore(mode)} из ${questions.length}</h2>
+      ${comparison}
+      <h3>Результаты по темам</h3>
+      <ul class="assessment-topics">
+        ${C.stages.map((stage,i)=>{
+          const correct=assessmentScore(mode,i), total=questions.filter(q=>q[0]===i).length;
+          return `<li><span>${esc(stage.name)} · ${both?`${assessmentScore('entry',i)} → ${assessmentScore('exit',i)} из ${total}`:`${correct} из ${total}`}</span>${correct<total?`<button class="secondary" type="button" data-assessment-stage="${i}">Разобрать тему</button>`:''}</li>`;
+        }).join('')}
+      </ul>
+      <details class="solution"><summary>Посмотреть ответы и разбор</summary><ol>
+        ${questions.map(([,prompt,options,correct,why],i)=>
+          `<li><strong>${mathText(prompt)}</strong><div>Твой ответ: ${test.answers[i]===-1?'Пока не знаю':mathText(options[test.answers[i]])}.</div><div>Верный ответ: ${mathText(options[correct])}. ${mathText(why)}</div></li>`
+        ).join('')}
+      </ol></details>
+      <div class="end-actions"><button type="button" class="primary" id="assessment-leave">${mode==='entry'?'К занятиям':'Вернуться к занятиям'}</button></div>
+    </section>`;
+    $('#assessment-leave').addEventListener('click',showLesson);
+    document.querySelectorAll('[data-assessment-stage]').forEach(button=>button.addEventListener('click',()=>goStage(Number(button.dataset.assessmentStage))));
+  }
+
+  let storageOK=true,view='lesson',hints=new Set(),feedback=null,labIndex=0;
+  const blank=()=>({stage:0,task:0,solved:[],attempts:{},answers:{},assessmentView:'entry',
+    assessments:{entry:emptyAssessment(),exit:emptyAssessment()}});
+
+  function readState(){
+    try{
+      const s=JSON.parse(localStorage.getItem(KEY));
+      if(!s||!Number.isInteger(s.stage)||s.stage<0||s.stage>=C.stages.length)return blank();
+      return {
+        stage:s.stage,
+        task:Number.isInteger(s.task)&&s.task>=0&&s.task<C.stages[s.stage].tasks.length?s.task:0,
+        solved:Array.isArray(s.solved)?s.solved.filter(validKey):[],
+        attempts:s.attempts&&typeof s.attempts==='object'?s.attempts:{},
+        answers:s.answers&&typeof s.answers==='object'?s.answers:{},
+        assessmentView:assessmentModes.includes(s.assessmentView)?s.assessmentView:null,
+        assessments:{entry:readAssessment(s.assessments?.entry,'entry'),exit:readAssessment(s.assessments?.exit,'exit')}
+      };
+    }catch(e){storageOK=false;return blank();}
+  }
   function validKey(k){if(typeof k!=='string')return false;const a=k.split('-').map(Number);return a.length===2&&Number.isInteger(a[0])&&Number.isInteger(a[1])&&C.stages[a[0]]&&C.stages[a[0]].tasks[a[1]];}
-  let state=readState();state.solved=[...new Set(state.solved)];
+  let state=readState();state.solved=[...new Set(state.solved)];view=state.assessmentView||view;
   const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
   const number = /\d+(?:[.,]\d+)?/.source;
@@ -487,7 +692,7 @@ window.TrainerData={"id":"obshchiy-znamenatel-6","version":1,"title":"Дроби
       .map((piece,i)=>i%2?piece:formatFractions(piece,text=>text,plainMath)).join('');
   }
   const key=()=>`${state.stage}-${state.task}`,task=()=>C.stages[state.stage].tasks[state.task],done=()=>state.solved.includes(key());
-  function save(){try{localStorage.setItem(KEY,JSON.stringify(state));storageOK=true;}catch(e){storageOK=false;}window.LiliStudy?.report({current:state.solved.length,total:TOTAL,label:'Этап '+(state.stage+1)+' · задание '+(state.task+1),done:state.solved.length===TOTAL});updateStorage();}
+  function save(report=true){try{localStorage.setItem(KEY,JSON.stringify(state));storageOK=true;}catch(e){storageOK=false;}if(report)window.LiliStudy?.report({current:state.solved.length,total:TOTAL,label:'Этап '+(state.stage+1)+' · задание '+(state.task+1),done:state.solved.length===TOTAL});updateStorage();}
   function updateStorage(){ $('#save-status').innerHTML=storageOK?'Прогресс сохраняется<br>в этом браузере':'Прогресс доступен<br>пока открыта страница';}
   function nav(){
     $('#stage-nav').innerHTML=C.stages.map((s,i)=>{const n=s.tasks.filter((_,j)=>state.solved.includes(`${i}-${j}`)).length;return `<button class="stage-link ${i===state.stage&&view==='lesson'?'active':''} ${n===s.tasks.length?'done':''}" data-stage="${i}" ${i===state.stage&&view==='lesson'?'aria-current="step"':''}><span class="stage-index">${n===s.tasks.length?'✓':String(i+1).padStart(2,'0')}</span><span class="stage-name">${mathText(s.name)}<small>${n} / ${s.tasks.length} · ${mathText(s.subtitle)}</small></span></button>`;}).join('');
@@ -496,7 +701,7 @@ window.TrainerData={"id":"obshchiy-znamenatel-6","version":1,"title":"Дроби
   }
   function visual(t){return t.visual?`<div class="visual-panel">${mathMarkup(t.visual)}</div>`:'';}
   function hintsHtml(t){return ['Что видим','Как решаем подобное','Алгоритм'].map((title,i)=>`<div class="hint-row"><button class="hint-trigger" data-hint="${i}" aria-expanded="${hints.has(i)}" aria-controls="hint-${i}"><span class="hint-number">${i+1}</span><span>${title}</span><span class="hint-arrow">${hints.has(i)?'−':'+'}</span></button><p class="hint-text" id="hint-${i}" ${hints.has(i)?'':'hidden'}>${mathText([t.see,t.similar,t.algorithm][i])}</p></div>`).join('');}
-  function render(){nav();if(view==='lab')return renderLab();if(view==='complete')return renderComplete();renderLesson();}
+  function render(){nav();updateAssessmentNavigation();if(assessmentModes.includes(view))return renderAssessment();if(view==='lab')return renderLab();if(view==='complete')return renderComplete();renderLesson();}
   function renderLesson(){
     window.LiliStudy?.task(state.stage+'-'+state.task,{current:state.solved.length,total:TOTAL,label:'Этап '+(state.stage+1)+' · задание '+(state.task+1),done:state.solved.length===TOTAL});
     const s=C.stages[state.stage],t=task(),solved=done();
@@ -520,7 +725,7 @@ window.TrainerData={"id":"obshchiy-znamenatel-6","version":1,"title":"Дроби
     save();render();if(!done()&&$('#answer')){$('#answer').focus();$('#answer').select();$('#answer').setAttribute('aria-invalid','true');}else if(done())$('#next-task').focus({preventScroll:true});
   }
   function scrollToLesson(){const el=$('#workspace');if(el&&el.getBoundingClientRect().top<0)el.scrollIntoView({behavior:'smooth',block:'start'});}
-  function goStage(i, showExample=false){view='lesson';state.stage=i;const j=C.stages[i].tasks.findIndex((_,n)=>!state.solved.includes(`${i}-${n}`));state.task=j<0?0:j;feedback=null;hints.clear();save();render();if(showExample) focusExample();else scrollToLesson();}
+  function goStage(i, showExample=false){view='lesson';state.assessmentView=null;state.stage=i;const j=C.stages[i].tasks.findIndex((_,n)=>!state.solved.includes(`${i}-${n}`));state.task=j<0?0:j;feedback=null;hints.clear();save();render();if(showExample) focusExample();else scrollToLesson();}
   function goTask(i){
     state.task=i;feedback=null;hints.clear();save();render();focusExample();
   }
@@ -545,12 +750,14 @@ window.TrainerData={"id":"obshchiy-znamenatel-6","version":1,"title":"Дроби
  }
   function renderComplete(){
     const unresolved=TOTAL-state.solved.length;
-    $('#workspace').innerHTML=`<section class="lesson-card completion-card"><div class="completion-icon" aria-hidden="true">✧</div><div class="eyebrow">${unresolved?'МАРШРУТ ПРОДОЛЖАЕТСЯ':'МАРШРУТ ПРОЙДЕН'}</div><h2>${unresolved?'Уже многое получилось.':'Маршрут пройден!'}</h2><p>${unresolved?`Решено ${state.solved.length} из ${TOTAL} заданий. Осталось ${unresolved}.`:`Решено ${TOTAL} из ${TOTAL} заданий.`}</p><div class="review-list">${C.recap.map(x=>`<p>${mathText(x)}</p>`).join('')}</div><div class="end-actions"><button class="primary" id="review-stories">${unresolved?'Продолжить маршрут':'Посмотреть задачи'}</button>${C.lab?'<button class="secondary" id="finish-lab">В лабораторию</button>':''}<button class="secondary" id="finish-reset">Пройти заново</button></div></section>`;
+    $('#workspace').innerHTML=`<section class="lesson-card completion-card"><div class="completion-icon" aria-hidden="true">✧</div><div class="eyebrow">${unresolved?'МАРШРУТ ПРОДОЛЖАЕТСЯ':'МАРШРУТ ПРОЙДЕН'}</div><h2>${unresolved?'Уже многое получилось.':'Маршрут пройден!'}</h2><p>${unresolved?`Решено ${state.solved.length} из ${TOTAL} заданий. Осталось ${unresolved}.`:`Решено ${TOTAL} из ${TOTAL} заданий.`}</p><div class="review-list">${C.recap.map(x=>`<p>${mathText(x)}</p>`).join('')}</div><div class="end-actions">${unresolved?'':'<button type="button" class="primary" id="completion-test">К итоговому тесту</button>'}<button class="secondary" id="review-stories">${unresolved?'Продолжить маршрут':'Посмотреть задачи'}</button>${C.lab?'<button class="secondary" id="finish-lab">В лабораторию</button>':''}<button class="secondary" id="finish-reset">Пройти заново</button></div></section>`;
+    $('#completion-test')?.addEventListener('click',()=>openAssessment('exit'));
     $('#review-stories').addEventListener('click',()=>{if(unresolved){for(let i=0;i<C.stages.length;i++)if(C.stages[i].tasks.some((_,j)=>!state.solved.includes(`${i}-${j}`))){goStage(i);return;}}goStage(C.stages.length-1);});$('#finish-lab')?.addEventListener('click',openLab);$('#finish-reset').addEventListener('click',askReset);
   }
-  function openLab(){if(!C.lab)return;view='lab';render();scrollToLesson();}
+  function openLab(){if(!C.lab)return;view='lab';state.assessmentView=null;save(false);render();scrollToLesson();}
   function askReset(){$('#reset-dialog').showModal();}
-  $('#open-lab').addEventListener('click',openLab);$('#reset-progress').addEventListener('click',askReset);$('#cancel-reset').addEventListener('click',()=>$('#reset-dialog').close());$('#confirm-reset').addEventListener('click',()=>{state=blank();feedback=null;hints.clear();view='lesson';save();$('#reset-dialog').close();render();});$('.brand').addEventListener('click',e=>{e.preventDefault();goStage(0);});
+  assessmentModes.forEach(mode=>$('#open-'+mode).addEventListener('click',()=>openAssessment(mode)));
+  $('#open-lab').addEventListener('click',openLab);$('#reset-progress').addEventListener('click',askReset);$('#cancel-reset').addEventListener('click',()=>$('#reset-dialog').close());$('#confirm-reset').addEventListener('click',()=>{state=blank();feedback=null;hints.clear();view='entry';save();$('#reset-dialog').close();render();});$('.brand').addEventListener('click',e=>{e.preventDefault();goStage(0);});
   $('#open-lab').hidden=!C.lab;
   render();
 })();
