@@ -414,6 +414,10 @@ body .theory-cell b{line-height:1.55}
     .assessment-option:has(:checked) { border-color:#e2b04a; background:#423522; }
     .assessment-option input { accent-color:#e2b04a; width:19px; height:19px; margin:0; }
     .assessment-option:focus-within { outline:2px solid #e2b04a; outline-offset:2px; }
+    .assessment-card fieldset:disabled .assessment-option { cursor:default; }
+    .assessment-feedback { margin:16px 0 0; padding:11px 14px; border:1px solid currentColor; border-radius:14px; font-weight:700; }
+    .assessment-feedback.correct { color:#c4dfaa; }
+    .assessment-feedback.incorrect { color:#ffc3a3; }
     .assessment-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
     .assessment-card button:disabled,.stage-link:disabled { opacity:.48; cursor:default; }
     .assessment-table { overflow-x:auto; }
@@ -1488,6 +1492,7 @@ window.TrainerData={"id":"planimetriya","version":1,"title":"Планиметр�
       });
       result[phase] = {
         answers,
+        confirmed:answers.map((answer, i) => answer !== null && (saved?.submitted === true || saved?.confirmed?.[i] === true)),
         index:Number.isInteger(saved?.index) && saved.index >= 0 && saved.index < length ? saved.index : 0,
         submitted:saved?.submitted === true && answers.every(answer => answer !== null)
       };
@@ -1505,7 +1510,9 @@ window.TrainerData={"id":"planimetriya","version":1,"title":"Планиметр�
     }
     const index = status.index;
     const question = questions[index];
-    const answered = status.answers.filter(answer => answer !== null).length;
+    const answered = status.confirmed.filter(Boolean).length;
+    const confirmed = status.confirmed[index];
+    const correct = status.answers[index] === question.correct;
     const last = index === questions.length - 1;
     const options = [...question.choices, 'Не знаю'].map((choice, i) => {
       const value = i === question.choices.length ? -1 : i;
@@ -1515,22 +1522,22 @@ window.TrainerData={"id":"planimetriya","version":1,"title":"Планиметр�
       <section class="lesson-card assessment-card">
         <h2 id="assessment-heading" tabindex="-1">${title}</h2>
         <p class="assessment-meta">Задание ${index + 1} из ${questions.length} · отвечено ${answered}</p>
-        ${index === 0 ? '<p>Решай самостоятельно. Если сомневаешься, можно выбрать «Не знаю». Ответы и разбор откроются после обоих тестов.</p>' : ''}
+        ${index === 0 ? '<p>Выбери вариант или «Не знаю», затем нажми «Проверить». Сразу увидишь результат. Подтверждённый ответ изменить нельзя. Разбор откроется после обоих тестов.</p>' : ''}
         <form id="assessment-form">
-          <fieldset><legend>${mathText(question.prompt)}</legend><div class="assessment-options">${options}</div></fieldset>
+          <fieldset ${confirmed ? 'disabled' : ''}><legend>${mathText(question.prompt)}</legend><div class="assessment-options">${options}</div></fieldset>
+          ${confirmed ? `<p id="assessment-feedback" class="assessment-feedback ${correct ? 'correct' : 'incorrect'}" tabindex="-1">${correct ? 'Верно' : 'Неверно'}. Ответ сохранён.</p>` : ''}
           <div class="assessment-actions">
             ${index ? '<button type="button" class="secondary" id="assessment-prev">Назад</button>' : ''}
-            <button class="primary" type="submit" id="assessment-next" ${status.answers[index] === null ? 'disabled' : ''}>${last ? 'Завершить тест' : 'Дальше'}</button>
+            <button class="primary" type="submit" id="assessment-next" ${status.answers[index] === null ? 'disabled' : ''}>${confirmed ? last ? 'Завершить тест' : 'Дальше' : 'Проверить'}</button>
           </div>
-          <p id="assessment-notice" role="status"></p>
         </form>
       </section>`;
     const form = $('#assessment-form');
     form.addEventListener('change', event => {
+      if (status.confirmed[index]) return;
       status.answers[index] = Number(event.target.value);
       save();
       $('#assessment-next').disabled = false;
-      $('.assessment-meta').textContent = `Задание ${index + 1} из ${questions.length} · отвечено ${status.answers.filter(answer => answer !== null).length}`;
     });
     function go(index) {
       status.index = index;
@@ -1542,11 +1549,17 @@ window.TrainerData={"id":"planimetriya","version":1,"title":"Планиметр�
     form.addEventListener('submit', event => {
       event.preventDefault();
       if (status.answers[index] === null) return;
+      if (!status.confirmed[index]) {
+        status.confirmed[index] = true;
+        save();
+        renderAssessment(phase);
+        $('#assessment-feedback').focus();
+        return;
+      }
       if (!last) { go(index + 1); return; }
-      const missing = status.answers.indexOf(null);
+      const missing = status.confirmed.indexOf(false);
       if (missing >= 0) {
         go(missing);
-        $('#assessment-notice').textContent = 'Ответь на оставшиеся вопросы, чтобы завершить тест.';
         return;
       }
       status.submitted = true;
