@@ -1,7 +1,7 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-25', document.currentScript.src);
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-31', document.currentScript.src);
   const musicUrl = new URL('new-year-music.mp3?v=20261126-30', document.currentScript.src);
   const musicPreference = 'lilimath-holiday-music';
   const controls = 'button, input, textarea, select, summary, [role="button"], [contenteditable]';
@@ -27,6 +27,7 @@
   function setMusicPlaying(playing) {
     musicButton.textContent = playing ? 'Выключить музыку' : 'Включить музыку';
     musicButton.dataset.playing = String(playing);
+    decoration.classList.toggle('new-year-garland-lit', playing);
   }
 
   function addMusicControl() {
@@ -191,6 +192,9 @@
       decoration.className = 'new-year-decoration';
       decoration.setAttribute('aria-hidden', 'true');
       decoration.inert = true;
+      const garland = document.createElement('div');
+      garland.className = 'new-year-garland';
+      decoration.append(garland);
       snow = document.createElement('div');
       snow.className = 'new-year-snowflakes';
       snow.setAttribute('aria-hidden', 'true');
