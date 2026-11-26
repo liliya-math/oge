@@ -44,12 +44,24 @@ html.new-year body { isolation: isolate; }
   z-index: 5;
 }
 
+.new-year-snowflakes > div {
+  position: absolute;
+  inset-block: 0;
+  overflow: hidden;
+}
+
+.new-year-snow-left { left: 0; width: var(--art-left); }
+.new-year-snow-right { left: var(--art-right); right: 0; }
+
 .new-year-snowflakes span {
   position: absolute;
   top: -40px;
   left: var(--x);
   display: block;
-  font: normal var(--size) / 1 "Apple Symbols", "Segoe UI Symbol", "DejaVu Sans", serif;
+  translate: -50% 0;
+  width: 1em;
+  text-align: center;
+  font: normal min(var(--size), var(--max-size)) / 1 "Apple Symbols", "Segoe UI Symbol", "DejaVu Sans", serif;
   color: #fff8e8;
   opacity: .92;
   text-shadow: 0 1px 3px #142521c0, 0 0 6px #d7e6fa80;
@@ -64,7 +76,7 @@ html.new-year body { isolation: isolate; }
 
 @media (prefers-reduced-motion: reduce) {
   .new-year-snowflakes span {
-    top: var(--x);
+    top: var(--y);
     animation: none;
   }
 }
