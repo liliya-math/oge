@@ -101,7 +101,7 @@
         const horizontalOffset = 0.8 * (Math.random() - 0.5);
         flake.style.setProperty('--x', `${100 * (lane + 0.5 + horizontalOffset) / lanes}%`);
         flake.style.setProperty('--y', `${100 * progress}%`);
-        flake.style.setProperty('--size', `${1.8 + 4.2 * Math.random() ** 1.8}px`);
+        flake.style.setProperty('--size', `${2.4 + 5 * Math.random() ** 1.8}px`);
         flake.style.setProperty('--flake-opacity', 0.26 + Math.random() * 0.36);
         flake.style.setProperty('--duration', `${duration}s`);
         flake.style.setProperty('--delay', `${-progress * duration}s`);
