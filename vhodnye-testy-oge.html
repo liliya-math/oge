@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Входная диагностика по математике для 9 класса с результатами по умениям.">
+  <title>Входные тесты ОГЭ · lili.math</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/oge-diagnostic.css">
+  <script src="assets/oge-diagnostic.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <a href="index.html" aria-label="lili.math"><img src="img/logo/lilimath-na-temnom.png" alt="lili.math" width="107" height="32"></a>
+      <a href="vhodnye-testy-oge.html">Все входные тесты</a>
+    </div>
+  </header>
+  <main>
+    <header class="masthead">
+      <div><p class="eyebrow" id="subject">ОГЭ по математике · 9 класс</p><h1 id="heading">Входные тесты</h1><p class="meta" id="meta"></p></div>
+      <img class="mascot" src="img/mascots/bis-hello.jpg" alt="" width="130" height="130">
+    </header>
+    <p class="status" id="load-status" role="status">Загрузка…</p>
+    <section class="panel hub" id="hub" hidden aria-labelledby="hub-title">
+      <h2 id="hub-title">Выбери номер</h2>
+      <ol class="test-list" id="test-list"></ol>
+    </section>
+    <div class="layout" id="layout" hidden>
+      <section class="panel question" aria-labelledby="step">
+        <div class="question-header"><h2 class="eyebrow" id="step" tabindex="-1"></h2><p class="eyebrow tier" id="tier"></p></div>
+        <div class="question-main"><p id="prompt"></p><div id="visual"></div></div>
+        <form id="answer-form">
+          <div class="answer-row">
+            <label class="answer" id="number-answer">Ответ<input id="answer" aria-describedby="answer-help" autocomplete="off" maxlength="40"></label>
+            <label class="answer" id="written-answer" hidden>Решение<textarea id="written" rows="5" maxlength="4000"></textarea></label>
+          </div>
+          <p class="hint" id="answer-help">Можно ввести число или дробь.</p>
+          <p class="status error" id="input-status" role="status"></p>
+          <div class="question-footer">
+            <button class="pill quiet" id="previous" type="button">← Назад</button>
+            <button class="pill primary" id="next" type="submit">Дальше →</button>
+          </div>
+        </form>
+      </section>
+      <aside class="panel navigator" aria-labelledby="navigation-title">
+        <h2 id="navigation-title">Задания</h2>
+        <p class="progress-line"><span id="progress-label"></span><span id="percent"></span></p>
+        <progress id="progress" aria-label="Заполнено ответов"></progress>
+        <nav class="jump-list" id="jump-list" aria-label="Перейти к заданию"></nav>
+        <div class="controls"><button class="pill finish" id="finish" type="button">Завершить тест</button></div>
+        <p class="status" role="status" id="finish-status"></p>
+      </aside>
+    </div>
+    <section class="panel results" id="results" hidden aria-labelledby="result-heading">
+      <h2 id="result-heading" tabindex="-1">Результат</h2>
+      <p class="status" id="result-status"></p>
+      <div class="result-summary" id="summary"></div>
+      <section id="written-results" hidden aria-labelledby="written-title"><h3 id="written-title">Работы с развёрнутым ответом</h3><div id="rubrics"></div></section>
+      <h3>Умения и темы для повторения</h3>
+      <ul class="skill-list" id="skill-list"></ul>
+      <div class="controls">
+        <button class="pill primary" id="copy" type="button">Скопировать результат</button>
+        <button class="pill" id="review" type="button">Вернуться к заданиям</button>
+        <button class="pill quiet" id="restart" type="button">Начать заново</button>
+      </div>
+      <p class="status" role="status" id="copy-status"></p>
+    </section>
+  </main>
+</body>
+</html>
