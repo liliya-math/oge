@@ -39,34 +39,24 @@ html.new-year body { isolation: isolate; }
 }
 
 .new-year-snowflakes span {
-  --fall-distance: calc(100vh + 72px);
   position: absolute;
-  top: -40px;
-  left: calc(var(--x) + var(--offset-x));
-  display: block;
+  top: -10px;
+  left: var(--x);
   translate: -50% 0;
-  width: 1em;
-  text-align: center;
-  font: normal min(var(--size), var(--max-size)) / 1 "Apple Symbols", "Segoe UI Symbol", "DejaVu Sans", serif;
-  color: #fff8e8;
-  opacity: .92;
-  text-shadow: 0 1px 3px #142521c0, 0 0 6px #d7e6fa80;
+  width: var(--size);
+  height: var(--size);
+  background: radial-gradient(circle closest-side, #fffdf6 30%, #f1f5ffbd 64%, #f1f5ff00);
+  opacity: var(--flake-opacity);
   animation: new-year-snowflake var(--duration) var(--delay) linear infinite;
 }
 
 @keyframes new-year-snowflake {
-  0% { transform: translateY(0) rotate(0); opacity: 0; }
-  12%, 88% { opacity: .76; }
-  25% {
-    transform: translate(calc(var(--drift) * .7), calc(var(--fall-distance) * .25)) rotate(calc(var(--spin) * .25));
-  }
+  0% { transform: translateY(0); opacity: 0; }
+  12%, 88% { opacity: var(--flake-opacity); }
   50% {
-    transform: translate(var(--drift), calc(var(--fall-distance) * .5)) rotate(calc(var(--spin) * .5));
+    transform: translate(var(--drift), calc(var(--fall-distance) * .5));
   }
-  75% {
-    transform: translate(calc(var(--drift) * .5), calc(var(--fall-distance) * .75)) rotate(calc(var(--spin) * .75));
-  }
-  100% { transform: translate(0, var(--fall-distance)) rotate(var(--spin)); opacity: 0; }
+  100% { transform: translate(0, var(--fall-distance)); opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

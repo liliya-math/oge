@@ -1,7 +1,7 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-21', document.currentScript.src);
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-22', document.currentScript.src);
   const controls = 'button, input, textarea, select, summary, [role="button"], [contenteditable]';
   const diagrams = 'svg:not(.new-year-snow-mask), math, mjx-container, canvas:not(#fx), iframe, video';
   const snowProtected = `${controls}, ${diagrams}`;
@@ -38,41 +38,38 @@
   }
 
   function updateSnow(width, height) {
+    const fallDistance = height + 20;
     if (Number(snowMask.getAttribute('width')) !== width ||
         Number(snowMask.getAttribute('height')) !== height) {
       for (const shape of [snowMask, visibleArea]) {
         shape.setAttribute('width', width);
         shape.setAttribute('height', height);
       }
+      snow.style.setProperty('--fall-distance', `${fallDistance}px`);
     }
-    const lanes = Math.max(1, Math.min(28, Math.floor(width / 48)));
-    const flakesPerLane = Math.max(1, Math.min(14, Math.floor((height + 72) / 66)));
-    // Leave room for each flake to turn and drift without reaching its neighbor.
-    const maxSize = Math.max(0, Math.floor((width / lanes - 12) / Math.SQRT2));
-    snow.style.setProperty('--max-size', `${maxSize}px`);
+    const lanes = Math.max(1, Math.min(14, Math.floor(width / 115)));
+    const flakesPerLane = Math.max(1, Math.min(8, Math.floor(fallDistance / 145)));
     const layout = `${lanes}:${flakesPerLane}`;
     if (snow.dataset.layout === layout) return;
     snow.dataset.layout = layout;
 
     const flakes = document.createDocumentFragment();
-    const shapes = ['❄︎', '❅', '❆'];
     for (let lane = 0; lane < lanes; lane++) {
-      const duration = 37 + Math.random() * 14;
+      const duration = fallDistance / (8 + Math.random() * 5);
       const phase = Math.random();
       for (let row = 0; row < flakesPerLane; row++) {
         const flake = document.createElement('span');
         // Vary the spacing without letting two flakes in one lane catch up.
-        const stagger = 0.32 * (Math.random() - 0.5);
+        const stagger = 0.72 * (Math.random() - 0.5);
         const progress = (phase + (row + 0.5 + stagger) / flakesPerLane) % 1;
-        flake.textContent = shapes[Math.floor(Math.random() * shapes.length)];
-        flake.style.setProperty('--x', `${100 * (lane + 0.5) / lanes}%`);
-        flake.style.setProperty('--offset-x', `${(Math.random() - 0.5) * 4}px`);
+        const horizontalOffset = 0.8 * (Math.random() - 0.5);
+        flake.style.setProperty('--x', `${100 * (lane + 0.5 + horizontalOffset) / lanes}%`);
         flake.style.setProperty('--y', `${100 * progress}%`);
-        flake.style.setProperty('--size', `${18 + Math.floor(Math.random() * 9)}px`);
+        flake.style.setProperty('--size', `${1.8 + 4.2 * Math.random() ** 1.8}px`);
+        flake.style.setProperty('--flake-opacity', 0.26 + Math.random() * 0.36);
         flake.style.setProperty('--duration', `${duration}s`);
         flake.style.setProperty('--delay', `${-progress * duration}s`);
-        flake.style.setProperty('--drift', `${(Math.random() - 0.5) * 8}px`);
-        flake.style.setProperty('--spin', `${(Math.random() - 0.5) * 120}deg`);
+        flake.style.setProperty('--drift', `${(Math.random() - 0.5) * 18}px`);
         flakes.append(flake);
       }
     }
