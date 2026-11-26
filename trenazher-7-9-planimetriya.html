@@ -418,6 +418,13 @@ body .theory-cell b{line-height:1.55}
     .assessment-feedback { margin:16px 0 0; padding:11px 14px; border:1px solid currentColor; border-radius:14px; font-weight:700; }
     .assessment-feedback.correct { color:#c4dfaa; }
     .assessment-feedback.incorrect { color:#ffc3a3; }
+    .assessment-questions { display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 18px; }
+    .assessment-questions button { min-width:36px; min-height:36px; padding:4px 7px; border:1px solid #c9ab8280; border-radius:9px; background:#16231a; color:#eee0c8; }
+    .assessment-questions button[aria-current] { outline:2px solid #e2b04a; outline-offset:1px; }
+    .assessment-questions button[data-confirmed] { background:#34462e; }
+    .geometry-sketch { max-width:360px; margin:12px auto; text-align:center; }
+    .geometry-sketch svg { display:block; width:100%; height:auto; background:#eee0c8; border-radius:14px; }
+    .geometry-sketch figcaption { margin-top:4px; color:var(--muted); font-size:14px; }
     .assessment-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
     .assessment-card button:disabled,.stage-link:disabled { opacity:.48; cursor:default; }
     .assessment-table { overflow-x:auto; }
@@ -1351,7 +1358,7 @@ window.TrainerData={"id":"planimetriya","version":1,"title":"Планиметр�
   function readState(){try{const s=JSON.parse(localStorage.getItem(KEY));if(!s||!Number.isInteger(s.stage)||s.stage<0||s.stage>=C.stages.length)return blank();return {stage:s.stage,task:Number.isInteger(s.task)&&s.task>=0&&s.task<C.stages[s.stage].tasks.length?s.task:0,solved:Array.isArray(s.solved)?s.solved.filter(k=>validKey(k)):[],attempts:s.attempts&&typeof s.attempts==='object'?s.attempts:{},answers:s.answers&&typeof s.answers==='object'?s.answers:{},assessment:readAssessment(s.assessment)};}catch(e){storageOK=false;return blank();}}
   function validKey(k){if(typeof k!=='string')return false;const a=k.split('-').map(Number);return a.length===2&&Number.isInteger(a[0])&&Number.isInteger(a[1])&&C.stages[a[0]]&&C.stages[a[0]].tasks[a[1]];}
   let state=readState();state.solved=[...new Set(state.solved)];
-  view=state.assessment.before.submitted?(state.assessment.active||'lesson'):'before';
+  view=state.assessment.active || (state.assessment.before.submitted ? 'lesson' : 'before');
   const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
   const number = /\d+(?:[.,]\d+)?/.source;
@@ -1437,23 +1444,17 @@ window.TrainerData={"id":"planimetriya","version":1,"title":"Планиметр�
   }
   function assessmentNav() {
     const labels = {before:'Входной тест', after:'Итоговый тест'};
-    const ready = Boolean(state.assessment.before.submitted);
     const stageNav = $('#stage-nav');
     const mobile = $('#mobile-topic');
-    stageNav.querySelectorAll('[data-stage]').forEach(button => { button.disabled = !ready; });
-    mobile.querySelectorAll('optgroup').forEach(group => { group.disabled = !ready; });
     for (const phase of ['before', 'after']) {
       const active = view === phase;
       const finished = state.assessment[phase].submitted;
-      const locked = phase === 'after' && !ready;
       const button = document.createElement('button');
       button.className = 'stage-link assessment-link' + (active ? ' active' : '') + (finished ? ' done' : '');
       if (active) button.setAttribute('aria-current', 'step');
-      button.disabled = locked;
       button.innerHTML = `<span class="stage-index" aria-hidden="true">${finished ? '✓' : phase === 'before' ? 'А' : 'Б'}</span><span>${labels[phase]}</span>`;
       button.addEventListener('click', () => openAssessment(phase));
       const option = new Option(labels[phase], phase);
-      option.disabled = locked;
       if (phase === 'before') {
         stageNav.prepend(button);
         mobile.prepend(option);
@@ -1467,10 +1468,9 @@ window.TrainerData={"id":"planimetriya","version":1,"title":"Планиметр�
       if (mobile.value === 'before' || mobile.value === 'after') openAssessment(mobile.value);
       else goStage(Number(mobile.value));
     };
-    $('#open-lab').hidden = !C.lab || !ready;
+    $('#open-lab').hidden = !C.lab;
   }
   function openAssessment(phase) {
-    if (phase === 'after' && !state.assessment.before.submitted) phase = 'before';
     view = phase;
     state.assessment.active = phase;
     save();
@@ -1497,8 +1497,336 @@ window.TrainerData={"id":"planimetriya","version":1,"title":"Планиметр�
         submitted:saved?.submitted === true && answers.every(answer => answer !== null)
       };
     }
-    if (raw?.active === 'before' || (raw?.active === 'after' && result.before.submitted)) result.active = raw.active;
+    if (['before', 'after', 'lesson'].includes(raw?.active)) result.active = raw.active;
     return result;
+  }
+  const testSketches = {
+    before: [
+      'line AMB','bisector','alternate','height-median AMNB C','mid ABCMN','triangle ABC',
+      'right-median','right','pair','pair','bisector-triangle ABCD','included','right-alpha','included',
+      'par-diagonals ABCDO','par-diagonals ABCDO','rhombus','trapezoid-mid','trapezoid-diagonals','kite',
+      'sector','chord','arc-center','diameter ABC','tangent-secant PTAB','in-bisectors','incircle',
+      'quad ABCD','tangential ABCD','','hexagon','grid-origin','endpoints AB','','cross-right ABCDO'
+    ],
+    after: [
+      'line PQR','bisector-cross','same-side','height-median F..DE','mid ABC.N','triangle KLM',
+      'right-median','right','pair','pair','bisector-triangle KLMN','obtuse-included','right-beta','opposite',
+      'par-height','par-diagonals ABCDO','','trapezoid-mid','trapezoid','kite',
+      'quarter','chord','arc','diameter DFE','tangent-secant XTAB','triangle','incircle',
+      'cyclic ABCD','tangential ABCD','','hexagon','grid-offset','angle-point','par-diagonals ABCDO','cross-equal ABCDO'
+    ]
+  };
+  const lessonSketches = [
+    ['line AMB','line AMB',''],
+    ['obtuse-included','bisector','adjacent','crossing'],
+    ['same-side','alternate','perpendicular'],
+    ['', 'triangle', 'side-median ABCM','mid ABCMN','height','triangle'],
+    ['isosceles','triangle ABC','isosceles-median','equilateral'],
+    ['right','right','','right-median','right'],
+    ['pair','pair ABCKLM','right-pair','pair ABCDEF','pair'],
+    ['pair','pair','pair ABCDEF','bisector-triangle ABCD','pair','pair'],
+    ['right-alpha','right-alpha','right-alpha','included','arc','included'],
+    ['par ABCD','cross','par-height','par-diagonals ABCDO','par'],
+    ['rectangle','rectangle-diagonal','par-diagonals','cross','rectangle'],
+    ['rhombus','cross','square-diagonal','rhombus'],
+    ['trapezoid-mid','trapezoid-height','trapezoid-diagonals','right-trapezoid'],
+    ['quad','kite ABCDO','kite'],
+    ['circle-diameter','circle-radius','chord','sector','sector','segment','circle-diameter'],
+    ['arc','arc','diameter ABC','double-arc ABXY'],
+    ['single-tangent OPT','double-tangent PAB','tangent-secant PTAB','chords ACBDP'],
+    ['triangle','incircle','diameter','triangle'],
+    ['cyclic ABCD','quad ABCD','tangential ABCD','tangential ABCD'],
+    ['octagon','decagon','heptagon'], ['decagon','octagon','hexagon','incircle-polygon'],
+    ['distance-grid','grid-cut','pair'], ['endpoints AB','circle-radius','angle-point'],
+    ['square','par-diagonals ABCDO',''], ['trapezoid-height','cross','diameter','pair']
+  ];
+  function assessmentSketch(phase, index) {
+    return geometrySketch(testSketches[phase][index]);
+  }
+  function geometrySketch(spec) {
+    if (!spec) return '';
+    const [type, ...words] = spec.split(' ');
+    const names = words.join('').split('');
+    const shapes = [], labels = [];
+    const path = (points, close = false, kind = '') => {
+      shapes.push(`<${close ? 'polygon' : 'polyline'} points="${points.map(point => point.join(',')).join(' ')}" ${kind}/> `);
+    };
+    const accent = 'stroke="#a84f2b"';
+    const fill = 'fill="#dd7a3a" fill-opacity=".23"';
+    const line = (a, b, kind) => path([a,b], false, kind);
+    const circle = (x,y,r) => shapes.push(`<circle cx="${x}" cy="${y}" r="${r}"/>`);
+    const mark = ([x,y], [dx,dy], n, dot = true) => {
+      const letter = names[n];
+      if (dot) labels.push(`<circle cx="${x}" cy="${y}" r="2.6"/>`);
+      if (letter && letter !== '.') labels.push(`<text x="${x+dx}" y="${y+dy}">${letter}</text>`);
+    };
+    const vertices = (points, offsets) => points.forEach((p,i) => mark(p, offsets[i], i, Boolean(names[i] && names[i] !== '.')));
+    const triangle = (points = [[42,123],[234,123],[105,26]]) => {
+      path(points, true);
+      vertices(points, [[-10,17],[3,17],[-7,-7]]);
+    };
+    const quad = points => {
+      path(points,true);
+      vertices(points,[[-13,16],[4,16],[5,-5],[-15,-5]]);
+    };
+    const right = ([x,y], dx=1, dy=-1) => path([[x+9*dx,y],[x+9*dx,y+9*dy],[x,y+9*dy]], false, accent);
+    const fractionCircle = () => circle(140,80,56);
+    const grid = (width,height,cut,labelsOn=false) => {
+      const step = Math.min(22,119/height);
+      const x = 140-width*step/2, y = 143;
+      const point = ([a,b]) => [x+a*step,y-b*step];
+      for (let i=0;i<=width;i++) line(point([i,0]),point([i,height]),'stroke="#a99470" stroke-width=".65"');
+      for (let i=0;i<=height;i++) line(point([0,i]),point([width,i]),'stroke="#a99470" stroke-width=".65"');
+      if (!labelsOn) path([[0,0],[width,0],[width,height],[0,height]].map(point),true);
+      path(cut.map(point),cut.length > 2,`${accent} ${fill}`);
+      if (!labelsOn) labels.push(`<text x="${x-12}" y="${y+3}">0</text>`);
+      if (labelsOn) {
+        const [a,b] = cut.map(point);
+        labels.push(`<text x="${a[0]-15}" y="${a[1]+6}">A</text><text x="${b[0]+5}" y="${b[1]-5}">B</text>`);
+      }
+    };
+    const polygon = (count, regular=false) => {
+      const points = Array.from({length:count}, (_,i) => {
+        const a = -Math.PI/2+i*2*Math.PI/count;
+        return [140+(regular ? 61 : 86+(i%3)*5)*Math.cos(a),80+(regular ? 61 : 58+(i%2)*5)*Math.sin(a)];
+      });
+      path(points,true);
+      return points;
+    };
+    switch (type) {
+      case 'line':
+      case 'endpoints': {
+        const points = type === 'line' ? [[65,83],[132,83],[207,83]] : [[72,83],[207,83]];
+        line(...(type === 'line' ? [[25,83],[254,83]] : points));
+        vertices(points,[[-5,20],[-5,20],[-5,20]]);
+        break;
+      }
+      case 'bisector':
+      case 'bisector-cross':
+      case 'adjacent':
+      case 'crossing':
+      case 'perpendicular':
+      case 'angle-point': {
+        const v=[112,82], a=[229,82], b=type==='perpendicular'?[112,18]:[164,22];
+        const c=[39,82], d=type==='perpendicular'?[112,143]:[60,142];
+        path([b,v,a]);
+        if (['bisector-cross','adjacent','crossing','perpendicular'].includes(type)) line(v,c);
+        if (['bisector-cross','crossing','perpendicular'].includes(type)) line(v,d);
+        if (type==='bisector') line(v,[211,36],accent);
+        if (type==='bisector-cross') line(v,[65,29],accent);
+        if (type==='perpendicular') right(v);
+        if (type==='angle-point') labels.push('<circle cx="183" cy="59" r="3"/><text x="191" y="62">X</text>');
+        break;
+      }
+      case 'alternate':
+      case 'same-side':
+        line([38,48],[240,48]); line([38,115],[240,115]); line([100,143],[177,21],accent);
+        shapes.push(type==='alternate' ? '<path d="M161 48 A18 18 0 0 1 151 63 M116 116 A16 16 0 0 1 125 103" stroke="#a84f2b"/>' : '<path d="M161 48 A18 18 0 0 1 151 63 M116 116 A18 18 0 0 0 107 101" stroke="#a84f2b"/>');
+        break;
+      case 'triangle': triangle(); break;
+      case 'height':
+      case 'height-median': {
+        const top=[85,25], left=[37,129], foot=[85,129], mid=[143,129], end=[249,129];
+        path([left,top,end],true); line(top,foot,accent); right(foot);
+        if(type==='height-median') {
+          line(top,mid,'stroke-dasharray="4 3"');
+          vertices([top,foot,mid,left,end],[[-5,-8],[-6,19],[-5,19],[-9,19],[3,19]]);
+        }
+        break;
+      }
+      case 'mid':
+      case 'side-median':
+      case 'bisector-triangle': {
+        const a=[100,27],b=[43,127],c=[235,127],d=[139,127];
+        path([a,b,c],true); vertices([a,b,c],[[-5,-7],[-12,17],[4,17]]);
+        if(type==='mid') {
+          const m=[71.5,77],n=[167.5,77]; line(m,n,accent); mark(m,[-16,0],3); mark(n,[7,0],4);
+        } else if(type==='side-median') {
+          const m=[167.5,77]; line(b,m,accent); mark(m,[8,0],3);
+        } else {
+          line(a,d,accent); mark(d,[-5,18],3);
+          shapes.push('<path d="M92 41 Q102 51 116 39 M105 40 L108 47" stroke="#a84f2b"/>');
+        }
+        break;
+      }
+      case 'isosceles':
+      case 'isosceles-median':
+      case 'equilateral': {
+        const top=[140,24],left=type==='equilateral'?[79,130]:[65,130],far=type==='equilateral'?[201,130]:[215,130];
+        path([left,top,far],true);
+        if(type==='isosceles-median') line(top,[140,130],accent);
+        break;
+      }
+      case 'right':
+      case 'right-alpha':
+      case 'right-beta':
+      case 'right-median':
+      case 'right-pair': {
+        const a=[56,127], b=[224,127], c=[56,34];
+        path([a,b,c],true);right(a);
+        if(type==='right-median') {
+          const m=[140,80.5];line(a,m,accent); labels.push('<circle cx="140" cy="80.5" r="2.6"/>');
+        }
+        if(type==='right-alpha'||type==='right-beta') {
+          shapes.push('<path d="M194 127 A30 30 0 0 1 198 113" stroke="#a84f2b"/>');
+          labels.push(`<text x="179" y="121">${type==='right-alpha'?'α':'β'}</text>`);
+        }
+        if(type==='right-pair') {
+          shapes.length=0;
+          path([[27,115],[108,115],[27,57]],true);right([27,115]);path([[152,115],[245,115],[152,47]],true);right([152,115]);
+        }
+        break;
+      }
+      case 'pair': {
+        const points=[[22,125],[117,125],[79,42],[147,122],[249,122],[181,51]];
+        path(points.slice(0,3),true);path(points.slice(3),true);
+        vertices(points,[[-8,16],[0,16],[-5,-7],[-6,16],[3,16],[-6,-6]]);
+        break;
+      }
+      case 'included':
+      case 'obtuse-included':
+      case 'opposite': {
+        const a=[78,124],b=[241,124],c=type==='obtuse-included'?[35,73]:[140,30];
+        triangle([a,b,c]);
+        if(type==='obtuse-included') shapes.push('<path d="M105 124 A27 27 0 0 0 61 104" stroke="#a84f2b"/>');
+        else shapes.push('<path d="M105 124 A27 27 0 0 0 93 101" stroke="#a84f2b"/>');
+        if(type==='opposite') shapes.push('<path d="M155 44 Q146 61 125 53" stroke="#a84f2b"/>');
+        break;
+      }
+      case 'par':
+      case 'par-diagonals':
+      case 'par-height':
+      case 'rectangle':
+      case 'rectangle-diagonal':
+      case 'square':
+      case 'square-diagonal':
+      case 'quad': {
+        const points=type.startsWith('rectangle')?[[43,127],[237,127],[237,33],[43,33]]:type.startsWith('square')?[[90,130],[190,130],[190,30],[90,30]]:type==='quad'?[[40,125],[229,133],[243,61],[98,25]]:[[41,128],[196,128],[239,30],[84,30]];
+        quad(points);
+        if(type.endsWith('-diagonal')||type==='par-diagonals') line(points[0],points[2],accent);
+        if(type==='par-diagonals') {
+          line(points[1],points[3],accent);mark([140,79],[5,-5],4);
+        }
+        if(type==='par-height') {line([84,30],[84,128],accent);right([84,128]);}
+        break;
+      }
+      case 'cross-right':
+      case 'cross-equal': {
+        const equal = type === 'cross-equal';
+        const x = equal ? 123 : 140;
+        const points = equal ? [[76,80],[x,19],[204,80],[x,147]] : [[50,82],[x,30],[230,82],[x,139]];
+        path(points,true);
+        line(points[0],points[2],accent); line(points[1],points[3],accent);
+        const o = [x,points[0][1]]; right(o);
+        vertices(points,[[-13,1],[-7,-7],[5,4],[-4,16]]);mark(o,[6,17],4);
+        break;
+      }
+      case 'rhombus':
+      case 'kite':
+      case 'cross': {
+        const points=type==='rhombus'?[[37,80],[140,28],[243,80],[140,132]]:type==='kite'?[[43,80],[116,28],[243,80],[116,132]]:[[38,87],[129,25],[235,84],[157,138]];
+        if(type==='cross') {
+          path(points,true);
+          vertices(points,[[-13,1],[-7,-7],[5,4],[-4,16]]);
+          line(points[0],points[2],accent);line(points[1],points[3],accent);
+          break;
+        }
+        path(points,true);line(points[0],points[2],accent);line(points[1],points[3],accent);
+        vertices(points,[[-13,1],[-7,-7],[6,4],[-5,16]]);
+        mark(type==='kite'?[116,80]:[140,80],[7,-7],4);
+        break;
+      }
+      case 'trapezoid':
+      case 'trapezoid-mid':
+      case 'trapezoid-diagonals':
+      case 'trapezoid-height':
+      case 'right-trapezoid': {
+        const points = type==='right-trapezoid'?[[39,128],[241,128],[193,37],[39,37]]:[[35,128],[245,128],[197,37],[83,37]];
+        path(points,true);
+        if(type==='trapezoid-mid') line([59,82.5],[221,82.5],accent);
+        if(type==='trapezoid-diagonals') {line(points[0],points[2],accent);line(points[1],points[3],accent);}
+        if(type==='trapezoid-height') {line([83,37],[83,128],accent);right([83,128]);}
+        if(type==='right-trapezoid') right(points[0]);
+        break;
+      }
+      case 'circle-diameter':
+      case 'circle-radius':
+      case 'sector':
+      case 'quarter':
+      case 'segment':
+      case 'chord': {
+        const o=[140,80]; fractionCircle();
+        if(type==='circle-diameter') line([84,80],[196,80],accent);
+        if(type==='circle-radius') line(o,[196,80],accent);
+        if(type==='sector') shapes.push(`<path d="M140 80 L112 31.5 A56 56 0 0 1 196 80 Z" ${accent} ${fill}/>`);
+        if(type==='quarter') shapes.push(`<path d="M140 80 L140 24 A56 56 0 0 1 196 80 Z" ${accent} ${fill}/>`);
+        if(type==='segment') shapes.push(`<path d="M93.8 48.4 A56 56 0 0 1 186.2 48.4 Z" ${accent} ${fill}/>`);
+        if(type==='chord') {line([93.8,48.4],[186.2,48.4],accent);line(o,[140,48.4]);right([140,48.4],1,1);line(o,[186.2,48.4]);}
+        labels.push('<circle cx="140" cy="80" r="2.6"/><text x="129" y="97">O</text>');
+        break;
+      }
+      case 'arc':
+      case 'arc-center':
+      case 'double-arc':
+      case 'diameter': {
+        const a=type==='diameter'?[84,80]:[90,105], b=type==='diameter'?[196,80]:[190,105],c=[116,29.4];
+        fractionCircle();path([a,c,b]);
+        if(type==='diameter') line(a,b,accent);
+        else shapes.push('<path d="M90 105 A56 56 0 0 0 190 105" stroke="#a84f2b"/>');
+        if(type==='arc-center') path([a,[140,80],b],false,accent);
+        if(type==='double-arc') path([a,[175,36.3],b],false,accent);
+        vertices([a,b,c,[175,36.3]],[[-14,8],[5,8],[-7,-8],[7,-6]]);
+        break;
+      }
+      case 'single-tangent':
+      case 'double-tangent':
+      case 'tangent-secant':
+      case 'chords': {
+        circle(168,84,50);
+        if(type==='chords') {
+          const p=[[123.1,62],[211.3,109],[193,40.7],[147,129.4],[169.2,86.6]];
+          line(p[0],p[1]);line(p[2],p[3],accent);vertices(p,[[-13,-3],[4,9],[3,-7],[-12,13],[4,-5]]);
+        } else if(type==='single-tangent') {
+          line([168,34],[168,84]);line([30,34],[248,34],accent);right([168,34],-1,1);
+          vertices([[168,84],[49,34],[168,34]],[[6,12],[-5,17],[-7,-7]]);
+        } else {
+          const p=[35,84], t=[149.2,37.65], b=[149.2,130.35];line(p,t,accent);
+          if(type==='double-tangent') {line(p,b,accent);vertices([p,t,b],[[-14,-4],[1,-7],[3,17]]);}
+          else {line(p,[218,84]);vertices([p,t,[118,84],[218,84]],[[-14,-4],[1,-7],[-5,18],[5,10]]);}
+        }
+        break;
+      }
+      case 'in-bisectors':
+      case 'incircle':
+        path([[45,134],[235,134],[140,26]],true);
+        if(type==='in-bisectors') {line([45,134],[190,83],accent);line([235,134],[90,83],accent);}
+        else {circle(140,91,43);line([140,91],[140,134],accent);right([140,134]);}
+        break;
+      case 'cyclic':
+        fractionCircle();
+        quad([140,45,-25,-120].map(deg => [140+56*Math.cos(deg*Math.PI/180),80+56*Math.sin(deg*Math.PI/180)]));
+        break;
+      case 'tangential':
+        circle(140,80,41);quad([[79,121],[206,121],[178,39],[110,39]]);
+        break;
+      case 'heptagon':
+      case 'octagon':
+      case 'decagon':
+      case 'hexagon':
+      case 'incircle-polygon': {
+        const counts={heptagon:7,octagon:8,decagon:10,hexagon:6,'incircle-polygon':6};
+        const points=polygon(counts[type],['hexagon','incircle-polygon'].includes(type));
+        if(type==='hexagon') {circle(140,80,61);line([140,80],points[0],accent);}
+        if(type==='incircle-polygon') {circle(140,80,61*Math.cos(Math.PI/6));line([140,80],[166.4,34.25],accent);}
+        break;
+      }
+      case 'grid-origin': grid(7,6,[[0,0],[4,0],[0,3]]); break;
+      case 'grid-offset': grid(8,5,[[1,1],[7,1],[1,5]]); break;
+      case 'grid-cut': grid(9,6,[[0,0],[4,0],[0,5]]); break;
+      case 'distance-grid': grid(9,10,[[2,1],[8,9]],true); break;
+      default: return '';
+    }
+    return `<figure class="geometry-sketch"><svg viewBox="0 0 280 165" role="img" aria-label="Схематичный чертёж к задаче"><g fill="none" stroke="#26412b" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">${shapes.join('')}</g><g fill="#16231a" font-family="system-ui,sans-serif" font-size="13" font-weight="650">${labels.join('')}</g></svg><figcaption>Схема к условию</figcaption></figure>`;
   }
   function renderAssessment(phase) {
     const title = phase === 'before' ? 'Входной тест' : 'Итоговый тест';
@@ -1514,6 +1842,8 @@ window.TrainerData={"id":"planimetriya","version":1,"title":"Планиметр�
     const confirmed = status.confirmed[index];
     const correct = status.answers[index] === question.correct;
     const last = index === questions.length - 1;
+    const missing = status.confirmed.indexOf(false);
+    const nextLabel = missing < 0 ? 'Завершить тест' : last ? 'К пропущенному вопросу' : 'Дальше';
     const options = [...question.choices, 'Не знаю'].map((choice, i) => {
       const value = i === question.choices.length ? -1 : i;
       return `<label class="assessment-option"><input type="radio" name="assessment-answer" value="${value}" ${status.answers[index] === value ? 'checked' : ''}><span>${mathText(choice)}</span></label>`;
@@ -1522,13 +1852,14 @@ window.TrainerData={"id":"planimetriya","version":1,"title":"Планиметр�
       <section class="lesson-card assessment-card">
         <h2 id="assessment-heading" tabindex="-1">${title}</h2>
         <p class="assessment-meta">Задание ${index + 1} из ${questions.length} · отвечено ${answered}</p>
-        ${index === 0 ? '<p>Выбери вариант или «Не знаю», затем нажми «Проверить». Сразу увидишь результат. Подтверждённый ответ изменить нельзя. Разбор откроется после обоих тестов.</p>' : ''}
+        <nav class="assessment-questions" aria-label="Вопросы теста">${questions.map((_, i) => `<button type="button" data-assessment-index="${i}" ${i === index ? 'aria-current="step"' : ''} ${status.confirmed[i] ? 'data-confirmed' : ''} aria-label="Вопрос ${i + 1}, ${status.confirmed[i] ? 'ответ сохранён' : 'без подтверждённого ответа'}">${i + 1}</button>`).join('')}</nav>
+        ${index === 0 ? '<p>Открой любой вопрос по номеру. Нажми «Проверить», чтобы увидеть результат и сохранить ответ. Разбор откроется после обоих тестов.</p>' : ''}
         <form id="assessment-form">
-          <fieldset ${confirmed ? 'disabled' : ''}><legend>${mathText(question.prompt)}</legend><div class="assessment-options">${options}</div></fieldset>
+          <fieldset ${confirmed ? 'disabled' : ''}><legend>${mathText(question.prompt)}</legend>${assessmentSketch(phase, index)}<div class="assessment-options">${options}</div></fieldset>
           ${confirmed ? `<p id="assessment-feedback" class="assessment-feedback ${correct ? 'correct' : 'incorrect'}" tabindex="-1">${correct ? 'Верно' : 'Неверно'}. Ответ сохранён.</p>` : ''}
           <div class="assessment-actions">
             ${index ? '<button type="button" class="secondary" id="assessment-prev">Назад</button>' : ''}
-            <button class="primary" type="submit" id="assessment-next" ${status.answers[index] === null ? 'disabled' : ''}>${confirmed ? last ? 'Завершить тест' : 'Дальше' : 'Проверить'}</button>
+            <button class="primary" type="submit" id="assessment-next" ${status.answers[index] === null ? 'disabled' : ''}>${confirmed ? nextLabel : 'Проверить'}</button>
           </div>
         </form>
       </section>`;
@@ -1545,6 +1876,10 @@ window.TrainerData={"id":"planimetriya","version":1,"title":"Планиметр�
       renderAssessment(phase);
       focusAssessment();
     }
+    $('.assessment-questions').addEventListener('click', event => {
+      const button = event.target.closest('[data-assessment-index]');
+      if (button) go(Number(button.dataset.assessmentIndex));
+    });
     $('#assessment-prev')?.addEventListener('click', () => go(index - 1));
     form.addEventListener('submit', event => {
       event.preventDefault();
@@ -1556,10 +1891,8 @@ window.TrainerData={"id":"planimetriya","version":1,"title":"Планиметр�
         $('#assessment-feedback').focus();
         return;
       }
-      if (!last) { go(index + 1); return; }
-      const missing = status.confirmed.indexOf(false);
       if (missing >= 0) {
-        go(missing);
+        go(last ? missing : index + 1);
         return;
       }
       status.submitted = true;
@@ -1574,6 +1907,7 @@ window.TrainerData={"id":"planimetriya","version":1,"title":"Планиметр�
   function renderAssessmentResult(phase) {
     const before = state.assessment.before.submitted;
     const after = state.assessment.after.submitted;
+    const both = before && after;
     const indices = ASSESSMENT.before.map((_, i) => i);
     const signed = n => n > 0 ? '+' + n : String(n).replace('-', '−');
     function row(label, questions) {
@@ -1591,19 +1925,21 @@ window.TrainerData={"id":"planimetriya","version":1,"title":"Планиметр�
     }).join('');
     $('#workspace').innerHTML = `
       <section class="lesson-card assessment-card">
-        <h2 id="assessment-heading" tabindex="-1">${after ? 'Результаты до и после' : 'Входной тест завершён'}</h2>
-        ${after ? '' : '<p>Теперь пройди темы тренажёра. После итогового теста здесь появятся разница в баллах и разбор ответов.</p>'}
+        <h2 id="assessment-heading" tabindex="-1">${both ? 'Результаты до и после' : phase === 'before' ? 'Входной тест завершён' : 'Итоговый тест завершён'}</h2>
+        ${both ? '' : `<p>После обоих тестов здесь появятся разница в баллах и разбор ответов.</p>`}
         <div class="assessment-table"><table>
           <thead><tr><th scope="col">Раздел</th><th scope="col">До</th><th scope="col">После</th><th scope="col">Разница</th></tr></thead>
           <tbody>${row('Всего', indices)}${groups.map(group => row(group, indices.filter(i => C.stages[ASSESSMENT.before[i].stage].subtitle === group))).join('')}</tbody>
         </table></div>
         <div class="assessment-actions">
-          <button class="primary" id="assessment-lessons">${after ? 'Вернуться к темам' : 'Перейти к темам'}</button>
+          <button class="primary" id="assessment-lessons">Перейти к темам</button>
+          ${both ? '' : `<button class="secondary" id="other-assessment">${phase === 'before' ? 'К итоговому тесту' : 'К входному тесту'}</button>`}
         </div>
-        ${after ? `<h3>Разбор по темам</h3>${C.stages.map((stage, stageIndex) => `<details><summary>${esc(stage.name)}</summary>${indices.filter(i => ASSESSMENT.before[i].stage === stageIndex).map(results).join('')}</details>`).join('')}` : ''}
+        ${both ? `<h3>Разбор по темам</h3>${C.stages.map((stage, stageIndex) => `<details><summary>${esc(stage.name)}</summary>${indices.filter(i => ASSESSMENT.before[i].stage === stageIndex).map(results).join('')}</details>`).join('')}` : ''}
       </section>`;
+    $('#other-assessment')?.addEventListener('click', () => openAssessment(phase === 'before' ? 'after' : 'before'));
     $('#assessment-lessons').addEventListener('click', () => {
-      state.assessment.active = null;
+      state.assessment.active = 'lesson';
       view = 'lesson';
       save();
       render();
@@ -1617,7 +1953,7 @@ window.TrainerData={"id":"planimetriya","version":1,"title":"Планиметр�
     window.LiliStudy?.task(state.stage+'-'+state.task,{current:state.solved.length,total:TOTAL,label:'Этап '+(state.stage+1)+' · задание '+(state.task+1),done:state.solved.length===TOTAL});
     const s=C.stages[state.stage],t=task(),solved=done();
     if(solved&&!feedback)feedback={type:'good',title:'Задание уже решено.',text:'Можно посмотреть разбор или перейти дальше.'};
-    $('#workspace').innerHTML=`<div class="exercise-layout"><section class="lesson-card" aria-labelledby="lesson-title"><div class="lesson-top"><span class="lesson-label">ШАГ ${String(state.stage+1).padStart(2,'0')} из ${String(C.stages.length).padStart(2,'0')}</span><span class="exercise-count">Задание ${state.task+1} из ${s.tasks.length}</span></div><div class="lesson-intro"><h2 id="lesson-title">${mathText(s.title)}</h2><details class="geo-theory" ${state.task===0?"open":""}><summary>Теория и чертёж</summary><div class="intro-content">${mathMarkup(s.intro)}</div></details><div class="question-dots" aria-label="Задания этого шага">${s.tasks.map((_,i)=>`<button class="question-dot ${i===state.task?'current':''} ${state.solved.includes(`${state.stage}-${i}`)?'solved':''}" data-task="${i}" aria-label="Задание ${i+1}${state.solved.includes(`${state.stage}-${i}`)?', решено':''}" ${i===state.task?'aria-current="true"':''}>${i+1}</button>`).join('')}</div></div>${visual(t)}<div class="answer-area"><section id="worked-example" class="worked-example" tabindex="-1" aria-labelledby="worked-title"><h3 id="worked-title">Сначала разбери пример</h3><p>${mathText(t.before || t.similar)}</p><button type="button" class="secondary copy-question" id="copy-question">Скопировать условие</button><span id="copy-status" role="status"></span></section><div class="task-kicker">ТЕПЕРЬ ПОПРОБУЙ</div><h3 class="question" id="question-text">${mathText(t.q)}</h3>${t.kind==='choice'&&!t.expressionInput?`<div class="choices" role="group" aria-labelledby="question-text">${t.options.map((o,i)=>`<button class="choice ${state.answers[key()]===String(o)?(solved?'selected':'wrong'):''}" data-option="${i}" ${solved?'disabled':''}>${mathText(o)}${t.unit==='%'?'%':''}</button>`).join('')}</div>`:`<form class="answer-form" novalidate><div class="input-wrap"><label class="sr-only" for="answer">Твой ответ${t.unit?', '+t.unit:''}</label><input id="answer" type="text" inputmode="${t.expressionInput?'text':'decimal'}" autocomplete="off" placeholder="${t.expressionInput?'Например, 2x^2 - 3x':'Твой ответ'}" aria-describedby="feedback" value="${esc(state.answers[key()]||'')}" ${solved?'readonly':''}><span class="answer-unit">${esc(t.unit)}</span></div><button class="primary" type="submit" ${solved?'disabled':''}>Проверить</button></form>`}<div id="feedback" role="status" aria-live="polite" aria-atomic="true">${feedbackHtml()}</div><div class="next-row"><small>${solved?'Можно двигаться дальше.':'Ответ можно пробовать снова.'}</small><button class="primary" id="next-task" ${solved?'':'hidden'}>${nextLabel()} <span aria-hidden="true">→</span></button></div><details class="solution"><summary>Показать подробный разбор</summary><ol>${t.steps.map(x=>`<li>${mathText(x)}</li>`).join('')}</ol></details></div></section><aside class="right-column" aria-label="Помощь"><section class="support-card"><h3 class="identity-label"><img src="data:image/webp;base64,UklGRnQEAABXRUJQVlA4IGgEAADwFwCdASpwAHAAPj0cjUQiIaGTSm0EIAPEsoBqntdfX/buWqBe+85i9AHot2ynPM+jveKt5x+4Cwtcm6kR+o/4DhZ2sN2xgV3FX+V42GNj0JP+Dy7/QPsF/y7+o/73sUfsZ7Gf7AFMm/AtSkSv/35YrCHbO5SjW7bGWQHuBb3b+ayELs67GOAZpjDJj/BmfIGRaaOgE1tXPmoa2pjnlVBzn7WlkjjYX5M+/AJnaMe0/Q/GpUeM/qTLdRUrSAC5W64n4FvxatVqAAD+/HCf/klS5Sfz2uTmepwoJ98XjCVV3pPwh+5IzgX0U1Nw54gpp69w/wh2fobkLgv1gQe7Y6eJMjgMpuhJ7Ykgln3yqJ5PrpJWyfrcuFqxm45HVC2d5rCuvwIvd38NPKyht9V4NgxwB7M1+3RGGcrvecyp5d1vWIKV5sNyRqhlKcPJ2M/mPjwMlseW7mc1LbKnyTj7FRMIkcK9s34egm2mUKlk3r9nx8yj3bXO0ijfTF43Ey1up28TvkUgvY7iAukYD7/ypHbdpy767JyAG7a/EXy3SRgx5UleHMNqCsk8/zP6aUpPS92vfjwFauTYjevCE0zP+mK44Qq5MfMrUceKjW/572zgbv8AfxkZ2nEiExWcB9xB4aAyABOeT7qnIk0ENA3TSkakH/5LODtIojCrsKAVFdY9UZrJWpeDDEHOGbm7/j8t4y+CqFLA7FvlmkUCvUYfWZa0OBgCdcGDL6i9Lx6fK/MYPTjCdnip+eY/VtcqrcPaQEIfub3J+Afo2hE+nx46dYnJVW7rnZiIZT3ZtfKt9rMzYgDzdlmd48Sv9gr/W3zeNOuM2j4mXidH9YxG/bfvxJIJgy07w/PtjFFMdth4w06bCEiuydb0UkScIXlGjio09sA5btgzbbaavPfRxfGALDmkS0irvm6yrJoaaa+nf/SdkniAkL67teKwF5+G7zGNOMhw6aa+ZAfuGvDd+UxTVG4bbVqv0CL1ADCEP27cjK4520X6UXZ2uMzAOGc8oMj86Erks5Mom811cxWa7zhNY39WvzGvto2UPU9yPe0AJx16zflnlfI0XS6wtVWLWKFZpm5fQWTdqGU/Gn0HBMJThsRqZp9BVsYEHtmISgi3waR/pKVb0ilbcqv/ElFB34efMcQbVp5VgDHL+Z67YYmbpvgUxYr564eiaXsbLArKNNQ2zSHKNgvhv+IegZxSrmVf5V//eu6HAPJ3c2Kwn33ds+VMw/O7smKcBEVe3MB1R9AwzRGjEJ+kAXbxMhbipgM7l+/hvaxaGesDz8WBsdXC/KptJlbDWbf92lkYx78ARp180wAwqACGxj/ieCMQaIdwjPiDi8r/sELXpf12L6fss6VvyNGTCA+NMoHBs30n/m7BraHeg6S5yEfUbne+UzOQrUGX1HRazd4gnomZ+SdyTzyv3ZPnR8DhYjLT5U7Zn6/5eyVii1IZiIn+ZD6Q+AOqgghzxlzyLKrUiHDNe8KggXKRGRt4AAAAAAA=" class="identity-mark identity-hint" width="32" height="32" alt="">Подсказки</h3><p class="support-caption">Открывай по одному шагу.</p><div id="hint-list">${hintsHtml(t)}</div></section><section class="support-card anchor-card"><p>${mathText(s.anchor)}</p><small>${mathText(s.anchorNote)}</small></section></aside></div>`;
+    $('#workspace').innerHTML=`<div class="exercise-layout"><section class="lesson-card" aria-labelledby="lesson-title"><div class="lesson-top"><span class="lesson-label">ШАГ ${String(state.stage+1).padStart(2,'0')} из ${String(C.stages.length).padStart(2,'0')}</span><span class="exercise-count">Задание ${state.task+1} из ${s.tasks.length}</span></div><div class="lesson-intro"><h2 id="lesson-title">${mathText(s.title)}</h2><details class="geo-theory" ${state.task===0?"open":""}><summary>Теория и чертёж</summary><div class="intro-content">${mathMarkup(s.intro)}</div></details><div class="question-dots" aria-label="Задания этого шага">${s.tasks.map((_,i)=>`<button class="question-dot ${i===state.task?'current':''} ${state.solved.includes(`${state.stage}-${i}`)?'solved':''}" data-task="${i}" aria-label="Задание ${i+1}${state.solved.includes(`${state.stage}-${i}`)?', решено':''}" ${i===state.task?'aria-current="true"':''}>${i+1}</button>`).join('')}</div></div>${visual(t)}<div class="answer-area"><section id="worked-example" class="worked-example" tabindex="-1" aria-labelledby="worked-title"><h3 id="worked-title">Сначала разбери пример</h3><p>${mathText(t.before || t.similar)}</p><button type="button" class="secondary copy-question" id="copy-question">Скопировать условие</button><span id="copy-status" role="status"></span></section><div class="task-kicker">ТЕПЕРЬ ПОПРОБУЙ</div><h3 class="question" id="question-text">${mathText(t.q)}</h3>${t.visual ? '' : geometrySketch(lessonSketches[state.stage][state.task])}${t.kind==='choice'&&!t.expressionInput?`<div class="choices" role="group" aria-labelledby="question-text">${t.options.map((o,i)=>`<button class="choice ${state.answers[key()]===String(o)?(solved?'selected':'wrong'):''}" data-option="${i}" ${solved?'disabled':''}>${mathText(o)}${t.unit==='%'?'%':''}</button>`).join('')}</div>`:`<form class="answer-form" novalidate><div class="input-wrap"><label class="sr-only" for="answer">Твой ответ${t.unit?', '+t.unit:''}</label><input id="answer" type="text" inputmode="${t.expressionInput?'text':'decimal'}" autocomplete="off" placeholder="${t.expressionInput?'Например, 2x^2 - 3x':'Твой ответ'}" aria-describedby="feedback" value="${esc(state.answers[key()]||'')}" ${solved?'readonly':''}><span class="answer-unit">${esc(t.unit)}</span></div><button class="primary" type="submit" ${solved?'disabled':''}>Проверить</button></form>`}<div id="feedback" role="status" aria-live="polite" aria-atomic="true">${feedbackHtml()}</div><div class="next-row"><small>${solved?'Можно двигаться дальше.':'Ответ можно пробовать снова.'}</small><button class="primary" id="next-task" ${solved?'':'hidden'}>${nextLabel()} <span aria-hidden="true">→</span></button></div><details class="solution"><summary>Показать подробный разбор</summary><ol>${t.steps.map(x=>`<li>${mathText(x)}</li>`).join('')}</ol></details></div></section><aside class="right-column" aria-label="Помощь"><section class="support-card"><h3 class="identity-label"><img src="data:image/webp;base64,UklGRnQEAABXRUJQVlA4IGgEAADwFwCdASpwAHAAPj0cjUQiIaGTSm0EIAPEsoBqntdfX/buWqBe+85i9AHot2ynPM+jveKt5x+4Cwtcm6kR+o/4DhZ2sN2xgV3FX+V42GNj0JP+Dy7/QPsF/y7+o/73sUfsZ7Gf7AFMm/AtSkSv/35YrCHbO5SjW7bGWQHuBb3b+ayELs67GOAZpjDJj/BmfIGRaaOgE1tXPmoa2pjnlVBzn7WlkjjYX5M+/AJnaMe0/Q/GpUeM/qTLdRUrSAC5W64n4FvxatVqAAD+/HCf/klS5Sfz2uTmepwoJ98XjCVV3pPwh+5IzgX0U1Nw54gpp69w/wh2fobkLgv1gQe7Y6eJMjgMpuhJ7Ykgln3yqJ5PrpJWyfrcuFqxm45HVC2d5rCuvwIvd38NPKyht9V4NgxwB7M1+3RGGcrvecyp5d1vWIKV5sNyRqhlKcPJ2M/mPjwMlseW7mc1LbKnyTj7FRMIkcK9s34egm2mUKlk3r9nx8yj3bXO0ijfTF43Ey1up28TvkUgvY7iAukYD7/ypHbdpy767JyAG7a/EXy3SRgx5UleHMNqCsk8/zP6aUpPS92vfjwFauTYjevCE0zP+mK44Qq5MfMrUceKjW/572zgbv8AfxkZ2nEiExWcB9xB4aAyABOeT7qnIk0ENA3TSkakH/5LODtIojCrsKAVFdY9UZrJWpeDDEHOGbm7/j8t4y+CqFLA7FvlmkUCvUYfWZa0OBgCdcGDL6i9Lx6fK/MYPTjCdnip+eY/VtcqrcPaQEIfub3J+Afo2hE+nx46dYnJVW7rnZiIZT3ZtfKt9rMzYgDzdlmd48Sv9gr/W3zeNOuM2j4mXidH9YxG/bfvxJIJgy07w/PtjFFMdth4w06bCEiuydb0UkScIXlGjio09sA5btgzbbaavPfRxfGALDmkS0irvm6yrJoaaa+nf/SdkniAkL67teKwF5+G7zGNOMhw6aa+ZAfuGvDd+UxTVG4bbVqv0CL1ADCEP27cjK4520X6UXZ2uMzAOGc8oMj86Erks5Mom811cxWa7zhNY39WvzGvto2UPU9yPe0AJx16zflnlfI0XS6wtVWLWKFZpm5fQWTdqGU/Gn0HBMJThsRqZp9BVsYEHtmISgi3waR/pKVb0ilbcqv/ElFB34efMcQbVp5VgDHL+Z67YYmbpvgUxYr564eiaXsbLArKNNQ2zSHKNgvhv+IegZxSrmVf5V//eu6HAPJ3c2Kwn33ds+VMw/O7smKcBEVe3MB1R9AwzRGjEJ+kAXbxMhbipgM7l+/hvaxaGesDz8WBsdXC/KptJlbDWbf92lkYx78ARp180wAwqACGxj/ieCMQaIdwjPiDi8r/sELXpf12L6fss6VvyNGTCA+NMoHBs30n/m7BraHeg6S5yEfUbne+UzOQrUGX1HRazd4gnomZ+SdyTzyv3ZPnR8DhYjLT5U7Zn6/5eyVii1IZiIn+ZD6Q+AOqgghzxlzyLKrUiHDNe8KggXKRGRt4AAAAAAA=" class="identity-mark identity-hint" width="32" height="32" alt="">Подсказки</h3><p class="support-caption">Открывай по одному шагу.</p><div id="hint-list">${hintsHtml(t)}</div></section><section class="support-card anchor-card"><p>${mathText(s.anchor)}</p><small>${mathText(s.anchorNote)}</small></section></aside></div>`;
     document.querySelectorAll('[data-task]').forEach(b=>b.addEventListener('click',()=>goTask(Number(b.dataset.task))));
     document.querySelectorAll('[data-option]').forEach(b=>b.addEventListener('click',()=>check(String(t.options[Number(b.dataset.option)]))));
     const form=$('.answer-form');if(form)form.addEventListener('submit',e=>{e.preventDefault();check($('#answer').value);});
@@ -1650,7 +1986,7 @@ window.TrainerData={"id":"planimetriya","version":1,"title":"Планиметр�
     save();render();if(!done()&&$('#answer')){$('#answer').focus();$('#answer').select();$('#answer').setAttribute('aria-invalid','true');}else if(done())$('#next-task').focus({preventScroll:true});
   }
   function scrollToLesson(){const el=$('#workspace');if(el&&el.getBoundingClientRect().top<0)el.scrollIntoView({behavior:'smooth',block:'start'});}
-  function goStage(i, showExample=false){if(!state.assessment.before.submitted)return openAssessment('before');state.assessment.active=null;view='lesson';state.stage=i;const j=C.stages[i].tasks.findIndex((_,n)=>!state.solved.includes(`${i}-${n}`));state.task=j<0?0:j;feedback=null;hints.clear();save();render();if(showExample) focusExample();else scrollToLesson();}
+  function goStage(i, showExample=false){state.assessment.active='lesson';view='lesson';state.stage=i;const j=C.stages[i].tasks.findIndex((_,n)=>!state.solved.includes(`${i}-${n}`));state.task=j<0?0:j;feedback=null;hints.clear();save();render();if(showExample) focusExample();else scrollToLesson();}
   function goTask(i){
     state.task=i;feedback=null;hints.clear();save();render();focusExample();
   }
@@ -1679,7 +2015,7 @@ window.TrainerData={"id":"planimetriya","version":1,"title":"Планиметр�
     $('#finish-assessment').addEventListener('click',()=>openAssessment('after'));
     $('#review-stories').addEventListener('click',()=>{if(unresolved){for(let i=0;i<C.stages.length;i++)if(C.stages[i].tasks.some((_,j)=>!state.solved.includes(`${i}-${j}`))){goStage(i);return;}}goStage(C.stages.length-1);});$('#finish-lab')?.addEventListener('click',openLab);$('#finish-reset').addEventListener('click',askReset);
   }
-  function openLab(){if(!C.lab||!state.assessment.before.submitted)return;state.assessment.active=null;view='lab';save();render();scrollToLesson();}
+  function openLab(){if(!C.lab)return;state.assessment.active='lesson';view='lab';save();render();scrollToLesson();}
   function askReset(){$('#reset-dialog').showModal();}
   $('#open-lab').addEventListener('click',openLab);$('#reset-progress').addEventListener('click',askReset);$('#cancel-reset').addEventListener('click',()=>$('#reset-dialog').close());$('#confirm-reset').addEventListener('click',()=>{state=blank();feedback=null;hints.clear();view='before';save();$('#reset-dialog').close();render();});$('.brand').addEventListener('click',e=>{e.preventDefault();goStage(0);});
   $('#open-lab').hidden=!C.lab;
