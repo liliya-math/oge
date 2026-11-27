@@ -40,7 +40,9 @@
     const labels = question.labels || [];
     const circles = question.circles || [];
     const graph = question.graph;
-    const all = paths.flat().concat(labels.map(([, x, y]) => [x, y]), circles.flatMap(([x, y, r]) => [[x - r, y - r], [x + r, y + r]]));
+    const annotations = question.annotations || [];
+    const schematic = question.schematic;
+    const all = paths.flat().concat((question.dashes || []).flat(), annotations.map(([, x, y]) => [x, y]), labels.map(([, x, y]) => [x, y]), circles.flatMap(([x, y, r]) => [[x - r, y - r], [x + r, y + r]]));
     const xs = all.map(([x]) => x);
     const ys = all.map(([, y]) => y);
     const left = graph ? -5 : Math.min(0, Math.floor(Math.min(...xs)) - 1);
@@ -48,14 +50,14 @@
     const right = graph ? 5 : Math.max(7, Math.ceil(Math.max(...xs)) + 1);
     const top = graph ? 5 : Math.max(6, Math.ceil(Math.max(...ys)) + 1);
     const cell = 26;
-    const margin = 16;
+    const margin = schematic ? 27 : 16;
     const x = (v) => margin + (v - left) * cell;
     const y = (v) => question.line ? 39 : margin + (top - v) * cell;
     const svg = svgElement('svg', {
       viewBox: '0 0 ' + (x(right) + margin) + ' ' + (question.line ? 65 : y(bottom) + margin),
       class: 'diagram',
       role: 'img',
-      'aria-label': graph ? 'График функции на координатной плоскости' : 'Чертёж на квадратной сетке'
+      'aria-label': graph ? 'График функции на координатной плоскости' : schematic || 'Чертёж на квадратной сетке'
     });
     let grid = '';
     for (let a = left; a <= right; a++) grid += 'M' + x(a) + ' ' + y(top) + 'V' + y(bottom) + ' ';
@@ -75,7 +77,7 @@
       }
       return svg;
     }
-    svg.append(svgElement('path', { class: 'grid', d: grid }));
+    if (!schematic) svg.append(svgElement('path', { class: 'grid', d: grid }));
     if (graph) {
       svg.append(svgElement('path', { class: 'axis', d: 'M' + x(left) + ' ' + y(0) + 'H' + x(right) + ' M' + x(0) + ' ' + y(bottom) + 'V' + y(top) }));
       for (const [mark, a, b] of [['0', -.45, -.52], ['1', .93, -.56], ['1', -.55, .9], ['x', 4.62, .24], ['y', .24, 4.64]]) {
@@ -113,12 +115,51 @@
     for (const path of paths) svg.append(svgElement('polyline', { class: 'shape', points: points(path) }));
     for (const path of question.dashes || []) svg.append(svgElement('polyline', { class: 'shape', points: points(path), 'stroke-dasharray': '5 5' }));
     for (const [a,b,r] of circles) svg.append(svgElement('circle', { class: 'shape', cx: x(a), cy: y(b), r: cell * r }));
-    for (const [mark,a,b] of labels) {
-      const label = svgElement('text', { x: x(a) + 5, y: y(b) - 7 });
+    for (const [mark,a,b,dx = 5,dy = -7] of labels) {
+      const label = svgElement('text', { x: x(a) + dx, y: y(b) + dy });
       label.textContent = mark;
       svg.append(svgElement('circle', { class: 'figure-label', cx: x(a), cy: y(b), r: 3.5 }), label);
     }
+    for (const [mark, a, b] of annotations) {
+      const text = svgElement('text', { x: x(a), y: y(b), 'text-anchor': 'middle' });
+      text.textContent = mark;
+      svg.append(text);
+    }
     return svg;
+  }
+
+  function addTheory(number, questions) {
+    const links = new Map();
+    for (const { topic, review } of questions) {
+      if (!review) continue;
+      const url = number === 18 ? review[0].split('#')[0] : review[0];
+      if (!links.has(url)) links.set(url, new Set());
+      links.get(url).add(topic);
+    }
+    if (!links.size) return;
+    const container = byId('theory-links');
+    if (links.size === 1) {
+      container.append(theoryLink('Теория по номеру', links.keys().next().value));
+    } else {
+      const details = element('details');
+      const list = element('ul');
+      details.append(element('summary', 'Теория по номеру'), list);
+      for (const [url, topics] of links) {
+        const item = element('li');
+        item.append(theoryLink([...topics].slice(0, 2).join(' · '), url));
+        list.append(item);
+      }
+      container.append(details);
+    }
+    container.hidden = false;
+  }
+
+  function theoryLink(title, url) {
+    const link = element('a', title);
+    link.href = url;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    return link;
   }
 
   function renderTable(rows) {
@@ -149,6 +190,7 @@
   function start(number, test) {
     const { questions } = test;
     const count = questions.length;
+    addTheory(number, questions);
     const automatic = questions.filter((q) => !q.rubric).length;
     const storageKey = 'lili-oge-entry-v2-' + number;
     let position = 0;
@@ -210,7 +252,16 @@
         wrapper.append(renderTable(question.table));
         visual.append(wrapper);
       }
-      if (question.paths?.length || question.graph || question.circles) visual.append(diagram(question));
+      if (question.paths?.length || question.graph || question.circles) {
+        const drawing = diagram(question);
+        if (question.schematic) {
+          const figure = element('figure', undefined, 'task-schematic');
+          figure.append(drawing, element('figcaption', 'Рисунок схематический.'));
+          visual.append(figure);
+        } else {
+          visual.append(drawing);
+        }
+      }
       const written = !!question.rubric;
       byId('number-answer').hidden = written;
       byId('written-answer').hidden = !written;
@@ -409,7 +460,7 @@
       return;
     }
     const file = number === 18 ? 'assets/oge-18-diagnostic.json' : 'assets/oge-diagnostics.json';
-    const response = await fetch(file);
+    const response = await fetch(file + '?v=20261127');
     if (!response.ok) throw new Error('could not load diagnostic');
     const data = await response.json();
     const test = number === 18 ? data : data[number];
