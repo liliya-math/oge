@@ -157,7 +157,9 @@
     const answers = Array(count).fill('');
     try {
       const stored = JSON.parse(localStorage.getItem(storageKey));
-      if (stored?.answers?.length === count) {
+      const savedCount = Array.isArray(stored?.answers) ? stored.answers.length : 0;
+      const canRestore = savedCount === count || (savedCount < count && test.previousQuestionCounts?.includes(savedCount));
+      if (canRestore) {
         stored.answers.forEach((answer, i) => { if (typeof answer === 'string') answers[i] = answer.slice(0, questions[i].rubric ? 4000 : 40); });
         position = Number.isInteger(stored.position) && stored.position >= 0 && stored.position < count ? stored.position : 0;
       }
