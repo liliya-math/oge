@@ -173,6 +173,13 @@
     byId('subject').textContent = title;
     byId('heading').textContent = test.title;
     byId('meta').textContent = count + ' заданий · ' + (number === 18 ? '50–70 минут' : automatic < count ? 'краткие и развёрнутые ответы' : 'ответы сохраняются в браузере');
+    if (test.theory) {
+      const theory = element('a', 'Теория по этому номеру');
+      theory.href = test.theory;
+      const paragraph = element('p');
+      paragraph.append(theory);
+      byId('meta').after(paragraph);
+    }
     byId('load-status').hidden = true;
     byId('layout').hidden = false;
 

@@ -1,6 +1,16 @@
 {
   "items": [
     {
+      "file": "teoriya-oge-06-vychisleniya.html",
+      "title": "ОГЭ № 6 · Числа и вычисления · теория",
+      "type": "uchebnik",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "Пять типов вычислений. Списки знаний, правила и разборы.",
+      "auto": false
+    },
+    {
       "file": "vhodnye-testy-oge.html",
       "title": "ОГЭ по математике · входные тесты по номерам 1–25",
       "type": "diagnostika",

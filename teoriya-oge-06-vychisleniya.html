@@ -1,0 +1,102 @@
+<!doctype html><html lang="ru"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="assets/oge-diagnostic.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+:root{color-scheme:dark;--ink:#eee0c8;--paper:#16231a;--card:#26382b;--accent:#e2b04a;--orange:#dd7a3a;--muted:#d2b993}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.58 system-ui,sans-serif}
+main{max-width:1030px;margin:auto;padding:clamp(16px,4vw,38px) 0}h1{font-size:clamp(30px,6vw,56px);line-height:1.08;margin:.3em 0}h2{line-height:1.22;margin-top:0}h3{margin:.8em 0 .3em}
+p{margin:.55em 0}a{color:var(--accent);text-underline-offset:3px}.logo{font-weight:800;letter-spacing:.08em}.muted{color:var(--muted)}
+.card{margin:18px 0;padding:clamp(16px,3vw,28px);background:var(--card);border:1px solid #637358;border-radius:18px;scroll-margin-top:16px}
+.card h2,.card h3{color:var(--accent)}.links{display:flex;gap:10px 20px;flex-wrap:wrap;margin:1em 0}.toc{columns:2;column-gap:32px;padding-left:24px}.toc li{break-inside:avoid}
+.example{display:grid;grid-template-columns:minmax(0,1fr) minmax(230px,340px);gap:14px;align-items:center}
+.diagram{display:block;width:min(100%,340px);height:auto;background:#f8eed8;color-scheme:light;border-radius:8px}
+.frac{display:inline-grid;vertical-align:middle;text-align:center;line-height:1.14;padding:0 .14em;white-space:nowrap}.frac span:first-child{border-bottom:1px solid}.frac span{padding:0 .18em}
+@media(max-width:560px){.toc{columns:1}.example{grid-template-columns:1fr}}
+.theory .card{border-left:4px solid #c9ab82}.theory .card:nth-of-type(3n){border-left-color:#dd7a3a}.theory .card:nth-of-type(3n+1){border-left-color:#a9bf9f}
+.theory .contents .toc{columns:2}.theory .contents li{padding:4px 0}.theory .example{display:block;padding:16px;background:#1b2b20;border-radius:13px}
+.theory .example h3{margin-top:0}.theory .card > h3{margin-top:1em}.theory .masthead h1{margin:0}.theory .masthead p{margin-top:.5rem}
+@media(max-width:560px){.theory .contents .toc{columns:1}.example{grid-template-columns:minmax(0,1fr)}}
+
+.knowledge{display:grid;gap:.35rem;padding-inline-start:1.5rem}
+.rules dt{font-weight:750;color:#f3bd89}
+.rules dd{margin:.2rem 0 .85rem;max-width:75ch}
+.example{margin-block-start:1rem}
+</style>
+<title>ОГЭ № 6. Числа и вычисления · lili.math</title></head>
+<body class="theory">
+<header class="site-header"><div><a href="index.html"><img src="img/logo/lilimath-na-temnom.png" alt="lili.math"></a><a href="vhodnye-testy-oge.html">Все входные тесты</a></div></header>
+<main>
+<header class="masthead"><div><p class="eyebrow">Теория ОГЭ № 6</p><h1>Числа и вычисления</h1><p class="meta">Максимум за экзаменационное задание – 1 балл.</p></div><img class="mascot" src="img/mascots/bis-hello.jpg" alt="" width="130" height="130"></header>
+<nav class="links" aria-label="Материалы № 6"><a href="vhodnye-testy-oge.html?n=6">Входной тест</a><a href="trenazher-vychisleniya-oge6.html">Тренажёр</a></nav>
+<nav class="card contents" aria-label="Оглавление"><h2>Типы задач</h2><ol class="toc"><li><a href="#ordinary">Обыкновенные дроби</a></li><li><a href="#decimal">Десятичные дроби</a></li><li><a href="#mixed">Смешанные вычисления</a></li><li><a href="#powers">Степени</a></li><li><a href="#order">Порядок действий и знаки</a></li></ol></nav>
+<section class="card" id="ordinary">
+<h2>1. Обыкновенные дроби</h2>
+<h3>Что нужно знать</h3>
+<ul class="knowledge"><li>Числитель, знаменатель и сокращение</li><li>Сложение и вычитание</li><li>Умножение и деление</li></ul>
+<h3>Теория</h3>
+<dl class="rules">
+<dt>Числитель, знаменатель и сокращение</dt><dd>Знаменатель показывает, на сколько равных частей разделили целое, числитель показывает, сколько таких частей взяли. Знаменатель отличен от нуля. Значение дроби сохраняется, если числитель и знаменатель умножить или разделить на одно и то же ненулевое число. При сокращении дели на общий делитель, пока общим делителем числителя и знаменателя по модулю не останется 1.</dd>
+<dt>Сложение и вычитание</dt><dd>При одинаковых знаменателях сложи или вычти числители, знаменатель сохрани. При разных знаменателях сначала приведи дроби к общему знаменателю. Удобно брать наименьшее общее кратное. Для каждой дроби раздели общий знаменатель на её прежний знаменатель и умножь числитель на полученный множитель.</dd>
+<dt>Умножение и деление</dt><dd>При умножении перемножь числители и отдельно знаменатели. Перед умножением можно сократить общий множитель между числителем одной дроби и знаменателем другой. При делении замени делитель обратной дробью и умножь. У делителя должен быть ненулевой числитель.</dd>
+</dl>
+<div class="example"><h3>Пример 1. Вычитание</h3><p>Вычислим <span class="frac"><span>7</span><span>12</span></span> − <span class="frac"><span>1</span><span>8</span></span>. НОК чисел 12 и 8 равен 24. Домножаем первую дробь на 2, вторую на 3 и вычитаем числители. Получаем <span class="frac"><span>14</span><span>24</span></span> − <span class="frac"><span>3</span><span>24</span></span> = <span class="frac"><span>11</span><span>24</span></span>.</p></div>
+<div class="example"><h3>Пример 2. Деление</h3><p>Вычислим <span class="frac"><span>5</span><span>18</span></span> : <span class="frac"><span>10</span><span>27</span></span>. Переворачиваем вторую дробь: <span class="frac"><span>5</span><span>18</span></span> · <span class="frac"><span>27</span><span>10</span></span>. Сокращаем 5 и 10 на 5, а 27 и 18 на 9. Остаётся <span class="frac"><span>1</span><span>2</span></span> · <span class="frac"><span>3</span><span>2</span></span> = <span class="frac"><span>3</span><span>4</span></span>.</p></div>
+</section>
+<section class="card" id="decimal">
+<h2>2. Десятичные дроби</h2>
+<h3>Что нужно знать</h3>
+<ul class="knowledge"><li>Разряды в десятичной записи</li><li>Сложение и вычитание столбиком</li><li>Умножение и деление</li></ul>
+<h3>Теория</h3>
+<dl class="rules">
+<dt>Разряды в десятичной записи</dt><dd>Первая цифра после запятой показывает десятые, вторая сотые, третья тысячные. Нули справа после запятой не меняют значение числа. Например, 0,7 и 0,70 занимают одну точку на координатной прямой.</dd>
+<dt>Сложение и вычитание столбиком</dt><dd>Пиши запятую под запятой, чтобы совпали разряды. При необходимости дополни запись справа нулями. Считай по разрядам и поставь запятую результата под исходными запятыми.</dd>
+<dt>Умножение и деление</dt><dd>При умножении считай как с целыми числами. В произведении отдели справа столько цифр, сколько их было после запятой у обоих множителей вместе. При делении на десятичную дробь передвинь запятые в делимом и делителе вправо на одинаковое число знаков, чтобы делитель стал целым. Так обе величины умножаются на одну степень десяти, и частное сохраняется.</dd>
+</dl>
+<div class="example"><h3>Пример 1. Вычитание</h3><p>Вычислим 8,04 − 2,7. Пишем 2,70 под 8,04. Вычитаем по разрядам и получаем 5,34.</p></div>
+<div class="example"><h3>Пример 2. Умножение</h3><p>Вычислим 0,24 · 0,5. Произведение 24 · 5 равно 120. Всего после запятых три цифры, поэтому 120 превращается в 0,120 = 0,12.</p></div>
+<div class="example"><h3>Пример 3. Деление</h3><p>Вычислим 3,36 : 0,8. Умножаем оба числа на 10. Получаем 33,6 : 8 = 4,2. Проверяем: 4,2 · 0,8 = 3,36.</p></div>
+</section>
+<section class="card" id="mixed">
+<h2>3. Смешанные вычисления</h2>
+<h3>Что нужно знать</h3>
+<ul class="knowledge"><li>Из десятичной записи в обыкновенную</li><li>Из обыкновенной записи в десятичную</li><li>Смешанное число</li></ul>
+<h3>Теория</h3>
+<dl class="rules">
+<dt>Из десятичной записи в обыкновенную</dt><dd>Запиши цифры числа без запятой в числителе, а в знаменателе поставь 10, 100, 1000 или следующую степень десяти по числу цифр после запятой. Сократи дробь.</dd>
+<dt>Из обыкновенной записи в десятичную</dt><dd>Сначала сократи дробь. Если положительный знаменатель можно домножить до 10, 100, 1000 или другой степени десяти, домножь обе части и прочитай десятичную запись по разрядам. Это возможно, когда у знаменателя после сокращения среди простых множителей есть только 2 или 5 либо знаменатель равен 1. Иначе для точного промежуточного расчёта оставь обыкновенную дробь.</dd>
+<dt>Смешанное число</dt><dd>Чтобы записать смешанное число неправильной дробью, умножь целую часть на знаменатель и прибавь числитель. Например, у записи −2 ⅓ минус относится ко всему смешанному числу.</dd>
+</dl>
+<div class="example"><h3>Пример 1. Удобна десятичная запись</h3><p>Вычислим 0,8 + <span class="frac"><span>3</span><span>20</span></span>. Знаменатель 20 домножаем на 5, получаем <span class="frac"><span>15</span><span>100</span></span> = 0,15. Тогда 0,8 + 0,15 = 0,95.</p></div>
+<div class="example"><h3>Пример 2. Удобны обыкновенные дроби</h3><p>Вычислим 0,6 : <span class="frac"><span>2</span><span>3</span></span>. Пишем 0,6 = <span class="frac"><span>6</span><span>10</span></span> = <span class="frac"><span>3</span><span>5</span></span>. Умножаем на дробь, обратную делителю: <span class="frac"><span>3</span><span>5</span></span> · <span class="frac"><span>3</span><span>2</span></span> = <span class="frac"><span>9</span><span>10</span></span> = 0,9.</p></div>
+</section>
+<section class="card" id="powers">
+<h2>4. Степени</h2>
+<h3>Что нужно знать</h3>
+<ul class="knowledge"><li>Основание, показатель и скобки</li><li>Умножение и деление степеней</li><li>Нулевой и отрицательный показатели</li></ul>
+<h3>Теория</h3>
+<dl class="rules">
+<dt>Основание, показатель и скобки</dt><dd>Степень с положительным целым показателем показывает, сколько одинаковых множителей берём. В записи (−a)² возводим в квадрат отрицательное число. При чётном показателе результат положителен, при нечётном сохраняется минус. В записи −a² минус стоит перед результатом возведения a в квадрат.</dd>
+<dt>Умножение и деление степеней</dt><dd>У степеней с одинаковым основанием при умножении сложи показатели, при делении вычти показатель делителя из показателя делимого. Делить можно при ненулевом основании. При возведении степени в степень показатели перемножают.</dd>
+<dt>Нулевой и отрицательный показатели</dt><dd>Для ненулевого основания степень с показателем 0 равна 1. Отрицательный показатель даёт число, обратное степени с таким же по модулю положительным показателем.</dd>
+</dl>
+<div class="example"><h3>Пример 1. Знак степени</h3><p>Вычислим (−4)² − 4². Первая степень равна 16, вторая тоже равна 16. Получаем 0. В записи −4² значение равно −16.</p></div>
+<div class="example"><h3>Пример 2. Деление степеней</h3><p>Вычислим 2³ : 2⁵ = 2⁻² = <span class="frac"><span>1</span><span>2²</span></span> = <span class="frac"><span>1</span><span>4</span></span> = 0,25.</p></div>
+</section>
+<section class="card" id="order">
+<h2>5. Порядок действий и знаки</h2>
+<h3>Что нужно знать</h3>
+<ul class="knowledge"><li>Порядок действий</li><li>Сложение и вычитание чисел с разными знаками</li><li>Знаки при умножении и делении</li></ul>
+<h3>Теория</h3>
+<dl class="rules">
+<dt>Порядок действий</dt><dd>Начни с самых внутренних скобок. Затем вычисли степени, затем умножение и деление слева направо, затем сложение и вычитание слева направо. В дробном выражении отдельно вычисли числитель и отдельно знаменатель, после чего выполни деление.</dd>
+<dt>Сложение и вычитание чисел с разными знаками</dt><dd>При сложении чисел с одинаковыми знаками сложи модули и сохрани общий знак. При противоположных знаках из большего модуля вычти меньший и поставь знак числа с большим модулем. Если модули равны, сумма равна нулю. При вычитании прибавь число, противоположное вычитаемому.</dd>
+<dt>Знаки при умножении и делении</dt><dd>При одинаковых знаках двух ненулевых чисел результат положительный, при разных отрицательный. Произведение с нулём равно нулю. Ноль, делённый на ненулевое число, равен нулю. Деление на ноль не определено.</dd>
+</dl>
+<div class="example"><h3>Пример 1. Скобки и дробь</h3><p>Вычислим 5 − 6 · (1 − <span class="frac"><span>5</span><span>4</span></span>). В скобках <span class="frac"><span>4</span><span>4</span></span> − <span class="frac"><span>5</span><span>4</span></span> = −<span class="frac"><span>1</span><span>4</span></span>. Произведение 6 · (−<span class="frac"><span>1</span><span>4</span></span>) равно −1,5. Тогда 5 − (−1,5) = 6,5.</p></div>
+<div class="example"><h3>Пример 2. Деление и умножение</h3><p>Вычислим 24 : 6 · 2. Слева направо получаем сначала 4, затем 8. В записи 24 : (6 · 2) сначала считаем скобки и получаем 2.</p></div>
+</section>
+</main>
+</body>
+</html>
