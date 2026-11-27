@@ -152,3 +152,9 @@ progress::-moz-progress-bar { background: var(--gold); border-radius: 8px; }
 .rubric { padding: 10px 12px; margin: 8px 0; border: 1px solid var(--line); border-radius: 9px; }
 .rubric blockquote { white-space: pre-wrap; overflow-wrap: anywhere; }
 #manual-copy { display: block; margin: 10px 0; width: 100%; min-height: 7em; }
+
+#theory-links { margin-top: 8px; font-size: .94rem; }
+#theory-links summary { cursor: pointer; color: var(--gold); }
+#theory-links ul { margin: 5px 0 0; padding-inline-start: 18px; }
+.task-schematic { margin: 0; }
+.task-schematic figcaption { margin: 4px 0 0; text-align: center; color: var(--sand); font-size: .78rem; }
