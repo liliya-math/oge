@@ -1,6 +1,26 @@
 {
   "items": [
     {
+      "file": "teoriya-oge-17-chetyryokhugolniki.html",
+      "title": "ОГЭ № 17 · Четырёхугольники · теория",
+      "type": "uchebnik",
+      "class": 9,
+      "oge_task": 17,
+      "status": "public",
+      "note": "Пять разделов с чертежами и разобранными примерами.",
+      "auto": false
+    },
+    {
+      "file": "teoriya-oge-06-vychisleniya.html",
+      "title": "ОГЭ № 6 · Числа и вычисления · теория",
+      "type": "uchebnik",
+      "class": 9,
+      "oge_task": 6,
+      "status": "public",
+      "note": "Пять типов вычислений. Списки знаний, правила и разборы.",
+      "auto": false
+    },
+    {
       "file": "vhodnye-testy-oge.html",
       "title": "ОГЭ по математике · входные тесты по номерам 1–25",
       "type": "diagnostika",
@@ -17,7 +37,7 @@
       "class": 9,
       "oge_task": 18,
       "status": "public",
-      "note": "13 разделов с чертежами, разобранными примерами и памяткой.",
+      "note": "14 разделов с чертежами, разобранными примерами и памяткой.",
       "auto": false
     },
     {
@@ -27,7 +47,7 @@
       "class": 9,
       "oge_task": 18,
       "status": "public",
-      "note": "48 заданий с чертежами и отчётом по отдельным умениям.",
+      "note": "50 заданий с чертежами и отчётом по отдельным умениям.",
       "auto": false
     },
     {
