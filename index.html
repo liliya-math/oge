@@ -55,10 +55,23 @@
 .new-year .nav {
   border-bottom-color: #c89b6088;
 }
+.new-year .home-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 56px);
+}
+.new-year .home-intro .hero { grid-area: 1 / 1; }
 .new-year .brandband.top {
-  max-width: 910px;
+  grid-area: 1 / 2;
+  margin: 24px 0;
   outline: 1px solid #e2b04a88;
   box-shadow: 0 16px 55px #08130e99, 0 0 28px #e2b04a22;
+}
+@media (max-width: 760px) {
+  .new-year .home-intro { display: block; }
+  .new-year .brandband.top { max-width: min(100%, 220px); margin: 24px auto 0; }
+  .new-year .home-intro .hero { padding-top: 24px; }
 }
 .new-year .hero .highlight { color: #f0c374; }
 
@@ -66,7 +79,7 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="manifest" href="/manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="lili.math"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-<script src="/assets/new-year-decoration.js?v=20261126-white-snow" defer></script>
+<script src="/assets/new-year-decoration.js?v=20261127-kapi" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">К содержанию</a>
@@ -79,7 +92,8 @@
 </nav>
 </header>
 <main id="main">
-<figure class="brandband top"><picture><source id="new-year-mascots" media="not all" srcset="img/brand/brand-li-ma-new-year.webp" width="1440" height="804"><img src="img/brand/brand-li-ma.jpg" width="1376" height="768" fetchpriority="high" alt="Герои lili.math в лесу"></picture></figure>
+<div class="home-intro">
+<figure class="brandband top"><picture><source id="new-year-mascots" media="not all" srcset="img/brand/kapi-new-year.webp" width="850" height="850" data-alt="Капи в синей ушанке держит чашку"><img src="img/brand/brand-li-ma.jpg" width="1376" height="768" fetchpriority="high" alt="Герои lili.math в лесу"></picture></figure>
 <section class="hero" aria-labelledby="hero-title">
 <div>
 <p class="eyebrow">Математика онлайн · 5–9 классы</p>
@@ -90,6 +104,7 @@
 <p class="hero-note">Диагностика и первое пробное занятие - бесплатно</p>
 </div>
 </section>
+</div>
 <div class="strip"><div><b>5–9 классы</b>школьная программа и ОГЭ</div><div><b>Из любого города</b>онлайн, на общей доске</div></div>
 <section class="section" id="directions">
 <p class="eyebrow">С чем можно прийти</p>

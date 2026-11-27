@@ -245,7 +245,15 @@
   function setTheme(active) {
     document.documentElement.classList.toggle('new-year', active);
     const winterImage = document.getElementById('new-year-mascots');
-    if (winterImage) winterImage.media = active ? 'all' : 'not all';
+    if (winterImage) {
+      winterImage.media = active ? 'all' : 'not all';
+      const fallbackImage = winterImage.parentElement.querySelector('img');
+      if (fallbackImage && winterImage.dataset.alt) {
+        const defaultAlt = fallbackImage.dataset.defaultAlt ?? fallbackImage.alt;
+        fallbackImage.dataset.defaultAlt = defaultAlt;
+        fallbackImage.alt = active ? winterImage.dataset.alt : defaultAlt;
+      }
+    }
 
     if (active && !decoration) {
       const stylesheet = document.createElement('link');
