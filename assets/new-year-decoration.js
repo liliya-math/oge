@@ -1,8 +1,8 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css?v=20261126-white-snow', document.currentScript.src);
-  const musicUrl = new URL('new-year-music.mp3?v=20261126-35', document.currentScript.src);
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261127-playlist', document.currentScript.src);
+  const assetBase = document.currentScript.src;
   // Note attacks measured from this recording, in hundredths of a second.
   const noteAttacks = [
     116, 169, 230, 283, 343, 397, 510, 625, 850, 1095, 1175, 1229, 1283, 1338, 1391,
@@ -18,6 +18,13 @@
     10099, 10183, 10267, 10322, 10406, 10488, 10545, 10601, 10656, 10712, 10768, 10932,
     10988, 11045, 11154, 11211, 11267, 11378, 11435, 11489, 11546, 11600, 11656, 11710,
   ];
+  const tracks = {
+    tchaikovsky: {title: 'Танец феи Драже', file: 'new-year-music.mp3?v=20261126-35', attacks: noteAttacks},
+    waltz: {title: 'Зимний вальс', file: 'new-year-winter-waltz.mp3', attacks: [0, 65, 130, 196, 261, 326, 391, 457, 522, 587, 652, 717, 783, 848, 913, 978, 1043, 1109, 1174, 1239, 1304, 1370, 1435, 1500, 1565, 1630, 1696, 1761, 1826, 1891, 1957, 2022, 2087, 2152, 2217, 2283, 2348, 2413, 2478, 2543, 2609, 2674, 2739, 2804, 2870, 2935]},
+    bells: {title: 'Снежные колокольчики', file: 'new-year-snow-bells.mp3', attacks: [0, 54, 107, 161, 214, 268, 321, 375, 429, 482, 536, 589, 643, 696, 750, 804, 857, 911, 964, 1018, 1071, 1125, 1179, 1232, 1286, 1339, 1393, 1446, 1500, 1554, 1607, 1661, 1714, 1768, 1821, 1875, 1929, 1982, 2036, 2089, 2143, 2196, 2250, 2304, 2357, 2411, 2464, 2518, 2571, 2625, 2679, 2732, 2786, 2839, 2893, 2946, 3000, 3054, 3107, 3161, 3214]},
+  };
+  const trackPreference = 'lilimath-holiday-track';
+  let currentTrack = tracks.tchaikovsky;
   const musicPreference = 'lilimath-holiday-music';
   const controls = 'button, input, textarea, select, summary, [role="button"], [contenteditable]';
   const diagrams = 'svg:not(.new-year-snow-mask), math, mjx-container, canvas:not(#fx), iframe, video';
@@ -58,13 +65,14 @@
     // Use the audio clock so pauses, seeking and replay stay in sync.
     const now = music.currentTime * 100;
     let low = 0;
-    let high = noteAttacks.length;
+    const attacks = currentTrack.attacks;
+    let high = attacks.length;
     while (low < high) {
       const middle = (low + high) >>> 1;
-      if (noteAttacks[middle] <= now) low = middle + 1;
+      if (attacks[middle] <= now) low = middle + 1;
       else high = middle;
     }
-    const elapsed = (now - (noteAttacks[low - 1] ?? -Infinity)) / 100;
+    const elapsed = (now - (attacks[low - 1] ?? -Infinity)) / 100;
     const rise = Math.min(1, elapsed / .035);
     const fade = Math.max(0, 1 - Math.max(0, elapsed - .105) / .25);
     garland.style.setProperty('--garland-flash', (rise * fade).toFixed(3));
@@ -74,7 +82,16 @@
   function addMusicControl() {
     music = document.createElement('audio');
     music.id = 'new-year-music';
-    music.src = musicUrl.href;
+    const select = document.createElement('select');
+    select.className = 'new-year-track';
+    select.setAttribute('aria-label', 'Новогодняя мелодия');
+    for (const [id, track] of Object.entries(tracks)) select.add(new Option(track.title, id));
+    try {
+      const saved = sessionStorage.getItem(trackPreference);
+      if (Object.hasOwn(tracks, saved)) select.value = saved;
+    } catch {}
+    currentTrack = tracks[select.value];
+    music.src = new URL(currentTrack.file, assetBase).href;
     music.preload = 'none';
     music.loop = true;
     music.volume = .6;
@@ -95,6 +112,15 @@
       if (enable) playMusic();
       else music.pause();
     });
+    select.addEventListener('change', () => {
+      const resume = !music.paused;
+      music.pause();
+      setMusicPlaying(false);
+      currentTrack = tracks[select.value];
+      music.src = new URL(currentTrack.file, assetBase).href;
+      try { sessionStorage.setItem(trackPreference, select.value); } catch {}
+      if (resume) playMusic();
+    });
     const credit = document.createElement('details');
     credit.className = 'new-year-music-credit';
     const creditLabel = document.createElement('summary');
@@ -111,12 +137,12 @@
       link.rel = 'noopener noreferrer';
     }
     creditText.append('П. И. Чайковский, «Танец феи Драже». Аранжировка и запись: ',
-      source, '. Лицензия ', license, '. Запись перекодирована в MP3 для сайта.');
+      source, '. Лицензия ', license, '. «Зимний вальс» и «Снежные колокольчики» — оригинальные инструментальные мелодии для сайта.');
     credit.append(creditLabel, creditText);
     musicControls = document.createElement('div');
     musicControls.className = 'new-year-music-controls';
     musicControls.hidden = true;
-    musicControls.append(musicButton, credit);
+    musicControls.append(musicButton, select, credit);
     document.body.append(music, musicControls);
   }
 

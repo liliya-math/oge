@@ -27,9 +27,12 @@ html.new-year body { isolation: isolate; }
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-wrap: wrap;
+  max-width: calc(100vw - 24px);
 }
 
 .new-year-music-toggle,
+.new-year-track,
 .new-year-music-credit summary {
   display: inline-flex;
   align-items: center;
@@ -178,4 +181,24 @@ html.new-year body { isolation: isolate; }
   .new-year-garland,
   .new-year-snowflakes,
   .new-year-music-controls { display: none !important; }
+}
+
+.new-year-track { max-width: min(100%, 170px); }
+.new-year-track:focus-visible { outline: 2px solid #f2cb73; outline-offset: 3px; }
+html.new-year .holiday-learning-page > :is(main, .wrap) { padding-bottom: 112px; }
+html.new-year .holiday-learning-page > :is(main, .wrap) > :is(header, .top)::before {
+  content: "";
+  display: block;
+  width: min(100%, 420px);
+  height: clamp(42px, 10vw, 78px);
+  margin: 0 auto 10px;
+  flex: 0 0 100%;
+  max-width: 420px;
+  background: url('../img/brand/new-year-paper-garland.webp') center / contain no-repeat;
+  pointer-events: none;
+}
+html.new-year .holiday-learning-page > .wrap > .top { flex-wrap: wrap; }
+@media print {
+  html.new-year .holiday-learning-page > :is(main, .wrap) > :is(header, .top)::before { display: none; }
+  html.new-year .holiday-learning-page > :is(main, .wrap) { padding-bottom: 0; }
 }
