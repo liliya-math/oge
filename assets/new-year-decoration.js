@@ -1,7 +1,7 @@
 (() => {
   // Новогодний сезон 2026–2027, время Самары (UTC+4).
   const endsAt = Date.parse('2027-01-11T00:00:00+04:00');
-  const stylesheetUrl = new URL('new-year-decoration.css?v=20261127-playlist', document.currentScript.src);
+  const stylesheetUrl = new URL('new-year-decoration.css?v=20261127-no-header-garland', document.currentScript.src);
   const assetBase = document.currentScript.src;
   // Note attacks measured from this recording, in hundredths of a second.
   const noteAttacks = [
