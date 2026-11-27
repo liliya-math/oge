@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ОГЭ №16 · Окружность и круг · lili.math</title>
+<style>
+:root{color-scheme:dark;--green:#16231a;--card:#26382b;--cream:#eee0c8;--sand:#c9ab82;--gold:#e2b04a;--orange:#f4ad79}
+*{box-sizing:border-box}body{margin:0;background:var(--green);color:var(--cream);font:17px/1.62 Inter,system-ui,sans-serif}
+main{max-width:940px;margin:auto;padding:24px clamp(14px,4vw,40px) 48px}header{padding:26px 0 12px}
+h1{font-size:clamp(2.2rem,7vw,4rem);line-height:1.05;margin:.25em 0}h2,h3{line-height:1.25}
+h2{margin-top:0;color:var(--gold)}h3{margin:1.2em 0 .3em}p{margin:.5em 0}.brand{color:var(--gold);font-weight:800;letter-spacing:.05em}
+.card{background:var(--card);border:1px solid #6a785a;border-left:4px solid var(--sand);padding:clamp(16px,4vw,30px);border-radius:18px;margin:16px 0}
+.card:nth-child(3n){border-left-color:#dd7a3a}.example{padding:14px 20px;background:#19291d;border-radius:12px;margin:14px 0}
+.example h3{margin:0}dt{color:var(--orange);font-weight:750;margin-top:.65em}dd{margin:0;max-width:68ch}
+a{color:var(--gold);text-underline-offset:.18em}button,input,select{font:inherit;color:inherit;background:#17271c;border:1px solid var(--sand);border-radius:8px;padding:.5rem .8rem}
+button{cursor:pointer}button:hover{border-color:var(--gold)}button.primary{color:var(--green);background:var(--gold);font-weight:750}button[aria-pressed=true]{background:var(--gold);color:var(--green)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.toc{columns:2;gap:28px;padding-left:1.5em}.toc li{break-inside:avoid;margin-bottom:.38em}
+.math{font-weight:800;font-size:1.28em;color:var(--orange)}.frac{display:inline-grid;vertical-align:middle;line-height:1.2;text-align:center;padding:0 .18em}.frac span{padding:0 .22em}.frac span:first-child{border-bottom:1px solid}
+.sheet{padding:18px;background-color:#19291d;background-image:linear-gradient(#324536 1px,transparent 1px),linear-gradient(90deg,#324536 1px,transparent 1px);background-size:20px 20px;border-radius:10px;margin:12px 0}
+form label{display:block;margin-bottom:.35em}input{width:14ch}select{max-width:100%}.status{min-height:1.7em}.question{margin:0 0 12px}.muted{color:#ddc7a5}
+[hidden]{display:none!important}@media(max-width:600px){.toc{columns:1}.card{border-radius:12px}}
+.question{font-size:1.12em;color:var(--cream);overflow-wrap:anywhere}.question p{margin:.5rem 0}.answer{color:var(--orange);font-weight:750}.drawing{display:block;width:min(100%,440px);height:auto;margin:1rem auto;background:#eee0c8;border-radius:8px}.table-scroll{overflow:auto}table{border-collapse:collapse;background:#19291d;margin:.7rem 0}caption{text-align:left;font-weight:700}th,td{padding:.45em .7em;text-align:center;border:1px solid #74816a}input{max-width:100%}button:disabled{opacity:.62;cursor:default}.toc a{display:inline-block}.math-token{display:inline-block;color:var(--orange);font-weight:750}
+</style>
+</head>
+<body><main>
+<header><div class="brand">lili.math</div><p>ОГЭ по математике · №16</p>
+<h1>Окружность и круг</h1><p>За экзаменационное задание предусмотрен 1 балл.</p></header>
+<nav class="row" aria-label="Разделы">
+<button type="button" data-view="theory" aria-pressed="true">Теория</button>
+<button type="button" data-view="practice" aria-pressed="false">Тренажёр</button>
+<button type="button" data-view="diagnostic" aria-pressed="false">Входной тест</button>
+</nav>
+<div id="theory" class="view"><nav class="card" aria-label="Оглавление теории">
+<h2>Типы заданий</h2><ol class="toc"><li><a href="#t0">Центральные и вписанные углы</a></li><li><a href="#t1">Хорда и расстояние до центра</a></li><li><a href="#t2">Касательная и радиус</a></li><li><a href="#t3">Вписанный четырёхугольник</a></li><li><a href="#t4">Вписанные и описанные квадраты. Длина и площадь</a></li></ol></nav><section class="card" id="t0">
+<h2>Центральные и вписанные углы</h2><h3>Теория</h3><p>Центральный угол равен градусной мере меньшей дуги, которую он стягивает, если сам угол меньше 180°. Вписанный угол равен половине дуги между его сторонами, которая не содержит вершину угла.</p>
+<div class="example"><h3>Разбор примера</h3><div>Дуга AB, не содержащая C, равна 100°. Найди угол ACB.<svg class="drawing" viewBox="0 0 320 170" role="img" aria-label="Вписанный угол ACB опирается на дугу AB"><g fill="none" stroke="#294432" stroke-width="2.5" stroke-linejoin="round"><circle cx="160" cy="85" r="62"/><path d="M160 23L112 124M160 23L208 124 M112 124A62 62 0 0 0 208 124" stroke="#ae5124" stroke-width="3"/><text x="154" y="20" fill="#16231a" stroke="none" font-size="15" font-weight="700">C</text><text x="92" y="139" fill="#16231a" stroke="none" font-size="15" font-weight="700">A</text><text x="217" y="139" fill="#16231a" stroke="none" font-size="15" font-weight="700">B</text></g></svg></div>
+<p>Вписанный угол ACB опирается на эту дугу, поэтому равен 100° ÷ 2.</p><p class="answer">Ответ: 50</p></div>
+<button type="button" data-topic="0">Тренироваться</button></section><section class="card" id="t1">
+<h2>Хорда и расстояние до центра</h2><h3>Теория</h3><p>Перпендикуляр из центра к хорде делит хорду пополам. Радиус, половина хорды и этот перпендикуляр образуют прямоугольный треугольник.</p>
+<div class="example"><h3>Разбор примера</h3><div>Радиус 10, расстояние до хорды 6. Найди длину хорды.<svg class="drawing" viewBox="0 0 320 170" role="img" aria-label="Перпендикуляр OH к хорде AB и радиус OA"><g fill="none" stroke="#294432" stroke-width="2.5" stroke-linejoin="round"><circle cx="160" cy="80" r="64"/><path d="M108.8 118.4H211.2 M160 80V118.4 M160 80L108.8 118.4 M160 110h8v8" stroke="#ae5124" stroke-width="3"/><text x="165" y="76" fill="#16231a" stroke="none" font-size="15" font-weight="700">O</text><text x="148" y="138" fill="#16231a" stroke="none" font-size="15" font-weight="700">H</text><text x="88" y="125" fill="#16231a" stroke="none" font-size="15" font-weight="700">A</text><text x="219" y="125" fill="#16231a" stroke="none" font-size="15" font-weight="700">B</text></g></svg></div>
+<p>Половина хорды √(100 − 36) = 8, поэтому хорда равна 16.</p><p class="answer">Ответ: 16</p></div>
+<button type="button" data-topic="1">Тренироваться</button></section><section class="card" id="t2">
+<h2>Касательная и радиус</h2><h3>Теория</h3><p>Радиус к точке касания перпендикулярен касательной. Две касательные из одной точки имеют равные отрезки от этой точки до точек касания.</p>
+<div class="example"><h3>Разбор примера</h3><div>Из P проведена касательная PT. OP = 13, OT = 5. Найди PT.<svg class="drawing" viewBox="0 0 320 170" role="img" aria-label="Касательная PT перпендикулярна радиусу OT"><g fill="none" stroke="#294432" stroke-width="2.5" stroke-linejoin="round"><circle cx="115" cy="96" r="50"/><path d="M115 46H266 M115 46V96L266 46 M115 57h11v-11" stroke="#ae5124" stroke-width="3"/><text x="98" y="103" fill="#16231a" stroke="none" font-size="15" font-weight="700">O</text><text x="110" y="39" fill="#16231a" stroke="none" font-size="15" font-weight="700">T</text><text x="269" y="47" fill="#16231a" stroke="none" font-size="15" font-weight="700">P</text></g></svg></div>
+<p>OT ⟂ PT. Значит, PT = √(169 − 25) = 12.</p><p class="answer">Ответ: 12</p></div>
+<button type="button" data-topic="2">Тренироваться</button></section><section class="card" id="t3">
+<h2>Вписанный четырёхугольник</h2><h3>Теория</h3><p>Сумма противоположных углов вписанного четырёхугольника равна 180°. Эти углы опираются на дуги, которые вместе составляют 360°.</p>
+<div class="example"><h3>Разбор примера</h3><div>Вписанный ABCD имеет угол A 74°. Найди угол C.<svg class="drawing" viewBox="0 0 320 170" role="img" aria-label="Четырёхугольник ABCD вписан в окружность"><g fill="none" stroke="#294432" stroke-width="2.5" stroke-linejoin="round"><circle cx="160" cy="85" r="62"/><path d="M122.8 35.4L209.6 47.8L197.2 134.6L110.4 122.2Z" stroke="#ae5124" stroke-width="3"/><text x="108" y="32" fill="#16231a" stroke="none" font-size="15" font-weight="700">A</text><text x="216" y="47" fill="#16231a" stroke="none" font-size="15" font-weight="700">B</text><text x="203" y="147" fill="#16231a" stroke="none" font-size="15" font-weight="700">C</text><text x="91" y="130" fill="#16231a" stroke="none" font-size="15" font-weight="700">D</text></g></svg></div>
+<p>A + C = 180°. C = 180° − 74° = 106°.</p><p class="answer">Ответ: 106</p></div>
+<button type="button" data-topic="3">Тренироваться</button></section><section class="card" id="t4">
+<h2>Вписанные и описанные квадраты. Длина и площадь</h2><h3>Теория</h3><p>У квадрата, описанного около окружности, сторона равна диаметру. У квадрата, вписанного в окружность, диаметру равна диагональ. Длина окружности C = 2πr, площадь круга S = πr².</p>
+<div class="example"><h3>Разбор примера</h3><div>Радиус окружности 5. Найди площадь квадрата, описанного около неё.<svg class="drawing" viewBox="0 0 320 170" role="img" aria-label="Квадрат описан около окружности"><g fill="none" stroke="#294432" stroke-width="2.5" stroke-linejoin="round"><path d="M100 25H220V145H100Z"/><circle cx="160" cy="85" r="60"/><path d="M160 85H220" stroke="#ae5124" stroke-width="3"/><text x="166" y="77" fill="#16231a" stroke="none" font-size="15" font-weight="700">r</text></g></svg></div>
+<p>Сторона равна 2 · 5 = 10, площадь 10² = 100.</p><p class="answer">Ответ: 100</p></div>
+<button type="button" data-topic="4">Тренироваться</button></section></div>
+<section id="practice" class="view card" hidden><h2>Тренажёр</h2>
+<label for="topic">Тип задания</label> <select id="topic"></select><p id="practice-count" class="muted"></p>
+<form id="practice-form"><div class="sheet"><div id="practice-question" class="question"></div>
+<label for="practice-answer">Ответ</label><input id="practice-answer" autocomplete="off" maxlength="38"></div>
+<div class="row"><button id="check" class="primary">Проверить</button>
+<button type="button" id="hint">Подсказка</button><button type="button" id="next-practice" hidden>Следующее</button>
+<button type="button" id="repeat" hidden>Повторить ошибки</button><button type="button" id="restart-practice">Начать заново</button></div></form>
+<div id="practice-status" class="status" role="status"></div></section>
+<section id="diagnostic" class="view card" hidden><h2>Входной тест</h2>
+<p>10 заданий. После завершения появится результат по каждому навыку.</p>
+<p>Числовой ответ можно ввести целым числом, десятичной дробью или в виде 1/2. Если требуется последовательность цифр, запиши её без разделителей.</p>
+<div id="test-screen"><p id="test-count" class="muted"></p>
+<form id="test-form"><div class="sheet"><div id="test-question" class="question"></div>
+<label for="test-answer">Ответ</label><input id="test-answer" autocomplete="off" maxlength="38"></div>
+<div class="row"><button type="button" id="back">Назад</button><button class="primary" id="next-test">Дальше</button></div></form>
+<p id="test-status" class="status" role="status"></p></div>
+<div id="test-results" hidden><h3 id="score" tabindex="-1"></h3><ul id="skills"></ul>
+<button type="button" id="reset">Начать заново</button></div></section>
+<footer><a href="https://fipi.ru/oge/demoversii-specifikacii-kodifikatory">Демоверсия и спецификация ФИПИ</a></footer>
+</main>
+<script id="content" type="application/json">{"topics": [{"title": "Центральные и вписанные углы", "theory": "Центральный угол равен градусной мере меньшей дуги, которую он стягивает, если сам угол меньше 180°. Вписанный угол равен половине дуги между его сторонами, которая не содержит вершину угла.", "hint": "Найди нужную дугу и проверь, где вершина угла.", "example": {"prompt": "Дуга AB, не содержащая C, равна 100°. Найди угол ACB.<svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"Вписанный угол ACB опирается на дугу AB\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><circle cx=\"160\" cy=\"85\" r=\"62\"/><path d=\"M160 23L112 124M160 23L208 124 M112 124A62 62 0 0 0 208 124\" stroke=\"#ae5124\" stroke-width=\"3\"/><text x=\"154\" y=\"20\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">C<\/text><text x=\"92\" y=\"139\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">A<\/text><text x=\"217\" y=\"139\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">B<\/text><\/g><\/svg>", "key": "50", "solution": "Вписанный угол ACB опирается на эту дугу, поэтому равен 100° ÷ 2."}, "practice": [{"prompt": "Центральный угол AOB равен 84°. Точка C лежит на большей дуге AB. Найди ACB.", "key": "42", "solution": "Меньшая дуга AB равна 84°. Вписанный угол равен 42°."}, {"prompt": "ACB равен 36°. Найди меру дуги AB, не содержащей C.", "key": "72", "solution": "Дуга вдвое больше вписанного угла."}], "test": [{"prompt": "Меньшая дуга AB равна 130°. C лежит на меньшей дуге. Найди ACB.", "key": "115", "solution": "Угол опирается на большую дугу 360° − 130° = 230°, её половина 115°."}, {"prompt": "AB диаметр, C лежит на окружности. Найди ACB.", "key": "90", "solution": "Дуга AB, не содержащая C, равна 180°."}]}, {"title": "Хорда и расстояние до центра", "theory": "Перпендикуляр из центра к хорде делит хорду пополам. Радиус, половина хорды и этот перпендикуляр образуют прямоугольный треугольник.", "hint": "Отметь половину хорды и примени теорему Пифагора.", "example": {"prompt": "Радиус 10, расстояние до хорды 6. Найди длину хорды.<svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"Перпендикуляр OH к хорде AB и радиус OA\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><circle cx=\"160\" cy=\"80\" r=\"64\"/><path d=\"M108.8 118.4H211.2 M160 80V118.4 M160 80L108.8 118.4 M160 110h8v8\" stroke=\"#ae5124\" stroke-width=\"3\"/><text x=\"165\" y=\"76\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">O<\/text><text x=\"148\" y=\"138\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">H<\/text><text x=\"88\" y=\"125\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">A<\/text><text x=\"219\" y=\"125\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">B<\/text><\/g><\/svg>", "key": "16", "solution": "Половина хорды √(100 − 36) = 8, поэтому хорда равна 16."}, "practice": [{"prompt": "Хорда равна 24, радиус 13. Найди расстояние до хорды.", "key": "5", "solution": "Половина хорды 12. Искомое расстояние √(169 − 144) = 5."}, {"prompt": "Расстояние от центра до хорды 8, хорда 12. Найди радиус.", "key": "10", "solution": "Радиус √(8² + 6²) = 10."}], "test": [{"prompt": "Радиус 17, расстояние до хорды 8. Найди хорду.", "key": "30", "solution": "Половина хорды √(289 − 64) = 15. Хорда равна 30."}, {"prompt": "Хорда 16, расстояние до неё 15. Найди радиус.", "key": "17", "solution": "Половина хорды равна 8. √(225 + 64) = 17."}]}, {"title": "Касательная и радиус", "theory": "Радиус к точке касания перпендикулярен касательной. Две касательные из одной точки имеют равные отрезки от этой точки до точек касания.", "hint": "Отметь прямой угол у точки касания.", "example": {"prompt": "Из P проведена касательная PT. OP = 13, OT = 5. Найди PT.<svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"Касательная PT перпендикулярна радиусу OT\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><circle cx=\"115\" cy=\"96\" r=\"50\"/><path d=\"M115 46H266 M115 46V96L266 46 M115 57h11v-11\" stroke=\"#ae5124\" stroke-width=\"3\"/><text x=\"98\" y=\"103\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">O<\/text><text x=\"110\" y=\"39\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">T<\/text><text x=\"269\" y=\"47\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">P<\/text><\/g><\/svg>", "key": "12", "solution": "OT ⟂ PT. Значит, PT = √(169 − 25) = 12."}, "practice": [{"prompt": "Из P проведены касательные PA и PB. PA = 8. Найди PB.", "key": "8", "solution": "Отрезки касательных из одной точки равны."}, {"prompt": "PT касательная, OT = 9 и PT = 12. Найди OP.", "key": "15", "solution": "OP гипотенуза. √(81 + 144) = 15."}], "test": [{"prompt": "PT касательная, OP = 25 и PT = 24. Найди радиус OT.", "key": "7", "solution": "OT = √(625 − 576) = 7."}, {"prompt": "PA и PB касательные, их длины в сумме дают 26. Найди PA.", "key": "13", "solution": "Обе длины равны, поэтому 26 ÷ 2 = 13."}]}, {"title": "Вписанный четырёхугольник", "theory": "Сумма противоположных углов вписанного четырёхугольника равна 180°. Эти углы опираются на дуги, которые вместе составляют 360°.", "hint": "Найди противоположный угол по порядку вершин.", "example": {"prompt": "Вписанный ABCD имеет угол A 74°. Найди угол C.<svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"Четырёхугольник ABCD вписан в окружность\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><circle cx=\"160\" cy=\"85\" r=\"62\"/><path d=\"M122.8 35.4L209.6 47.8L197.2 134.6L110.4 122.2Z\" stroke=\"#ae5124\" stroke-width=\"3\"/><text x=\"108\" y=\"32\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">A<\/text><text x=\"216\" y=\"47\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">B<\/text><text x=\"203\" y=\"147\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">C<\/text><text x=\"91\" y=\"130\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">D<\/text><\/g><\/svg>", "key": "106", "solution": "A + C = 180°. C = 180° − 74° = 106°."}, "practice": [{"prompt": "Во вписанном ABCD угол D равен 112°. Найди B.", "key": "68", "solution": "B и D противоположны. 180° − 112° = 68°."}, {"prompt": "Во вписанном ABCD угол A на 20° больше C. Найди C.", "key": "80", "solution": "C + (C + 20°) = 180°. 2C = 160°."}], "test": [{"prompt": "Во вписанном ABCD B = 55°. Найди D.", "key": "125", "solution": "180° − 55° = 125°."}, {"prompt": "Во вписанном ABCD угол A вдвое больше угла C. Найди A.", "key": "120", "solution": "Три равные доли дают 180°, значит, C = 60°, A = 120°."}]}, {"title": "Вписанные и описанные квадраты. Длина и площадь", "theory": "У квадрата, описанного около окружности, сторона равна диаметру. У квадрата, вписанного в окружность, диаметру равна диагональ. Длина окружности C = 2πr, площадь круга S = πr².", "hint": "Уточни, где окружность относительно квадрата и какой отрезок равен диаметру.", "example": {"prompt": "Радиус окружности 5. Найди площадь квадрата, описанного около неё.<svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"Квадрат описан около окружности\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><path d=\"M100 25H220V145H100Z\"/><circle cx=\"160\" cy=\"85\" r=\"60\"/><path d=\"M160 85H220\" stroke=\"#ae5124\" stroke-width=\"3\"/><text x=\"166\" y=\"77\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">r<\/text><\/g><\/svg>", "key": "100", "solution": "Сторона равна 2 · 5 = 10, площадь 10² = 100."}, "practice": [{"prompt": "Сторона описанного квадрата 14. Найди радиус окружности.", "key": "7", "solution": "Сторона равна диаметру, радиус 14 ÷ 2."}, {"prompt": "Диагональ квадрата, вписанного в окружность, равна 18. Найди радиус.", "key": "9", "solution": "Диагональ проходит через центр и равна диаметру."}], "test": [{"prompt": "Радиус круга 6. Найди площадь, делённую на π.", "key": "36", "solution": "S ÷ π = r² = 36."}, {"prompt": "Длина окружности равна 18π. Найди радиус.", "key": "9", "solution": "2πr = 18π. Отсюда r = 9."}]}], "testOrder": null}</script>
+<script>'use strict';
+const get = id => document.getElementById(id);
+const {topics, testOrder} = JSON.parse(get('content').textContent);
+const select = get('topic');
+topics.forEach((topic, index) => select.add(new Option(topic.title, index)));
+
+function show(view) {
+  document.querySelectorAll('.view').forEach(section => { section.hidden = section.id !== view; });
+  document.querySelectorAll('[data-view]').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.view === view));
+  });
+}
+
+function parse(raw) {
+  const text = raw.trim().replace(/−/g, '-').replace(',', '.');
+  const fraction = text.match(/^([+-]?\d+)\s*\/\s*(\d+)$/);
+  if (fraction) {
+    const denominator = BigInt(fraction[2]);
+    return denominator === 0n ? null : [BigInt(fraction[1]), denominator];
+  }
+  if (!/^[+-]?(?:\d+(?:\.\d+)?|\.\d+)$/.test(text)) return null;
+  return [BigInt(text.replace('.', '')), 10n ** BigInt(text.split('.')[1]?.length ?? 0)];
+}
+
+function valid(raw, key) {
+  return key.startsWith('#') ? /^\d+$/.test(raw.trim()) : Boolean(parse(raw));
+}
+
+function matches(raw, key) {
+  if (key.startsWith('#')) return raw.trim() === key.slice(1);
+  const value = parse(raw);
+  const expected = parse(key);
+  return Boolean(value && expected && value[0] * expected[1] === expected[0] * value[1]);
+}
+
+function formatKey(key) {
+  return key.replace(/^#/, '').replace('.', ',').replace(/^-/, '−');
+}
+
+function inputReminder(key) {
+  return key.startsWith('#') ? 'Запиши цифры подряд, без пробелов.' : 'Введи число или дробь, например 0,5 или 1/2.';
+}
+
+let queue, p, mistakes, checked;
+function practiceItem() {
+  return topics[Number(select.value)].practice[queue[p]];
+}
+
+function loadPractice() {
+  checked = false;
+  get('practice-count').textContent = (p + 1) + ' из ' + queue.length;
+  get('practice-question').innerHTML = practiceItem().prompt;
+  get('practice-answer').value = '';
+  get('practice-answer').disabled = false;
+  get('check').disabled = false;
+  get('hint').disabled = false;
+  get('next-practice').hidden = true;
+  get('repeat').hidden = true;
+  get('practice-status').textContent = '';
+}
+
+function startPractice(index, repeat = false) {
+  select.value = index;
+  queue = repeat ? [...mistakes] : topics[index].practice.map((_, i) => i);
+  mistakes = new Set();
+  p = 0;
+  loadPractice();
+}
+
+select.addEventListener('change', () => startPractice(Number(select.value)));
+document.querySelectorAll('[data-view]').forEach(button => {
+  button.addEventListener('click', () => show(button.dataset.view));
+});
+document.querySelectorAll('[data-topic]').forEach(button => {
+  button.addEventListener('click', () => {
+    startPractice(Number(button.dataset.topic));
+    show('practice');
+    select.focus();
+  });
+});
+get('hint').addEventListener('click', () => {
+  get('practice-status').innerHTML = topics[Number(select.value)].hint;
+});
+get('practice-form').addEventListener('submit', event => {
+  event.preventDefault();
+  if (checked) return;
+  const item = practiceItem();
+  const value = get('practice-answer').value;
+  if (!valid(value, item.key)) {
+    get('practice-status').textContent = inputReminder(item.key);
+    return;
+  }
+  const correct = matches(value, item.key);
+  if (!correct) mistakes.add(queue[p]);
+  checked = true;
+  get('practice-status').innerHTML = (correct ? 'Верно. ' : 'Ответ: ' + formatKey(item.key) + '. ') + item.solution;
+  get('check').disabled = true;
+  get('hint').disabled = true;
+  get('practice-answer').disabled = true;
+  get('next-practice').hidden = p + 1 === queue.length;
+  get('repeat').hidden = p + 1 < queue.length || mistakes.size === 0;
+  const action = !get('next-practice').hidden ? 'next-practice' : !get('repeat').hidden ? 'repeat' : 'restart-practice';
+  get(action).focus();
+});
+get('next-practice').addEventListener('click', () => {
+  p += 1;
+  loadPractice();
+  get('practice-answer').focus();
+});
+get('repeat').addEventListener('click', () => {
+  if (mistakes.size) startPractice(Number(select.value), true);
+  get('practice-answer').focus();
+});
+get('restart-practice').addEventListener('click', () => {
+  startPractice(Number(select.value));
+  get('practice-answer').focus();
+});
+
+const grouped = topics.map((topic, i) => topic.test.map(item => ({...item, topic: i})));
+const test = testOrder ? testOrder.flatMap(slot => grouped.map(items => items[slot])) : grouped.flat();
+let position = 0;
+let answers = [];
+
+function loadTest() {
+  get('test-count').textContent = (position + 1) + ' из ' + test.length;
+  get('test-question').innerHTML = test[position].prompt;
+  get('test-answer').value = answers[position] ?? '';
+  get('test-status').textContent = '';
+  get('back').disabled = position === 0;
+  get('next-test').textContent = position + 1 === test.length ? 'Показать результат' : 'Дальше';
+}
+
+function results() {
+  const correct = test.map((item, i) => matches(answers[i], item.key));
+  const score = correct.filter(Boolean).length;
+  get('score').textContent = 'Результат: ' + score + ' из ' + test.length;
+  get('skills').replaceChildren(...topics.map((topic, i) => {
+    const points = test.filter((item, j) => item.topic === i && correct[j]).length;
+    const li = document.createElement('li');
+    li.textContent = topic.title + ' · ' + points + ' из ' + topic.test.length;
+    return li;
+  }));
+  get('test-screen').hidden = true;
+  get('test-results').hidden = false;
+  get('score').focus();
+}
+
+get('test-form').addEventListener('submit', event => {
+  event.preventDefault();
+  const value = get('test-answer').value;
+  if (!valid(value, test[position].key)) {
+    get('test-status').textContent = inputReminder(test[position].key);
+    return;
+  }
+  answers[position] = value;
+  if (position + 1 === test.length) {
+    results();
+  } else {
+    position += 1;
+    loadTest();
+    get('test-answer').focus();
+  }
+});
+get('back').addEventListener('click', () => {
+  answers[position] = get('test-answer').value;
+  position -= 1;
+  loadTest();
+  get('test-answer').focus();
+});
+get('reset').addEventListener('click', () => {
+  position = 0;
+  answers = [];
+  get('test-screen').hidden = false;
+  get('test-results').hidden = true;
+  loadTest();
+  get('test-answer').focus();
+});
+startPractice(0);
+loadTest();
+</script>
+</body>
+</html>

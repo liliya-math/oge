@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ОГЭ №17 · Четырёхугольники · lili.math</title>
+<style>
+:root{color-scheme:dark;--green:#16231a;--card:#26382b;--cream:#eee0c8;--sand:#c9ab82;--gold:#e2b04a;--orange:#f4ad79}
+*{box-sizing:border-box}body{margin:0;background:var(--green);color:var(--cream);font:17px/1.62 Inter,system-ui,sans-serif}
+main{max-width:940px;margin:auto;padding:24px clamp(14px,4vw,40px) 48px}header{padding:26px 0 12px}
+h1{font-size:clamp(2.2rem,7vw,4rem);line-height:1.05;margin:.25em 0}h2,h3{line-height:1.25}
+h2{margin-top:0;color:var(--gold)}h3{margin:1.2em 0 .3em}p{margin:.5em 0}.brand{color:var(--gold);font-weight:800;letter-spacing:.05em}
+.card{background:var(--card);border:1px solid #6a785a;border-left:4px solid var(--sand);padding:clamp(16px,4vw,30px);border-radius:18px;margin:16px 0}
+.card:nth-child(3n){border-left-color:#dd7a3a}.example{padding:14px 20px;background:#19291d;border-radius:12px;margin:14px 0}
+.example h3{margin:0}dt{color:var(--orange);font-weight:750;margin-top:.65em}dd{margin:0;max-width:68ch}
+a{color:var(--gold);text-underline-offset:.18em}button,input,select{font:inherit;color:inherit;background:#17271c;border:1px solid var(--sand);border-radius:8px;padding:.5rem .8rem}
+button{cursor:pointer}button:hover{border-color:var(--gold)}button.primary{color:var(--green);background:var(--gold);font-weight:750}button[aria-pressed=true]{background:var(--gold);color:var(--green)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.toc{columns:2;gap:28px;padding-left:1.5em}.toc li{break-inside:avoid;margin-bottom:.38em}
+.math{font-weight:800;font-size:1.28em;color:var(--orange)}.frac{display:inline-grid;vertical-align:middle;line-height:1.2;text-align:center;padding:0 .18em}.frac span{padding:0 .22em}.frac span:first-child{border-bottom:1px solid}
+.sheet{padding:18px;background-color:#19291d;background-image:linear-gradient(#324536 1px,transparent 1px),linear-gradient(90deg,#324536 1px,transparent 1px);background-size:20px 20px;border-radius:10px;margin:12px 0}
+form label{display:block;margin-bottom:.35em}input{width:14ch}select{max-width:100%}.status{min-height:1.7em}.question{margin:0 0 12px}.muted{color:#ddc7a5}
+[hidden]{display:none!important}@media(max-width:600px){.toc{columns:1}.card{border-radius:12px}}
+.question{font-size:1.12em;color:var(--cream);overflow-wrap:anywhere}.question p{margin:.5rem 0}.answer{color:var(--orange);font-weight:750}.drawing{display:block;width:min(100%,440px);height:auto;margin:1rem auto;background:#eee0c8;border-radius:8px}.table-scroll{overflow:auto}table{border-collapse:collapse;background:#19291d;margin:.7rem 0}caption{text-align:left;font-weight:700}th,td{padding:.45em .7em;text-align:center;border:1px solid #74816a}input{max-width:100%}button:disabled{opacity:.62;cursor:default}.toc a{display:inline-block}.math-token{display:inline-block;color:var(--orange);font-weight:750}
+</style>
+</head>
+<body><main>
+<header><div class="brand">lili.math</div><p>ОГЭ по математике · №17</p>
+<h1>Четырёхугольники</h1><p>За экзаменационное задание предусмотрен 1 балл.</p></header>
+<nav class="row" aria-label="Разделы">
+<button type="button" data-view="theory" aria-pressed="true">Теория</button>
+<button type="button" data-view="practice" aria-pressed="false">Тренажёр</button>
+<button type="button" data-view="diagnostic" aria-pressed="false">Входной тест</button>
+</nav>
+<div id="theory" class="view"><nav class="card" aria-label="Оглавление теории">
+<h2>Типы заданий</h2><ol class="toc"><li><a href="#t0">Параллелограмм. Стороны и углы</a></li><li><a href="#t1">Диагонали прямоугольника и квадрата</a></li><li><a href="#t2">Ромб. Диагонали, углы и площадь</a></li><li><a href="#t3">Трапеция. Средняя линия и её части</a></li><li><a href="#t4">Трапеция. Углы, высота и площадь</a></li></ol></nav><section class="card" id="t0">
+<h2>Параллелограмм. Стороны и углы</h2><h3>Теория</h3><p>Противоположные стороны и углы параллелограмма равны. Соседние углы дают 180°, как односторонние углы при параллельных прямых.</p>
+<div class="example"><h3>Разбор примера</h3><div>В параллелограмме ABCD угол A равен 68°. Найди угол B.<svg class="drawing" viewBox="0 0 320 170" role="img" aria-label="Параллелограмм ABCD"><g fill="none" stroke="#294432" stroke-width="2.5" stroke-linejoin="round"><path d="M80 35H251L217 132H46Z"/><text x="62" y="30" fill="#16231a" stroke="none" font-size="15" font-weight="700">A</text><text x="253" y="30" fill="#16231a" stroke="none" font-size="15" font-weight="700">B</text><text x="220" y="149" fill="#16231a" stroke="none" font-size="15" font-weight="700">C</text><text x="32" y="149" fill="#16231a" stroke="none" font-size="15" font-weight="700">D</text></g></svg></div>
+<p>A и B соседние, поэтому B = 180° − 68° = 112°.</p><p class="answer">Ответ: 112</p></div>
+<button type="button" data-topic="0">Тренироваться</button></section><section class="card" id="t1">
+<h2>Диагонали прямоугольника и квадрата</h2><h3>Теория</h3><p>Диагонали прямоугольника равны и точкой пересечения делятся пополам. Диагональ вычисляют по теореме Пифагора. Для квадрата со стороной a диагональ равна a√2.</p>
+<div class="example"><h3>Разбор примера</h3><div>Стороны прямоугольника 5 и 12. Найди расстояние от точки пересечения диагоналей до вершины.<svg class="drawing" viewBox="0 0 320 170" role="img" aria-label="Диагонали прямоугольника пересекаются в O"><g fill="none" stroke="#294432" stroke-width="2.5" stroke-linejoin="round"><path d="M55 34H263V132H55Z"/><path d="M55 34L263 132M55 132L263 34" stroke="#ae5124" stroke-width="3"/><text x="158" y="75" fill="#16231a" stroke="none" font-size="15" font-weight="700">O</text></g></svg></div>
+<p>Диагональ √(25 + 144) = 13. Половина 6,5.</p><p class="answer">Ответ: 6,5</p></div>
+<button type="button" data-topic="1">Тренироваться</button></section><section class="card" id="t2">
+<h2>Ромб. Диагонали, углы и площадь</h2><h3>Теория</h3><p>Диагонали ромба перпендикулярны, делятся пополам и делят углы при вершинах пополам. Четыре прямоугольных треугольника дают площадь S = <span class="frac"><span>d₁d₂</span><span>2</span></span>.</p>
+<div class="example"><h3>Разбор примера</h3><div>Диагонали ромба равны 12 и 16. Найди сторону.<svg class="drawing" viewBox="0 0 320 170" role="img" aria-label="Диагонали ромба перпендикулярны"><g fill="none" stroke="#294432" stroke-width="2.5" stroke-linejoin="round"><path d="M160 21L265 85L160 149L55 85Z"/><path d="M160 21V149M55 85H265 M160 74h11v11" stroke="#ae5124" stroke-width="3"/></g></svg></div>
+<p>Половины диагоналей 6 и 8 являются катетами. Сторона √(36 + 64) = 10.</p><p class="answer">Ответ: 10</p></div>
+<button type="button" data-topic="2">Тренироваться</button></section><section class="card" id="t3">
+<h2>Трапеция. Средняя линия и её части</h2><h3>Теория</h3><p>Средняя линия параллельна основаниям и равна их полусумме. Диагональ делит её на отрезки, равные половинам оснований. Каждый такой отрезок является средней линией одного из треугольников с общей диагональю.</p>
+<div class="example"><h3>Разбор примера</h3><div>Основания равны 10 и 18. Найди больший из отрезков средней линии, отсечённых диагональю.<svg class="drawing" viewBox="0 0 320 170" role="img" aria-label="Диагональ AC и средняя линия трапеции"><g fill="none" stroke="#294432" stroke-width="2.5" stroke-linejoin="round"><path d="M85 40H216L270 134H31Z"/><text x="74" y="33" fill="#16231a" stroke="none" font-size="15" font-weight="700">A</text><text x="215" y="33" fill="#16231a" stroke="none" font-size="15" font-weight="700">B</text><text x="273" y="151" fill="#16231a" stroke="none" font-size="15" font-weight="700">C</text><text x="19" y="151" fill="#16231a" stroke="none" font-size="15" font-weight="700">D</text><path d="M85 40L270 134 M58 87H243" stroke="#ae5124" stroke-width="3"/></g></svg></div>
+<p>Части равны 10 ÷ 2 = 5 и 18 ÷ 2 = 9.</p><p class="answer">Ответ: 9</p></div>
+<button type="button" data-topic="3">Тренироваться</button></section><section class="card" id="t4">
+<h2>Трапеция. Углы, высота и площадь</h2><h3>Теория</h3><p>Углы при одной боковой стороне дают 180°. В равнобедренной трапеции равны углы при каждом основании. Площадь S = <span class="frac"><span>(a + b)h</span><span>2</span></span>, то есть произведение средней линии и высоты.</p>
+<div class="example"><h3>Разбор примера</h3><div>Основания равнобедренной трапеции 8 и 14, боковая сторона 5. Найди площадь.<svg class="drawing" viewBox="0 0 320 170" role="img" aria-label="Две высоты равнобедренной трапеции"><g fill="none" stroke="#294432" stroke-width="2.5" stroke-linejoin="round"><path d="M85 40H216L270 134H31Z"/><text x="74" y="33" fill="#16231a" stroke="none" font-size="15" font-weight="700">A</text><text x="215" y="33" fill="#16231a" stroke="none" font-size="15" font-weight="700">B</text><text x="273" y="151" fill="#16231a" stroke="none" font-size="15" font-weight="700">C</text><text x="19" y="151" fill="#16231a" stroke="none" font-size="15" font-weight="700">D</text><path d="M85 40V134M216 40V134 M85 124h10v10 M216 124h10v10" stroke="#ae5124" stroke-width="3"/></g></svg></div>
+<p>Половина разности оснований равна 3. Высота √(25 − 9) = 4. Площадь (8 + 14) · 4 ÷ 2 = 44.</p><p class="answer">Ответ: 44</p></div>
+<button type="button" data-topic="4">Тренироваться</button></section></div>
+<section id="practice" class="view card" hidden><h2>Тренажёр</h2>
+<label for="topic">Тип задания</label> <select id="topic"></select><p id="practice-count" class="muted"></p>
+<form id="practice-form"><div class="sheet"><div id="practice-question" class="question"></div>
+<label for="practice-answer">Ответ</label><input id="practice-answer" autocomplete="off" maxlength="38"></div>
+<div class="row"><button id="check" class="primary">Проверить</button>
+<button type="button" id="hint">Подсказка</button><button type="button" id="next-practice" hidden>Следующее</button>
+<button type="button" id="repeat" hidden>Повторить ошибки</button><button type="button" id="restart-practice">Начать заново</button></div></form>
+<div id="practice-status" class="status" role="status"></div></section>
+<section id="diagnostic" class="view card" hidden><h2>Входной тест</h2>
+<p>10 заданий. После завершения появится результат по каждому навыку.</p>
+<p>Числовой ответ можно ввести целым числом, десятичной дробью или в виде 1/2. Если требуется последовательность цифр, запиши её без разделителей.</p>
+<div id="test-screen"><p id="test-count" class="muted"></p>
+<form id="test-form"><div class="sheet"><div id="test-question" class="question"></div>
+<label for="test-answer">Ответ</label><input id="test-answer" autocomplete="off" maxlength="38"></div>
+<div class="row"><button type="button" id="back">Назад</button><button class="primary" id="next-test">Дальше</button></div></form>
+<p id="test-status" class="status" role="status"></p></div>
+<div id="test-results" hidden><h3 id="score" tabindex="-1"></h3><ul id="skills"></ul>
+<button type="button" id="reset">Начать заново</button></div></section>
+<footer><a href="https://fipi.ru/oge/demoversii-specifikacii-kodifikatory">Демоверсия и спецификация ФИПИ</a></footer>
+</main>
+<script id="content" type="application/json">{"topics": [{"title": "Параллелограмм. Стороны и углы", "theory": "Противоположные стороны и углы параллелограмма равны. Соседние углы дают 180°, как односторонние углы при параллельных прямых.", "hint": "Отметь на чертеже, соседние углы или противоположные.", "example": {"prompt": "В параллелограмме ABCD угол A равен 68°. Найди угол B.<svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"Параллелограмм ABCD\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><path d=\"M80 35H251L217 132H46Z\"/><text x=\"62\" y=\"30\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">A<\/text><text x=\"253\" y=\"30\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">B<\/text><text x=\"220\" y=\"149\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">C<\/text><text x=\"32\" y=\"149\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">D<\/text><\/g><\/svg>", "key": "112", "solution": "A и B соседние, поэтому B = 180° − 68° = 112°."}, "practice": [{"prompt": "Стороны параллелограмма равны 8 и 11. Найди периметр.", "key": "38", "solution": "Две стороны по 8 и две по 11 дают 38."}, {"prompt": "Угол C параллелограмма равен 123°. Найди угол A.", "key": "123", "solution": "A и C противоположные и равны."}], "test": [{"prompt": "Острый угол параллелограмма равен 54°. Найди тупой угол.", "key": "126", "solution": "Тупой и острый углы соседние, 180° − 54° = 126°."}, {"prompt": "Периметр параллелограмма 50, одна сторона 9. Найди соседнюю.", "key": "16", "solution": "Половина периметра равна 25. Искомая сторона 25 − 9 = 16."}]}, {"title": "Диагонали прямоугольника и квадрата", "theory": "Диагонали прямоугольника равны и точкой пересечения делятся пополам. Диагональ вычисляют по теореме Пифагора. Для квадрата со стороной a диагональ равна a√2.", "hint": "Свяжи диагональ или её половину с прямоугольным треугольником.", "example": {"prompt": "Стороны прямоугольника 5 и 12. Найди расстояние от точки пересечения диагоналей до вершины.<svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"Диагонали прямоугольника пересекаются в O\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><path d=\"M55 34H263V132H55Z\"/><path d=\"M55 34L263 132M55 132L263 34\" stroke=\"#ae5124\" stroke-width=\"3\"/><text x=\"158\" y=\"75\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">O<\/text><\/g><\/svg>", "key": "6.5", "solution": "Диагональ √(25 + 144) = 13. Половина 6,5."}, "practice": [{"prompt": "У прямоугольника диагональ 10, сторона 6. Найди соседнюю сторону.", "key": "8", "solution": "√(100 − 36) = 8."}, {"prompt": "Диагональ квадрата равна 12. Найди площадь квадрата.", "key": "72", "solution": "d² = 2a², значит, S = d² ÷ 2 = 72."}], "test": [{"prompt": "Диагональ прямоугольника равна 15. Найди расстояние от вершины до точки их пересечения.", "key": "7.5", "solution": "15 ÷ 2 = 7,5."}, {"prompt": "Прямоугольник имеет стороны 8 и 15. Найди диагональ.", "key": "17", "solution": "√(64 + 225) = 17."}]}, {"title": "Ромб. Диагонали, углы и площадь", "theory": "Диагонали ромба перпендикулярны, делятся пополам и делят углы при вершинах пополам. Четыре прямоугольных треугольника дают площадь S = <span class=\"frac\"><span>d₁d₂<\/span><span>2<\/span><\/span>.", "hint": "Для вычисления стороны используй половины диагоналей.", "example": {"prompt": "Диагонали ромба равны 12 и 16. Найди сторону.<svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"Диагонали ромба перпендикулярны\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><path d=\"M160 21L265 85L160 149L55 85Z\"/><path d=\"M160 21V149M55 85H265 M160 74h11v11\" stroke=\"#ae5124\" stroke-width=\"3\"/><\/g><\/svg>", "key": "10", "solution": "Половины диагоналей 6 и 8 являются катетами. Сторона √(36 + 64) = 10."}, "practice": [{"prompt": "Диагонали ромба 10 и 14. Найди площадь.", "key": "70", "solution": "10 · 14 ÷ 2 = 70."}, {"prompt": "Диагональ образует со стороной ромба угол 34°. Найди угол ромба при той же вершине.", "key": "68", "solution": "Диагональ делит угол пополам, 2 · 34° = 68°."}], "test": [{"prompt": "Сторона ромба 13, одна диагональ 10. Найди вторую.", "key": "24", "solution": "Половина первой диагонали 5, половина второй √(169 − 25) = 12."}, {"prompt": "Площадь ромба 84. Одна диагональ 12. Найди другую.", "key": "14", "solution": "d₂ = 2S ÷ 12 = 168 ÷ 12 = 14."}]}, {"title": "Трапеция. Средняя линия и её части", "theory": "Средняя линия параллельна основаниям и равна их полусумме. Диагональ делит её на отрезки, равные половинам оснований. Каждый такой отрезок является средней линией одного из треугольников с общей диагональю.", "hint": "Чтобы найти части средней линии, раздели каждое основание на 2.", "example": {"prompt": "Основания равны 10 и 18. Найди больший из отрезков средней линии, отсечённых диагональю.<svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"Диагональ AC и средняя линия трапеции\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><path d=\"M85 40H216L270 134H31Z\"/><text x=\"74\" y=\"33\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">A<\/text><text x=\"215\" y=\"33\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">B<\/text><text x=\"273\" y=\"151\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">C<\/text><text x=\"19\" y=\"151\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">D<\/text><path d=\"M85 40L270 134 M58 87H243\" stroke=\"#ae5124\" stroke-width=\"3\"/><\/g><\/svg>", "key": "9", "solution": "Части равны 10 ÷ 2 = 5 и 18 ÷ 2 = 9."}, "practice": [{"prompt": "Основания 7 и 15. Найди среднюю линию.", "key": "11", "solution": "(7 + 15) ÷ 2 = 11."}, {"prompt": "Средняя линия 13, одно основание 8. Найди другое.", "key": "18", "solution": "Сумма оснований 26, второе равно 26 − 8."}], "test": [{"prompt": "Основания равны 12 и 20. Найди меньшую часть средней линии после пересечения диагональю.", "key": "6", "solution": "Меньшая часть равна половине меньшего основания."}, {"prompt": "Диагональ делит среднюю линию на отрезки 4 и 9. Найди большее основание.", "key": "18", "solution": "Большее основание вдвое длиннее отрезка 9."}]}, {"title": "Трапеция. Углы, высота и площадь", "theory": "Углы при одной боковой стороне дают 180°. В равнобедренной трапеции равны углы при каждом основании. Площадь S = <span class=\"frac\"><span>(a + b)h<\/span><span>2<\/span><\/span>, то есть произведение средней линии и высоты.", "hint": "Для площади нужна перпендикулярная высота. В равнобедренной трапеции разность оснований делится на две равные части.", "example": {"prompt": "Основания равнобедренной трапеции 8 и 14, боковая сторона 5. Найди площадь.<svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"Две высоты равнобедренной трапеции\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><path d=\"M85 40H216L270 134H31Z\"/><text x=\"74\" y=\"33\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">A<\/text><text x=\"215\" y=\"33\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">B<\/text><text x=\"273\" y=\"151\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">C<\/text><text x=\"19\" y=\"151\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">D<\/text><path d=\"M85 40V134M216 40V134 M85 124h10v10 M216 124h10v10\" stroke=\"#ae5124\" stroke-width=\"3\"/><\/g><\/svg>", "key": "44", "solution": "Половина разности оснований равна 3. Высота √(25 − 9) = 4. Площадь (8 + 14) · 4 ÷ 2 = 44."}, "practice": [{"prompt": "Основания 6 и 12, высота 5. Найди площадь.", "key": "45", "solution": "(6 + 12) · 5 ÷ 2 = 45."}, {"prompt": "Угол трапеции у нижнего основания равен 67°. Найди угол при той же боковой стороне у верхнего основания.", "key": "113", "solution": "180° − 67° = 113°."}], "test": [{"prompt": "Площадь 72, средняя линия 12. Найди высоту.", "key": "6", "solution": "72 ÷ 12 = 6."}, {"prompt": "Основания 9 и 15, высота 7. Найди площадь.", "key": "84", "solution": "Полусумма оснований 12, площадь 12 · 7 = 84."}]}], "testOrder": null}</script>
+<script>'use strict';
+const get = id => document.getElementById(id);
+const {topics, testOrder} = JSON.parse(get('content').textContent);
+const select = get('topic');
+topics.forEach((topic, index) => select.add(new Option(topic.title, index)));
+
+function show(view) {
+  document.querySelectorAll('.view').forEach(section => { section.hidden = section.id !== view; });
+  document.querySelectorAll('[data-view]').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.view === view));
+  });
+}
+
+function parse(raw) {
+  const text = raw.trim().replace(/−/g, '-').replace(',', '.');
+  const fraction = text.match(/^([+-]?\d+)\s*\/\s*(\d+)$/);
+  if (fraction) {
+    const denominator = BigInt(fraction[2]);
+    return denominator === 0n ? null : [BigInt(fraction[1]), denominator];
+  }
+  if (!/^[+-]?(?:\d+(?:\.\d+)?|\.\d+)$/.test(text)) return null;
+  return [BigInt(text.replace('.', '')), 10n ** BigInt(text.split('.')[1]?.length ?? 0)];
+}
+
+function valid(raw, key) {
+  return key.startsWith('#') ? /^\d+$/.test(raw.trim()) : Boolean(parse(raw));
+}
+
+function matches(raw, key) {
+  if (key.startsWith('#')) return raw.trim() === key.slice(1);
+  const value = parse(raw);
+  const expected = parse(key);
+  return Boolean(value && expected && value[0] * expected[1] === expected[0] * value[1]);
+}
+
+function formatKey(key) {
+  return key.replace(/^#/, '').replace('.', ',').replace(/^-/, '−');
+}
+
+function inputReminder(key) {
+  return key.startsWith('#') ? 'Запиши цифры подряд, без пробелов.' : 'Введи число или дробь, например 0,5 или 1/2.';
+}
+
+let queue, p, mistakes, checked;
+function practiceItem() {
+  return topics[Number(select.value)].practice[queue[p]];
+}
+
+function loadPractice() {
+  checked = false;
+  get('practice-count').textContent = (p + 1) + ' из ' + queue.length;
+  get('practice-question').innerHTML = practiceItem().prompt;
+  get('practice-answer').value = '';
+  get('practice-answer').disabled = false;
+  get('check').disabled = false;
+  get('hint').disabled = false;
+  get('next-practice').hidden = true;
+  get('repeat').hidden = true;
+  get('practice-status').textContent = '';
+}
+
+function startPractice(index, repeat = false) {
+  select.value = index;
+  queue = repeat ? [...mistakes] : topics[index].practice.map((_, i) => i);
+  mistakes = new Set();
+  p = 0;
+  loadPractice();
+}
+
+select.addEventListener('change', () => startPractice(Number(select.value)));
+document.querySelectorAll('[data-view]').forEach(button => {
+  button.addEventListener('click', () => show(button.dataset.view));
+});
+document.querySelectorAll('[data-topic]').forEach(button => {
+  button.addEventListener('click', () => {
+    startPractice(Number(button.dataset.topic));
+    show('practice');
+    select.focus();
+  });
+});
+get('hint').addEventListener('click', () => {
+  get('practice-status').innerHTML = topics[Number(select.value)].hint;
+});
+get('practice-form').addEventListener('submit', event => {
+  event.preventDefault();
+  if (checked) return;
+  const item = practiceItem();
+  const value = get('practice-answer').value;
+  if (!valid(value, item.key)) {
+    get('practice-status').textContent = inputReminder(item.key);
+    return;
+  }
+  const correct = matches(value, item.key);
+  if (!correct) mistakes.add(queue[p]);
+  checked = true;
+  get('practice-status').innerHTML = (correct ? 'Верно. ' : 'Ответ: ' + formatKey(item.key) + '. ') + item.solution;
+  get('check').disabled = true;
+  get('hint').disabled = true;
+  get('practice-answer').disabled = true;
+  get('next-practice').hidden = p + 1 === queue.length;
+  get('repeat').hidden = p + 1 < queue.length || mistakes.size === 0;
+  const action = !get('next-practice').hidden ? 'next-practice' : !get('repeat').hidden ? 'repeat' : 'restart-practice';
+  get(action).focus();
+});
+get('next-practice').addEventListener('click', () => {
+  p += 1;
+  loadPractice();
+  get('practice-answer').focus();
+});
+get('repeat').addEventListener('click', () => {
+  if (mistakes.size) startPractice(Number(select.value), true);
+  get('practice-answer').focus();
+});
+get('restart-practice').addEventListener('click', () => {
+  startPractice(Number(select.value));
+  get('practice-answer').focus();
+});
+
+const grouped = topics.map((topic, i) => topic.test.map(item => ({...item, topic: i})));
+const test = testOrder ? testOrder.flatMap(slot => grouped.map(items => items[slot])) : grouped.flat();
+let position = 0;
+let answers = [];
+
+function loadTest() {
+  get('test-count').textContent = (position + 1) + ' из ' + test.length;
+  get('test-question').innerHTML = test[position].prompt;
+  get('test-answer').value = answers[position] ?? '';
+  get('test-status').textContent = '';
+  get('back').disabled = position === 0;
+  get('next-test').textContent = position + 1 === test.length ? 'Показать результат' : 'Дальше';
+}
+
+function results() {
+  const correct = test.map((item, i) => matches(answers[i], item.key));
+  const score = correct.filter(Boolean).length;
+  get('score').textContent = 'Результат: ' + score + ' из ' + test.length;
+  get('skills').replaceChildren(...topics.map((topic, i) => {
+    const points = test.filter((item, j) => item.topic === i && correct[j]).length;
+    const li = document.createElement('li');
+    li.textContent = topic.title + ' · ' + points + ' из ' + topic.test.length;
+    return li;
+  }));
+  get('test-screen').hidden = true;
+  get('test-results').hidden = false;
+  get('score').focus();
+}
+
+get('test-form').addEventListener('submit', event => {
+  event.preventDefault();
+  const value = get('test-answer').value;
+  if (!valid(value, test[position].key)) {
+    get('test-status').textContent = inputReminder(test[position].key);
+    return;
+  }
+  answers[position] = value;
+  if (position + 1 === test.length) {
+    results();
+  } else {
+    position += 1;
+    loadTest();
+    get('test-answer').focus();
+  }
+});
+get('back').addEventListener('click', () => {
+  answers[position] = get('test-answer').value;
+  position -= 1;
+  loadTest();
+  get('test-answer').focus();
+});
+get('reset').addEventListener('click', () => {
+  position = 0;
+  answers = [];
+  get('test-screen').hidden = false;
+  get('test-results').hidden = true;
+  loadTest();
+  get('test-answer').focus();
+});
+startPractice(0);
+loadTest();
+</script>
+</body>
+</html>

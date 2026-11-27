@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ОГЭ №8 · Степени, корни и преобразования · lili.math</title>
+<style>
+:root{color-scheme:dark;--green:#16231a;--card:#26382b;--cream:#eee0c8;--sand:#c9ab82;--gold:#e2b04a;--orange:#f4ad79}
+*{box-sizing:border-box}body{margin:0;background:var(--green);color:var(--cream);font:17px/1.62 Inter,system-ui,sans-serif}
+main{max-width:940px;margin:auto;padding:24px clamp(14px,4vw,40px) 48px}header{padding:26px 0 12px}
+h1{font-size:clamp(2.2rem,7vw,4rem);line-height:1.05;margin:.25em 0}h2,h3{line-height:1.25}
+h2{margin-top:0;color:var(--gold)}h3{margin:1.2em 0 .3em}p{margin:.5em 0}.brand{color:var(--gold);font-weight:800;letter-spacing:.05em}
+.card{background:var(--card);border:1px solid #6a785a;border-left:4px solid var(--sand);padding:clamp(16px,4vw,30px);border-radius:18px;margin:16px 0}
+.card:nth-child(3n){border-left-color:#dd7a3a}.example{padding:14px 20px;background:#19291d;border-radius:12px;margin:14px 0}
+.example h3{margin:0}dt{color:var(--orange);font-weight:750;margin-top:.65em}dd{margin:0;max-width:68ch}
+a{color:var(--gold);text-underline-offset:.18em}button,input,select{font:inherit;color:inherit;background:#17271c;border:1px solid var(--sand);border-radius:8px;padding:.5rem .8rem}
+button{cursor:pointer}button:hover{border-color:var(--gold)}button.primary{color:var(--green);background:var(--gold);font-weight:750}button[aria-pressed=true]{background:var(--gold);color:var(--green)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.toc{columns:2;gap:28px;padding-left:1.5em}.toc li{break-inside:avoid;margin-bottom:.38em}
+.math{font-weight:800;font-size:1.28em;color:var(--orange)}.frac{display:inline-grid;vertical-align:middle;line-height:1.2;text-align:center;padding:0 .18em}.frac span{padding:0 .22em}.frac span:first-child{border-bottom:1px solid}
+.sheet{padding:18px;background-color:#19291d;background-image:linear-gradient(#324536 1px,transparent 1px),linear-gradient(90deg,#324536 1px,transparent 1px);background-size:20px 20px;border-radius:10px;margin:12px 0}
+form label{display:block;margin-bottom:.35em}input{width:14ch}select{max-width:100%}.status{min-height:1.7em}.question{margin:0 0 12px}.muted{color:#ddc7a5}
+[hidden]{display:none!important}@media(max-width:600px){.toc{columns:1}.card{border-radius:12px}}
+.question{font-size:1.12em;color:var(--cream);overflow-wrap:anywhere}.question p{margin:.5rem 0}.answer{color:var(--orange);font-weight:750}.drawing{display:block;width:min(100%,440px);height:auto;margin:1rem auto;background:#eee0c8;border-radius:8px}.table-scroll{overflow:auto}table{border-collapse:collapse;background:#19291d;margin:.7rem 0}caption{text-align:left;font-weight:700}th,td{padding:.45em .7em;text-align:center;border:1px solid #74816a}input{max-width:100%}button:disabled{opacity:.62;cursor:default}.toc a{display:inline-block}.math-token{display:inline-block;color:var(--orange);font-weight:750}
+</style>
+</head>
+<body><main>
+<header><div class="brand">lili.math</div><p>ОГЭ по математике · №8</p>
+<h1>Степени, корни и преобразования</h1><p>За экзаменационное задание предусмотрен 1 балл.</p></header>
+<nav class="row" aria-label="Разделы">
+<button type="button" data-view="theory" aria-pressed="true">Теория</button>
+<button type="button" data-view="practice" aria-pressed="false">Тренажёр</button>
+<button type="button" data-view="diagnostic" aria-pressed="false">Входной тест</button>
+</nav>
+<div id="theory" class="view"><nav class="card" aria-label="Оглавление теории">
+<h2>Типы заданий</h2><ol class="toc"><li><a href="#t0">Степени с одинаковым основанием</a></li><li><a href="#t1">Степень произведения и степень степени</a></li><li><a href="#t2">Нулевой и отрицательный показатели</a></li><li><a href="#t3">Корень из произведения и частного</a></li><li><a href="#t4">Корень из квадрата и подстановка</a></li><li><a href="#t5">Преобразование буквенного выражения</a></li></ol></nav><section class="card" id="t0">
+<h2>Степени с одинаковым основанием</h2><h3>Теория</h3><p>При умножении показатели складываются, при делении вычитаются. Правила объясняются объединением или сокращением одинаковых множителей. При делении основание отлично от нуля.</p>
+<div class="example"><h3>Разбор примера</h3><div>Вычисли <span class="frac"><span>2<sup>3</sup> · 2<sup>4</sup></span><span>2<sup>5</sup></span></span>.</div>
+<p>Получаем 2<sup>3+4−5</sup> = 2² = 4.</p><p class="answer">Ответ: 4</p></div>
+<button type="button" data-topic="0">Тренироваться</button></section><section class="card" id="t1">
+<h2>Степень произведения и степень степени</h2><h3>Теория</h3><p>В (ab)<sup>n</sup> каждый множитель повторяется n раз, поэтому получаем a<sup>n</sup>b<sup>n</sup>. В (a<sup>m</sup>)<sup>n</sup> показатель равен mn.</p>
+<div class="example"><h3>Разбор примера</h3><div>Вычисли <span class="frac"><span>(2³)²</span><span>2⁴</span></span>.</div>
+<p>В числителе 2⁶. После деления остаётся 2².</p><p class="answer">Ответ: 4</p></div>
+<button type="button" data-topic="1">Тренироваться</button></section><section class="card" id="t2">
+<h2>Нулевой и отрицательный показатели</h2><h3>Теория</h3><p>При a ≠ 0 имеем a⁰ = 1 и a<sup>−n</sup> = <span class="frac"><span>1</span><span>a<sup>n</sup></span></span>. Поэтому произведение степеней с противоположными показателями равно 1.</p>
+<div class="example"><h3>Разбор примера</h3><div>Вычисли 2<sup>−3</sup>.</div>
+<p>Получаем <span class="frac"><span>1</span><span>2³</span></span> = <span class="frac"><span>1</span><span>8</span></span>.</p><p class="answer">Ответ: 1/8</p></div>
+<button type="button" data-topic="2">Тренироваться</button></section><section class="card" id="t3">
+<h2>Корень из произведения и частного</h2><h3>Теория</h3><p>Корни из неотрицательных множителей можно объединять под одним корнем. При делении корней знаменатель должен быть положительным. Выноси из-под корня точный квадрат.</p>
+<div class="example"><h3>Разбор примера</h3><div>Вычисли √12 · √3.</div>
+<p>Объединяем под одним корнем. √36 = 6.</p><p class="answer">Ответ: 6</p></div>
+<button type="button" data-topic="3">Тренироваться</button></section><section class="card" id="t4">
+<h2>Корень из квадрата и подстановка</h2><h3>Теория</h3><p>Значение арифметического корня неотрицательно, поэтому √(a²) = |a|. В записи (√a)² = a подкоренное число a должно быть неотрицательным. Подставляй отрицательное значение в скобках.</p>
+<div class="example"><h3>Разбор примера</h3><div>Найди √((x − 3)²) при x = 1.</div>
+<p>Это |x − 3|. После подстановки |−2| = 2.</p><p class="answer">Ответ: 2</p></div>
+<button type="button" data-topic="4">Тренироваться</button></section><section class="card" id="t5">
+<h2>Преобразование буквенного выражения</h2><h3>Теория</h3><p>Раскрывая скобки, умножай каждый член. Подобные слагаемые имеют одинаковые буквенные части. При сокращении дроби сокращай общие множители целиком и сохраняй ограничение знаменателя.</p>
+<div class="example"><h3>Разбор примера</h3><div>Найди значение 3(a − 2) − 2a при a = 9.</div>
+<p>Раскрываем скобки: 3a − 6 − 2a = a − 6. При a = 9 это 3.</p><p class="answer">Ответ: 3</p></div>
+<button type="button" data-topic="5">Тренироваться</button></section></div>
+<section id="practice" class="view card" hidden><h2>Тренажёр</h2>
+<label for="topic">Тип задания</label> <select id="topic"></select><p id="practice-count" class="muted"></p>
+<form id="practice-form"><div class="sheet"><div id="practice-question" class="question"></div>
+<label for="practice-answer">Ответ</label><input id="practice-answer" autocomplete="off" maxlength="38"></div>
+<div class="row"><button id="check" class="primary">Проверить</button>
+<button type="button" id="hint">Подсказка</button><button type="button" id="next-practice" hidden>Следующее</button>
+<button type="button" id="repeat" hidden>Повторить ошибки</button><button type="button" id="restart-practice">Начать заново</button></div></form>
+<div id="practice-status" class="status" role="status"></div></section>
+<section id="diagnostic" class="view card" hidden><h2>Входной тест</h2>
+<p>12 заданий. После завершения появится результат по каждому навыку.</p>
+<p>Числовой ответ можно ввести целым числом, десятичной дробью или в виде 1/2. Если требуется последовательность цифр, запиши её без разделителей.</p>
+<div id="test-screen"><p id="test-count" class="muted"></p>
+<form id="test-form"><div class="sheet"><div id="test-question" class="question"></div>
+<label for="test-answer">Ответ</label><input id="test-answer" autocomplete="off" maxlength="38"></div>
+<div class="row"><button type="button" id="back">Назад</button><button class="primary" id="next-test">Дальше</button></div></form>
+<p id="test-status" class="status" role="status"></p></div>
+<div id="test-results" hidden><h3 id="score" tabindex="-1"></h3><ul id="skills"></ul>
+<button type="button" id="reset">Начать заново</button></div></section>
+<footer><a href="https://fipi.ru/oge/demoversii-specifikacii-kodifikatory">Демоверсия и спецификация ФИПИ</a></footer>
+</main>
+<script id="content" type="application/json">{"topics": [{"title": "Степени с одинаковым основанием", "theory": "При умножении показатели складываются, при делении вычитаются. Правила объясняются объединением или сокращением одинаковых множителей. При делении основание отлично от нуля.", "hint": "Сначала сравни основания, затем выбери действие над показателями.", "example": {"prompt": "Вычисли <span class=\"frac\"><span>2<sup>3<\/sup> · 2<sup>4<\/sup><\/span><span>2<sup>5<\/sup><\/span><\/span>.", "key": "4", "solution": "Получаем 2<sup>3+4−5<\/sup> = 2² = 4."}, "practice": [{"prompt": "Вычисли <span class=\"frac\"><span>3<sup>5<\/sup><\/span><span>3<sup>3<\/sup><\/span><\/span>.", "key": "9", "solution": "3<sup>5−3<\/sup> = 3²."}, {"prompt": "Вычисли <span class=\"frac\"><span>2<sup>4<\/sup> · 2<sup>3<\/sup><\/span><span>2<sup>4<\/sup><\/span><\/span>.", "key": "8", "solution": "Сокращаем одинаковые множители. Остаётся 2³."}], "test": [{"prompt": "Вычисли <span class=\"frac\"><span>5<sup>6<\/sup><\/span><span>5<sup>4<\/sup><\/span><\/span>.", "key": "25", "solution": "5<sup>6−4<\/sup> = 5²."}, {"prompt": "Вычисли <span class=\"frac\"><span>3<sup>3<\/sup> · 3<sup>2<\/sup><\/span><span>3<sup>4<\/sup><\/span><\/span>.", "key": "3", "solution": "3<sup>3+2−4<\/sup> = 3."}]}, {"title": "Степень произведения и степень степени", "theory": "В (ab)<sup>n<\/sup> каждый множитель повторяется n раз, поэтому получаем a<sup>n<\/sup>b<sup>n<\/sup>. В (a<sup>m<\/sup>)<sup>n<\/sup> показатель равен mn.", "hint": "Сгруппируй множители, которые возведены в одну степень.", "example": {"prompt": "Вычисли <span class=\"frac\"><span>(2³)²<\/span><span>2⁴<\/span><\/span>.", "key": "4", "solution": "В числителе 2⁶. После деления остаётся 2²."}, "practice": [{"prompt": "Вычисли 2³ · 5³.", "key": "1000", "solution": "Объедини основания: (2 · 5)³ = 10³."}, {"prompt": "Вычисли <span class=\"frac\"><span>(3²)³<\/span><span>3⁴<\/span><\/span>.", "key": "9", "solution": "В числителе 3⁶. 3<sup>6−4<\/sup> = 9."}], "test": [{"prompt": "Вычисли 4² · 3².", "key": "144", "solution": "(4 · 3)² = 12²."}, {"prompt": "Вычисли <span class=\"frac\"><span>(2²)⁴<\/span><span>2⁵<\/span><\/span>.", "key": "8", "solution": "2<sup>2·4−5<\/sup> = 2³."}]}, {"title": "Нулевой и отрицательный показатели", "theory": "При a ≠ 0 имеем a⁰ = 1 и a<sup>−n<\/sup> = <span class=\"frac\"><span>1<\/span><span>a<sup>n<\/sup><\/span><\/span>. Поэтому произведение степеней с противоположными показателями равно 1.", "hint": "Отрицательный показатель даёт обратное число.", "example": {"prompt": "Вычисли 2<sup>−3<\/sup>.", "key": "1/8", "solution": "Получаем <span class=\"frac\"><span>1<\/span><span>2³<\/span><\/span> = <span class=\"frac\"><span>1<\/span><span>8<\/span><\/span>."}, "practice": [{"prompt": "Вычисли 3⁰ + 3<sup>−1<\/sup>.", "key": "4/3", "solution": "1 + <span class=\"frac\"><span>1<\/span><span>3<\/span><\/span> = <span class=\"frac\"><span>4<\/span><span>3<\/span><\/span>."}, {"prompt": "Вычисли 10<sup>−2<\/sup>.", "key": "0.01", "solution": "Это одна сотая."}], "test": [{"prompt": "Вычисли 5<sup>−2<\/sup>.", "key": "0.04", "solution": "<span class=\"frac\"><span>1<\/span><span>25<\/span><\/span> = 0,04."}, {"prompt": "Вычисли 4³ · 4<sup>−3<\/sup>.", "key": "1", "solution": "Показатели дают 0, основание ненулевое."}]}, {"title": "Корень из произведения и частного", "theory": "Корни из неотрицательных множителей можно объединять под одним корнем. При делении корней знаменатель должен быть положительным. Выноси из-под корня точный квадрат.", "hint": "Объедини корни и проверь, является ли результат под корнем точным квадратом.", "example": {"prompt": "Вычисли √12 · √3.", "key": "6", "solution": "Объединяем под одним корнем. √36 = 6."}, "practice": [{"prompt": "Вычисли √18 · √2.", "key": "6", "solution": "Произведение под корнем равно 36."}, {"prompt": "Вычисли <span class=\"frac\"><span>√75<\/span><span>√3<\/span><\/span>.", "key": "5", "solution": "Делим 75 на 3 под корнем. √25 = 5."}], "test": [{"prompt": "Вычисли √8 · √2.", "key": "4", "solution": "Под общим корнем получаем 16."}, {"prompt": "Вычисли <span class=\"frac\"><span>√98<\/span><span>√2<\/span><\/span>.", "key": "7", "solution": "√49 = 7."}]}, {"title": "Корень из квадрата и подстановка", "theory": "Значение арифметического корня неотрицательно, поэтому √(a²) = |a|. В записи (√a)² = a подкоренное число a должно быть неотрицательным. Подставляй отрицательное значение в скобках.", "hint": "Упрости выражение до подстановки и проверь знак результата корня.", "example": {"prompt": "Найди √((x − 3)²) при x = 1.", "key": "2", "solution": "Это |x − 3|. После подстановки |−2| = 2."}, "practice": [{"prompt": "Найди √(a²) − a при a = −4.", "key": "8", "solution": "|−4| − (−4) = 4 + 4."}, {"prompt": "Найди (√7)² − 2.", "key": "5", "solution": "Квадрат √7 равен 7, затем вычитаем 2."}], "test": [{"prompt": "Найди √((x + 2)²) при x = −5.", "key": "3", "solution": "После подстановки получаем |−5 + 2| = 3."}, {"prompt": "Найди √(b²) + b при b = −6.", "key": "0", "solution": "|−6| + (−6) = 0."}]}, {"title": "Преобразование буквенного выражения", "theory": "Раскрывая скобки, умножай каждый член. Подобные слагаемые имеют одинаковые буквенные части. При сокращении дроби сокращай общие множители целиком и сохраняй ограничение знаменателя.", "hint": "Сначала приведи подобные или вынеси общий множитель, затем подставь число.", "example": {"prompt": "Найди значение 3(a − 2) − 2a при a = 9.", "key": "3", "solution": "Раскрываем скобки: 3a − 6 − 2a = a − 6. При a = 9 это 3."}, "practice": [{"prompt": "Найди <span class=\"frac\"><span>6x²<\/span><span>3x<\/span><\/span> при x = −2.", "key": "−4", "solution": "При x ≠ 0 выражение равно 2x. Получаем −4."}, {"prompt": "Найди значение (a + 2)² − a² при a = 5.", "key": "24", "solution": "После раскрытия скобок остаётся 4a + 4 = 24."}], "test": [{"prompt": "Вычисли 4(y − 1) − 3y при y = 9.", "key": "5", "solution": "Выражение упрощается до y − 4."}, {"prompt": "Найди <span class=\"frac\"><span>x² − 9<\/span><span>x − 3<\/span><\/span> при x = −1.", "key": "2", "solution": "При x ≠ 3 сокращаем множитель x − 3. Получаем x + 3 = 2."}]}], "testOrder": null}</script>
+<script>'use strict';
+const get = id => document.getElementById(id);
+const {topics, testOrder} = JSON.parse(get('content').textContent);
+const select = get('topic');
+topics.forEach((topic, index) => select.add(new Option(topic.title, index)));
+
+function show(view) {
+  document.querySelectorAll('.view').forEach(section => { section.hidden = section.id !== view; });
+  document.querySelectorAll('[data-view]').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.view === view));
+  });
+}
+
+function parse(raw) {
+  const text = raw.trim().replace(/−/g, '-').replace(',', '.');
+  const fraction = text.match(/^([+-]?\d+)\s*\/\s*(\d+)$/);
+  if (fraction) {
+    const denominator = BigInt(fraction[2]);
+    return denominator === 0n ? null : [BigInt(fraction[1]), denominator];
+  }
+  if (!/^[+-]?(?:\d+(?:\.\d+)?|\.\d+)$/.test(text)) return null;
+  return [BigInt(text.replace('.', '')), 10n ** BigInt(text.split('.')[1]?.length ?? 0)];
+}
+
+function valid(raw, key) {
+  return key.startsWith('#') ? /^\d+$/.test(raw.trim()) : Boolean(parse(raw));
+}
+
+function matches(raw, key) {
+  if (key.startsWith('#')) return raw.trim() === key.slice(1);
+  const value = parse(raw);
+  const expected = parse(key);
+  return Boolean(value && expected && value[0] * expected[1] === expected[0] * value[1]);
+}
+
+function formatKey(key) {
+  return key.replace(/^#/, '').replace('.', ',').replace(/^-/, '−');
+}
+
+function inputReminder(key) {
+  return key.startsWith('#') ? 'Запиши цифры подряд, без пробелов.' : 'Введи число или дробь, например 0,5 или 1/2.';
+}
+
+let queue, p, mistakes, checked;
+function practiceItem() {
+  return topics[Number(select.value)].practice[queue[p]];
+}
+
+function loadPractice() {
+  checked = false;
+  get('practice-count').textContent = (p + 1) + ' из ' + queue.length;
+  get('practice-question').innerHTML = practiceItem().prompt;
+  get('practice-answer').value = '';
+  get('practice-answer').disabled = false;
+  get('check').disabled = false;
+  get('hint').disabled = false;
+  get('next-practice').hidden = true;
+  get('repeat').hidden = true;
+  get('practice-status').textContent = '';
+}
+
+function startPractice(index, repeat = false) {
+  select.value = index;
+  queue = repeat ? [...mistakes] : topics[index].practice.map((_, i) => i);
+  mistakes = new Set();
+  p = 0;
+  loadPractice();
+}
+
+select.addEventListener('change', () => startPractice(Number(select.value)));
+document.querySelectorAll('[data-view]').forEach(button => {
+  button.addEventListener('click', () => show(button.dataset.view));
+});
+document.querySelectorAll('[data-topic]').forEach(button => {
+  button.addEventListener('click', () => {
+    startPractice(Number(button.dataset.topic));
+    show('practice');
+    select.focus();
+  });
+});
+get('hint').addEventListener('click', () => {
+  get('practice-status').innerHTML = topics[Number(select.value)].hint;
+});
+get('practice-form').addEventListener('submit', event => {
+  event.preventDefault();
+  if (checked) return;
+  const item = practiceItem();
+  const value = get('practice-answer').value;
+  if (!valid(value, item.key)) {
+    get('practice-status').textContent = inputReminder(item.key);
+    return;
+  }
+  const correct = matches(value, item.key);
+  if (!correct) mistakes.add(queue[p]);
+  checked = true;
+  get('practice-status').innerHTML = (correct ? 'Верно. ' : 'Ответ: ' + formatKey(item.key) + '. ') + item.solution;
+  get('check').disabled = true;
+  get('hint').disabled = true;
+  get('practice-answer').disabled = true;
+  get('next-practice').hidden = p + 1 === queue.length;
+  get('repeat').hidden = p + 1 < queue.length || mistakes.size === 0;
+  const action = !get('next-practice').hidden ? 'next-practice' : !get('repeat').hidden ? 'repeat' : 'restart-practice';
+  get(action).focus();
+});
+get('next-practice').addEventListener('click', () => {
+  p += 1;
+  loadPractice();
+  get('practice-answer').focus();
+});
+get('repeat').addEventListener('click', () => {
+  if (mistakes.size) startPractice(Number(select.value), true);
+  get('practice-answer').focus();
+});
+get('restart-practice').addEventListener('click', () => {
+  startPractice(Number(select.value));
+  get('practice-answer').focus();
+});
+
+const grouped = topics.map((topic, i) => topic.test.map(item => ({...item, topic: i})));
+const test = testOrder ? testOrder.flatMap(slot => grouped.map(items => items[slot])) : grouped.flat();
+let position = 0;
+let answers = [];
+
+function loadTest() {
+  get('test-count').textContent = (position + 1) + ' из ' + test.length;
+  get('test-question').innerHTML = test[position].prompt;
+  get('test-answer').value = answers[position] ?? '';
+  get('test-status').textContent = '';
+  get('back').disabled = position === 0;
+  get('next-test').textContent = position + 1 === test.length ? 'Показать результат' : 'Дальше';
+}
+
+function results() {
+  const correct = test.map((item, i) => matches(answers[i], item.key));
+  const score = correct.filter(Boolean).length;
+  get('score').textContent = 'Результат: ' + score + ' из ' + test.length;
+  get('skills').replaceChildren(...topics.map((topic, i) => {
+    const points = test.filter((item, j) => item.topic === i && correct[j]).length;
+    const li = document.createElement('li');
+    li.textContent = topic.title + ' · ' + points + ' из ' + topic.test.length;
+    return li;
+  }));
+  get('test-screen').hidden = true;
+  get('test-results').hidden = false;
+  get('score').focus();
+}
+
+get('test-form').addEventListener('submit', event => {
+  event.preventDefault();
+  const value = get('test-answer').value;
+  if (!valid(value, test[position].key)) {
+    get('test-status').textContent = inputReminder(test[position].key);
+    return;
+  }
+  answers[position] = value;
+  if (position + 1 === test.length) {
+    results();
+  } else {
+    position += 1;
+    loadTest();
+    get('test-answer').focus();
+  }
+});
+get('back').addEventListener('click', () => {
+  answers[position] = get('test-answer').value;
+  position -= 1;
+  loadTest();
+  get('test-answer').focus();
+});
+get('reset').addEventListener('click', () => {
+  position = 0;
+  answers = [];
+  get('test-screen').hidden = false;
+  get('test-results').hidden = true;
+  loadTest();
+  get('test-answer').focus();
+});
+startPractice(0);
+loadTest();
+</script>
+</body>
+</html>

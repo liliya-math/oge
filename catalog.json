@@ -1,6 +1,16 @@
 {
   "items": [
     {
+      "file": "oge-komplekty.html",
+      "title": "ОГЭ по математике · комплекты по номерам 1–25",
+      "type": "uchebnik",
+      "class": 9,
+      "oge_task": null,
+      "status": "public",
+      "note": "Теория, разборы, тренажёры и входные тесты по всем номерам.",
+      "auto": false
+    },
+    {
       "file": "vhodnye-testy-oge.html",
       "title": "ОГЭ по математике · входные тесты по номерам 1–25",
       "type": "diagnostika",

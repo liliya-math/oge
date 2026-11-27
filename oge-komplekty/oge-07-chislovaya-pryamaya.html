@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ОГЭ №7 · Числа на координатной прямой · lili.math</title>
+<style>
+:root{color-scheme:dark;--green:#16231a;--card:#26382b;--cream:#eee0c8;--sand:#c9ab82;--gold:#e2b04a;--orange:#f4ad79}
+*{box-sizing:border-box}body{margin:0;background:var(--green);color:var(--cream);font:17px/1.62 Inter,system-ui,sans-serif}
+main{max-width:940px;margin:auto;padding:24px clamp(14px,4vw,40px) 48px}header{padding:26px 0 12px}
+h1{font-size:clamp(2.2rem,7vw,4rem);line-height:1.05;margin:.25em 0}h2,h3{line-height:1.25}
+h2{margin-top:0;color:var(--gold)}h3{margin:1.2em 0 .3em}p{margin:.5em 0}.brand{color:var(--gold);font-weight:800;letter-spacing:.05em}
+.card{background:var(--card);border:1px solid #6a785a;border-left:4px solid var(--sand);padding:clamp(16px,4vw,30px);border-radius:18px;margin:16px 0}
+.card:nth-child(3n){border-left-color:#dd7a3a}.example{padding:14px 20px;background:#19291d;border-radius:12px;margin:14px 0}
+.example h3{margin:0}dt{color:var(--orange);font-weight:750;margin-top:.65em}dd{margin:0;max-width:68ch}
+a{color:var(--gold);text-underline-offset:.18em}button,input,select{font:inherit;color:inherit;background:#17271c;border:1px solid var(--sand);border-radius:8px;padding:.5rem .8rem}
+button{cursor:pointer}button:hover{border-color:var(--gold)}button.primary{color:var(--green);background:var(--gold);font-weight:750}button[aria-pressed=true]{background:var(--gold);color:var(--green)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.toc{columns:2;gap:28px;padding-left:1.5em}.toc li{break-inside:avoid;margin-bottom:.38em}
+.math{font-weight:800;font-size:1.28em;color:var(--orange)}.frac{display:inline-grid;vertical-align:middle;line-height:1.2;text-align:center;padding:0 .18em}.frac span{padding:0 .22em}.frac span:first-child{border-bottom:1px solid}
+.sheet{padding:18px;background-color:#19291d;background-image:linear-gradient(#324536 1px,transparent 1px),linear-gradient(90deg,#324536 1px,transparent 1px);background-size:20px 20px;border-radius:10px;margin:12px 0}
+form label{display:block;margin-bottom:.35em}input{width:14ch}select{max-width:100%}.status{min-height:1.7em}.question{margin:0 0 12px}.muted{color:#ddc7a5}
+[hidden]{display:none!important}@media(max-width:600px){.toc{columns:1}.card{border-radius:12px}}
+.question{font-size:1.12em;color:var(--cream);overflow-wrap:anywhere}.question p{margin:.5rem 0}.answer{color:var(--orange);font-weight:750}.drawing{display:block;width:min(100%,440px);height:auto;margin:1rem auto;background:#eee0c8;border-radius:8px}.table-scroll{overflow:auto}table{border-collapse:collapse;background:#19291d;margin:.7rem 0}caption{text-align:left;font-weight:700}th,td{padding:.45em .7em;text-align:center;border:1px solid #74816a}input{max-width:100%}button:disabled{opacity:.62;cursor:default}.toc a{display:inline-block}.math-token{display:inline-block;color:var(--orange);font-weight:750}
+</style>
+</head>
+<body><main>
+<header><div class="brand">lili.math</div><p>ОГЭ по математике · №7</p>
+<h1>Числа на координатной прямой</h1><p>За экзаменационное задание предусмотрен 1 балл.</p></header>
+<nav class="row" aria-label="Разделы">
+<button type="button" data-view="theory" aria-pressed="true">Теория</button>
+<button type="button" data-view="practice" aria-pressed="false">Тренажёр</button>
+<button type="button" data-view="diagnostic" aria-pressed="false">Входной тест</button>
+</nav>
+<div id="theory" class="view"><nav class="card" aria-label="Оглавление теории">
+<h2>Типы заданий</h2><ol class="toc"><li><a href="#t0">Положение точки и цена деления</a></li><li><a href="#t1">Оценка корня</a></li><li><a href="#t2">Сравнение отрицательных чисел</a></li><li><a href="#t3">Знак выражения</a></li></ol></nav><section class="card" id="t0">
+<h2>Положение точки и цена деления</h2><h3>Теория</h3><p>Если вправо откладывают положительное направление, большее число лежит правее. Разность подписанных координат делим на число промежутков между ними.</p>
+<div class="example"><h3>Разбор примера</h3><div>Между 0 и 6 три равных деления. Найди координату точки P.<svg class="drawing" viewBox="0 20 320 90" role="img" aria-label="Точка P на два деления левее 0. От 0 до 6 три деления."><g fill="none" stroke="#294432" stroke-width="2.5"><path d="M20 70H302l-9 -6m9 6 -9 6"/><path d="M30 64v12"/><text x="25" y="94" fill="#16231a" stroke="none" font-size="15" font-weight="700"></text><path d="M70 64v12"/><text x="65" y="94" fill="#16231a" stroke="none" font-size="15" font-weight="700"></text><path d="M110 64v12"/><text x="105" y="94" fill="#16231a" stroke="none" font-size="15" font-weight="700"></text><path d="M150 64v12"/><text x="145" y="94" fill="#16231a" stroke="none" font-size="15" font-weight="700">0</text><path d="M190 64v12"/><text x="185" y="94" fill="#16231a" stroke="none" font-size="15" font-weight="700"></text><path d="M230 64v12"/><text x="225" y="94" fill="#16231a" stroke="none" font-size="15" font-weight="700"></text><path d="M270 64v12"/><text x="265" y="94" fill="#16231a" stroke="none" font-size="15" font-weight="700">6</text><circle cx="70" cy="70" r="5" fill="#ae5124" stroke="none"/><text x="65" y="52" fill="#16231a" stroke="none" font-size="15" font-weight="700">P</text></g></svg></div>
+<p>Цена деления 6 ÷ 3 = 2. Два шага влево дают 0 − 2 · 2 = −4.</p><p class="answer">Ответ: −4</p></div>
+<button type="button" data-topic="0">Тренироваться</button></section><section class="card" id="t1">
+<h2>Оценка корня</h2><h3>Теория</h3><p>Если m² &lt; n &lt; (m + 1)², то m &lt; √n &lt; m + 1. На неотрицательных числах порядок при возведении в квадрат сохраняется.</p>
+<div class="example"><h3>Разбор примера</h3><div>Запиши целое число, непосредственно слева от √26.</div>
+<p>25 &lt; 26 &lt; 36, поэтому √26 лежит между 5 и 6.</p><p class="answer">Ответ: 5</p></div>
+<button type="button" data-topic="1">Тренироваться</button></section><section class="card" id="t2">
+<h2>Сравнение отрицательных чисел</h2><h3>Теория</h3><p>Чем дальше отрицательное число от нуля, тем оно меньше. Среди −2 и −5 больше −2.</p>
+<div class="example"><h3>Разбор примера</h3><div>Запиши большее из чисел −0,28 и −0,3.</div>
+<p>−0,28 на 0,02 правее −0,30.</p><p class="answer">Ответ: −0,28</p></div>
+<button type="button" data-topic="2">Тренироваться</button></section><section class="card" id="t3">
+<h2>Знак выражения</h2><h3>Теория</h3><p>Если a &lt; b, то a − b &lt; 0. Произведение чисел разных знаков отрицательно. Сумма отрицательного и положительного имеет знак числа с большим модулем.</p>
+<div class="example"><h3>Разбор примера</h3><div>Если −5 &lt; a &lt; −4 и 2 &lt; b &lt; 3, запиши знак a + b числом 1 или −1.</div>
+<p>Модуль a больше модуля b, поэтому сумма отрицательна.</p><p class="answer">Ответ: −1</p></div>
+<button type="button" data-topic="3">Тренироваться</button></section></div>
+<section id="practice" class="view card" hidden><h2>Тренажёр</h2>
+<label for="topic">Тип задания</label> <select id="topic"></select><p id="practice-count" class="muted"></p>
+<form id="practice-form"><div class="sheet"><div id="practice-question" class="question"></div>
+<label for="practice-answer">Ответ</label><input id="practice-answer" autocomplete="off" maxlength="38"></div>
+<div class="row"><button id="check" class="primary">Проверить</button>
+<button type="button" id="hint">Подсказка</button><button type="button" id="next-practice" hidden>Следующее</button>
+<button type="button" id="repeat" hidden>Повторить ошибки</button><button type="button" id="restart-practice">Начать заново</button></div></form>
+<div id="practice-status" class="status" role="status"></div></section>
+<section id="diagnostic" class="view card" hidden><h2>Входной тест</h2>
+<p>8 заданий. После завершения появится результат по каждому навыку.</p>
+<p>Числовой ответ можно ввести целым числом, десятичной дробью или в виде 1/2. Если требуется последовательность цифр, запиши её без разделителей.</p>
+<div id="test-screen"><p id="test-count" class="muted"></p>
+<form id="test-form"><div class="sheet"><div id="test-question" class="question"></div>
+<label for="test-answer">Ответ</label><input id="test-answer" autocomplete="off" maxlength="38"></div>
+<div class="row"><button type="button" id="back">Назад</button><button class="primary" id="next-test">Дальше</button></div></form>
+<p id="test-status" class="status" role="status"></p></div>
+<div id="test-results" hidden><h3 id="score" tabindex="-1"></h3><ul id="skills"></ul>
+<button type="button" id="reset">Начать заново</button></div></section>
+<footer><a href="https://fipi.ru/oge/demoversii-specifikacii-kodifikatory">Демоверсия и спецификация ФИПИ</a></footer>
+</main>
+<script id="content" type="application/json">{"topics": [{"title": "Положение точки и цена деления", "theory": "Если вправо откладывают положительное направление, большее число лежит правее. Разность подписанных координат делим на число промежутков между ними.", "hint": "Считай промежутки между штрихами и двигайся от подписанной отметки.", "example": {"prompt": "Между 0 и 6 три равных деления. Найди координату точки P.<svg class=\"drawing\" viewBox=\"0 20 320 90\" role=\"img\" aria-label=\"Точка P на два деления левее 0. От 0 до 6 три деления.\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\"><path d=\"M20 70H302l-9 -6m9 6 -9 6\"/><path d=\"M30 64v12\"/><text x=\"25\" y=\"94\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\"><\/text><path d=\"M70 64v12\"/><text x=\"65\" y=\"94\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\"><\/text><path d=\"M110 64v12\"/><text x=\"105\" y=\"94\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\"><\/text><path d=\"M150 64v12\"/><text x=\"145\" y=\"94\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">0<\/text><path d=\"M190 64v12\"/><text x=\"185\" y=\"94\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\"><\/text><path d=\"M230 64v12\"/><text x=\"225\" y=\"94\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\"><\/text><path d=\"M270 64v12\"/><text x=\"265\" y=\"94\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">6<\/text><circle cx=\"70\" cy=\"70\" r=\"5\" fill=\"#ae5124\" stroke=\"none\"/><text x=\"65\" y=\"52\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">P<\/text><\/g><\/svg>", "key": "−4", "solution": "Цена деления 6 ÷ 3 = 2. Два шага влево дают 0 − 2 · 2 = −4."}, "practice": [{"prompt": "Между −4 и 2 три равных деления. Найди отметку на одно деление правее −4.", "key": "−2", "solution": "Цена деления 6 ÷ 3 = 2. Получаем −4 + 2 = −2."}, {"prompt": "Между 0 и 1 четыре равных деления. Найди третью отметку правее 0.", "key": "0.75", "solution": "Один шаг равен 0,25. Три шага дают 0,75."}], "test": [{"prompt": "Между −3 и 3 шесть равных делений. Найди отметку на четыре деления правее −3.", "key": "1", "solution": "Шаг равен 1. Считаем −3 + 4 = 1."}, {"prompt": "Найди координату точки P по рисунку.<svg class=\"drawing\" viewBox=\"0 20 320 90\" role=\"img\" aria-label=\"От 0 до 2 пять равных делений. Точка P слева от нуля.\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\"><path d=\"M20 70H302l-9 -6m9 6 -9 6\"/><path d=\"M42 64v12\"/><text x=\"37\" y=\"94\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\"><\/text><path d=\"M78 64v12\"/><text x=\"73\" y=\"94\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\"><\/text><path d=\"M114 64v12\"/><text x=\"109\" y=\"94\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">0<\/text><path d=\"M150 64v12\"/><text x=\"145\" y=\"94\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\"><\/text><path d=\"M186 64v12\"/><text x=\"181\" y=\"94\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\"><\/text><path d=\"M222 64v12\"/><text x=\"217\" y=\"94\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\"><\/text><path d=\"M258 64v12\"/><text x=\"253\" y=\"94\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\"><\/text><path d=\"M294 64v12\"/><text x=\"289\" y=\"94\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">2<\/text><circle cx=\"42\" cy=\"70\" r=\"5\" fill=\"#ae5124\" stroke=\"none\"/><text x=\"37\" y=\"52\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">P<\/text><\/g><\/svg>", "key": "−0.8", "solution": "Шаг равен 0,4. Получаем −2 · 0,4 = −0,8."}]}, {"title": "Оценка корня", "theory": "Если m² &lt; n &lt; (m + 1)², то m &lt; √n &lt; m + 1. На неотрицательных числах порядок при возведении в квадрат сохраняется.", "hint": "Подбери два соседних точных квадрата.", "example": {"prompt": "Запиши целое число, непосредственно слева от √26.", "key": "5", "solution": "25 &lt; 26 &lt; 36, поэтому √26 лежит между 5 и 6."}, "practice": [{"prompt": "Запиши целое число, непосредственно справа от √62.", "key": "8", "solution": "49 &lt; 62 &lt; 64, поэтому √62 лежит между 7 и 8."}, {"prompt": "Запиши целое число, непосредственно слева от √15.", "key": "3", "solution": "9 &lt; 15 &lt; 16, поэтому 3 &lt; √15 &lt; 4."}], "test": [{"prompt": "Запиши целое число, непосредственно справа от √39.", "key": "7", "solution": "36 &lt; 39 &lt; 49, поэтому 6 &lt; √39 &lt; 7."}, {"prompt": "Запиши целое число, непосредственно слева от √95.", "key": "9", "solution": "81 &lt; 95 &lt; 100, поэтому 9 &lt; √95 &lt; 10."}]}, {"title": "Сравнение отрицательных чисел", "theory": "Чем дальше отрицательное число от нуля, тем оно меньше. Среди −2 и −5 больше −2.", "hint": "Сравни расстояния до нуля и учти знак.", "example": {"prompt": "Запиши большее из чисел −0,28 и −0,3.", "key": "−0.28", "solution": "−0,28 на 0,02 правее −0,30."}, "practice": [{"prompt": "Запиши меньшее из −2,1 и −2,08.", "key": "−2.1", "solution": "−2,10 лежит левее −2,08."}, {"prompt": "Запиши большее из −0,45 и −<span class=\"frac\"><span>1<\/span><span>2<\/span><\/span>.", "key": "−0.45", "solution": "−<span class=\"frac\"><span>1<\/span><span>2<\/span><\/span> = −0,50. Число −0,45 ближе к нулю."}], "test": [{"prompt": "Запиши меньшее из −3,5 и −3,49.", "key": "−3.5", "solution": "−3,50 расположено левее −3,49."}, {"prompt": "Запиши большее из −<span class=\"frac\"><span>3<\/span><span>4<\/span><\/span> и −0,7.", "key": "−0.7", "solution": "−<span class=\"frac\"><span>3<\/span><span>4<\/span><\/span> = −0,75, и −0,7 правее него."}]}, {"title": "Знак выражения", "theory": "Если a &lt; b, то a − b &lt; 0. Произведение чисел разных знаков отрицательно. Сумма отрицательного и положительного имеет знак числа с большим модулем.", "hint": "Для разности спроси, какое число правее, а для суммы сравни модули.", "example": {"prompt": "Если −5 &lt; a &lt; −4 и 2 &lt; b &lt; 3, запиши знак a + b числом 1 или −1.", "key": "−1", "solution": "Модуль a больше модуля b, поэтому сумма отрицательна."}, "practice": [{"prompt": "Если 1 &lt; a &lt; 2 и 3 &lt; b &lt; 4, запиши знак a − b числом 1 или −1.", "key": "−1", "solution": "a меньше b, значит, разность отрицательна."}, {"prompt": "Если −3 &lt; a &lt; −1 и 2 &lt; b &lt; 5, запиши знак ab числом 1 или −1.", "key": "−1", "solution": "Множители имеют разные знаки."}], "test": [{"prompt": "Если −1 &lt; a &lt; 0 и 2 &lt; b &lt; 3, запиши знак a + b числом 1 или −1.", "key": "1", "solution": "Положительное b по модулю больше отрицательного a."}, {"prompt": "Если 3 &lt; a &lt; 4 и −2 &lt; b &lt; −1, запиши знак a − b числом 1 или −1.", "key": "1", "solution": "Вычитание отрицательного даёт сумму двух положительных чисел."}]}], "testOrder": null}</script>
+<script>'use strict';
+const get = id => document.getElementById(id);
+const {topics, testOrder} = JSON.parse(get('content').textContent);
+const select = get('topic');
+topics.forEach((topic, index) => select.add(new Option(topic.title, index)));
+
+function show(view) {
+  document.querySelectorAll('.view').forEach(section => { section.hidden = section.id !== view; });
+  document.querySelectorAll('[data-view]').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.view === view));
+  });
+}
+
+function parse(raw) {
+  const text = raw.trim().replace(/−/g, '-').replace(',', '.');
+  const fraction = text.match(/^([+-]?\d+)\s*\/\s*(\d+)$/);
+  if (fraction) {
+    const denominator = BigInt(fraction[2]);
+    return denominator === 0n ? null : [BigInt(fraction[1]), denominator];
+  }
+  if (!/^[+-]?(?:\d+(?:\.\d+)?|\.\d+)$/.test(text)) return null;
+  return [BigInt(text.replace('.', '')), 10n ** BigInt(text.split('.')[1]?.length ?? 0)];
+}
+
+function valid(raw, key) {
+  return key.startsWith('#') ? /^\d+$/.test(raw.trim()) : Boolean(parse(raw));
+}
+
+function matches(raw, key) {
+  if (key.startsWith('#')) return raw.trim() === key.slice(1);
+  const value = parse(raw);
+  const expected = parse(key);
+  return Boolean(value && expected && value[0] * expected[1] === expected[0] * value[1]);
+}
+
+function formatKey(key) {
+  return key.replace(/^#/, '').replace('.', ',').replace(/^-/, '−');
+}
+
+function inputReminder(key) {
+  return key.startsWith('#') ? 'Запиши цифры подряд, без пробелов.' : 'Введи число или дробь, например 0,5 или 1/2.';
+}
+
+let queue, p, mistakes, checked;
+function practiceItem() {
+  return topics[Number(select.value)].practice[queue[p]];
+}
+
+function loadPractice() {
+  checked = false;
+  get('practice-count').textContent = (p + 1) + ' из ' + queue.length;
+  get('practice-question').innerHTML = practiceItem().prompt;
+  get('practice-answer').value = '';
+  get('practice-answer').disabled = false;
+  get('check').disabled = false;
+  get('hint').disabled = false;
+  get('next-practice').hidden = true;
+  get('repeat').hidden = true;
+  get('practice-status').textContent = '';
+}
+
+function startPractice(index, repeat = false) {
+  select.value = index;
+  queue = repeat ? [...mistakes] : topics[index].practice.map((_, i) => i);
+  mistakes = new Set();
+  p = 0;
+  loadPractice();
+}
+
+select.addEventListener('change', () => startPractice(Number(select.value)));
+document.querySelectorAll('[data-view]').forEach(button => {
+  button.addEventListener('click', () => show(button.dataset.view));
+});
+document.querySelectorAll('[data-topic]').forEach(button => {
+  button.addEventListener('click', () => {
+    startPractice(Number(button.dataset.topic));
+    show('practice');
+    select.focus();
+  });
+});
+get('hint').addEventListener('click', () => {
+  get('practice-status').innerHTML = topics[Number(select.value)].hint;
+});
+get('practice-form').addEventListener('submit', event => {
+  event.preventDefault();
+  if (checked) return;
+  const item = practiceItem();
+  const value = get('practice-answer').value;
+  if (!valid(value, item.key)) {
+    get('practice-status').textContent = inputReminder(item.key);
+    return;
+  }
+  const correct = matches(value, item.key);
+  if (!correct) mistakes.add(queue[p]);
+  checked = true;
+  get('practice-status').innerHTML = (correct ? 'Верно. ' : 'Ответ: ' + formatKey(item.key) + '. ') + item.solution;
+  get('check').disabled = true;
+  get('hint').disabled = true;
+  get('practice-answer').disabled = true;
+  get('next-practice').hidden = p + 1 === queue.length;
+  get('repeat').hidden = p + 1 < queue.length || mistakes.size === 0;
+  const action = !get('next-practice').hidden ? 'next-practice' : !get('repeat').hidden ? 'repeat' : 'restart-practice';
+  get(action).focus();
+});
+get('next-practice').addEventListener('click', () => {
+  p += 1;
+  loadPractice();
+  get('practice-answer').focus();
+});
+get('repeat').addEventListener('click', () => {
+  if (mistakes.size) startPractice(Number(select.value), true);
+  get('practice-answer').focus();
+});
+get('restart-practice').addEventListener('click', () => {
+  startPractice(Number(select.value));
+  get('practice-answer').focus();
+});
+
+const grouped = topics.map((topic, i) => topic.test.map(item => ({...item, topic: i})));
+const test = testOrder ? testOrder.flatMap(slot => grouped.map(items => items[slot])) : grouped.flat();
+let position = 0;
+let answers = [];
+
+function loadTest() {
+  get('test-count').textContent = (position + 1) + ' из ' + test.length;
+  get('test-question').innerHTML = test[position].prompt;
+  get('test-answer').value = answers[position] ?? '';
+  get('test-status').textContent = '';
+  get('back').disabled = position === 0;
+  get('next-test').textContent = position + 1 === test.length ? 'Показать результат' : 'Дальше';
+}
+
+function results() {
+  const correct = test.map((item, i) => matches(answers[i], item.key));
+  const score = correct.filter(Boolean).length;
+  get('score').textContent = 'Результат: ' + score + ' из ' + test.length;
+  get('skills').replaceChildren(...topics.map((topic, i) => {
+    const points = test.filter((item, j) => item.topic === i && correct[j]).length;
+    const li = document.createElement('li');
+    li.textContent = topic.title + ' · ' + points + ' из ' + topic.test.length;
+    return li;
+  }));
+  get('test-screen').hidden = true;
+  get('test-results').hidden = false;
+  get('score').focus();
+}
+
+get('test-form').addEventListener('submit', event => {
+  event.preventDefault();
+  const value = get('test-answer').value;
+  if (!valid(value, test[position].key)) {
+    get('test-status').textContent = inputReminder(test[position].key);
+    return;
+  }
+  answers[position] = value;
+  if (position + 1 === test.length) {
+    results();
+  } else {
+    position += 1;
+    loadTest();
+    get('test-answer').focus();
+  }
+});
+get('back').addEventListener('click', () => {
+  answers[position] = get('test-answer').value;
+  position -= 1;
+  loadTest();
+  get('test-answer').focus();
+});
+get('reset').addEventListener('click', () => {
+  position = 0;
+  answers = [];
+  get('test-screen').hidden = false;
+  get('test-results').hidden = true;
+  loadTest();
+  get('test-answer').focus();
+});
+startPractice(0);
+loadTest();
+</script>
+</body>
+</html>

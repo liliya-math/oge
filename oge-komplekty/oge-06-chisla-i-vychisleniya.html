@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ОГЭ №6 · Числа и вычисления · lili.math</title>
+<style>
+:root{color-scheme:dark;--green:#16231a;--card:#26382b;--cream:#eee0c8;--sand:#c9ab82;--gold:#e2b04a;--orange:#f4ad79}
+*{box-sizing:border-box}body{margin:0;background:var(--green);color:var(--cream);font:17px/1.62 Inter,system-ui,sans-serif}
+main{max-width:940px;margin:auto;padding:24px clamp(14px,4vw,40px) 48px}header{padding:26px 0 12px}
+h1{font-size:clamp(2.2rem,7vw,4rem);line-height:1.05;margin:.25em 0}h2,h3{line-height:1.25}
+h2{margin-top:0;color:var(--gold)}h3{margin:1.2em 0 .3em}p{margin:.5em 0}.brand{color:var(--gold);font-weight:800;letter-spacing:.05em}
+.card{background:var(--card);border:1px solid #6a785a;border-left:4px solid var(--sand);padding:clamp(16px,4vw,30px);border-radius:18px;margin:16px 0}
+.card:nth-child(3n){border-left-color:#dd7a3a}.example{padding:14px 20px;background:#19291d;border-radius:12px;margin:14px 0}
+.example h3{margin:0}dt{color:var(--orange);font-weight:750;margin-top:.65em}dd{margin:0;max-width:68ch}
+a{color:var(--gold);text-underline-offset:.18em}button,input,select{font:inherit;color:inherit;background:#17271c;border:1px solid var(--sand);border-radius:8px;padding:.5rem .8rem}
+button{cursor:pointer}button:hover{border-color:var(--gold)}button.primary{color:var(--green);background:var(--gold);font-weight:750}button[aria-pressed=true]{background:var(--gold);color:var(--green)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.toc{columns:2;gap:28px;padding-left:1.5em}.toc li{break-inside:avoid;margin-bottom:.38em}
+.math{font-weight:800;font-size:1.28em;color:var(--orange)}.frac{display:inline-grid;vertical-align:middle;line-height:1.2;text-align:center;padding:0 .18em}.frac span{padding:0 .22em}.frac span:first-child{border-bottom:1px solid}
+.sheet{padding:18px;background-color:#19291d;background-image:linear-gradient(#324536 1px,transparent 1px),linear-gradient(90deg,#324536 1px,transparent 1px);background-size:20px 20px;border-radius:10px;margin:12px 0}
+form label{display:block;margin-bottom:.35em}input{width:14ch}select{max-width:100%}.status{min-height:1.7em}.question{margin:0 0 12px}.muted{color:#ddc7a5}
+[hidden]{display:none!important}@media(max-width:600px){.toc{columns:1}.card{border-radius:12px}}
+</style>
+</head>
+<body><main>
+<header><div class="brand">lili.math</div><p>ОГЭ по математике · №6</p><h1>Числа и вычисления</h1><p>Максимум за экзаменационное задание составляет 1 балл.</p></header>
+<nav class="row" aria-label="Разделы"><button type="button" data-view="theory" aria-pressed="true">Теория</button><button type="button" data-view="practice" aria-pressed="false">Тренажёр</button><button type="button" data-view="diagnostic" aria-pressed="false">Входной тест</button></nav>
+<div id="theory" class="view">
+<nav class="card" aria-label="Оглавление теории"><h2>Типы заданий</h2><ol class="toc"><li><a href="#t1">Сложение обыкновенных дробей</a></li><li><a href="#t2">Вычитание обыкновенных дробей</a></li><li><a href="#t3">Умножение обыкновенных дробей</a></li><li><a href="#t4">Деление обыкновенных дробей</a></li><li><a href="#t5">Сложение десятичных дробей</a></li><li><a href="#t6">Вычитание десятичных дробей</a></li><li><a href="#t7">Умножение десятичных дробей</a></li><li><a href="#t8">Деление десятичных дробей</a></li><li><a href="#t9">Смешанная запись и порядок действий</a></li></ol></nav>
+<section id="t1" class="card"><h2>Сложение обыкновенных дробей</h2><h3>Что нужно знать</h3><ul><li>Общий знаменатель</li><li>Дополнительный множитель</li><li>Сумма</li></ul><h3>Теория</h3><dl><dt>Общий знаменатель</dt><dd>Складывать можно доли одного размера. Приведи дроби к общему знаменателю, например к НОК знаменателей.</dd><dt>Дополнительный множитель</dt><dd>Раздели новый знаменатель на старый и умножь на результат числитель и знаменатель. Значение дроби сохранится.</dd><dt>Сумма</dt><dd>Сложи числители, сохрани общий знаменатель и сократи ответ.</dd></dl><div class="example"><h3>Разбор примера</h3><p class="math"><span class="frac"><span>2</span><span>3</span></span> + <span class="frac"><span>1</span><span>4</span></span></p><ol><li>Общий знаменатель 12. Дополнительные множители 4 и 3.</li><li><span class="frac"><span>2</span><span>3</span></span> + <span class="frac"><span>1</span><span>4</span></span> = <span class="frac"><span>8</span><span>12</span></span> + <span class="frac"><span>3</span><span>12</span></span> = <span class="frac"><span>11</span><span>12</span></span>.</li></ol></div><button type="button" class="practice-link" data-topic="0">Тренироваться</button></section>
+<section id="t2" class="card"><h2>Вычитание обыкновенных дробей</h2><h3>Что нужно знать</h3><ul><li>Общий знаменатель</li><li>Разность</li><li>Вычитание отрицательного</li></ul><h3>Теория</h3><dl><dt>Общий знаменатель</dt><dd>Переведи обе дроби в доли одного размера, умножая числитель и знаменатель каждой на её дополнительный множитель.</dd><dt>Разность</dt><dd>Вычти второй числитель из первого и сохрани знаменатель. Если первый числитель меньше, получится отрицательное число.</dd><dt>Вычитание отрицательного</dt><dd>Вычесть отрицательное число значит прибавить противоположное ему положительное.</dd></dl><div class="example"><h3>Разбор примера</h3><p class="math"><span class="frac"><span>3</span><span>8</span></span> − <span class="frac"><span>5</span><span>6</span></span></p><ol><li>Общий знаменатель 24, поскольку 24 делится и на 8, и на 6.</li><li><span class="frac"><span>3</span><span>8</span></span> − <span class="frac"><span>5</span><span>6</span></span> = <span class="frac"><span>9</span><span>24</span></span> − <span class="frac"><span>20</span><span>24</span></span> = −<span class="frac"><span>11</span><span>24</span></span>.</li></ol></div><button type="button" class="practice-link" data-topic="1">Тренироваться</button></section>
+<section id="t3" class="card"><h2>Умножение обыкновенных дробей</h2><h3>Что нужно знать</h3><ul><li>Правило умножения</li><li>Сокращение</li><li>Правило знаков</li></ul><h3>Теория</h3><dl><dt>Правило умножения</dt><dd>Числитель произведения равен произведению числителей, знаменатель равен произведению знаменателей. Общий знаменатель здесь не требуется.</dd><dt>Сокращение</dt><dd>В произведении можно сократить общий множитель числителя и знаменателя до умножения.</dd><dt>Правило знаков</dt><dd>При одинаковых знаках произведение положительно, при разных отрицательно. Произведение с нулём равно нулю.</dd></dl><div class="example"><h3>Разбор примера</h3><p class="math">−<span class="frac"><span>5</span><span>12</span></span> × <span class="frac"><span>8</span><span>15</span></span></p><ol><li>Знак минус, поскольку множители разных знаков. Сокращаем 5 и 15 на 5, а 8 и 12 на 4.</li><li>Остаётся −(<span class="frac"><span>1</span><span>3</span></span> × <span class="frac"><span>2</span><span>3</span></span>) = −<span class="frac"><span>2</span><span>9</span></span>.</li></ol></div><button type="button" class="practice-link" data-topic="2">Тренироваться</button></section>
+<section id="t4" class="card"><h2>Деление обыкновенных дробей</h2><h3>Что нужно знать</h3><ul><li>Обратное число</li><li>Деление как умножение</li><li>Делитель и знак</li></ul><h3>Теория</h3><dl><dt>Обратное число</dt><dd>Чтобы получить обратную дробь, поменяй местами числитель и знаменатель ненулевой дроби. Их произведение равно 1.</dd><dt>Деление как умножение</dt><dd>Первую дробь оставь без изменения. Замени деление умножением на обратную ко второй дробь.</dd><dt>Делитель и знак</dt><dd>На ноль делить нельзя. При разных знаках частное отрицательно, при одинаковых ненулевых положительно.</dd></dl><div class="example"><h3>Разбор примера</h3><p class="math"><span class="frac"><span>7</span><span>10</span></span> ÷ (−<span class="frac"><span>14</span><span>15</span></span>)</p><ol><li>Заменяем деление умножением на −<span class="frac"><span>15</span><span>14</span></span>.</li><li>Получаем −(<span class="frac"><span>7</span><span>10</span></span> × <span class="frac"><span>15</span><span>14</span></span>) = −(<span class="frac"><span>1</span><span>2</span></span> × <span class="frac"><span>3</span><span>2</span></span>) = −<span class="frac"><span>3</span><span>4</span></span>.</li></ol></div><button type="button" class="practice-link" data-topic="3">Тренироваться</button></section>
+<section id="t5" class="card"><h2>Сложение десятичных дробей</h2><h3>Что нужно знать</h3><ul><li>Разряды</li><li>Нули справа</li><li>Перенос в старший разряд</li></ul><h3>Теория</h3><dl><dt>Разряды</dt><dd>Запиши числа запятая под запятой. Тогда единицы, десятые и сотые окажутся в своих столбцах.</dd><dt>Нули справа</dt><dd>Добавь справа нули, если это помогает выровнять запись. Например, 0,4 = 0,40.</dd><dt>Перенос в старший разряд</dt><dd>Десять единиц одного разряда дают одну единицу соседнего старшего разряда. При разных знаках вычитаем меньший модуль из большего и сохраняем знак большего по модулю.</dd></dl><div class="example"><h3>Разбор примера</h3><p class="math">3,47 + 2,8</p><ol><li>Записываем 2,8 как 2,80. Складываем 347 и 280 сотых.</li><li>Получаем 627 сотых, или 6,27.</li></ol></div><button type="button" class="practice-link" data-topic="4">Тренироваться</button></section>
+<section id="t6" class="card"><h2>Вычитание десятичных дробей</h2><h3>Что нужно знать</h3><ul><li>Разряды</li><li>Заём</li><li>Знаки</li></ul><h3>Теория</h3><dl><dt>Разряды</dt><dd>Выровняй запятые и допиши справа нули, чтобы удобно было вычитать одинаковые разряды.</dd><dt>Заём</dt><dd>Если в текущем разряде цифра уменьшаемого меньше, занимаем единицу старшего разряда и получаем десять единиц текущего.</dd><dt>Знаки</dt><dd>Если вычитаешь из меньшего большее, результат отрицательный. Вычитание отрицательного заменяется сложением.</dd></dl><div class="example"><h3>Разбор примера</h3><p class="math">6,2 − 3,47</p><ol><li>6,2 = 6,20. Вычитаем 347 сотых из 620 сотых.</li><li>620 − 347 = 273, поэтому разность равна 2,73.</li></ol></div><button type="button" class="practice-link" data-topic="5">Тренироваться</button></section>
+<section id="t7" class="card"><h2>Умножение десятичных дробей</h2><h3>Что нужно знать</h3><ul><li>Произведение целых</li><li>Число знаков после запятой</li><li>Проверка масштаба</li></ul><h3>Теория</h3><dl><dt>Произведение целых</dt><dd>Временно убери запятые и перемножь полученные целые числа.</dd><dt>Число знаков после запятой</dt><dd>Сложи количества знаков после запятой в обоих множителях. Столько цифр отдели справа в произведении, добавляя слева нули при необходимости.</dd><dt>Проверка масштаба</dt><dd>Если положительный множитель меньше 1, умножение на него уменьшает положительное число.</dd></dl><div class="example"><h3>Разбор примера</h3><p class="math">0,24 × 1,5</p><ol><li>24 × 15 = 360. Исходные множители в 100 и 10 раз меньше полученных целых чисел соответственно.</li><li>Делим целое произведение на 1000. Отделяем три знака справа: 0,360 = 0,36.</li></ol></div><button type="button" class="practice-link" data-topic="6">Тренироваться</button></section>
+<section id="t8" class="card"><h2>Деление десятичных дробей</h2><h3>Что нужно знать</h3><ul><li>Неизменное частное</li><li>Целый делитель</li><li>Проверка</li></ul><h3>Теория</h3><dl><dt>Неизменное частное</dt><dd>При умножении делимого и делителя на одно и то же ненулевое число частное сохраняется.</dd><dt>Целый делитель</dt><dd>Перенеси запятую вправо в обоих числах на одинаковое число разрядов, пока делитель не станет целым. Допиши нули, если нужно.</dd><dt>Проверка</dt><dd>Умножь ответ на исходный делитель. Должно получиться исходное делимое.</dd></dl><div class="example"><h3>Разбор примера</h3><p class="math">3,15 ÷ 0,45</p><ol><li>Умножаем оба числа на 100. Получаем 315 ÷ 45 = 7.</li><li>Проверяем: 7 × 0,45 = 3,15.</li></ol></div><button type="button" class="practice-link" data-topic="7">Тренироваться</button></section>
+<section id="t9" class="card"><h2>Смешанная запись и порядок действий</h2><h3>Что нужно знать</h3><ul><li>Замена записи</li><li>Конечная запись</li><li>Порядок</li></ul><h3>Теория</h3><dl><dt>Замена записи</dt><dd>Десятичную дробь можно записать обыкновенной со знаменателем 10, 100 или 1000 в зависимости от числа знаков. Чтобы перевести обыкновенную дробь в десятичную, раздели числитель на знаменатель.</dd><dt>Конечная запись</dt><dd>У несократимой дроби получится конечная десятичная запись, если знаменатель состоит только из множителей 2 и 5 или равен 1. Например, <span class="frac"><span>3</span><span>8</span></span> = 0,375.</dd><dt>Порядок</dt><dd>Вычисляй сначала в скобках, затем степени, затем умножение и деление слева направо, затем сложение и вычитание слева направо.</dd></dl><div class="example"><h3>Разбор примера</h3><p class="math">(0,5 + <span class="frac"><span>3</span><span>4</span></span>) × 0,8</p><ol><li>В скобках 0,5 = <span class="frac"><span>1</span><span>2</span></span> = <span class="frac"><span>2</span><span>4</span></span>, поэтому сумма равна <span class="frac"><span>5</span><span>4</span></span>.</li><li>Дальше 0,8 = <span class="frac"><span>4</span><span>5</span></span>. Тогда <span class="frac"><span>5</span><span>4</span></span> × <span class="frac"><span>4</span><span>5</span></span> = 1.</li></ol></div><button type="button" class="practice-link" data-topic="8">Тренироваться</button></section>
+</div>
+<section id="practice" class="view card" hidden>
+<h2>Тренажёр</h2>
+<label for="topic">Тип задания</label>
+<select id="topic"></select>
+<p id="practice-count" class="muted"></p>
+<form id="practice-form">
+<div class="sheet"><p class="question math" id="practice-question"></p>
+<label for="practice-answer">Ответ</label><input id="practice-answer" autocomplete="off" maxlength="38" placeholder="0,5 или 1/2"></div>
+<div class="row"><button class="primary">Проверить</button><button type="button" id="hint">Подсказка</button><button type="button" id="next-practice" hidden>Следующее</button><button type="button" id="repeat" hidden>Повторить ошибки</button></div>
+</form>
+<p class="status" id="practice-status" role="status"></p>
+</section>
+<section id="diagnostic" class="view card" hidden>
+<h2>Входной тест</h2>
+<p>18 заданий. Отвечай десятичной или обыкновенной дробью. Результат по каждому навыку появится в конце.</p>
+<div id="test-screen">
+<p class="muted" id="test-count"></p>
+<form id="test-form">
+<div class="sheet"><p class="question math" id="test-question"></p><label for="test-answer">Ответ</label><input id="test-answer" autocomplete="off" maxlength="38"></div>
+<div class="row"><button type="button" id="back">Назад</button><button class="primary" id="next-test">Дальше</button></div>
+</form>
+<p class="status" id="test-status" role="status"></p>
+</div>
+<div id="test-results" hidden><h3 id="score" tabindex="-1"></h3><ul id="skills"></ul><button type="button" id="reset">Начать заново</button></div>
+</section>
+<footer><a href="https://fipi.ru/oge/demoversii-specifikacii-kodifikatory">Демоверсия и спецификация ФИПИ</a></footer>
+</main>
+<script>
+'use strict';
+const topics = [{"title": "Сложение обыкновенных дробей", "practice": [{"formula": "<span class=\"frac\"><span>1</span><span>2</span></span> + <span class=\"frac\"><span>3</span><span>8</span></span>", "key": [7, 8]}, {"formula": "<span class=\"frac\"><span>5</span><span>12</span></span> + <span class=\"frac\"><span>1</span><span>6</span></span>", "key": [7, 12]}, {"formula": "−<span class=\"frac\"><span>1</span><span>4</span></span> + <span class=\"frac\"><span>5</span><span>8</span></span>", "key": [3, 8]}], "test": [{"formula": "<span class=\"frac\"><span>3</span><span>5</span></span> + <span class=\"frac\"><span>1</span><span>4</span></span>", "key": [17, 20]}, {"formula": "−<span class=\"frac\"><span>3</span><span>8</span></span> + <span class=\"frac\"><span>7</span><span>16</span></span>", "key": [1, 16]}], "hint": "Приведи дроби к общему знаменателю."}, {"title": "Вычитание обыкновенных дробей", "practice": [{"formula": "<span class=\"frac\"><span>7</span><span>10</span></span> − <span class=\"frac\"><span>1</span><span>4</span></span>", "key": [9, 20]}, {"formula": "<span class=\"frac\"><span>1</span><span>6</span></span> − <span class=\"frac\"><span>3</span><span>4</span></span>", "key": [-7, 12]}, {"formula": "<span class=\"frac\"><span>3</span><span>16</span></span> − (−<span class=\"frac\"><span>1</span><span>8</span></span>)", "key": [5, 16]}], "test": [{"formula": "<span class=\"frac\"><span>7</span><span>12</span></span> − <span class=\"frac\"><span>1</span><span>8</span></span>", "key": [11, 24]}, {"formula": "<span class=\"frac\"><span>1</span><span>5</span></span> − (−<span class=\"frac\"><span>3</span><span>10</span></span>)", "key": [1, 2]}], "hint": "После приведения вычти числители. Проверь знак перед второй дробью."}, {"title": "Умножение обыкновенных дробей", "practice": [{"formula": "<span class=\"frac\"><span>4</span><span>9</span></span> × <span class=\"frac\"><span>3</span><span>8</span></span>", "key": [1, 6]}, {"formula": "−<span class=\"frac\"><span>6</span><span>7</span></span> × <span class=\"frac\"><span>21</span><span>10</span></span>", "key": [-9, 5]}, {"formula": "−<span class=\"frac\"><span>2</span><span>5</span></span> × (−<span class=\"frac\"><span>5</span><span>8</span></span>)", "key": [1, 4]}], "test": [{"formula": "<span class=\"frac\"><span>7</span><span>12</span></span> × <span class=\"frac\"><span>9</span><span>14</span></span>", "key": [3, 8]}, {"formula": "−<span class=\"frac\"><span>15</span><span>16</span></span> × <span class=\"frac\"><span>8</span><span>25</span></span>", "key": [-3, 10]}], "hint": "Сократи общие множители между числителем и знаменателем."}, {"title": "Деление обыкновенных дробей", "practice": [{"formula": "<span class=\"frac\"><span>5</span><span>6</span></span> ÷ <span class=\"frac\"><span>10</span><span>9</span></span>", "key": [3, 4]}, {"formula": "−<span class=\"frac\"><span>9</span><span>20</span></span> ÷ <span class=\"frac\"><span>3</span><span>10</span></span>", "key": [-3, 2]}, {"formula": "<span class=\"frac\"><span>3</span><span>8</span></span> ÷ (−<span class=\"frac\"><span>9</span><span>16</span></span>)", "key": [-2, 3]}], "test": [{"formula": "<span class=\"frac\"><span>8</span><span>15</span></span> ÷ <span class=\"frac\"><span>4</span><span>5</span></span>", "key": [2, 3]}, {"formula": "−<span class=\"frac\"><span>7</span><span>18</span></span> ÷ (−<span class=\"frac\"><span>14</span><span>9</span></span>)", "key": [1, 4]}], "hint": "Переверни только дробь, на которую делишь."}, {"title": "Сложение десятичных дробей", "practice": [{"formula": "1,49 + 2,7", "key": [419, 100]}, {"formula": "8,075 + 0,94", "key": [1803, 200]}, {"formula": "−2,8 + 0,35", "key": [-49, 20]}], "test": [{"formula": "0,68 + 4,7", "key": [269, 50]}, {"formula": "−7,4 + 6,95", "key": [-9, 20]}], "hint": "Выровняй запятые и подпиши недостающие нули."}, {"title": "Вычитание десятичных дробей", "practice": [{"formula": "4,1 − 2,76", "key": [67, 50]}, {"formula": "2,4 − 5,02", "key": [-131, 50]}, {"formula": "3,8 − (−1,26)", "key": [253, 50]}], "test": [{"formula": "9,3 − 4,86", "key": [111, 25]}, {"formula": "2,08 − 4,6", "key": [-63, 25]}], "hint": "Допиши справа нули. Оцени знак ещё до вычислений."}, {"title": "Умножение десятичных дробей", "practice": [{"formula": "3,2 × 1,4", "key": [112, 25]}, {"formula": "0,07 × 0,06", "key": [21, 5000]}, {"formula": "−0,35 × 0,8", "key": [-7, 25]}], "test": [{"formula": "4,2 × 3,1", "key": [651, 50]}, {"formula": "0,08 × (−0,15)", "key": [-3, 250]}], "hint": "Сосчитай знаки после запятой в обоих множителях."}, {"title": "Деление десятичных дробей", "practice": [{"formula": "2,4 ÷ 0,6", "key": [4, 1]}, {"formula": "0,28 ÷ 0,7", "key": [2, 5]}, {"formula": "−1,44 ÷ 0,12", "key": [-12, 1]}], "test": [{"formula": "4,68 ÷ 1,2", "key": [39, 10]}, {"formula": "0,42 ÷ (−0,06)", "key": [-7, 1]}], "hint": "Сдвинь запятую на одинаковое число разрядов в обоих числах."}, {"title": "Смешанная запись и порядок действий", "practice": [{"formula": "0,75 + <span class=\"frac\"><span>1</span><span>8</span></span>", "key": [7, 8]}, {"formula": "1,2 − <span class=\"frac\"><span>2</span><span>5</span></span> × 0,5", "key": [1, 1]}, {"formula": "(<span class=\"frac\"><span>1</span><span>4</span></span> + 0,35) ÷ 0,2", "key": [3, 1]}], "test": [{"formula": "0,6 × (<span class=\"frac\"><span>1</span><span>3</span></span> + 0,5)", "key": [1, 2]}, {"formula": "1,5 − <span class=\"frac\"><span>3</span><span>8</span></span> ÷ 0,5", "key": [3, 4]}], "hint": "Выбери одну запись чисел и сначала вычисли действие с более высоким приоритетом."}] ;
+const get = id => document.getElementById(id);
+function show(view) {
+  document.querySelectorAll('.view').forEach(section => { section.hidden = section.id !== view; });
+  document.querySelectorAll('[data-view]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.view === view)));
+}
+function parseAnswer(raw) {
+  const normalized = raw.trim().replace(/−/g, '-').replace(',', '.');
+  const fraction = normalized.match(/^([+-]?\d+)\s*\/\s*(\d+)$/);
+  if (fraction) return BigInt(fraction[2]) !== 0n ? [BigInt(fraction[1]), BigInt(fraction[2])] : null;
+  if (!/^[+-]?(?:\d+(?:\.\d+)?|\.\d+)$/.test(normalized)) return null;
+  const digits = normalized.split('.')[1]?.length || 0;
+  return [BigInt(normalized.replace('.', '')), 10n ** BigInt(digits)];
+}
+function matches(value, key) {
+  return Boolean(value && value[0] * BigInt(key[1]) === value[1] * BigInt(key[0]));
+}
+const topicSelect = get('topic');
+topics.forEach((topic, index) => topicSelect.add(new Option(topic.title, index)));
+let practiceIndex, queue, mistakes, answered;
+function loadPractice() {
+  answered = false;
+  const topic = topics[Number(topicSelect.value)];
+  get('practice-count').textContent = (practiceIndex + 1) + ' из ' + queue.length;
+  get('practice-question').innerHTML = topic.practice[queue[practiceIndex]].formula;
+  get('practice-answer').disabled = false;
+  get('practice-answer').value = '';
+  get('practice-form').querySelector('button.primary').disabled = false;
+  get('practice-status').textContent = '';
+  get('next-practice').hidden = true;
+  get('repeat').hidden = true;
+}
+function startPractice(index, repeat) {
+  topicSelect.value = index;
+  queue = repeat ? [...mistakes] : topics[index].practice.map((_, i) => i);
+  practiceIndex = 0;
+  mistakes = new Set();
+  loadPractice();
+}
+topicSelect.addEventListener('change', () => startPractice(Number(topicSelect.value), false));
+document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => show(button.dataset.view)));
+document.querySelectorAll('[data-topic]').forEach(button => button.addEventListener('click', () => {
+  startPractice(Number(button.dataset.topic), false);
+  show('practice');
+  topicSelect.focus();
+}));
+get('practice-form').addEventListener('submit', event => {
+  event.preventDefault();
+  if (answered) return;
+  const value = parseAnswer(get('practice-answer').value);
+  if (!value) {
+    get('practice-status').textContent = 'Введи число или дробь с ненулевым знаменателем.';
+    return;
+  }
+  const index = queue[practiceIndex];
+  const topic = topics[Number(topicSelect.value)];
+  const key = topic.practice[index].key;
+  answered = true;
+  get('practice-answer').disabled = true;
+  get('practice-form').querySelector('button.primary').disabled = true;
+  if (matches(value, key)) get('practice-status').textContent = 'Верно.';
+  else {
+    mistakes.add(index);
+    get('practice-status').textContent = 'Ответ ' + (key[1] === 1 ? key[0] : key.join('/')) + '. ' + topic.hint;
+  }
+  get('next-practice').hidden = practiceIndex + 1 === queue.length;
+  get('repeat').hidden = practiceIndex + 1 !== queue.length || mistakes.size === 0;
+});
+get('hint').addEventListener('click', () => { get('practice-status').textContent = topics[Number(topicSelect.value)].hint; });
+get('next-practice').addEventListener('click', () => { practiceIndex++; loadPractice(); get('practice-answer').focus(); });
+get('repeat').addEventListener('click', () => { startPractice(Number(topicSelect.value), true); get('practice-answer').focus(); });
+const test = [0, 1].flatMap(round => topics.map((topic, index) => ({...topic.test[round], index})));
+let position = 0;
+const answers = Array(test.length).fill('');
+function loadTest() {
+  get('test-count').textContent = (position + 1) + ' из ' + test.length;
+  get('test-question').innerHTML = test[position].formula;
+  get('test-answer').value = answers[position];
+  get('test-status').textContent = '';
+  get('back').disabled = position === 0;
+  get('next-test').textContent = position === test.length - 1 ? 'Завершить тест' : 'Дальше';
+}
+function results() {
+  const scores = Array(topics.length).fill(0);
+  test.forEach(({index, key}, i) => {
+    if (matches(parseAnswer(answers[i]), key)) scores[index]++;
+  });
+  get('skills').replaceChildren(...topics.map((topic, i) => {
+    const li = document.createElement('li');
+    li.textContent = topic.title + ' · ' + scores[i] + ' из 2';
+    if (scores[i] < 2) {
+      const link = document.createElement('a');
+      link.href = '#t' + (i + 1);
+      link.textContent = 'Повторить теорию';
+      link.addEventListener('click', () => show('theory'));
+      li.append(' · ', link);
+    }
+    return li;
+  }));
+  get('test-screen').hidden = true;
+  get('test-results').hidden = false;
+  get('score').textContent = scores.reduce((a, b) => a + b, 0) + ' из ' + test.length;
+  get('score').focus();
+}
+get('test-form').addEventListener('submit', event => {
+  event.preventDefault();
+  const raw = get('test-answer').value.trim();
+  if (raw && !parseAnswer(raw)) {
+    get('test-status').textContent = 'Проверь формат ответа. Подойдут 0,5 или 1/2.';
+    return;
+  }
+  answers[position] = raw;
+  if (position === test.length - 1) results();
+  else { position++; loadTest(); get('test-answer').focus(); }
+});
+get('back').addEventListener('click', () => { answers[position] = get('test-answer').value.trim(); position--; loadTest(); });
+get('reset').addEventListener('click', () => {
+  answers.fill('');
+  position = 0;
+  get('test-results').hidden = true;
+  get('test-screen').hidden = false;
+  loadTest();
+  get('test-answer').focus();
+});
+startPractice(0, false);
+loadTest();
+</script>
+</body></html>

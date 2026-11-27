@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ОГЭ №1–5 · Практические задачи · lili.math</title>
+<style>
+:root{color-scheme:dark;--green:#16231a;--card:#26382b;--cream:#eee0c8;--sand:#c9ab82;--gold:#e2b04a;--orange:#f4ad79}
+*{box-sizing:border-box}body{margin:0;background:var(--green);color:var(--cream);font:17px/1.62 Inter,system-ui,sans-serif}
+main{max-width:940px;margin:auto;padding:24px clamp(14px,4vw,40px) 48px}header{padding:26px 0 12px}
+h1{font-size:clamp(2.2rem,7vw,4rem);line-height:1.05;margin:.25em 0}h2,h3{line-height:1.25}
+h2{margin-top:0;color:var(--gold)}h3{margin:1.2em 0 .3em}p{margin:.5em 0}.brand{color:var(--gold);font-weight:800;letter-spacing:.05em}
+.card{background:var(--card);border:1px solid #6a785a;border-left:4px solid var(--sand);padding:clamp(16px,4vw,30px);border-radius:18px;margin:16px 0}
+.card:nth-child(3n){border-left-color:#dd7a3a}.example{padding:14px 20px;background:#19291d;border-radius:12px;margin:14px 0}
+.example h3{margin:0}dt{color:var(--orange);font-weight:750;margin-top:.65em}dd{margin:0;max-width:68ch}
+a{color:var(--gold);text-underline-offset:.18em}button,input,select{font:inherit;color:inherit;background:#17271c;border:1px solid var(--sand);border-radius:8px;padding:.5rem .8rem}
+button{cursor:pointer}button:hover{border-color:var(--gold)}button.primary{color:var(--green);background:var(--gold);font-weight:750}button[aria-pressed=true]{background:var(--gold);color:var(--green)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.toc{columns:2;gap:28px;padding-left:1.5em}.toc li{break-inside:avoid;margin-bottom:.38em}
+.math{font-weight:800;font-size:1.28em;color:var(--orange)}.frac{display:inline-grid;vertical-align:middle;line-height:1.2;text-align:center;padding:0 .18em}.frac span{padding:0 .22em}.frac span:first-child{border-bottom:1px solid}
+.sheet{padding:18px;background-color:#19291d;background-image:linear-gradient(#324536 1px,transparent 1px),linear-gradient(90deg,#324536 1px,transparent 1px);background-size:20px 20px;border-radius:10px;margin:12px 0}
+form label{display:block;margin-bottom:.35em}input{width:14ch}select{max-width:100%}.status{min-height:1.7em}.question{margin:0 0 12px}.muted{color:#ddc7a5}
+[hidden]{display:none!important}@media(max-width:600px){.toc{columns:1}.card{border-radius:12px}}
+.question{font-size:1.12em;color:var(--cream);overflow-wrap:anywhere}.question p{margin:.5rem 0}.answer{color:var(--orange);font-weight:750}.drawing{display:block;width:min(100%,440px);height:auto;margin:1rem auto;background:#eee0c8;border-radius:8px}.table-scroll{overflow:auto}table{border-collapse:collapse;background:#19291d;margin:.7rem 0}caption{text-align:left;font-weight:700}th,td{padding:.45em .7em;text-align:center;border:1px solid #74816a}input{max-width:100%}button:disabled{opacity:.62;cursor:default}.toc a{display:inline-block}.math-token{display:inline-block;color:var(--orange);font-weight:750}
+</style>
+</head>
+<body><main>
+<header><div class="brand">lili.math</div><p>ОГЭ по математике · №1–5</p>
+<h1>Практические задачи</h1><p>За каждое из пяти экзаменационных заданий предусмотрен 1 балл.</p><p>Семь сюжетов: шины, квартира, дачный участок, план местности, тарифы, бумага и печь для бани. Во входном тесте два общих условия, в каждом по пять вопросов.</p></header>
+<nav class="row" aria-label="Разделы">
+<button type="button" data-view="theory" aria-pressed="true">Теория</button>
+<button type="button" data-view="practice" aria-pressed="false">Тренажёр</button>
+<button type="button" data-view="diagnostic" aria-pressed="false">Входной тест</button>
+</nav>
+<div id="theory" class="view"><nav class="card" aria-label="Оглавление теории">
+<h2>Типы заданий</h2><ol class="toc"><li><a href="#t0">№1. Чтение плана и таблицы</a></li><li><a href="#t1">№2. Перевод единиц и расчёт величины</a></li><li><a href="#t2">№3. Размеры, площадь и расход</a></li><li><a href="#t3">№4. Сравнение рассчитанных величин</a></li><li><a href="#t4">№5. Проценты и выбор варианта</a></li></ol></nav><section class="card" id="t0">
+<h2>№1. Чтение плана и таблицы</h2><h3>Теория</h3><p>Найди на плане или в таблице именно те объекты, которые спрашивают. Если просят последовательность цифр, сохраняй порядок объектов из вопроса.</p>
+<div class="example"><h3>Разбор примера</h3><div><p class="math-token">Шины · №1</p><p>Маркировка 180/50 R16 задаёт ширину 180 мм, высоту боковины 50% от ширины и диаметр диска 16 дюймов. В расчётах принимай 1 дюйм за 25,4 мм.</p><div class="table-scroll"><table><caption>Допустимые сочетания</caption><thead><tr><th scope="col">Диск, дюймы</th><th scope="col">Допустимая ширина, мм</th></tr></thead><tbody><tr><td>15</td><td>165, 175</td></tr><tr><td>16</td><td>175, 180, 190</td></tr><tr><td>17</td><td>190, 200</td></tr></tbody></table></div><p>Какова наибольшая разрешённая ширина при диске 16 дюймов?</p></div>
+<p>В строке 16 наибольшая ширина равна 190 мм.</p><p class="answer">Ответ: 190</p></div>
+<button type="button" data-topic="0">Тренироваться</button></section><section class="card" id="t1">
+<h2>№2. Перевод единиц и расчёт величины</h2><h3>Теория</h3><p>Переводи все величины в согласованные единицы. Если цена или размер даны на одну единицу, умножай на количество. Если покупают целые упаковки, дробный результат округляй вверх.</p>
+<div class="example"><h3>Разбор примера</h3><div><p class="math-token">Шины · №2</p><p>Маркировка 180/50 R16 задаёт ширину 180 мм, высоту боковины 50% от ширины и диаметр диска 16 дюймов. В расчётах принимай 1 дюйм за 25,4 мм.</p><div class="table-scroll"><table><caption>Допустимые сочетания</caption><thead><tr><th scope="col">Диск, дюймы</th><th scope="col">Допустимая ширина, мм</th></tr></thead><tbody><tr><td>15</td><td>165, 175</td></tr><tr><td>16</td><td>175, 180, 190</td></tr><tr><td>17</td><td>190, 200</td></tr></tbody></table></div><p>Какова высота боковины шины 180/50 R16 в мм?</p></div>
+<p>50% от 180 мм дают 90 мм.</p><p class="answer">Ответ: 90</p></div>
+<button type="button" data-topic="1">Тренироваться</button></section><section class="card" id="t2">
+<h2>№3. Размеры, площадь и расход</h2><h3>Теория</h3><p>Выбери формулу по чертежу. Для площади прямоугольника умножай длину на ширину. При вычислении диаметра колеса прибавь две высоты боковины.</p>
+<div class="example"><h3>Разбор примера</h3><div><p class="math-token">Шины · №3</p><p>Маркировка 180/50 R16 задаёт ширину 180 мм, высоту боковины 50% от ширины и диаметр диска 16 дюймов. В расчётах принимай 1 дюйм за 25,4 мм.</p><div class="table-scroll"><table><caption>Допустимые сочетания</caption><thead><tr><th scope="col">Диск, дюймы</th><th scope="col">Допустимая ширина, мм</th></tr></thead><tbody><tr><td>15</td><td>165, 175</td></tr><tr><td>16</td><td>175, 180, 190</td></tr><tr><td>17</td><td>190, 200</td></tr></tbody></table></div><p>Найди наружный диаметр колеса 180/50 R16 в мм.</p></div>
+<p>Диск 16 · 25,4 = 406,4 мм. Добавляем две боковины по 90 мм.</p><p class="answer">Ответ: 586,4</p></div>
+<button type="button" data-topic="2">Тренироваться</button></section><section class="card" id="t3">
+<h2>№4. Сравнение рассчитанных величин</h2><h3>Теория</h3><p>Вычисли обе величины в одинаковых единицах. Ответ на «на сколько больше» дают разностью. Отдельно учитывай, спрашивают ли радиус, диаметр или длину маршрута.</p>
+<div class="example"><h3>Разбор примера</h3><div><p class="math-token">Шины · №4</p><p>Маркировка 180/50 R16 задаёт ширину 180 мм, высоту боковины 50% от ширины и диаметр диска 16 дюймов. В расчётах принимай 1 дюйм за 25,4 мм.</p><div class="table-scroll"><table><caption>Допустимые сочетания</caption><thead><tr><th scope="col">Диск, дюймы</th><th scope="col">Допустимая ширина, мм</th></tr></thead><tbody><tr><td>15</td><td>165, 175</td></tr><tr><td>16</td><td>175, 180, 190</td></tr><tr><td>17</td><td>190, 200</td></tr></tbody></table></div><p>На сколько увеличится радиус в мм, если заменить 180/50 R16 на 200/50 R16?</p></div>
+<p>Диск тот же, боковина увеличилась с 90 до 100 мм. На столько же вырос радиус.</p><p class="answer">Ответ: 10</p></div>
+<button type="button" data-topic="3">Тренироваться</button></section><section class="card" id="t4">
+<h2>№5. Проценты и выбор варианта</h2><h3>Теория</h3><p>При процентном сравнении дели изменение на исходную величину. Для выбора тарифа или модели проверь ограничения, рассчитай полную стоимость каждого допустимого варианта и сравни суммы.</p>
+<div class="example"><h3>Разбор примера</h3><div><p class="math-token">Шины · №5</p><p>Маркировка 180/50 R16 задаёт ширину 180 мм, высоту боковины 50% от ширины и диаметр диска 16 дюймов. В расчётах принимай 1 дюйм за 25,4 мм.</p><div class="table-scroll"><table><caption>Допустимые сочетания</caption><thead><tr><th scope="col">Диск, дюймы</th><th scope="col">Допустимая ширина, мм</th></tr></thead><tbody><tr><td>15</td><td>165, 175</td></tr><tr><td>16</td><td>175, 180, 190</td></tr><tr><td>17</td><td>190, 200</td></tr></tbody></table></div><p>Сравни колёса наружного диаметра 600 и 630 мм. На сколько процентов вырос пробег за оборот?</p></div>
+<p>Длина окружности изменяется пропорционально диаметру. (630 − 600) ÷ 600 · 100 = 5.</p><p class="answer">Ответ: 5</p></div>
+<button type="button" data-topic="4">Тренироваться</button></section></div>
+<section id="practice" class="view card" hidden><h2>Тренажёр</h2>
+<label for="topic">Тип задания</label> <select id="topic"></select><p id="practice-count" class="muted"></p>
+<form id="practice-form"><div class="sheet"><div id="practice-question" class="question"></div>
+<label for="practice-answer">Ответ</label><input id="practice-answer" autocomplete="off" maxlength="38"></div>
+<div class="row"><button id="check" class="primary">Проверить</button>
+<button type="button" id="hint">Подсказка</button><button type="button" id="next-practice" hidden>Следующее</button>
+<button type="button" id="repeat" hidden>Повторить ошибки</button><button type="button" id="restart-practice">Начать заново</button></div></form>
+<div id="practice-status" class="status" role="status"></div></section>
+<section id="diagnostic" class="view card" hidden><h2>Входной тест</h2>
+<p>10 заданий. После завершения появится результат по каждому навыку.</p>
+<p>Числовой ответ можно ввести целым числом, десятичной дробью или в виде 1/2. Если требуется последовательность цифр, запиши её без разделителей.</p>
+<div id="test-screen"><p id="test-count" class="muted"></p>
+<form id="test-form"><div class="sheet"><div id="test-question" class="question"></div>
+<label for="test-answer">Ответ</label><input id="test-answer" autocomplete="off" maxlength="38"></div>
+<div class="row"><button type="button" id="back">Назад</button><button class="primary" id="next-test">Дальше</button></div></form>
+<p id="test-status" class="status" role="status"></p></div>
+<div id="test-results" hidden><h3 id="score" tabindex="-1"></h3><ul id="skills"></ul>
+<button type="button" id="reset">Начать заново</button></div></section>
+<footer><a href="https://fipi.ru/oge/demoversii-specifikacii-kodifikatory">Демоверсия и спецификация ФИПИ</a></footer>
+</main>
+<script id="content" type="application/json">{"topics": [{"title": "№1. Чтение плана и таблицы", "theory": "Найди на плане или в таблице именно те объекты, которые спрашивают. Если просят последовательность цифр, сохраняй порядок объектов из вопроса.", "hint": "Сначала подчеркни названия объектов или нужный заголовок столбца.", "example": {"prompt": "<p class=\"math-token\">Шины · №1<\/p><p>Маркировка 180/50 R16 задаёт ширину 180 мм, высоту боковины 50% от ширины и диаметр диска 16 дюймов. В расчётах принимай 1 дюйм за 25,4 мм.<\/p><div class=\"table-scroll\"><table><caption>Допустимые сочетания<\/caption><thead><tr><th scope=\"col\">Диск, дюймы<\/th><th scope=\"col\">Допустимая ширина, мм<\/th><\/tr><\/thead><tbody><tr><td>15<\/td><td>165, 175<\/td><\/tr><tr><td>16<\/td><td>175, 180, 190<\/td><\/tr><tr><td>17<\/td><td>190, 200<\/td><\/tr><\/tbody><\/table><\/div><p>Какова наибольшая разрешённая ширина при диске 16 дюймов?<\/p>", "key": "190", "solution": "В строке 16 наибольшая ширина равна 190 мм."}, "practice": [{"prompt": "<p class=\"math-token\">Дачный участок · №1<\/p><svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"Прямоугольный участок, номера 1 дом, 2 грядка, 3 пруд, 4 терраса.\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><path d=\"M25 18H294V148H25Z M44 37h84v57H44Z M184 34h86v36h-86Z M176 101h84v31h-84Z M45 109h82v26H45Z\"/><text x=\"79\" y=\"68\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">1<\/text><text x=\"219\" y=\"57\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">2<\/text><text x=\"215\" y=\"122\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">3<\/text><text x=\"80\" y=\"129\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">4<\/text><\/g><\/svg><p>Схема выполнена без масштаба. Участок 20 × 15 м. Дом №1 имеет размеры 8 × 6 м, грядка №2 имеет размеры 6 × 4 м, пруд №3 занимает 10 м², терраса №4 имеет размеры 8 × 3 м.<\/p><p>Запиши подряд номера пруда, дома и грядки.<\/p>", "key": "#312", "solution": "Пруд отмечен цифрой 3, дом цифрой 1, грядка цифрой 2."}, {"prompt": "<p class=\"math-token\">План местности · №1<\/p><svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"Треугольник дорог. Из A в B 9 км, из B в C 12 км, прямая дорога AC.\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><path d=\"M55 35V128H265Z M55 116H67V128\"/><text x=\"34\" y=\"33\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">A<\/text><text x=\"34\" y=\"141\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">B<\/text><text x=\"272\" y=\"139\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">C<\/text><text x=\"14\" y=\"90\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">9 км<\/text><text x=\"129\" y=\"149\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">12 км<\/text><\/g><\/svg><p>Дороги AB и BC пересекаются под прямым углом. AB = 9 км, BC = 12 км. Прямая дорога AC соединяет A и C. На схеме с масштабом 1 : 300 000 один сантиметр соответствует трём километрам.<\/p><p>На схеме номер 1 присвоен A, номер 2 присвоен B, номер 3 присвоен C. Запиши номера начала и конца дороги BC подряд в этом порядке.<\/p>", "key": "#23", "solution": "Дорога BC идёт от B к C, то есть от 2 к 3."}, {"prompt": "<p class=\"math-token\">Листы бумаги · №1<\/p><div class=\"table-scroll\"><table><caption>Форматы листов<\/caption><thead><tr><th scope=\"col\">Формат<\/th><th scope=\"col\">Длина, мм<\/th><th scope=\"col\">Ширина, мм<\/th><\/tr><\/thead><tbody><tr><td>A3<\/td><td>420<\/td><td>297<\/td><\/tr><tr><td>A4<\/td><td>297<\/td><td>210<\/td><\/tr><tr><td>A5<\/td><td>210<\/td><td>148<\/td><\/tr><tr><td>A6<\/td><td>148<\/td><td>105<\/td><\/tr><\/tbody><\/table><\/div><p>При разрезании пополам по линии, параллельной короткой стороне получают два листа следующего формата. Размеры в таблице округлены до целых миллиметров.<\/p><p>Какой номер формата имеет лист длиной 210 мм? Введи только цифру после A.<\/p>", "key": "#5", "solution": "Длина 210 мм соответствует A5."}, {"prompt": "<p class=\"math-token\">Печь для бани · №1<\/p><div class=\"table-scroll\"><table><caption>Печи<\/caption><thead><tr><th scope=\"col\">Модель<\/th><th scope=\"col\">Объём парной, м³<\/th><th scope=\"col\">Цена, ₽<\/th><th scope=\"col\">Установка, ₽<\/th><\/tr><\/thead><tbody><tr><td>1<\/td><td>6–12<\/td><td>17000<\/td><td>3000<\/td><\/tr><tr><td>2<\/td><td>10–18<\/td><td>19000<\/td><td>2000<\/td><\/tr><tr><td>3<\/td><td>12–20<\/td><td>20000<\/td><td>3500<\/td><\/tr><\/tbody><\/table><\/div><p>Размеры парной 2,5 м × 2 м × 2,6 м. Границы диапазонов входят в допустимые значения. Общие расходы включают покупку и установку.<\/p><p>Какая модель имеет верхнюю границу 18 м³? Запиши номер.<\/p>", "key": "#2", "solution": "Верхняя граница 18 м³ указана у модели 2."}], "test": [{"prompt": "<p class=\"math-token\">План квартиры · №1<\/p><svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"План: 1 коридор, 2 комната 6 на 4 метра, 3 кухня 3 на 4 метра, 4 кладовая 2 на 3 метра.\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><path d=\"M22 22H298V147H22Z M206 22V106 M22 106H298 M206 77H298 M268 106V147\"/><text x=\"125\" y=\"65\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">2<\/text><text x=\"237\" y=\"52\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">3<\/text><text x=\"100\" y=\"131\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">1<\/text><text x=\"275\" y=\"131\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">4<\/text><\/g><\/svg><p>Схема выполнена без масштаба. На схеме 1 коридор, 2 комната, 3 кухня, 4 кладовая. Размеры комнаты 6 × 4 м, кухни 3 × 4 м, кладовой 2 × 3 м. Упаковки покрытия покупают целиком.<\/p><p>Укажи подряд номера кухни, коридора и кладовой.<\/p>", "key": "#314", "solution": "На схеме это 3, 1 и 4 в заданном порядке."}, {"prompt": "<p class=\"math-token\">Тарифы · №1<\/p><div class=\"table-scroll\"><table><caption>Месячные тарифы<\/caption><thead><tr><th scope=\"col\">Номер<\/th><th scope=\"col\">Пакет, минут<\/th><th scope=\"col\">Абонплата, ₽<\/th><th scope=\"col\">Сверх пакета, ₽/мин<\/th><\/tr><\/thead><tbody><tr><td>1<\/td><td>150<\/td><td>250<\/td><td>3<\/td><\/tr><tr><td>2<\/td><td>250<\/td><td>340<\/td><td>2<\/td><\/tr><tr><td>3<\/td><td>400<\/td><td>460<\/td><td>1<\/td><\/tr><\/tbody><\/table><\/div><p>Плата за сверхпакетные минуты начисляется только на минуты сверх включённого пакета.<\/p><p>Укажи номер тарифа с пакетом 250 минут.<\/p>", "key": "#2", "solution": "250 минут в строке 2."}]}, {"title": "№2. Перевод единиц и расчёт величины", "theory": "Переводи все величины в согласованные единицы. Если цена или размер даны на одну единицу, умножай на количество. Если покупают целые упаковки, дробный результат округляй вверх.", "hint": "Уточни, в каких единицах нужен ответ и можно ли получить дробное количество.", "example": {"prompt": "<p class=\"math-token\">Шины · №2<\/p><p>Маркировка 180/50 R16 задаёт ширину 180 мм, высоту боковины 50% от ширины и диаметр диска 16 дюймов. В расчётах принимай 1 дюйм за 25,4 мм.<\/p><div class=\"table-scroll\"><table><caption>Допустимые сочетания<\/caption><thead><tr><th scope=\"col\">Диск, дюймы<\/th><th scope=\"col\">Допустимая ширина, мм<\/th><\/tr><\/thead><tbody><tr><td>15<\/td><td>165, 175<\/td><\/tr><tr><td>16<\/td><td>175, 180, 190<\/td><\/tr><tr><td>17<\/td><td>190, 200<\/td><\/tr><\/tbody><\/table><\/div><p>Какова высота боковины шины 180/50 R16 в мм?<\/p>", "key": "90", "solution": "50% от 180 мм дают 90 мм."}, "practice": [{"prompt": "<p class=\"math-token\">Дачный участок · №2<\/p><svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"Прямоугольный участок, номера 1 дом, 2 грядка, 3 пруд, 4 терраса.\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><path d=\"M25 18H294V148H25Z M44 37h84v57H44Z M184 34h86v36h-86Z M176 101h84v31h-84Z M45 109h82v26H45Z\"/><text x=\"79\" y=\"68\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">1<\/text><text x=\"219\" y=\"57\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">2<\/text><text x=\"215\" y=\"122\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">3<\/text><text x=\"80\" y=\"129\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">4<\/text><\/g><\/svg><p>Схема выполнена без масштаба. Участок 20 × 15 м. Дом №1 имеет размеры 8 × 6 м, грядка №2 имеет размеры 6 × 4 м, пруд №3 занимает 10 м², терраса №4 имеет размеры 8 × 3 м.<\/p><p>Для террасы покупают плитку, упаковки хватает на 5 м². Сколько упаковок понадобится?<\/p>", "key": "5", "solution": "Площадь 24 м². Нужно округлить 24 ÷ 5 = 4,8 вверх."}, {"prompt": "<p class=\"math-token\">План местности · №2<\/p><svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"Треугольник дорог. Из A в B 9 км, из B в C 12 км, прямая дорога AC.\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><path d=\"M55 35V128H265Z M55 116H67V128\"/><text x=\"34\" y=\"33\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">A<\/text><text x=\"34\" y=\"141\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">B<\/text><text x=\"272\" y=\"139\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">C<\/text><text x=\"14\" y=\"90\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">9 км<\/text><text x=\"129\" y=\"149\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">12 км<\/text><\/g><\/svg><p>Дороги AB и BC пересекаются под прямым углом. AB = 9 км, BC = 12 км. Прямая дорога AC соединяет A и C. На схеме с масштабом 1 : 300 000 один сантиметр соответствует трём километрам.<\/p><p>Какой длины дорога AB на схеме в сантиметрах?<\/p>", "key": "3", "solution": "Каждый сантиметр обозначает 3 км. 9 ÷ 3 = 3."}, {"prompt": "<p class=\"math-token\">Листы бумаги · №2<\/p><div class=\"table-scroll\"><table><caption>Форматы листов<\/caption><thead><tr><th scope=\"col\">Формат<\/th><th scope=\"col\">Длина, мм<\/th><th scope=\"col\">Ширина, мм<\/th><\/tr><\/thead><tbody><tr><td>A3<\/td><td>420<\/td><td>297<\/td><\/tr><tr><td>A4<\/td><td>297<\/td><td>210<\/td><\/tr><tr><td>A5<\/td><td>210<\/td><td>148<\/td><\/tr><tr><td>A6<\/td><td>148<\/td><td>105<\/td><\/tr><\/tbody><\/table><\/div><p>При разрезании пополам по линии, параллельной короткой стороне получают два листа следующего формата. Размеры в таблице округлены до целых миллиметров.<\/p><p>Сколько листов A6 получается из одного A4 при двух последовательных разрезаниях каждого листа пополам?<\/p>", "key": "4", "solution": "Из A4 выходят два A5. Каждый даёт два A6."}, {"prompt": "<p class=\"math-token\">Печь для бани · №2<\/p><div class=\"table-scroll\"><table><caption>Печи<\/caption><thead><tr><th scope=\"col\">Модель<\/th><th scope=\"col\">Объём парной, м³<\/th><th scope=\"col\">Цена, ₽<\/th><th scope=\"col\">Установка, ₽<\/th><\/tr><\/thead><tbody><tr><td>1<\/td><td>6–12<\/td><td>17000<\/td><td>3000<\/td><\/tr><tr><td>2<\/td><td>10–18<\/td><td>19000<\/td><td>2000<\/td><\/tr><tr><td>3<\/td><td>12–20<\/td><td>20000<\/td><td>3500<\/td><\/tr><\/tbody><\/table><\/div><p>Размеры парной 2,5 м × 2 м × 2,6 м. Границы диапазонов входят в допустимые значения. Общие расходы включают покупку и установку.<\/p><p>Переведи высоту парной в сантиметры.<\/p>", "key": "260", "solution": "2,6 · 100 = 260 см."}], "test": [{"prompt": "<p class=\"math-token\">План квартиры · №2<\/p><svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"План: 1 коридор, 2 комната 6 на 4 метра, 3 кухня 3 на 4 метра, 4 кладовая 2 на 3 метра.\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><path d=\"M22 22H298V147H22Z M206 22V106 M22 106H298 M206 77H298 M268 106V147\"/><text x=\"125\" y=\"65\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">2<\/text><text x=\"237\" y=\"52\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">3<\/text><text x=\"100\" y=\"131\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">1<\/text><text x=\"275\" y=\"131\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">4<\/text><\/g><\/svg><p>Схема выполнена без масштаба. На схеме 1 коридор, 2 комната, 3 кухня, 4 кладовая. Размеры комнаты 6 × 4 м, кухни 3 × 4 м, кладовой 2 × 3 м. Упаковки покрытия покупают целиком.<\/p><p>Одна упаковка покрытия рассчитана на 2,5 м². Сколько упаковок нужно для кладовой?<\/p>", "key": "3", "solution": "Площадь 6 м². 6 ÷ 2,5 = 2,4, значит, нужно 3 упаковки."}, {"prompt": "<p class=\"math-token\">Тарифы · №2<\/p><div class=\"table-scroll\"><table><caption>Месячные тарифы<\/caption><thead><tr><th scope=\"col\">Номер<\/th><th scope=\"col\">Пакет, минут<\/th><th scope=\"col\">Абонплата, ₽<\/th><th scope=\"col\">Сверх пакета, ₽/мин<\/th><\/tr><\/thead><tbody><tr><td>1<\/td><td>150<\/td><td>250<\/td><td>3<\/td><\/tr><tr><td>2<\/td><td>250<\/td><td>340<\/td><td>2<\/td><\/tr><tr><td>3<\/td><td>400<\/td><td>460<\/td><td>1<\/td><\/tr><\/tbody><\/table><\/div><p>Плата за сверхпакетные минуты начисляется только на минуты сверх включённого пакета.<\/p><p>Сколько минут сверх пакета израсходует абонент тарифа 1 при 185 минутах?<\/p>", "key": "35", "solution": "185 − 150 = 35."}]}, {"title": "№3. Размеры, площадь и расход", "theory": "Выбери формулу по чертежу. Для площади прямоугольника умножай длину на ширину. При вычислении диаметра колеса прибавь две высоты боковины.", "hint": "Отметь необходимые размеры и проверь, сколько таких слагаемых нужно.", "example": {"prompt": "<p class=\"math-token\">Шины · №3<\/p><p>Маркировка 180/50 R16 задаёт ширину 180 мм, высоту боковины 50% от ширины и диаметр диска 16 дюймов. В расчётах принимай 1 дюйм за 25,4 мм.<\/p><div class=\"table-scroll\"><table><caption>Допустимые сочетания<\/caption><thead><tr><th scope=\"col\">Диск, дюймы<\/th><th scope=\"col\">Допустимая ширина, мм<\/th><\/tr><\/thead><tbody><tr><td>15<\/td><td>165, 175<\/td><\/tr><tr><td>16<\/td><td>175, 180, 190<\/td><\/tr><tr><td>17<\/td><td>190, 200<\/td><\/tr><\/tbody><\/table><\/div><p>Найди наружный диаметр колеса 180/50 R16 в мм.<\/p>", "key": "586.4", "solution": "Диск 16 · 25,4 = 406,4 мм. Добавляем две боковины по 90 мм."}, "practice": [{"prompt": "<p class=\"math-token\">Дачный участок · №3<\/p><svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"Прямоугольный участок, номера 1 дом, 2 грядка, 3 пруд, 4 терраса.\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><path d=\"M25 18H294V148H25Z M44 37h84v57H44Z M184 34h86v36h-86Z M176 101h84v31h-84Z M45 109h82v26H45Z\"/><text x=\"79\" y=\"68\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">1<\/text><text x=\"219\" y=\"57\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">2<\/text><text x=\"215\" y=\"122\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">3<\/text><text x=\"80\" y=\"129\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">4<\/text><\/g><\/svg><p>Схема выполнена без масштаба. Участок 20 × 15 м. Дом №1 имеет размеры 8 × 6 м, грядка №2 имеет размеры 6 × 4 м, пруд №3 занимает 10 м², терраса №4 имеет размеры 8 × 3 м.<\/p><p>Найди площадь участка без дома и пруда в м².<\/p>", "key": "242", "solution": "20 · 15 − 8 · 6 − 10 = 242."}, {"prompt": "<p class=\"math-token\">План местности · №3<\/p><svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"Треугольник дорог. Из A в B 9 км, из B в C 12 км, прямая дорога AC.\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><path d=\"M55 35V128H265Z M55 116H67V128\"/><text x=\"34\" y=\"33\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">A<\/text><text x=\"34\" y=\"141\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">B<\/text><text x=\"272\" y=\"139\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">C<\/text><text x=\"14\" y=\"90\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">9 км<\/text><text x=\"129\" y=\"149\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">12 км<\/text><\/g><\/svg><p>Дороги AB и BC пересекаются под прямым углом. AB = 9 км, BC = 12 км. Прямая дорога AC соединяет A и C. На схеме с масштабом 1 : 300 000 один сантиметр соответствует трём километрам.<\/p><p>Найди длину AC в км.<\/p>", "key": "15", "solution": "По теореме Пифагора √(9² + 12²) = 15 км."}, {"prompt": "<p class=\"math-token\">Листы бумаги · №3<\/p><div class=\"table-scroll\"><table><caption>Форматы листов<\/caption><thead><tr><th scope=\"col\">Формат<\/th><th scope=\"col\">Длина, мм<\/th><th scope=\"col\">Ширина, мм<\/th><\/tr><\/thead><tbody><tr><td>A3<\/td><td>420<\/td><td>297<\/td><\/tr><tr><td>A4<\/td><td>297<\/td><td>210<\/td><\/tr><tr><td>A5<\/td><td>210<\/td><td>148<\/td><\/tr><tr><td>A6<\/td><td>148<\/td><td>105<\/td><\/tr><\/tbody><\/table><\/div><p>При разрезании пополам по линии, параллельной короткой стороне получают два листа следующего формата. Размеры в таблице округлены до целых миллиметров.<\/p><p>Найди площадь A4 в см² по данным таблицы.<\/p>", "key": "623.7", "solution": "29,7 · 21 = 623,7 см²."}, {"prompt": "<p class=\"math-token\">Печь для бани · №3<\/p><div class=\"table-scroll\"><table><caption>Печи<\/caption><thead><tr><th scope=\"col\">Модель<\/th><th scope=\"col\">Объём парной, м³<\/th><th scope=\"col\">Цена, ₽<\/th><th scope=\"col\">Установка, ₽<\/th><\/tr><\/thead><tbody><tr><td>1<\/td><td>6–12<\/td><td>17000<\/td><td>3000<\/td><\/tr><tr><td>2<\/td><td>10–18<\/td><td>19000<\/td><td>2000<\/td><\/tr><tr><td>3<\/td><td>12–20<\/td><td>20000<\/td><td>3500<\/td><\/tr><\/tbody><\/table><\/div><p>Размеры парной 2,5 м × 2 м × 2,6 м. Границы диапазонов входят в допустимые значения. Общие расходы включают покупку и установку.<\/p><p>Найди объём парной в м³.<\/p>", "key": "13", "solution": "2,5 · 2 · 2,6 = 13."}], "test": [{"prompt": "<p class=\"math-token\">План квартиры · №3<\/p><svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"План: 1 коридор, 2 комната 6 на 4 метра, 3 кухня 3 на 4 метра, 4 кладовая 2 на 3 метра.\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><path d=\"M22 22H298V147H22Z M206 22V106 M22 106H298 M206 77H298 M268 106V147\"/><text x=\"125\" y=\"65\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">2<\/text><text x=\"237\" y=\"52\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">3<\/text><text x=\"100\" y=\"131\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">1<\/text><text x=\"275\" y=\"131\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">4<\/text><\/g><\/svg><p>Схема выполнена без масштаба. На схеме 1 коридор, 2 комната, 3 кухня, 4 кладовая. Размеры комнаты 6 × 4 м, кухни 3 × 4 м, кладовой 2 × 3 м. Упаковки покрытия покупают целиком.<\/p><p>Найди площадь комнаты в м².<\/p>", "key": "24", "solution": "6 · 4 = 24 м²."}, {"prompt": "<p class=\"math-token\">Тарифы · №3<\/p><div class=\"table-scroll\"><table><caption>Месячные тарифы<\/caption><thead><tr><th scope=\"col\">Номер<\/th><th scope=\"col\">Пакет, минут<\/th><th scope=\"col\">Абонплата, ₽<\/th><th scope=\"col\">Сверх пакета, ₽/мин<\/th><\/tr><\/thead><tbody><tr><td>1<\/td><td>150<\/td><td>250<\/td><td>3<\/td><\/tr><tr><td>2<\/td><td>250<\/td><td>340<\/td><td>2<\/td><\/tr><tr><td>3<\/td><td>400<\/td><td>460<\/td><td>1<\/td><\/tr><\/tbody><\/table><\/div><p>Плата за сверхпакетные минуты начисляется только на минуты сверх включённого пакета.<\/p><p>Сколько рублей заплатит абонент тарифа 1 при 185 минутах?<\/p>", "key": "355", "solution": "250 + 35 · 3 = 355."}]}, {"title": "№4. Сравнение рассчитанных величин", "theory": "Вычисли обе величины в одинаковых единицах. Ответ на «на сколько больше» дают разностью. Отдельно учитывай, спрашивают ли радиус, диаметр или длину маршрута.", "hint": "Вычисли два значения отдельно, затем вычти меньшее из большего.", "example": {"prompt": "<p class=\"math-token\">Шины · №4<\/p><p>Маркировка 180/50 R16 задаёт ширину 180 мм, высоту боковины 50% от ширины и диаметр диска 16 дюймов. В расчётах принимай 1 дюйм за 25,4 мм.<\/p><div class=\"table-scroll\"><table><caption>Допустимые сочетания<\/caption><thead><tr><th scope=\"col\">Диск, дюймы<\/th><th scope=\"col\">Допустимая ширина, мм<\/th><\/tr><\/thead><tbody><tr><td>15<\/td><td>165, 175<\/td><\/tr><tr><td>16<\/td><td>175, 180, 190<\/td><\/tr><tr><td>17<\/td><td>190, 200<\/td><\/tr><\/tbody><\/table><\/div><p>На сколько увеличится радиус в мм, если заменить 180/50 R16 на 200/50 R16?<\/p>", "key": "10", "solution": "Диск тот же, боковина увеличилась с 90 до 100 мм. На столько же вырос радиус."}, "practice": [{"prompt": "<p class=\"math-token\">Дачный участок · №4<\/p><svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"Прямоугольный участок, номера 1 дом, 2 грядка, 3 пруд, 4 терраса.\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><path d=\"M25 18H294V148H25Z M44 37h84v57H44Z M184 34h86v36h-86Z M176 101h84v31h-84Z M45 109h82v26H45Z\"/><text x=\"79\" y=\"68\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">1<\/text><text x=\"219\" y=\"57\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">2<\/text><text x=\"215\" y=\"122\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">3<\/text><text x=\"80\" y=\"129\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">4<\/text><\/g><\/svg><p>Схема выполнена без масштаба. Участок 20 × 15 м. Дом №1 имеет размеры 8 × 6 м, грядка №2 имеет размеры 6 × 4 м, пруд №3 занимает 10 м², терраса №4 имеет размеры 8 × 3 м.<\/p><p>На сколько м² площадь дома больше площади террасы?<\/p>", "key": "24", "solution": "48 − 24 = 24."}, {"prompt": "<p class=\"math-token\">План местности · №4<\/p><svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"Треугольник дорог. Из A в B 9 км, из B в C 12 км, прямая дорога AC.\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><path d=\"M55 35V128H265Z M55 116H67V128\"/><text x=\"34\" y=\"33\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">A<\/text><text x=\"34\" y=\"141\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">B<\/text><text x=\"272\" y=\"139\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">C<\/text><text x=\"14\" y=\"90\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">9 км<\/text><text x=\"129\" y=\"149\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">12 км<\/text><\/g><\/svg><p>Дороги AB и BC пересекаются под прямым углом. AB = 9 км, BC = 12 км. Прямая дорога AC соединяет A и C. На схеме с масштабом 1 : 300 000 один сантиметр соответствует трём километрам.<\/p><p>На сколько км дорога AC короче маршрута через B?<\/p>", "key": "6", "solution": "Через B проедем 9 + 12 = 21 км. 21 − 15 = 6 км."}, {"prompt": "<p class=\"math-token\">Листы бумаги · №4<\/p><div class=\"table-scroll\"><table><caption>Форматы листов<\/caption><thead><tr><th scope=\"col\">Формат<\/th><th scope=\"col\">Длина, мм<\/th><th scope=\"col\">Ширина, мм<\/th><\/tr><\/thead><tbody><tr><td>A3<\/td><td>420<\/td><td>297<\/td><\/tr><tr><td>A4<\/td><td>297<\/td><td>210<\/td><\/tr><tr><td>A5<\/td><td>210<\/td><td>148<\/td><\/tr><tr><td>A6<\/td><td>148<\/td><td>105<\/td><\/tr><\/tbody><\/table><\/div><p>При разрезании пополам по линии, параллельной короткой стороне получают два листа следующего формата. Размеры в таблице округлены до целых миллиметров.<\/p><p>На сколько миллиметров длина A3 больше длины A5?<\/p>", "key": "210", "solution": "420 − 210 = 210 мм."}, {"prompt": "<p class=\"math-token\">Печь для бани · №4<\/p><div class=\"table-scroll\"><table><caption>Печи<\/caption><thead><tr><th scope=\"col\">Модель<\/th><th scope=\"col\">Объём парной, м³<\/th><th scope=\"col\">Цена, ₽<\/th><th scope=\"col\">Установка, ₽<\/th><\/tr><\/thead><tbody><tr><td>1<\/td><td>6–12<\/td><td>17000<\/td><td>3000<\/td><\/tr><tr><td>2<\/td><td>10–18<\/td><td>19000<\/td><td>2000<\/td><\/tr><tr><td>3<\/td><td>12–20<\/td><td>20000<\/td><td>3500<\/td><\/tr><\/tbody><\/table><\/div><p>Размеры парной 2,5 м × 2 м × 2,6 м. Границы диапазонов входят в допустимые значения. Общие расходы включают покупку и установку.<\/p><p>На сколько рублей общие расходы на модель 3 выше, чем на модель 2?<\/p>", "key": "2500", "solution": "23 500 − 21 000 = 2 500 рублей."}], "test": [{"prompt": "<p class=\"math-token\">План квартиры · №4<\/p><svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"План: 1 коридор, 2 комната 6 на 4 метра, 3 кухня 3 на 4 метра, 4 кладовая 2 на 3 метра.\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><path d=\"M22 22H298V147H22Z M206 22V106 M22 106H298 M206 77H298 M268 106V147\"/><text x=\"125\" y=\"65\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">2<\/text><text x=\"237\" y=\"52\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">3<\/text><text x=\"100\" y=\"131\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">1<\/text><text x=\"275\" y=\"131\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">4<\/text><\/g><\/svg><p>Схема выполнена без масштаба. На схеме 1 коридор, 2 комната, 3 кухня, 4 кладовая. Размеры комнаты 6 × 4 м, кухни 3 × 4 м, кладовой 2 × 3 м. Упаковки покрытия покупают целиком.<\/p><p>На сколько м² площадь кухни больше площади кладовой?<\/p>", "key": "6", "solution": "3 · 4 − 2 · 3 = 6 м²."}, {"prompt": "<p class=\"math-token\">Тарифы · №4<\/p><div class=\"table-scroll\"><table><caption>Месячные тарифы<\/caption><thead><tr><th scope=\"col\">Номер<\/th><th scope=\"col\">Пакет, минут<\/th><th scope=\"col\">Абонплата, ₽<\/th><th scope=\"col\">Сверх пакета, ₽/мин<\/th><\/tr><\/thead><tbody><tr><td>1<\/td><td>150<\/td><td>250<\/td><td>3<\/td><\/tr><tr><td>2<\/td><td>250<\/td><td>340<\/td><td>2<\/td><\/tr><tr><td>3<\/td><td>400<\/td><td>460<\/td><td>1<\/td><\/tr><\/tbody><\/table><\/div><p>Плата за сверхпакетные минуты начисляется только на минуты сверх включённого пакета.<\/p><p>На сколько рублей тариф 2 дешевле тарифа 1 при 230 минутах?<\/p>", "key": "150", "solution": "Тариф 1 стоит 250 + 80 · 3 = 490. Тариф 2 стоит 340. Разница 150."}]}, {"title": "№5. Проценты и выбор варианта", "theory": "При процентном сравнении дели изменение на исходную величину. Для выбора тарифа или модели проверь ограничения, рассчитай полную стоимость каждого допустимого варианта и сравни суммы.", "hint": "Определи базу процентов или составь список допустимых вариантов.", "example": {"prompt": "<p class=\"math-token\">Шины · №5<\/p><p>Маркировка 180/50 R16 задаёт ширину 180 мм, высоту боковины 50% от ширины и диаметр диска 16 дюймов. В расчётах принимай 1 дюйм за 25,4 мм.<\/p><div class=\"table-scroll\"><table><caption>Допустимые сочетания<\/caption><thead><tr><th scope=\"col\">Диск, дюймы<\/th><th scope=\"col\">Допустимая ширина, мм<\/th><\/tr><\/thead><tbody><tr><td>15<\/td><td>165, 175<\/td><\/tr><tr><td>16<\/td><td>175, 180, 190<\/td><\/tr><tr><td>17<\/td><td>190, 200<\/td><\/tr><\/tbody><\/table><\/div><p>Сравни колёса наружного диаметра 600 и 630 мм. На сколько процентов вырос пробег за оборот?<\/p>", "key": "5", "solution": "Длина окружности изменяется пропорционально диаметру. (630 − 600) ÷ 600 · 100 = 5."}, "practice": [{"prompt": "<p class=\"math-token\">Дачный участок · №5<\/p><svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"Прямоугольный участок, номера 1 дом, 2 грядка, 3 пруд, 4 терраса.\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><path d=\"M25 18H294V148H25Z M44 37h84v57H44Z M184 34h86v36h-86Z M176 101h84v31h-84Z M45 109h82v26H45Z\"/><text x=\"79\" y=\"68\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">1<\/text><text x=\"219\" y=\"57\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">2<\/text><text x=\"215\" y=\"122\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">3<\/text><text x=\"80\" y=\"129\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">4<\/text><\/g><\/svg><p>Схема выполнена без масштаба. Участок 20 × 15 м. Дом №1 имеет размеры 8 × 6 м, грядка №2 имеет размеры 6 × 4 м, пруд №3 занимает 10 м², терраса №4 имеет размеры 8 × 3 м.<\/p><p>Какой процент участка занимает дом?<\/p>", "key": "16", "solution": "Площадь дома 48 м², участка 300 м². 48 ÷ 300 · 100 = 16."}, {"prompt": "<p class=\"math-token\">План местности · №5<\/p><svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"Треугольник дорог. Из A в B 9 км, из B в C 12 км, прямая дорога AC.\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><path d=\"M55 35V128H265Z M55 116H67V128\"/><text x=\"34\" y=\"33\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">A<\/text><text x=\"34\" y=\"141\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">B<\/text><text x=\"272\" y=\"139\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">C<\/text><text x=\"14\" y=\"90\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">9 км<\/text><text x=\"129\" y=\"149\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">12 км<\/text><\/g><\/svg><p>Дороги AB и BC пересекаются под прямым углом. AB = 9 км, BC = 12 км. Прямая дорога AC соединяет A и C. На схеме с масштабом 1 : 300 000 один сантиметр соответствует трём километрам.<\/p><p>Одинаковую скорость 30 км/ч можно держать на всех дорогах. Сколько минут экономит прямая дорога AC?<\/p>", "key": "12", "solution": "Экономия 6 км, то есть 6 ÷ 30 = 0,2 часа. Это 12 минут."}, {"prompt": "<p class=\"math-token\">Листы бумаги · №5<\/p><div class=\"table-scroll\"><table><caption>Форматы листов<\/caption><thead><tr><th scope=\"col\">Формат<\/th><th scope=\"col\">Длина, мм<\/th><th scope=\"col\">Ширина, мм<\/th><\/tr><\/thead><tbody><tr><td>A3<\/td><td>420<\/td><td>297<\/td><\/tr><tr><td>A4<\/td><td>297<\/td><td>210<\/td><\/tr><tr><td>A5<\/td><td>210<\/td><td>148<\/td><\/tr><tr><td>A6<\/td><td>148<\/td><td>105<\/td><\/tr><\/tbody><\/table><\/div><p>При разрезании пополам по линии, параллельной короткой стороне получают два листа следующего формата. Размеры в таблице округлены до целых миллиметров.<\/p><p>Пачка из 500 листов стоит 600 ₽, а 100 листов из малой пачки стоят 150 ₽. На сколько процентов 100 листов из большой пачки дешевле малой пачки?<\/p>", "key": "20", "solution": "Из большой пачки 100 листов стоят 120 ₽. (150 − 120) ÷ 150 · 100 = 20."}, {"prompt": "<p class=\"math-token\">Печь для бани · №5<\/p><div class=\"table-scroll\"><table><caption>Печи<\/caption><thead><tr><th scope=\"col\">Модель<\/th><th scope=\"col\">Объём парной, м³<\/th><th scope=\"col\">Цена, ₽<\/th><th scope=\"col\">Установка, ₽<\/th><\/tr><\/thead><tbody><tr><td>1<\/td><td>6–12<\/td><td>17000<\/td><td>3000<\/td><\/tr><tr><td>2<\/td><td>10–18<\/td><td>19000<\/td><td>2000<\/td><\/tr><tr><td>3<\/td><td>12–20<\/td><td>20000<\/td><td>3500<\/td><\/tr><\/tbody><\/table><\/div><p>Размеры парной 2,5 м × 2 м × 2,6 м. Границы диапазонов входят в допустимые значения. Общие расходы включают покупку и установку.<\/p><p>Найди минимальные общие расходы в рублях на печь для этой парной.<\/p>", "key": "21000", "solution": "Для 13 м³ подходят модели 2 и 3. Модель 2 с установкой стоит 21 000 рублей."}], "test": [{"prompt": "<p class=\"math-token\">План квартиры · №5<\/p><svg class=\"drawing\" viewBox=\"0 0 320 170\" role=\"img\" aria-label=\"План: 1 коридор, 2 комната 6 на 4 метра, 3 кухня 3 на 4 метра, 4 кладовая 2 на 3 метра.\"><g fill=\"none\" stroke=\"#294432\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><path d=\"M22 22H298V147H22Z M206 22V106 M22 106H298 M206 77H298 M268 106V147\"/><text x=\"125\" y=\"65\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">2<\/text><text x=\"237\" y=\"52\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">3<\/text><text x=\"100\" y=\"131\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">1<\/text><text x=\"275\" y=\"131\" fill=\"#16231a\" stroke=\"none\" font-size=\"15\" font-weight=\"700\">4<\/text><\/g><\/svg><p>Схема выполнена без масштаба. На схеме 1 коридор, 2 комната, 3 кухня, 4 кладовая. Размеры комнаты 6 × 4 м, кухни 3 × 4 м, кладовой 2 × 3 м. Упаковки покрытия покупают целиком.<\/p><p>На сколько процентов комната больше кухни по площади?<\/p>", "key": "100", "solution": "Разность 24 − 12 = 12 м². База сравнения 12 м², поэтому 100%."}, {"prompt": "<p class=\"math-token\">Тарифы · №5<\/p><div class=\"table-scroll\"><table><caption>Месячные тарифы<\/caption><thead><tr><th scope=\"col\">Номер<\/th><th scope=\"col\">Пакет, минут<\/th><th scope=\"col\">Абонплата, ₽<\/th><th scope=\"col\">Сверх пакета, ₽/мин<\/th><\/tr><\/thead><tbody><tr><td>1<\/td><td>150<\/td><td>250<\/td><td>3<\/td><\/tr><tr><td>2<\/td><td>250<\/td><td>340<\/td><td>2<\/td><\/tr><tr><td>3<\/td><td>400<\/td><td>460<\/td><td>1<\/td><\/tr><\/tbody><\/table><\/div><p>Плата за сверхпакетные минуты начисляется только на минуты сверх включённого пакета.<\/p><p>Найди минимальную плату в рублях при 320 минутах.<\/p>", "key": "460", "solution": "Тариф 1 стоит 760, тариф 2 стоит 480, тариф 3 стоит 460. Минимум 460."}]}], "testOrder": [0, 1]}</script>
+<script>'use strict';
+const get = id => document.getElementById(id);
+const {topics, testOrder} = JSON.parse(get('content').textContent);
+const select = get('topic');
+topics.forEach((topic, index) => select.add(new Option(topic.title, index)));
+
+function show(view) {
+  document.querySelectorAll('.view').forEach(section => { section.hidden = section.id !== view; });
+  document.querySelectorAll('[data-view]').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.view === view));
+  });
+}
+
+function parse(raw) {
+  const text = raw.trim().replace(/−/g, '-').replace(',', '.');
+  const fraction = text.match(/^([+-]?\d+)\s*\/\s*(\d+)$/);
+  if (fraction) {
+    const denominator = BigInt(fraction[2]);
+    return denominator === 0n ? null : [BigInt(fraction[1]), denominator];
+  }
+  if (!/^[+-]?(?:\d+(?:\.\d+)?|\.\d+)$/.test(text)) return null;
+  return [BigInt(text.replace('.', '')), 10n ** BigInt(text.split('.')[1]?.length ?? 0)];
+}
+
+function valid(raw, key) {
+  return key.startsWith('#') ? /^\d+$/.test(raw.trim()) : Boolean(parse(raw));
+}
+
+function matches(raw, key) {
+  if (key.startsWith('#')) return raw.trim() === key.slice(1);
+  const value = parse(raw);
+  const expected = parse(key);
+  return Boolean(value && expected && value[0] * expected[1] === expected[0] * value[1]);
+}
+
+function formatKey(key) {
+  return key.replace(/^#/, '').replace('.', ',').replace(/^-/, '−');
+}
+
+function inputReminder(key) {
+  return key.startsWith('#') ? 'Запиши цифры подряд, без пробелов.' : 'Введи число или дробь, например 0,5 или 1/2.';
+}
+
+let queue, p, mistakes, checked;
+function practiceItem() {
+  return topics[Number(select.value)].practice[queue[p]];
+}
+
+function loadPractice() {
+  checked = false;
+  get('practice-count').textContent = (p + 1) + ' из ' + queue.length;
+  get('practice-question').innerHTML = practiceItem().prompt;
+  get('practice-answer').value = '';
+  get('practice-answer').disabled = false;
+  get('check').disabled = false;
+  get('hint').disabled = false;
+  get('next-practice').hidden = true;
+  get('repeat').hidden = true;
+  get('practice-status').textContent = '';
+}
+
+function startPractice(index, repeat = false) {
+  select.value = index;
+  queue = repeat ? [...mistakes] : topics[index].practice.map((_, i) => i);
+  mistakes = new Set();
+  p = 0;
+  loadPractice();
+}
+
+select.addEventListener('change', () => startPractice(Number(select.value)));
+document.querySelectorAll('[data-view]').forEach(button => {
+  button.addEventListener('click', () => show(button.dataset.view));
+});
+document.querySelectorAll('[data-topic]').forEach(button => {
+  button.addEventListener('click', () => {
+    startPractice(Number(button.dataset.topic));
+    show('practice');
+    select.focus();
+  });
+});
+get('hint').addEventListener('click', () => {
+  get('practice-status').innerHTML = topics[Number(select.value)].hint;
+});
+get('practice-form').addEventListener('submit', event => {
+  event.preventDefault();
+  if (checked) return;
+  const item = practiceItem();
+  const value = get('practice-answer').value;
+  if (!valid(value, item.key)) {
+    get('practice-status').textContent = inputReminder(item.key);
+    return;
+  }
+  const correct = matches(value, item.key);
+  if (!correct) mistakes.add(queue[p]);
+  checked = true;
+  get('practice-status').innerHTML = (correct ? 'Верно. ' : 'Ответ: ' + formatKey(item.key) + '. ') + item.solution;
+  get('check').disabled = true;
+  get('hint').disabled = true;
+  get('practice-answer').disabled = true;
+  get('next-practice').hidden = p + 1 === queue.length;
+  get('repeat').hidden = p + 1 < queue.length || mistakes.size === 0;
+  const action = !get('next-practice').hidden ? 'next-practice' : !get('repeat').hidden ? 'repeat' : 'restart-practice';
+  get(action).focus();
+});
+get('next-practice').addEventListener('click', () => {
+  p += 1;
+  loadPractice();
+  get('practice-answer').focus();
+});
+get('repeat').addEventListener('click', () => {
+  if (mistakes.size) startPractice(Number(select.value), true);
+  get('practice-answer').focus();
+});
+get('restart-practice').addEventListener('click', () => {
+  startPractice(Number(select.value));
+  get('practice-answer').focus();
+});
+
+const grouped = topics.map((topic, i) => topic.test.map(item => ({...item, topic: i})));
+const test = testOrder ? testOrder.flatMap(slot => grouped.map(items => items[slot])) : grouped.flat();
+let position = 0;
+let answers = [];
+
+function loadTest() {
+  get('test-count').textContent = (position + 1) + ' из ' + test.length;
+  get('test-question').innerHTML = test[position].prompt;
+  get('test-answer').value = answers[position] ?? '';
+  get('test-status').textContent = '';
+  get('back').disabled = position === 0;
+  get('next-test').textContent = position + 1 === test.length ? 'Показать результат' : 'Дальше';
+}
+
+function results() {
+  const correct = test.map((item, i) => matches(answers[i], item.key));
+  const score = correct.filter(Boolean).length;
+  get('score').textContent = 'Результат: ' + score + ' из ' + test.length;
+  get('skills').replaceChildren(...topics.map((topic, i) => {
+    const points = test.filter((item, j) => item.topic === i && correct[j]).length;
+    const li = document.createElement('li');
+    li.textContent = topic.title + ' · ' + points + ' из ' + topic.test.length;
+    return li;
+  }));
+  get('test-screen').hidden = true;
+  get('test-results').hidden = false;
+  get('score').focus();
+}
+
+get('test-form').addEventListener('submit', event => {
+  event.preventDefault();
+  const value = get('test-answer').value;
+  if (!valid(value, test[position].key)) {
+    get('test-status').textContent = inputReminder(test[position].key);
+    return;
+  }
+  answers[position] = value;
+  if (position + 1 === test.length) {
+    results();
+  } else {
+    position += 1;
+    loadTest();
+    get('test-answer').focus();
+  }
+});
+get('back').addEventListener('click', () => {
+  answers[position] = get('test-answer').value;
+  position -= 1;
+  loadTest();
+  get('test-answer').focus();
+});
+get('reset').addEventListener('click', () => {
+  position = 0;
+  answers = [];
+  get('test-screen').hidden = false;
+  get('test-results').hidden = true;
+  loadTest();
+  get('test-answer').focus();
+});
+startPractice(0);
+loadTest();
+</script>
+</body>
+</html>

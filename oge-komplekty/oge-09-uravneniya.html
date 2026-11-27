@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ОГЭ №9 · Линейные и квадратные уравнения · lili.math</title>
+<style>
+:root{color-scheme:dark;--green:#16231a;--card:#26382b;--cream:#eee0c8;--sand:#c9ab82;--gold:#e2b04a;--orange:#f4ad79}
+*{box-sizing:border-box}body{margin:0;background:var(--green);color:var(--cream);font:17px/1.62 Inter,system-ui,sans-serif}
+main{max-width:940px;margin:auto;padding:24px clamp(14px,4vw,40px) 48px}header{padding:26px 0 12px}
+h1{font-size:clamp(2.2rem,7vw,4rem);line-height:1.05;margin:.25em 0}h2,h3{line-height:1.25}
+h2{margin-top:0;color:var(--gold)}h3{margin:1.2em 0 .3em}p{margin:.5em 0}.brand{color:var(--gold);font-weight:800;letter-spacing:.05em}
+.card{background:var(--card);border:1px solid #6a785a;border-left:4px solid var(--sand);padding:clamp(16px,4vw,30px);border-radius:18px;margin:16px 0}
+.card:nth-child(3n){border-left-color:#dd7a3a}.example{padding:14px 20px;background:#19291d;border-radius:12px;margin:14px 0}
+.example h3{margin:0}dt{color:var(--orange);font-weight:750;margin-top:.65em}dd{margin:0;max-width:68ch}
+a{color:var(--gold);text-underline-offset:.18em}button,input,select{font:inherit;color:inherit;background:#17271c;border:1px solid var(--sand);border-radius:8px;padding:.5rem .8rem}
+button{cursor:pointer}button:hover{border-color:var(--gold)}button.primary{color:var(--green);background:var(--gold);font-weight:750}button[aria-pressed=true]{background:var(--gold);color:var(--green)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.toc{columns:2;gap:28px;padding-left:1.5em}.toc li{break-inside:avoid;margin-bottom:.38em}
+.math{font-weight:800;font-size:1.28em;color:var(--orange)}.frac{display:inline-grid;vertical-align:middle;line-height:1.2;text-align:center;padding:0 .18em}.frac span{padding:0 .22em}.frac span:first-child{border-bottom:1px solid}
+.sheet{padding:18px;background-color:#19291d;background-image:linear-gradient(#324536 1px,transparent 1px),linear-gradient(90deg,#324536 1px,transparent 1px);background-size:20px 20px;border-radius:10px;margin:12px 0}
+form label{display:block;margin-bottom:.35em}input{width:14ch}select{max-width:100%}.status{min-height:1.7em}.question{margin:0 0 12px}.muted{color:#ddc7a5}
+[hidden]{display:none!important}@media(max-width:600px){.toc{columns:1}.card{border-radius:12px}}
+.question{font-size:1.12em;color:var(--cream);overflow-wrap:anywhere}.question p{margin:.5rem 0}.answer{color:var(--orange);font-weight:750}.drawing{display:block;width:min(100%,440px);height:auto;margin:1rem auto;background:#eee0c8;border-radius:8px}.table-scroll{overflow:auto}table{border-collapse:collapse;background:#19291d;margin:.7rem 0}caption{text-align:left;font-weight:700}th,td{padding:.45em .7em;text-align:center;border:1px solid #74816a}input{max-width:100%}button:disabled{opacity:.62;cursor:default}.toc a{display:inline-block}.math-token{display:inline-block;color:var(--orange);font-weight:750}
+</style>
+</head>
+<body><main>
+<header><div class="brand">lili.math</div><p>ОГЭ по математике · №9</p>
+<h1>Линейные и квадратные уравнения</h1><p>За экзаменационное задание предусмотрен 1 балл.</p></header>
+<nav class="row" aria-label="Разделы">
+<button type="button" data-view="theory" aria-pressed="true">Теория</button>
+<button type="button" data-view="practice" aria-pressed="false">Тренажёр</button>
+<button type="button" data-view="diagnostic" aria-pressed="false">Входной тест</button>
+</nav>
+<div id="theory" class="view"><nav class="card" aria-label="Оглавление теории">
+<h2>Типы заданий</h2><ol class="toc"><li><a href="#t0">Линейное уравнение со скобками</a></li><li><a href="#t1">Линейное уравнение с дробями</a></li><li><a href="#t2">Неполное квадратное уравнение</a></li><li><a href="#t3">Полное квадратное уравнение</a></li></ol></nav><section class="card" id="t0">
+<h2>Линейное уравнение со скобками</h2><h3>Теория</h3><p>Раскрой скобки и приведи подобные слагаемые. Из обеих частей можно вычитать одно и то же выражение и делить обе части на одно и то же ненулевое число.</p>
+<div class="example"><h3>Разбор примера</h3><div>Реши 3(x − 2) = x + 4.</div>
+<p>3x − 6 = x + 4, откуда 2x = 10 и x = 5.</p><p class="answer">Ответ: 5</p></div>
+<button type="button" data-topic="0">Тренироваться</button></section><section class="card" id="t1">
+<h2>Линейное уравнение с дробями</h2><h3>Теория</h3><p>Умножение обеих частей на общий знаменатель сохраняет множество корней и превращает дробные коэффициенты в целые.</p>
+<div class="example"><h3>Разбор примера</h3><div>Реши <span class="frac"><span>x</span><span>3</span></span> + <span class="frac"><span>1</span><span>2</span></span> = <span class="frac"><span>5</span><span>6</span></span>.</div>
+<p>Умножаем уравнение на 6. Получаем 2x + 3 = 5, откуда x = 1.</p><p class="answer">Ответ: 1</p></div>
+<button type="button" data-topic="1">Тренироваться</button></section><section class="card" id="t2">
+<h2>Неполное квадратное уравнение</h2><h3>Теория</h3><p>Если c = 0, вынеси x за скобки. Если b = 0, получи x² = d. При d &gt; 0 два противоположных корня, при d = 0 один корень, при d &lt; 0 действительных корней нет. При b = c = 0 для ax² = 0 корень равен нулю.</p>
+<div class="example"><h3>Разбор примера</h3><div>Найди меньший корень 2x² − 18 = 0.</div>
+<p>x² = 9. Корни −3 и 3, меньший −3.</p><p class="answer">Ответ: −3</p></div>
+<button type="button" data-topic="2">Тренироваться</button></section><section class="card" id="t3">
+<h2>Полное квадратное уравнение</h2><h3>Теория</h3><p>Для ax² + bx + c = 0 при a ≠ 0 вычисли D = b² − 4ac. При D &gt; 0 корни равны <span class="frac"><span>−b ± √D</span><span>2a</span></span>, при D = 0 есть один корень, при D &lt; 0 корней нет. Для приведённого уравнения можно подобрать корни по сумме −b и произведению c.</p>
+<div class="example"><h3>Разбор примера</h3><div>Найди больший корень x² − 5x + 6 = 0.</div>
+<p>D = 25 − 24 = 1. Корни (5 − 1) ÷ 2 = 2 и (5 + 1) ÷ 2 = 3.</p><p class="answer">Ответ: 3</p></div>
+<button type="button" data-topic="3">Тренироваться</button></section></div>
+<section id="practice" class="view card" hidden><h2>Тренажёр</h2>
+<label for="topic">Тип задания</label> <select id="topic"></select><p id="practice-count" class="muted"></p>
+<form id="practice-form"><div class="sheet"><div id="practice-question" class="question"></div>
+<label for="practice-answer">Ответ</label><input id="practice-answer" autocomplete="off" maxlength="38"></div>
+<div class="row"><button id="check" class="primary">Проверить</button>
+<button type="button" id="hint">Подсказка</button><button type="button" id="next-practice" hidden>Следующее</button>
+<button type="button" id="repeat" hidden>Повторить ошибки</button><button type="button" id="restart-practice">Начать заново</button></div></form>
+<div id="practice-status" class="status" role="status"></div></section>
+<section id="diagnostic" class="view card" hidden><h2>Входной тест</h2>
+<p>8 заданий. После завершения появится результат по каждому навыку.</p>
+<p>Числовой ответ можно ввести целым числом, десятичной дробью или в виде 1/2. Если требуется последовательность цифр, запиши её без разделителей.</p>
+<div id="test-screen"><p id="test-count" class="muted"></p>
+<form id="test-form"><div class="sheet"><div id="test-question" class="question"></div>
+<label for="test-answer">Ответ</label><input id="test-answer" autocomplete="off" maxlength="38"></div>
+<div class="row"><button type="button" id="back">Назад</button><button class="primary" id="next-test">Дальше</button></div></form>
+<p id="test-status" class="status" role="status"></p></div>
+<div id="test-results" hidden><h3 id="score" tabindex="-1"></h3><ul id="skills"></ul>
+<button type="button" id="reset">Начать заново</button></div></section>
+<footer><a href="https://fipi.ru/oge/demoversii-specifikacii-kodifikatory">Демоверсия и спецификация ФИПИ</a></footer>
+</main>
+<script id="content" type="application/json">{"topics": [{"title": "Линейное уравнение со скобками", "theory": "Раскрой скобки и приведи подобные слагаемые. Из обеих частей можно вычитать одно и то же выражение и делить обе части на одно и то же ненулевое число.", "hint": "Собери слагаемые с x в одной части, а числа в другой.", "example": {"prompt": "Реши 3(x − 2) = x + 4.", "key": "5", "solution": "3x − 6 = x + 4, откуда 2x = 10 и x = 5."}, "practice": [{"prompt": "Реши 2(3x + 1) = 4x − 6.", "key": "−4", "solution": "6x + 2 = 4x − 6, значит, 2x = −8."}, {"prompt": "Реши 5 − 2(x − 1) = 11.", "key": "−2", "solution": "7 − 2x = 11. Тогда −2x = 4 и x = −2."}], "test": [{"prompt": "Реши 4(x + 3) = 2x + 2.", "key": "−5", "solution": "4x + 12 = 2x + 2, откуда 2x = −10."}, {"prompt": "Реши 3(2 − x) = x − 2.", "key": "2", "solution": "6 − 3x = x − 2. Тогда 8 = 4x."}]}, {"title": "Линейное уравнение с дробями", "theory": "Умножение обеих частей на общий знаменатель сохраняет множество корней и превращает дробные коэффициенты в целые.", "hint": "Умножь обе части уравнения на общий знаменатель. Умножь каждое слагаемое.", "example": {"prompt": "Реши <span class=\"frac\"><span>x<\/span><span>3<\/span><\/span> + <span class=\"frac\"><span>1<\/span><span>2<\/span><\/span> = <span class=\"frac\"><span>5<\/span><span>6<\/span><\/span>.", "key": "1", "solution": "Умножаем уравнение на 6. Получаем 2x + 3 = 5, откуда x = 1."}, "practice": [{"prompt": "Реши <span class=\"frac\"><span>x + 2<\/span><span>4<\/span><\/span> = 3.", "key": "10", "solution": "Умножаем обе части на 4: x + 2 = 12."}, {"prompt": "Реши <span class=\"frac\"><span>x<\/span><span>2<\/span><\/span> − <span class=\"frac\"><span>x<\/span><span>3<\/span><\/span> = 2.", "key": "12", "solution": "Умножаем на 6: 3x − 2x = 12."}], "test": [{"prompt": "Реши <span class=\"frac\"><span>2x − 1<\/span><span>5<\/span><\/span> = 3.", "key": "8", "solution": "2x − 1 = 15, значит, 2x = 16."}, {"prompt": "Реши <span class=\"frac\"><span>x<\/span><span>4<\/span><\/span> + <span class=\"frac\"><span>x<\/span><span>6<\/span><\/span> = 5.", "key": "12", "solution": "Умножаем на 12: 3x + 2x = 60."}]}, {"title": "Неполное квадратное уравнение", "theory": "Если c = 0, вынеси x за скобки. Если b = 0, получи x² = d. При d &gt; 0 два противоположных корня, при d = 0 один корень, при d &lt; 0 действительных корней нет. При b = c = 0 для ax² = 0 корень равен нулю.", "hint": "Определи, какого слагаемого не хватает, и выбери способ.", "example": {"prompt": "Найди меньший корень 2x² − 18 = 0.", "key": "−3", "solution": "x² = 9. Корни −3 и 3, меньший −3."}, "practice": [{"prompt": "Найди больший корень x² − 7x = 0.", "key": "7", "solution": "x(x − 7) = 0, поэтому корни 0 и 7."}, {"prompt": "Реши 5x² = 0.", "key": "0", "solution": "x² = 0 выполняется только при x = 0."}], "test": [{"prompt": "Найди меньший корень 4x² = 100.", "key": "−5", "solution": "x² = 25. Меньший из −5 и 5 равен −5."}, {"prompt": "Сколько действительных корней уравнения x² + 9 = 0?", "key": "0", "solution": "Квадрат действительного числа не может равняться −9."}]}, {"title": "Полное квадратное уравнение", "theory": "Для ax² + bx + c = 0 при a ≠ 0 вычисли D = b² − 4ac. При D &gt; 0 корни равны <span class=\"frac\"><span>−b ± √D<\/span><span>2a<\/span><\/span>, при D = 0 есть один корень, при D &lt; 0 корней нет. Для приведённого уравнения можно подобрать корни по сумме −b и произведению c.", "hint": "Запиши a, b и c вместе со знаками. После решения выбери корень, который спрашивают.", "example": {"prompt": "Найди больший корень x² − 5x + 6 = 0.", "key": "3", "solution": "D = 25 − 24 = 1. Корни (5 − 1) ÷ 2 = 2 и (5 + 1) ÷ 2 = 3."}, "practice": [{"prompt": "Найди меньший корень x² + x − 12 = 0.", "key": "−4", "solution": "(x + 4)(x − 3) = 0. Корни −4 и 3."}, {"prompt": "Найди единственный корень x² − 10x + 25 = 0.", "key": "5", "solution": "Левая часть равна (x − 5)²."}], "test": [{"prompt": "Найди больший корень 2x² − 5x + 2 = 0.", "key": "2", "solution": "D = 25 − 16 = 9. Корни 0,5 и 2."}, {"prompt": "Найди меньший корень x² + 3x − 10 = 0.", "key": "−5", "solution": "(x + 5)(x − 2) = 0. Меньший из корней равен −5."}]}], "testOrder": null}</script>
+<script>'use strict';
+const get = id => document.getElementById(id);
+const {topics, testOrder} = JSON.parse(get('content').textContent);
+const select = get('topic');
+topics.forEach((topic, index) => select.add(new Option(topic.title, index)));
+
+function show(view) {
+  document.querySelectorAll('.view').forEach(section => { section.hidden = section.id !== view; });
+  document.querySelectorAll('[data-view]').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.view === view));
+  });
+}
+
+function parse(raw) {
+  const text = raw.trim().replace(/−/g, '-').replace(',', '.');
+  const fraction = text.match(/^([+-]?\d+)\s*\/\s*(\d+)$/);
+  if (fraction) {
+    const denominator = BigInt(fraction[2]);
+    return denominator === 0n ? null : [BigInt(fraction[1]), denominator];
+  }
+  if (!/^[+-]?(?:\d+(?:\.\d+)?|\.\d+)$/.test(text)) return null;
+  return [BigInt(text.replace('.', '')), 10n ** BigInt(text.split('.')[1]?.length ?? 0)];
+}
+
+function valid(raw, key) {
+  return key.startsWith('#') ? /^\d+$/.test(raw.trim()) : Boolean(parse(raw));
+}
+
+function matches(raw, key) {
+  if (key.startsWith('#')) return raw.trim() === key.slice(1);
+  const value = parse(raw);
+  const expected = parse(key);
+  return Boolean(value && expected && value[0] * expected[1] === expected[0] * value[1]);
+}
+
+function formatKey(key) {
+  return key.replace(/^#/, '').replace('.', ',').replace(/^-/, '−');
+}
+
+function inputReminder(key) {
+  return key.startsWith('#') ? 'Запиши цифры подряд, без пробелов.' : 'Введи число или дробь, например 0,5 или 1/2.';
+}
+
+let queue, p, mistakes, checked;
+function practiceItem() {
+  return topics[Number(select.value)].practice[queue[p]];
+}
+
+function loadPractice() {
+  checked = false;
+  get('practice-count').textContent = (p + 1) + ' из ' + queue.length;
+  get('practice-question').innerHTML = practiceItem().prompt;
+  get('practice-answer').value = '';
+  get('practice-answer').disabled = false;
+  get('check').disabled = false;
+  get('hint').disabled = false;
+  get('next-practice').hidden = true;
+  get('repeat').hidden = true;
+  get('practice-status').textContent = '';
+}
+
+function startPractice(index, repeat = false) {
+  select.value = index;
+  queue = repeat ? [...mistakes] : topics[index].practice.map((_, i) => i);
+  mistakes = new Set();
+  p = 0;
+  loadPractice();
+}
+
+select.addEventListener('change', () => startPractice(Number(select.value)));
+document.querySelectorAll('[data-view]').forEach(button => {
+  button.addEventListener('click', () => show(button.dataset.view));
+});
+document.querySelectorAll('[data-topic]').forEach(button => {
+  button.addEventListener('click', () => {
+    startPractice(Number(button.dataset.topic));
+    show('practice');
+    select.focus();
+  });
+});
+get('hint').addEventListener('click', () => {
+  get('practice-status').innerHTML = topics[Number(select.value)].hint;
+});
+get('practice-form').addEventListener('submit', event => {
+  event.preventDefault();
+  if (checked) return;
+  const item = practiceItem();
+  const value = get('practice-answer').value;
+  if (!valid(value, item.key)) {
+    get('practice-status').textContent = inputReminder(item.key);
+    return;
+  }
+  const correct = matches(value, item.key);
+  if (!correct) mistakes.add(queue[p]);
+  checked = true;
+  get('practice-status').innerHTML = (correct ? 'Верно. ' : 'Ответ: ' + formatKey(item.key) + '. ') + item.solution;
+  get('check').disabled = true;
+  get('hint').disabled = true;
+  get('practice-answer').disabled = true;
+  get('next-practice').hidden = p + 1 === queue.length;
+  get('repeat').hidden = p + 1 < queue.length || mistakes.size === 0;
+  const action = !get('next-practice').hidden ? 'next-practice' : !get('repeat').hidden ? 'repeat' : 'restart-practice';
+  get(action).focus();
+});
+get('next-practice').addEventListener('click', () => {
+  p += 1;
+  loadPractice();
+  get('practice-answer').focus();
+});
+get('repeat').addEventListener('click', () => {
+  if (mistakes.size) startPractice(Number(select.value), true);
+  get('practice-answer').focus();
+});
+get('restart-practice').addEventListener('click', () => {
+  startPractice(Number(select.value));
+  get('practice-answer').focus();
+});
+
+const grouped = topics.map((topic, i) => topic.test.map(item => ({...item, topic: i})));
+const test = testOrder ? testOrder.flatMap(slot => grouped.map(items => items[slot])) : grouped.flat();
+let position = 0;
+let answers = [];
+
+function loadTest() {
+  get('test-count').textContent = (position + 1) + ' из ' + test.length;
+  get('test-question').innerHTML = test[position].prompt;
+  get('test-answer').value = answers[position] ?? '';
+  get('test-status').textContent = '';
+  get('back').disabled = position === 0;
+  get('next-test').textContent = position + 1 === test.length ? 'Показать результат' : 'Дальше';
+}
+
+function results() {
+  const correct = test.map((item, i) => matches(answers[i], item.key));
+  const score = correct.filter(Boolean).length;
+  get('score').textContent = 'Результат: ' + score + ' из ' + test.length;
+  get('skills').replaceChildren(...topics.map((topic, i) => {
+    const points = test.filter((item, j) => item.topic === i && correct[j]).length;
+    const li = document.createElement('li');
+    li.textContent = topic.title + ' · ' + points + ' из ' + topic.test.length;
+    return li;
+  }));
+  get('test-screen').hidden = true;
+  get('test-results').hidden = false;
+  get('score').focus();
+}
+
+get('test-form').addEventListener('submit', event => {
+  event.preventDefault();
+  const value = get('test-answer').value;
+  if (!valid(value, test[position].key)) {
+    get('test-status').textContent = inputReminder(test[position].key);
+    return;
+  }
+  answers[position] = value;
+  if (position + 1 === test.length) {
+    results();
+  } else {
+    position += 1;
+    loadTest();
+    get('test-answer').focus();
+  }
+});
+get('back').addEventListener('click', () => {
+  answers[position] = get('test-answer').value;
+  position -= 1;
+  loadTest();
+  get('test-answer').focus();
+});
+get('reset').addEventListener('click', () => {
+  position = 0;
+  answers = [];
+  get('test-screen').hidden = false;
+  get('test-results').hidden = true;
+  loadTest();
+  get('test-answer').focus();
+});
+startPractice(0);
+loadTest();
+</script>
+</body>
+</html>

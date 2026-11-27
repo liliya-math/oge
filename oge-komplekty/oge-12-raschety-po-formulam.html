@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ОГЭ №12 · Расчёты по формулам · lili.math</title>
+<style>
+:root{color-scheme:dark;--green:#16231a;--card:#26382b;--cream:#eee0c8;--sand:#c9ab82;--gold:#e2b04a;--orange:#f4ad79}
+*{box-sizing:border-box}body{margin:0;background:var(--green);color:var(--cream);font:17px/1.62 Inter,system-ui,sans-serif}
+main{max-width:940px;margin:auto;padding:24px clamp(14px,4vw,40px) 48px}header{padding:26px 0 12px}
+h1{font-size:clamp(2.2rem,7vw,4rem);line-height:1.05;margin:.25em 0}h2,h3{line-height:1.25}
+h2{margin-top:0;color:var(--gold)}h3{margin:1.2em 0 .3em}p{margin:.5em 0}.brand{color:var(--gold);font-weight:800;letter-spacing:.05em}
+.card{background:var(--card);border:1px solid #6a785a;border-left:4px solid var(--sand);padding:clamp(16px,4vw,30px);border-radius:18px;margin:16px 0}
+.card:nth-child(3n){border-left-color:#dd7a3a}.example{padding:14px 20px;background:#19291d;border-radius:12px;margin:14px 0}
+.example h3{margin:0}dt{color:var(--orange);font-weight:750;margin-top:.65em}dd{margin:0;max-width:68ch}
+a{color:var(--gold);text-underline-offset:.18em}button,input,select{font:inherit;color:inherit;background:#17271c;border:1px solid var(--sand);border-radius:8px;padding:.5rem .8rem}
+button{cursor:pointer}button:hover{border-color:var(--gold)}button.primary{color:var(--green);background:var(--gold);font-weight:750}button[aria-pressed=true]{background:var(--gold);color:var(--green)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.toc{columns:2;gap:28px;padding-left:1.5em}.toc li{break-inside:avoid;margin-bottom:.38em}
+.math{font-weight:800;font-size:1.28em;color:var(--orange)}.frac{display:inline-grid;vertical-align:middle;line-height:1.2;text-align:center;padding:0 .18em}.frac span{padding:0 .22em}.frac span:first-child{border-bottom:1px solid}
+.sheet{padding:18px;background-color:#19291d;background-image:linear-gradient(#324536 1px,transparent 1px),linear-gradient(90deg,#324536 1px,transparent 1px);background-size:20px 20px;border-radius:10px;margin:12px 0}
+form label{display:block;margin-bottom:.35em}input{width:14ch}select{max-width:100%}.status{min-height:1.7em}.question{margin:0 0 12px}.muted{color:#ddc7a5}
+[hidden]{display:none!important}@media(max-width:600px){.toc{columns:1}.card{border-radius:12px}}
+.question{font-size:1.12em;color:var(--cream);overflow-wrap:anywhere}.question p{margin:.5rem 0}.answer{color:var(--orange);font-weight:750}.drawing{display:block;width:min(100%,440px);height:auto;margin:1rem auto;background:#eee0c8;border-radius:8px}.table-scroll{overflow:auto}table{border-collapse:collapse;background:#19291d;margin:.7rem 0}caption{text-align:left;font-weight:700}th,td{padding:.45em .7em;text-align:center;border:1px solid #74816a}input{max-width:100%}button:disabled{opacity:.62;cursor:default}.toc a{display:inline-block}.math-token{display:inline-block;color:var(--orange);font-weight:750}
+</style>
+</head>
+<body><main>
+<header><div class="brand">lili.math</div><p>ОГЭ по математике · №12</p>
+<h1>Расчёты по формулам</h1><p>За экзаменационное задание предусмотрен 1 балл.</p></header>
+<nav class="row" aria-label="Разделы">
+<button type="button" data-view="theory" aria-pressed="true">Теория</button>
+<button type="button" data-view="practice" aria-pressed="false">Тренажёр</button>
+<button type="button" data-view="diagnostic" aria-pressed="false">Входной тест</button>
+</nav>
+<div id="theory" class="view"><nav class="card" aria-label="Оглавление теории">
+<h2>Типы заданий</h2><ol class="toc"><li><a href="#t0">Прямая подстановка</a></li><li><a href="#t1">Квадрат, скобки и дробь</a></li><li><a href="#t2">Выражение величины из произведения</a></li><li><a href="#t3">Несколько обратных действий и единицы</a></li></ol></nav><section class="card" id="t0">
+<h2>Прямая подстановка</h2><h3>Теория</h3><p>Найди величину, которая уже выражена в формуле. Подставь числа вместо букв, сохраняя скобки и порядок действий.</p>
+<div class="example"><h3>Разбор примера</h3><div>Стоимость поездки C = 80 + 12n рублей, где n число километров. Найди C при n = 5.</div>
+<p>Сначала 12 · 5 = 60, затем 80 + 60 = 140.</p><p class="answer">Ответ: 140</p></div>
+<button type="button" data-topic="0">Тренироваться</button></section><section class="card" id="t1">
+<h2>Квадрат, скобки и дробь</h2><h3>Теория</h3><p>Сначала вычисли выражение в скобках, затем степень, затем умножение и деление. Для отрицательного значения переменной используй скобки.</p>
+<div class="example"><h3>Разбор примера</h3><div>Найди E = <span class="frac"><span>mv²</span><span>2</span></span> при m = 6 и v = 4.</div>
+<p>v² = 16. Тогда 6 · 16 ÷ 2 = 48.</p><p class="answer">Ответ: 48</p></div>
+<button type="button" data-topic="1">Тренироваться</button></section><section class="card" id="t2">
+<h2>Выражение величины из произведения</h2><h3>Теория</h3><p>Если A = BC и B известно и отлично от нуля, то C = <span class="frac"><span>A</span><span>B</span></span>. Деление обеих частей уравнения отменяет умножение на B. При A = B²C делят на B² целиком.</p>
+<div class="example"><h3>Разбор примера</h3><div>Мощность P = I²R. Найди R при P = 72 Вт и I = 3 А. Ответ в омах.</div>
+<p>R = <span class="frac"><span>P</span><span>I²</span></span> = 72 ÷ 9 = 8.</p><p class="answer">Ответ: 8</p></div>
+<button type="button" data-topic="2">Тренироваться</button></section><section class="card" id="t3">
+<h2>Несколько обратных действий и единицы</h2><h3>Теория</h3><p>Когда искомая величина входит в формулу вида A = B + Cx, сначала вычти B, затем раздели на C. Согласуй единицы измерения перед подстановкой.</p>
+<div class="example"><h3>Разбор примера</h3><div>Стоимость C = 90 + 15n. Найди n при C = 210.</div>
+<p>После вычитания 90 получаем 15n = 120. Делим на 15.</p><p class="answer">Ответ: 8</p></div>
+<button type="button" data-topic="3">Тренироваться</button></section></div>
+<section id="practice" class="view card" hidden><h2>Тренажёр</h2>
+<label for="topic">Тип задания</label> <select id="topic"></select><p id="practice-count" class="muted"></p>
+<form id="practice-form"><div class="sheet"><div id="practice-question" class="question"></div>
+<label for="practice-answer">Ответ</label><input id="practice-answer" autocomplete="off" maxlength="38"></div>
+<div class="row"><button id="check" class="primary">Проверить</button>
+<button type="button" id="hint">Подсказка</button><button type="button" id="next-practice" hidden>Следующее</button>
+<button type="button" id="repeat" hidden>Повторить ошибки</button><button type="button" id="restart-practice">Начать заново</button></div></form>
+<div id="practice-status" class="status" role="status"></div></section>
+<section id="diagnostic" class="view card" hidden><h2>Входной тест</h2>
+<p>8 заданий. После завершения появится результат по каждому навыку.</p>
+<p>Числовой ответ можно ввести целым числом, десятичной дробью или в виде 1/2. Если требуется последовательность цифр, запиши её без разделителей.</p>
+<div id="test-screen"><p id="test-count" class="muted"></p>
+<form id="test-form"><div class="sheet"><div id="test-question" class="question"></div>
+<label for="test-answer">Ответ</label><input id="test-answer" autocomplete="off" maxlength="38"></div>
+<div class="row"><button type="button" id="back">Назад</button><button class="primary" id="next-test">Дальше</button></div></form>
+<p id="test-status" class="status" role="status"></p></div>
+<div id="test-results" hidden><h3 id="score" tabindex="-1"></h3><ul id="skills"></ul>
+<button type="button" id="reset">Начать заново</button></div></section>
+<footer><a href="https://fipi.ru/oge/demoversii-specifikacii-kodifikatory">Демоверсия и спецификация ФИПИ</a></footer>
+</main>
+<script id="content" type="application/json">{"topics": [{"title": "Прямая подстановка", "theory": "Найди величину, которая уже выражена в формуле. Подставь числа вместо букв, сохраняя скобки и порядок действий.", "hint": "Проверь, какая буква обозначает искомую величину.", "example": {"prompt": "Стоимость поездки C = 80 + 12n рублей, где n число километров. Найди C при n = 5.", "key": "140", "solution": "Сначала 12 · 5 = 60, затем 80 + 60 = 140."}, "practice": [{"prompt": "Температура по формуле T = 18 − 0,5h. Найди T при h = 6.", "key": "15", "solution": "18 − 0,5 · 6 = 18 − 3 = 15."}, {"prompt": "Найди F = 2v + 7 при v = 3,5.", "key": "14", "solution": "2 · 3,5 + 7 = 7 + 7 = 14."}], "test": [{"prompt": "Найди Q = 8 + 4n при n = 9.", "key": "44", "solution": "8 + 4 · 9 = 44."}, {"prompt": "Найди P = 22 − 0,8t при t = 5.", "key": "18", "solution": "22 − 4 = 18."}]}, {"title": "Квадрат, скобки и дробь", "theory": "Сначала вычисли выражение в скобках, затем степень, затем умножение и деление. Для отрицательного значения переменной используй скобки.", "hint": "Возведи в квадрат всё выражение, которое стоит в скобках.", "example": {"prompt": "Найди E = <span class=\"frac\"><span>mv²<\/span><span>2<\/span><\/span> при m = 6 и v = 4.", "key": "48", "solution": "v² = 16. Тогда 6 · 16 ÷ 2 = 48."}, "practice": [{"prompt": "Найди S = (a − b)² при a = 3 и b = 7.", "key": "16", "solution": "(3 − 7)² = (−4)² = 16."}, {"prompt": "Найди Q = <span class=\"frac\"><span>(a + b)²<\/span><span>4<\/span><\/span> при a = 5 и b = 3.", "key": "16", "solution": "5 + 3 = 8, 8² ÷ 4 = 16."}], "test": [{"prompt": "Найди W = <span class=\"frac\"><span>mv²<\/span><span>2<\/span><\/span> при m = 8 и v = 3.", "key": "36", "solution": "8 · 9 ÷ 2 = 36."}, {"prompt": "Найди T = 3(x + 1)² при x = −3.", "key": "12", "solution": "3(−2)² = 3 · 4 = 12."}]}, {"title": "Выражение величины из произведения", "theory": "Если A = BC и B известно и отлично от нуля, то C = <span class=\"frac\"><span>A<\/span><span>B<\/span><\/span>. Деление обеих частей уравнения отменяет умножение на B. При A = B²C делят на B² целиком.", "hint": "Определи множитель при искомой букве и раздели на него.", "example": {"prompt": "Мощность P = I²R. Найди R при P = 72 Вт и I = 3 А. Ответ в омах.", "key": "8", "solution": "R = <span class=\"frac\"><span>P<\/span><span>I²<\/span><\/span> = 72 ÷ 9 = 8."}, "practice": [{"prompt": "Путь s = vt. Найди время t при s = 120 км и v = 40 км/ч. Ответ в часах.", "key": "3", "solution": "t = s ÷ v = 120 ÷ 40 = 3."}, {"prompt": "Давление p = F ÷ S. Найди F при p = 6 Па и S = 5 м². Ответ в ньютонах.", "key": "30", "solution": "F = pS = 6 · 5 = 30."}], "test": [{"prompt": "Мощность P = I²R. Найди R при P = 100 Вт и I = 5 А. Ответ в омах.", "key": "4", "solution": "R = 100 ÷ 25 = 4."}, {"prompt": "Плотность ρ = <span class=\"frac\"><span>m<\/span><span>V<\/span><\/span>. Найди V в м³, если m = 240 кг и ρ = 80 кг/м³.", "key": "3", "solution": "Умножаем на V и делим на ρ. Получаем V = 240 ÷ 80 = 3."}]}, {"title": "Несколько обратных действий и единицы", "theory": "Когда искомая величина входит в формулу вида A = B + Cx, сначала вычти B, затем раздели на C. Согласуй единицы измерения перед подстановкой.", "hint": "Убери постоянное слагаемое первым. Проверь, в каких единицах дано каждое число.", "example": {"prompt": "Стоимость C = 90 + 15n. Найди n при C = 210.", "key": "8", "solution": "После вычитания 90 получаем 15n = 120. Делим на 15."}, "practice": [{"prompt": "Путь s = vt. Найди s в км при v = 72 км/ч и t = 30 мин.", "key": "36", "solution": "30 минут равны 0,5 часа. 72 · 0,5 = 36 км."}, {"prompt": "L = 2a + 2b. Найди a при L = 30 и b = 6.", "key": "9", "solution": "Из 30 вычитаем 2 · 6 = 12. Делим 18 на 2."}], "test": [{"prompt": "Путь s = vt. Найди s в км при v = 80 км/ч и t = 45 мин.", "key": "60", "solution": "45 минут равны 0,75 часа. 80 · 0,75 = 60 км."}, {"prompt": "Сумма C = 150 + 25m. Найди m при C = 325.", "key": "7", "solution": "(325 − 150) ÷ 25 = 175 ÷ 25 = 7."}]}], "testOrder": null}</script>
+<script>'use strict';
+const get = id => document.getElementById(id);
+const {topics, testOrder} = JSON.parse(get('content').textContent);
+const select = get('topic');
+topics.forEach((topic, index) => select.add(new Option(topic.title, index)));
+
+function show(view) {
+  document.querySelectorAll('.view').forEach(section => { section.hidden = section.id !== view; });
+  document.querySelectorAll('[data-view]').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.view === view));
+  });
+}
+
+function parse(raw) {
+  const text = raw.trim().replace(/−/g, '-').replace(',', '.');
+  const fraction = text.match(/^([+-]?\d+)\s*\/\s*(\d+)$/);
+  if (fraction) {
+    const denominator = BigInt(fraction[2]);
+    return denominator === 0n ? null : [BigInt(fraction[1]), denominator];
+  }
+  if (!/^[+-]?(?:\d+(?:\.\d+)?|\.\d+)$/.test(text)) return null;
+  return [BigInt(text.replace('.', '')), 10n ** BigInt(text.split('.')[1]?.length ?? 0)];
+}
+
+function valid(raw, key) {
+  return key.startsWith('#') ? /^\d+$/.test(raw.trim()) : Boolean(parse(raw));
+}
+
+function matches(raw, key) {
+  if (key.startsWith('#')) return raw.trim() === key.slice(1);
+  const value = parse(raw);
+  const expected = parse(key);
+  return Boolean(value && expected && value[0] * expected[1] === expected[0] * value[1]);
+}
+
+function formatKey(key) {
+  return key.replace(/^#/, '').replace('.', ',').replace(/^-/, '−');
+}
+
+function inputReminder(key) {
+  return key.startsWith('#') ? 'Запиши цифры подряд, без пробелов.' : 'Введи число или дробь, например 0,5 или 1/2.';
+}
+
+let queue, p, mistakes, checked;
+function practiceItem() {
+  return topics[Number(select.value)].practice[queue[p]];
+}
+
+function loadPractice() {
+  checked = false;
+  get('practice-count').textContent = (p + 1) + ' из ' + queue.length;
+  get('practice-question').innerHTML = practiceItem().prompt;
+  get('practice-answer').value = '';
+  get('practice-answer').disabled = false;
+  get('check').disabled = false;
+  get('hint').disabled = false;
+  get('next-practice').hidden = true;
+  get('repeat').hidden = true;
+  get('practice-status').textContent = '';
+}
+
+function startPractice(index, repeat = false) {
+  select.value = index;
+  queue = repeat ? [...mistakes] : topics[index].practice.map((_, i) => i);
+  mistakes = new Set();
+  p = 0;
+  loadPractice();
+}
+
+select.addEventListener('change', () => startPractice(Number(select.value)));
+document.querySelectorAll('[data-view]').forEach(button => {
+  button.addEventListener('click', () => show(button.dataset.view));
+});
+document.querySelectorAll('[data-topic]').forEach(button => {
+  button.addEventListener('click', () => {
+    startPractice(Number(button.dataset.topic));
+    show('practice');
+    select.focus();
+  });
+});
+get('hint').addEventListener('click', () => {
+  get('practice-status').innerHTML = topics[Number(select.value)].hint;
+});
+get('practice-form').addEventListener('submit', event => {
+  event.preventDefault();
+  if (checked) return;
+  const item = practiceItem();
+  const value = get('practice-answer').value;
+  if (!valid(value, item.key)) {
+    get('practice-status').textContent = inputReminder(item.key);
+    return;
+  }
+  const correct = matches(value, item.key);
+  if (!correct) mistakes.add(queue[p]);
+  checked = true;
+  get('practice-status').innerHTML = (correct ? 'Верно. ' : 'Ответ: ' + formatKey(item.key) + '. ') + item.solution;
+  get('check').disabled = true;
+  get('hint').disabled = true;
+  get('practice-answer').disabled = true;
+  get('next-practice').hidden = p + 1 === queue.length;
+  get('repeat').hidden = p + 1 < queue.length || mistakes.size === 0;
+  const action = !get('next-practice').hidden ? 'next-practice' : !get('repeat').hidden ? 'repeat' : 'restart-practice';
+  get(action).focus();
+});
+get('next-practice').addEventListener('click', () => {
+  p += 1;
+  loadPractice();
+  get('practice-answer').focus();
+});
+get('repeat').addEventListener('click', () => {
+  if (mistakes.size) startPractice(Number(select.value), true);
+  get('practice-answer').focus();
+});
+get('restart-practice').addEventListener('click', () => {
+  startPractice(Number(select.value));
+  get('practice-answer').focus();
+});
+
+const grouped = topics.map((topic, i) => topic.test.map(item => ({...item, topic: i})));
+const test = testOrder ? testOrder.flatMap(slot => grouped.map(items => items[slot])) : grouped.flat();
+let position = 0;
+let answers = [];
+
+function loadTest() {
+  get('test-count').textContent = (position + 1) + ' из ' + test.length;
+  get('test-question').innerHTML = test[position].prompt;
+  get('test-answer').value = answers[position] ?? '';
+  get('test-status').textContent = '';
+  get('back').disabled = position === 0;
+  get('next-test').textContent = position + 1 === test.length ? 'Показать результат' : 'Дальше';
+}
+
+function results() {
+  const correct = test.map((item, i) => matches(answers[i], item.key));
+  const score = correct.filter(Boolean).length;
+  get('score').textContent = 'Результат: ' + score + ' из ' + test.length;
+  get('skills').replaceChildren(...topics.map((topic, i) => {
+    const points = test.filter((item, j) => item.topic === i && correct[j]).length;
+    const li = document.createElement('li');
+    li.textContent = topic.title + ' · ' + points + ' из ' + topic.test.length;
+    return li;
+  }));
+  get('test-screen').hidden = true;
+  get('test-results').hidden = false;
+  get('score').focus();
+}
+
+get('test-form').addEventListener('submit', event => {
+  event.preventDefault();
+  const value = get('test-answer').value;
+  if (!valid(value, test[position].key)) {
+    get('test-status').textContent = inputReminder(test[position].key);
+    return;
+  }
+  answers[position] = value;
+  if (position + 1 === test.length) {
+    results();
+  } else {
+    position += 1;
+    loadTest();
+    get('test-answer').focus();
+  }
+});
+get('back').addEventListener('click', () => {
+  answers[position] = get('test-answer').value;
+  position -= 1;
+  loadTest();
+  get('test-answer').focus();
+});
+get('reset').addEventListener('click', () => {
+  position = 0;
+  answers = [];
+  get('test-screen').hidden = false;
+  get('test-results').hidden = true;
+  loadTest();
+  get('test-answer').focus();
+});
+startPractice(0);
+loadTest();
+</script>
+</body>
+</html>
