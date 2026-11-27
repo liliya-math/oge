@@ -1,6 +1,16 @@
 {
   "items": [
     {
+      "file": "geometriya-oge-s-nulya-01.html",
+      "title": "Геометрия ОГЭ с нуля",
+      "type": "trenazher",
+      "class": 9,
+      "oge_task": null,
+      "status": "public",
+      "note": "37 разделов и 121 задание с чертежами, разобранными примерами, подсказками и автопроверкой.",
+      "auto": false
+    },
+    {
       "file": "oge-komplekty.html",
       "title": "ОГЭ по математике · комплекты по номерам 1–25",
       "type": "uchebnik",
