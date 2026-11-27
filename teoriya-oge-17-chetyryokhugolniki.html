@@ -1,0 +1,74 @@
+<!doctype html><html lang="ru"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="assets/oge-diagnostic.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+:root{color-scheme:dark;--ink:#eee0c8;--paper:#16231a;--card:#26382b;--accent:#e2b04a;--orange:#dd7a3a;--muted:#d2b993}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.58 system-ui,sans-serif}
+main{max-width:1030px;margin:auto;padding:clamp(16px,4vw,38px) 0}h1{font-size:clamp(30px,6vw,56px);line-height:1.08;margin:.3em 0}h2{line-height:1.22;margin-top:0}h3{margin:.8em 0 .3em}
+p{margin:.55em 0}a{color:var(--accent);text-underline-offset:3px}.logo{font-weight:800;letter-spacing:.08em}.muted{color:var(--muted)}
+.card{margin:18px 0;padding:clamp(16px,3vw,28px);background:var(--card);border:1px solid #637358;border-radius:18px;scroll-margin-top:16px}
+.card h2,.card h3{color:var(--accent)}.links{display:flex;gap:10px 20px;flex-wrap:wrap;margin:1em 0}.toc{columns:2;column-gap:32px;padding-left:24px}.toc li{break-inside:avoid}
+.example{display:grid;grid-template-columns:minmax(0,1fr) minmax(230px,340px);gap:14px;align-items:center}
+.diagram{display:block;width:min(100%,340px);height:auto;background:#f8eed8;color-scheme:light;border-radius:8px}
+.frac{display:inline-grid;vertical-align:middle;text-align:center;line-height:1.14;padding:0 .14em;white-space:nowrap}.frac span:first-child{border-bottom:1px solid}.frac span{padding:0 .18em}
+button,input{font:inherit;color:inherit;border:1px solid #a39171;border-radius:8px;background:var(--paper);padding:8px 12px}input{width:9ch}button{cursor:pointer}button.primary{background:var(--accent);color:var(--paper);font-weight:750}button:disabled{opacity:.55;cursor:default}:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+fieldset{min-width:0}legend{padding:0 .4em;color:var(--accent);font-weight:750}.question .diagram{margin:12px 0}.results li{padding:.2em 0}.controls{display:flex;flex-wrap:wrap;gap:10px}.notice{min-height:1em}footer{padding:1em 0;color:var(--muted)}[hidden]{display:none!important}
+@media(max-width:560px){.toc{columns:1}.example{grid-template-columns:1fr}}
+.theory .card{border-left:4px solid #c9ab82}.theory .card:nth-of-type(3n){border-left-color:#dd7a3a}.theory .card:nth-of-type(3n+1){border-left-color:#a9bf9f}
+.theory .contents .toc{columns:2}.theory .contents li{padding:4px 0}.theory .example{padding:16px;background:#1b2b20;border-radius:13px}
+.theory .example h3{margin-top:0}.theory .card > h3{margin-top:1em}.theory .masthead h1{margin:0}.theory .masthead p{margin-top:.5rem}
+@media(max-width:560px){.theory .contents .toc{columns:1}.example{grid-template-columns:minmax(0,1fr)}}
+
+.knowledge{display:grid;gap:.35rem;padding-inline-start:1.5rem}
+.rules dt{font-weight:750;color:#f3bd89}
+.rules dd{margin:.2rem 0 .85rem;max-width:75ch}
+.example{margin-block-start:1rem}
+</style>
+<title>ОГЭ № 17. Четырёхугольники · lili.math</title></head>
+<body class="theory">
+<header class="site-header"><div><a href="index.html"><img src="img/logo/lilimath-na-temnom.png" alt="lili.math"></a><a href="vhodnye-testy-oge.html">Все входные тесты</a></div></header>
+<main>
+<header class="masthead"><div><p class="eyebrow">Теория ОГЭ № 17</p><h1>Четырёхугольники</h1><p class="meta">Максимум за экзаменационное задание – 1 балл.</p></div></header>
+<nav class="links" aria-label="Материалы № 17"><a href="vhodnye-testy-oge.html?n=17">Входной тест</a><a href="pdf-teoriya/oge-17-chetyryokhugolniki-teoriya.pdf">Печатная теория</a></nav>
+<nav class="card contents" aria-label="Оглавление"><h2>Типы задач</h2><ol class="toc"><li><a href="#trapezoid">Трапеция: средняя линия и диагональ</a></li><li><a href="#angles">Углы параллелограмма, ромба и трапеции</a></li><li><a href="#diagonals">Диагонали параллелограмма и ромба</a></li><li><a href="#height">Высота, проекция и теорема Пифагора</a></li><li><a href="#areas">Периметр и площадь четырёхугольника</a></li></ol></nav>
+<section class="card" id="trapezoid"><h2>1. Трапеция: средняя линия и диагональ</h2>
+<h3>Что нужно знать</h3><ul class="knowledge"><li>Основания трапеции</li><li>Средняя линия трапеции</li><li>Два отрезка средней линии</li></ul>
+<h3>Теория</h3><dl class="rules"><dt>Основания трапеции</dt><dd>Параллельные стороны трапеции называются основаниями. Оставшиеся две стороны называются боковыми.</dd>
+<dt>Средняя линия трапеции</dt><dd>Отрезок, соединяющий середины боковых сторон, параллелен основаниям. Его длина равна половине суммы оснований.</dd>
+<dt>Два отрезка средней линии</dt><dd>Диагональ пересекает среднюю линию в своей середине. Две части средней линии являются средними линиями в двух треугольниках, на которые диагональ делит трапецию. Длины частей равны половинам оснований. Большая часть равна половине большего основания.</dd></dl>
+<div class="example"><div><h3>Разбор примера</h3><p>Основания равны 6 и 16. Диагональ делит среднюю линию на отрезки длиной 6 : 2 = 3 и 16 : 2 = 8. Больший отрезок равен 8. Для проверки складываем 3 и 8 и получаем 11, длину всей средней линии.</p></div><svg class="diagram" viewBox="0 0 212 152" role="img" aria-label="Трапеция: средняя линия и диагональ"><path d="M19 122L60 32H147L190 122Z" fill="none" stroke="#a94d21" stroke-width="2.5"/><path d="M19 122L147 32 M39.5 77H168.5" fill="none" stroke="#345c43" stroke-width="2"/><g fill="#21372b" font-size="13" font-weight="700"><text x="7" y="138">A</text><text x="49" y="23">B</text><text x="147" y="23">C</text><text x="191" y="138">D</text></g></svg></div>
+</section>
+<section class="card" id="angles"><h2>2. Углы параллелограмма, ромба и трапеции</h2>
+<h3>Что нужно знать</h3><ul class="knowledge"><li>Соседние углы</li><li>Равные углы</li><li>Биссектриса и диагональ ромба</li></ul>
+<h3>Теория</h3><dl class="rules"><dt>Соседние углы</dt><dd>Два угла при одной стороне параллелограмма или при боковой стороне трапеции в сумме дают 180°, так как это внутренние односторонние углы при параллельных прямых.</dd>
+<dt>Равные углы</dt><dd>У параллелограмма противоположные углы равны. У равнобедренной трапеции два угла при каждом основании равны.</dd>
+<dt>Биссектриса и диагональ ромба</dt><dd>Биссектриса делит угол пополам. В ромбе каждая диагональ делит пополам углы при двух вершинах, которые она соединяет.</dd></dl>
+<div class="example"><div><h3>Разбор примера</h3><p>В ромбе острый угол DAB равен 64°. Диагональ AC делит его пополам. Угол DAC равен 64° : 2 = 32°, а соседний полный угол ABC равен 180° − 64° = 116°.</p></div><svg class="diagram" viewBox="0 0 212 152" role="img" aria-label="Углы параллелограмма, ромба и трапеции"><path d="M18 96L78 34L164 34L104 96Z" fill="none" stroke="#a94d21" stroke-width="2.5"/><path d="M18 96L164 34" fill="none" stroke="#345c43" stroke-width="2"/><g fill="#21372b" font-size="13" font-weight="700"><text x="7" y="113">A</text><text x="67" y="24">B</text><text x="168" y="25">C</text><text x="106" y="115">D</text></g></svg></div>
+</section>
+<section class="card" id="diagonals"><h2>3. Диагонали параллелограмма и ромба</h2>
+<h3>Что нужно знать</h3><ul class="knowledge"><li>Точка пересечения</li><li>Диагонали ромба</li><li>Теорема Пифагора</li></ul>
+<h3>Теория</h3><dl class="rules"><dt>Точка пересечения</dt><dd>В параллелограмме обе диагонали делятся точкой пересечения пополам. В прямоугольнике диагонали также равны.</dd>
+<dt>Диагонали ромба</dt><dd>Диагонали ромба пересекаются под прямым углом. Две их половины образуют катеты прямоугольного треугольника, сторона ромба служит гипотенузой.</dd>
+<dt>Теорема Пифагора</dt><dd>Квадрат гипотенузы равен сумме квадратов катетов. Если ищем катет, вычитаем квадрат известного катета из квадрата гипотенузы, затем извлекаем квадратный корень.</dd></dl>
+<div class="example"><div><h3>Разбор примера</h3><p>Сторона ромба 13, диагональ AC равна 24. От точки O до A половина диагонали, то есть 12. По теореме Пифагора второй катет равен √(169 − 144) = 5. Диагональ BD состоит из двух таких отрезков и равна 10.</p></div><svg class="diagram" viewBox="0 0 212 152" role="img" aria-label="Диагонали параллелограмма и ромба"><path d="M15 78L94 31L173 78L94 125Z" fill="none" stroke="#a94d21" stroke-width="2.5"/><path d="M15 78H173 M94 31V125 M94 78h8v8h-8" fill="none" stroke="#345c43" stroke-width="2"/><g fill="#21372b" font-size="13" font-weight="700"><text x="4" y="94">A</text><text x="90" y="21">B</text><text x="179" y="83">C</text><text x="91" y="142">D</text><text x="82" y="70">O</text></g></svg></div>
+</section>
+<section class="card" id="height"><h2>4. Высота, проекция и теорема Пифагора</h2>
+<h3>Что нужно знать</h3><ul class="knowledge"><li>Высота</li><li>Равнобедренная трапеция</li><li>Боковая сторона, угол и высота</li></ul>
+<h3>Теория</h3><dl class="rules"><dt>Высота</dt><dd>Высота перпендикулярна выбранному основанию или прямой, на которой оно лежит.</dd>
+<dt>Равнобедренная трапеция</dt><dd>Если провести высоты из концов меньшего основания к большему, они отсекут равные прямоугольные треугольники. Горизонтальный катет каждого равен половине разности оснований.</dd>
+<dt>Боковая сторона, угол и высота</dt><dd>Боковая сторона становится гипотенузой. При известном угле между боковой стороной и основанием высота равна произведению боковой стороны на синус этого угла. При известных основаниях и боковой стороне высоту можно найти по теореме Пифагора.</dd></dl>
+<div class="example"><div><h3>Разбор примера</h3><p>Основания равнобедренной трапеции равны 10 и 22, боковая сторона равна 10. Горизонтальный катет равен (22 − 10) : 2 = 6. Высота равна √(100 − 36) = 8.</p></div><svg class="diagram" viewBox="0 0 212 152" role="img" aria-label="Высота, проекция и теорема Пифагора"><path d="M16 120L64 30H144L192 120Z" fill="none" stroke="#a94d21" stroke-width="2.5"/><path d="M64 30V120 M144 30V120 M64 120v-8h8v8" fill="none" stroke="#345c43" stroke-width="2"/><g fill="#21372b" font-size="13" font-weight="700"><text x="6" y="139">A</text><text x="56" y="22">B</text><text x="139" y="22">C</text><text x="192" y="139">D</text></g></svg></div>
+</section>
+<section class="card" id="areas"><h2>5. Периметр и площадь четырёхугольника</h2>
+<h3>Что нужно знать</h3><ul class="knowledge"><li>Периметр</li><li>Площадь параллелограмма и трапеции</li><li>Площадь ромба и квадрата</li></ul>
+<h3>Теория</h3><dl class="rules"><dt>Периметр</dt><dd>Периметр – сумма длин всех сторон. У параллелограмма достаточно сложить соседние стороны и удвоить сумму. У ромба достаточно умножить сторону на четыре.</dd>
+<dt>Площадь параллелограмма и трапеции</dt><dd>Площадь параллелограмма равна произведению стороны на высоту к ней. Площадь трапеции равна произведению её средней линии на высоту.</dd>
+<dt>Площадь ромба и квадрата</dt><dd>Для ромба можно использовать половину произведения диагоналей. Для квадрата со стороной a площадь равна a². Если известна диагональ квадрата, площадь равна половине квадрата диагонали.</dd></dl>
+<div class="example"><div><h3>Разбор примера</h3><p>В параллелограмме AB = 5, BC = 11, высота к основанию BC равна 4. Периметр равен 2 · (5 + 11) = 32. Площадь равна 11 · 4 = 44 квадратным единицам.</p></div><svg class="diagram" viewBox="0 0 212 152" role="img" aria-label="Периметр и площадь четырёхугольника"><path d="M18 104L56 40H166L128 104Z" fill="none" stroke="#a94d21" stroke-width="2.5"/><path d="M128 104V40 M128 40v8h8v-8" fill="none" stroke="#345c43" stroke-width="2"/><g fill="#21372b" font-size="13" font-weight="700"><text x="8" y="121">A</text><text x="49" y="30">B</text><text x="170" y="33">C</text><text x="130" y="121">D</text></g></svg></div>
+</section>
+<p class="muted"><a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/ma_9_2027.zip">ФИПИ. Демоверсия и спецификация ОГЭ-2027</a></p>
+</main>
+</body>
+</html>

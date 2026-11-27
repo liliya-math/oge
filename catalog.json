@@ -1,6 +1,16 @@
 {
   "items": [
     {
+      "file": "teoriya-oge-17-chetyryokhugolniki.html",
+      "title": "ОГЭ № 17 · Четырёхугольники · теория",
+      "type": "uchebnik",
+      "class": 9,
+      "oge_task": 17,
+      "status": "public",
+      "note": "Пять разделов с чертежами и разобранными примерами.",
+      "auto": false
+    },
+    {
       "file": "teoriya-oge-06-vychisleniya.html",
       "title": "ОГЭ № 6 · Числа и вычисления · теория",
       "type": "uchebnik",
