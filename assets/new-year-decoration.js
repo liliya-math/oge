@@ -22,6 +22,26 @@
     tchaikovsky: {title: 'Танец феи Драже', file: 'new-year-music.mp3?v=20261126-35', attacks: noteAttacks},
     waltz: {title: 'Зимний вальс', file: 'new-year-winter-waltz.mp3', attacks: [0, 65, 130, 196, 261, 326, 391, 457, 522, 587, 652, 717, 783, 848, 913, 978, 1043, 1109, 1174, 1239, 1304, 1370, 1435, 1500, 1565, 1630, 1696, 1761, 1826, 1891, 1957, 2022, 2087, 2152, 2217, 2283, 2348, 2413, 2478, 2543, 2609, 2674, 2739, 2804, 2870, 2935]},
     bells: {title: 'Снежные колокольчики', file: 'new-year-snow-bells.mp3', attacks: [0, 54, 107, 161, 214, 268, 321, 375, 429, 482, 536, 589, 643, 696, 750, 804, 857, 911, 964, 1018, 1071, 1125, 1179, 1232, 1286, 1339, 1393, 1446, 1500, 1554, 1607, 1661, 1714, 1768, 1821, 1875, 1929, 1982, 2036, 2089, 2143, 2196, 2250, 2304, 2357, 2411, 2464, 2518, 2571, 2625, 2679, 2732, 2786, 2839, 2893, 2946, 3000, 3054, 3107, 3161, 3214]},
+    jingle: {
+      title: 'Jingle Bells (Calm)',
+      file: 'new-year-jingle-bells-calm.mp3',
+      attacks: [
+        68, 124, 179, 230, 290, 449, 508, 559, 615, 666, 722, 942, 999, 1025, 1055,
+        1110, 1172, 1305, 1383, 1439, 1492, 1518, 1545, 1599, 1835, 1948, 2057, 2167, 2273, 2382,
+        2493, 2606, 2728, 2760, 2794, 2832, 2939, 3050, 3162, 3299, 3395, 3688, 3903, 4009, 4123,
+        4165, 4223, 4329, 4436, 4486, 4542, 4595, 4645, 4679, 4705, 4733, 4759, 4785, 4812, 4868,
+        4931, 4959, 4989, 5036, 5095, 5150, 5206, 5320, 5438, 5483, 5550, 5592, 5658, 5771, 5875,
+        5908, 5987, 6070, 6211, 6267, 6322, 6350, 6381, 6431, 6464, 6515, 6548, 6595, 6649, 6711,
+        6830, 6917, 7008, 7122, 7254, 7307, 7401, 7447, 7489, 7578, 7621, 7653, 7699, 7834, 7921,
+        7956, 8037, 8240, 8308, 8351, 8393, 8474, 8519, 8653, 8692, 8772, 8821, 8861, 8997, 9037,
+        9162, 9207, 9292, 9338, 9382, 9424, 9465, 9510, 9555, 9598, 9629, 9669, 9734, 9766, 9945,
+        10062, 10106, 10156, 10199, 10251, 10298, 10345, 10439, 10466, 10534, 10599, 10629, 10726, 10776, 10827,
+        10861, 10919, 10946, 11011, 11055, 11100, 11144, 11189, 11230, 11266, 11320, 11356, 11430, 11465, 11559,
+        11596, 11654, 11745, 11797, 11847, 11944, 11995, 12047, 12115, 12142, 12247, 12291, 12333, 12396, 12444,
+        12469, 12495, 12547, 12594, 12643, 12697, 12752, 12806, 12869, 12923, 12980, 13005, 13102, 13164, 13230,
+        13283, 13456,
+      ],
+    },
   };
   const trackPreference = 'lilimath-holiday-track';
   let currentTrack = tracks.tchaikovsky;
@@ -129,15 +149,21 @@
     const source = document.createElement('a');
     source.href = 'https://www.incompetech.com/music/royalty-free/index.html?isrc=USUAN1100625';
     source.textContent = 'Кевин Маклауд (Incompetech)';
+    const jingleSource = document.createElement('a');
+    jingleSource.href = 'https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100188';
+    jingleSource.textContent = 'Кевин Маклауд (Incompetech)';
     const license = document.createElement('a');
     license.href = 'https://creativecommons.org/licenses/by/4.0/';
     license.textContent = 'CC BY 4.0';
-    for (const link of [source, license]) {
+    for (const link of [source, jingleSource, license]) {
       link.target = '_blank';
       link.rel = 'noopener noreferrer';
     }
     creditText.append('П. И. Чайковский, «Танец феи Драже». Аранжировка и запись: ',
       source, '. Лицензия ', license, '. «Зимний вальс» и «Снежные колокольчики» — оригинальные инструментальные мелодии для сайта.');
+    creditText.append(document.createElement('br'), document.createElement('br'),
+      '«Jingle Bells (Calm)». Аранжировка и запись: ', jingleSource,
+      '. Лицензия ', license.cloneNode(true), '. MP3 перекодирован для сайта.');
     credit.append(creditLabel, creditText);
     musicControls = document.createElement('div');
     musicControls.className = 'new-year-music-controls';
