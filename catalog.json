@@ -1,6 +1,16 @@
 {
   "items": [
     {
+      "file": "trenazher-geometriya-posle-propuska.html",
+      "title": "Геометрия после пропуска",
+      "type": "trenazher",
+      "class": null,
+      "oge_task": null,
+      "status": "public",
+      "note": "47 задач с чертежами, автопроверкой и пошаговым разбором. Тригонометрия, ромб, углы, хорды и вписанная окружность.",
+      "auto": false
+    },
+    {
       "file": "trainer-uravneniya-8-klass.html",
       "title": "Решение задач с помощью уравнений",
       "type": "trenazher",
