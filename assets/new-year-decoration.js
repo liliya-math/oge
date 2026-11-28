@@ -169,7 +169,8 @@
     musicControls.className = 'new-year-music-controls';
     musicControls.hidden = true;
     musicControls.append(musicButton, select, credit);
-    document.body.append(music, musicControls);
+    document.body.append(music);
+    (document.querySelector('[data-new-year-music-slot]') ?? document.body).append(musicControls);
   }
 
   function createSnowMask() {
