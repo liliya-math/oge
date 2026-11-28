@@ -389,6 +389,10 @@ body .choices .choice :is(.math-var-k,.math-var-b){font-size:inherit;line-height
 .solution-controls [disabled]{opacity:.48}
 </style>
   <script src="/assets/new-year-decoration.js" defer></script>
+<style>
+.topbar .restart-button{min-height:44px;padding:8px 14px;font-size:14px;white-space:nowrap}
+@media(max-width:420px){.topbar{padding-inline:12px;gap:8px}.topbar .restart-button{padding-inline:10px}.topbar .grade-tag{white-space:normal}}
+</style>
 </head>
 <body>
   <div class="app-shell">
@@ -398,10 +402,9 @@ body .choices .choice :is(.math-var-k,.math-var-b){font-size:inherit;line-height
       <nav id="stage-nav"></nav>
       <button class="lab-nav" id="open-lab"><span class="lab-symbol">↗</span><span>Лаборатория<small>Посмотри, что меняется</small></span></button>
       <div class="sidebar-bottom"><div class="save-dot"></div><span id="save-status">Прогресс сохраняется<br>в этом браузере</span></div>
-      <button class="reset" id="reset-progress">Начать заново</button>
     </aside>
     <div class="main-shell">
-      <header class="topbar"><span class="grade-tag">Школьная геометрия</span></header>
+      <header class="topbar"><span class="grade-tag">Школьная геометрия</span><button type="button" class="secondary restart-button" id="reset-progress">Начать заново</button></header>
       <main id="main-content">
         <section class="page-heading"><div><h1>Геометрия после пропуска</h1><p>Выбери задачу, рассмотри чертёж и попробуй решить. В разборе кнопка «Далее» открывает один шаг.</p></div><figure class="mascot-hero"><img src="https://lilimath.ru/img/cat-think.jpg" width="132" height="132" alt="Кот, маскот тренажёра" decoding="async"></figure></section>
         <section class="route-progress" aria-label="Общий прогресс"><div><span class="identity-label"><img src="data:image/webp;base64,UklGRtQEAABXRUJQVlA4IMgEAABQGwCdASpwAHAAPj0Yi0OiIaEW2q1IIAPEswbdD8AqQLmsHH8r2XniOo/kX0b+/3eXpNUS9On8r+i+4D0GeYB+hn6Vf1nsMfyf0Afbd70voz9AD+Z9RN6AHloft38GX7h/tp7RzlMdgMoHgBpApj37B+az8j/d33A+iN+5HsPIfpvVvNgIA9NkdXws0/bBiKRCKOAnxjAfuydv5XrZRIWKF5wiaKtlyArYiUTd4XU927pWVYHLGu50Y3yoJ1Sco1YcuLGFrrsEFderwTL8cTZmMgrTR5EZVNx5fXmsQroRhGsiQAD+88hY0+PibOaW9LkZuwTN5bSPZ2cNEJeQh7Hhlw1Qa3+EBUJxh9x9e/92L3S3sKDPdJLv8qdmYLGNpLR+UB28CHsvArUycMNmA9mq0nIh0mGdeutp1iO26WYDL6p1p//LbCJwvVUoZFvZLpNEAweQi2A0LWRlge0a9wAmzXRnj0lxuGqP1ZpD1JU9zY8Nqk8pNwNmrxJ0ETAzuj7W/xP3av+JV4rBcLThhlPWRw1qpYeRi6w9cJqGWqdXjEsIBjuuXXdwKi/KQz2EyEJYQYp1VJO0RhZCBmKzg5q40knVTAS3i4i42ELJNNio8N4OujCMM2+PAvNDrrq6BfwKoOt3TRiPCkLHEtBbPgvnONOMiORR1Qxwa4oiXB029h09+9UnlJqqcPIvmTnMUaM/QTZrpbmOU6NJSZX+uKHVr1P73lbsXA9NAn2e3ICdr68PTEQBVkwG3h392OoP9BL+hvd6IICjUwJxr6lSaGVITM91KGBzmXwRRFoVxVlvQXUm9h5KqM/oo78WfxvBNUev/5V4dNbjUpHGRvOmZDL2rthDXJ4HsKWH/P/Br1dkyS7n+NMkE61TKaTpQtLxtldJFeKiJw1ZmKBn4c+wimray0FKJY7SizpscRY7mGRm1eLu4/wH1wAYSfaiGfVUcyYS202nkGSozf+s+Iz14fggFcZYx0amrbm8Riz8gxnAlL3Wndq1PRnF95VQDPkMTDK6cvqdKBj+p1feCTKxQ53X/L4zWsVAkzhLva1H5pYDtBgrlksuUw911XYArcWo1CACxvzZs1hUCzDdnuFDlNn7PsTn6Pn7wql9OouWhxqhihYfp6uIgP4VfcvTbfLrEe/wBxZQI6sYJdk7eEuMmEvb1qPqoBe9cPDTXfeuHhpsJLYdHGHkmA7Oh7kwHZ0VCLDxehobk2LeAuHnSak4KftCzEPyEU+su4AfmMWAZYi3BaDYbPwSiV1ckPoyGajRDB0QjM01oRatR995DkcNb4fxFf9ANbe7pfzE/tsJ6Qj+P+WBIT68y+Vezex0P+bcaI46GaYWAh+UmztbCbGTHNETtx1UmNE5qPX4N/y/tn9qHecl9nYpoVZ/g/654x0V1T/atcTTA5Aht3OMJXykbqyBklpq1Z1lHzJZ6ZsTopWaKmqD6Ax6/zpBJSePrgb+laIK/7msMhEfhImpcaxJ8osI9B5+31BqHJr+tlhLCwiI/exC9hqDxHCDq9DC+ml+X9flL2b5IBKN7/CF8d2LM1jfuwXwxdeCqWi/3oXRvyDUu4P/gCXGgmFkeHagfPh3hk1yQhGNdj1GOG6Pkyvueed7n0gRgfMAAAA=" class="identity-mark identity-progress" width="32" height="32" alt=""><span id="progress-caption">Загрузка заданий</span></span><span id="progress-percent">0%</span></div><div class="progress-track"><div id="progress-fill"></div></div></section>
@@ -596,7 +599,7 @@ window.TrainerData={"id":"geometriya-posle-propuska","version":1,"title":"Гео
   }
   function openLab(){if(!C.lab)return;view='lab';render();scrollToLesson();}
   function askReset(){$('#reset-dialog').showModal();}
-  $('#open-lab').addEventListener('click',openLab);$('#reset-progress').addEventListener('click',askReset);$('#cancel-reset').addEventListener('click',()=>$('#reset-dialog').close());$('#confirm-reset').addEventListener('click',()=>{state=blank();feedback=null;hints.clear();view='lesson';save();$('#reset-dialog').close();render();});$('.brand').addEventListener('click',e=>{e.preventDefault();goStage(0);});
+  $('#open-lab').addEventListener('click',openLab);$('#reset-progress').addEventListener('click',askReset);$('#cancel-reset').addEventListener('click',()=>$('#reset-dialog').close());$('#confirm-reset').addEventListener('click',()=>{state=blank();feedback=null;hints.clear();view='lesson';save();$('#reset-dialog').close();render();window.scrollTo({top:0,behavior:'instant'});$('#reset-progress').focus({preventScroll:true});});$('.brand').addEventListener('click',e=>{e.preventDefault();goStage(0);});
   $('#open-lab').hidden=!C.lab;
   render();
 })();
